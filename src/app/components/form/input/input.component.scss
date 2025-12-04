@@ -1,0 +1,74 @@
+@use '../../../../design-tokens' as *;
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.input-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.input-required {
+  color: $color-error;
+}
+
+.input {
+  font-family: $font-family-base;
+  font-size: $font-size-md;
+  padding: $spacing-input-padding-y $spacing-input-padding-x;
+  border: $border-width-thin solid $color-border;
+  border-radius: $radius-md;
+  background-color: $color-background;
+  color: $color-text-primary;
+  transition: all 0.2s ease-in-out;
+  min-height: 2.5rem;
+
+  &::placeholder {
+    color: $color-text-disabled;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: $color-text-secondary;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 $focus-ring-width oklch(from $color-primary l c h / 0.2);
+  }
+
+  &--error {
+    border-color: $color-error;
+
+    &:focus {
+      border-color: $color-error;
+      box-shadow: 0 0 0 $focus-ring-width oklch(from $color-error l c h / 0.2);
+    }
+  }
+
+  &:disabled,
+  &--disabled {
+    background-color: $color-surface;
+    color: $color-text-disabled;
+    cursor: not-allowed;
+    border-color: $color-border;
+  }
+}
+
+.input-description {
+  font-size: $font-size-sm;
+}
+
+.input-error-message {
+  color: $color-error;
+}
+
+.input-hint {
+  color: $color-text-secondary;
+}

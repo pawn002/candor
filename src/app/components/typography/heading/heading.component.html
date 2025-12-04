@@ -1,0 +1,18 @@
+<h1 *ngIf="level === 'h1'" [class]="'heading heading--' + level + ' heading--color-' + color">
+  <ng-content></ng-content>
+</h1>
+<h2 *ngIf="level === 'h2'" [class]="'heading heading--' + level + ' heading--color-' + color">
+  <ng-content></ng-content>
+</h2>
+<h3 *ngIf="level === 'h3'" [class]="'heading heading--' + level + ' heading--color-' + color">
+  <ng-content></ng-content>
+</h3>
+<h4 *ngIf="level === 'h4'" [class]="'heading heading--' + level + ' heading--color-' + color">
+  <ng-content></ng-content>
+</h4>
+<h5 *ngIf="level === 'h5'" [class]="'heading heading--' + level + ' heading--color-' + color">
+  <ng-content></ng-content>
+</h5>
+<h6 *ngIf="level === 'h6'" [class]="'heading heading--' + level + ' heading--color-' + color">
+  <ng-content></ng-content>
+</h6>

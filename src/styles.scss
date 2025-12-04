@@ -1,0 +1,18 @@
+/* Global styles */
+@use "./design-tokens" as *;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    line-height: $line-height-normal;
+    color: $color-text-primary;
+    background-color: $color-background;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
