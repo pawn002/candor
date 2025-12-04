@@ -1,0 +1,99 @@
+@use '../../../design-tokens' as *;
+
+.button {
+  font-family: $font-family-base;
+  font-weight: $font-weight-medium;
+  border: none;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  // Focus styles for accessibility
+  &:focus-visible {
+    outline: $focus-ring-width solid $color-focus;
+    outline-offset: $focus-ring-offset;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  // Sizes
+  &--small {
+    font-size: $font-size-sm;
+    padding: $spacing-button-padding-y-sm $spacing-button-padding-x-sm;
+    min-height: 2rem;
+  }
+
+  &--medium {
+    font-size: $font-size-md;
+    padding: $spacing-button-padding-y $spacing-button-padding-x;
+    min-height: 2.5rem;
+  }
+
+  &--large {
+    font-size: $font-size-lg;
+    padding: $spacing-button-padding-y-lg $spacing-button-padding-x-lg;
+    min-height: 3rem;
+  }
+
+  // Variants
+  &--primary {
+    background-color: $color-button-primary-bg;
+    color: $color-button-primary-text;
+
+    &:hover:not(:disabled) {
+      background-color: $color-primary-hover;
+    }
+
+    &:active:not(:disabled) {
+      background-color: $color-primary-active;
+    }
+  }
+
+  &--secondary {
+    background-color: $color-button-secondary-bg;
+    color: $color-button-secondary-text;
+    border: $border-width-thin solid $color-border;
+
+    &:hover:not(:disabled) {
+      background-color: $color-surface;
+    }
+
+    &:active:not(:disabled) {
+      background-color: $color-border;
+    }
+  }
+
+  &--tertiary {
+    background-color: transparent;
+    color: $color-primary;
+    border: $border-width-thin solid $color-primary;
+
+    &:hover:not(:disabled) {
+      background-color: oklch(from $color-primary l c h / 0.1);
+    }
+
+    &:active:not(:disabled) {
+      background-color: oklch(from $color-primary l c h / 0.2);
+    }
+  }
+
+  &--ghost {
+    background-color: transparent;
+    color: $color-text-primary;
+
+    &:hover:not(:disabled) {
+      background-color: $color-surface;
+    }
+
+    &:active:not(:disabled) {
+      background-color: $color-border;
+    }
+  }
+}

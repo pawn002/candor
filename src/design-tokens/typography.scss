@@ -1,0 +1,51 @@
+// Typography Design Tokens
+
+// Font Families
+$font-family-base: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+$font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+
+// Base Size
+$font-size-base: 1rem; // 16px
+
+// Type Scale (Major Third - 1.25 ratio)
+$font-scale: 1.25;
+
+// Font Sizes
+$font-size-xs: calc($font-size-base / #{$font-scale} / #{$font-scale}); // 0.64rem / ~10px
+$font-size-sm: calc($font-size-base / #{$font-scale}); // 0.8rem / ~13px
+$font-size-md: $font-size-base; // 1rem / 16px
+$font-size-lg: calc($font-size-base * #{$font-scale}); // 1.25rem / ~20px
+$font-size-xl: calc($font-size-base * #{$font-scale} * #{$font-scale}); // 1.563rem / ~25px
+$font-size-2xl: calc($font-size-base * #{$font-scale} * #{$font-scale} * #{$font-scale}); // 1.953rem / ~31px
+$font-size-3xl: calc($font-size-base * #{$font-scale} * #{$font-scale} * #{$font-scale} * #{$font-scale}); // 2.441rem / ~39px
+
+// Headings
+$font-size-h1: $font-size-3xl;
+$font-size-h2: $font-size-2xl;
+$font-size-h3: $font-size-xl;
+$font-size-h4: $font-size-lg;
+$font-size-h5: $font-size-md;
+$font-size-h6: $font-size-sm;
+
+// Font Weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Line Heights
+$line-height-tight: 1.25;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;
+
+// Letter Spacing
+$letter-spacing-tight: -0.02em;
+$letter-spacing-normal: 0;
+$letter-spacing-wide: 0.05em;
+
+// Export as CSS custom properties
+:root {
+  --font-family-base: #{$font-family-base};
+  --font-size-base: #{$font-size-base};
+}

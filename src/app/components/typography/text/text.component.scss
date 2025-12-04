@@ -1,0 +1,54 @@
+@use '../../../../design-tokens' as *;
+
+.text {
+  font-family: $font-family-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
+
+  // Variants
+  &--body {
+    line-height: $line-height-normal;
+  }
+
+  &--caption {
+    line-height: $line-height-normal;
+    font-size: $font-size-sm;
+  }
+
+  &--label {
+    font-weight: $font-weight-medium;
+    letter-spacing: $letter-spacing-wide;
+    text-transform: uppercase;
+  }
+
+  // Sizes
+  &--size-sm {
+    font-size: $font-size-sm;
+  }
+
+  &--size-md {
+    font-size: $font-size-md;
+  }
+
+  &--size-lg {
+    font-size: $font-size-lg;
+  }
+
+  // Colors
+  &--color-primary {
+    color: $color-text-primary;
+  }
+
+  &--color-secondary {
+    color: $color-text-secondary;
+  }
+
+  &--color-disabled {
+    color: $color-text-disabled;
+  }
+
+  // Bold modifier
+  &--bold {
+    font-weight: $font-weight-bold;
+  }
+}

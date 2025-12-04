@@ -1,0 +1,42 @@
+// Color Design Tokens
+// Using OKLCH for perceptual uniformity - better for programmatic manipulation
+
+// Primary Colors
+$color-primary: oklch(0.55 0.18 250); // Blue
+$color-primary-hover: oklch(0.45 0.18 250); // Darker blue
+$color-primary-active: oklch(0.35 0.18 250); // Even darker blue
+
+// Neutral Colors
+$color-background: oklch(0.98 0.01 250); // Almost white with slight blue tint
+$color-surface: oklch(0.95 0.01 250); // Light gray
+$color-border: oklch(0.85 0.01 250); // Medium gray
+
+// Text Colors
+$color-text-primary: oklch(0.25 0.01 250); // Near black
+$color-text-secondary: oklch(0.50 0.01 250); // Medium gray
+$color-text-disabled: oklch(0.65 0.01 250); // Light gray
+
+// Semantic Colors
+$color-error: oklch(0.55 0.22 25); // Red
+$color-error-bg: oklch(0.95 0.05 25); // Light red
+$color-success: oklch(0.55 0.15 145); // Green
+$color-success-bg: oklch(0.95 0.05 145); // Light green
+$color-warning: oklch(0.65 0.18 85); // Yellow/Orange
+$color-warning-bg: oklch(0.95 0.05 85); // Light yellow
+
+// Focus States
+$color-focus: oklch(0.60 0.20 250); // Bright blue for focus indicators
+
+// Backgrounds for buttons
+$color-button-primary-bg: $color-primary;
+$color-button-primary-text: oklch(0.98 0.01 250); // Near white
+$color-button-secondary-bg: oklch(0.90 0.01 250); // Light gray
+$color-button-secondary-text: $color-text-primary;
+
+// Export as CSS custom properties (optional, for runtime changes)
+:root {
+  --color-primary: #{$color-primary};
+  --color-background: #{$color-background};
+  --color-text-primary: #{$color-text-primary};
+  --color-focus: #{$color-focus};
+}
