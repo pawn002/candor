@@ -1,15 +1,10 @@
-import type { StorybookConfig } from '@storybook/angular';
+import type { StorybookConfig } from "@storybook/angular";
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-a11y',
-    '@chromatic-com/storybook',
-    '@storybook/addon-docs'
-  ],
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  addons: ["@storybook/addon-a11y", "@chromatic-com/storybook"],
   framework: {
-    name: '@storybook/angular',
+    name: "@storybook/angular",
     options: {},
   },
   docs: {},
