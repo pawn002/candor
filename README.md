@@ -24,7 +24,8 @@ This playground enables design integrators to:
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 20.16+, 22.19+, or 24+ (required for Storybook 10 ESM support)
+- npm
 - CPQI MCP Server (optional, for Claude accessibility validation)
 - Playwright MCP Server (optional, for Claude visual inspection)
 
@@ -327,10 +328,10 @@ Ensure Storybook is running on port 6006 before running tests, or let Playwright
 
 ## Tech Stack
 
-- **Angular 19** - Frontend framework
-- **Storybook 8** - Component development environment
+- **Angular 21** - Frontend framework (latest stable release)
+- **Storybook 10** - Component development environment (ESM-only)
 - **Playwright** - Testing and visual inspection
-- **TypeScript** - Type safety
+- **TypeScript 5.9** - Type safety
 - **SCSS** - Styling with design tokens
 - **OKLCH** - Perceptually uniform color space
 - **CPQI MCP** - Color accessibility tools
