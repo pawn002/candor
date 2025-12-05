@@ -10,6 +10,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "storybook": "ng run design-system-playground:storybook",
+    "test-storybook": "test-storybook",
     "build-storybook": "ng run design-system-playground:build-storybook",
     "test:playwright": "playwright test",
     "test:playwright:ui": "playwright test --ui"
@@ -48,6 +49,7 @@
     "@playwright/test": "^1.57.0",
     "@storybook/addon-a11y": "^10.1.4",
     "@storybook/angular": "^10.1.4",
+    "@storybook/test-runner": "^0.24.2",
     "storybook": "^10.1.4"
   }
 }
