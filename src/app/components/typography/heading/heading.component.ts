@@ -1,17 +1,17 @@
-import { Component, Input } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { Component, Input } from "@angular/core";
+import { NgClass, NgIf } from "@angular/common";
 
-type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-type HeadingColor = 'primary' | 'secondary' | 'disabled';
+type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+type HeadingColor = "primary" | "secondary" | "disabled";
 
 @Component({
-  selector: 'app-heading',
+  selector: "app-heading",
   standalone: true,
-  imports: [NgClass],
-  templateUrl: './heading.component.html',
-  styleUrls: ['./heading.component.scss']
+  imports: [NgClass, NgIf],
+  templateUrl: "./heading.component.html",
+  styleUrls: ["./heading.component.scss"],
 })
 export class HeadingComponent {
-  @Input() level: HeadingLevel = 'h2';
-  @Input() color: HeadingColor = 'primary';
+  @Input() level: HeadingLevel = "h2";
+  @Input() color: HeadingColor = "primary";
 }

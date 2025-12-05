@@ -35,30 +35,30 @@ export const ContactForm: Story = {
         </app-text>
 
         <form style="display: flex; flex-direction: column; gap: 1.5rem;">
-          <app-form-input
+          <app-input
             [label]="'Full Name'"
             [placeholder]="'Enter your full name'"
             [required]="true">
-          </app-form-input>
+          </app-input>
 
-          <app-form-input
+          <app-input
             [label]="'Email Address'"
             [type]="'email'"
             [placeholder]="'you@example.com'"
             [required]="true">
-          </app-form-input>
+          </app-input>
 
-          <app-form-input
+          <app-input
             [label]="'Phone Number'"
             [type]="'tel'"
             [placeholder]="'(555) 123-4567'">
-          </app-form-input>
+          </app-input>
 
-          <app-form-input
+          <app-input
             [label]="'Subject'"
             [placeholder]="'How can we help?'"
             [required]="true">
-          </app-form-input>
+          </app-input>
 
           <div>
             <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
@@ -71,14 +71,14 @@ export const ContactForm: Story = {
             </textarea>
           </div>
 
-          <app-form-checkbox
+          <app-checkbox
             [label]="'I agree to the terms and conditions'"
             [required]="true">
-          </app-form-checkbox>
+          </app-checkbox>
 
-          <app-form-checkbox
+          <app-checkbox
             [label]="'Send me updates and newsletters'">
-          </app-form-checkbox>
+          </app-checkbox>
 
           <div style="display: flex; gap: 1rem;">
             <app-button [variant]="'primary'" [size]="'medium'">
@@ -106,22 +106,22 @@ export const LoginForm: Story = {
         </app-text>
 
         <form style="display: flex; flex-direction: column; gap: 1.5rem;">
-          <app-form-input
+          <app-input
             [label]="'Email'"
             [type]="'email'"
             [placeholder]="'you@example.com'"
             [required]="true">
-          </app-form-input>
+          </app-input>
 
-          <app-form-input
+          <app-input
             [label]="'Password'"
             [type]="'password'"
             [placeholder]="'Enter your password'"
             [required]="true">
-          </app-form-input>
+          </app-input>
 
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <app-form-checkbox [label]="'Remember me'"></app-form-checkbox>
+            <app-checkbox [label]="'Remember me'"></app-checkbox>
             <a href="#" style="color: var(--color-primary); text-decoration: none; font-size: 0.875rem;">
               Forgot password?
             </a>
@@ -156,46 +156,46 @@ export const RegistrationForm: Story = {
 
         <form style="display: flex; flex-direction: column; gap: 1.5rem;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <app-form-input
+            <app-input
               [label]="'First Name'"
               [placeholder]="'John'"
               [required]="true">
-            </app-form-input>
+            </app-input>
 
-            <app-form-input
+            <app-input
               [label]="'Last Name'"
               [placeholder]="'Doe'"
               [required]="true">
-            </app-form-input>
+            </app-input>
           </div>
 
-          <app-form-input
+          <app-input
             [label]="'Email Address'"
             [type]="'email'"
             [placeholder]="'john.doe@example.com'"
             [required]="true">
-          </app-form-input>
+          </app-input>
 
-          <app-form-input
+          <app-input
             [label]="'Username'"
             [placeholder]="'Choose a username'"
             [required]="true">
-          </app-form-input>
+          </app-input>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <app-form-input
+            <app-input
               [label]="'Password'"
               [type]="'password'"
               [placeholder]="'At least 8 characters'"
               [required]="true">
-            </app-form-input>
+            </app-input>
 
-            <app-form-input
+            <app-input
               [label]="'Confirm Password'"
               [type]="'password'"
               [placeholder]="'Re-enter password'"
               [required]="true">
-            </app-form-input>
+            </app-input>
           </div>
 
           <div>
@@ -203,22 +203,22 @@ export const RegistrationForm: Story = {
               Account Type
             </label>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <app-form-checkbox
+              <app-checkbox
                 [label]="'Personal Account'"
                 [name]="'accountType'"
                 [checked]="true">
-              </app-form-checkbox>
-              <app-form-checkbox
+              </app-checkbox>
+              <app-checkbox
                 [label]="'Business Account'"
                 [name]="'accountType'">
-              </app-form-checkbox>
+              </app-checkbox>
             </div>
           </div>
 
-          <app-form-checkbox
+          <app-checkbox
             [label]="'I agree to the Terms of Service and Privacy Policy'"
             [required]="true">
-          </app-form-checkbox>
+          </app-checkbox>
 
           <div style="display: flex; gap: 1rem;">
             <app-button [variant]="'primary'" [size]="'medium'">
