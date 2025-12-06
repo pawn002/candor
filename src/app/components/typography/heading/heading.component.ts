@@ -9,12 +9,23 @@ type HeadingColor = "primary" | "secondary" | "disabled";
   template: `<ng-content></ng-content>`,
   styleUrls: ["./heading.component.scss"],
   host: {
-    "[class]": '"heading heading--" + level + " heading--color-" + color',
+    "[class]":
+      '"heading heading--" + normalizedLevel + " heading--color-" + color',
     "[attr.role]": '"heading"',
-    "[attr.aria-level]": "level.substring(1)",
+    "[attr.aria-level]": "ariaLevel",
   },
 })
 export class HeadingComponent {
-  @Input() level: HeadingLevel = "h2";
+  @Input() level: HeadingLevel | number = "h2";
   @Input() color: HeadingColor = "primary";
+
+  get normalizedLevel(): string {
+    return typeof this.level === "number" ? `h${this.level}` : this.level;
+  }
+
+  get ariaLevel(): number {
+    return typeof this.level === "number"
+      ? this.level
+      : parseInt(this.level.substring(1), 10);
+  }
 }
