@@ -1,30 +1,36 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgClass } from '@angular/common';
+import { Component, Input, forwardRef } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { NgClass } from "@angular/common";
 
 @Component({
-  selector: 'app-checkbox',
+  selector: "app-checkbox",
   standalone: true,
   imports: [NgClass],
-  templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss'],
+  templateUrl: "./checkbox.component.html",
+  styleUrls: ["./checkbox.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CheckboxComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class CheckboxComponent implements ControlValueAccessor {
   @Input() label?: string;
   @Input() disabled: boolean = false;
   @Input() id?: string;
-
-  checked: boolean = false;
+  @Input() required: boolean = false;
+  @Input() name?: string;
+  @Input() checked: boolean = false;
 
   private onChange: (value: boolean) => void = () => {};
   private onTouched: () => void = () => {};
+  private _generatedId: string;
+
+  constructor() {
+    this._generatedId = `checkbox-${Math.random().toString(36).substr(2, 9)}`;
+  }
 
   writeValue(value: boolean): void {
     this.checked = value || false;
@@ -53,6 +59,6 @@ export class CheckboxComponent implements ControlValueAccessor {
   }
 
   get checkboxId(): string {
-    return this.id || `checkbox-${Math.random().toString(36).substr(2, 9)}`;
+    return this.id || this._generatedId;
   }
 }
