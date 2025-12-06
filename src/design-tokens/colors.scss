@@ -8,9 +8,13 @@ $color-primary-hover: oklch(0.52 0.17 250.87); // Darker ocean blue
 $color-primary-active: oklch(0.42 0.17 250.87); // Deep ocean blue
 
 // Secondary Colors
-$color-secondary: oklch(0.57 0.1 182.45); // Deep Teal - sophisticated accent
-$color-secondary-hover: oklch(0.47 0.1 182.45); // Darker teal
-$color-secondary-active: oklch(0.37 0.1 182.45); // Deep teal
+$color-secondary: oklch(
+    0.44 0.07 196.45
+); // Deep Teal - sophisticated accent (WCAG AA: 7.4:1 with white)
+$color-secondary-hover: oklch(
+    0.4 0.06 196.55
+); // Darker teal (WCAG AAA: 9:1 with white)
+$color-secondary-active: oklch(0.35 0.05 196.55); // Deep teal
 
 // Accent Colors - Fun & Energy
 $color-accent: oklch(0.71 0.18 53.54); // Warm Amber - discovery, energy
