@@ -27,7 +27,7 @@
             "outputPath": "dist/design-system-playground",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -101,7 +101,8 @@
             "browserTarget": "design-system-playground:build",
             "compodoc": false,
             "port": 6006,
-            "tsConfig": "tsconfig.storybook.json"
+            "tsConfig": "tsconfig.storybook.json",
+            "open": false
           }
         },
         "build-storybook": {
