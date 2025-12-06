@@ -1,20 +1,20 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgClass } from '@angular/common';
+import { Component, Input, forwardRef } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { NgClass } from "@angular/common";
 
 @Component({
-  selector: 'app-radio',
+  selector: "app-radio",
   standalone: true,
   imports: [NgClass],
-  templateUrl: './radio.component.html',
-  styleUrls: ['./radio.component.scss'],
+  templateUrl: "./radio.component.html",
+  styleUrls: ["./radio.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => RadioComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class RadioComponent implements ControlValueAccessor {
   @Input() label?: string;
@@ -27,6 +27,11 @@ export class RadioComponent implements ControlValueAccessor {
 
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
+  private _generatedId: string;
+
+  constructor() {
+    this._generatedId = `radio-${Math.random().toString(36).substr(2, 9)}`;
+  }
 
   writeValue(value: any): void {
     this.selectedValue = value;
@@ -61,6 +66,6 @@ export class RadioComponent implements ControlValueAccessor {
   }
 
   get radioId(): string {
-    return this.id || `radio-${Math.random().toString(36).substr(2, 9)}`;
+    return this.id || this._generatedId;
   }
 }
