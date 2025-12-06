@@ -16,7 +16,8 @@ Perform health checks on the MCP servers by:
    - If this succeeds, CPQI is working
 
 2. **Test Playwright MCP**:
-   - Use `browser_snapshot` or check browser status
+   - First, attempt to close any existing browser instances using `browser_close` to free resource locks
+   - Then use `browser_snapshot` or check browser status
    - If this succeeds, Playwright is working
 
 3. **Report Status**:
