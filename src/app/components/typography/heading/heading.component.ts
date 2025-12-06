@@ -1,5 +1,4 @@
 import { Component, Input } from "@angular/core";
-import { NgClass, NgIf } from "@angular/common";
 
 type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 type HeadingColor = "primary" | "secondary" | "disabled";
@@ -7,9 +6,13 @@ type HeadingColor = "primary" | "secondary" | "disabled";
 @Component({
   selector: "app-heading",
   standalone: true,
-  imports: [NgClass, NgIf],
-  templateUrl: "./heading.component.html",
+  template: `<ng-content></ng-content>`,
   styleUrls: ["./heading.component.scss"],
+  host: {
+    "[class]": '"heading heading--" + level + " heading--color-" + color',
+    "[attr.role]": '"heading"',
+    "[attr.aria-level]": "level.substring(1)",
+  },
 })
 export class HeadingComponent {
   @Input() level: HeadingLevel = "h2";

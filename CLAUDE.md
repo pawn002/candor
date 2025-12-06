@@ -168,6 +168,59 @@ export const Default: Story = {
 - SCSS for styling
 - Component prefix: `app`
 - Storybook builders configured in angular.json architect section
+- **Zoneless mode enabled** - Zone.js is NOT included in polyfills (Angular 21+ zoneless change detection)
+
+### Angular Control Flow Syntax (Zoneless Compatibility)
+
+**CRITICAL**: This project uses Angular's modern built-in control flow syntax and runs in **zoneless mode**. You MUST use the following:
+
+- **`@if` / `@else`** - NEVER use `*ngIf` or `NgIf` directive (requires Zone.js)
+- **`@for`** - NEVER use `*ngFor` or `NgFor` directive (requires Zone.js)
+- **`@switch` / `@case`** - NEVER use `[ngSwitch]`, `*ngSwitchCase`, or NgSwitch directives (requires Zone.js)
+
+**Why this matters**: Old directive-based syntax (`*ngIf`, `*ngFor`, `NgSwitch`) requires Zone.js for change detection. Built-in control flow (`@if`, `@for`, `@switch`) works perfectly in zoneless mode and is the future of Angular.
+
+**Correct examples**:
+```typescript
+// ✓ CORRECT - Use @if
+@if (condition) {
+  <div>Content</div>
+}
+
+// ✓ CORRECT - Use @for
+@for (item of items; track item.id) {
+  <div>{{ item.name }}</div>
+}
+
+// ✓ CORRECT - Use @switch
+@switch (value) {
+  @case ('option1') {
+    <div>Option 1</div>
+  }
+  @case ('option2') {
+    <div>Option 2</div>
+  }
+}
+```
+
+**Incorrect examples**:
+```typescript
+// ✗ WRONG - Don't use *ngIf
+<div *ngIf="condition">Content</div>
+
+// ✗ WRONG - Don't use *ngFor
+<div *ngFor="let item of items">{{ item.name }}</div>
+
+// ✗ WRONG - Don't use ngSwitch
+<div [ngSwitch]="value">
+  <div *ngSwitchCase="'option1'">Option 1</div>
+</div>
+```
+
+**Important notes**:
+- Built-in control flow does NOT require imports (no `NgIf`, `NgFor`, `NgSwitch` in component imports)
+- Built-in control flow works correctly with Zone.js enabled
+- When refactoring existing code, always convert old directives to built-in syntax
 
 ## Common Pitfalls
 
