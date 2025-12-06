@@ -1,24 +1,24 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgClass, NgIf } from '@angular/common';
+import { Component, Input, forwardRef } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { NgClass, NgIf } from "@angular/common";
 
 @Component({
-  selector: 'app-input',
+  selector: "app-input",
   standalone: true,
   imports: [NgClass, NgIf],
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
+  templateUrl: "./input.component.html",
+  styleUrls: ["./input.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class InputComponent implements ControlValueAccessor {
   @Input() label?: string;
-  @Input() type: 'text' | 'email' | 'password' | 'number' = 'text';
+  @Input() type: "text" | "email" | "password" | "number" = "text";
   @Input() placeholder?: string;
   @Input() disabled: boolean = false;
   @Input() error?: string;
@@ -26,13 +26,18 @@ export class InputComponent implements ControlValueAccessor {
   @Input() required: boolean = false;
   @Input() id?: string;
 
-  value: string = '';
+  value: string = "";
 
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
+  private _generatedId: string;
+
+  constructor() {
+    this._generatedId = `input-${Math.random().toString(36).substr(2, 9)}`;
+  }
 
   writeValue(value: string): void {
-    this.value = value || '';
+    this.value = value || "";
   }
 
   registerOnChange(fn: (value: string) => void): void {
@@ -58,6 +63,6 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   get inputId(): string {
-    return this.id || `input-${Math.random().toString(36).substr(2, 9)}`;
+    return this.id || this._generatedId;
   }
 }
