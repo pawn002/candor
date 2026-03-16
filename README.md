@@ -1,13 +1,13 @@
 # Design System Playground
 
-An Angular + Storybook sandbox for rapidly iterating on design ideas with real-time accessibility validation. Built to bridge the gap between art direction and accessibility using AI-assisted workflows with Claude Code, Playwright MCP, and CPQI MCP.
+An Angular + Storybook sandbox for rapidly iterating on design ideas with real-time accessibility validation. Built to bridge the gap between art direction and accessibility using AI-assisted workflows with Claude Code, Playwright MCP, and the CPQI CLI.
 
 ## Overview
 
 This playground enables design integrators to:
 - Receive art direction specs and quickly prototype components
 - Use Claude Code with Playwright MCP for visual feedback
-- Validate colors and accessibility with CPQI MCP
+- Validate colors and accessibility with the CPQI CLI
 - Identify design constraints and communicate findings to creative leads
 - Iterate rapidly with confidence that designs are accessible
 
@@ -17,7 +17,7 @@ This playground enables design integrators to:
 - **Component Library**: Typography, buttons, forms, and spacing showcases
 - **Storybook Integration**: Visual component catalog with accessibility addon
 - **Playwright Testing**: Visual regression and accessibility testing
-- **CPQI Integration**: Color accessibility validation tools
+- **CPQI CLI Integration**: Color accessibility validation via local `cpqi` CLI
 - **Claude-Optimized Workflow**: Built for AI-assisted design iteration
 
 ## Quick Start
@@ -26,7 +26,7 @@ This playground enables design integrators to:
 
 - Node.js 20.16+, 22.19+, or 24+ (required for Storybook 10 ESM support)
 - npm
-- CPQI MCP Server (optional, for Claude accessibility validation)
+- CPQI CLI (local build from `cpqi-cli` repo — see [CPQI-INTEGRATION.md](./docs/CPQI-INTEGRATION.md))
 - Playwright MCP Server (optional, for Claude visual inspection)
 
 ### Installation
@@ -82,7 +82,7 @@ design-system-playground/
 ├── docs/                       # Documentation
 │   ├── WORKFLOW.md             # Step-by-step workflow guide
 │   ├── DESIGN-TOKENS.md        # Design tokens guide
-│   ├── CPQI-INTEGRATION.md     # CPQI MCP usage
+│   ├── CPQI-INTEGRATION.md     # CPQI CLI usage
 │   ├── PLAYWRIGHT-WORKFLOW.md  # Playwright MCP usage
 │   └── examples/               # Session templates
 ├── src/
@@ -149,16 +149,15 @@ Claude uses Playwright MCP to:
 
 ### Step 4: Accessibility Validation (Claude)
 
-Claude uses CPQI MCP to:
-- Calculate contrast ratios (APCA, WCAG)
-- Determine minimum text sizes
+Claude uses the CPQI CLI to:
+- Calculate contrast ratios (WCAG)
 - Identify violations
-- Suggest compliant alternatives
+- Find compliant alternatives with `cpqi find`
 
 ### Step 5: Iterate
 
 If issues found:
-- Claude uses CPQI to find fixes
+- Claude uses `cpqi find` to fix color violations
 - Update design tokens
 - Repeat until satisfied
 
@@ -201,7 +200,7 @@ Claude generates session report with:
 We use OKLCH instead of hex/RGB because:
 - Perceptually uniform
 - Predictable lightness across hues
-- CPQI-compatible for programmatic manipulation
+- Works natively with the `cpqi` CLI for programmatic manipulation
 - Better for generating variants
 
 **Example:**
@@ -271,18 +270,16 @@ When Claude has Playwright MCP connected, Claude can:
 
 See [PLAYWRIGHT-WORKFLOW.md](./docs/PLAYWRIGHT-WORKFLOW.md) for details.
 
-## CPQI MCP Integration
+## CPQI CLI Integration
 
-When Claude has CPQI MCP connected, Claude can:
+With `cpqi` installed locally, Claude can:
 
-- **Calculate contrast** using APCA, WCAG, Delta E, BPCA
-- **Convert colors** from hex to OKLCH
-- **Find compliant alternatives** automatically
-- **Generate color variants** with maintained contrast
-- **Determine minimum sizes** for readability
-- **Match color vibrancy** across palette
+- **Check contrast** — `cpqi contrast <fg> <bg> -q`
+- **Convert hex to OKLCH** — `cpqi meta <hex>`
+- **Fix violations** — `cpqi find <base> <color> --target 4.5 -q`
+- **Generate tonal scales** — `cpqi variants <hex>`
 
-See [CPQI-INTEGRATION.md](./docs/CPQI-INTEGRATION.md) for details.
+See [CPQI-INTEGRATION.md](./docs/CPQI-INTEGRATION.md) for setup and full command reference.
 
 ## Tips for Success
 
@@ -334,7 +331,7 @@ Ensure Storybook is running on port 6006 before running tests, or let Playwright
 - **TypeScript 5.9** - Type safety
 - **SCSS** - Styling with design tokens
 - **OKLCH** - Perceptually uniform color space
-- **CPQI MCP** - Color accessibility tools
+- **CPQI CLI** - Color accessibility tools (local build)
 - **Playwright MCP** - Browser automation for Claude
 
 ## Contributing
@@ -353,7 +350,7 @@ ISC
 - [OKLCH Color Space](https://oklch.com/)
 - [APCA Contrast](https://www.myndex.com/APCA/)
 - [WCAG Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
-- [CPQI Project](https://github.com/pawn002/cpqi-frontend-and-backend)
+- [CPQI CLI](https://github.com/pawn002/cpqi-cli)
 
 ## Author
 

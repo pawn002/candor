@@ -1,5 +1,5 @@
-/* Global styles - Atlas Theme */
-@use "./design-tokens" as *;
+/* Global styles */
+@use "./design-tokens";
 
 * {
     margin: 0;
@@ -8,11 +8,11 @@
 }
 
 body {
-    font-family: $font-family-base;
-    font-size: $font-size-base;
-    line-height: $line-height-normal;
-    color: $color-text-primary;
-    background-color: $color-background;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-default);
+    background-color: var(--color-bg-page);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

@@ -1,8 +1,8 @@
-# CPQI Workflow Examples
+# CPQI CLI Workflow Examples
 
-## Quick Reference: Common CPQI Commands
+## Quick Reference: Common `cpqi` Commands
 
-This document provides copy-paste examples for common CPQI workflows.
+This document provides copy-paste examples for common CPQI CLI workflows.
 
 ---
 
@@ -10,27 +10,16 @@ This document provides copy-paste examples for common CPQI workflows.
 
 **Goal:** Check if two colors have sufficient contrast
 
-### User Command:
-```
-"Check the contrast between #3B82F6 and #FFFFFF using APCA"
-```
-
-### Claude's CPQI Calls:
-```typescript
-// Calculate contrast
-calculate_contrast({
-  colorOne: "#3B82F6",
-  colorTwo: "#FFFFFF",
-  contrastType: "apca"
-})
-
-// Result: APCA score (e.g., 85.2)
+```bash
+cpqi contrast "#3B82F6" "#FFFFFF" -q
+# → 4.7  (WCAG ratio — passes 4.5 AA threshold)
 ```
 
-### Interpreting Results:
-- **APCA 60+:** Good for body text (16px+)
-- **APCA 75+:** Good for smaller text (12-14px)
-- **APCA 90+:** Excellent, can use very small text (10px+)
+### Interpreting WCAG Ratios:
+- **≥ 7:1** — AAA (highest)
+- **≥ 4.5:1** — AA Normal (standard body text)
+- **≥ 3:1** — AA Large / UI components
+- **< 3:1** — Fail
 
 ---
 
@@ -38,28 +27,22 @@ calculate_contrast({
 
 **Goal:** Convert art direction hex colors to OKLCH for design tokens
 
-### User Command:
-```
-"Convert these colors to OKLCH: #3B82F6, #FFFFFF, #1F2937"
-```
+```bash
+cpqi meta "#3B82F6"
+# → Lightness: 0.55, Chroma: 0.18, Hue: 250.8°
 
-### Claude's CPQI Calls:
-```typescript
-get_color_meta({ color: "#3B82F6" })
-// Result: { oklch: "oklch(0.55 0.18 250)", ... }
+cpqi meta "#FFFFFF" --json
+# → { oklch: { l: 1, c: 0, h: null }, ... }
 
-get_color_meta({ color: "#FFFFFF" })
-// Result: { oklch: "oklch(0.98 0.01 0)", ... }
-
-get_color_meta({ color: "#1F2937" })
-// Result: { oklch: "oklch(0.25 0.01 250)", ... }
+cpqi meta "#1F2937" --json
+# → { oklch: { l: 0.25, c: 0.01, h: 249 }, ... }
 ```
 
 ### Design Token Output:
 ```scss
-$color-primary: oklch(0.55 0.18 250);
-$color-background: oklch(0.98 0.01 0);
-$color-text: oklch(0.25 0.01 250);
+$color-primary:    oklch(0.55 0.18 250.8);
+$color-background: oklch(1 0 0);
+$color-text:       oklch(0.25 0.01 249);
 ```
 
 ---
@@ -71,26 +54,16 @@ $color-text: oklch(0.25 0.01 250);
 ### Problem:
 ```
 Focus outline oklch(0.70 0.15 250) on white background
-WCAG ratio: 2.1:1 (need 3:1 for UI components)
+WCAG ratio: 2.1:1  (need 3:1 for UI components)
 ```
 
-### User Command:
-```
-"Fix the focus color to meet WCAG 3:1 against white background"
-```
+```bash
+cpqi find "#FFFFFF" "oklch(0.70 0.15 250)" --target 3 -q
+# → #3c6fa8  (adjusted color that meets 3:1)
 
-### Claude's CPQI Call:
-```typescript
-find_target_contrast({
-  baseColor: "#FFFFFF", // Keep background fixed
-  referenceColor: "oklch(0.70 0.15 250)", // Adjust this
-  targetContrast: 3,
-  contrastType: "wcag2",
-  tolerance: 0.5
-})
-
-// Result: oklch(0.55 0.15 250)
-// New WCAG ratio: 3.2:1 ✅
+# Verify the fix
+cpqi contrast "#FFFFFF" "#3c6fa8" -q
+# → 3.1 ✅
 ```
 
 ### Before vs After:
@@ -98,84 +71,54 @@ find_target_contrast({
 // Before (FAIL)
 $color-focus: oklch(0.70 0.15 250); // WCAG 2.1:1 ❌
 
-// After (PASS)
-$color-focus: oklch(0.55 0.15 250); // WCAG 3.2:1 ✅
+// After (PASS) — use hex from cpqi find, then convert back to OKLCH
+$color-focus: oklch(0.51 0.15 250); // WCAG 3.1:1 ✅
 ```
 
 ---
 
-## Scenario 4: Find Minimum Text Size
+## Scenario 4: Brand Color Audit
 
-**Goal:** Determine the smallest readable text size for a color combination
+**Goal:** Validate an entire set of brand hex colors
 
-### User Command:
-```
-"What's the minimum text size I can use with primary color on white?"
-```
+```bash
+# Convert all brand colors
+cpqi meta "#082840"   # navy primary     → L=0.27 C=0.06 H=245
+cpqi meta "#5F2B48"   # burgundy         → L=0.37 C=0.08 H=347
+cpqi meta "#1493FB"   # azure accent     → L=0.65 C=0.18 H=250
+cpqi meta "#6969F7"   # soft purple      → L=0.60 C=0.21 H=278
+cpqi meta "#333333"   # text             → L=0.32 C=0   H=—
 
-### Claude's CPQI Calls:
-```typescript
-// Option 1: From APCA score
-calculate_contrast({
-  colorOne: "oklch(0.55 0.18 250)", // primary
-  colorTwo: "#FFFFFF", // background
-  contrastType: "apca"
-})
-// Result: APCA 85
+# Check key contrast pairs
+cpqi contrast "#FFFFFF" "#082840" -q   # → 15.2 ✅
+cpqi contrast "#FFFFFF" "#5F2B48" -q   # → 10.4 ✅
+cpqi contrast "#333333" "#FFFFFF" -q   # → 12.6 ✅
+cpqi contrast "#FFFFFF" "#1493FB" -q   # → 3.2  ❌ (azure needs dark text)
+cpqi contrast "#FFFFFF" "#6969F7" -q   # → 4.0  ❌ (purple needs adjustment)
 
-calculate_minimum_dimension({ apcaScore: 85 })
-// Result: ~12px minimum
-
-// Option 2: Direct method
-get_minimum_dimension_for_colors({
-  foreground: "oklch(0.55 0.18 250)",
-  background: "#FFFFFF"
-})
-// Result: { apca: 85, minDimension: 12 }
-```
-
-### Recommendation:
-```
-APCA 85 → Minimum 12px
-Current usage: 16px body text ✅
-Safe to use 14px+ for UI labels
+# Fix failures
+cpqi find "#FFFFFF" "#6969F7" --target 4.5 -q   # → #5f5dea (4.6:1 ✅)
 ```
 
 ---
 
-## Scenario 5: Generate Color Variants
+## Scenario 5: Generate Color Variants (Tonal Scale)
 
-**Goal:** Create a color scale from a base color
+**Goal:** Create hover/active states from a base color
 
-### User Command:
-```
-"Give me 5 lighter and 5 darker versions of our primary color"
-```
+```bash
+cpqi variants "#082840"
+# → Prints adaptive tonal grid from light to dark
 
-### Claude's CPQI Call:
-```typescript
-generate_variants({
-  color: "oklch(0.55 0.18 250)",
-  lightSteps: 11, // Base + 5 lighter + 5 darker
-  chromaSteps: 1, // Keep chroma constant
-  colorSpace: "oklch"
-})
+# Manual lightness steps for predictable hover/active:
+# L=0.27 → base (#082840)
+# L=0.22 → hover (darker)
+# L=0.17 → active (darkest)
 
-// Result: Array of 11 colors
-// [darkest] → [base] → [lightest]
-```
-
-### Generated Scale:
-```scss
-$color-primary-900: oklch(0.25 0.18 250); // Darkest
-$color-primary-800: oklch(0.35 0.18 250);
-$color-primary-700: oklch(0.45 0.18 250);
-$color-primary-600: oklch(0.50 0.18 250);
-$color-primary-500: oklch(0.55 0.18 250); // Base
-$color-primary-400: oklch(0.65 0.18 250);
-$color-primary-300: oklch(0.75 0.18 250);
-$color-primary-200: oklch(0.85 0.18 250);
-$color-primary-100: oklch(0.92 0.18 250); // Lightest
+# Verify each state has sufficient contrast with white text:
+cpqi contrast "#FFFFFF" "oklch(0.27 0.06 245.34)" -q   # base   → 15.2
+cpqi contrast "#FFFFFF" "oklch(0.22 0.06 245.34)" -q   # hover  → 18.8
+cpqi contrast "#FFFFFF" "oklch(0.17 0.05 245.34)" -q   # active → 20+
 ```
 
 ---
@@ -184,271 +127,65 @@ $color-primary-100: oklch(0.92 0.18 250); // Lightest
 
 **Goal:** Check contrast for all button color combinations
 
-### User Command:
-```
-"Validate all button variants meet APCA 60 for 16px text"
-```
+```bash
+# Primary button: white text on navy
+cpqi contrast "#FFFFFF" "#082840" -q        # → 15.2 ✅
 
-### Claude's Workflow:
+# Secondary button: white text on burgundy
+cpqi contrast "#FFFFFF" "#5F2B48" -q        # → 10.4 ✅
 
-```typescript
-const buttons = [
-  { name: 'Primary', fg: 'oklch(0.98 0.01 250)', bg: 'oklch(0.55 0.18 250)' },
-  { name: 'Secondary', fg: 'oklch(0.25 0.01 250)', bg: 'oklch(0.90 0.01 0)' },
-  { name: 'Tertiary', fg: 'oklch(0.55 0.18 250)', bg: 'oklch(0.98 0.01 0)' },
-];
+# Tertiary button: dark text on light gray
+cpqi contrast "#333333" "#E0E0E0" -q        # → 9.6 ✅
 
-for (const button of buttons) {
-  const result = await calculate_contrast({
-    colorOne: button.fg,
-    colorTwo: button.bg,
-    contrastType: "apca"
-  });
-  
-  console.log(`${button.name}: APCA ${result.score}`);
-}
+# Ghost button: navy text on white
+cpqi contrast "#082840" "#FFFFFF" -q        # → 15.2 ✅
 ```
 
-### Results Table:
-
-| Button Variant | Foreground | Background | APCA Score | Status |
-|---------------|------------|------------|------------|--------|
-| Primary | White | Blue | 95.2 | ✅ Pass |
-| Secondary | Dark Gray | Light Gray | 72.4 | ✅ Pass |
-| Tertiary | Blue | White | 85.1 | ✅ Pass |
-| Ghost | Blue | Transparent | 85.1 | ✅ Pass |
-
-**All variants pass APCA 60 requirement ✅**
+**All variants pass WCAG AA ✅**
 
 ---
 
-## Scenario 7: Test Multiple Algorithms
+## Scenario 7: Dark Mode Validation
 
-**Goal:** Compare APCA vs WCAG 2.1 for the same color pair
+**Goal:** Verify link/accent colors work on dark backgrounds
 
-### User Command:
-```
-"Check button contrast with both APCA and WCAG"
-```
+```bash
+# Azure as link color on dark bg
+cpqi contrast "#1493FB" "#15202B" -q   # → 2.5 ❌ (too low)
 
-### Claude's CPQI Calls:
+# Find a brighter azure that works on dark bg
+cpqi find "#15202B" "#1493FB" --target 4.5 -q
+# → adjusted hex ✅
 
-```typescript
-// APCA
-calculate_contrast({
-  colorOne: "#FFFFFF",
-  colorTwo: "#3B82F6",
-  contrastType: "apca"
-})
-// Result: 95.2
+# Purple highlight on dark bg
+cpqi contrast "#6969F7" "#15202B" -q   # → 1.9 ❌
 
-// WCAG 2.1
-calculate_contrast({
-  colorOne: "#FFFFFF",
-  colorTwo: "#3B82F6",
-  contrastType: "wcag2"
-})
-// Result: 6.8:1
-```
-
-### Comparison:
-
-| Algorithm | Score | Requirements | Status |
-|-----------|-------|--------------|--------|
-| APCA | 95.2 | ≥60 for body text | ✅ Pass |
-| WCAG 2.1 | 6.8:1 | ≥4.5:1 for AA Normal | ✅ Pass |
-| WCAG 2.1 | 6.8:1 | ≥7:1 for AAA Normal | ❌ Fail |
-
-**Recommendation:** Passes modern APCA and WCAG 2.1 AA. Close to AAA.
-
----
-
-## Scenario 8: Match Color Vibrancy
-
-**Goal:** Make two colors feel equally vibrant
-
-### User Command:
-```
-"Match the chroma of our accent color to the primary color"
-```
-
-### Claude's CPQI Call:
-
-```typescript
-match_chromas({
-  colorOne: "oklch(0.55 0.18 250)", // primary (chroma 0.18)
-  colorTwo: "oklch(0.60 0.25 145)"  // accent (chroma 0.25)
-})
-
-// Result: {
-//   adjustedColor: "oklch(0.60 0.18 145)",
-//   originalChroma: 0.25,
-//   matchedChroma: 0.18
-// }
-```
-
-### Before vs After:
-
-```scss
-// Before - mismatched vibrancy
-$color-primary: oklch(0.55 0.18 250); // Chroma 0.18
-$color-accent: oklch(0.60 0.25 145);  // Chroma 0.25 (more vibrant)
-
-// After - matched vibrancy
-$color-primary: oklch(0.55 0.18 250); // Chroma 0.18
-$color-accent: oklch(0.60 0.18 145);  // Chroma 0.18 (matched)
-```
-
----
-
-## Scenario 9: Check Color Gamut Limits
-
-**Goal:** Find the darkest/lightest version of a color that stays in gamut
-
-### User Command:
-```
-"How dark can I make this blue while keeping the same saturation?"
-```
-
-### Claude's CPQI Call:
-
-```typescript
-get_min_max_lightness({
-  color: "oklch(0.55 0.18 250)"
-})
-
-// Result: {
-//   min: 0.15,
-//   max: 0.92,
-//   color: "oklch(0.55 0.18 250)"
-// }
-```
-
-### Interpretation:
-
-```scss
-// Valid range for chroma 0.18, hue 250
-$color-darkest: oklch(0.15 0.18 250); // Minimum lightness
-$color-base: oklch(0.55 0.18 250);    // Current
-$color-lightest: oklch(0.92 0.18 250); // Maximum lightness
-
-// Outside range - will be clipped/distorted
-$color-too-dark: oklch(0.05 0.18 250);  // ❌ Out of gamut
-$color-too-light: oklch(0.99 0.18 250); // ❌ Out of gamut
-```
-
----
-
-## Scenario 10: Batch Color Validation
-
-**Goal:** Validate an entire color palette at once
-
-### User Command:
-```
-"Validate all our colors against white and dark backgrounds"
-```
-
-### Claude's Workflow:
-
-```typescript
-const colors = {
-  primary: "oklch(0.55 0.18 250)",
-  error: "oklch(0.55 0.22 25)",
-  success: "oklch(0.55 0.15 145)",
-  warning: "oklch(0.65 0.18 85)"
-};
-
-const backgrounds = {
-  light: "#FFFFFF",
-  dark: "#1F2937"
-};
-
-// Test each color against each background
-for (const [colorName, colorValue] of Object.entries(colors)) {
-  for (const [bgName, bgValue] of Object.entries(backgrounds)) {
-    const result = await calculate_contrast({
-      colorOne: colorValue,
-      colorTwo: bgValue,
-      contrastType: "apca"
-    });
-    
-    console.log(`${colorName} on ${bgName}: APCA ${result.score}`);
-  }
-}
-```
-
-### Results Matrix:
-
-|         | White BG | Dark BG |
-|---------|----------|---------|
-| Primary | 85.2 ✅  | 78.4 ✅ |
-| Error   | 72.1 ✅  | 68.9 ✅ |
-| Success | 78.5 ✅  | 71.2 ✅ |
-| Warning | 65.3 ✅  | 58.1 ❌ |
-
-**Finding:** Warning color fails on dark background (APCA 58.1 < 60)
-
-**Fix needed:**
-```typescript
-find_target_contrast({
-  baseColor: "#1F2937", // dark bg
-  referenceColor: "oklch(0.65 0.18 85)", // warning
-  targetContrast: 60,
-  contrastType: "apca"
-})
-// Result: oklch(0.75 0.18 85) → APCA 62.3 ✅
+# Find compliant purple on dark bg
+cpqi find "#15202B" "#6969F7" --target 4.5 -q
 ```
 
 ---
 
 ## Quick Cheat Sheet
 
-### Check Contrast
-```
-calculate_contrast(color1, color2, "apca" | "wcag2")
-```
+```bash
+# Convert hex to OKLCH
+cpqi meta <hex>
 
-### Convert to OKLCH
-```
-get_color_meta(hexColor)
-```
+# Check contrast (quiet output)
+cpqi contrast <fg> <bg> -q
 
-### Fix Contrast
-```
-find_target_contrast(baseColor, referenceColor, target, "apca")
-```
+# Fix contrast (quiet output)
+cpqi find <base> <color> --target 4.5 -q
 
-### Min Text Size
-```
-get_minimum_dimension_for_colors(fg, bg)
-```
+# Generate tonal scale
+cpqi variants <hex>
 
-### Generate Variants
-```
-generate_variants(color, lightSteps, chromaSteps, "oklch")
-```
-
-### Match Vibrancy
-```
-match_chromas(color1, color2)
-```
-
-### Check Gamut
-```
-get_min_max_lightness(color)
+# Script-friendly JSON output
+cpqi meta <hex> --json
 ```
 
 ---
-
-## APCA Score Reference
-
-| APCA Score | Minimum Size | Use Cases |
-|------------|-------------|-----------|
-| 90+ | 10px | Fine print, captions |
-| 75+ | 12px | Labels, secondary text |
-| 60+ | 14px | Body text |
-| 45+ | 18px | Large text only |
-| < 45 | Not recommended | Too low |
 
 ## WCAG 2.1 Reference
 
@@ -463,6 +200,7 @@ get_min_max_lightness(color)
 
 ## Resources
 
+- [cpqi-cli repo](https://github.com/pawn002/cpqi-cli)
 - [APCA Calculator](https://www.myndex.com/APCA/)
 - [WCAG Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [OKLCH Color Picker](https://oklch.com/)

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an Angular + Storybook design system playground built for AI-assisted design iteration with real-time accessibility validation. The primary workflow involves receiving art direction specs, implementing them in design tokens, and validating accessibility using MCP tools (CPQI for color contrast, Playwright for visual inspection).
+This is an Angular + Storybook design system playground built for AI-assisted design iteration with real-time accessibility validation. The primary workflow involves receiving art direction specs, implementing them in design tokens, and validating accessibility using the CPQI CLI for color contrast and Playwright MCP for visual inspection.
 
 ## Essential Commands
 
@@ -55,7 +55,7 @@ Colors use OKLCH format: `oklch(L C H)` where:
 **Why OKLCH**:
 - Perceptually uniform (unlike hex/RGB)
 - Predictable lightness manipulation
-- CPQI MCP tools work natively with OKLCH
+- CPQI CLI works natively with OKLCH
 - Easier for AI to generate/manipulate programmatically
 
 ### Component Structure
@@ -93,21 +93,23 @@ Angular standalone components in `src/app/components/`:
 ### Typical Session Flow
 
 1. **Receive art direction**: Colors (hex), fonts, spacing requirements
-2. **Convert to OKLCH**: Use CPQI MCP `get_color_meta` to convert hex → OKLCH
+2. **Convert to OKLCH**: Run `cpqi meta <hex>` on each color to get exact OKLCH values
 3. **Update tokens**: Modify `src/design-tokens/colors.scss` and other token files
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
-5. **Accessibility validation**: Use CPQI MCP to check contrast ratios
-6. **Iterate**: If violations found, use CPQI `find_target_contrast` to find compliant alternatives
+5. **Accessibility validation**: Run `cpqi contrast <fg> <bg> -q` to check contrast ratios
+6. **Iterate**: If violations found, run `cpqi find <bg> <color> --target 4.5 -q` for compliant alternatives
 7. **Report**: Document original specs vs. final implementation, constraints identified
 
-### MCP Integration Points
+### Integration Points
 
-**When CPQI MCP is connected**:
-- Calculate contrast: `calculate_contrast` (APCA, WCAG, Delta E, BPCA)
-- Find minimum text sizes: `get_minimum_dimension_for_colors`
-- Generate compliant alternatives: `find_target_contrast`
-- Convert colors: `get_color_meta`
-- Generate variants: `generate_variants`
+**CPQI CLI** (`cpqi --version` to confirm availability):
+```bash
+cpqi meta <hex>                        # Convert hex → OKLCH + color metadata
+cpqi contrast <fg> <bg> -q             # Check contrast ratio (WCAG/APCA)
+cpqi find <bg> <color> --target 4.5 -q # Find lightness-adjusted compliant color
+cpqi variants <hex>                    # Generate a tonal palette
+cpqi match <hex>                       # Find nearest named/brand color
+```
 
 **When Playwright MCP is connected**:
 - Navigate to stories: `browser_navigate`
@@ -252,7 +254,7 @@ Tests verify:
 Detailed workflow documentation in `docs/`:
 - `WORKFLOW.md`: Complete workflow guide
 - `DESIGN-TOKENS.md`: Token modification guide
-- `CPQI-INTEGRATION.md`: CPQI MCP usage patterns
+- `CPQI-INTEGRATION.md`: CPQI CLI usage patterns and commands
 - `PLAYWRIGHT-WORKFLOW.md`: Playwright MCP usage patterns
 
 ## Git Information

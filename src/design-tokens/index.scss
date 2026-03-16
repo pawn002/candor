@@ -1,6 +1,5 @@
-// Design Tokens - Main Export
-// Import this file to get access to all design tokens
+// Design Tokens
+// Load order matters: primitives must be defined before semantics can reference them.
 
-@forward './colors';
-@forward './typography';
-@forward './spacing';
+@use './primitives';
+@use './semantics';
