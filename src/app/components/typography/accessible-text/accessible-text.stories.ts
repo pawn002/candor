@@ -20,8 +20,8 @@ const meta: Meta<AccessibleTextComponent> = {
     },
     color: {
       control: 'select',
-      options: ['primary', 'secondary', 'disabled', 'error', 'success', 'warning'],
-      description: 'Text color',
+      options: ['primary', 'secondary', 'disabled', 'error'],
+      description: 'Text color (warning/success are non-text tokens — use *-bg panels instead)',
     },
     bold: {
       control: 'boolean',
@@ -52,18 +52,20 @@ export const StatusMessages: Story = {
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <app-accessible-text role="status" color="error">✕ Error: This field is required.</app-accessible-text>
+        <!-- Error: colored text OK (OKCA 4.8) -->
+        <app-accessible-text role="status" color="error">✕ Error: This field is required.</app-accessible-text>
+
+        <!-- Warning: use bg tint + dark text, not colored text -->
+        <div style="background: var(--color-status-warning-bg); padding: 0.5rem 0.75rem; border-left: 3px solid var(--color-status-warning); border-radius: var(--radius-sm);">
+          <app-accessible-text role="message">⚠ Warning: This action cannot be undone.</app-accessible-text>
         </div>
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <app-accessible-text role="status" color="success">✓ Success: Your changes have been saved.</app-accessible-text>
+
+        <!-- Success: use bg tint + dark text, not colored text -->
+        <div style="background: var(--color-status-success-bg); padding: 0.5rem 0.75rem; border-left: 3px solid var(--color-status-success); border-radius: var(--radius-sm);">
+          <app-accessible-text role="message">✓ Success: Your changes have been saved.</app-accessible-text>
         </div>
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <app-accessible-text role="status" color="warning">⚠ Warning: This action cannot be undone.</app-accessible-text>
-        </div>
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <app-accessible-text role="message" color="secondary">ℹ Your session will expire in 5 minutes.</app-accessible-text>
-        </div>
+
+        <app-accessible-text role="message" color="secondary">ℹ Your session will expire in 5 minutes.</app-accessible-text>
       </div>
     `,
   }),
@@ -135,7 +137,9 @@ export const CriticalFormContext: Story = {
             "
             value="user@example.com"
           />
-          <app-accessible-text role="status" color="success">✓ Email verified</app-accessible-text>
+          <div style="background: var(--color-status-success-bg); padding: 0.375rem 0.625rem; border-left: 3px solid var(--color-status-success); border-radius: var(--radius-sm); display: inline-block; margin-top: 0.25rem;">
+            <app-accessible-text role="status">✓ Email verified</app-accessible-text>
+          </div>
         </div>
       </div>
     `,

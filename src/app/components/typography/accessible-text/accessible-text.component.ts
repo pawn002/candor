@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 type AccessibleTextRole = 'label' | 'message' | 'status' | 'annotation';
 type AccessibleTextSize = 'sm' | 'md' | 'lg';
-type AccessibleTextColor = 'primary' | 'secondary' | 'disabled' | 'error' | 'success' | 'warning';
+type AccessibleTextColor = 'primary' | 'secondary' | 'disabled' | 'error';
 
 @Component({
   selector: 'app-accessible-text',

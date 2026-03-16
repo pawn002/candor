@@ -42,8 +42,6 @@
     &.accessible-text--color-secondary { color: var(--color-text-subtle); }
     &.accessible-text--color-disabled  { color: var(--color-text-disabled); }
     &.accessible-text--color-error     { color: var(--color-status-error); }
-    &.accessible-text--color-success   { color: var(--color-status-success); }
-    &.accessible-text--color-warning   { color: var(--color-status-warning); }
 
     // ─── Bold modifier ─────────────────────────────────────────────────────────
     &.accessible-text--bold { font-weight: var(--font-weight-bold); }
