@@ -35,13 +35,12 @@
         letter-spacing: var(--letter-spacing-wide);
     }
 
-    // Color variants
     &.heading--color-primary {
-        color: var(--color-text-primary);
+        color: var(--color-text-default);
     }
 
     &.heading--color-secondary {
-        color: var(--color-text-secondary);
+        color: var(--color-text-subtle);
     }
 
     &.heading--color-disabled {

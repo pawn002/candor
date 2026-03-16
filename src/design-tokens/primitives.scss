@@ -1,0 +1,127 @@
+// Design Token Primitives
+// Raw values only — no meaning, no context.
+// Components must never reference these directly; use semantics.scss instead.
+
+:root {
+    // ─── Color Ramps ───────────────────────────────────────────────────────────
+    // Brand anchors are annotated. Steps use constant H/C across each family.
+
+    // Navy  (H=245.34  C=0.06)
+    // Anchor: navy-800 = #082840
+    --navy-50:  oklch(0.97 0.01 245.34);
+    --navy-100: oklch(0.93 0.02 245.34);
+    --navy-200: oklch(0.86 0.04 245.34);
+    --navy-300: oklch(0.76 0.05 245.34);
+    --navy-400: oklch(0.64 0.06 245.34);
+    --navy-500: oklch(0.53 0.06 245.34);
+    --navy-600: oklch(0.44 0.06 245.34);
+    --navy-700: oklch(0.35 0.06 245.34);
+    --navy-800: oklch(0.27 0.06 245.34); // #082840 — 15.2:1 with white ✅
+    --navy-900: oklch(0.19 0.05 245.34);
+
+    // Burgundy  (H=347.43  C=0.08)
+    // Anchor: burgundy-700 = #5F2B48
+    --burgundy-50:  oklch(0.97 0.01 347.43);
+    --burgundy-100: oklch(0.93 0.03 347.43);
+    --burgundy-200: oklch(0.86 0.05 347.43);
+    --burgundy-300: oklch(0.76 0.06 347.43);
+    --burgundy-400: oklch(0.64 0.07 347.43);
+    --burgundy-500: oklch(0.52 0.08 347.43);
+    --burgundy-600: oklch(0.44 0.08 347.43);
+    --burgundy-700: oklch(0.37 0.08 347.43); // #5F2B48 — 10.4:1 with white ✅
+    --burgundy-800: oklch(0.28 0.07 347.43);
+    --burgundy-900: oklch(0.20 0.05 347.43);
+
+    // Azure  (H=250.80  C=0.18)
+    // Anchor: azure-400 = #1493FB (original brand color)
+    // ⚠️  azure-400 achieves only 3.2:1 with white — not AA for text on white bg.
+    //     azure-500 (5.2:1) and azure-600 (7.1:1) are accessible with white text.
+    --azure-50:  oklch(0.97 0.02 250.80);
+    --azure-100: oklch(0.93 0.05 250.80);
+    --azure-200: oklch(0.86 0.10 250.80);
+    --azure-300: oklch(0.77 0.15 250.80);
+    --azure-400: oklch(0.65 0.18 250.80); // #1493FB — original anchor — decorative/dark-bg only
+    --azure-500: oklch(0.53 0.18 250.80); // 5.2:1 with white ✅
+    --azure-600: oklch(0.45 0.17 250.80); // 7.1:1 with white ✅
+    --azure-700: oklch(0.37 0.14 250.80);
+    --azure-800: oklch(0.28 0.10 250.80);
+    --azure-900: oklch(0.20 0.06 250.80);
+
+    // Purple  (H=278.14  C=0.21)
+    // Anchor: purple-500 = #6969F7 (original brand color)
+    // ⚠️  purple-500 achieves only 4.0:1 with white — not AA.
+    //     purple-600 (4.6:1) is the accessible step for white text.
+    --purple-50:  oklch(0.97 0.02 278.14);
+    --purple-100: oklch(0.93 0.05 278.14);
+    --purple-200: oklch(0.86 0.10 278.14);
+    --purple-300: oklch(0.77 0.15 278.14);
+    --purple-400: oklch(0.68 0.18 278.14);
+    --purple-500: oklch(0.60 0.21 278.14); // #6969F7 — original anchor — decorative only
+    --purple-600: oklch(0.56 0.21 278.14); // #5f5dea — 4.6:1 with white ✅
+    --purple-700: oklch(0.47 0.20 278.14);
+    --purple-800: oklch(0.37 0.17 278.14);
+    --purple-900: oklch(0.27 0.13 278.14);
+
+    // Gray  (neutral — brand anchors preserved)
+    --gray-0:   oklch(1 0 0);             // #FFFFFF
+    --gray-50:  oklch(0.97 0 0);
+    --gray-100: oklch(0.91 0 0);          // #E0E0E0
+    --gray-200: oklch(0.88 0.005 17.2);   // #DAD8D8 — slightly warm
+    --gray-300: oklch(0.81 0 0);          // #C0C0C0
+    --gray-400: oklch(0.71 0 0);
+    --gray-500: oklch(0.57 0 0);          // #767676 — 4.5:1 with white ✅
+    --gray-600: oklch(0.46 0 0);
+    --gray-700: oklch(0.32 0 0);          // #333333 — 12.6:1 with white ✅
+    --gray-800: oklch(0.24 0.03 248.99);  // #15202B — dark bg (slight blue)
+    --gray-900: oklch(0.16 0.02 248.99);
+
+    // ─── Spacing Scale (8px base) ──────────────────────────────────────────────
+    --space-1:  0.5rem;   //  8px
+    --space-2:  1rem;     // 16px
+    --space-3:  1.5rem;   // 24px
+    --space-4:  2rem;     // 32px
+    --space-6:  3rem;     // 48px
+    --space-8:  4rem;     // 64px
+    --space-12: 6rem;     // 96px
+
+    // ─── Type Scale (Major Third — 1.25 ratio) ─────────────────────────────────
+    --text-xs:   0.64rem;   // ~10px
+    --text-sm:   0.8rem;    // ~13px
+    --text-base: 1rem;      //  16px
+    --text-lg:   1.25rem;   // ~20px
+    --text-xl:   1.5625rem; // ~25px
+    --text-2xl:  1.953rem;  // ~31px
+    --text-3xl:  2.441rem;  // ~39px
+
+    // ─── Font Families ─────────────────────────────────────────────────────────
+    --font-sans:    "Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-display: "Noto Sans Display", "Noto Sans", system-ui, -apple-system, sans-serif;
+    --font-mono:    "Noto Sans Mono", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace;
+    --font-serif:   "Noto Serif", Georgia, "Times New Roman", serif;
+
+    // ─── Font Weights ──────────────────────────────────────────────────────────
+    --weight-light:     300;
+    --weight-regular:   400;
+    --weight-medium:    500;
+    --weight-semibold:  600;
+    --weight-bold:      700;
+
+    // ─── Line Heights ──────────────────────────────────────────────────────────
+    --leading-tight:    1.25;
+    --leading-normal:   1.5;
+    --leading-relaxed:  1.75;
+
+    // ─── Letter Spacing ────────────────────────────────────────────────────────
+    --tracking-tight:  -0.02em;
+    --tracking-normal:  0;
+    --tracking-wide:    0.05em;
+
+    // ─── Border ────────────────────────────────────────────────────────────────
+    --border-radius-sm:   0.25rem; //  4px
+    --border-radius-md:   0.5rem;  //  8px
+    --border-radius-lg:   1rem;    // 16px
+    --border-radius-full: 9999px;
+    --border-width-1: 1px;
+    --border-width-2: 2px;
+    --border-width-4: 4px;
+}

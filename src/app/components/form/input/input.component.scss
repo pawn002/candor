@@ -7,23 +7,23 @@
 .input-label {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    color: var(--color-text-default);
     display: flex;
     gap: var(--spacing-xs);
 }
 
 .input-required {
-    color: var(--color-error);
+    color: var(--color-status-error);
 }
 
 .input {
     font-family: var(--font-family-base);
     font-size: var(--font-size-md);
     padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
-    border: var(--border-width-thin) solid var(--color-border);
+    border: var(--border-width-thin) solid var(--color-border-default);
     border-radius: var(--radius-md);
-    background-color: var(--color-background);
-    color: var(--color-text-primary);
+    background-color: var(--color-bg-page);
+    color: var(--color-text-default);
     transition: all 0.2s ease-in-out;
     min-height: 2.5rem;
 
@@ -32,30 +32,30 @@
     }
 
     &:hover:not(:disabled) {
-        border-color: var(--color-text-secondary);
+        border-color: var(--color-text-subtle);
     }
 
     &:focus {
         outline: none;
-        border-color: var(--color-primary);
-        box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-primary) l c h / 0.2);
+        border-color: var(--color-action-primary);
+        box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-action-primary) l c h / 0.2);
     }
 
     &--error {
-        border-color: var(--color-error);
+        border-color: var(--color-status-error);
 
         &:focus {
-            border-color: var(--color-error);
-            box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-error) l c h / 0.2);
+            border-color: var(--color-status-error);
+            box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2);
         }
     }
 
     &:disabled,
     &--disabled {
-        background-color: var(--color-surface);
+        background-color: var(--color-bg-surface);
         color: var(--color-text-disabled);
         cursor: not-allowed;
-        border-color: var(--color-border);
+        border-color: var(--color-border-default);
     }
 }
 
@@ -64,9 +64,9 @@
 }
 
 .input-error-message {
-    color: var(--color-error);
+    color: var(--color-status-error);
 }
 
 .input-hint {
-    color: var(--color-text-secondary);
+    color: var(--color-text-subtle);
 }

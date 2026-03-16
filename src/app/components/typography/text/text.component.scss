@@ -3,7 +3,6 @@
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
 
-    // Variants
     &--body {
         line-height: var(--line-height-normal);
     }
@@ -19,7 +18,6 @@
         text-transform: uppercase;
     }
 
-    // Sizes
     &--size-sm {
         font-size: var(--font-size-sm);
     }
@@ -32,20 +30,18 @@
         font-size: var(--font-size-lg);
     }
 
-    // Colors
     &--color-primary {
-        color: var(--color-text-primary);
+        color: var(--color-text-default);
     }
 
     &--color-secondary {
-        color: var(--color-text-secondary);
+        color: var(--color-text-subtle);
     }
 
     &--color-disabled {
         color: var(--color-text-disabled);
     }
 
-    // Bold modifier
     &--bold {
         font-weight: var(--font-weight-bold);
     }

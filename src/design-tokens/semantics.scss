@@ -1,0 +1,129 @@
+// Design Token Semantics
+// Maps primitive values to named roles.
+// Components reference these — never primitives directly.
+
+:root {
+    // ─── Colors: Backgrounds ───────────────────────────────────────────────────
+    --color-bg-page:    var(--gray-0);
+    --color-bg-surface: var(--gray-100);
+    --color-bg-inverse: var(--navy-800);
+
+    // ─── Colors: Text ──────────────────────────────────────────────────────────
+    --color-text-default:   var(--gray-700);  // 12.6:1 on --color-bg-page ✅
+    --color-text-subtle:    var(--gray-500);  //  4.5:1 on --color-bg-page ✅
+    --color-text-disabled:  var(--gray-400);
+    --color-text-inverse:   var(--gray-0);
+    --color-text-on-action: var(--gray-0);    // white text on primary/secondary buttons
+
+    // ─── Colors: Borders ───────────────────────────────────────────────────────
+    --color-border-default: var(--gray-200);
+    --color-border-strong:  var(--gray-300);
+
+    // ─── Colors: Action — Primary (navy) ───────────────────────────────────────
+    --color-action-primary:        var(--navy-800); // 15.2:1 with white ✅
+    --color-action-primary-hover:  var(--navy-900);
+    --color-action-primary-active: var(--navy-900);
+
+    // ─── Colors: Action — Secondary (burgundy) ─────────────────────────────────
+    --color-action-secondary:        var(--burgundy-700); // 10.4:1 with white ✅
+    --color-action-secondary-hover:  var(--burgundy-800);
+    --color-action-secondary-active: var(--burgundy-900);
+
+    // ─── Colors: Action — Tertiary ─────────────────────────────────────────────
+    --color-action-tertiary:        var(--gray-100);
+    --color-action-tertiary-hover:  var(--gray-200);
+    --color-action-tertiary-text:   var(--navy-800);
+
+    // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────
+    // azure-400 is the brand original (#1493FB) — use on dark backgrounds only.
+    // azure-500/600 are the accessible steps for use on white backgrounds.
+    --color-link:       var(--azure-400); // decorative / dark-bg use
+    --color-link-hover: var(--azure-500);
+
+    // ─── Colors: Highlight (purple) ────────────────────────────────────────────
+    // purple-600 is the accessible step (4.6:1 with white).
+    // purple-500 is the brand original (#6969F7) — decorative use only.
+    --color-highlight:            var(--purple-600); // accessible ✅
+    --color-highlight-decorative: var(--purple-500); // original brand color
+
+    // ─── Colors: Focus ─────────────────────────────────────────────────────────
+    --color-focus: var(--azure-400); // high-visibility ring on dark/white backgrounds
+
+    // ─── Colors: Status ────────────────────────────────────────────────────────
+    --color-status-error:       oklch(0.55 0.22 25);
+    --color-status-error-bg:    oklch(0.95 0.05 25);
+    --color-status-success:     oklch(0.63 0.15 144.2);
+    --color-status-success-bg:  oklch(0.95 0.05 145);
+    --color-status-warning:     oklch(0.71 0.18 53.54);
+    --color-status-warning-bg:  oklch(0.95 0.05 53);
+
+    // ─── Spacing ───────────────────────────────────────────────────────────────
+    --spacing-xs:  var(--space-1);  //  8px
+    --spacing-sm:  var(--space-2);  // 16px
+    --spacing-md:  var(--space-3);  // 24px
+    --spacing-lg:  var(--space-4);  // 32px
+    --spacing-xl:  var(--space-6);  // 48px
+    --spacing-2xl: var(--space-8);  // 64px
+    --spacing-3xl: var(--space-12); // 96px
+
+    // Component spacing
+    --spacing-button-padding-y:    var(--spacing-sm);
+    --spacing-button-padding-x:    var(--spacing-md);
+    --spacing-button-padding-y-sm: var(--spacing-xs);
+    --spacing-button-padding-x-sm: var(--spacing-sm);
+    --spacing-button-padding-y-lg: var(--spacing-md);
+    --spacing-button-padding-x-lg: var(--spacing-lg);
+    --spacing-input-padding-y:     var(--spacing-sm);
+    --spacing-input-padding-x:     var(--spacing-sm);
+    --spacing-card-padding:        var(--spacing-md);
+    --spacing-card-gap:            var(--spacing-md);
+
+    // ─── Border / Shape ────────────────────────────────────────────────────────
+    --radius-sm:   var(--border-radius-sm);
+    --radius-md:   var(--border-radius-md);
+    --radius-lg:   var(--border-radius-lg);
+    --radius-full: var(--border-radius-full);
+
+    --border-width-thin:   var(--border-width-1);
+    --border-width-medium: var(--border-width-2);
+    --border-width-thick:  var(--border-width-4);
+
+    --focus-ring-width:  var(--border-width-2);
+    --focus-ring-offset: var(--border-width-2);
+
+    // ─── Typography ────────────────────────────────────────────────────────────
+    --font-family-base:    var(--font-sans);
+    --font-family-display: var(--font-display);
+    --font-family-mono:    var(--font-mono);
+    --font-family-serif:   var(--font-serif);
+
+    --font-size-base: var(--text-base);
+    --font-size-xs:   var(--text-xs);
+    --font-size-sm:   var(--text-sm);
+    --font-size-md:   var(--text-base);
+    --font-size-lg:   var(--text-lg);
+    --font-size-xl:   var(--text-xl);
+    --font-size-2xl:  var(--text-2xl);
+    --font-size-3xl:  var(--text-3xl);
+
+    --font-size-h1: var(--text-3xl);
+    --font-size-h2: var(--text-2xl);
+    --font-size-h3: var(--text-xl);
+    --font-size-h4: var(--text-lg);
+    --font-size-h5: var(--text-base);
+    --font-size-h6: var(--text-sm);
+
+    --font-weight-light:    var(--weight-light);
+    --font-weight-regular:  var(--weight-regular);
+    --font-weight-medium:   var(--weight-medium);
+    --font-weight-semibold: var(--weight-semibold);
+    --font-weight-bold:     var(--weight-bold);
+
+    --line-height-tight:    var(--leading-tight);
+    --line-height-normal:   var(--leading-normal);
+    --line-height-relaxed:  var(--leading-relaxed);
+
+    --letter-spacing-tight:  var(--tracking-tight);
+    --letter-spacing-normal: var(--tracking-normal);
+    --letter-spacing-wide:   var(--tracking-wide);
+}

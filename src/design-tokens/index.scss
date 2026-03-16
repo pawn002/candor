@@ -1,6 +1,5 @@
-// Design Tokens - Main Export
-// Import this file to load all CSS custom property definitions into :root
+// Design Tokens
+// Load order matters: primitives must be defined before semantics can reference them.
 
-@use './colors';
-@use './typography';
-@use './spacing';
+@use './primitives';
+@use './semantics';
