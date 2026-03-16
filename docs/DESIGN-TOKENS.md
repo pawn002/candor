@@ -74,7 +74,7 @@ We use **OKLCH** format instead of hex/RGB because:
 
 1. **Perceptually uniform**: Equal changes create equal visual changes
 2. **Predictable**: L=0.5 looks "mid-tone" across all hues
-3. **CPQI compatible**: Easy to manipulate programmatically
+3. **CPQI CLI compatible**: Easy to manipulate programmatically with `cpqi` commands
 4. **Better variants**: Generate tints/shades that look natural
 
 ### OKLCH Syntax
@@ -118,12 +118,12 @@ $color-warning: oklch(0.65 0.18 85); // Orange
 
 ### Converting Hex to OKLCH
 
-Ask Claude to convert hex colors using CPQI:
+Use the CPQI CLI:
 
-```
-User: "Convert #3B82F6 to OKLCH"
-Claude: Uses get_color_meta(color: "#3B82F6")
-Result: oklch(0.55 0.18 250)
+```bash
+cpqi meta "#3B82F6"
+# → Lightness: 0.55, Chroma: 0.18, Hue: 250.8°
+# Use these values: oklch(0.55 0.18 250.8)
 ```
 
 ### Browser Compatibility
@@ -294,9 +294,9 @@ The **Spacing Showcase** component (`src/app/components/spacing/spacing-showcase
    $color-background: oklch(0.98 0.01 0);
    ```
 
-3. **Validate with CPQI** (Claude does this):
-   ```
-   calculate_contrast → Check if colors meet accessibility
+3. **Validate with CPQI CLI** (Claude does this):
+   ```bash
+   cpqi contrast "#FF5733" "#FFFFFF" -q   # → check ratio ≥ 4.5
    ```
 
 4. **View in Storybook:**
@@ -379,7 +379,7 @@ Semantic names make it clear **why** the color is used, not just what it looks l
 When iterating on design:
 1. **Update tokens first** → `src/design-tokens/colors.scss`
 2. **View impact in Storybook** → See all components update
-3. **Validate with CPQI** → Claude checks accessibility
+3. **Validate with CPQI CLI** → Claude checks accessibility
 4. **Iterate on tokens** → Repeat until satisfied
 
 Don't modify individual components unless the change is component-specific.

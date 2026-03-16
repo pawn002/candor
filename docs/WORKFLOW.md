@@ -2,7 +2,7 @@
 
 ## Overview
 
-This playground enables rapid iteration on design ideas with real-time accessibility validation using Claude Code, Playwright MCP, and CPQI MCP.
+This playground enables rapid iteration on design ideas with real-time accessibility validation using Claude Code, Playwright MCP, and the CPQI CLI.
 
 ## Quick Start
 
@@ -60,21 +60,22 @@ Claude uses Playwright MCP to:
 
 ### Step 4: Accessibility Validation (Claude)
 
-Claude uses CPQI MCP to:
-1. Extract colors from components
-2. Calculate contrast ratios (APCA, WCAG)
-3. Determine minimum dimensions for text sizes
-4. Identify violations
+Claude uses the CPQI CLI to:
+1. Check contrast ratios on key token pairs
+2. Identify violations
+3. Find compliant alternatives automatically
 
-**Example CPQI tools used:**
-- `calculate_contrast`: Check color pair contrast
-- `get_minimum_dimension_for_colors`: Find minimum readable sizes
-- `find_target_contrast`: Suggest compliant alternatives
+**Example CPQI commands used:**
+```bash
+cpqi contrast <fg> <bg> -q          # Check contrast ratio
+cpqi find <base> <color> --target 4.5 -q  # Fix failing pairs
+cpqi meta <hex>                     # Convert hex → OKLCH
+```
 
 ### Step 5: Iterate
 
 If issues found:
-- Claude suggests color adjustments using CPQI `find_target_contrast`
+- Claude uses `cpqi find` to adjust colors
 - Update design tokens
 - Repeat Steps 3-4
 
@@ -125,10 +126,10 @@ and show me the focus indicators."
 OKLCH provides perceptual uniformity, making it easier to:
 - Generate color variants programmatically
 - Maintain consistent lightness across hues
-- Work with CPQI MCP tools
+- Usable directly with `cpqi` CLI commands
 
 **Converting hex to OKLCH:**
-Claude can help convert hex colors to OKLCH using CPQI `get_color_meta` tool.
+Run `cpqi meta <hex>` to convert hex colors to OKLCH values for design tokens.
 
 ### Typography Scale
 
@@ -201,7 +202,7 @@ Claude: "I'll navigate to the button story and capture all variants"
 
 ---
 
-## CPQI MCP Integration
+## CPQI CLI Integration
 
 See [CPQI-INTEGRATION.md](./CPQI-INTEGRATION.md) for detailed information.
 

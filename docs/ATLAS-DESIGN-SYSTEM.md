@@ -254,7 +254,7 @@ Components import tokens via SCSS modules:
 - **Predictable lightness:** Lightness value directly correlates to perceived brightness
 - **Better than HSL/RGB:** Avoids perceptual inconsistencies
 - **AI-friendly:** Easier for algorithmic color manipulation
-- **Tool compatibility:** CPQI MCP tools work natively with OKLCH
+- **Tool compatibility:** CPQI CLI tools work natively with OKLCH
 
 ### Why Noto Fonts?
 - **Global reach:** 800+ languages, consistent design across scripts

@@ -1,58 +1,51 @@
-// Color Design Tokens - Atlas Theme
+// Color Design Tokens - Personal Brand Theme
 // Using OKLCH for perceptual uniformity - better for programmatic manipulation
-// Theme: Modern, Professional, Fun cartographic design system
+// Brand Colors: Deep Navy, Burgundy, Azure Blue, Soft Purple
 
-// Primary Colors - Cartographic Blues
-$color-primary: oklch(0.62 0.17 250.87); // Ocean Blue - trustworthy, navigation
-$color-primary-hover: oklch(0.52 0.17 250.87); // Darker ocean blue
-$color-primary-active: oklch(0.42 0.17 250.87); // Deep ocean blue
+// Primary Colors - Deep Navy (#082840)
+$color-primary: oklch(0.27 0.06 245.34); // Deep navy — trustworthy, grounded
+$color-primary-hover: oklch(0.22 0.06 245.34); // Darker navy
+$color-primary-active: oklch(0.17 0.05 245.34); // Deepest navy
 
-// Secondary Colors
+// Secondary Colors - Burgundy (#5F2B48)
 $color-secondary: oklch(
-    0.44 0.07 196.45
-); // Deep Teal - sophisticated accent (WCAG AA: 7.4:1 with white)
-$color-secondary-hover: oklch(
-    0.4 0.06 196.55
-); // Darker teal (WCAG AAA: 9:1 with white)
-$color-secondary-active: oklch(0.35 0.05 196.55); // Deep teal
+    0.37 0.08 347.43
+); // Burgundy — sophisticated accent (WCAG AA: 10.4:1 with white)
+$color-secondary-hover: oklch(0.32 0.08 347.43); // Darker burgundy
+$color-secondary-active: oklch(0.27 0.07 347.43); // Deep burgundy
 
-// Accent Colors - Fun & Energy
-$color-accent: oklch(0.71 0.18 53.54); // Warm Amber - discovery, energy
-$color-accent-hover: oklch(0.61 0.18 53.54); // Darker amber
-$color-accent-active: oklch(0.51 0.18 53.54); // Deep amber
+// Accent Colors - Azure Blue (#1493FB, dark-mode link / decorative)
+$color-accent: oklch(0.65 0.18 250.8); // Azure blue
+$color-accent-hover: oklch(0.60 0.18 250.8); // Darker azure
+$color-accent-active: oklch(0.55 0.18 250.8); // Deep azure
 
-// Terrain/Nature Color
-$color-terrain: oklch(0.63 0.15 144.2); // Terrain Green - maps, topography
-$color-terrain-hover: oklch(0.53 0.15 144.2); // Darker green
-$color-terrain-active: oklch(0.43 0.15 144.2); // Deep green
+// Highlight - Soft Purple (adjusted from #6969F7 → #5f5dea for WCAG AA)
+$color-highlight: oklch(0.56 0.21 278.04); // #5f5dea — passes 4.5:1 with white
 
 // Neutral Colors
-$color-background: oklch(0.98 0.01 250); // Almost white
-$color-background-warm: oklch(
-    0.98 0.03 92.94
-); // Warm Cream - friendly alternative
-$color-surface: oklch(0.95 0.01 250); // Light gray
-$color-border: oklch(0.85 0.01 250); // Medium gray
+$color-background: oklch(1 0 0); // #FFFFFF
+$color-background-dark: oklch(0.24 0.03 248.99); // #15202B — dark bg
+$color-surface: oklch(0.91 0 0); // #E0E0E0
+$color-border: oklch(0.88 0.005 17.2); // #DAD8D8 — slightly warm
+$color-border-strong: oklch(0.81 0 0); // #C0C0C0
 
 // Text Colors
-$color-text-primary: oklch(
-    0.39 0.02 229.79
-); // Charcoal - professional, grounded
-$color-text-secondary: oklch(0.55 0.02 229.79); // Medium charcoal
-$color-text-disabled: oklch(0.7 0.01 229.79); // Light gray
-$color-text-on-primary: oklch(0.98 0.01 250); // White text on primary colors
-$color-text-on-accent: oklch(0.98 0.01 250); // White text on accent colors
+$color-text-primary: oklch(0.32 0 0); // #333333 — WCAG AAA 12.6:1 on white
+$color-text-secondary: oklch(0.57 0 0); // #767676 — WCAG AA 4.5:1 on white
+$color-text-disabled: oklch(0.70 0 0); // Light gray
+$color-text-on-primary: oklch(1 0 0); // White — WCAG AAA on navy and burgundy
+$color-text-on-accent: oklch(1 0 0); // White — use on $color-highlight (#5f5dea) only
 
 // Semantic Colors
 $color-error: oklch(0.55 0.22 25); // Red
 $color-error-bg: oklch(0.95 0.05 25); // Light red
-$color-success: $color-terrain; // Reuse terrain green for success
+$color-success: oklch(0.63 0.15 144.2); // Green
 $color-success-bg: oklch(0.95 0.05 145); // Light green
-$color-warning: $color-accent; // Reuse warm amber for warnings
+$color-warning: oklch(0.71 0.18 53.54); // Amber
 $color-warning-bg: oklch(0.95 0.05 53); // Light amber
 
 // Focus States
-$color-focus: oklch(0.6 0.2 250.87); // Bright ocean blue for focus indicators
+$color-focus: oklch(0.65 0.18 250.8); // Azure blue — high-visibility focus ring
 
 // Button Backgrounds
 $color-button-primary-bg: $color-primary;
@@ -63,18 +56,18 @@ $color-button-secondary-bg: $color-secondary;
 $color-button-secondary-text: $color-text-on-primary;
 $color-button-secondary-hover: $color-secondary-hover;
 
-$color-button-tertiary-bg: oklch(0.9 0.01 250); // Light gray
+$color-button-tertiary-bg: $color-surface; // #E0E0E0 — 9.6:1 with dark text
 $color-button-tertiary-text: $color-text-primary;
-$color-button-tertiary-hover: oklch(0.85 0.01 250);
+$color-button-tertiary-hover: oklch(0.85 0 0);
 
 // Export as CSS custom properties (optional, for runtime changes)
 :root {
     --color-primary: #{$color-primary};
     --color-secondary: #{$color-secondary};
     --color-accent: #{$color-accent};
-    --color-terrain: #{$color-terrain};
+    --color-highlight: #{$color-highlight};
     --color-background: #{$color-background};
-    --color-background-warm: #{$color-background-warm};
+    --color-background-dark: #{$color-background-dark};
     --color-text-primary: #{$color-text-primary};
     --color-focus: #{$color-focus};
 }
