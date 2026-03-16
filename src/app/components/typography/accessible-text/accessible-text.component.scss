@@ -1,0 +1,50 @@
+:host {
+    display: inline;
+    font-family: var(--font-family-accessible);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
+
+    // ─── Role variants ─────────────────────────────────────────────────────────
+    &.accessible-text--role-label {
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-bold); // Atkinson only has 400/700 — skip medium/semibold
+        letter-spacing: var(--letter-spacing-wide);
+        text-transform: uppercase;
+        line-height: var(--line-height-tight);
+    }
+
+    &.accessible-text--role-message {
+        font-size: var(--font-size-md);
+        letter-spacing: var(--letter-spacing-normal);
+        line-height: var(--line-height-normal);
+    }
+
+    &.accessible-text--role-status {
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-bold); // Atkinson only has 400/700
+        letter-spacing: var(--letter-spacing-normal);
+        line-height: var(--line-height-tight);
+    }
+
+    &.accessible-text--role-annotation {
+        font-size: var(--font-size-sm);
+        letter-spacing: var(--letter-spacing-normal);
+        line-height: var(--line-height-relaxed);
+    }
+
+    // ─── Size overrides (come after role to win the cascade) ───────────────────
+    &.accessible-text--size-sm { font-size: var(--font-size-sm); }
+    &.accessible-text--size-md { font-size: var(--font-size-md); }
+    &.accessible-text--size-lg { font-size: var(--font-size-lg); }
+
+    // ─── Color variants ────────────────────────────────────────────────────────
+    &.accessible-text--color-primary   { color: var(--color-text-default); }
+    &.accessible-text--color-secondary { color: var(--color-text-subtle); }
+    &.accessible-text--color-disabled  { color: var(--color-text-disabled); }
+    &.accessible-text--color-error     { color: var(--color-status-error); }
+    &.accessible-text--color-success   { color: var(--color-status-success); }
+    &.accessible-text--color-warning   { color: var(--color-status-warning); }
+
+    // ─── Bold modifier ─────────────────────────────────────────────────────────
+    &.accessible-text--bold { font-weight: var(--font-weight-bold); }
+}

@@ -92,10 +92,12 @@
     --focus-ring-offset: var(--border-width-2);
 
     // ─── Typography ────────────────────────────────────────────────────────────
-    --font-family-base:    var(--font-sans);
-    --font-family-display: var(--font-display);
-    --font-family-mono:    var(--font-mono);
-    --font-family-serif:   var(--font-serif);
+    --font-family-base:       var(--font-sans);        // Roboto Flex — UI workhorse
+    --font-family-display:    var(--font-sans);        // Roboto Flex — display/headings (use weight axis)
+    --font-family-accessible: var(--font-accessible);  // Atkinson Hyperlegible — critical UI opt-in
+    --font-family-mono:       var(--font-mono);        // Roboto Mono
+    --font-family-reading:    var(--font-reading);     // Noto Sans — conversational/long-form
+    --font-family-serif:      var(--font-serif);       // Noto Serif
 
     --font-size-base: var(--text-base);
     --font-size-xs:   var(--text-xs);
