@@ -1,55 +1,53 @@
-@use '../../../design-tokens' as *;
-
 .spacing-showcase {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-lg;
-  padding: $spacing-md;
-  background-color: $color-background;
-
-  &__item {
     display: flex;
     flex-direction: column;
-    gap: $spacing-sm;
-  }
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background-color: var(--color-background);
 
-  &__label {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
+    &__item {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
 
-  &__name {
-    font-size: $font-size-md;
-    font-weight: $font-weight-bold;
-    color: $color-text-primary;
-    font-family: $font-family-mono;
-  }
+    &__label {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
 
-  &__value {
-    font-size: $font-size-sm;
-    color: $color-text-secondary;
-    font-family: $font-family-mono;
-  }
+    &__name {
+        font-size: var(--font-size-md);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-primary);
+        font-family: var(--font-family-mono);
+    }
 
-  &__visual {
-    position: relative;
-    height: 40px;
-    background: repeating-linear-gradient(
-      90deg,
-      $color-surface 0px,
-      $color-surface 7px,
-      transparent 7px,
-      transparent 8px
-    );
-    border: 1px solid $color-border;
-    border-radius: $radius-sm;
-  }
+    &__value {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+        font-family: var(--font-family-mono);
+    }
 
-  &__box {
-    height: 100%;
-    background-color: $color-primary;
-    opacity: 0.3;
-    border-radius: $radius-sm;
-  }
+    &__visual {
+        position: relative;
+        height: 40px;
+        background: repeating-linear-gradient(
+            90deg,
+            var(--color-surface) 0px,
+            var(--color-surface) 7px,
+            transparent 7px,
+            transparent 8px
+        );
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+    }
+
+    &__box {
+        height: 100%;
+        background-color: var(--color-primary);
+        opacity: 0.3;
+        border-radius: var(--radius-sm);
+    }
 }

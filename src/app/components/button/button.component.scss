@@ -1,10 +1,8 @@
-@use "../../../design-tokens" as *;
-
 .button {
-    font-family: $font-family-base;
-    font-weight: $font-weight-medium;
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-medium);
     border: none;
-    border-radius: $radius-md;
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     display: inline-flex;
@@ -14,8 +12,8 @@
 
     // Focus styles for accessibility
     &:focus-visible {
-        outline: $focus-ring-width solid $color-focus;
-        outline-offset: $focus-ring-offset;
+        outline: var(--focus-ring-width) solid var(--color-focus);
+        outline-offset: var(--focus-ring-offset);
     }
 
     &:disabled {
@@ -25,74 +23,74 @@
 
     // Sizes
     &--small {
-        font-size: $font-size-sm;
-        padding: $spacing-button-padding-y-sm $spacing-button-padding-x-sm;
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-button-padding-y-sm) var(--spacing-button-padding-x-sm);
         min-height: 2rem;
     }
 
     &--medium {
-        font-size: $font-size-md;
-        padding: $spacing-button-padding-y $spacing-button-padding-x;
+        font-size: var(--font-size-md);
+        padding: var(--spacing-button-padding-y) var(--spacing-button-padding-x);
         min-height: 2.5rem;
     }
 
     &--large {
-        font-size: $font-size-lg;
-        padding: $spacing-button-padding-y-lg $spacing-button-padding-x-lg;
+        font-size: var(--font-size-lg);
+        padding: var(--spacing-button-padding-y-lg) var(--spacing-button-padding-x-lg);
         min-height: 3rem;
     }
 
     // Variants
     &--primary {
-        background-color: $color-button-primary-bg;
-        color: $color-button-primary-text;
+        background-color: var(--color-button-primary-bg);
+        color: var(--color-button-primary-text);
 
         &:hover:not(:disabled) {
-            background-color: $color-primary-hover;
+            background-color: var(--color-primary-hover);
         }
 
         &:active:not(:disabled) {
-            background-color: $color-primary-active;
+            background-color: var(--color-primary-active);
         }
     }
 
     &--secondary {
-        background-color: $color-button-secondary-bg;
-        color: $color-button-secondary-text;
+        background-color: var(--color-button-secondary-bg);
+        color: var(--color-button-secondary-text);
 
         &:hover:not(:disabled) {
-            background-color: $color-button-secondary-hover;
+            background-color: var(--color-button-secondary-hover);
         }
 
         &:active:not(:disabled) {
-            background-color: $color-secondary-active;
+            background-color: var(--color-secondary-active);
         }
     }
 
     &--tertiary {
         background-color: transparent;
-        color: $color-primary;
-        border: $border-width-thin solid $color-primary;
+        color: var(--color-primary);
+        border: var(--border-width-thin) solid var(--color-primary);
 
         &:hover:not(:disabled) {
-            background-color: oklch(from $color-primary l c h / 0.1);
+            background-color: oklch(from var(--color-primary) l c h / 0.1);
         }
 
         &:active:not(:disabled) {
-            background-color: oklch(from $color-primary l c h / 0.2);
+            background-color: oklch(from var(--color-primary) l c h / 0.2);
         }
     }
 
     &--ghost {
         background-color: transparent;
-        color: $color-text-primary;
+        color: var(--color-text-primary);
 
         &:hover:not(:disabled) {
-            background-color: $color-surface;
+            background-color: var(--color-surface);
         }
 
         &:active:not(:disabled) {
-            background-color: $color-border;
+            background-color: var(--color-border);
         }
     }
 }

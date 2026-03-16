@@ -1,52 +1,47 @@
 // Spacing Design Tokens
 // Based on 8px grid system
 
-// Base Unit
-$spacing-unit: 0.5rem; // 8px at default font size
-
-// Spacing Scale
-$spacing-0: 0;
-$spacing-xs: $spacing-unit; // 8px
-$spacing-sm: calc($spacing-unit * 2); // 16px
-$spacing-md: calc($spacing-unit * 3); // 24px
-$spacing-lg: calc($spacing-unit * 4); // 32px
-$spacing-xl: calc($spacing-unit * 6); // 48px
-$spacing-2xl: calc($spacing-unit * 8); // 64px
-$spacing-3xl: calc($spacing-unit * 12); // 96px
-
-// Component-specific spacing
-$spacing-button-padding-y: $spacing-sm;
-$spacing-button-padding-x: $spacing-md;
-$spacing-button-padding-y-sm: $spacing-xs;
-$spacing-button-padding-x-sm: $spacing-sm;
-$spacing-button-padding-y-lg: $spacing-md;
-$spacing-button-padding-x-lg: $spacing-lg;
-
-$spacing-input-padding-y: $spacing-sm;
-$spacing-input-padding-x: $spacing-sm;
-
-$spacing-card-padding: $spacing-md;
-$spacing-card-gap: $spacing-md;
-
-// Border Radius
-$radius-none: 0;
-$radius-sm: 0.25rem; // 4px
-$radius-md: 0.5rem; // 8px
-$radius-lg: 1rem; // 16px
-$radius-full: 9999px;
-
-// Border Width
-$border-width-thin: 1px;
-$border-width-medium: 2px;
-$border-width-thick: 4px;
-
-// Focus Ring
-$focus-ring-width: 2px;
-$focus-ring-offset: 2px;
-
-// Export as CSS custom properties
 :root {
-  --spacing-unit: #{$spacing-unit};
-  --radius-md: #{$radius-md};
-  --focus-ring-width: #{$focus-ring-width};
+    // Base Unit
+    --spacing-unit: 0.5rem; // 8px at default font size
+
+    // Spacing Scale
+    --spacing-0: 0;
+    --spacing-xs: var(--spacing-unit); // 8px
+    --spacing-sm: calc(var(--spacing-unit) * 2); // 16px
+    --spacing-md: calc(var(--spacing-unit) * 3); // 24px
+    --spacing-lg: calc(var(--spacing-unit) * 4); // 32px
+    --spacing-xl: calc(var(--spacing-unit) * 6); // 48px
+    --spacing-2xl: calc(var(--spacing-unit) * 8); // 64px
+    --spacing-3xl: calc(var(--spacing-unit) * 12); // 96px
+
+    // Component-specific spacing
+    --spacing-button-padding-y: var(--spacing-sm);
+    --spacing-button-padding-x: var(--spacing-md);
+    --spacing-button-padding-y-sm: var(--spacing-xs);
+    --spacing-button-padding-x-sm: var(--spacing-sm);
+    --spacing-button-padding-y-lg: var(--spacing-md);
+    --spacing-button-padding-x-lg: var(--spacing-lg);
+
+    --spacing-input-padding-y: var(--spacing-sm);
+    --spacing-input-padding-x: var(--spacing-sm);
+
+    --spacing-card-padding: var(--spacing-md);
+    --spacing-card-gap: var(--spacing-md);
+
+    // Border Radius
+    --radius-none: 0;
+    --radius-sm: 0.25rem; // 4px
+    --radius-md: 0.5rem; // 8px
+    --radius-lg: 1rem; // 16px
+    --radius-full: 9999px;
+
+    // Border Width
+    --border-width-thin: 1px;
+    --border-width-medium: 2px;
+    --border-width-thick: 4px;
+
+    // Focus Ring
+    --focus-ring-width: 2px;
+    --focus-ring-offset: 2px;
 }

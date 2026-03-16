@@ -1,89 +1,45 @@
-// Typography Design Tokens - Atlas Theme
-// Noto font family for comprehensive language support across localized atlas versions
+// Typography Design Tokens
+// Noto font family for comprehensive language support
 
-// Font Families
-// Using Noto variants for global localization support (800+ languages)
-$font-family-display:
-    "Noto Sans Display",
-    "Noto Sans",
-    system-ui,
-    -apple-system,
-    sans-serif;
-$font-family-base:
-    "Noto Sans",
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-$font-family-mono:
-    "Noto Sans Mono", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono",
-    Consolas, monospace;
-$font-family-serif:
-    "Noto Serif", Georgia, "Times New Roman", serif; // Optional for descriptive content
-
-// Base Size
-$font-size-base: 1rem; // 16px
-
-// Type Scale (Major Third - 1.25 ratio)
-$font-scale: 1.25;
-
-// Font Sizes
-$font-size-xs: calc(
-    $font-size-base / #{$font-scale} / #{$font-scale}
-); // 0.64rem / ~10px
-$font-size-sm: calc($font-size-base / #{$font-scale}); // 0.8rem / ~13px
-$font-size-md: $font-size-base; // 1rem / 16px
-$font-size-lg: calc($font-size-base * #{$font-scale}); // 1.25rem / ~20px
-$font-size-xl: calc(
-    $font-size-base * #{$font-scale} * #{$font-scale}
-); // 1.563rem / ~25px
-$font-size-2xl: calc(
-    $font-size-base * #{$font-scale} * #{$font-scale} * #{$font-scale}
-); // 1.953rem / ~31px
-$font-size-3xl: calc(
-    $font-size-base * #{$font-scale} * #{$font-scale} * #{$font-scale} *
-        #{$font-scale}
-); // 2.441rem / ~39px
-
-// Headings (using Display variant for impact)
-$font-size-h1: $font-size-3xl;
-$font-size-h2: $font-size-2xl;
-$font-size-h3: $font-size-xl;
-$font-size-h4: $font-size-lg;
-$font-size-h5: $font-size-md;
-$font-size-h6: $font-size-sm;
-
-// Font Weights
-// Noto Sans supports: 100-900
-$font-weight-light: 300;
-$font-weight-regular: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-
-// Line Heights
-$line-height-tight: 1.25; // Headings, display text
-$line-height-normal: 1.5; // Body text, UI elements
-$line-height-relaxed: 1.75; // Long-form content, descriptions
-
-// Letter Spacing
-$letter-spacing-tight: -0.02em; // Large headings
-$letter-spacing-normal: 0; // Body text
-$letter-spacing-wide: 0.05em; // Small caps, labels
-
-// Specific Use Cases for Atlas
-$font-family-coordinates: $font-family-mono; // Lat/long, measurements
-$font-family-labels: $font-family-base; // Map labels, UI labels
-$font-family-headings: $font-family-display; // Page titles, section headers
-$font-family-body: $font-family-base; // Descriptions, paragraphs
-$font-family-data: $font-family-mono; // Technical data, statistics
-
-// Export as CSS custom properties
 :root {
-    --font-family-display: #{$font-family-display};
-    --font-family-base: #{$font-family-base};
-    --font-family-mono: #{$font-family-mono};
-    --font-family-serif: #{$font-family-serif};
-    --font-size-base: #{$font-size-base};
+    // Font Families
+    --font-family-display: "Noto Sans Display", "Noto Sans", system-ui, -apple-system, sans-serif;
+    --font-family-base: "Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-family-mono: "Noto Sans Mono", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace;
+    --font-family-serif: "Noto Serif", Georgia, "Times New Roman", serif;
+
+    // Font Sizes (Major Third — 1.25 ratio)
+    --font-size-base: 1rem; // 16px
+    --font-size-xs: 0.64rem; // ~10px
+    --font-size-sm: 0.8rem; // ~13px
+    --font-size-md: 1rem; // 16px
+    --font-size-lg: 1.25rem; // ~20px
+    --font-size-xl: 1.5625rem; // ~25px
+    --font-size-2xl: 1.953rem; // ~31px
+    --font-size-3xl: 2.441rem; // ~39px
+
+    // Heading Sizes
+    --font-size-h1: var(--font-size-3xl);
+    --font-size-h2: var(--font-size-2xl);
+    --font-size-h3: var(--font-size-xl);
+    --font-size-h4: var(--font-size-lg);
+    --font-size-h5: var(--font-size-md);
+    --font-size-h6: var(--font-size-sm);
+
+    // Font Weights
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    // Line Heights
+    --line-height-tight: 1.25; // Headings, display text
+    --line-height-normal: 1.5; // Body text, UI elements
+    --line-height-relaxed: 1.75; // Long-form content
+
+    // Letter Spacing
+    --letter-spacing-tight: -0.02em; // Large headings
+    --letter-spacing-normal: 0; // Body text
+    --letter-spacing-wide: 0.05em; // Small caps, labels
 }
