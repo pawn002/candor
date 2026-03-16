@@ -2,6 +2,11 @@ import type { Preview } from '@storybook/angular';
 
 const preview: Preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: ['Introduction', 'Design Tokens', 'Typography', 'Button', 'Form', 'Examples'],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
