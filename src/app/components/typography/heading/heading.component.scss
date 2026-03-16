@@ -1,52 +1,49 @@
-@use "../../../../design-tokens" as *;
-
 :host {
     display: block;
-    font-family: $font-family-base;
-    font-weight: $font-weight-bold;
-    line-height: $line-height-tight;
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
     margin: 0;
 
     &.heading--h1 {
-        font-size: $font-size-h1;
-        letter-spacing: $letter-spacing-tight;
+        font-size: var(--font-size-h1);
+        letter-spacing: var(--letter-spacing-tight);
     }
 
     &.heading--h2 {
-        font-size: $font-size-h2;
-        letter-spacing: $letter-spacing-tight;
+        font-size: var(--font-size-h2);
+        letter-spacing: var(--letter-spacing-tight);
     }
 
     &.heading--h3 {
-        font-size: $font-size-h3;
+        font-size: var(--font-size-h3);
     }
 
     &.heading--h4 {
-        font-size: $font-size-h4;
+        font-size: var(--font-size-h4);
     }
 
     &.heading--h5 {
-        font-size: $font-size-h5;
-        font-weight: $font-weight-semibold;
+        font-size: var(--font-size-h5);
+        font-weight: var(--font-weight-semibold);
     }
 
     &.heading--h6 {
-        font-size: $font-size-h6;
-        font-weight: $font-weight-semibold;
+        font-size: var(--font-size-h6);
+        font-weight: var(--font-weight-semibold);
         text-transform: uppercase;
-        letter-spacing: $letter-spacing-wide;
+        letter-spacing: var(--letter-spacing-wide);
     }
 
-    // Color variants
     &.heading--color-primary {
-        color: $color-text-primary;
+        color: var(--color-text-default);
     }
 
     &.heading--color-secondary {
-        color: $color-text-secondary;
+        color: var(--color-text-subtle);
     }
 
     &.heading--color-disabled {
-        color: $color-text-disabled;
+        color: var(--color-text-disabled);
     }
 }

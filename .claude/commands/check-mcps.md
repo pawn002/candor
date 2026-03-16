@@ -1,28 +1,29 @@
-# Check MCP Server Status
+# Check Tool Availability
 
-Verify that all required MCP servers are running and functional before starting design work.
+Verify that required tools are available before starting design work.
 
-## Required MCP Servers
+## Required Tools
 
-1. **CPQI MCP** - Color accessibility validation
+1. **CPQI CLI** - Color accessibility validation
 2. **Playwright MCP** - Visual inspection and testing
 
 ## Your Task
 
-Perform health checks on the MCP servers by:
+Perform availability checks by:
 
-1. **Test CPQI MCP**:
-   - Use `get_color_meta` to get metadata for a simple color like "red"
-   - If this succeeds, CPQI is working
+1. **Test CPQI CLI**:
+   - Run `cpqi --version` in a bash shell
+   - If this succeeds, CPQI CLI is working
+   - If it fails with MODULE_NOT_FOUND, rebuild: `cd ~/path/to/cpqi-cli && npm run build && npm install -g . --force`
 
 2. **Test Playwright MCP**:
-   - First, attempt to close any existing browser instances using `browser_close` to free resource locks
+   - Attempt `browser_close` to free any existing resource locks
    - Then use `browser_snapshot` or check browser status
    - If this succeeds, Playwright is working
 
 3. **Report Status**:
-   - Clearly indicate which MCP servers are ✓ available or ✗ unavailable
-   - If any are unavailable, provide guidance on how to start them
+   - Clearly indicate which tools are ✓ available or ✗ unavailable
+   - If any are unavailable, provide guidance on how to restore them
    - If all are available, confirm ready to proceed with design work
 
 4. **Additional Check**:

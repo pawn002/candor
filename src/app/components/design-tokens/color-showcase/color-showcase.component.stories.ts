@@ -10,24 +10,25 @@ const meta: Meta<ColorShowcaseComponent> = {
     docs: {
       description: {
         component: `
-# Atlas Color System
+# Color System
 
-The Atlas design system uses **OKLCH** (Lightness, Chroma, Hue) color space for perceptual uniformity and predictable color manipulation.
+Colors use **OKLCH** (Lightness, Chroma, Hue) for perceptual uniformity and predictable manipulation.
 
-## Why OKLCH?
-- **Perceptually uniform**: Equal numeric changes produce equal perceived changes
-- **Predictable lightness**: Lightness value directly correlates to brightness
-- **Better than HSL/RGB**: Avoids perceptual inconsistencies
-- **Accessibility-friendly**: Works natively with APCA contrast tools
+## Two-tier architecture
+- **Primitives** — raw ramps (navy-800, burgundy-700, azure-400, …) in \`primitives.scss\`
+- **Semantics** — role-based tokens (--color-action-primary, --color-text-default, …) in \`semantics.scss\`
 
-## Color Philosophy
-Our palette balances **modern professionalism** with **approachable warmth**, inspired by cartography and navigation.
+Components reference semantic tokens only.
+
+## Brand palette
+- **Navy** \`#082840\` — primary action (15.2:1 with white)
+- **Burgundy** \`#5F2B48\` — secondary action (10.4:1 with white)
+- **Azure** \`#1493FB\` — accent / link (decorative on white; accessible step at azure-500)
+- **Purple** \`#6969F7\` — highlight (decorative; accessible step at purple-600, 4.6:1)
 
 ## Accessibility
-All color combinations have been validated using APCA (Accessible Perceptual Contrast Algorithm):
-- ✓ WCAG 2.1 Level AA compliant
-- ✓ Minimum contrast ratios met for all text combinations
-- ✓ Tested with color blindness simulators
+All action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components).
+Validated with \`cpqi contrast\`.
         `,
       },
     },
@@ -44,7 +45,7 @@ export const AllColors: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Complete palette showing all Atlas design system colors organized by category.',
+        story: 'Complete palette showing all personal brand colors organized by semantic role.',
       },
     },
   },

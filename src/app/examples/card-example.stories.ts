@@ -20,7 +20,7 @@ type Story = StoryObj;
 export const ProductCard: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 350px; border: 1px solid var(--color-border, #ddd); border-radius: 8px; overflow: hidden;">
+      <div style="max-width: 350px; border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
         <div style="width: 100%; height: 200px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
 
         <div style="padding: 1.5rem;">
@@ -28,7 +28,7 @@ export const ProductCard: Story = {
             Premium Wireless Headphones
           </app-heading>
 
-          <app-text [variant]="'caption'" style="display: block; margin-bottom: 1rem; color: var(--color-text-secondary, #666);">
+          <app-text [variant]="'caption'" style="display: block; margin-bottom: 1rem; color: var(--color-text-subtle);">
             Electronics • Audio
           </app-text>
 
@@ -39,10 +39,10 @@ export const ProductCard: Story = {
 
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
             <div>
-              <app-text [variant]="'caption'" style="display: block; text-decoration: line-through; color: var(--color-text-secondary, #666);">
+              <app-text [variant]="'caption'" style="display: block; text-decoration: line-through; color: var(--color-text-subtle);">
                 $299.99
               </app-text>
-              <app-heading [level]="4" style="color: var(--color-primary);">
+              <app-heading [level]="4" style="color: var(--color-action-primary);">
                 $249.99
               </app-heading>
             </div>
@@ -68,15 +68,15 @@ export const ProductCard: Story = {
 export const ArticleCard: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 400px; border: 1px solid var(--color-border, #ddd); border-radius: 8px; overflow: hidden;">
+      <div style="max-width: 400px; border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
         <div style="width: 100%; height: 180px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
 
         <div style="padding: 1.5rem;">
           <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
-            <span style="background: var(--color-surface, #f5f5f5); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">
+            <span style="background: var(--color-bg-surface); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">
               Design
             </span>
-            <span style="background: var(--color-surface, #f5f5f5); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">
+            <span style="background: var(--color-bg-surface); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">
               Accessibility
             </span>
           </div>
@@ -85,7 +85,7 @@ export const ArticleCard: Story = {
             Building Accessible Design Systems
           </app-heading>
 
-          <app-text [variant]="'caption'" style="display: block; margin-bottom: 1rem; color: var(--color-text-secondary, #666);">
+          <app-text [variant]="'caption'" style="display: block; margin-bottom: 1rem; color: var(--color-text-subtle);">
             By Jane Smith • Dec 4, 2025 • 5 min read
           </app-text>
 
@@ -111,27 +111,27 @@ export const ArticleCard: Story = {
 export const ProfileCard: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 300px; border: 1px solid var(--color-border, #ddd); border-radius: 8px; text-align: center; padding: 2rem;">
+      <div style="max-width: 300px; border: 1px solid var(--color-border-default); border-radius: 8px; text-align: center; padding: 2rem;">
         <div style="width: 100px; height: 100px; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
 
         <app-heading [level]="3" style="margin-bottom: 0.25rem;">
           Sarah Johnson
         </app-heading>
 
-        <app-text [variant]="'body'" style="display: block; margin-bottom: 0.5rem; color: var(--color-text-secondary, #666);">
+        <app-text [variant]="'body'" style="display: block; margin-bottom: 0.5rem; color: var(--color-text-subtle);">
           Product Designer
         </app-text>
 
-        <app-text [variant]="'caption'" style="display: block; margin-bottom: 1.5rem; color: var(--color-text-secondary, #666);">
+        <app-text [variant]="'caption'" style="display: block; margin-bottom: 1.5rem; color: var(--color-text-subtle);">
           San Francisco, CA
         </app-text>
 
-        <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--color-border, #ddd); border-bottom: 1px solid var(--color-border, #ddd);">
+        <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--color-border-default); border-bottom: 1px solid var(--color-border-default);">
           <div>
             <app-heading [level]="5" style="margin-bottom: 0.25rem;">
               1.2k
             </app-heading>
-            <app-text [variant]="'caption'" style="display: block; color: var(--color-text-secondary, #666);">
+            <app-text [variant]="'caption'" style="display: block; color: var(--color-text-subtle);">
               Followers
             </app-text>
           </div>
@@ -139,7 +139,7 @@ export const ProfileCard: Story = {
             <app-heading [level]="5" style="margin-bottom: 0.25rem;">
               584
             </app-heading>
-            <app-text [variant]="'caption'" style="display: block; color: var(--color-text-secondary, #666);">
+            <app-text [variant]="'caption'" style="display: block; color: var(--color-text-subtle);">
               Following
             </app-text>
           </div>
@@ -147,7 +147,7 @@ export const ProfileCard: Story = {
             <app-heading [level]="5" style="margin-bottom: 0.25rem;">
               127
             </app-heading>
-            <app-text [variant]="'caption'" style="display: block; color: var(--color-text-secondary, #666);">
+            <app-text [variant]="'caption'" style="display: block; color: var(--color-text-subtle);">
               Projects
             </app-text>
           </div>
@@ -176,7 +176,7 @@ export const CardGrid: Story = {
 
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
           <!-- Card 1 -->
-          <div style="border: 1px solid var(--color-border, #ddd); border-radius: 8px; overflow: hidden;">
+          <div style="border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
             <div style="padding: 1rem;">
               <app-heading [level]="4" style="margin-bottom: 0.5rem;">
@@ -192,7 +192,7 @@ export const CardGrid: Story = {
           </div>
 
           <!-- Card 2 -->
-          <div style="border: 1px solid var(--color-border, #ddd); border-radius: 8px; overflow: hidden;">
+          <div style="border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
             <div style="padding: 1rem;">
               <app-heading [level]="4" style="margin-bottom: 0.5rem;">
@@ -208,7 +208,7 @@ export const CardGrid: Story = {
           </div>
 
           <!-- Card 3 -->
-          <div style="border: 1px solid var(--color-border, #ddd); border-radius: 8px; overflow: hidden;">
+          <div style="border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
             <div style="padding: 1rem;">
               <app-heading [level]="4" style="margin-bottom: 0.5rem;">

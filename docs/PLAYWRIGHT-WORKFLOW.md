@@ -216,8 +216,8 @@ await page.screenshot({ path: 'screenshots/input-focus.png' });
 await page.keyboard.press('Tab'); // Focus next element
 await page.screenshot({ path: 'screenshots/next-focus.png' });
 
-// Use CPQI to check focus color contrast
-calculate_contrast(focusColor, backgroundColor, 'wcag2')
+// Use CPQI CLI to check focus color contrast
+// cpqi contrast <focusColor> <backgroundColor> -q
 ```
 
 ### Workflow 5: Responsive Design Check
@@ -264,25 +264,15 @@ Playwright and CPQI work together for complete validation:
    $color-button-primary-text: oklch(0.98 0.01 250);
    ```
 
-3. **Validate contrast (CPQI):**
-   ```
-   calculate_contrast(
-     colorOne: "oklch(0.98 0.01 250)",
-     colorTwo: "oklch(0.55 0.18 250)",
-     contrastType: "apca"
-   )
-   → APCA 95: ✅ Excellent contrast
+3. **Validate contrast (CPQI CLI):**
+   ```bash
+   cpqi contrast "oklch(0.98 0.01 250)" "oklch(0.55 0.18 250)" -q
+   # → 6.8  ✅ Passes WCAG AA (4.5:1)
    ```
 
-4. **Check minimum size (CPQI):**
-   ```
-   get_minimum_dimension_for_colors(
-     foreground: "oklch(0.98 0.01 250)",
-     background: "oklch(0.55 0.18 250)"
-   )
-   → Minimum 10px text
-   → Button uses 16px ✅
-   ```
+4. **Check contrast is sufficient for 16px text:**
+   - WCAG 4.5:1 → passes for normal text ✅
+   - Button uses 16px → comfortable margin above minimum
 
 5. **Test focus state (Playwright):**
    ```typescript
@@ -290,14 +280,10 @@ Playwright and CPQI work together for complete validation:
    await page.screenshot({ path: 'screenshots/button-focus.png' });
    ```
 
-6. **Validate focus color (CPQI):**
-   ```
-   calculate_contrast(
-     colorOne: "oklch(0.60 0.20 250)", // focus outline
-     colorTwo: "oklch(0.55 0.18 250)", // button bg
-     contrastType: "wcag2"
-   )
-   → WCAG 3.2:1 ✅ Meets UI component requirement
+6. **Validate focus color (CPQI CLI):**
+   ```bash
+   cpqi contrast "oklch(0.60 0.20 250)" "oklch(0.55 0.18 250)" -q
+   # → 3.2  ✅ Meets UI component requirement (3:1)
    ```
 
 7. **Report to user:**

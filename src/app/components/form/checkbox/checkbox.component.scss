@@ -1,70 +1,68 @@
-@use '../../../../design-tokens' as *;
-
 .checkbox-wrapper {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-sm;
-  cursor: pointer;
-  position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    position: relative;
 
-  &--disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
+    &--disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
 }
 
 .checkbox-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
 
-  &:focus-visible + .checkbox-box {
-    outline: $focus-ring-width solid $color-focus;
-    outline-offset: $focus-ring-offset;
-  }
-
-  &:checked + .checkbox-box {
-    background-color: $color-primary;
-    border-color: $color-primary;
-
-    &::after {
-      content: '';
-      position: absolute;
-      left: 6px;
-      top: 2px;
-      width: 6px;
-      height: 12px;
-      border: solid white;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
+    &:focus-visible + .checkbox-box {
+        outline: var(--focus-ring-width) solid var(--color-focus);
+        outline-offset: var(--focus-ring-offset);
     }
-  }
 
-  &:disabled + .checkbox-box {
-    background-color: $color-surface;
-    border-color: $color-border;
-    cursor: not-allowed;
-  }
+    &:checked + .checkbox-box {
+        background-color: var(--color-action-primary);
+        border-color: var(--color-action-primary);
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 2px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    }
+
+    &:disabled + .checkbox-box {
+        background-color: var(--color-bg-surface);
+        border-color: var(--color-border-default);
+        cursor: not-allowed;
+    }
 }
 
 .checkbox-box {
-  width: 20px;
-  height: 20px;
-  border: $border-width-medium solid $color-border;
-  border-radius: $radius-sm;
-  background-color: $color-background;
-  position: relative;
-  flex-shrink: 0;
-  transition: all 0.2s ease-in-out;
+    width: 20px;
+    height: 20px;
+    border: var(--border-width-medium) solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-page);
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s ease-in-out;
 
-  &:hover {
-    border-color: $color-primary;
-  }
+    &:hover {
+        border-color: var(--color-action-primary);
+    }
 }
 
 .checkbox-label {
-  font-size: $font-size-md;
-  color: $color-text-primary;
-  user-select: none;
+    font-size: var(--font-size-md);
+    color: var(--color-text-default);
+    user-select: none;
 }

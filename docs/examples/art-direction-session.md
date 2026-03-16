@@ -41,9 +41,10 @@
 | #1F2937     | oklch(0.25 0.01 250) | Text near-black |
 
 **Claude conversion command:**
-```
-User: "Convert #3B82F6, #FFFFFF, #1F2937 to OKLCH"
-Claude uses: get_color_meta() for each color
+```bash
+cpqi meta "#3B82F6"
+cpqi meta "#FFFFFF"
+cpqi meta "#1F2937"
 ```
 
 ---
@@ -99,15 +100,9 @@ Claude uses: get_color_meta() for each color
 **Problem:** Focus outline doesn't meet WCAG 3:1 for UI components
 
 **Solution:**
-```
-Claude uses: find_target_contrast(
-  baseColor: "oklch(0.98 0.01 0)", // background
-  referenceColor: "oklch(0.60 0.20 250)", // current focus color
-  targetContrast: 3,
-  contrastType: "wcag2"
-)
-
-Result: oklch(0.50 0.20 250)
+```bash
+cpqi find "#FFFFFF" "oklch(0.60 0.20 250)" --target 3 -q
+# → adjusted hex (converts to oklch(0.50 0.20 250))
 ```
 
 **New focus color:** `oklch(0.50 0.20 250)`  
