@@ -1,0 +1,92 @@
+# Candor Design System
+
+**Version 1.0 · March 2026**
+
+Candor is a design system built on a single premise: *good design tells the truth about what works.* Not what passes a checklist. Not what looks compliant on paper. What actually works — for the widest range of people, in the widest range of contexts.
+
+The name comes from a direct line through the work. Accessibility standards that produce false passes, safety benchmarks optimized for clearing thresholds rather than catching failures, governance processes that accept input from affected populations without giving them a seat — these are all failures of candor. A design system named Candor is a commitment to close that gap.
+
+---
+
+## Design Principles
+
+### Accessibility is the baseline, not the finish line
+WCAG compliance is where we start. Outcome-based validation — real color science, real user impact — is where we go from there. Every token, every component, every contrast decision is validated using OKCA — a contrast algorithm that addresses known issues with WCAG's luminance math while prioritizing WCAG compatibility and coherence with OKLCH, so designers can directly equate their color pickers and tonal ramps with accessibility outcomes.
+
+### Perceptual truth over nominal correctness
+Colors are defined in OKLCH — a perceptually uniform color space where equal numeric changes produce equal perceived changes. This isn't an aesthetic preference; it's what makes programmatic accessibility validation reliable.
+
+### Typography as cognitive infrastructure
+The typographic system is organized around two human modes: **execution** (task completion, navigation, scanning) and **interpretation** (reading, reflecting, conversing). Font choices aren't decorative — they signal which mode a surface is designed for.
+
+### No hard-coded values, ever
+All styling flows from design tokens. Components never reach past their token layer. This isn't a rule for tidiness — it's what makes the system auditable, adjustable, and honest about its own decisions.
+
+---
+
+## Typographic System
+
+Candor uses a four-voice typographic system aligned to cognitive mode and content type.
+
+<table>
+  <thead>
+    <tr><th>Voice</th><th>Typeface</th><th>Mode</th><th>Primary Use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Structural Sans</td><td>Roboto Flex</td><td>Execution</td><td>Navigation, UI scaffolding, data-dense components</td></tr>
+    <tr><td>Technical Mono</td><td>Roboto Mono</td><td>Execution</td><td>Code, logs, terminal environments</td></tr>
+    <tr><td>Accessibility Anchor</td><td>Atkinson Hyperlegible</td><td>Execution</td><td>Critical UI, labels, high-contrast environments</td></tr>
+    <tr><td>Human-Centered</td><td>Noto Sans / Noto Serif</td><td>Interpretation</td><td>Long-form reading, conversational UI, multilingual content</td></tr>
+  </tbody>
+</table>
+
+**Scale:** Major Third ratio (1.25×) from a 1rem (16px) base.
+**Grid:** 8px spacing unit throughout.
+
+---
+
+## Color Philosophy
+
+The palette draws from personal brand anchors — deep navy (`#082840`), warm burgundy (`#5F2B48`), and azure (`#1493FB`) — extended into a full OKLCH token system. Every color in the system has a documented contrast validation against its intended pairings.
+
+Semantic colors follow strict outcome-based thresholds:
+- **APCA ≥ 60** for body text
+- **APCA ≥ 45** for UI elements and large text
+- **WCAG 2.x AA** maintained as a floor, not a ceiling
+
+---
+
+## Contrast Methods
+
+Candor validates color pairs across multiple algorithms, acknowledging that no single method captures the full picture:
+
+<table>
+  <thead>
+    <tr><th>Method</th><th>Standard</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>WCAG2</td><td>WCAG 2.x</td><td>Regulatory floor; luminance ratio</td></tr>
+    <tr><td>APCA</td><td>WCAG 3 (draft)</td><td>Perceptual contrast; polarity-aware</td></tr>
+    <tr><td>BPCA</td><td>Bridge-PCA</td><td>APCA-compatible; backwards-bridge</td></tr>
+    <tr><td>OKCA / PCA</td><td>Internal</td><td>Primary validation method; WCAG-compatible, OKLCH-coherent</td></tr>
+    <tr><td>DeltaE</td><td>Perceptual distance</td><td>Supplementary; different scale</td></tr>
+  </tbody>
+</table>
+
+---
+
+## What's Here
+
+Use the sidebar to explore components by category:
+
+- **Design Tokens** — Colors, typography scale, spacing
+- **Typography** — Heading hierarchy, body text, accessible text, article layout
+- **Button** — Primary, secondary, tertiary, ghost variants
+- **Form** — Input, checkbox, radio
+- **Examples** — Composed patterns: card, form
+
+Every component story includes accessibility annotations and contrast documentation where relevant.
+
+---
+
+*Candor is a personal design system by John Z. Rioflorido — design technologist and ethical systems designer, working at the intersection of cartography, accessibility, and AI safety.*

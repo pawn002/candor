@@ -1,12 +1,12 @@
-# Atlas Design System Documentation
+# Candor Design System Documentation
 
-**Version:** 1.0.0  
-**Date:** December 5, 2025  
-**Branch:** `task-1-atlas-look-and-feel`
+**Version:** 1.0.0
+**Date:** March 16, 2026
+**Branch:** `issue-11-design-system-completion`
 
 ## Executive Summary
 
-The Atlas Design System is a modern, professional, yet approachable design language created for a map atlas application with global localization requirements. The system balances cartographic tradition with contemporary digital design, emphasizing accessibility, readability, and multi-language support.
+The Candor Design System is a modern, professional, yet approachable design language emphasizing accessibility, readability, and multi-language support. The system balances cartographic tradition with contemporary digital design, grounded in the principle that good design tells the truth about what works.
 
 ---
 
@@ -100,7 +100,7 @@ Each primary color includes hover and active states with reduced lightness:
 ## Typography System
 
 ### Philosophy
-The Noto font family provides comprehensive global language support while maintaining visual consistency across Latin, Cyrillic, CJK, Arabic, and 800+ other scripts. This ensures the Atlas application can be localized without compromising typographic quality.
+The Noto font family provides comprehensive global language support while maintaining visual consistency across Latin, Cyrillic, CJK, Arabic, and 800+ other scripts. This ensures the Candor application can be localized without compromising typographic quality.
 
 ### Font Families
 
@@ -215,7 +215,7 @@ All color combinations have been validated using APCA, which provides more accur
 
 ```
 src/design-tokens/
-├── colors.scss         # OKLCH color definitions (Atlas theme)
+├── colors.scss         # OKLCH color definitions (Candor theme)
 ├── typography.scss     # Noto font system
 ├── spacing.scss        # 8px grid system
 └── index.scss         # Token aggregation
