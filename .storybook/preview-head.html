@@ -2,3 +2,64 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Display:wght@300;400;500;600;700&family=Noto+Sans+Mono:wght@400;500;600&family=Noto+Serif:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* Candor Design System — Docs Typography
+     !important required to override Storybook's emotion CSS-in-JS styles
+     which are injected after static head styles and win the cascade. */
+
+  .sbdocs-wrapper h1,
+  .sbdocs-wrapper h2,
+  .sbdocs-wrapper h3,
+  .sbdocs-wrapper h4,
+  .sbdocs-wrapper h5,
+  .sbdocs-wrapper h6 {
+    font-family: 'Noto Sans Display', 'Noto Sans', system-ui, sans-serif !important;
+    line-height: 1.25 !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .sbdocs-wrapper h1 { font-size: 2.441rem !important; }
+  .sbdocs-wrapper h2 { font-size: 1.953rem !important; }
+  .sbdocs-wrapper h3 { font-size: 1.563rem !important; }
+  .sbdocs-wrapper h4 { font-size: 1.25rem !important; }
+
+  .sbdocs-wrapper p,
+  .sbdocs-wrapper li {
+    font-family: 'Noto Serif', Georgia, serif !important;
+    font-size: 1rem !important;
+    line-height: 1.75 !important;
+  }
+
+  .sbdocs-wrapper strong {
+    font-family: 'Noto Sans', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+  }
+
+  .sbdocs-wrapper code,
+  .sbdocs-wrapper pre {
+    font-family: 'Noto Sans Mono', 'Roboto Mono', monospace !important;
+    font-size: 0.9rem !important;
+  }
+
+  .sbdocs-wrapper table {
+    font-family: 'Noto Sans', system-ui, sans-serif !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .sbdocs-wrapper th {
+    font-weight: 600 !important;
+    text-align: left;
+    padding: 0.5rem 1rem;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  .sbdocs-wrapper td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+</style>
