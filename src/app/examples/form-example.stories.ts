@@ -67,7 +67,7 @@ export const ContactForm: Story = {
             <textarea
               rows="5"
               placeholder="Tell us more about your inquiry..."
-              style="width: 100%; padding: 0.75rem; border: 2px solid var(--color-border, #ddd); border-radius: 4px; font-family: inherit;">
+              style="width: 100%; padding: 0.75rem; border: 2px solid var(--color-border-default); border-radius: 4px; font-family: inherit;">
             </textarea>
           </div>
 
@@ -97,11 +97,11 @@ export const ContactForm: Story = {
 export const LoginForm: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 400px; margin: 0 auto; padding: 2rem; border: 1px solid var(--color-border, #ddd); border-radius: 8px;">
+      <div style="max-width: 400px; margin: 0 auto; padding: 2rem; border: 1px solid var(--color-border-default); border-radius: 8px;">
         <app-heading [level]="2" style="text-align: center; margin-bottom: 0.5rem;">
           Sign In
         </app-heading>
-        <app-text [variant]="'body'" style="display: block; text-align: center; margin-bottom: 2rem; color: var(--color-text-secondary, #666);">
+        <app-text [variant]="'body'" style="display: block; text-align: center; margin-bottom: 2rem; color: var(--color-text-subtle);">
           Enter your credentials to access your account
         </app-text>
 
@@ -122,7 +122,7 @@ export const LoginForm: Story = {
 
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <app-checkbox [label]="'Remember me'"></app-checkbox>
-            <a href="#" style="color: var(--color-primary); text-decoration: none; font-size: 0.875rem;">
+            <a href="#" style="color: var(--color-action-primary); text-decoration: none; font-size: 0.875rem;">
               Forgot password?
             </a>
           </div>
@@ -133,7 +133,7 @@ export const LoginForm: Story = {
 
           <app-text [variant]="'body'" style="text-align: center;">
             Don't have an account?
-            <a href="#" style="color: var(--color-primary); text-decoration: none;">
+            <a href="#" style="color: var(--color-action-primary); text-decoration: none;">
               Sign up
             </a>
           </app-text>
@@ -150,7 +150,7 @@ export const RegistrationForm: Story = {
         <app-heading [level]="1" style="margin-bottom: 0.5rem;">
           Create Account
         </app-heading>
-        <app-text [variant]="'body'" style="display: block; margin-bottom: 2rem; color: var(--color-text-secondary, #666);">
+        <app-text [variant]="'body'" style="display: block; margin-bottom: 2rem; color: var(--color-text-subtle);">
           Join us today and start exploring
         </app-text>
 
@@ -231,7 +231,7 @@ export const RegistrationForm: Story = {
 
           <app-text [variant]="'body'" style="text-align: center;">
             Already have an account?
-            <a href="#" style="color: var(--color-primary); text-decoration: none;">
+            <a href="#" style="color: var(--color-action-primary); text-decoration: none;">
               Sign in
             </a>
           </app-text>
