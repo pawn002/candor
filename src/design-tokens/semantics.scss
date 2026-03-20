@@ -9,11 +9,12 @@
     --color-bg-inverse: var(--navy-800);
 
     // ─── Colors: Text ──────────────────────────────────────────────────────────
-    --color-text-default:   var(--gray-700);  // 12.6:1 on --color-bg-page ✅
-    --color-text-subtle:    var(--gray-500);  //  4.5:1 on --color-bg-page ✅
-    --color-text-disabled:  var(--gray-400);
-    --color-text-inverse:   var(--gray-0);
-    --color-text-on-action: var(--gray-0);    // white text on primary/secondary buttons
+    --color-text-default:          var(--gray-700);  // 12.6:1 on --color-bg-page ✅
+    --color-text-subtle:           var(--gray-500);  //  4.5:1 on --color-bg-page ✅
+    --color-text-subtle-on-surface: var(--gray-600); //  5.4:1 on --color-bg-surface ✅  3.4:1 gap closed
+    --color-text-disabled:         var(--gray-400);
+    --color-text-inverse:          var(--gray-0);
+    --color-text-on-action:        var(--gray-0);    // white text on primary/secondary buttons
 
     // ─── Colors: Borders ───────────────────────────────────────────────────────
     --color-border-default: var(--gray-200);
@@ -45,6 +46,11 @@
     // purple-500 is the brand original (#6969F7) — decorative use only.
     --color-highlight:            var(--purple-600); // accessible ✅
     --color-highlight-decorative: var(--purple-500); // original brand color
+
+    // ─── Colors: Blockquote ────────────────────────────────────────────────────
+    --color-blockquote-bg:     var(--color-bg-surface);
+    --color-blockquote-border: var(--color-action-secondary);
+    --color-blockquote-text:   var(--color-text-subtle-on-surface); // 5.4:1 on --color-blockquote-bg ✅
 
     // ─── Colors: Focus ─────────────────────────────────────────────────────────
     --color-focus: var(--azure-400); // high-visibility ring on dark/white backgrounds
