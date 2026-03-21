@@ -242,3 +242,23 @@ Any token overridden in `@mixin dark-color-tokens` must also be explicitly set i
 **Example:** Shadow tokens (`--shadow-md`, etc.) were defined in `:root` but not in the light mixin. Adding a dark-mode white-tinted shadow override caused white shadows to persist in `[data-theme="light"]` on dark-OS systems. Fix: move shadow tokens into the light mixin so the theme switcher correctly resets them.
 
 **Rule:** If a token needs a dark-mode variant, it belongs in both theme mixins — not in `:root` alone.
+
+---
+
+### OKLCH→sRGB rounding can silently miss the contrast threshold
+
+cpqi rounds OKLCH lightness to 2 decimal places, so two visually distinct hex values can report the same OKLCH L and the same contrast ratio. `oklch(0.57 0 0)` is documented as `#767676` (4.55:1 on white, passes AA) but browsers convert it to `#777777` (4.47:1 on white, fails). cpqi reports both as 4.5:1 — the discrepancy is invisible in the token file.
+
+**The trap:** A token annotated `// 4.5:1 ✅` can still fail the axe accessibility scanner at runtime because the browser's OKLCH→sRGB conversion rounds differently than cpqi.
+
+**Rule:** For any token sitting near a contrast threshold (4.5:1, 3:1), build in headroom — author at L=0.56 rather than L=0.57, or verify against the browser's reported hex via `getComputedStyle`. If the token is on the boundary and cpqi gives exactly 4.5, it may be 4.47 in practice.
+
+---
+
+### `aria-label` on `<span>` without a role is invalid — use `aria-hidden` for decorative markers
+
+`aria-label` is only meaningful on elements with an ARIA role (implicit or explicit). A plain `<span>` has no implicit role, so `aria-label="required"` on a required-field asterisk is undefined behavior — axe flags it as inconclusive with severity "serious."
+
+**The fix:** Use `aria-hidden="true"` on the decorative `*` span. The semantic signal for required state comes from `[required]` on the `<input>` itself, which screen readers announce automatically. The asterisk is a visual convention, not an accessible label.
+
+**Rule:** Never use `aria-label` as a tooltip or annotation on a generic `<span>` or `<div>`. If the element needs accessible text, give it a role. If it's decorative, use `aria-hidden="true"`.
