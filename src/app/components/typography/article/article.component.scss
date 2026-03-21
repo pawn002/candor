@@ -84,12 +84,12 @@
 
     // Links
     a {
-        color: var(--color-action-primary);
+        color: var(--color-link);
         text-decoration: underline;
         text-underline-offset: 0.2em;
 
         &:visited { color: var(--color-link-visited); }
-        &:hover   { color: var(--color-action-primary-hover); }
+        &:hover   { color: var(--color-link-hover); }
 
         &:focus-visible {
             outline: var(--focus-ring-width) solid var(--color-focus);
