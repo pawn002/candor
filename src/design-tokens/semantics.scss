@@ -4,9 +4,10 @@
 
 @mixin light-color-tokens {
     // ─── Colors: Backgrounds ───────────────────────────────────────────────────
-    --color-bg-page:    var(--gray-0);
-    --color-bg-surface: var(--gray-100);
-    --color-bg-inverse: var(--navy-800);
+    --color-bg-page:     var(--gray-0);
+    --color-bg-surface:  var(--gray-100);
+    --color-bg-elevated: var(--gray-0);   // white — floats above surface (gray-100) via shadow
+    --color-bg-inverse:  var(--navy-800);
 
     // ─── Colors: Text ──────────────────────────────────────────────────────────
     --color-text-default:           var(--gray-700);  // 12.6:1 on --color-bg-page ✅
@@ -191,9 +192,18 @@
 
 @mixin dark-color-tokens {
     // ─── Backgrounds ───────────────────────────────────────────────────────
-    --color-bg-page:    var(--gray-900); // oklch(0.16 0.02 248.99) — deepest surface
-    --color-bg-surface: var(--gray-800); // oklch(0.24 0.03 248.99) — elevated cards/panels
-    --color-bg-inverse: var(--gray-0);   // white — flipped from dark navy
+    --color-bg-page:     var(--gray-900);           // oklch(0.16 0.02 248.99) — deepest surface
+    --color-bg-surface:  var(--gray-800);           // oklch(0.24 0.03 248.99) — cards/panels
+    --color-bg-elevated: oklch(0.30 0.02 248);      // one step above surface — matches cool undertone
+    --color-bg-inverse:  var(--gray-0);             // white — flipped from dark navy
+
+    // ─── Elevation / Shadow (dark mode) ────────────────────────────────────
+    // Black shadows are invisible on dark backgrounds — use white-tint instead.
+    // Elevated cards also use --color-bg-elevated (lighter surface) for the primary lift signal.
+    --shadow-sm:    0 1px 3px rgba(255, 255, 255, 0.04), 0 1px 2px rgba(255, 255, 255, 0.03);
+    --shadow-md:    0 4px 8px rgba(255, 255, 255, 0.06), 0 2px 4px rgba(255, 255, 255, 0.04);
+    --shadow-lg:    0 10px 24px rgba(255, 255, 255, 0.08), 0 4px 8px rgba(255, 255, 255, 0.05);
+    --shadow-modal: 0 20px 48px rgba(255, 255, 255, 0.10), 0 8px 16px rgba(255, 255, 255, 0.06);
 
     // ─── Text ──────────────────────────────────────────────────────────────
     --color-text-default:           oklch(0.88 0.01 248); // 13.5:1 on bg-page ✅ — off-white with cool undertone; pure white (19.4:1) is harsh
