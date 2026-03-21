@@ -64,10 +64,14 @@
         &:active:not(:disabled) { background-color: oklch(from var(--color-action-primary) l c h / 0.15); }
     }
 
-    // Destructive — boosted-chroma burgundy (H=347); hue-distinct from error (H=25)
+    // Destructive — boosted-chroma burgundy (H=347); hue-distinct from error (H=25).
+    // Light mode: solid dark crimson fill + white text.
+    // Dark mode: outlined (transparent bg, crimson-rose border/text) — avoids the pink-fill
+    // problem that H=347 produces at high lightness on dark backgrounds.
     &--destructive {
         background-color: var(--color-action-destructive);
-        color: var(--color-text-on-action);
+        color: var(--color-action-destructive-text);
+        border: var(--border-width-thin) solid var(--color-action-destructive-border);
 
         &:hover:not(:disabled)  { background-color: var(--color-action-destructive-hover); }
         &:active:not(:disabled) { background-color: var(--color-action-destructive-active); }

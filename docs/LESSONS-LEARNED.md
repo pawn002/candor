@@ -218,3 +218,15 @@ Hot Module Replacement in Storybook only rebuilds story content. Changes to `glo
 OKLCH colors with low chroma can appear perceptually hue-tinted in screenshots, browser gamma rendering, or compressed image formats — even when the SCSS value is neutral. What looks like a color bleed (e.g., list item text appearing slightly blue) may simply be a rendering artifact, not a CSS rule.
 
 **Rule:** Before flagging a color issue, cross-reference the SCSS token value. If the SCSS is neutral gray with no hue-tinted token, trust the code over the screenshot.
+
+---
+
+### H=347 (burgundy/crimson) has no in-gamut "medium" that reads as dangerous in dark mode
+
+At H=347, the sRGB gamut only permits chroma C≤0.15 across most of the lightness range. Worse, the sRGB gamut floor at that hue sits around L=0.36 — there is no accessible mid-lightness crimson (L=0.45–0.60) that both contrasts against a dark page and reads as red/crimson rather than pink. At high lightness (L≥0.65) the same hue shifts perceptually toward magenta-pink or bubblegum, not crimson.
+
+**The trap:** Authoring a dark-mode fill for a destructive button by brightening the light-mode fill produces a pastel pink — a color that reads as cheerful, not dangerous.
+
+**The solution:** Use an outlined pattern for dark mode: transparent background with crimson-rose border and text. At L=0.72, C=0.15, H=347 the color is clearly rose/pink but the outline form factor communicates "caution/destructive" more reliably than a filled pink would. Contrast: 4.3:1 on dark page ✅.
+
+**Rule:** For any hue where the light-mode fill requires dark-bg lightness (L<0.40), always prototype the dark-mode version separately rather than assuming a brightened fill will work.
