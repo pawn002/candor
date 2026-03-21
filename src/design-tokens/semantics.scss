@@ -57,14 +57,17 @@
     --color-focus: var(--azure-400); // high-visibility ring on dark/white backgrounds
 
     // ─── Colors: Status ────────────────────────────────────────────────────────
-    // Non-text use only (icons, borders, filled badges). White text on these meets 3:1.
-    // For text in alert panels, use --color-status-*-bg with --color-text-default.
-    --color-status-error:       oklch(0.55 0.22 25);    // OKCA 4.8 vs white — also valid as text color ✅
-    --color-status-error-bg:    oklch(0.95 0.05 25);
-    --color-status-success:     oklch(0.63 0.15 144.2); // OKCA 3.3 vs white — non-text/icon use only
-    --color-status-success-bg:  oklch(0.95 0.05 145);
-    --color-status-warning:     oklch(0.66 0.16 53.54); // #db7115 — OKCA 3.1 vs white — non-text/icon use only ✅
-    --color-status-warning-bg:  oklch(0.95 0.05 53);
+    // Base colors: non-text use only (icons, borders, indicators).
+    // For text on light status-bg, use --color-status-*-text (contrast-validated below).
+    --color-status-error:         oklch(0.55 0.22 25);    // 4.8:1 on white — icon/border use
+    --color-status-error-bg:      oklch(0.95 0.05 25);
+    --color-status-error-text:    oklch(0.45 0.22 25);    // 5.8:1 on error-bg ✅
+    --color-status-success:       oklch(0.63 0.15 144.2); // 3.3:1 on white — icon/border use only
+    --color-status-success-bg:    oklch(0.95 0.05 145);
+    --color-status-success-text:  oklch(0.50 0.15 144.2); // 4.9:1 on success-bg ✅
+    --color-status-warning:       oklch(0.66 0.16 53.54); // 3.1:1 on white — icon/border use only
+    --color-status-warning-bg:    oklch(0.95 0.05 53);
+    --color-status-warning-text:  oklch(0.40 0.16 53.54); // 7.6:1 on warning-bg ✅
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────
     --color-blockquote-bg:     var(--color-bg-surface);
@@ -221,12 +224,15 @@
     // ─── Status ────────────────────────────────────────────────────────────
     // Lightened foreground colors to meet contrast on dark backgrounds.
     // Dark tinted backgrounds replace the light tints used in light mode.
-    --color-status-error:      oklch(0.75 0.22 25);     //  4.6:1 on bg-page ✅
-    --color-status-error-bg:   oklch(0.20 0.08 25);     // deep red tint
-    --color-status-success:    oklch(0.80 0.15 144.2);  //  6.7:1 on bg-page ✅
-    --color-status-success-bg: oklch(0.20 0.06 144.2);  // deep green tint
-    --color-status-warning:    oklch(0.82 0.16 53.54);  //  7.6:1 on bg-page ✅
-    --color-status-warning-bg: oklch(0.20 0.06 53.54);  // deep amber tint
+    --color-status-error:         oklch(0.75 0.22 25);     //  4.6:1 on bg-page ✅
+    --color-status-error-bg:      oklch(0.20 0.08 25);     // deep red tint
+    --color-status-error-text:    oklch(0.77 0.22 25);     //  4.9:1 on error-bg ✅
+    --color-status-success:       oklch(0.80 0.15 144.2);  //  6.7:1 on bg-page ✅
+    --color-status-success-bg:    oklch(0.20 0.06 144.2);  // deep green tint
+    --color-status-success-text:  oklch(0.80 0.15 144.2);  //  6.2:1 on success-bg ✅
+    --color-status-warning:       oklch(0.82 0.16 53.54);  //  7.6:1 on bg-page ✅
+    --color-status-warning-bg:    oklch(0.20 0.06 53.54);  // deep amber tint
+    --color-status-warning-text:  oklch(0.82 0.16 53.54);  //  7.1:1 on warning-bg ✅
 }
 
 @media (prefers-color-scheme: dark) {

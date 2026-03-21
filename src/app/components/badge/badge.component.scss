@@ -41,16 +41,16 @@
 
   &--success {
     background-color: var(--color-status-success-bg);
-    color: var(--color-status-success);
+    color: var(--color-status-success-text);
   }
 
   &--error {
     background-color: var(--color-status-error-bg);
-    color: var(--color-status-error);
+    color: var(--color-status-error-text);
   }
 
   &--warning {
     background-color: var(--color-status-warning-bg);
-    color: var(--color-status-warning);
+    color: var(--color-status-warning-text);
   }
 }
