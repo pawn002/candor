@@ -67,8 +67,9 @@
         font-family: var(--font-family-mono);
         font-size: 0.875rem; // 14px — min legible size for code
         line-height: var(--line-height-normal);
-        background-color: var(--color-bg-inverse);
-        color: var(--color-text-inverse);
+        background-color: var(--color-bg-code);
+        color: var(--color-text-code);
+        border: var(--border-width-thin) solid var(--color-border-code);
         padding: var(--spacing-md);
         border-radius: var(--radius-md);
         overflow-x: auto;
