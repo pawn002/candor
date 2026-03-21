@@ -1,7 +1,7 @@
 .article {
     display: block;
     max-width: 65ch;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-base);
     line-height: var(--line-height-relaxed);
     color: var(--color-text-default);
 
@@ -24,6 +24,8 @@
     h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); }
     h3 { font-size: var(--font-size-h3); }
     h4 { font-size: var(--font-size-h4); }
+    h5 { font-size: var(--font-size-base); }   // floor at 16px
+    h6 { font-size: 0.875rem; }                // floor at 14px — overrides --font-size-h6 (~13px)
 
     // Paragraphs
     p {
