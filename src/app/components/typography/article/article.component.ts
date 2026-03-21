@@ -1,6 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
-type ArticleFont = 'reading' | 'serif';
+type ArticleFont = 'reading' | 'sans';
 
 @Component({
   selector: 'app-article',

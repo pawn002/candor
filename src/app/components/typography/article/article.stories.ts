@@ -8,8 +8,8 @@ const meta: Meta<ArticleComponent> = {
   argTypes: {
     font: {
       control: { type: 'select' },
-      options: ['reading', 'serif'],
-      description: 'Body typeface — Noto Sans (reading) or Noto Serif (serif). Headings always use Roboto Flex.',
+      options: ['reading', 'sans'],
+      description: 'Body typeface — Noto Serif (reading, default) or Noto Sans (sans, for syndication/utility contexts). Headings always use Roboto Flex.',
     },
   },
 };
@@ -139,8 +139,8 @@ export const Default: Story = {
   }),
 };
 
-export const Serif: Story = {
-  args: { font: 'serif' },
+export const Sans: Story = {
+  args: { font: 'sans' },
   render: (args) => ({
     props: args,
     template: `<app-article [font]="font">${fullArticleContent}</app-article>`,
@@ -155,8 +155,8 @@ export const WithCode: Story = {
   }),
 };
 
-export const SerifWithCode: Story = {
-  args: { font: 'serif' },
+export const SansWithCode: Story = {
+  args: { font: 'sans' },
   render: (args) => ({
     props: args,
     template: `<app-article [font]="font">${codeArticleContent}</app-article>`,
@@ -204,6 +204,84 @@ export const WithLinks: Story = {
   }),
 };
 
+export const WithRichContent: Story = {
+  args: { font: 'reading' },
+  render: (args) => ({
+    props: args,
+    template: `<app-article [font]="font">
+      <h1>Typography in Data-Rich Articles</h1>
+      <p>
+        Editorial layouts often combine prose with structured data —
+        <abbr title="HyperText Markup Language">HTML</abbr> provides the semantic elements,
+        but the design system must ensure they all coexist coherently.
+      </p>
+
+      <h2>Comparing Typeface Metrics</h2>
+      <p>
+        The table below compares key optical characteristics across the typefaces
+        used in this system.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Typeface</th>
+            <th>Role</th>
+            <th>Variable axes</th>
+            <th>Min size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Roboto Flex</td>
+            <td>Display / headings</td>
+            <td>opsz, wght, wdth, GRAD</td>
+            <td>16px</td>
+          </tr>
+          <tr>
+            <td>Noto Sans</td>
+            <td>Long-form reading</td>
+            <td>wght</td>
+            <td>16px</td>
+          </tr>
+          <tr>
+            <td>Atkinson Hyperlegible</td>
+            <td>Critical UI text</td>
+            <td>—</td>
+            <td>14px</td>
+          </tr>
+          <tr>
+            <td>Roboto Mono</td>
+            <td>Code</td>
+            <td>—</td>
+            <td>14px</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Figures and Captions</h2>
+      <p>
+        Images within articles should be accompanied by a <code>figcaption</code>
+        that provides context — captions are rendered at the 14px floor to keep
+        them clearly subordinate to body text.
+      </p>
+      <figure>
+        <img src="https://picsum.photos/seed/article/800/400" alt="A placeholder landscape" />
+        <figcaption>
+          Figure 1. Optical sizing in Roboto Flex means stroke weight adapts
+          to the rendered size — larger text naturally carries heavier strokes.
+        </figcaption>
+      </figure>
+
+      <p>
+        The <abbr title="Web Content Accessibility Guidelines">WCAG</abbr> success
+        criterion 1.4.3 requires a contrast ratio of at least 4.5:1 for normal text.
+        All body tokens in this system are validated against their actual background,
+        not just the page default.
+      </p>
+    </app-article>`,
+  }),
+};
+
 export const FontComparison: Story = {
   args: {},
   render: () => ({
@@ -211,12 +289,12 @@ export const FontComparison: Story = {
     template: `
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
         <div>
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;">Noto Sans (reading)</p>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: var(--spacing-sm); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); font-weight: var(--font-weight-semibold);">Noto Serif (reading)</p>
           <app-article font="reading">${fullArticleContent}</app-article>
         </div>
         <div>
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;">Noto Serif (serif)</p>
-          <app-article font="serif">${fullArticleContent}</app-article>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: var(--spacing-sm); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); font-weight: var(--font-weight-semibold);">Noto Sans (sans)</p>
+          <app-article font="sans">${fullArticleContent}</app-article>
         </div>
       </div>
     `,
