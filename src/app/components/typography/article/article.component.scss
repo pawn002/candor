@@ -1,4 +1,4 @@
-:host {
+.article {
     display: block;
     max-width: 65ch;
     font-size: var(--font-size-lg);
@@ -40,12 +40,12 @@
 
     // Blockquote
     blockquote {
-        border-left: var(--border-width-thick) solid var(--color-action-secondary);
+        border-left: var(--border-width-thick) solid var(--color-blockquote-border);
         margin: var(--spacing-lg) 0;
         padding: var(--spacing-sm) var(--spacing-md);
         font-style: italic;
-        color: var(--color-text-subtle);
-        background-color: var(--color-bg-surface);
+        color: var(--color-blockquote-text);
+        background-color: var(--color-blockquote-bg);
         border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     }
 

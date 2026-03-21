@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 type ArticleFont = 'reading' | 'serif';
 
@@ -7,6 +7,7 @@ type ArticleFont = 'reading' | 'serif';
   standalone: true,
   template: `<ng-content></ng-content>`,
   styleUrls: ['./article.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   host: {
     '[class]': '"article article--font-" + font',
   },

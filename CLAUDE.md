@@ -224,6 +224,34 @@ export const Default: Story = {
 - Built-in control flow works correctly with Zone.js enabled
 - When refactoring existing code, always convert old directives to built-in syntax
 
+### View Encapsulation and Projected Content
+
+**NEVER use `::ng-deep`** — it is deprecated by the Angular team and will be removed.
+
+When a component needs to style projected content (i.e., elements passed via `<ng-content>` or as string literals in stories), use `ViewEncapsulation.None` instead:
+
+```typescript
+import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
+  selector: 'app-article',
+  encapsulation: ViewEncapsulation.None,
+  // ...
+})
+```
+
+With `ViewEncapsulation.None`, Angular does not add scoping attributes, so descendant selectors in the component's SCSS reach projected elements. Scope the styles manually using the host element's class (set via the `host` binding) to prevent leakage:
+
+```scss
+// article.component.scss — scoped via host class, no ::ng-deep needed
+.article {
+  h1, h2, h3, h4 { ... }
+  p { ... }
+}
+```
+
+**Why `::ng-deep` fails for projected content**: Angular's emulated encapsulation adds a unique attribute (e.g. `_ngcontent-xxx`) to elements in the component's own template. Elements projected from outside (string literals in stories, or content from a parent template) receive the *parent's* scoping attribute, not the component's — so `:host h1 { }` never matches them. `ViewEncapsulation.None` sidesteps this entirely.
+
 ## Common Pitfalls
 
 1. **Don't hard-code colors**: Always use design tokens
@@ -231,6 +259,7 @@ export const Default: Story = {
 3. **Don't skip accessibility validation**: Check contrast before finalizing
 4. **Don't create components without stories**: Every component needs a story
 5. **Don't modify node_modules**: This is obvious but worth stating
+6. **Never use `::ng-deep`**: It is deprecated. Use `ViewEncapsulation.None` with a host class for scoping when styling projected content (see "View Encapsulation and Projected Content" above)
 
 ## Testing Strategy
 
