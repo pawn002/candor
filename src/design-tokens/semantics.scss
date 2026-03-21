@@ -30,6 +30,13 @@
     --color-action-secondary-hover:  var(--burgundy-800);
     --color-action-secondary-active: var(--burgundy-900);
 
+    // ─── Colors: Action — Destructive (crimson burgundy, H=347) ───────────────
+    // Boosted chroma from the existing burgundy hue — signals irreversibility.
+    // Distinct from error (H=25 orange-red): destructive = a chosen action, not a failure state.
+    --color-action-destructive:        oklch(0.37 0.15 347); // 10.4:1 with white ✅
+    --color-action-destructive-hover:  oklch(0.32 0.12 347); // 12.7:1 with white ✅
+    --color-action-destructive-active: oklch(0.28 0.10 347); // 14.6:1 with white ✅
+
     // ─── Colors: Action — Tertiary ─────────────────────────────────────────────
     --color-action-tertiary:        var(--gray-100);
     --color-action-tertiary-hover:  var(--gray-200);
@@ -208,6 +215,12 @@
     --color-action-secondary:        var(--burgundy-300); //  8.3:1 on bg-page ✅
     --color-action-secondary-hover:  var(--burgundy-200); // 12.2:1 on bg-page ✅
     --color-action-secondary-active: var(--burgundy-200);
+
+    // ─── Action — Destructive ─────────────────────────────────────────────────
+    // Light steps so fills read against the dark page. Dark text (gray-800) on each ✅.
+    --color-action-destructive:        oklch(0.75 0.15 347); //  4.3:1 with gray-800 ✅, 5.0:1 on bg-page ✅
+    --color-action-destructive-hover:  oklch(0.78 0.15 347); //  5.0:1 with gray-800 ✅
+    --color-action-destructive-active: oklch(0.78 0.15 347); // same as hover
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
     // ⚠️  gray-700 bg is only 1.5:1 against page — intentionally subtle in dark mode.
