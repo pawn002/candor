@@ -9,7 +9,7 @@
     &.article--font-sans    { font-family: var(--font-family-reading); } // Noto Sans — syndication/utility fallback
 
     // Headings — structural voice (Roboto Flex), tight rhythm
-    h1, h2, h3, h4 {
+    h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-family-display);
         font-weight: var(--font-weight-bold);
         font-optical-sizing: auto; // Roboto Flex opsz axis — stroke weight scales naturally with size
@@ -23,10 +23,10 @@
 
     h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); }
     h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); }
-    h3 { font-size: var(--font-size-h3); }
+    h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); }
     h4 { font-size: var(--font-size-h4); }
-    h5 { font-size: var(--font-size-base); }   // floor at 16px
-    h6 { font-size: 0.875rem; }                // floor at 14px — overrides --font-size-h6 (~13px)
+    h5 { font-size: var(--font-size-base); margin-top: var(--spacing-lg); }  // floor at 16px; reduced top margin
+    h6 { font-size: 0.875rem;              margin-top: var(--spacing-md); }  // floor at 14px; reduced top margin
 
     // Paragraphs
     p {
