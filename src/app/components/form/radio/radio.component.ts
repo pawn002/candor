@@ -22,6 +22,7 @@ export class RadioComponent implements ControlValueAccessor {
   @Input() name?: string;
   @Input() disabled: boolean = false;
   @Input() id?: string;
+  @Input() checked: boolean = false; // for static/story use; ControlValueAccessor takes precedence when wired
 
   selectedValue: any;
 

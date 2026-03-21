@@ -7,7 +7,7 @@
 .input-label {
     font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-bold); // Atkinson bold for labels — hierarchy signal
     color: var(--color-text-default);
     display: flex;
     gap: var(--spacing-xs);
@@ -25,7 +25,7 @@
     border-radius: var(--radius-md);
     background-color: var(--color-bg-page);
     color: var(--color-text-default);
-    transition: all 0.2s ease-in-out;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     min-height: 2.5rem;
 
     &::placeholder {
@@ -61,6 +61,7 @@
 }
 
 .input-description {
+    font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
 }
 
