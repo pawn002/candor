@@ -177,9 +177,9 @@
     --color-bg-inverse: var(--gray-0);   // white — flipped from dark navy
 
     // ─── Text ──────────────────────────────────────────────────────────────
-    --color-text-default:           var(--gray-0);   // 19.4:1 on bg-page ✅
-    --color-text-subtle:            var(--gray-400); //  7.5:1 on bg-page ✅
-    --color-text-subtle-on-surface: var(--gray-400); //  6.4:1 on bg-surface ✅
+    --color-text-default:           oklch(0.88 0.01 248); // 13.5:1 on bg-page ✅ — off-white with cool undertone; pure white (19.4:1) is harsh
+    --color-text-subtle:            var(--gray-400);      //  7.5:1 on bg-page ✅
+    --color-text-subtle-on-surface: var(--gray-400);      //  6.4:1 on bg-surface ✅
     --color-text-disabled:          var(--gray-600); //  2.7:1 — intentionally below AA
     --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
     --color-text-on-action:         var(--gray-800); //  7.2:1 on action-primary (navy-300) ✅
