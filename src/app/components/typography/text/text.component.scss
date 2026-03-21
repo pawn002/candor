@@ -1,48 +1,37 @@
 .text {
-    font-family: var(--font-family-base);
     font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-normal);
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text-default);
 
+    // Body — primary editorial voice; Noto Serif matches article body
     &--body {
-        line-height: var(--line-height-normal);
+        font-family: var(--font-family-serif);
     }
 
+    // Caption — supplementary/metadata text; italic treatment matches article figcaption
     &--caption {
-        line-height: var(--line-height-normal);
-        font-size: var(--font-size-sm);
+        font-family: var(--font-family-serif);
+        font-style: italic;
+        letter-spacing: 0.03em; // 14px italic needs more air than the 16px body baseline
     }
 
+    // Label — UI chrome; Roboto Flex, uppercase, wide tracking
+    // Bold is for structural hierarchy (column headers, section anchors) — not default
     &--label {
-        font-weight: var(--font-weight-medium);
+        font-family: var(--font-family-base);
+        font-weight: var(--font-weight-regular);
         letter-spacing: var(--letter-spacing-wide);
         text-transform: uppercase;
+        line-height: var(--line-height-tight); // labels are single-line UI elements
     }
 
-    &--size-sm {
-        font-size: var(--font-size-sm);
-    }
+    &--size-sm { font-size: var(--font-size-sm); }
+    &--size-md { font-size: var(--font-size-md); }
+    &--size-lg { font-size: var(--font-size-lg); }
 
-    &--size-md {
-        font-size: var(--font-size-md);
-    }
+    &--color-primary   { color: var(--color-text-default); }
+    &--color-secondary { color: var(--color-text-subtle); }
+    &--color-disabled  { color: var(--color-text-disabled); }
 
-    &--size-lg {
-        font-size: var(--font-size-lg);
-    }
-
-    &--color-primary {
-        color: var(--color-text-default);
-    }
-
-    &--color-secondary {
-        color: var(--color-text-subtle);
-    }
-
-    &--color-disabled {
-        color: var(--color-text-disabled);
-    }
-
-    &--bold {
-        font-weight: var(--font-weight-bold);
-    }
+    &--bold { font-weight: var(--font-weight-bold); }
 }
