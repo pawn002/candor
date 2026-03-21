@@ -154,6 +154,14 @@
             font-variant-numeric: tabular-nums; // fixed-width figures for numeric alignment
         }
 
+        // Numeric columns — right-align + Roboto Mono for number-heavy tables.
+        // Apply to both th and td so header aligns with its column data.
+        th.numeric,
+        td.numeric {
+            font-family: var(--font-family-mono);
+            text-align: right;
+        }
+
         thead th {
             font-weight: var(--font-weight-bold);
             border-bottom: var(--border-width-medium) solid var(--color-border-strong);

@@ -319,76 +319,76 @@ export const WithNumericTable: Story = {
           <tr>
             <th>Level</th>
             <th>Token</th>
-            <th>Size (px)</th>
-            <th>Size (rem)</th>
-            <th>Line height</th>
-            <th>Cap height (px)</th>
-            <th>x-height (px)</th>
+            <th class="numeric">Size (px)</th>
+            <th class="numeric">Size (rem)</th>
+            <th class="numeric">Line height</th>
+            <th class="numeric">Cap height (px)</th>
+            <th class="numeric">x-height (px)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>h1</td>
             <td><code>--font-size-h1</code></td>
-            <td>39.06</td>
-            <td>2.441</td>
-            <td>1.20</td>
-            <td>28.12</td>
-            <td>19.53</td>
+            <td class="numeric">39.06</td>
+            <td class="numeric">2.441</td>
+            <td class="numeric">1.20</td>
+            <td class="numeric">28.12</td>
+            <td class="numeric">19.53</td>
           </tr>
           <tr>
             <td>h2</td>
             <td><code>--font-size-h2</code></td>
-            <td>31.25</td>
-            <td>1.953</td>
-            <td>1.20</td>
-            <td>22.50</td>
-            <td>15.63</td>
+            <td class="numeric">31.25</td>
+            <td class="numeric">1.953</td>
+            <td class="numeric">1.20</td>
+            <td class="numeric">22.50</td>
+            <td class="numeric">15.63</td>
           </tr>
           <tr>
             <td>h3</td>
             <td><code>--font-size-h3</code></td>
-            <td>25.00</td>
-            <td>1.563</td>
-            <td>1.20</td>
-            <td>18.00</td>
-            <td>12.50</td>
+            <td class="numeric">25.00</td>
+            <td class="numeric">1.563</td>
+            <td class="numeric">1.20</td>
+            <td class="numeric">18.00</td>
+            <td class="numeric">12.50</td>
           </tr>
           <tr>
             <td>h4</td>
             <td><code>--font-size-h4</code></td>
-            <td>20.00</td>
-            <td>1.250</td>
-            <td>1.20</td>
-            <td>14.40</td>
-            <td>10.00</td>
+            <td class="numeric">20.00</td>
+            <td class="numeric">1.250</td>
+            <td class="numeric">1.20</td>
+            <td class="numeric">14.40</td>
+            <td class="numeric">10.00</td>
           </tr>
           <tr>
             <td>body</td>
             <td><code>--font-size-base</code></td>
-            <td>16.00</td>
-            <td>1.000</td>
-            <td>1.60</td>
-            <td>11.52</td>
-            <td>8.00</td>
+            <td class="numeric">16.00</td>
+            <td class="numeric">1.000</td>
+            <td class="numeric">1.60</td>
+            <td class="numeric">11.52</td>
+            <td class="numeric">8.00</td>
           </tr>
           <tr>
             <td>sm</td>
             <td><code>--font-size-sm</code></td>
-            <td>14.00</td>
-            <td>0.875</td>
-            <td>1.40</td>
-            <td>10.08</td>
-            <td>7.00</td>
+            <td class="numeric">14.00</td>
+            <td class="numeric">0.875</td>
+            <td class="numeric">1.40</td>
+            <td class="numeric">10.08</td>
+            <td class="numeric">7.00</td>
           </tr>
           <tr>
             <td>xs</td>
             <td><code>--font-size-xs</code></td>
-            <td>12.00</td>
-            <td>0.750</td>
-            <td>1.40</td>
-            <td>8.64</td>
-            <td>6.00</td>
+            <td class="numeric">12.00</td>
+            <td class="numeric">0.750</td>
+            <td class="numeric">1.40</td>
+            <td class="numeric">8.64</td>
+            <td class="numeric">6.00</td>
           </tr>
         </tbody>
       </table>
