@@ -208,7 +208,7 @@ export const AIChatInterface: Story = {
                   ">
                   AI
                 </div>
-                <div style="max-width: 78%; flex: 1; min-width: 0;">
+                <div style="flex: 1; min-width: 0;">
                   <app-card variant="default" style="display: block;">
                     <div style="
                       font-family: var(--font-family-serif);
@@ -303,7 +303,7 @@ export const AIChatInterface: Story = {
                   ">
                   AI
                 </div>
-                <div style="max-width: 78%; flex: 1; min-width: 0;">
+                <div style="flex: 1; min-width: 0;">
                   <app-card variant="default" style="display: block;">
                     <div style="
                       font-family: var(--font-family-serif);
