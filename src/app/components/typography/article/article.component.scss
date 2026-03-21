@@ -150,6 +150,10 @@
             border-bottom: var(--border-width-thin) solid var(--color-border-default);
         }
 
+        td {
+            font-variant-numeric: tabular-nums; // fixed-width figures for numeric alignment
+        }
+
         thead th {
             font-weight: var(--font-weight-bold);
             border-bottom: var(--border-width-medium) solid var(--color-border-strong);
