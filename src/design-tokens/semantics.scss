@@ -20,6 +20,9 @@
     // ─── Colors: Borders ───────────────────────────────────────────────────────
     --color-border-default: var(--gray-200);
     --color-border-strong:  var(--gray-300);
+    // Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1).
+    // gray-500 (L=0.57) passes on both page backgrounds: 4.5:1 light, 4.3:1 dark.
+    --color-border-control: var(--gray-500);
 
     // ─── Colors: Action — Primary (navy) ───────────────────────────────────────
     --color-action-primary:        var(--navy-800); // 15.2:1 with white ✅
