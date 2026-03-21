@@ -225,14 +225,14 @@
     // Lightened foreground colors to meet contrast on dark backgrounds.
     // Dark tinted backgrounds replace the light tints used in light mode.
     --color-status-error:         oklch(0.75 0.22 25);     //  4.6:1 on bg-page ✅
-    --color-status-error-bg:      oklch(0.20 0.08 25);     // deep red tint
-    --color-status-error-text:    oklch(0.77 0.22 25);     //  4.9:1 on error-bg ✅
+    --color-status-error-bg:      oklch(0.18 0.10 18);     // deltaE 27.6 vs bg-page ✅, 12.3 vs warning-bg ✅
+    --color-status-error-text:    oklch(0.77 0.22 25);     //  5.0:1 on error-bg ✅
     --color-status-success:       oklch(0.80 0.15 144.2);  //  6.7:1 on bg-page ✅
-    --color-status-success-bg:    oklch(0.20 0.06 144.2);  // deep green tint
+    --color-status-success-bg:    oklch(0.20 0.06 144.2);  // deltaE 21.0 vs bg-page ✅
     --color-status-success-text:  oklch(0.80 0.15 144.2);  //  6.2:1 on success-bg ✅
     --color-status-warning:       oklch(0.82 0.16 53.54);  //  7.6:1 on bg-page ✅
-    --color-status-warning-bg:    oklch(0.20 0.06 53.54);  // deep amber tint
-    --color-status-warning-text:  oklch(0.82 0.16 53.54);  //  7.1:1 on warning-bg ✅
+    --color-status-warning-bg:    oklch(0.30 0.14 68);     // deltaE 38.1 vs bg-page ✅, 12.3 vs error-bg ✅
+    --color-status-warning-text:  oklch(0.82 0.16 53.54);  //  5.3:1 on warning-bg ✅
 }
 
 @media (prefers-color-scheme: dark) {
