@@ -34,6 +34,7 @@
     --color-action-tertiary:        var(--gray-100);
     --color-action-tertiary-hover:  var(--gray-200);
     --color-action-tertiary-text:   var(--navy-800);
+    --button-tertiary-blend-mode:   multiply; // blend bg with parent surface; flip to 'screen' in dark mode
 
     // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────
     // azure-400 is the brand original (#1493FB) — use on dark backgrounds only.
@@ -216,6 +217,7 @@
     --color-action-tertiary:       var(--gray-700);
     --color-action-tertiary-hover: var(--gray-600);
     --color-action-tertiary-text:  var(--gray-0);
+    --button-tertiary-blend-mode:  screen; // screen lightens dark surfaces; multiply used in light mode
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────
     --color-link:         var(--azure-300);   //  6.2:1 on bg-page ✅
