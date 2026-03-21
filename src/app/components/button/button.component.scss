@@ -54,12 +54,23 @@
         &:active:not(:disabled) { background-color: var(--color-action-primary-active); }
     }
 
+    // Outlined primary — same voice as primary, reduced weight
     &--secondary {
-        background-color: var(--color-action-secondary);
+        background-color: transparent;
+        color: var(--color-action-primary);
+        border: var(--border-width-thin) solid var(--color-action-primary);
+
+        &:hover:not(:disabled)  { background-color: oklch(from var(--color-action-primary) l c h / 0.08); }
+        &:active:not(:disabled) { background-color: oklch(from var(--color-action-primary) l c h / 0.15); }
+    }
+
+    // Destructive — boosted-chroma burgundy (H=347); hue-distinct from error (H=25)
+    &--destructive {
+        background-color: var(--color-action-destructive);
         color: var(--color-text-on-action);
 
-        &:hover:not(:disabled) { background-color: var(--color-action-secondary-hover); }
-        &:active:not(:disabled) { background-color: var(--color-action-secondary-active); }
+        &:hover:not(:disabled)  { background-color: var(--color-action-destructive-hover); }
+        &:active:not(:disabled) { background-color: var(--color-action-destructive-active); }
     }
 
     &--tertiary {
