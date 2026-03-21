@@ -8,6 +8,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 
@@ -17,6 +18,7 @@ export type ModalSize = 'sm' | 'md' | 'lg';
   selector: 'app-modal',
   standalone: true,
   imports: [ButtonComponent],
+  encapsulation: ViewEncapsulation.None,
   template: `
     <dialog
       #dialog
@@ -37,7 +39,7 @@ export type ModalSize = 'sm' | 'md' | 'lg';
           </button>
         </header>
 
-        <div class="modal__body">
+        <div class="modal__body" tabindex="0">
           <ng-content></ng-content>
         </div>
 
