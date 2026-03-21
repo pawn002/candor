@@ -66,9 +66,19 @@ The original article link color (`--color-action-primary` = navy-800) had 15:1 c
 
 ### Two accessible colors cannot always have high contrast between each other
 
-Any two colors that both meet WCAG AA (4.5:1) on white are mathematically capped at roughly 3:1 contrast between themselves. This makes visited/unvisited link differentiation fundamentally color-only in CSS — `text-decoration-style` and other non-color properties are silently blocked on `:visited` by browsers for privacy reasons.
+Any two colors that both meet WCAG AA (4.5:1) on white are mathematically capped at roughly 3:1 contrast between themselves. This is a consequence of the WCAG contrast formula, not a solvable design problem.
 
-**Implication:** Visited state differentiation is a known limitation of CSS. Document it, use the best available hue shift, and track the issue for future JS-assisted solutions.
+**Implication:** When two semantically distinct colors must both be AA on white (e.g., visited vs. unvisited links, two status tones on the same background), expect limited separation. Use the widest hue shift available and accept that color alone won't do full the work. Use non-color cues (text labels, icons, underline style) wherever possible.
+
+---
+
+### `:visited` CSS is color-only — browser privacy blocks everything else
+
+Browsers intentionally restrict what styles can be applied to `:visited` links. Only color properties are permitted: `color`, `background-color`, `border-*-color`, `outline-color`, `column-rule-color`, `fill`, `stroke`. All other properties — including `text-decoration-style: dotted` — are silently ignored. This is a security restriction against history-sniffing attacks, not a CSS error.
+
+**The trap:** `text-decoration-style` on `:visited` appears to do nothing, looks like a bug, and reports no error. It just doesn't render.
+
+**Implication:** Visited state differentiation is fundamentally color-only in CSS. The industry pattern of solid → dotted underline for visited state is blocked. Document it, use the best available hue shift, and track the issue for future JS-assisted solutions (issue #19).
 
 ---
 
@@ -79,6 +89,8 @@ The status color palette needs two tiers:
 - **Text color** (`--color-status-*-text`): contrast-validated against the paired status-bg
 
 Success and warning base colors (3.1–3.3:1 on white) are non-text use only. Using them as text on their light backgrounds fails AA. Always use the `-text` variant for text inside status panels and badges.
+
+**The deeper trap:** The token file itself was annotated `// non-text/icon use only`. The tokens were used for text anyway. When a token carries a usage contract in its comment, honor it — don't assume it can flex.
 
 ---
 
@@ -109,3 +121,77 @@ Angular's emulated encapsulation only adds scoping attributes to a component's o
 ### em double-scaling in nested code elements
 
 `pre { font-size: 0.875rem }` combined with a global `.article code { font-size: 0.875em }` rule results in code inside pre receiving both — scaling to `0.875em × 14px = ~12px`. Always reset `font-size: 1em` on nested elements inside blocks that set an explicit font size.
+
+---
+
+### Storybook's `withThemeByDataAttribute` breaks Angular rendering
+
+Storybook's built-in `withThemeByDataAttribute` decorator from `@storybook/addon-themes` conflicts with Angular's change detection cycle, causing rendering failures when switching themes in Storybook. The fix is a lightweight custom decorator that sets `data-theme` directly on the `<html>` element without interfering with Angular.
+
+**The trap:** It's the officially recommended Storybook pattern, so the Angular incompatibility isn't obvious until you're debugging blank stories.
+
+---
+
+### CSS cascade source order: `[data-theme="light"]` must come after the dark media query
+
+When supporting manual theme overrides (`data-theme="light"`) on systems where the OS reports a dark preference, the `[data-theme="light"]` rule block must appear *after* `@media (prefers-color-scheme: dark)` in the stylesheet. CSS specificity is equal between a media query and an attribute selector — source order decides the winner.
+
+**The trap:** Edge and Firefox on dark-OS systems will apply the dark media query and ignore `data-theme="light"` if the light override appears first in source. Chrome happened to work due to implementation differences, masking the bug.
+
+---
+
+### `--color-text-subtle` is not sufficient on surface backgrounds
+
+`--color-text-subtle` (gray-500) achieves 4.5:1 on the page background but only ~3.4:1 on surface backgrounds (gray-100). A separate token, `--color-text-subtle-on-surface`, is required for secondary text inside cards, blockquotes, and elevated panels.
+
+**Rule:** Always validate contrast against the *actual* background a token will appear on, not just the page background. Semantic tokens are only as good as the assumptions behind them.
+
+**Convention:** Annotate every text token in `semantics.scss` with the specific background it was validated against, e.g. `// 4.5:1 on --color-bg-page ✅`. A comment that says "passes AA" without naming the background is incomplete documentation.
+
+---
+
+### Component-scoped token groups are safer than shared utility tokens on non-default backgrounds
+
+When a component always renders on a specific non-page background (e.g., blockquotes on gray-100, cards on a surface), define a token group scoped to that component: `--color-blockquote-bg`, `--color-blockquote-border`, `--color-blockquote-text`. Don't reuse a global utility token like `--color-text-subtle` and assume it will pass contrast on every background it might encounter.
+
+**Why:** Global utility tokens implicitly encode a background assumption. Scoped token groups make the background contract explicit and keep contrast validation local to that component.
+
+---
+
+### OKLCH colors must be gamut-checked before finalizing
+
+OKLCH's gamut extends beyond sRGB, making it easy to author valid-looking colors that browsers clamp or shift unpredictably on sRGB displays. The warning status color (`oklch(0.66 0.16 53.54)`) was initially authored out of sRGB gamut — browsers silently shifted the hue.
+
+**Rule:** After authoring a new OKLCH color, run `cpqi meta <oklch>` or check `gamut: sRGB` in the output. If out of gamut, reduce chroma until it passes.
+
+---
+
+### Angular: never generate IDs in template expressions
+
+Generating element IDs with `Math.random()` (or any non-deterministic call) inside a template expression triggers `ExpressionChangedAfterItHasBeenCheckedError` — Angular evaluates expressions twice in dev mode and sees a different value each time.
+
+**The fix:** Generate IDs once in the component constructor and store them as a property. Template expressions must be pure and stable across evaluations.
+
+---
+
+### Angular stories require `moduleMetadata` for external component selectors
+
+When a Storybook story template uses another Angular component (e.g., `<app-button>` inside a card or modal story), that component must be declared in `moduleMetadata({ imports: [ButtonComponent] })` in the story file. Without it, Angular's compiler does not recognize the selector and the template renders silently empty or throws.
+
+**The trap:** The error is easy to miss — the story loads without crashing, but the embedded component simply doesn't render.
+
+---
+
+### Storybook HMR does not rebuild the manager
+
+Hot Module Replacement in Storybook only rebuilds story content. Changes to `globalTypes` in `preview.ts` (toolbar controls, theme switcher) and changes to `main.ts` (addons, builders) do not take effect on save — they require a full stop and restart of the Storybook process.
+
+**The trap:** The story panel updates but the toolbar does not change, making it look like the config was wrong rather than just stale.
+
+---
+
+### Don't diagnose color issues from screenshots alone
+
+OKLCH colors with low chroma can appear perceptually hue-tinted in screenshots, browser gamma rendering, or compressed image formats — even when the SCSS value is neutral. What looks like a color bleed (e.g., list item text appearing slightly blue) may simply be a rendering artifact, not a CSS rule.
+
+**Rule:** Before flagging a color issue, cross-reference the SCSS token value. If the SCSS is neutral gray with no hue-tinted token, trust the code over the screenshot.
