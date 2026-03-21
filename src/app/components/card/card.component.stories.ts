@@ -89,7 +89,7 @@ export const CardGrid: Story = {
         </app-card>
         <app-card variant="elevated" padding="md">
           <div slot="header">Elevated</div>
-          <p>Page background with a medium shadow.</p>
+          <p>Lightness-elevated background with shadow — readable in light and dark mode.</p>
         </app-card>
         <app-card variant="outlined" padding="md">
           <div slot="header">Outlined</div>
