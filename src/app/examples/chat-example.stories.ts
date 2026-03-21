@@ -159,7 +159,7 @@ export const AIChatInterface: Story = {
                   color: var(--color-text-on-action);
                   border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
                   padding: 0.75rem 1rem;
-                  font-family: var(--font-family-base);
+                  font-family: var(--font-family-serif);
                   font-size: var(--font-size-md);
                   line-height: var(--line-height-normal);
                 ">
@@ -211,7 +211,7 @@ export const AIChatInterface: Story = {
                 <div style="max-width: 78%; flex: 1; min-width: 0;">
                   <app-card variant="default" style="display: block;">
                     <div style="
-                      font-family: var(--font-family-base);
+                      font-family: var(--font-family-serif);
                       font-size: var(--font-size-md);
                       line-height: var(--line-height-relaxed);
                       color: var(--color-text-default);
@@ -254,7 +254,7 @@ export const AIChatInterface: Story = {
                   color: var(--color-text-on-action);
                   border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
                   padding: 0.75rem 1rem;
-                  font-family: var(--font-family-base);
+                  font-family: var(--font-family-serif);
                   font-size: var(--font-size-md);
                   line-height: var(--line-height-normal);
                 ">
@@ -306,7 +306,7 @@ export const AIChatInterface: Story = {
                 <div style="max-width: 78%; flex: 1; min-width: 0;">
                   <app-card variant="default" style="display: block;">
                     <div style="
-                      font-family: var(--font-family-base);
+                      font-family: var(--font-family-serif);
                       font-size: var(--font-size-md);
                       line-height: var(--line-height-relaxed);
                       color: var(--color-text-default);
