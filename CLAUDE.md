@@ -118,6 +118,21 @@ cpqi match <hex>                       # Find nearest named/brand color
 
 ## Typography Usage Rules
 
+### Roboto Flex (`--font-family-display`, `--font-family-base`)
+
+Roboto Flex is a **variable font** with axes beyond `font-weight`:
+- `opsz` (optical size): stroke weight adapts to text size — larger text gets heavier strokes naturally
+- `GRAD` (grade): subtle weight adjustment without changing letterform width
+- `wdth` (width): condensed to expanded
+
+**Before adjusting `font-weight` for hierarchy, ask whether the variable axes can do it better:**
+- `font-optical-sizing: auto` — browser automatically maps `opsz` to computed font size, creating a natural optical weight gradient across heading levels. Use this on all heading contexts.
+- `font-variation-settings: 'GRAD' -50` — fine-tune apparent weight for a specific element without touching the weight axis
+
+**The trap:** Reaching for `font-weight: semibold` feels natural but produces an artificial numeric step. The `opsz` axis creates hierarchy that feels designed, not engineered.
+
+See `docs/LESSONS-LEARNED.md` for the full rationale.
+
 ### Atkinson Hyperlegible (`--font-family-accessible`)
 
 Atkinson is the designated typeface for **critical UI text** — form labels, error messages, status indicators, annotations, and badges. Its wider letterforms, open counters, and distinctive glyphs provide strong legibility at small sizes without needing weight support.
