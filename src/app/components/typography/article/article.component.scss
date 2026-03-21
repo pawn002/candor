@@ -12,6 +12,7 @@
     h1, h2, h3, h4 {
         font-family: var(--font-family-display);
         font-weight: var(--font-weight-bold);
+        font-optical-sizing: auto; // Roboto Flex opsz axis — stroke weight scales naturally with size
         line-height: var(--line-height-tight);
         color: var(--color-text-default);
         margin-top: var(--spacing-xl);
