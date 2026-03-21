@@ -2,19 +2,19 @@
 // Maps primitive values to named roles.
 // Components reference these — never primitives directly.
 
-:root {
+@mixin light-color-tokens {
     // ─── Colors: Backgrounds ───────────────────────────────────────────────────
     --color-bg-page:    var(--gray-0);
     --color-bg-surface: var(--gray-100);
     --color-bg-inverse: var(--navy-800);
 
     // ─── Colors: Text ──────────────────────────────────────────────────────────
-    --color-text-default:          var(--gray-700);  // 12.6:1 on --color-bg-page ✅
-    --color-text-subtle:           var(--gray-500);  //  4.5:1 on --color-bg-page ✅
-    --color-text-subtle-on-surface: var(--gray-600); //  5.4:1 on --color-bg-surface ✅  3.4:1 gap closed
-    --color-text-disabled:         var(--gray-400);
-    --color-text-inverse:          var(--gray-0);
-    --color-text-on-action:        var(--gray-0);    // white text on primary/secondary buttons
+    --color-text-default:           var(--gray-700);  // 12.6:1 on --color-bg-page ✅
+    --color-text-subtle:            var(--gray-500);  //  4.5:1 on --color-bg-page ✅
+    --color-text-subtle-on-surface: var(--gray-600);  //  5.4:1 on --color-bg-surface ✅
+    --color-text-disabled:          var(--gray-400);
+    --color-text-inverse:           var(--gray-0);
+    --color-text-on-action:         var(--gray-0);    // white text on primary/secondary buttons
 
     // ─── Colors: Borders ───────────────────────────────────────────────────────
     --color-border-default: var(--gray-200);
@@ -64,6 +64,15 @@
     --color-status-success-bg:  oklch(0.95 0.05 145);
     --color-status-warning:     oklch(0.66 0.16 53.54); // #db7115 — OKCA 3.1 vs white — non-text/icon use only ✅
     --color-status-warning-bg:  oklch(0.95 0.05 53);
+
+    // ─── Colors: Blockquote ────────────────────────────────────────────────────
+    --color-blockquote-bg:     var(--color-bg-surface);
+    --color-blockquote-border: var(--color-action-secondary);
+    --color-blockquote-text:   var(--color-text-subtle-on-surface); // 5.4:1 on --color-blockquote-bg ✅
+}
+
+:root {
+    @include light-color-tokens;
 
     // ─── Spacing ───────────────────────────────────────────────────────────────
     --spacing-xs:  var(--space-1);  //  8px
@@ -136,4 +145,91 @@
     --letter-spacing-tight:  var(--tracking-tight);
     --letter-spacing-normal: var(--tracking-normal);
     --letter-spacing-wide:   var(--tracking-wide);
+}
+
+// ─── Theme Overrides ────────────────────────────────────────────────────────
+// Overrides color tokens only. Spacing, typography, shape tokens are
+// mode-invariant and intentionally not repeated here.
+//
+// Two activation mechanisms:
+//   1. @media (prefers-color-scheme: dark)  — respects OS/browser preference
+//   2. [data-theme="dark"] on <html>        — allows manual override via JS
+//
+// Both apply the same mixin so they stay in sync automatically.
+
+@mixin dark-color-tokens {
+    // ─── Backgrounds ───────────────────────────────────────────────────────
+    --color-bg-page:    var(--gray-900); // oklch(0.16 0.02 248.99) — deepest surface
+    --color-bg-surface: var(--gray-800); // oklch(0.24 0.03 248.99) — elevated cards/panels
+    --color-bg-inverse: var(--gray-0);   // white — flipped from dark navy
+
+    // ─── Text ──────────────────────────────────────────────────────────────
+    --color-text-default:           var(--gray-0);   // 19.4:1 on bg-page ✅
+    --color-text-subtle:            var(--gray-400); //  7.5:1 on bg-page ✅
+    --color-text-subtle-on-surface: var(--gray-400); //  6.4:1 on bg-surface ✅
+    --color-text-disabled:          var(--gray-600); //  2.7:1 — intentionally below AA
+    --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
+    --color-text-on-action:         var(--gray-800); //  7.2:1 on action-primary (navy-300) ✅
+
+    // ─── Borders ───────────────────────────────────────────────────────────
+    --color-border-default: var(--gray-600); // subtle separator — non-text, decorative
+    --color-border-strong:  var(--gray-500); //  4.3:1 on bg-page ✅
+
+    // ─── Action — Primary (navy) ───────────────────────────────────────────
+    // Light steps used so fills read against the dark page (3:1 non-text UI ✅).
+    // gray-800 text on navy-300: 7.2:1 ✅
+    --color-action-primary:        var(--navy-300);  //  8.5:1 on bg-page ✅
+    --color-action-primary-hover:  var(--navy-200);  // 12.4:1 on bg-page ✅
+    --color-action-primary-active: var(--navy-200);
+
+    // ─── Action — Secondary (burgundy) ────────────────────────────────────
+    // gray-800 text on burgundy-300: ~7:1 ✅
+    --color-action-secondary:        var(--burgundy-300); //  8.3:1 on bg-page ✅
+    --color-action-secondary-hover:  var(--burgundy-200); // 12.2:1 on bg-page ✅
+    --color-action-secondary-active: var(--burgundy-200);
+
+    // ─── Action — Tertiary ─────────────────────────────────────────────────
+    // ⚠️  gray-700 bg is only 1.5:1 against page — intentionally subtle in dark mode.
+    // Text (gray-0) on tertiary bg remains readable. Revisit if buttons need more
+    // prominence in dark contexts.
+    --color-action-tertiary:       var(--gray-700);
+    --color-action-tertiary-hover: var(--gray-600);
+    --color-action-tertiary-text:  var(--gray-0);
+
+    // ─── Link / Accent (azure) ─────────────────────────────────────────────
+    --color-link:       var(--azure-300); //  6.2:1 on bg-page ✅
+    --color-link-hover: var(--azure-200); // 11.4:1 on bg-page ✅
+
+    // ─── Highlight (purple) ────────────────────────────────────────────────
+    --color-highlight:            var(--purple-300); //  6.4:1 on bg-page ✅
+    --color-highlight-decorative: var(--purple-400); // decorative only
+
+    // ─── Focus ─────────────────────────────────────────────────────────────
+    --color-focus: var(--azure-300); //  6.2:1 on bg-page ✅
+
+    // ─── Status ────────────────────────────────────────────────────────────
+    // Lightened foreground colors to meet contrast on dark backgrounds.
+    // Dark tinted backgrounds replace the light tints used in light mode.
+    --color-status-error:      oklch(0.75 0.22 25);     //  4.6:1 on bg-page ✅
+    --color-status-error-bg:   oklch(0.20 0.08 25);     // deep red tint
+    --color-status-success:    oklch(0.80 0.15 144.2);  //  6.7:1 on bg-page ✅
+    --color-status-success-bg: oklch(0.20 0.06 144.2);  // deep green tint
+    --color-status-warning:    oklch(0.82 0.16 53.54);  //  7.6:1 on bg-page ✅
+    --color-status-warning-bg: oklch(0.20 0.06 53.54);  // deep amber tint
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        @include dark-color-tokens;
+    }
+}
+
+[data-theme="dark"] {
+    @include dark-color-tokens;
+}
+
+// Explicit light override — placed after the dark media query so it wins via
+// source order when data-theme="light" is set on a dark-OS system (Edge, Firefox).
+[data-theme="light"] {
+    @include light-color-tokens;
 }
