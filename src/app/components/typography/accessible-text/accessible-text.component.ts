@@ -11,6 +11,7 @@ type AccessibleTextColor = 'primary' | 'secondary' | 'disabled' | 'error';
   styleUrls: ['./accessible-text.component.scss'],
   host: {
     '[class]': '"accessible-text accessible-text--role-" + role + " accessible-text--size-" + size + " accessible-text--color-" + color + (bold ? " accessible-text--bold" : "")',
+    '[attr.role]': 'null',  // role is a styling API, not an ARIA role — prevent attribute forwarding
   },
 })
 export class AccessibleTextComponent {

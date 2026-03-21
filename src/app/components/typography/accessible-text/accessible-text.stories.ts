@@ -104,7 +104,7 @@ export const CriticalFormContext: Story = {
     template: `
       <div style="max-width: 400px; display: flex; flex-direction: column; gap: 1.25rem;">
         <div style="display: flex; flex-direction: column; gap: 0.375rem;">
-          <app-accessible-text role="label" [bold]="true">National Insurance number</app-accessible-text>
+          <app-accessible-text role="label" [bold]="true" id="ni-label">National Insurance number</app-accessible-text>
           <app-accessible-text role="annotation" color="secondary">It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ 12 34 56 C'.</app-accessible-text>
           <input
             type="text"
@@ -118,12 +118,13 @@ export const CriticalFormContext: Story = {
               box-sizing: border-box;
             "
             value="QQ 00 00 00"
+            aria-labelledby="ni-label"
             aria-describedby="ni-error"
           />
           <app-accessible-text role="status" color="error" id="ni-error">Enter a National Insurance number in the correct format.</app-accessible-text>
         </div>
         <div style="display: flex; flex-direction: column; gap: 0.375rem;">
-          <app-accessible-text role="label" [bold]="true">Email address</app-accessible-text>
+          <app-accessible-text role="label" [bold]="true" id="email-label">Email address</app-accessible-text>
           <input
             type="email"
             style="
@@ -136,6 +137,7 @@ export const CriticalFormContext: Story = {
               box-sizing: border-box;
             "
             value="user@example.com"
+            aria-labelledby="email-label"
           />
           <div style="background: var(--color-status-success-bg); padding: 0.375rem 0.625rem; border-left: 3px solid var(--color-status-success); border-radius: var(--radius-sm); display: inline-block; margin-top: 0.25rem;">
             <app-accessible-text role="status">✓ Email verified</app-accessible-text>

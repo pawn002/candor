@@ -60,9 +60,10 @@
     --color-link-visited: var(--purple-700);  // 6.9:1 on white ✅ — honors universal :visited convention
 
     // ─── Colors: Highlight (purple) ────────────────────────────────────────────
-    // purple-600 is the accessible step (4.6:1 with white).
-    // purple-500 is the brand original (#6969F7) — decorative use only.
-    --color-highlight:            var(--purple-600); // accessible ✅
+    // purple-600 (L=0.56) is 4.6:1 on white but only 3.5:1 on --color-bg-surface (gray-200).
+    // Inline code in Article uses highlight on surface-bg, so we step down to L=0.50.
+    // oklch(0.50 0.21 278) = #5048d6 — 4.6:1 on surface-gray ✅, 6:1 on white ✅
+    --color-highlight:            oklch(0.50 0.21 278); // passes on both white and surface-bg
     --color-highlight-decorative: var(--purple-500); // original brand color
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────
