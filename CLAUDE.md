@@ -116,6 +116,47 @@ cpqi match <hex>                       # Find nearest named/brand color
 - Screenshot components: `browser_take_screenshot`
 - Test interactions: `browser_click`, `browser_type`, `browser_press_key`
 
+## Typography Usage Rules
+
+### Atkinson Hyperlegible (`--font-family-accessible`)
+
+Atkinson is the designated typeface for **critical UI text** — form labels, error messages, status indicators, annotations, and badges. Its wider letterforms, open counters, and distinctive glyphs provide strong legibility at small sizes without needing weight support.
+
+**Bold weight rules for Atkinson:**
+- **Use bold only for hierarchy/labeling** — form field labels, section headings, structural anchors where a clear visual break is needed
+- **Do NOT use bold for urgency or emphasis** — error messages, warnings, status text, and annotations should use regular weight (400). The typeface's inherent legibility and the semantic color (red for error, etc.) carry the urgency signal. Bold on top of Atkinson reads as double-emphasis and disrupts hierarchy
+- The `--bold` modifier on `AccessibleTextComponent` exists for intentional overrides but should rarely be needed outside of `role="label"` contexts
+
+**Why this matters:** Atkinson performs so well at regular weight that bold becomes a hierarchy signal, not a legibility aid. Overusing bold flattens the hierarchy and makes everything feel heavy.
+
+**Correct usage:**
+```html
+<!-- ✓ Bold for label — structural anchor -->
+<app-accessible-text role="label" [bold]="true">National Insurance number</app-accessible-text>
+
+<!-- ✓ Regular for status — color carries urgency -->
+<app-accessible-text role="status" color="error">Enter a valid number.</app-accessible-text>
+
+<!-- ✗ Wrong — bold + error color is double-emphasis -->
+<app-accessible-text role="status" color="error" [bold]="true">Enter a valid number.</app-accessible-text>
+```
+
+### Atkinson Tracking
+
+Atkinson Hyperlegible requires positive letter-spacing to prevent glyph clustering (adjacent glyphs like "rr" reading as "m"). Apply `letter-spacing` based on context:
+
+| Context | Value | Reason |
+|---|---|---|
+| Badges | `0.06em` | Small size (14px) needs more air |
+| Body roles (message, status, annotation) | `0.02em` | 16px has more natural spacing |
+| Labels (uppercase) | `var(--letter-spacing-wide)` = `0.05em` | Uppercase already benefits from tracking |
+
+**Never use `letter-spacing: 0` or `--letter-spacing-normal` with Atkinson** — always apply positive tracking.
+
+### Text Size Floor
+
+No readable text in the system should fall below **14px** (`--font-size-sm` = `0.875rem`). This is enforced at the primitive token level. `--text-xs` (12px) is for decorative/non-text use only (icons, badges chrome).
+
 ## File Modifications Guidelines
 
 ### Modifying Design Tokens
@@ -260,6 +301,7 @@ With `ViewEncapsulation.None`, Angular does not add scoping attributes, so desce
 4. **Don't create components without stories**: Every component needs a story
 5. **Don't modify node_modules**: This is obvious but worth stating
 6. **Never use `::ng-deep`**: It is deprecated. Use `ViewEncapsulation.None` with a host class for scoping when styling projected content (see "View Encapsulation and Projected Content" above)
+7. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
 
 ## Testing Strategy
 

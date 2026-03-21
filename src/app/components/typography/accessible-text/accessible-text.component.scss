@@ -21,7 +21,6 @@
 
     &.accessible-text--role-status {
         font-size: var(--font-size-sm); // 14px floor
-        font-weight: var(--font-weight-bold); // Atkinson only has 400/700
         letter-spacing: 0.02em; // Atkinson needs positive tracking to prevent glyph clustering
         line-height: var(--line-height-tight);
     }
