@@ -6,6 +6,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is an Angular + Storybook design system playground built for AI-assisted design iteration with real-time accessibility validation. The primary workflow involves receiving art direction specs, implementing them in design tokens, and validating accessibility using the CPQI CLI for color contrast and Playwright MCP for visual inspection.
 
+## Design Philosophy
+
+### Candor is a humanist design system
+
+Candor's typefaces — Roboto Flex, Noto Serif, Atkinson Hyperlegible — are all drawn from the humanist tradition: letterforms shaped by the hand, designed for reading by people. The color system uses perceptual uniformity (OKLCH) precisely because it models human vision, not machine arithmetic. These are not incidental choices.
+
+**The principle:** Every element in Candor — including technical, data-heavy, or machine-generated content — should feel like it belongs to a considered, human-authored artifact. No component escapes this. Code blocks, data tables, monospace text, status indicators, and form chrome all exist within the humanist frame.
+
+**What this means in practice:**
+- Clinical harshness is not "appropriate for technical content" — it is a failure of the system's character. A code block in dark mode should not be a stark white rectangle interrupting a warm layout.
+- Maximum contrast is not automatically correct. 19.4:1 white-on-dark is a machine default, not a design decision.
+- When a component feels cold, flat, or mechanical, the question is not "is this the right aesthetic for this content type?" — it is "how do we bring this inside the system's character without losing its function?"
+
+**The tension to navigate:** Technical content has real legibility requirements — monospace, high contrast, clear delineation. The humanist position is not to ignore these. It is to meet them while preserving warmth, coherence, and the sense that a human made considered choices about every surface.
+
+**Flag this tension proactively.** When implementing any component where clinical defaults would be the easy choice — code blocks, tables, form inputs, data displays — name the humanist/legibility tension explicitly rather than silently resolving it one way or the other.
+
+---
+
 ## Essential Commands
 
 ### Development
