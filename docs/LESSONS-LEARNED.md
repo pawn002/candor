@@ -102,6 +102,16 @@ Setting all dark mode status backgrounds to `L=0.20` with only hue variation cre
 
 ---
 
+### Dark surface delineation cannot rely on lightness alone
+
+At low L values (L < 0.30), large lightness steps produce negligible WCAG contrast ratios. Moving from L=0.16 (page) to L=0.24 (surface) yields only ~1.1:1 — the backgrounds are perceptually indistinguishable even though the L difference feels meaningful in absolute terms. The WCAG contrast formula compresses heavily at the dark end of the scale.
+
+**The fix:** Use a border to carry the zone-delineation work. A 1px `--color-border-strong` outline reliably signals "this is a distinct content zone" regardless of how close the backgrounds are in lightness. Background tint can still add atmosphere — hue distinctness (e.g., a cool navy tint vs a neutral gray page) registers perceptually even when contrast ratios are low — but the border is what makes the boundary legible.
+
+**The trap:** Assuming that a slightly lighter or more saturated dark background will read as visually distinct. It won't, until L is high enough to escape the compressed dark range (~L > 0.35).
+
+---
+
 ### deltaE 2000 is the right measure for background distinguishability
 
 WCAG contrast ratio is luminance-based and useful for text-on-background legibility. For distinguishing two non-text backgrounds from each other, deltaE 2000 is more appropriate — it accounts for hue, chroma, and lightness interactions perceptually. The threshold of deltaE > 11 represents "clearly different" to a typical observer.
