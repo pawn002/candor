@@ -7,7 +7,8 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-full);
-  font-family: var(--font-family-base);
+  font-family: var(--font-family-accessible);
+  letter-spacing: 0.06em;
   font-weight: var(--font-weight-semibold);
   white-space: nowrap;
   line-height: var(--line-height-tight);
