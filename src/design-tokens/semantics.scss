@@ -274,13 +274,13 @@
     // Backgrounds mirror light-mode approach: near-neutral dark surface (C≈0.02),
     // letting the border/icon carry the full color signal. High-chroma fills were
     // competing with vivid borders and creating a "glowing" effect.
-    --color-status-error:         oklch(0.75 0.22 25);     //  4.6:1 on bg-page ✅
+    --color-status-error:         oklch(0.68 0.11 25);     //  4.7:1 on bg-page ✅ — muted rose-red, not neon
     --color-status-error-bg:      oklch(0.23 0.02 18);     // near-neutral dark — barely rosy tint
     --color-status-error-text:    oklch(0.77 0.22 25);     //  4.6:1 on new error-bg ✅
-    --color-status-success:       oklch(0.80 0.15 144.2);  //  6.7:1 on bg-page ✅
+    --color-status-success:       oklch(0.70 0.08 144.2);  //  6.1:1 on bg-page ✅ — muted sage-green, not neon
     --color-status-success-bg:    oklch(0.23 0.02 144);    // near-neutral dark — barely green tint
     --color-status-success-text:  oklch(0.80 0.15 144.2);  //  5.9:1 on new success-bg ✅
-    --color-status-warning:       oklch(0.82 0.16 53.54);  //  7.6:1 on bg-page ✅
+    --color-status-warning:       oklch(0.72 0.09 53.54);  //  6.4:1 on bg-page ✅ — muted amber, not neon
     --color-status-warning-bg:    oklch(0.25 0.02 68);     // near-neutral dark — barely warm tint
     --color-status-warning-text:  oklch(0.82 0.16 53.54);  //  6.3:1 on new warning-bg ✅
 
