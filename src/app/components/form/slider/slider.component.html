@@ -4,6 +4,7 @@
 
 <div
   class="slider__track"
+  [class.slider__track--gradient]="!!gradient"
   [style.background]="gradient ?? null"
 >
   <input
