@@ -5,6 +5,7 @@ import { BadgeComponent } from '../components/badge/badge.component';
 import { ButtonComponent } from '../components/button/button.component';
 import { CardComponent } from '../components/card/card.component';
 import { AccessibleTextComponent } from '../components/typography/accessible-text/accessible-text.component';
+import { ChatInputComponent } from '../components/form/chat-input/chat-input.component';
 
 const meta: Meta = {
   title: 'Examples/Chat Example',
@@ -16,6 +17,7 @@ const meta: Meta = {
         ButtonComponent,
         CardComponent,
         AccessibleTextComponent,
+        ChatInputComponent,
       ],
     }),
   ],
@@ -349,45 +351,11 @@ export const AIChatInterface: Story = {
               border-top: 1px solid var(--color-border-default);
               flex-shrink: 0;
             ">
-              <div style="
-                display: flex;
-                gap: 0.625rem;
-                align-items: flex-end;
-                background: var(--color-bg-elevated);
-                border: 1px solid var(--color-border-control);
-                border-radius: var(--radius-md);
-                padding: 0.625rem 0.625rem 0.625rem 1rem;
-              ">
-                <label for="chat-input" class="sr-only" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;">
-                  Message Candor AI
-                </label>
-                <textarea
-                  id="chat-input"
-                  rows="1"
-                  placeholder="Ask about color, type, spacing…"
-                  style="
-                    flex: 1;
-                    background: transparent;
-                    border: none;
-                    outline: none;
-                    resize: none;
-                    font-family: var(--font-family-base);
-                    font-size: var(--font-size-md);
-                    color: var(--color-text-default);
-                    line-height: var(--line-height-normal);
-                    min-height: 1.5rem;
-                  ">
-                </textarea>
-                <app-button variant="primary" size="small">Send</app-button>
-              </div>
-              <p style="
-                margin: 0.5rem 0 0;
-                text-align: center;
-                font-family: var(--font-family-accessible);
-                font-size: var(--font-size-sm);
-                color: var(--color-text-subtle);
-                letter-spacing: 0.02em;
-              ">Candor AI can make mistakes. Review important information.</p>
+              <app-chat-input
+                placeholder="Ask about color, type, spacing…"
+                label="Message Candor AI"
+                disclaimer="Candor AI can make mistakes. Review important information.">
+              </app-chat-input>
             </div>
 
           </div>
