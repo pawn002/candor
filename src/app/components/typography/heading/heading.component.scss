@@ -2,6 +2,7 @@
     display: block;
     font-family: var(--font-family-base);
     font-weight: var(--font-weight-bold);
+    font-optical-sizing: auto; // Roboto Flex opsz axis — stroke weight scales naturally with size
     line-height: var(--line-height-tight);
     margin: 0;
 
@@ -17,6 +18,7 @@
 
     &.heading--h3 {
         font-size: var(--font-size-h3);
+        letter-spacing: var(--letter-spacing-tight);
     }
 
     &.heading--h4 {
@@ -25,14 +27,10 @@
 
     &.heading--h5 {
         font-size: var(--font-size-h5);
-        font-weight: var(--font-weight-semibold);
     }
 
     &.heading--h6 {
         font-size: var(--font-size-h6);
-        font-weight: var(--font-weight-semibold);
-        text-transform: uppercase;
-        letter-spacing: var(--letter-spacing-wide);
     }
 
     &.heading--color-primary {
