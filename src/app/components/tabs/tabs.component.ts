@@ -16,7 +16,7 @@ import { TabPanelComponent } from './tab-panel.component';
   standalone: true,
   template: `
     <div class="tabs">
-      <div class="tabs__list" role="tablist">
+      <div class="tabs__list" role="tablist" [attr.aria-label]="ariaLabel || null">
         @for (panel of panels; track panel.tabId) {
           <button
             class="tabs__tab"
@@ -40,6 +40,7 @@ export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabPanelComponent) panels!: QueryList<TabPanelComponent>;
 
   @Input() activeId = '';
+  @Input() ariaLabel = '';
   @Output() tabChange = new EventEmitter<string>();
 
   private el: ElementRef;
