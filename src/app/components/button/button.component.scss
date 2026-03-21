@@ -65,9 +65,9 @@
     }
 
     // Destructive — boosted-chroma burgundy (H=347); hue-distinct from error (H=25).
-    // Light mode: solid dark crimson fill + white text.
-    // Dark mode: outlined (transparent bg, crimson-rose border/text) — avoids the pink-fill
-    // problem that H=347 produces at high lightness on dark backgrounds.
+    // Outlined in both modes: transparent bg, crimson border+text.
+    // Hierarchy reads consistently light/dark; avoids the pink-fill problem H=347 produces
+    // at high lightness on dark backgrounds.
     &--destructive {
         background-color: var(--color-action-destructive);
         color: var(--color-action-destructive-text);

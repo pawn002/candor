@@ -33,13 +33,12 @@
     // ─── Colors: Action — Destructive (crimson burgundy, H=347) ───────────────
     // Boosted chroma from the existing burgundy hue — signals irreversibility.
     // Distinct from error (H=25 orange-red): destructive = a chosen action, not a failure state.
-    // Light mode: solid dark crimson fill + white text.
-    // Dark mode (below): outlined — transparent bg + crimson-rose border/text.
-    --color-action-destructive:        oklch(0.37 0.15 347); // 10.4:1 with white ✅
-    --color-action-destructive-hover:  oklch(0.32 0.12 347); // 12.7:1 with white ✅
-    --color-action-destructive-active: oklch(0.28 0.10 347); // 14.6:1 with white ✅
-    --color-action-destructive-text:   var(--gray-0);        // white text on dark crimson fill
-    --color-action-destructive-border: oklch(0.37 0.15 347); // matches fill — border invisible but present
+    // Both modes: outlined — transparent bg, crimson border+text. Hierarchy mirrors dark mode.
+    --color-action-destructive:        transparent;
+    --color-action-destructive-hover:  oklch(0.37 0.15 347 / 0.08); // subtle crimson tint on hover
+    --color-action-destructive-active: oklch(0.37 0.15 347 / 0.15); // stronger tint on active
+    --color-action-destructive-text:   oklch(0.37 0.15 347);         // 10.4:1 on white ✅
+    --color-action-destructive-border: oklch(0.37 0.15 347);         // matches text
 
     // ─── Colors: Action — Tertiary ─────────────────────────────────────────────
     --color-action-tertiary:        var(--gray-100);
@@ -221,8 +220,8 @@
     --color-action-secondary-active: var(--burgundy-200);
 
     // ─── Action — Destructive ─────────────────────────────────────────────────
-    // Outlined in dark mode — H=347 at light fills reads as pink, not crimson.
-    // Transparent bg + crimson-rose border/text keeps the danger signal without the hue problem.
+    // Outlined — same pattern as light mode, lighter crimson-rose for dark bg.
+    // H=347 at high lightness reads as pink filled; outlined avoids the fill entirely.
     --color-action-destructive:        transparent;
     --color-action-destructive-hover:  oklch(0.72 0.15 347 / 0.12); // subtle rose tint on hover
     --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22); // stronger tint on active
