@@ -7,6 +7,7 @@ import { BadgeComponent } from '../components/badge/badge.component';
 import { AccessibleTextComponent } from '../components/typography/accessible-text/accessible-text.component';
 import { RadioComponent } from '../components/form/radio/radio.component';
 import { CheckboxComponent } from '../components/form/checkbox/checkbox.component';
+import { SliderComponent } from '../components/form/slider/slider.component';
 
 const meta: Meta = {
   title: 'Examples/Color Iterator Example',
@@ -20,6 +21,7 @@ const meta: Meta = {
         AccessibleTextComponent,
         RadioComponent,
         CheckboxComponent,
+        SliderComponent,
       ],
     }),
   ],
@@ -42,54 +44,6 @@ export const ColorPairIterator: Story = {
       ],
     },
     template: `
-      <!-- Slider thumb styling — gap: no Slider component in system -->
-      <style>
-        .cpqi-slider {
-          -webkit-appearance: none;
-          appearance: none;
-          display: block;
-          width: 100%;
-          height: 100%;
-          background: transparent;
-          cursor: pointer;
-          padding: 0;
-          margin: 0;
-        }
-        .cpqi-slider::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          width: 1.25rem;
-          height: 1.25rem;
-          border-radius: 50%;
-          background: white;
-          border: 2px solid rgba(0,0,0,0.35);
-          box-shadow: 0 1px 4px rgba(0,0,0,0.25);
-          cursor: pointer;
-          margin-top: -0.375rem;
-        }
-        .cpqi-slider::-webkit-slider-runnable-track {
-          height: 0.5rem;
-          border-radius: 99px;
-          background: transparent;
-        }
-        .cpqi-slider:focus-visible {
-          outline: none;
-        }
-        .cpqi-slider:focus-visible::-webkit-slider-thumb {
-          outline: var(--focus-ring-width) solid var(--color-focus);
-          outline-offset: var(--focus-ring-offset);
-        }
-        .cpqi-hex-input {
-          background: transparent;
-          border: none;
-          outline: none;
-          font-family: var(--font-family-mono);
-          font-size: var(--font-size-sm);
-          color: var(--color-text-default);
-          width: 6rem;
-          letter-spacing: 0.02em;
-        }
-      </style>
-
       <div style="min-height: 100vh; background: var(--color-bg-page);">
 
         <!-- Navigation -->
@@ -160,33 +114,16 @@ export const ColorPairIterator: Story = {
                       type="text"
                       value="#647a61"
                       aria-label="Foreground hex color"
-                      class="cpqi-hex-input"
+                      style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: 0.02em;"
                     />
                   </div>
 
                   <!-- Gradient L-axis slider -->
-                  <!-- gap: no Slider component — raw range input -->
-                  <div>
-                    <app-accessible-text role="annotation" color="secondary" style="display: block; margin-bottom: 0.375rem;">
-                      Lightness — hold C and H
-                    </app-accessible-text>
-                    <div style="
-                      height: 2rem;
-                      border-radius: var(--radius-sm);
-                      background: linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142));
-                      display: flex;
-                      align-items: center;
-                      padding: 0 0.25rem;
-                      border: 1px solid var(--color-border-default);
-                    ">
-                      <input
-                        type="range"
-                        class="cpqi-slider"
-                        min="0" max="1" step="0.001" value="0.555"
-                        aria-label="Foreground lightness"
-                      />
-                    </div>
-                  </div>
+                  <app-slider
+                    label="Lightness — hold C and H"
+                    [min]="0" [max]="1" [step]="0.001" [value]="0.555"
+                    gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))">
+                  </app-slider>
 
                   <!-- OKLCH readout -->
                   <div style="
@@ -235,31 +172,16 @@ export const ColorPairIterator: Story = {
                       type="text"
                       value="#ffe1f9"
                       aria-label="Background hex color"
-                      class="cpqi-hex-input"
+                      style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: 0.02em;"
                     />
                   </div>
 
-                  <div>
-                    <app-accessible-text role="annotation" color="secondary" style="display: block; margin-bottom: 0.375rem;">
-                      Lightness — hold C and H
-                    </app-accessible-text>
-                    <div style="
-                      height: 2rem;
-                      border-radius: var(--radius-sm);
-                      background: linear-gradient(to right, oklch(0.05 0.054 333), oklch(0.94 0.054 333), oklch(0.97 0.054 333));
-                      display: flex;
-                      align-items: center;
-                      padding: 0 0.25rem;
-                      border: 1px solid var(--color-border-default);
-                    ">
-                      <input
-                        type="range"
-                        class="cpqi-slider"
-                        min="0" max="1" step="0.001" value="0.94"
-                        aria-label="Background lightness"
-                      />
-                    </div>
-                  </div>
+                  <!-- Gradient L-axis slider -->
+                  <app-slider
+                    label="Lightness — hold C and H"
+                    [min]="0" [max]="1" [step]="0.001" [value]="0.94"
+                    gradient="linear-gradient(to right, oklch(0.05 0.054 333), oklch(0.94 0.054 333), oklch(0.97 0.054 333))">
+                  </app-slider>
 
                   <div style="
                     display: flex;
