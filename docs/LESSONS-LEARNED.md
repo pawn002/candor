@@ -40,6 +40,19 @@ Atkinson's glyph shapes prevent clustering better than most typefaces, but at ze
 
 ---
 
+### Italic text needs positive letter-spacing
+
+Italic letterforms are slanted, which reduces the apparent inter-glyph space compared to upright text at the same tracking. At zero letter-spacing, italic body text reads more tightly than it should — most noticeable in blockquotes, figcaptions, and `em` emphasis runs. Apply `--letter-spacing-italic` (0.02em) to all italic text at body size, and increase to 0.03em at 14px.
+
+| Context | Value | Reason |
+|---|---|---|
+| Italic body text (16px) | `0.02em` (`--letter-spacing-italic`) | Restores visual cadence lost to slant |
+| Italic small text (14px) | `0.03em` | Small size compounds the apparent tightness |
+
+**The trap:** Italic is often treated as a pure typographic switch with no spacing consequence. The slant is a visual spacing change — tracking must compensate.
+
+---
+
 ### em is the correct unit for letter-spacing; ch is for container widths
 
 `em` scales with font-size, making tracking proportional across type sizes. `ch` (width of the "0" glyph) is the right unit for measuring how many characters fit in a container (e.g., `max-width: 65ch` for article measure), not for inter-glyph spacing.

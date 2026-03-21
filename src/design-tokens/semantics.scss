@@ -165,6 +165,7 @@
     --letter-spacing-tight:  var(--tracking-tight);
     --letter-spacing-normal: var(--tracking-normal);
     --letter-spacing-wide:   var(--tracking-wide);
+    --letter-spacing-italic: 0.02em; // italic text at body size (16px) — slant reduces apparent inter-glyph space
 }
 
 // ─── Theme Overrides ────────────────────────────────────────────────────────
