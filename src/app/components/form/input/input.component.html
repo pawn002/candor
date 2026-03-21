@@ -1,13 +1,17 @@
 <div class="input-wrapper">
-  <label *ngIf="label" [for]="inputId" class="input-label">
-    {{ label }}
-    <span *ngIf="required" class="input-required" aria-label="required">*</span>
-  </label>
+  @if (label) {
+    <label [for]="inputId" class="input-label">
+      {{ label }}
+      @if (required) {
+        <span class="input-required" aria-label="required">*</span>
+      }
+    </label>
+  }
 
   <input
     [id]="inputId"
     [type]="type"
-    [placeholder]="placeholder"
+    [attr.placeholder]="placeholder || null"
     [disabled]="disabled"
     [required]="required"
     [value]="value"
@@ -18,8 +22,14 @@
     (blur)="onBlur()"
   />
 
-  <div *ngIf="error || hint" [id]="inputId + '-description'" class="input-description">
-    <span *ngIf="error" class="input-error-message">{{ error }}</span>
-    <span *ngIf="!error && hint" class="input-hint">{{ hint }}</span>
-  </div>
+  @if (error || hint) {
+    <div [id]="inputId + '-description'" class="input-description">
+      @if (error) {
+        <span class="input-error-message">{{ error }}</span>
+      }
+      @if (!error && hint) {
+        <span class="input-hint">{{ hint }}</span>
+      }
+    </div>
+  }
 </div>
