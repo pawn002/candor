@@ -38,7 +38,6 @@
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 100%;
     background: transparent;
     cursor: pointer;
     padding: 0;
@@ -50,6 +49,7 @@
         -webkit-appearance: none;
         width: 1.25rem;
         height: 1.25rem;
+        margin-top: calc((1.25rem - 4px) / -2); // center thumb on the 4px track
         border-radius: 50%;
         background: var(--color-bg-elevated);
         border: 2px solid rgba(0, 0, 0, 0.28);
@@ -67,7 +67,7 @@
 
     &::-webkit-slider-runnable-track {
         background: transparent;
-        height: 0;
+        height: 4px;
     }
 
     // ─── Focus ───────────────────────────────────────────────────────────────
