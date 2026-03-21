@@ -189,7 +189,7 @@ export const WithLinks: Story = {
         requirement without cluttering the baseline rhythm.
       </p>
       <p>
-        Links within a visited state, <a href="#">like this one</a>, should ideally
+        Links within a visited state, <a href="https://pawn002.github.io/blog-public/">like this one</a>, should ideally
         signal that the destination has already been seen. Here is a run of text with
         <a href="#">multiple</a> <a href="#">consecutive</a> <a href="#">links</a>
         to evaluate spacing and visual noise in dense link contexts.

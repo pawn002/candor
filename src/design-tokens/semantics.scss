@@ -38,8 +38,9 @@
     // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────
     // azure-400 is the brand original (#1493FB) — use on dark backgrounds only.
     // azure-500/600 are the accessible steps for use on white backgrounds.
-    --color-link:       var(--azure-400); // decorative / dark-bg use
-    --color-link-hover: var(--azure-500);
+    --color-link:         var(--azure-400);   // decorative / dark-bg use
+    --color-link-hover:   var(--azure-500);
+    --color-link-visited: var(--purple-700);  // 6.9:1 on white ✅ — honors universal :visited convention
 
     // ─── Colors: Highlight (purple) ────────────────────────────────────────────
     // purple-600 is the accessible step (4.6:1 with white).
@@ -206,8 +207,9 @@
     --color-action-tertiary-text:  var(--gray-0);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────
-    --color-link:       var(--azure-300); //  6.2:1 on bg-page ✅
-    --color-link-hover: var(--azure-200); // 11.4:1 on bg-page ✅
+    --color-link:         var(--azure-300);   //  6.2:1 on bg-page ✅
+    --color-link-hover:   var(--azure-200);   // 11.4:1 on bg-page ✅
+    --color-link-visited: var(--purple-300);  //  6.4:1 on bg-page ✅
 
     // ─── Highlight (purple) ────────────────────────────────────────────────
     --color-highlight:            var(--purple-300); //  6.4:1 on bg-page ✅
