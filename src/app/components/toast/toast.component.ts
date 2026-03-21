@@ -6,8 +6,8 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
   selector: 'app-toast',
   standalone: true,
   template: `
-    <div [class]="'toast toast--' + variant" role="alert">
-      <svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div [class]="'toast toast--' + variant" [attr.role]="variant === 'warning' || variant === 'error' ? 'alert' : 'status'">
+      <svg class="toast__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         @switch (variant) {
           @case ('info') {
             <circle cx="12" cy="12" r="10"/>
@@ -38,7 +38,7 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
       </div>
       @if (dismissible) {
         <button class="toast__dismiss" (click)="dismiss()" aria-label="Dismiss notification">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"/>
             <line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
