@@ -29,7 +29,7 @@ const preview: Preview = {
   parameters: {
     options: {
       storySort: {
-        order: ['Introduction', 'Design Tokens', 'Typography', 'Button', 'Form', 'Examples'],
+        order: ['Introduction', 'Design Tokens', 'Typography', 'Button', 'Form', 'Components', 'Examples'],
       },
     },
     controls: {
