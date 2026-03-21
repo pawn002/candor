@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 type TextVariant = 'body' | 'caption' | 'label';
-type TextSize = 'sm' | 'md' | 'lg';
+type TextSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 type TextColor = 'primary' | 'secondary' | 'disabled';
 
 @Component({

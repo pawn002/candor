@@ -13,8 +13,8 @@ const meta: Meta<TextComponent> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: 'Text size. Caption is typically sm (14px). lg (20px) suits intro paragraphs or pull quotes.',
+      options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'],
+      description: 'Text size. xs (12px) is decorative only. Caption is typically sm (14px). xl–3xl are heading territory — prefer HeadingComponent for structural headings.',
     },
     color: {
       control: 'select',
@@ -81,10 +81,35 @@ export const Label: Story = {
 export const Sizes: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <app-text variant="body" size="sm">Small — 14px. Dense UI contexts, metadata, secondary prose.</app-text>
-        <app-text variant="body" size="md">Medium — 16px. Default body size for readable prose.</app-text>
-        <app-text variant="body" size="lg">Large — 20px. Intro paragraphs, pull quotes, lead text.</app-text>
+      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <div style="display: flex; align-items: baseline; gap: 1rem;">
+          <app-text variant="label" size="xs" color="secondary" style="min-width: 7ch;">xs · 12px</app-text>
+          <app-text variant="body" size="xs">Decorative only — icons, badge chrome, non-readable metadata.</app-text>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 1rem;">
+          <app-text variant="label" size="xs" color="secondary" style="min-width: 7ch;">sm · 14px</app-text>
+          <app-text variant="body" size="sm">System floor for readable text. Dense UI, captions, secondary prose.</app-text>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 1rem;">
+          <app-text variant="label" size="xs" color="secondary" style="min-width: 7ch;">md · 16px</app-text>
+          <app-text variant="body" size="md">Default body size. Comfortable baseline for sustained reading.</app-text>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 1rem;">
+          <app-text variant="label" size="xs" color="secondary" style="min-width: 7ch;">lg · 20px</app-text>
+          <app-text variant="body" size="lg">Intro paragraphs, pull quotes, lead text above an article.</app-text>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 1rem;">
+          <app-text variant="label" size="xs" color="secondary" style="min-width: 7ch;">xl · 25px</app-text>
+          <app-text variant="body" size="xl">Large display text. Prefer HeadingComponent for structural headings.</app-text>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 1rem;">
+          <app-text variant="label" size="xs" color="secondary" style="min-width: 7ch;">2xl · 31px</app-text>
+          <app-text variant="body" size="2xl">Display scale — use HeadingComponent (h2) for semantic heading use.</app-text>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 1rem;">
+          <app-text variant="label" size="xs" color="secondary" style="min-width: 7ch;">3xl · 39px</app-text>
+          <app-text variant="body" size="3xl">Hero display — use HeadingComponent (h1) for semantic heading use.</app-text>
+        </div>
       </div>
     `,
   }),
