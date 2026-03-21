@@ -53,6 +53,13 @@
     --color-blockquote-border: var(--color-action-secondary);
     --color-blockquote-text:   var(--color-text-subtle-on-surface); // 5.4:1 on --color-blockquote-bg ✅
 
+    // ─── Colors: Code blocks ───────────────────────────────────────────────────
+    // In light mode: dark navy block (inverted) — no border needed, bg does the work.
+    // In dark mode: deep navy tint + explicit border — bg alone can't delineate at low L.
+    --color-bg-code:     var(--color-bg-inverse);  // navy-800 on white page
+    --color-text-code:   var(--color-text-inverse); // white on navy
+    --color-border-code: transparent;
+
     // ─── Colors: Focus ─────────────────────────────────────────────────────────
     --color-focus: var(--azure-400); // high-visibility ring on dark/white backgrounds
 
@@ -233,6 +240,13 @@
     --color-status-warning:       oklch(0.82 0.16 53.54);  //  7.6:1 on bg-page ✅
     --color-status-warning-bg:    oklch(0.30 0.14 68);     // deltaE 38.1 vs bg-page ✅, 12.3 vs error-bg ✅
     --color-status-warning-text:  oklch(0.82 0.16 53.54);  //  5.3:1 on warning-bg ✅
+
+    // ─── Code blocks ───────────────────────────────────────────────────────────
+    // Deep navy tint — hue-distinct from gray-900 page but not light-inverted.
+    // Border required: bg-to-page contrast is ~1:1 at these low L values.
+    --color-bg-code:     oklch(0.20 0.04 248); // 12.6:1 text contrast ✅
+    --color-text-code:   var(--color-text-default); // inherits soft off-white
+    --color-border-code: var(--color-border-strong);
 }
 
 @media (prefers-color-scheme: dark) {
