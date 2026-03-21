@@ -22,7 +22,7 @@ type Story = StoryObj<TabsComponent>;
 export const Default: Story = {
   render: () => ({
     template: `
-      <app-tabs>
+      <app-tabs ariaLabel="Product information">
         <app-tab-panel tabId="overview" label="Overview">
           <p>This is the overview panel. It contains a summary of all the important information you need to get started.</p>
         </app-tab-panel>
@@ -43,7 +43,7 @@ export const Controlled: Story = {
       onTabChange: (id: string) => console.log('Tab changed to:', id),
     },
     template: `
-      <app-tabs activeId="settings" (tabChange)="onTabChange($event)">
+      <app-tabs activeId="settings" ariaLabel="Account settings" (tabChange)="onTabChange($event)">
         <app-tab-panel tabId="profile" label="Profile">
           <p>Manage your profile information, including your name, email, and avatar.</p>
         </app-tab-panel>

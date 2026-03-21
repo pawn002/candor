@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
     '[id]': '"panel-" + tabId',
     '[attr.aria-labelledby]': '"tab-" + tabId',
     '[hidden]': '!active',
+    '[tabindex]': 'active ? 0 : -1',
   }
 })
 export class TabPanelComponent {
