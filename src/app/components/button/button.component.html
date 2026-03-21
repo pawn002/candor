@@ -4,5 +4,5 @@
   [attr.aria-label]="ariaLabel"
   [class]="'button button--' + variant + ' button--' + size"
   (click)="onClick($event)">
-  <span class="button__label"><ng-content></ng-content></span>
+  <ng-content></ng-content>
 </button>

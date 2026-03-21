@@ -103,28 +103,6 @@ export const DisabledStates: Story = {
   }),
 };
 
-export const TertiaryOnSurfaces: Story = {
-  decorators: [moduleMetadata({ imports: [TextComponent] })],
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        <div style="padding: var(--spacing-md); background: var(--color-bg-page); border-radius: var(--radius-md);">
-          <app-text variant="label" size="xs" color="secondary" style="display: block; margin-bottom: var(--spacing-sm);">Page background</app-text>
-          <app-button variant="tertiary">Learn more</app-button>
-        </div>
-        <div style="padding: var(--spacing-md); background: var(--color-bg-surface); border-radius: var(--radius-md);">
-          <app-text variant="label" size="xs" color="secondary" style="display: block; margin-bottom: var(--spacing-sm);">Surface background</app-text>
-          <app-button variant="tertiary">Learn more</app-button>
-        </div>
-        <div style="padding: var(--spacing-md); background: var(--color-action-primary); border-radius: var(--radius-md);">
-          <app-text variant="label" size="xs" style="display: block; margin-bottom: var(--spacing-sm); color: var(--color-text-on-action);">Primary action background</app-text>
-          <app-button variant="tertiary">Learn more</app-button>
-        </div>
-      </div>
-    `,
-  }),
-};
-
 export const FullMatrix: Story = {
   decorators: [moduleMetadata({ imports: [TextComponent] })],
   render: () => ({

@@ -23,12 +23,6 @@
         opacity: 0.5;
     }
 
-    // Sits above the ::before blend layer in tertiary buttons
-    .button__label {
-        position: relative;
-        z-index: 1;
-    }
-
     // ─── Sizes ───────────────────────────────────────────────────────────────
 
     &--small {
@@ -68,35 +62,13 @@
         &:active:not(:disabled) { background-color: var(--color-action-secondary-active); }
     }
 
-    // Tertiary — blend-mode tint adapts to the parent surface.
-    // ::before carries a pale primary tint; mix-blend-mode multiplies it into
-    // light backgrounds (light mode) or screens it into dark backgrounds (dark mode).
-    // The token --button-tertiary-blend-mode flips between 'multiply' and 'screen'
-    // via the theme mixin. .button__label z-index keeps text above the blend layer.
     &--tertiary {
-        position: relative;
-        overflow: hidden;
-        color: var(--color-action-primary);
-        border: var(--border-width-thin) solid var(--color-action-primary);
-        background: transparent;
+        background-color: var(--color-action-tertiary);
+        color: var(--color-action-tertiary-text);
+        border: var(--border-width-thin) solid var(--color-border-strong);
 
-        &::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-color: oklch(from var(--color-action-primary) 0.92 calc(c * 0.25) h);
-            mix-blend-mode: var(--button-tertiary-blend-mode);
-            pointer-events: none;
-            transition: background-color 0.2s ease-in-out;
-        }
-
-        &:hover:not(:disabled)::before {
-            background-color: oklch(from var(--color-action-primary) 0.85 calc(c * 0.35) h);
-        }
-
-        &:active:not(:disabled)::before {
-            background-color: oklch(from var(--color-action-primary) 0.78 calc(c * 0.45) h);
-        }
+        &:hover:not(:disabled)  { background-color: var(--color-action-tertiary-hover); }
+        &:active:not(:disabled) { background-color: oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h); }
     }
 
     &--ghost {
