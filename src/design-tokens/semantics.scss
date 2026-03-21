@@ -41,8 +41,9 @@
     --color-action-destructive-border: oklch(0.37 0.15 347);         // matches text
 
     // ─── Colors: Action — Tertiary ─────────────────────────────────────────────
-    --color-action-tertiary:        var(--gray-100);
-    --color-action-tertiary-hover:  var(--gray-200);
+    // No border — structural identity is the fill (distinct from secondary's outline).
+    --color-action-tertiary:        var(--gray-200);  // was gray-100; bumped for visibility without border
+    --color-action-tertiary-hover:  var(--gray-300);
     --color-action-tertiary-text:   var(--navy-800);
 
     // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────

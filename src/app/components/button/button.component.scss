@@ -80,7 +80,6 @@
     &--tertiary {
         background-color: var(--color-action-tertiary);
         color: var(--color-action-tertiary-text);
-        border: var(--border-width-thin) solid var(--color-border-strong);
 
         &:hover:not(:disabled)  { background-color: var(--color-action-tertiary-hover); }
         &:active:not(:disabled) { background-color: oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h); }
