@@ -15,20 +15,20 @@
 
     &.accessible-text--role-message {
         font-size: var(--font-size-md); // 16px
-        letter-spacing: var(--letter-spacing-normal);
+        letter-spacing: 0.02em; // Atkinson needs positive tracking to prevent glyph clustering
         line-height: var(--line-height-normal);
     }
 
     &.accessible-text--role-status {
         font-size: var(--font-size-sm); // 14px floor
         font-weight: var(--font-weight-bold); // Atkinson only has 400/700
-        letter-spacing: var(--letter-spacing-normal);
+        letter-spacing: 0.02em; // Atkinson needs positive tracking to prevent glyph clustering
         line-height: var(--line-height-tight);
     }
 
     &.accessible-text--role-annotation {
         font-size: var(--font-size-sm); // 14px floor
-        letter-spacing: var(--letter-spacing-normal);
+        letter-spacing: 0.02em; // Atkinson needs positive tracking to prevent glyph clustering
         line-height: var(--line-height-relaxed);
     }
 

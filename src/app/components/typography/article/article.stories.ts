@@ -163,6 +163,47 @@ export const SerifWithCode: Story = {
   }),
 };
 
+export const WithLinks: Story = {
+  args: { font: 'reading' },
+  render: (args) => ({
+    props: args,
+    template: `<app-article [font]="font">
+      <h1>On Reading and the Open Web</h1>
+      <p>
+        The web was built on links. From the earliest days of
+        <a href="#">CERN's internal documentation</a> to the modern era of
+        <a href="#">interconnected knowledge graphs</a>, the hyperlink remains the
+        fundamental unit of the web's architecture.
+      </p>
+      <p>
+        Yet most reading environments treat links as a necessary intrusion —
+        a flash of blue that pulls the eye away from the sentence it lives in.
+        <a href="#">Typographers have long debated</a> whether underlines aid or
+        hinder scanning, and whether color alone is sufficient to signal interactivity.
+      </p>
+      <h2>Link Accessibility</h2>
+      <p>
+        WCAG 2.1 requires that links be distinguishable from surrounding text by more than
+        color alone — either through underline, weight, or another non-color cue.
+        This article uses <a href="#">underline with a custom offset</a> to satisfy that
+        requirement without cluttering the baseline rhythm.
+      </p>
+      <p>
+        Links within a visited state, <a href="#">like this one</a>, should ideally
+        signal that the destination has already been seen. Here is a run of text with
+        <a href="#">multiple</a> <a href="#">consecutive</a> <a href="#">links</a>
+        to evaluate spacing and visual noise in dense link contexts.
+      </p>
+      <h3>Focus Behaviour</h3>
+      <p>
+        Keyboard users rely on a visible focus ring to navigate. Tab to any
+        <a href="#">link in this paragraph</a> to verify the focus style is
+        present and clearly visible against the page background.
+      </p>
+    </app-article>`,
+  }),
+};
+
 export const FontComparison: Story = {
   args: {},
   render: () => ({
