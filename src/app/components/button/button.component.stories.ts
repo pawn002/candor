@@ -181,7 +181,7 @@ export const FullMatrix: Story = {
           </div>
         </div>
         <div>
-          <app-text variant="label" size="sm" color="secondary" style="display: block; margin-bottom: var(--spacing-sm);">Destructive</app-text>
+          <app-text variant="label" size="sm" color="secondary" style="display: block; margin-bottom: var(--spacing-sm);">Destructive — not a hierarchy tier; applies to any CTA that performs an irreversible action</app-text>
           <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
             <app-button variant="destructive" size="small">Small</app-button>
             <app-button variant="destructive" size="medium">Medium</app-button>
