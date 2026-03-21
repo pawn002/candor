@@ -199,7 +199,7 @@ export const RegistrationForm: Story = {
           </div>
 
           <div>
-            <label style="display: block; margin-bottom: 0.75rem; font-weight: 500;">
+            <label style="display: block; margin-bottom: 0.75rem; font-weight: 700; font-family: var(--font-family-accessible); letter-spacing: 0.02em;">
               Account Type
             </label>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
