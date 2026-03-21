@@ -85,8 +85,8 @@
     --space-12: 6rem;     // 96px
 
     // ─── Type Scale (Major Third — 1.25 ratio) ─────────────────────────────────
-    --text-xs:   0.64rem;   // ~10px
-    --text-sm:   0.8rem;    // ~13px
+    --text-xs:   0.75rem;   //  12px  — decorative/non-text only (icons, badges)
+    --text-sm:   0.875rem;  //  14px  — system floor for readable text
     --text-base: 1rem;      //  16px
     --text-lg:   1.25rem;   // ~20px
     --text-xl:   1.5625rem; // ~25px
