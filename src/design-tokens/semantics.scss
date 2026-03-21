@@ -95,6 +95,15 @@
     --spacing-card-padding:        var(--spacing-md);
     --spacing-card-gap:            var(--spacing-md);
 
+    // ─── Elevation / Shadow ────────────────────────────────────────────────────
+    --shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md:    0 4px 8px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-lg:    0 10px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+    --shadow-modal: 0 20px 48px rgba(0, 0, 0, 0.20), 0 8px 16px rgba(0, 0, 0, 0.12);
+
+    // ─── Overlay ───────────────────────────────────────────────────────────────
+    --color-overlay: rgba(0, 0, 0, 0.50); // modal/drawer backdrop
+
     // ─── Border / Shape ────────────────────────────────────────────────────────
     --radius-sm:   var(--border-radius-sm);
     --radius-md:   var(--border-radius-md);
