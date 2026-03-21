@@ -67,6 +67,26 @@ const fullArticleContent = `
     an author's full argument — including its qualifications, counterexamples, and admissions of
     uncertainty.
   </p>
+
+  <h4>A Note on Environment</h4>
+  <p>
+    Where you read matters almost as much as how. A quiet room, a single open tab, and no
+    notifications are not luxuries — they are prerequisites for the kind of attention slow
+    reading demands.
+  </p>
+
+  <h5>Recommended conditions</h5>
+  <p>
+    Physical books outperform screens for deep reading in most studies, likely because the
+    absence of hyperlinks removes the temptation to branch away from the current argument.
+  </p>
+
+  <h6>On annotation tools</h6>
+  <p>
+    A pencil remains the best annotation tool. Digital highlighting creates the illusion of
+    engagement without the synthesis that handwritten notes require.
+  </p>
+
   <p>
     That is not inefficiency. That is how understanding actually works.
   </p>
