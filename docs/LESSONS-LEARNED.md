@@ -230,3 +230,15 @@ At H=347, the sRGB gamut only permits chroma C≤0.15 across most of the lightne
 **The solution:** Use an outlined pattern for dark mode: transparent background with crimson-rose border and text. At L=0.72, C=0.15, H=347 the color is clearly rose/pink but the outline form factor communicates "caution/destructive" more reliably than a filled pink would. Contrast: 4.3:1 on dark page ✅.
 
 **Rule:** For any hue where the light-mode fill requires dark-bg lightness (L<0.40), always prototype the dark-mode version separately rather than assuming a brightened fill will work.
+
+---
+
+### Tokens that vary by theme must live in the theme mixin, not just `:root`
+
+Any token overridden in `@mixin dark-color-tokens` must also be explicitly set in `@mixin light-color-tokens` — not just in the bare `:root` block. Tokens defined only in `:root` are not re-applied when `[data-theme="light"]` is set, because the attribute selector only includes the mixin.
+
+**The trap:** On a dark-OS system, the cascade order is: `:root` (light tokens) → `@media (prefers-color-scheme: dark)` (dark overrides) → `[data-theme="light"]` (light mixin). If the light mixin doesn't include the token, the dark override sticks — even in "light mode."
+
+**Example:** Shadow tokens (`--shadow-md`, etc.) were defined in `:root` but not in the light mixin. Adding a dark-mode white-tinted shadow override caused white shadows to persist in `[data-theme="light"]` on dark-OS systems. Fix: move shadow tokens into the light mixin so the theme switcher correctly resets them.
+
+**Rule:** If a token needs a dark-mode variant, it belongs in both theme mixins — not in `:root` alone.
