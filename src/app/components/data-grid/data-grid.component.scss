@@ -149,6 +149,41 @@
         0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
+// ─── hideHeaders — AT-only headers ───────────────────────────────────────────
+//
+// Removes headers from visual layout while keeping them in the DOM so
+// assistive technology can read row/column context. Two targets:
+//
+//   <thead>              → position: absolute takes it out of table flow;
+//                          column widths are then determined by tbody content.
+//   <th scope="row">     → collapsed to 0px wide; text is clipped but readable
+//   .data-grid__corner   → companion cell also collapses with the row headers.
+
+.data-grid.hide-headers {
+    thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .data-grid__rowheader,
+    .data-grid__corner {
+        width: 0;
+        min-width: 0;
+        max-width: 0;
+        padding: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        // clip-path collapses any content that bleeds past overflow:hidden
+        clip-path: inset(50%);
+    }
+}
+
 // ─── Dark mode adjustments ────────────────────────────────────────────────────
 // Outer border and header backgrounds already adapt via semantic tokens.
 // The double-ring focus/selected indicators use white which remains visible

@@ -52,6 +52,12 @@ export class DataGridComponent {
   @Input('aria-label') ariaLabel?: string;
   /** Whether to show cell labels as visible text inside each cell */
   @Input() showLabels = false;
+  /**
+   * Hides row and column headers visually while keeping them in the DOM
+   * for assistive technology. Use when the cell content (e.g. color) communicates
+   * the axis data visually and headers would be redundant for sighted users.
+   */
+  @Input() hideHeaders = false;
 
   @Output() cellActivate = new EventEmitter<GridCellActivateEvent>();
 
