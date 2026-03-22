@@ -65,6 +65,28 @@ const FG_GAMUT_ROWS = buildGamutRows(
 );
 const FG_GAMUT_HEADERS = ['C 0.020', 'C 0.065', 'C 0.110', 'C 0.155', 'C 0.200'];
 
+// H=333 pink-mauve gamut — anchor: L=0.94 C=0.054 (#ffe1f9, the BG in this story)
+const BG_GAMUT_ROWS = buildGamutRows(
+  (() => {
+    const L = [0.94, 0.83, 0.72, 0.61, 0.50, 0.39, 0.28, 0.17, 0.06];
+    const C = [0.020, 0.054, 0.090, 0.130, 0.170];
+    const IG = [
+      [1, 1, 1, 0, 0],
+      [1, 1, 1, 1, 0],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 0],
+      [1, 1, 1, 0, 0],
+      [1, 1, 0, 0, 0],
+      [1, 0, 0, 0, 0],
+    ];
+    return L.map((l, ri) => C.map((c, ci) => ({ l, c, h: 333, ig: !!IG[ri][ci] })));
+  })(),
+  0.94, 0.054,
+);
+const BG_GAMUT_HEADERS = ['C 0.020', 'C 0.054', 'C 0.090', 'C 0.130', 'C 0.170'];
+
 export const ColorPairIterator: Story = {
   render: () => ({
     props: {
@@ -75,6 +97,8 @@ export const ColorPairIterator: Story = {
       ],
       fgGamutRows: FG_GAMUT_ROWS,
       fgGamutHeaders: FG_GAMUT_HEADERS,
+      bgGamutRows: BG_GAMUT_ROWS,
+      bgGamutHeaders: BG_GAMUT_HEADERS,
     },
     template: `
       <div style="min-height: 100vh; background: var(--color-bg-page);">
@@ -240,6 +264,19 @@ export const ColorPairIterator: Story = {
                     <span><span style="color: var(--color-text-default);">L</span> 0.94</span>
                     <span><span style="color: var(--color-text-default);">C</span> 0.054</span>
                     <span><span style="color: var(--color-text-default);">H</span> 333°</span>
+                  </div>
+
+                  <!-- LCH Limits tone picker — mirrors CPQI "Background LCH Limits" -->
+                  <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
+                    <app-accordion-item title="LCH Limits">
+                      <app-tone-picker
+                        [rows]="bgGamutRows"
+                        [columnHeaders]="bgGamutHeaders"
+                        ariaLabel="Background tones — pink H 333"
+                        [size]="'small'"
+                        [selectedValue]="'oklch(0.94 0.054 333)'">
+                      </app-tone-picker>
+                    </app-accordion-item>
                   </div>
 
                 </div>
