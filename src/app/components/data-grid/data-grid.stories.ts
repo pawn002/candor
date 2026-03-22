@@ -9,7 +9,7 @@ import {
   AZURE_GAMUT_HEADERS,
   PURPLE_GAMUT_ROWS,
   PURPLE_GAMUT_HEADERS,
-} from '../gamut-picker/gamut-data';
+} from '../tone-picker/gamut-data';
 
 // ─── Simple text grid demo ────────────────────────────────────────────────────
 
@@ -75,7 +75,7 @@ W3C APG-compliant data grid with full keyboard navigation (Pattern 2 — gridcel
 
 Focus management uses the **roving tabindex** pattern — one cell holds \`tabindex="0"\` at a time; arrow keys move the tab stop.
 
-For grids where cells contain interactive elements (buttons, links), use \`GamutPickerComponent\` (Pattern 1) instead.
+For grids where cells contain interactive elements (buttons, links), use \`TonePickerComponent\` (Pattern 1) instead.
         `.trim(),
       },
     },

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { GamutPickerComponent } from './gamut-picker.component';
+import { TonePickerComponent } from './tone-picker.component';
 import {
   NAVY_GAMUT_ROWS,
   NAVY_GAMUT_HEADERS,
@@ -11,8 +11,8 @@ import {
   PURPLE_GAMUT_HEADERS,
 } from './gamut-data';
 
-const meta: Meta<GamutPickerComponent> = {
-  title: 'Components/Gamut Picker',
+const meta: Meta<TonePickerComponent> = {
+  title: 'Components/Tone Picker',
   component: GamutPickerComponent,
   tags: ['autodocs'],
   argTypes: {
@@ -49,7 +49,7 @@ Selection emits an \`oklch(L C H)\` string via \`colorSelect\` output.
 };
 
 export default meta;
-type Story = StoryObj<GamutPickerComponent>;
+type Story = StoryObj<TonePickerComponent>;
 
 export const Default: Story = {
   name: 'Navy H 245.34',

@@ -13,15 +13,15 @@ import {
 import { GridCell, GridRow } from '../data-grid/data-grid.component';
 
 @Component({
-  selector: 'app-gamut-picker',
+  selector: 'app-tone-picker',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrl: './gamut-picker.component.scss',
+  styleUrl: './tone-picker.component.scss',
   host: { '(keydown)': 'onKeydown($event)' },
   template: `
     <table
       role="grid"
-      [attr.aria-label]="ariaLabel() || caption() || 'Gamut picker'"
+      [attr.aria-label]="ariaLabel() || caption() || 'Tone picker'"
       [attr.aria-describedby]="hintId"
       class="gamut-grid"
       [class.hide-headers]="hideHeaders()"
@@ -86,7 +86,7 @@ import { GridCell, GridRow } from '../data-grid/data-grid.component';
     </div>
   `,
 })
-export class GamutPickerComponent implements OnInit {
+export class TonePickerComponent implements OnInit {
   private el = inject(ElementRef) as ElementRef<HTMLElement>;
 
   readonly hintId = `gamut-hint-${Math.random().toString(36).slice(2, 9)}`;
