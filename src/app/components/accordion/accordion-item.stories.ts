@@ -25,11 +25,13 @@ export const Default: Story = {
     props: args,
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
-        <app-accordion-item [title]="title">
-          OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
-          Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
-          making it ideal for programmatic color manipulation.
-        </app-accordion-item>
+        <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
+          <app-accordion-item [title]="title">
+            OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
+            Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
+            making it ideal for programmatic color manipulation.
+          </app-accordion-item>
+        </div>
       </div>
     `,
   }),
@@ -44,11 +46,13 @@ export const OpenByDefault: Story = {
     props: args,
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
-        <app-accordion-item [title]="title" [open]="open">
-          OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
-          Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
-          making it ideal for programmatic color manipulation.
-        </app-accordion-item>
+        <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
+          <app-accordion-item [title]="title" [open]="open">
+            OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
+            Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
+            making it ideal for programmatic color manipulation.
+          </app-accordion-item>
+        </div>
       </div>
     `,
   }),
