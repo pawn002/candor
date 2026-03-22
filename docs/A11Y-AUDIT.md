@@ -24,7 +24,7 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 | 3 | Tabs | ✅ Done | 1 issue fixed — see findings below |
 | 4 | Modal | ✅ Done | 4 issues fixed — see findings below |
 | 5 | Menu | ✅ Done | 1 issue fixed — see findings below |
-| 6 | Accordion | ⬜ Pending | |
+| 6 | Accordion | ✅ Done | No issues — see findings below |
 
 ---
 
@@ -170,3 +170,16 @@ Also promoted `.sr-only` utility from `tone-picker.component.scss` to global `st
 **Post-fix AT tree confirms (Menu):**
 - Menu now exposed as `menu "Options"` — NVDA announces "Options, menu" on entry
 - All other AT behaviour was already correct: `aria-haspopup`, `aria-expanded`, `aria-disabled`, separator skipping, focus management, Escape/Tab close
+
+---
+
+### 6. Accordion
+
+**Story:** Components/Accordion
+**File:** `src/app/components/accordion/accordion-item.component.ts`
+
+No issues found. The component uses native `<details>`/`<summary>` elements, which provide full AT support in Chrome+NVDA without any ARIA additions:
+- `<summary>` is exposed as a disclosure button with expanded/collapsed state via Chrome's native IAccessible2/UIA implementation (Playwright's AT snapshot shows "generic" for `<summary>` — this is a DevTools protocol representation artifact, not what NVDA reads)
+- Panel content is correctly hidden from the AT tree when `<details>` is closed and visible when open
+- Enter/Space activation, toggle state announcement, and keyboard navigation all handled natively
+- SVG chevron `aria-hidden="true"` correctly suppressed from NVDA (Playwright snapshot shows the SVG node but NVDA's AT APIs honour `aria-hidden`)
