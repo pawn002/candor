@@ -131,8 +131,8 @@ function buildGamutRows(
             : `L=${l.toFixed(2)} C=${c.toFixed(3)}`
           : `L=${l.toFixed(2)} C=${c.toFixed(3)} — out of gamut`,
         value: ig ? { l, c, h } : undefined,
-        background: `oklch(${l} ${c} ${h})`,
-        foreground: l > 0.5 ? `oklch(0.2 0.04 ${h})` : `oklch(0.95 0.01 ${h})`,
+        background: ig ? `oklch(${l} ${c} ${h})` : undefined,
+        foreground: ig ? (l > 0.5 ? `oklch(0.2 0.04 ${h})` : `oklch(0.95 0.01 ${h})`) : undefined,
         selected: isAnchor,
         disabled: !ig,
       };
