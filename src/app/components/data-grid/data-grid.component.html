@@ -3,6 +3,7 @@
   class="data-grid"
   [attr.aria-label]="ariaLabel || (caption ? null : 'Data grid')"
   [class.has-row-headers]="rows[0]?.rowHeader"
+  [class.hide-headers]="hideHeaders"
 >
   @if (caption) {
     <caption class="data-grid__caption">{{ caption }}</caption>

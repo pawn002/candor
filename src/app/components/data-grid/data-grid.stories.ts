@@ -44,6 +44,7 @@ const C_HEADERS = C_STEPS.map((c) => `C ${c.toFixed(2)}`);
         caption="OKLCH Color Picker — Hue 245 (Navy)"
         [rows]="rows()"
         [columnHeaders]="colHeaders"
+        [hideHeaders]="true"
         (cellActivate)="onActivate($event)"
       />
       <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-subtle); letter-spacing: 0.02em;">
