@@ -62,6 +62,7 @@ export const MultipleItems: Story = {
   render: () => ({
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
+        <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
         <app-accordion-item title="Contrast algorithm" [open]="true">
           <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
             <legend style="display: none;">Contrast algorithm</legend>
@@ -83,6 +84,7 @@ export const MultipleItems: Story = {
           luminance difference between foreground and background. A ratio of 4.5:1 is required
           for normal text (AA), 3:1 for large text, and 7:1 for enhanced (AAA).
         </app-accordion-item>
+        </div>
       </div>
     `,
   }),
