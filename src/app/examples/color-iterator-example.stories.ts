@@ -8,6 +8,7 @@ import { AccessibleTextComponent } from '../components/typography/accessible-tex
 import { RadioComponent } from '../components/form/radio/radio.component';
 import { CheckboxComponent } from '../components/form/checkbox/checkbox.component';
 import { SliderComponent } from '../components/form/slider/slider.component';
+import { AccordionItemComponent } from '../components/accordion/accordion-item.component';
 
 const meta: Meta = {
   title: 'Examples/Color Iterator Example',
@@ -22,6 +23,7 @@ const meta: Meta = {
         RadioComponent,
         CheckboxComponent,
         SliderComponent,
+        AccordionItemComponent,
       ],
     }),
   ],
@@ -207,13 +209,9 @@ export const ColorPairIterator: Story = {
                 <app-button variant="ghost" size="small">✦ Random</app-button>
               </div>
 
-              <!-- Algorithm selector -->
-              <!-- gap: no Accordion component — inline expanded -->
-              <app-card variant="default" style="display: block;">
-                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-
-                  <app-accessible-text role="label" [bold]="true">Contrast algorithm</app-accessible-text>
-
+              <!-- Algorithm selector & display options -->
+              <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
+                <app-accordion-item title="Contrast algorithm" [initiallyExpanded]="true">
                   <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
                     <legend style="display: none;">Contrast algorithm</legend>
                     <app-radio name="algorithm" [label]="'WCAG 2.1'" value="wcag21" [checked]="true"></app-radio>
@@ -221,14 +219,14 @@ export const ColorPairIterator: Story = {
                     <app-radio name="algorithm" [label]="'Perceptual'" value="perceptual"></app-radio>
                     <app-radio name="algorithm" [label]="'Delta E'" value="deltae"></app-radio>
                   </fieldset>
-
-                  <div style="border-top: 1px solid var(--color-border-default); padding-top: 0.625rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                </app-accordion-item>
+                <app-accordion-item title="Display options">
+                  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <app-checkbox [label]="'Hold chroma constant'" [checked]="true"></app-checkbox>
                     <app-checkbox [label]="'Show gradient track'" [checked]="true"></app-checkbox>
                   </div>
-
-                </div>
-              </app-card>
+                </app-accordion-item>
+              </div>
 
             </div>
 
