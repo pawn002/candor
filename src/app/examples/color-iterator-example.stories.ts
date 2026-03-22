@@ -9,6 +9,7 @@ import { RadioComponent } from '../components/form/radio/radio.component';
 import { CheckboxComponent } from '../components/form/checkbox/checkbox.component';
 import { SliderComponent } from '../components/form/slider/slider.component';
 import { AccordionItemComponent } from '../components/accordion/accordion-item.component';
+import { StatComponent } from '../components/stat/stat.component';
 
 const meta: Meta = {
   title: 'Examples/Color Iterator Example',
@@ -24,6 +25,7 @@ const meta: Meta = {
         CheckboxComponent,
         SliderComponent,
         AccordionItemComponent,
+        StatComponent,
       ],
     }),
   ],
@@ -237,28 +239,16 @@ export const ColorPairIterator: Story = {
               <app-card variant="elevated" style="display: block;">
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 0.5rem 0;">
 
-                  <app-accessible-text role="annotation" color="secondary">WCAG 2.1 contrast ratio</app-accessible-text>
-
-                  <!-- gap: no Stat/Metric component — large number via raw tokens -->
-                  <div style="
-                    font-family: var(--font-family-display);
-                    font-size: var(--font-size-3xl);
-                    font-weight: var(--font-weight-bold);
-                    font-optical-sizing: auto;
-                    line-height: 1;
-                    color: var(--color-status-warning);
-                    letter-spacing: -0.02em;
-                  " aria-label="Contrast ratio 3.9 to 1">3.9<span style="font-size: var(--font-size-lg); font-weight: var(--font-weight-regular); color: var(--color-text-subtle); letter-spacing: 0;">:1</span></div>
-
-                  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
-                    <app-badge variant="error" size="sm">AA text ✗</app-badge>
-                    <app-badge variant="success" size="sm">Large text ✓</app-badge>
-                    <app-badge variant="success" size="sm">Non-text ✓</app-badge>
-                  </div>
-
-                  <app-accessible-text role="annotation" color="secondary" style="text-align: center; display: block;">
-                    Needs 4.5:1 for AA · 7:1 for AAA
-                  </app-accessible-text>
+                  <app-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning">
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                      <app-badge variant="error" size="sm">AA text ✗</app-badge>
+                      <app-badge variant="success" size="sm">Large text ✓</app-badge>
+                      <app-badge variant="success" size="sm">Non-text ✓</app-badge>
+                    </div>
+                    <app-accessible-text role="annotation" color="secondary" style="text-align: center; display: block;">
+                      Needs 4.5:1 for AA · 7:1 for AAA
+                    </app-accessible-text>
+                  </app-stat>
 
                 </div>
               </app-card>
