@@ -33,8 +33,8 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 | # | Component | Status | Notes |
 |---|---|---|---|
 | 7 | Input | ✅ Done | 1 issue fixed — see findings below |
-| 8 | Checkbox | ⬜ Pending | |
-| 9 | Radio | ⬜ Pending | |
+| 8 | Checkbox | ✅ Done | No issues |
+| 9 | Radio | ✅ Done | 1 issue fixed — see findings below |
 | 10 | Switch | ⬜ Pending | |
 | 11 | Slider | ⬜ Pending | |
 | 12 | ChatInput | ⬜ Pending | |
@@ -200,3 +200,27 @@ No issues found. The component uses native `<details>`/`<summary>` elements, whi
 - Empty description div correctly absent from snapshot for states with no hint/error ✅
 - `aria-invalid="true"` + `aria-describedby` → error text on field focus ✅
 - Label/input association via `for`/`id` intact; required state via native `[required]` ✅
+
+---
+
+### 8. Checkbox
+
+**Story:** Components/Form/Checkbox
+**File:** `src/app/components/form/checkbox/checkbox.component.html`
+
+No issues found. Native `<input type="checkbox">` with `<label for>` association. All states (unchecked, checked, disabled, checked+disabled) correctly reflected in AT tree.
+
+---
+
+### 9. Radio
+
+**Story:** Components/Form/Radio
+**File:** `src/app/components/form/radio/radio.component.stories.ts`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | Radio groups had no programmatic group label — stories used bare `<div>` and `<p>` wrappers; AT users heard position context ("1 of N") but not what they were choosing; `MultipleGroups` story was especially broken with two unlabeled groups side by side | Medium | Replaced `<div>`/`<p>` wrappers with `<fieldset>`/`<legend>` in `RadioGroup` and `MultipleGroups` stories |
+
+**Post-fix AT tree confirms (Radio):**
+- `group "Size"` and `group "Color"` correctly exposed — NVDA announces "Size, group" then "Small, checked, 1 of 3, radio button" on entry
+- The component itself is correct; `<fieldset>`/`<legend>` is a consumer responsibility documented via story patterns
