@@ -1,29 +1,35 @@
 :host {
     display: block;
+}
+
+// ─── details element ──────────────────────────────────────────────────────────
+
+.accordion-item {
     border-bottom: 1px solid var(--color-border-default);
 
     &:first-of-type {
         border-top: 1px solid var(--color-border-default);
     }
+
+    // Remove default marker
+    > summary {
+        list-style: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+    }
 }
 
-// ─── Heading & trigger ────────────────────────────────────────────────────────
+// ─── Summary (trigger) ────────────────────────────────────────────────────────
 
-.accordion-item__heading {
-    margin: 0;
-}
-
-.accordion-item__trigger {
+.accordion-item__summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    width: 100%;
     padding: 0.875rem 0;
-    background: none;
-    border: none;
     cursor: pointer;
-    text-align: left;
     color: var(--color-text-default);
 
     &:hover {
@@ -57,7 +63,7 @@
     color: var(--color-text-subtle-on-surface);
     transition: transform 0.22s ease;
 
-    .accordion-item--expanded & {
+    details[open] & {
         transform: rotate(180deg);
     }
 }
@@ -66,19 +72,11 @@
 
 .accordion-item__panel {
     display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.25s ease;
-
-    .accordion-item--expanded & {
-        grid-template-rows: 1fr;
-    }
-}
-
-.accordion-item__panel-inner {
-    overflow: hidden;
+    grid-template-rows: 1fr;
 }
 
 .accordion-item__content {
+    overflow: hidden;
     padding-bottom: 0.875rem;
     font-family: var(--font-family-base);
     font-size: var(--font-size-md);
