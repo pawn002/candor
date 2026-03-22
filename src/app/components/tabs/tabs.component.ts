@@ -20,13 +20,15 @@ import { TabPanelComponent } from './tab-panel.component';
   template: `
     <div class="tabs">
       <div class="tabs__list" role="tablist" [attr.aria-label]="ariaLabel() || null">
-        @for (panel of panels(); track panel.tabId()) {
+        @for (panel of panels(); track panel.tabId(); let i = $index) {
           <button
             class="tabs__tab"
             role="tab"
             [id]="'tab-' + panel.tabId()"
             [attr.aria-selected]="panel.tabId() === activeId()"
             [attr.aria-controls]="'panel-' + panel.tabId()"
+            [attr.aria-setsize]="panels().length"
+            [attr.aria-posinset]="i + 1"
             [tabindex]="panel.tabId() === activeId() ? 0 : -1"
             (click)="activate(panel.tabId())"
           >{{ panel.label() }}</button>
@@ -59,6 +61,9 @@ export class TabsComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     if (!this.activeId() && this.panels().length > 0) {
       this.activeId.set(this.panels()[0].tabId());
+    }
+    if (!this.ariaLabel()) {
+      console.warn('TabsComponent: ariaLabel is not set. The tab list will be unlabelled, which is ambiguous when multiple tab widgets appear on the same page. Pass [ariaLabel]="\'Descriptive name\'" to fix.');
     }
   }
 

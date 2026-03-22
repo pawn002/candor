@@ -64,7 +64,7 @@
     outline-offset: 2px;
   }
 
-  &[aria-pressed='true'] {
+  &[aria-checked='true'] {
     border-color: var(--color-focus, oklch(0.65 0.18 251));
     outline: 2px solid var(--color-focus, oklch(0.65 0.18 251));
     outline-offset: 2px;
