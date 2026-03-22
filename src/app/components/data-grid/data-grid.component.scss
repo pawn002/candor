@@ -160,6 +160,7 @@
 //   .data-grid__corner   → companion cell also collapses with the row headers.
 
 .data-grid.hide-headers {
+    caption,
     thead {
         position: absolute;
         width: 1px;
