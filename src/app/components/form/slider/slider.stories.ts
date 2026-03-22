@@ -49,11 +49,12 @@ export const GradientTrack: Story = {
     gradient: 'linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))',
   },
   render: (args) => ({
-    props: args,
+    // valueTextFn: lightness 0–1 is most meaningful as a percentage
+    props: { ...args, valueTextFn: (v: number) => (v * 100).toFixed(0) + '%' },
     template: `<div style="max-width: 400px; padding: 1.5rem;">
       <app-slider
         [min]="min" [max]="max" [step]="step" [value]="value"
-        [label]="label" [gradient]="gradient">
+        [label]="label" [gradient]="gradient" [valueTextFn]="valueTextFn">
       </app-slider>
     </div>`,
   }),
@@ -61,6 +62,8 @@ export const GradientTrack: Story = {
 
 export const AllVariants: Story = {
   render: () => ({
+    // lightnessText: lightness 0–1 expressed as percentage for AT announcements
+    props: { lightnessText: (v: number) => (v * 100).toFixed(0) + '%' },
     template: `
       <div style="max-width: 480px; padding: 1.5rem; display: flex; flex-direction: column; gap: 2rem;">
 
@@ -74,7 +77,8 @@ export const AllVariants: Story = {
           <app-slider
             [min]="0" [max]="1" [step]="0.001" [value]="0.55"
             label="Lightness — hold C and H"
-            gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))">
+            gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))"
+            [valueTextFn]="lightnessText">
           </app-slider>
         </div>
 
@@ -83,7 +87,8 @@ export const AllVariants: Story = {
           <app-slider
             [min]="0" [max]="1" [step]="0.001" [value]="0.94"
             label="Lightness — hold C and H"
-            gradient="linear-gradient(to right, oklch(0.05 0.054 333), oklch(0.94 0.054 333), oklch(0.97 0.054 333))">
+            gradient="linear-gradient(to right, oklch(0.05 0.054 333), oklch(0.94 0.054 333), oklch(0.97 0.054 333))"
+            [valueTextFn]="lightnessText">
           </app-slider>
         </div>
 

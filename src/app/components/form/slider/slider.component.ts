@@ -19,7 +19,14 @@ export class SliderComponent {
   // model() — two-way bindable: accepts [value] binding, emits (valueChange)
   value = model(0);
   label = input<string>();
+  /** Accessible name when no visible label is rendered — bound directly to the <input> */
+  ariaLabel = input<string>();
   disabled = input(false);
+  /** Consumer-supplied formatter: receives the current value, returns the string NVDA announces.
+   *  Required for axes where the raw number is meaningless (e.g. OKLCH chroma, hue in degrees).
+   *  Example: lightness 0–1 → (v) => (v * 100).toFixed(0) + '%'
+   *           hue 0–360  → (v) => v.toFixed(0) + '°' */
+  valueTextFn = input<(v: number) => string>();
 
   // Optional CSS gradient string for the track background.
   // When provided, overrides the default filled/unfilled treatment.
@@ -32,6 +39,8 @@ export class SliderComponent {
   fillPercent = computed(() =>
     ((this.value() - this.min()) / (this.max() - this.min())) * 100
   );
+
+  computedValueText = computed(() => this.valueTextFn()?.(this.value()) ?? null);
 
   onInput(event: Event): void {
     const el = event.target as HTMLInputElement;
