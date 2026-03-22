@@ -68,8 +68,8 @@ export const WithBadges: Story = {
   args: {
     items: [
       { label: 'Dashboard', href: '#dashboard', active: true },
-      { label: 'Inbox', href: '#inbox', badge: '12' },
-      { label: 'Tasks', href: '#tasks', badge: '3' },
+      { label: 'Inbox', href: '#inbox', badge: '12', badgeLabel: '12 unread' },
+      { label: 'Tasks', href: '#tasks', badge: '3', badgeLabel: '3 pending' },
       { label: 'Settings', href: '#settings' },
     ] as NavItem[],
     orientation: 'horizontal',

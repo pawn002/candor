@@ -55,11 +55,11 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 
 | # | Component | Status | Notes |
 |---|---|---|---|
-| 16 | Navigation | ⬜ Pending | |
-| 17 | Breadcrumb | ⬜ Pending | |
-| 18 | Tooltip | ⬜ Pending | |
-| 19 | Chip | ⬜ Pending | |
-| 20 | Button | ⬜ Pending | |
+| 16 | Navigation | ✅ Done | 1 issue fixed — see findings below |
+| 17 | Breadcrumb | ✅ Done | No issues |
+| 18 | Tooltip | ✅ Done | No issues (AT-hidden by design) |
+| 19 | Chip | ✅ Done | No issues |
+| 20 | Button | ✅ Done | No issues |
 
 ---
 
@@ -315,3 +315,54 @@ No issues found. `role="status"` (info/success) and `role="alert"` (warning/erro
 **File:** `src/app/components/progress/progress.component.ts`
 
 No issues found. `role="progressbar"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, `aria-valuetext` all correctly set for determinate bars; all value attrs correctly nulled for indeterminate. Spinner exposed as `role="status"` with `aria-label` ✅.
+
+---
+
+### 16. Navigation
+
+**Story:** Components/Navigation
+**File:** `src/app/components/navigation/navigation.component.ts`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | Badge spans had no unit context — `link "Inbox 12"` gave AT users a bare number with no indication of what it counts; NVDA announces "Inbox 12, link" | Medium | Added optional `badgeLabel?: string` to `NavItem` interface; bound `[attr.aria-label]="item.badgeLabel \|\| null"` on the badge `<span>` — accname spec substitutes the span's `aria-label` into the parent link's name; updated `WithBadges` story to supply `"12 unread"` and `"3 pending"` |
+
+**Post-fix AT tree confirms (Navigation):**
+- `link "Inbox 12 unread"` and `link "Tasks 3 pending"` — badge aria-label correctly substituted into link name ✅
+- `badgeLabel` is optional; badges without it fall back to bare number (acceptable, consumer's responsibility to supply context)
+
+---
+
+### 17. Breadcrumb
+
+**Story:** Components/Breadcrumb
+**File:** `src/app/components/breadcrumb/breadcrumb.component.ts`
+
+No issues found. `navigation "Breadcrumb"` landmark ✅, `<ol>` list ✅, ancestor items as `<a>` links ✅, current item as `<span aria-current="page">` ✅.
+
+---
+
+### 18. Tooltip
+
+**Story:** Components/Tooltip
+**File:** `src/app/components/tooltip/tooltip.component.ts`
+
+No issues found. Tooltip bubble carries `aria-hidden="true"` by design — intentional Candor position documented in component and Storybook docs. Trigger elements in all stories are self-describing via accessible name. `IconButton` story demonstrates the required pattern: every icon-only trigger must carry `aria-label`.
+
+---
+
+### 19. Chip
+
+**Story:** Components/Chip
+**File:** `src/app/components/chip/chip.component.ts`
+
+No issues found. Selectable chips use `aria-pressed` toggle button pattern ✅. `FilterGroup` story wraps chips in `role="group" aria-label="Filter by technology"` ✅. Dismiss buttons use contextual `aria-label="Remove {label}"` ✅.
+
+---
+
+### 20. Button
+
+**Story:** Components/Button
+**File:** `src/app/components/button/button.component.html`
+
+No issues found. Native `<button>` with projected content as accessible name ✅. `ariaLabel` input correctly binds `null` (removes attribute) when not provided — no spurious `aria-label="undefined"` ✅. Disabled state via native `[disabled]` ✅.
