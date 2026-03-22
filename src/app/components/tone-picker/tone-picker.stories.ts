@@ -13,7 +13,7 @@ import {
 
 const meta: Meta<TonePickerComponent> = {
   title: 'Components/Tone Picker',
-  component: GamutPickerComponent,
+  component: TonePickerComponent,
   tags: ['autodocs'],
   argTypes: {
     rows: { table: { disable: true } },
