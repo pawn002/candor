@@ -41,8 +41,13 @@
 
 .cell {
   padding: 3px;
-  width: 3.25rem;
-  height: 2.75rem;
+  width: 3.125rem; // 50px → 44px button
+  height: 3.125rem;
+}
+
+.size-small .cell {
+  width: 1.75rem; // 28px → 22px button
+  height: 1.75rem;
 }
 
 .cell-btn {
@@ -65,6 +70,45 @@
     outline-offset: 2px;
   }
 }
+
+// ─── Visually hidden header/UI variants ───────────────────────────────────────
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.gamut-grid.hide-headers {
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .row-header,
+  .corner {
+    width: 0;
+    min-width: 0;
+    max-width: 0;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+}
+
+// ─── Preview / hint ───────────────────────────────────────────────────────────
 
 .preview {
   display: flex;

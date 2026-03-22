@@ -20,6 +20,10 @@ const meta: Meta<GamutPickerComponent> = {
     columnHeaders: { table: { disable: true } },
     caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption' },
     ariaLabel: { control: 'text', type: { name: 'string' }, description: 'aria-label for the grid element' },
+    hideHeaders: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide row/column headers while keeping them in the DOM for AT' },
+    hideUi: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide the preview swatch and hint text (live region stays in DOM for AT)' },
+    size: { control: 'radio', options: ['normal', 'small'], type: { name: 'string' }, description: 'Button size — normal: 44px square, small: 22px square' },
+    selectedValue: { control: 'text', type: { name: 'string' }, description: 'Pre-select a cell by oklch string (e.g. from a parent color state)' },
   },
   parameters: {
     layout: 'padded',
@@ -53,6 +57,10 @@ export const Default: Story = {
     rows: NAVY_GAMUT_ROWS,
     columnHeaders: NAVY_GAMUT_HEADERS,
     ariaLabel: 'Navy H 245.34 — sRGB gamut',
+    hideHeaders: false,
+    hideUi: false,
+    size: 'normal',
+    selectedValue: null,
   },
   render: (args) => ({
     props: {
@@ -64,6 +72,28 @@ export const Default: Story = {
     docs: {
       description: {
         story: 'Navy (H 245.34). Anchor at L=0.27 C=0.060 — navy-800, `--color-action-primary`.',
+      },
+    },
+  },
+};
+
+export const PreSelected: Story = {
+  name: 'Pre-selected value',
+  render: () => ({
+    props: {
+      rows: NAVY_GAMUT_ROWS,
+      columnHeaders: NAVY_GAMUT_HEADERS,
+      ariaLabel: 'Navy H 245.34 — sRGB gamut',
+      selectedValue: 'oklch(0.27 0.060 245.34)',
+      colorSelect: (value: string) => console.log('colorSelect:', value),
+    },
+  }),
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Demonstrates `selectedValue` — pass an oklch string from a parent to mark the matching cell as selected without moving keyboard focus. Here navy-800 (`--color-action-primary`) is pre-selected on mount.',
       },
     },
   },

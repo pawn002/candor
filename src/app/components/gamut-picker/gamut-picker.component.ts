@@ -3,6 +3,8 @@ import {
   Component,
   ElementRef,
   OnInit,
+  computed,
+  effect,
   inject,
   input,
   output,
@@ -20,10 +22,13 @@ import { GridCell, GridRow } from '../data-grid/data-grid.component';
     <table
       role="grid"
       [attr.aria-label]="ariaLabel() || caption() || 'Gamut picker'"
+      [attr.aria-describedby]="hintId"
       class="gamut-grid"
+      [class.hide-headers]="hideHeaders()"
+      [class.size-small]="size() === 'small'"
     >
       <thead>
-        <tr>
+        <tr role="row">
           <td class="corner"></td>
           @for (header of columnHeaders(); track header) {
             <th scope="col" role="columnheader" class="col-header">{{ header }}</th>
@@ -35,53 +40,103 @@ import { GridCell, GridRow } from '../data-grid/data-grid.component';
           <tr role="row">
             <th scope="row" role="rowheader" class="row-header">{{ row.rowHeader }}</th>
             @for (cell of row.cells; track $index; let ci = $index) {
-              <td role="gridcell" class="cell">
-                @if (!cell.disabled) {
+              @if (!cell.disabled) {
+                <td role="gridcell" class="cell">
                   <button
+                    role="radio"
                     class="cell-btn"
                     [attr.data-row]="ri"
                     [attr.data-col]="ci"
                     [tabindex]="ri === focusedRow() && ci === focusedCol() ? 0 : -1"
                     [style.background]="cell.background"
                     [attr.aria-label]="cell.label"
-                    [attr.aria-pressed]="ri === selectedRow() && ci === selectedCol()"
+                    [attr.aria-checked]="ri === selectedRow() && ci === selectedCol()"
+                    [attr.aria-setsize]="setsize()"
+                    [attr.aria-posinset]="posinset(ri, ci)"
                     (click)="activate(ri, ci, cell)"
                   ></button>
-                }
-              </td>
+                </td>
+              } @else {
+                <td role="gridcell" class="cell" aria-label="Out of gamut"></td>
+              }
             }
           </tr>
         }
       </tbody>
     </table>
 
-    <div class="preview" aria-live="polite">
-      @if (selectedColor()) {
-        <span
-          class="preview-swatch"
-          [style.background]="selectedColor()"
-          aria-hidden="true"
-        ></span>
-        <code class="preview-code">{{ selectedColor() }}</code>
-      } @else {
-        <span class="preview-empty">No color selected</span>
-      }
-    </div>
+    <!-- Announces pre-selected value on mount and selection changes to AT -->
+    <div role="status" aria-live="polite" aria-atomic="true" class="sr-only">{{ announcement() }}</div>
 
-    <p class="hint">Arrow keys navigate · Enter or Space activates · Blank cells are outside sRGB gamut</p>
+    <div class="ui" [class.sr-only]="hideUi()">
+      <div class="preview" aria-live="polite">
+        @if (selectedColor()) {
+          <span
+            class="preview-swatch"
+            [style.background]="selectedColor()"
+            aria-hidden="true"
+          ></span>
+          <span class="preview-code">{{ selectedColor() }}</span>
+        } @else {
+          <span class="preview-empty">No color selected</span>
+        }
+      </div>
+
+      <p class="hint" [id]="hintId">Arrow keys navigate · Enter or Space activates · Blank cells are outside sRGB gamut</p>
+    </div>
   `,
 })
 export class GamutPickerComponent implements OnInit {
   private el = inject(ElementRef) as ElementRef<HTMLElement>;
+
+  readonly hintId = `gamut-hint-${Math.random().toString(36).slice(2, 9)}`;
+
+  constructor() {
+    effect(() => {
+      const val = this.selectedValue();
+      if (!val) return;
+      const parsed = this.parseOklch(val);
+      if (!parsed) return;
+      const match = this.findCellByLC(parsed.l, parsed.c);
+      if (match) {
+        this.selectedRow.set(match.r);
+        this.selectedCol.set(match.col);
+        this.selectedColor.set(val);
+        this.announcement.set(`Selected: ${val}`);
+      }
+    });
+  }
 
   // Inputs
   rows = input.required<GridRow[]>();
   columnHeaders = input.required<string[]>();
   caption = input<string>('');
   ariaLabel = input<string>('');
+  hideHeaders = input<boolean>(false);
+  hideUi = input<boolean>(false);
+  size = input<'small' | 'normal'>('normal');
+  selectedValue = input<string | null>(null);
 
   // Output
   colorSelect = output<string>();
+
+  // In-gamut position map — drives aria-setsize / aria-posinset on each radio button
+  private inGamutPositions = computed(() => {
+    const map = new Map<string, number>();
+    let pos = 0;
+    for (const [ri, row] of this.rows().entries()) {
+      for (const [ci, cell] of row.cells.entries()) {
+        if (!cell.disabled) map.set(`${ri}-${ci}`, ++pos);
+      }
+    }
+    return { setsize: pos, map };
+  });
+
+  protected setsize = computed(() => this.inGamutPositions().setsize);
+
+  posinset(ri: number, ci: number): number {
+    return this.inGamutPositions().map.get(`${ri}-${ci}`) ?? 0;
+  }
 
   // Internal state
   focusedRow = signal(0);
@@ -89,6 +144,8 @@ export class GamutPickerComponent implements OnInit {
   selectedRow = signal(-1);
   selectedCol = signal(-1);
   selectedColor = signal<string | null>(null);
+  announcement = signal('');
+  private edgeToggle = false;
 
   ngOnInit(): void {
     const { r, c } = this.findFirstInGamut();
@@ -104,6 +161,7 @@ export class GamutPickerComponent implements OnInit {
     const v = cell.value as { l: number; c: number; h: number };
     const oklch = `oklch(${v.l.toFixed(2)} ${v.c.toFixed(3)} ${v.h})`;
     this.selectedColor.set(oklch);
+    this.announcement.set(`Selected: ${oklch}`);
     this.colorSelect.emit(oklch);
     this.focusButton(ri, ci);
   }
@@ -115,7 +173,11 @@ export class GamutPickerComponent implements OnInit {
     if (nav[e.key]) {
       e.preventDefault();
       const [dr, dc] = nav[e.key];
-      this.step(dr, dc);
+      const moved = this.step(dr, dc);
+      if (!moved) {
+        this.edgeToggle = !this.edgeToggle;
+        this.announcement.set('Edge of gamut' + (this.edgeToggle ? '\u200B' : ''));
+      }
     } else if (e.key === 'Home') {
       e.preventDefault();
       this.jumpRowEdge(false);
@@ -133,7 +195,7 @@ export class GamutPickerComponent implements OnInit {
     }
   }
 
-  private step(dr: number, dc: number): void {
+  private step(dr: number, dc: number): boolean {
     const numRows = this.rows().length;
     const numCols = this.rows()[0].cells.length;
     let r = this.focusedRow() + dr;
@@ -143,11 +205,12 @@ export class GamutPickerComponent implements OnInit {
         this.focusedRow.set(r);
         this.focusedCol.set(c);
         this.focusButton(r, c);
-        return;
+        return true;
       }
       r += dr;
       c += dc;
     }
+    return false;
   }
 
   private jumpRowEdge(toEnd: boolean): void {
@@ -179,5 +242,26 @@ export class GamutPickerComponent implements OnInit {
       }
     }
     return { r: 0, c: 0 };
+  }
+
+  private parseOklch(value: string): { l: number; c: number; h: number } | null {
+    const m = value.match(/oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)/);
+    if (!m) return null;
+    return { l: parseFloat(m[1]), c: parseFloat(m[2]), h: parseFloat(m[3]) };
+  }
+
+  private findCellByLC(l: number, c: number): { r: number; col: number } | null {
+    const rows = this.rows();
+    for (let r = 0; r < rows.length; r++) {
+      for (let col = 0; col < rows[r].cells.length; col++) {
+        const cell = rows[r].cells[col];
+        if (cell.disabled || !cell.value) continue;
+        const v = cell.value as { l: number; c: number; h: number };
+        if (Math.abs(v.l - l) < 0.001 && Math.abs(v.c - c) < 0.001) {
+          return { r, col };
+        }
+      }
+    }
+    return null;
   }
 }
