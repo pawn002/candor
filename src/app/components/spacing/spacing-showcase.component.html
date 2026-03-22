@@ -1,11 +1,13 @@
 <div class="spacing-showcase">
-  <div class="spacing-showcase__item" *ngFor="let spacing of spacings">
-    <div class="spacing-showcase__label">
-      <span class="spacing-showcase__name">{{ spacing.name }}</span>
-      <span class="spacing-showcase__value">{{ spacing.value }} / {{ spacing.pixels }}</span>
+  @for (spacing of spacings; track spacing.name) {
+    <div class="spacing-showcase__item">
+      <div class="spacing-showcase__label">
+        <span class="spacing-showcase__name">{{ spacing.name }}</span>
+        <span class="spacing-showcase__value">{{ spacing.value }} / {{ spacing.pixels }}</span>
+      </div>
+      <div class="spacing-showcase__visual">
+        <div class="spacing-showcase__box" [style.width]="spacing.value"></div>
+      </div>
     </div>
-    <div class="spacing-showcase__visual">
-      <div class="spacing-showcase__box" [style.width]="spacing.value"></div>
-    </div>
-  </div>
+  }
 </div>

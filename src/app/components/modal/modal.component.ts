@@ -1,13 +1,11 @@
 import {
-  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
+  input,
+  output,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
@@ -17,6 +15,7 @@ export type ModalSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'app-modal',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ButtonComponent],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -29,9 +28,9 @@ export type ModalSize = 'sm' | 'md' | 'lg';
       (close)="onDialogClose()"
       (cancel)="onDialogClose()"
     >
-      <div [class]="'modal__panel modal__panel--' + size">
+      <div [class]="'modal__panel modal__panel--' + size()">
         <header class="modal__header">
-          <h2 class="modal__title" [id]="titleId">{{ title }}</h2>
+          <h2 class="modal__title" [id]="titleId">{{ title() }}</h2>
           <button class="modal__close" type="button" aria-label="Close" (click)="close()">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -49,36 +48,28 @@ export type ModalSize = 'sm' | 'md' | 'lg';
   `,
   styleUrls: ['./modal.component.scss'],
 })
-export class ModalComponent implements AfterViewInit, OnChanges {
-  @Input() open = false;
-  @Input() title = '';
-  @Input() size: ModalSize = 'md';
+export class ModalComponent {
+  open = input(false);
+  title = input('');
+  size = input<ModalSize>('md');
 
-  @Output() closed = new EventEmitter<void>();
+  closed = output<void>();
 
-  @ViewChild('dialog') private dialogRef!: ElementRef<HTMLDialogElement>;
+  private dialogRef = viewChild<ElementRef<HTMLDialogElement>>('dialog');
 
   readonly titleId = `modal-title-${Math.random().toString(36).slice(2, 9)}`;
 
-  ngAfterViewInit(): void {
-    if (this.open) {
-      this.dialogRef.nativeElement.showModal();
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!this.dialogRef) return;
-    if (changes['open']) {
-      if (this.open) {
-        this.dialogRef.nativeElement.showModal();
-      } else {
-        this.dialogRef.nativeElement.close();
-      }
-    }
+  constructor() {
+    // Replaces ngAfterViewInit + ngOnChanges — runs when open or dialogRef signal changes
+    effect(() => {
+      const dialog = this.dialogRef()?.nativeElement;
+      if (!dialog) return;
+      this.open() ? dialog.showModal() : dialog.close();
+    });
   }
 
   close(): void {
-    this.dialogRef.nativeElement.close();
+    this.dialogRef()?.nativeElement.close();
   }
 
   onDialogClose(): void {
@@ -86,7 +77,7 @@ export class ModalComponent implements AfterViewInit, OnChanges {
   }
 
   onBackdropClick(event: MouseEvent): void {
-    if (event.target === this.dialogRef.nativeElement) {
+    if (event.target === this.dialogRef()?.nativeElement) {
       this.close();
     }
   }

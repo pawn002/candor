@@ -1,20 +1,21 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, input, output, viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-chat-input',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './chat-input.component.html',
   styleUrls: ['./chat-input.component.scss'],
 })
 export class ChatInputComponent {
-  @Input() placeholder = 'Message…';
-  @Input() label = 'Message';
-  @Input() disclaimer?: string;
-  @Input() disabled = false;
+  placeholder = input('Message…');
+  label = input('Message');
+  disclaimer = input<string>();
+  disabled = input(false);
 
-  @Output() send = new EventEmitter<string>();
+  send = output<string>();
 
-  @ViewChild('textarea') textareaRef!: ElementRef<HTMLTextAreaElement>;
+  private textareaRef = viewChild<ElementRef<HTMLTextAreaElement>>('textarea');
 
   value = '';
 
@@ -36,12 +37,13 @@ export class ChatInputComponent {
 
   onSend(): void {
     const trimmed = this.value.trim();
-    if (!trimmed || this.disabled) return;
+    if (!trimmed || this.disabled()) return;
     this.send.emit(trimmed);
     this.value = '';
-    if (this.textareaRef) {
-      this.textareaRef.nativeElement.value = '';
-      this.autoGrow(this.textareaRef.nativeElement);
+    const ref = this.textareaRef();
+    if (ref) {
+      ref.nativeElement.value = '';
+      this.autoGrow(ref.nativeElement);
     }
   }
 

@@ -1,8 +1,8 @@
 <div class="input-wrapper">
-  @if (label) {
+  @if (label()) {
     <label [for]="inputId" class="input-label">
-      {{ label }}
-      @if (required) {
+      {{ label() }}
+      @if (required()) {
         <span class="input-required" aria-hidden="true">*</span>
       }
     </label>
@@ -10,25 +10,25 @@
 
   <input
     [id]="inputId"
-    [type]="type"
-    [attr.placeholder]="placeholder || null"
+    [type]="type()"
+    [attr.placeholder]="placeholder() || null"
     [disabled]="disabled"
-    [required]="required"
+    [required]="required()"
     [value]="value"
-    [class]="'input' + (error ? ' input--error' : '') + (disabled ? ' input--disabled' : '')"
-    [attr.aria-invalid]="error ? 'true' : null"
-    [attr.aria-describedby]="(error || hint) ? inputId + '-description' : null"
+    [class]="'input' + (error() ? ' input--error' : '') + (disabled ? ' input--disabled' : '')"
+    [attr.aria-invalid]="error() ? 'true' : null"
+    [attr.aria-describedby]="(error() || hint()) ? inputId + '-description' : null"
     (input)="onInput($event)"
     (blur)="onBlur()"
   />
 
-  @if (error || hint) {
+  @if (error() || hint()) {
     <div [id]="inputId + '-description'" class="input-description">
-      @if (error) {
-        <span class="input-error-message">{{ error }}</span>
+      @if (error()) {
+        <span class="input-error-message">{{ error() }}</span>
       }
-      @if (!error && hint) {
-        <span class="input-hint">{{ hint }}</span>
+      @if (!error() && hint()) {
+        <span class="input-hint">{{ hint() }}</span>
       }
     </div>
   }

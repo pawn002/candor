@@ -1,13 +1,13 @@
 <div class="chat-input">
-  <label [for]="inputId" class="chat-input__label">{{ label }}</label>
+  <label [for]="inputId" class="chat-input__label">{{ label() }}</label>
 
-  <div class="chat-input__field" [class.chat-input__field--disabled]="disabled">
+  <div class="chat-input__field" [class.chat-input__field--disabled]="disabled()">
     <textarea
       #textarea
       [id]="inputId"
       class="chat-input__textarea"
-      [placeholder]="placeholder"
-      [disabled]="disabled"
+      [placeholder]="placeholder()"
+      [disabled]="disabled()"
       [value]="value"
       (input)="onInput($event)"
       (keydown)="onKeydown($event)"
@@ -18,7 +18,7 @@
     <button
       type="button"
       class="chat-input__send"
-      [disabled]="disabled || !value.trim()"
+      [disabled]="disabled() || !value.trim()"
       (click)="onSend()"
       aria-label="Send message"
     >
@@ -29,7 +29,7 @@
     </button>
   </div>
 
-  @if (disclaimer) {
-    <p class="chat-input__disclaimer">{{ disclaimer }}</p>
+  @if (disclaimer()) {
+    <p class="chat-input__disclaimer">{{ disclaimer() }}</p>
   }
 </div>

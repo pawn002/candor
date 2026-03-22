@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 export interface NavItem {
   label: string;
@@ -10,13 +10,14 @@ export interface NavItem {
 @Component({
   selector: 'app-navigation',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav [class]="'nav nav--' + orientation" aria-label="Main navigation">
-      @if (brand) {
-        <span class="nav__brand">{{ brand }}</span>
+    <nav [class]="'nav nav--' + orientation()" aria-label="Main navigation">
+      @if (brand()) {
+        <span class="nav__brand">{{ brand() }}</span>
       }
       <ul class="nav__list" role="list">
-        @for (item of items; track item.href) {
+        @for (item of items(); track item.href) {
           <li class="nav__item">
             <a
               class="nav__link"
@@ -37,7 +38,7 @@ export interface NavItem {
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
-  @Input() items: NavItem[] = [];
-  @Input() orientation: 'horizontal' | 'vertical' = 'horizontal';
-  @Input() brand = '';
+  items = input<NavItem[]>([]);
+  orientation = input<'horizontal' | 'vertical'>('horizontal');
+  brand = input('');
 }
