@@ -75,22 +75,3 @@ export const Disabled: Story = {
     </div>`,
   }),
 };
-
-export const DarkMode: Story = {
-  args: {
-    placeholder: 'Ask about color, type, spacing…',
-    label: 'Message Candor AI',
-    disclaimer: 'Candor AI can make mistakes. Review important information.',
-  },
-  render: (args) => ({
-    props: { ...args },
-    template: `<div style="max-width: 640px; padding: 1.5rem; background: var(--color-bg-page);">
-      <app-chat-input
-        [placeholder]="placeholder"
-        [label]="label"
-        [disclaimer]="disclaimer"
-        (send)="send($event)">
-      </app-chat-input>
-    </div>`,
-  }),
-};
