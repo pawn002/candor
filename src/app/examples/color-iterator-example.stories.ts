@@ -211,7 +211,7 @@ export const ColorPairIterator: Story = {
 
               <!-- Algorithm selector & display options -->
               <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
-                <app-accordion-item title="Contrast algorithm" [initiallyExpanded]="true">
+                <app-accordion-item title="Contrast algorithm" [open]="true">
                   <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
                     <legend style="display: none;">Contrast algorithm</legend>
                     <app-radio name="algorithm" [label]="'WCAG 2.1'" value="wcag21" [checked]="true"></app-radio>

@@ -11,9 +11,7 @@ const meta: Meta<AccordionItemComponent> = {
     moduleMetadata({ imports: [AccordionItemComponent, RadioComponent, CheckboxComponent] }),
   ],
   tags: ['autodocs'],
-  argTypes: {
-    expandedChange: { action: 'expandedChange' },
-  },
+  argTypes: {},
 };
 
 export default meta;
@@ -37,16 +35,16 @@ export const Default: Story = {
   }),
 };
 
-export const InitiallyExpanded: Story = {
+export const OpenByDefault: Story = {
   args: {
     title: 'What is OKLCH?',
-    initiallyExpanded: true,
+    open: true,
   },
   render: (args) => ({
     props: args,
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
-        <app-accordion-item [title]="title" [initiallyExpanded]="initiallyExpanded">
+        <app-accordion-item [title]="title" [open]="open">
           OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
           Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
           making it ideal for programmatic color manipulation.
@@ -60,7 +58,7 @@ export const MultipleItems: Story = {
   render: () => ({
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
-        <app-accordion-item title="Contrast algorithm" [initiallyExpanded]="true">
+        <app-accordion-item title="Contrast algorithm" [open]="true">
           <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
             <legend style="display: none;">Contrast algorithm</legend>
             <app-radio name="algo" label="WCAG 2.1" value="wcag21" [checked]="true"></app-radio>
