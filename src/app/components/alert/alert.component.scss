@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: var(--border-width-thin) solid;
+  font-family: var(--font-family-accessible);
+
+  // Variants
+  &--info {
+    background-color: var(--color-bg-surface);
+    border-color: var(--color-border-strong);
+
+    .alert__icon { color: var(--color-text-subtle); }
+  }
+
+  &--success {
+    background-color: var(--color-status-success-bg);
+    border-color: var(--color-status-success);
+
+    .alert__icon { color: var(--color-status-success); }
+  }
+
+  &--warning {
+    background-color: var(--color-status-warning-bg);
+    border-color: var(--color-status-warning);
+
+    .alert__icon { color: var(--color-status-warning); }
+  }
+
+  &--error {
+    background-color: var(--color-status-error-bg);
+    border-color: var(--color-status-error);
+
+    .alert__icon { color: var(--color-status-error); }
+  }
+
+  // Icon
+  &__icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.125rem;
+  }
+
+  // Content
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-default);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-tight);
+    margin-bottom: 0.25rem;
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+  }
+
+  &__message {
+    color: var(--color-text-default);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+    letter-spacing: 0.02em;
+  }
+
+  // Dismiss
+  &__dismiss {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-subtle);
+    transition: color 0.15s ease, background-color 0.15s ease;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &:hover {
+      color: var(--color-text-default);
+      background-color: oklch(from currentColor l c h / 0.1);
+    }
+
+    &:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+    }
+  }
+}
