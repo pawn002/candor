@@ -239,6 +239,11 @@ const meta: Meta<DataGridComponent> = {
   title: 'Components/Data Grid',
   component: DataGridComponent,
   tags: ['autodocs'],
+  argTypes: {
+    caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption (visible above the grid)' },
+    showLabels: { control: 'boolean', type: { name: 'boolean' }, description: 'Show cell label text inside each cell' },
+    hideHeaders: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide row/column headers while keeping them in the DOM for AT' },
+  },
   parameters: {
     docs: {
       description: {
@@ -270,6 +275,21 @@ type Story = StoryObj<DataGridComponent>;
 
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
+export const Default: Story = {
+  args: {
+    caption: 'Design token colors',
+    showLabels: true,
+    hideHeaders: false,
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      rows: TEXT_ROWS,
+      columnHeaders: ['Token A', 'Token B', 'Token C', 'Token D'],
+    },
+  }),
+};
+
 export const ColorPicker: Story = {
   name: 'Color Picker (OKLCH grid)',
   decorators: [moduleMetadata({ imports: [ColorPickerStory] })],
@@ -277,6 +297,7 @@ export const ColorPicker: Story = {
     template: `<story-color-picker></story-color-picker>`,
   }),
   parameters: {
+    controls: { disable: true },
     docs: {
       description: {
         story:
@@ -297,6 +318,7 @@ export const TokenSwatch: Story = {
     } satisfies Partial<DataGridComponent>,
   }),
   parameters: {
+    controls: { disable: true },
     docs: {
       description: {
         story:
@@ -316,6 +338,7 @@ export const NavyGamut: Story = {
     } satisfies Partial<DataGridComponent>,
   }),
   parameters: {
+    controls: { disable: true },
     docs: {
       description: {
         story:
@@ -335,6 +358,7 @@ export const BurgundyGamut: Story = {
     } satisfies Partial<DataGridComponent>,
   }),
   parameters: {
+    controls: { disable: true },
     docs: {
       description: {
         story:
@@ -354,6 +378,7 @@ export const AzureGamut: Story = {
     } satisfies Partial<DataGridComponent>,
   }),
   parameters: {
+    controls: { disable: true },
     docs: {
       description: {
         story:
@@ -373,6 +398,7 @@ export const PurpleGamut: Story = {
     } satisfies Partial<DataGridComponent>,
   }),
   parameters: {
+    controls: { disable: true },
     docs: {
       description: {
         story:

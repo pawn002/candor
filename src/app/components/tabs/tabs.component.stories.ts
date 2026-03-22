@@ -9,10 +9,7 @@ const meta: Meta<TabsComponent> = {
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [TabPanelComponent] })],
   argTypes: {
-    activeId: {
-      control: 'text',
-      description: 'Active tab ID',
-    },
+    ariaLabel: { control: 'text', type: { name: 'string' }, description: 'Accessible label for the tab list' },
   },
 };
 
@@ -20,9 +17,11 @@ export default meta;
 type Story = StoryObj<TabsComponent>;
 
 export const Default: Story = {
-  render: () => ({
+  args: { ariaLabel: 'Product information' },
+  render: (args) => ({
+    props: args,
     template: `
-      <app-tabs ariaLabel="Product information">
+      <app-tabs [ariaLabel]="ariaLabel">
         <app-tab-panel tabId="overview" label="Overview">
           <p>This is the overview panel. It contains a summary of all the important information you need to get started.</p>
         </app-tab-panel>

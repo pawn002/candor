@@ -31,6 +31,14 @@ const meta: Meta<TextComponent> = {
 export default meta;
 type Story = StoryObj<TextComponent>;
 
+export const Default: Story = {
+  args: { variant: 'body', size: 'md', color: 'primary', bold: false },
+  render: (args) => ({
+    props: args,
+    template: `<app-text [variant]="variant" [size]="size" [color]="color" [bold]="bold">Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</app-text>`,
+  }),
+};
+
 export const Body: Story = {
   args: {
     variant: 'body',

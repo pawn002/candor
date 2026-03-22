@@ -13,7 +13,10 @@ const meta: Meta<StatComponent> = {
   ],
   tags: ['autodocs'],
   argTypes: {
-    color: { control: 'select', options: ['default', 'success', 'warning', 'error', 'info'] },
+    value: { control: 'text', type: { name: 'string' }, description: 'Numeric or string value displayed large' },
+    unit: { control: 'text', type: { name: 'string' }, description: 'Unit suffix displayed after the value (e.g. % or :1)' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Descriptive label below the value' },
+    color: { control: 'select', options: ['default', 'success', 'warning', 'error', 'info'], type: { name: 'string' }, description: 'Semantic color variant' },
   },
 };
 
@@ -29,6 +32,7 @@ export const Default: Story = {
 };
 
 export const ContrastRatio: Story = {
+  parameters: { controls: { disable: true } },
   name: 'Contrast ratio — warning state',
   render: () => ({
     template: `
@@ -53,6 +57,7 @@ export const ContrastRatio: Story = {
 };
 
 export const AllColors: Story = {
+  parameters: { controls: { disable: true } },
   render: () => ({
     template: `
       <div style="display: flex; gap: 2rem; flex-wrap: wrap; padding: 2rem;">

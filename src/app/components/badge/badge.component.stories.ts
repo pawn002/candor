@@ -25,6 +25,14 @@ const meta: Meta<BadgeComponent> = {
 export default meta;
 type Story = StoryObj<BadgeComponent>;
 
+export const Default: Story = {
+  args: { variant: 'primary', size: 'md' },
+  render: (args) => ({
+    props: args,
+    template: `<app-badge [variant]="variant" [size]="size">Badge</app-badge>`,
+  }),
+};
+
 export const AllVariants: Story = {
   render: () => ({
     template: `
