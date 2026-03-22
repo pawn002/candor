@@ -1,5 +1,7 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -7,6 +9,7 @@ import {
   Output,
   QueryList,
   ViewChildren,
+  inject,
 } from '@angular/core';
 
 export interface GridCell {
@@ -43,7 +46,10 @@ export interface GridCellActivateEvent {
   templateUrl: './data-grid.component.html',
   styleUrl: './data-grid.component.scss',
 })
-export class DataGridComponent {
+export class DataGridComponent implements AfterViewInit {
+  private cdr = inject(ChangeDetectorRef);
+  readonly hintId = `data-grid-hint-${Math.random().toString(36).slice(2, 9)}`;
+  announcement = '';
   @Input() rows: GridRow[] = [];
   @Input() columnHeaders: string[] = [];
   /** Visible caption rendered above the grid */
@@ -65,6 +71,22 @@ export class DataGridComponent {
 
   focusedRow = 0;
   focusedCol = 0;
+
+  ngAfterViewInit(): void {
+    // Announce pre-selected cell after initial render so the live region
+    // fires as a DOM change (setting content before first render would not trigger it)
+    setTimeout(() => {
+      for (const row of this.rows) {
+        for (const cell of row.cells) {
+          if (cell.selected) {
+            this.announcement = `Selected: ${cell.label}`;
+            this.cdr.markForCheck();
+            return;
+          }
+        }
+      }
+    });
+  }
 
   isActive(row: number, col: number): boolean {
     return this.focusedRow === row && this.focusedCol === col;
@@ -144,6 +166,7 @@ export class DataGridComponent {
   private activate(row: number, col: number): void {
     const cell = this.rows[row]?.cells[col];
     if (cell && !cell.disabled) {
+      this.announcement = `Selected: ${cell.label}`;
       this.cellActivate.emit({ rowIndex: row, colIndex: col, cell });
     }
   }
