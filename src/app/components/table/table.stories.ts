@@ -27,10 +27,12 @@ export default meta;
 type Story = StoryObj<TableComponent>;
 
 export const Default: Story = {
-  render: () => ({
+  args: { compact: false },
+  render: (args) => ({
+    props: args,
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
-        <app-table>
+        <app-table [compact]="compact">
           <table>
             <thead>
               <tr>

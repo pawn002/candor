@@ -22,6 +22,14 @@ const meta: Meta<HeadingComponent> = {
 export default meta;
 type Story = StoryObj<HeadingComponent>;
 
+export const Default: Story = {
+  args: { level: 'h1', color: 'primary' },
+  render: (args) => ({
+    props: args,
+    template: `<app-heading [level]="level" [color]="color">The quick brown fox jumps over the lazy dog</app-heading>`,
+  }),
+};
+
 export const H1: Story = {
   args: {
     level: 'h1',

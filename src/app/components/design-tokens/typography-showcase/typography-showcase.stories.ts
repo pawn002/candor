@@ -25,6 +25,6 @@ Type scale uses a **Major Third ratio (1.25×)** from a 1rem (16px) base. Minimu
 export default meta;
 type Story = StoryObj<TypographyShowcaseComponent>;
 
-export const Default: Story = {
+export const Showcase: Story = {
   render: () => ({}),
 };

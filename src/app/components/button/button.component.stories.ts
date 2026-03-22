@@ -33,6 +33,14 @@ const meta: Meta<ButtonComponent> = {
 export default meta;
 type Story = StoryObj<ButtonComponent>;
 
+export const Default: Story = {
+  args: { variant: 'primary', size: 'medium', disabled: false },
+  render: (args) => ({
+    props: args,
+    template: `<app-button [variant]="variant" [size]="size" [disabled]="disabled">Save changes</app-button>`,
+  }),
+};
+
 export const Primary: Story = {
   args: { variant: 'primary', size: 'medium', disabled: false },
   render: (args) => ({

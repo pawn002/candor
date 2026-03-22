@@ -11,7 +11,10 @@ const meta: Meta<AccordionItemComponent> = {
     moduleMetadata({ imports: [AccordionItemComponent, RadioComponent, CheckboxComponent] }),
   ],
   tags: ['autodocs'],
-  argTypes: {},
+  argTypes: {
+    title: { control: 'text', type: { name: 'string' }, description: 'Accordion header label' },
+    open: { control: 'boolean', type: { name: 'boolean' }, description: 'Expanded state on initial render' },
+  },
   parameters: {
     docs: {
       description: {
@@ -30,13 +33,14 @@ type Story = StoryObj<AccordionItemComponent>;
 export const Default: Story = {
   args: {
     title: 'What is OKLCH?',
+    open: false,
   },
   render: (args) => ({
     props: args,
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
         <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
-          <app-accordion-item [title]="title">
+          <app-accordion-item [title]="title" [open]="open">
             OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
             Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
             making it ideal for programmatic color manipulation.
@@ -69,6 +73,7 @@ export const OpenByDefault: Story = {
 };
 
 export const MultipleItems: Story = {
+  parameters: { controls: { disable: true } },
   render: () => ({
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">

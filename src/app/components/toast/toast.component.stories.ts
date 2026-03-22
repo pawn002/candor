@@ -29,6 +29,18 @@ const meta: Meta<ToastComponent> = {
 export default meta;
 type Story = StoryObj<ToastComponent>;
 
+export const Default: Story = {
+  args: {
+    variant: 'info',
+    message: 'This is an informational message.',
+    dismissible: false,
+  },
+  render: (args) => ({
+    props: args,
+    template: `<div style="max-width: 32rem;"><app-toast [variant]="variant" [message]="message" [title]="title" [dismissible]="dismissible"></app-toast></div>`,
+  }),
+};
+
 export const AllVariants: Story = {
   render: () => ({
     template: `

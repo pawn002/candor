@@ -28,6 +28,18 @@ const defaultItems: NavItem[] = [
   { label: 'Contact', href: '#contact' },
 ];
 
+export const Default: Story = {
+  args: {
+    items: defaultItems,
+    orientation: 'horizontal',
+    brand: 'Candor',
+  },
+  render: (args) => ({
+    props: args,
+    template: `<app-navigation [items]="items" [orientation]="orientation" [brand]="brand"></app-navigation>`,
+  }),
+};
+
 export const Horizontal: Story = {
   args: {
     items: defaultItems,

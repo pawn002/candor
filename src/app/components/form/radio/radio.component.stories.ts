@@ -6,14 +6,11 @@ const meta: Meta<RadioComponent> = {
   component: RadioComponent,
   tags: ['autodocs'],
   argTypes: {
-    disabled: {
-      control: 'boolean',
-      description: 'Disabled state',
-    },
-    checked: {
-      control: 'boolean',
-      description: 'Checked state (for static/story use)',
-    },
+    label: { control: 'text', type: { name: 'string' }, description: 'Radio button label' },
+    value: { control: 'text', type: { name: 'string' }, description: 'Value submitted with the form' },
+    name: { control: 'text', type: { name: 'string' }, description: 'Radio group name' },
+    checked: { control: 'boolean', type: { name: 'boolean' }, description: 'Checked state (for static/story use)' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
 };
 
@@ -47,6 +44,7 @@ export const Disabled: Story = {
 };
 
 export const RadioGroup: Story = {
+  parameters: { controls: { disable: true } },
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -60,6 +58,7 @@ export const RadioGroup: Story = {
 };
 
 export const MultipleGroups: Story = {
+  parameters: { controls: { disable: true } },
   render: () => ({
     template: `
       <div style="display: flex; gap: 3rem;">

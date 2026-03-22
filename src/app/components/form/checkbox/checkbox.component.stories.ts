@@ -6,14 +6,9 @@ const meta: Meta<CheckboxComponent> = {
   component: CheckboxComponent,
   tags: ['autodocs'],
   argTypes: {
-    disabled: {
-      control: 'boolean',
-      description: 'Disabled state',
-    },
-    checked: {
-      control: 'boolean',
-      description: 'Checked state',
-    },
+    label: { control: 'text', type: { name: 'string' }, description: 'Checkbox label text' },
+    checked: { control: 'boolean', type: { name: 'boolean' }, description: 'Checked state' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
 };
 
@@ -50,6 +45,7 @@ export const CheckedDisabled: Story = {
 };
 
 export const AllStates: Story = {
+  parameters: { controls: { disable: true } },
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -63,6 +59,7 @@ export const AllStates: Story = {
 };
 
 export const Multiple: Story = {
+  parameters: { controls: { disable: true } },
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 1rem;">
