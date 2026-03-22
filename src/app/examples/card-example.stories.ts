@@ -3,12 +3,14 @@ import { moduleMetadata } from '@storybook/angular';
 import { ButtonComponent } from '../components/button/button.component';
 import { HeadingComponent } from '../components/typography/heading/heading.component';
 import { TextComponent } from '../components/typography/text/text.component';
+import { ChipComponent } from '../components/chip/chip.component';
+import { MenuComponent } from '../components/menu/menu.component';
 
 const meta: Meta = {
   title: 'Examples/Card Example',
   decorators: [
     moduleMetadata({
-      imports: [ButtonComponent, HeadingComponent, TextComponent],
+      imports: [ButtonComponent, HeadingComponent, TextComponent, ChipComponent, MenuComponent],
     }),
   ],
   tags: ['autodocs'],
@@ -51,13 +53,17 @@ export const ProductCard: Story = {
             </div>
           </div>
 
-          <div style="display: flex; gap: 0.5rem;">
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
             <app-button [variant]="'primary'" [size]="'medium'" style="flex: 1;">
               Add to Cart
             </app-button>
-            <app-button [variant]="'ghost'" [size]="'medium'">
-              ♡
-            </app-button>
+            <app-menu label="More" [entries]="[
+              { label: 'Save for later' },
+              { label: 'Add to wishlist' },
+              'separator',
+              { label: 'Share product' },
+              { label: 'Report listing' }
+            ]"></app-menu>
           </div>
         </div>
       </div>
@@ -72,13 +78,9 @@ export const ArticleCard: Story = {
         <div style="width: 100%; height: 180px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
 
         <div style="padding: 1.5rem;">
-          <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
-            <span style="background: var(--color-bg-surface); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">
-              Design
-            </span>
-            <span style="background: var(--color-bg-surface); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">
-              Accessibility
-            </span>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+            <app-chip label="Design" variant="primary"></app-chip>
+            <app-chip label="Accessibility" variant="secondary"></app-chip>
           </div>
 
           <app-heading [level]="3" style="margin-bottom: 0.5rem;">
