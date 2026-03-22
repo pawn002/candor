@@ -21,7 +21,7 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 |---|---|---|---|
 | 1 | TonePicker | ✅ Done | 4 issues fixed — see findings below |
 | 2 | DataGrid | ✅ Done | 3 issues fixed — see findings below |
-| 3 | Tabs | ⬜ Pending | |
+| 3 | Tabs | ✅ Done | 1 issue fixed — see findings below |
 | 4 | Modal | ⬜ Pending | |
 | 5 | Menu | ⬜ Pending | |
 | 6 | Accordion | ⬜ Pending | |
@@ -118,3 +118,19 @@ Also promoted `.sr-only` utility from `tone-picker.component.scss` to global `st
 - Instructions (`paragraph`) appear before `grid` in DOM order
 - Corner cell absent from header row
 - `status` region present; populates asynchronously via `ngAfterViewInit` + `setTimeout` so live region mutation fires in real browsers
+
+---
+
+### 3. Tabs
+
+**Story:** Components/Tabs
+**File:** `src/app/components/tabs/tabs.component.ts`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | `activeId = signal('')` is not an Angular `input()` — parent template bindings (e.g. `[activeId]="'settings'"`) are silently ignored; external pre-selection never takes effect; AT users land on the wrong (first) tab regardless of the intended initial state | Medium | Changed to `activeId = model('')` — `ModelSignal` is bindable from parents while still supporting internal `this.activeId.set(id)` calls |
+
+**Post-fix AT tree confirms (Tabs):**
+- `[activeId]="'someId'"` binding correctly selects the specified tab on mount
+- Arrow key navigation, tab activation, and `role="status"` announcements unaffected
+- `ngAfterContentInit` fallback to first tab still fires when no `activeId` is provided

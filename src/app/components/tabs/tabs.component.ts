@@ -8,8 +8,8 @@ import {
   HostListener,
   inject,
   input,
+  model,
   output,
-  signal,
 } from '@angular/core';
 import { TabPanelComponent } from './tab-panel.component';
 
@@ -45,7 +45,7 @@ export class TabsComponent implements AfterContentInit {
   panels = contentChildren(TabPanelComponent);
 
   ariaLabel = input('');
-  activeId = signal('');
+  activeId = model('');
   tabChange = output<string>();
 
   private el = inject(ElementRef);
