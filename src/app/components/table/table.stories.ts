@@ -12,6 +12,15 @@ const meta: Meta<TableComponent> = {
   argTypes: {
     compact: { control: 'boolean' },
   },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Zebra striping uses \`oklch(0.85 0 0)\` for even rows — deltaE 11 from white, visible on any light background without requiring a surface container.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;
