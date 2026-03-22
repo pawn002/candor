@@ -3,6 +3,8 @@
 Audit methodology: per-component screen reader walkthrough (NVDA + Chrome unless noted),
 followed by ranked issues table, fixes, and sign-off.
 
+Cross-reference: trend analysis and recommendations are in [`docs/A11Y-ANALYSIS.md`](./A11Y-ANALYSIS.md).
+
 Status legend: ⬜ Pending · 🔄 In Progress · ✅ Done · ⏭ Deferred
 
 ---
