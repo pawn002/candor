@@ -5,12 +5,13 @@ import { HeadingComponent } from '../components/typography/heading/heading.compo
 import { TextComponent } from '../components/typography/text/text.component';
 import { ChipComponent } from '../components/chip/chip.component';
 import { MenuComponent } from '../components/menu/menu.component';
+import { TooltipComponent } from '../components/tooltip/tooltip.component';
 
 const meta: Meta = {
   title: 'Examples/Card Example',
   decorators: [
     moduleMetadata({
-      imports: [ButtonComponent, HeadingComponent, TextComponent, ChipComponent, MenuComponent],
+      imports: [ButtonComponent, HeadingComponent, TextComponent, ChipComponent, MenuComponent, TooltipComponent],
     }),
   ],
   tags: ['autodocs'],
@@ -100,9 +101,11 @@ export const ArticleCard: Story = {
             <app-button [variant]="'primary'" [size]="'small'">
               Read More
             </app-button>
-            <app-button [variant]="'ghost'" [size]="'small'">
-              Bookmark
-            </app-button>
+            <app-tooltip text="Save to reading list" position="top">
+              <app-button [variant]="'ghost'" [size]="'small'">
+                Bookmark
+              </app-button>
+            </app-tooltip>
           </div>
         </div>
       </div>

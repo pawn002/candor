@@ -7,6 +7,7 @@ import { HeadingComponent } from "../components/typography/heading/heading.compo
 import { TextComponent } from "../components/typography/text/text.component";
 import { SwitchComponent } from "../components/form/switch/switch.component";
 import { AlertComponent } from "../components/alert/alert.component";
+import { ProgressComponent } from "../components/progress/progress.component";
 
 const meta: Meta = {
   title: "Examples/Form Example",
@@ -20,6 +21,7 @@ const meta: Meta = {
         TextComponent,
         SwitchComponent,
         AlertComponent,
+        ProgressComponent,
       ],
     }),
   ],
@@ -318,6 +320,56 @@ export const NotificationPreferences: Story = {
         </fieldset>
 
         <app-button [variant]="'primary'" [size]="'medium'">Save preferences</app-button>
+      </div>
+    `,
+  }),
+};
+
+export const FileUpload: Story = {
+  render: () => ({
+    template: `
+      <div style="max-width: 500px; padding: 2rem;">
+        <app-heading [level]="2" style="margin-bottom: 0.5rem;">Upload files</app-heading>
+        <app-text [variant]="'body'" style="display: block; margin-bottom: 2rem; color: var(--color-text-subtle);">
+          3 files queued — uploading 1 of 3.
+        </app-text>
+
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem;">
+
+          <!-- Complete -->
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <app-text [variant]="'caption'">quarterly-report.pdf</app-text>
+              <app-text [variant]="'caption'" style="color: var(--color-action-primary); font-weight: var(--font-weight-semibold);">Done</app-text>
+            </div>
+            <app-progress [type]="'bar'" [value]="100" [label]="'quarterly-report.pdf'"></app-progress>
+          </div>
+
+          <!-- In progress -->
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <app-text [variant]="'caption'">presentation-slides.pptx</app-text>
+              <app-text [variant]="'caption'" style="color: var(--color-text-subtle);">65%</app-text>
+            </div>
+            <app-progress [type]="'bar'" [value]="65" [label]="'presentation-slides.pptx'"></app-progress>
+          </div>
+
+          <!-- Indeterminate / waiting -->
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <app-text [variant]="'caption'">data-export.csv</app-text>
+              <app-text [variant]="'caption'" style="color: var(--color-text-subtle);">Waiting...</app-text>
+            </div>
+            <app-progress [type]="'bar'" [indeterminate]="true" [label]="'data-export.csv'"></app-progress>
+          </div>
+
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <app-progress [type]="'spinner'" [size]="'sm'" [label]="'Uploading'"></app-progress>
+          <app-text [variant]="'body'" style="color: var(--color-text-subtle);">Uploading presentation-slides.pptx...</app-text>
+          <app-button [variant]="'ghost'" [size]="'small'">Cancel</app-button>
+        </div>
       </div>
     `,
   }),
