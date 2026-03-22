@@ -27,6 +27,7 @@ export type MenuEntry = MenuItem | 'separator';
     <div class="menu-wrapper">
       <button
         #trigger
+        [id]="triggerId"
         class="menu-trigger"
         [attr.aria-haspopup]="'menu'"
         [attr.aria-expanded]="isOpen()"
@@ -44,6 +45,7 @@ export type MenuEntry = MenuItem | 'separator';
         <ul
           [id]="menuId"
           role="menu"
+          [attr.aria-labelledby]="triggerId"
           class="menu-panel"
           (keydown)="onMenuKeydown($event)"
         >
@@ -80,6 +82,7 @@ export class MenuComponent {
   protected isOpen = signal(false);
   protected focusedIndex = signal(0);
   protected menuId = `menu-${Math.random().toString(36).substr(2, 9)}`;
+  protected triggerId = `menu-trigger-${Math.random().toString(36).substr(2, 9)}`;
 
   @ViewChild('trigger') triggerRef!: ElementRef<HTMLButtonElement>;
   @ViewChildren('menuItem') menuItems!: QueryList<ElementRef<HTMLButtonElement>>;
