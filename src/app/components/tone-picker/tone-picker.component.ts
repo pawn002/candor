@@ -19,6 +19,14 @@ import { GridCell, GridRow } from '../data-grid/data-grid.component';
   styleUrl: './tone-picker.component.scss',
   host: { '(keydown)': 'onKeydown($event)' },
   template: `
+    <!-- Fix #3: sr-only hint placed before the grid so virtual cursor users read instructions
+         before encountering the widget. aria-describedby on the grid points here, so keyboard
+         tab-in users also hear it on entry. -->
+    <p [id]="hintId" class="sr-only">Arrow keys navigate · Enter or Space activates · Blank cells are outside sRGB gamut</p>
+
+    <!-- Fix #2: role="group" satisfies ARIA 1.2 required context for role="radio"
+         (spec requires radio to be owned by group or radiogroup) -->
+    <div role="group">
     <table
       role="grid"
       [attr.aria-label]="ariaLabel() || caption() || 'Tone picker'"
@@ -29,7 +37,8 @@ import { GridCell, GridRow } from '../data-grid/data-grid.component';
     >
       <thead>
         <tr role="row">
-          <td class="corner"></td>
+          <!-- Fix #4: aria-hidden removes the empty corner cell from the AT tree -->
+          <td class="corner" role="none"></td>
           @for (header of columnHeaders(); track header) {
             <th scope="col" role="columnheader" class="col-header">{{ header }}</th>
           }
@@ -64,12 +73,15 @@ import { GridCell, GridRow } from '../data-grid/data-grid.component';
         }
       </tbody>
     </table>
+    </div><!-- /role="group" -->
 
     <!-- Announces pre-selected value on mount and selection changes to AT -->
     <div role="status" aria-live="polite" aria-atomic="true" class="sr-only">{{ announcement() }}</div>
 
     <div class="ui" [class.sr-only]="hideUi()">
-      <div class="preview" aria-live="polite">
+      <!-- Fix #1: no aria-live here — role="status" above handles all announcements;
+         a second aria-live would cause the oklch value to be announced twice -->
+      <div class="preview">
         @if (selectedColor()) {
           <span
             class="preview-swatch"
@@ -82,7 +94,8 @@ import { GridCell, GridRow } from '../data-grid/data-grid.component';
         }
       </div>
 
-      <p class="hint" [id]="hintId">Arrow keys navigate · Enter or Space activates · Blank cells are outside sRGB gamut</p>
+      <!-- Visible hint (no id — id lives on the sr-only element before the grid) -->
+      <p class="hint">Arrow keys navigate · Enter or Space activates · Blank cells are outside sRGB gamut</p>
     </div>
   `,
 })
