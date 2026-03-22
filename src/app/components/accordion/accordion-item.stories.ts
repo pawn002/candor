@@ -12,6 +12,16 @@ const meta: Meta<AccordionItemComponent> = {
   ],
   tags: ['autodocs'],
   argTypes: {},
+  parameters: {
+    docs: {
+      description: {
+        component: `
+**Note:** All stories wrap \`<app-accordion-item>\` in a surface container (\`background: var(--color-bg-surface)\`) for display purposes.
+In real usage, the host element provides this context — no wrapper is required by the component itself.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;
