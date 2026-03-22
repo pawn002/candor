@@ -56,6 +56,8 @@
 
   // Header
   &__header {
+    &:empty { display: none; }
+
     &:not(:empty) {
       border-bottom: var(--border-width-medium) solid var(--color-border-default);
       font-family: var(--font-family-base);
@@ -72,6 +74,8 @@
 
   // Footer
   &__footer {
+    &:empty { display: none; }
+
     &:not(:empty) {
       border-top: var(--border-width-thin) solid var(--color-border-default);
       font-family: var(--font-family-base);
