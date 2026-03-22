@@ -45,9 +45,9 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 
 | # | Component | Status | Notes |
 |---|---|---|---|
-| 13 | Alert | ⬜ Pending | |
-| 14 | Toast | ⬜ Pending | |
-| 15 | Progress | ⬜ Pending | |
+| 13 | Alert | ✅ Done | 1 issue fixed — see findings below |
+| 14 | Toast | ✅ Done | No issues |
+| 15 | Progress | ✅ Done | No issues |
 
 ---
 
@@ -280,3 +280,38 @@ No issues found. Native `<input type="checkbox">` with `<label for>` association
 - `aria-describedby` resolves to `["Press Enter to send…", "Candor AI can make mistakes…"]` ✅
 - Default story (no disclaimer): `aria-describedby` contains only hint ID ✅
 - Send via Enter: `status "Message sent"` fires; textarea clears; button returns to `[disabled]` ✅
+
+---
+
+### 13. Alert
+
+**Story:** Components/Alert
+**File:** `src/app/components/alert/alert.stories.ts`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | `InlineFormValidation` story: `<label>` had no `for` attribute and `<input>` had no `id` — AT snapshot showed `textbox` with no accessible name; NVDA would announce "edit" with no field label | High | Added `for="story-email"` to `<label>` and `id="story-email"` to `<input>` |
+
+**Post-fix AT tree confirms (Alert):**
+- `textbox "Email address"` correctly named via `<label for>` association ✅
+- `role="status"` (info/success) and `role="alert"` (warning/error) correctly applied ✅
+- SVG icons `aria-hidden="true"` — Playwright shows `img` node but NVDA honours `aria-hidden` ✅
+- Dismiss button `aria-label="Dismiss"` reachable in tab order ✅
+
+---
+
+### 14. Toast
+
+**Story:** Components/Toast
+**File:** `src/app/components/toast/toast.component.ts`
+
+No issues found. `role="status"` (info/success) and `role="alert"` (warning/error) correctly applied. Dismiss button labeled "Dismiss notification" ✅. SVG icons correctly suppressed ✅.
+
+---
+
+### 15. Progress
+
+**Story:** Components/Progress
+**File:** `src/app/components/progress/progress.component.ts`
+
+No issues found. `role="progressbar"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, `aria-valuetext` all correctly set for determinate bars; all value attrs correctly nulled for indeterminate. Spinner exposed as `role="status"` with `aria-label` ✅.

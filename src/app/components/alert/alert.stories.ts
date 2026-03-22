@@ -77,8 +77,8 @@ export const InlineFormValidation: Story = {
     template: `
       <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 480px;">
         <div>
-          <label style="display: block; font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); margin-bottom: 0.5rem;">Email address</label>
-          <input type="email" value="notanemail" style="display: block; width: 100%; padding: var(--spacing-sm); border: 2px solid var(--color-status-error); border-radius: var(--radius-md); font-family: var(--font-family-accessible); font-size: var(--font-size-md); background: var(--color-bg-page); color: var(--color-text-default);" aria-describedby="email-error" aria-invalid="true" />
+          <label for="story-email" style="display: block; font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); margin-bottom: 0.5rem;">Email address</label>
+          <input id="story-email" type="email" value="notanemail" style="display: block; width: 100%; padding: var(--spacing-sm); border: 2px solid var(--color-status-error); border-radius: var(--radius-md); font-family: var(--font-family-accessible); font-size: var(--font-size-md); background: var(--color-bg-page); color: var(--color-text-default);" aria-describedby="email-error" aria-invalid="true" />
         </div>
         <app-alert id="email-error" variant="error" message="Enter a valid email address, for example name@example.com."></app-alert>
       </div>
