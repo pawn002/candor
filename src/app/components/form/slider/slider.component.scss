@@ -53,9 +53,9 @@
         height: 1.375rem;
         margin-top: calc((1.375rem - 4px) / -2); // center thumb on the 4px track
         border-radius: 50%;
-        background: var(--color-bg-elevated);
-        border: 2px solid rgba(0, 0, 0, 0.28);
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+        background: #ffffff;
+        border: 2px solid rgba(0, 0, 0, 0.18);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(0, 0, 0, 0.12);
         cursor: pointer;
         transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
