@@ -1,5 +1,4 @@
-import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 interface ColorSwatch {
   name: string;
@@ -12,7 +11,7 @@ interface ColorSwatch {
 
 @Component({
   selector: "app-color-showcase",
-  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./color-showcase.component.html",
   styleUrl: "./color-showcase.component.scss",
 })

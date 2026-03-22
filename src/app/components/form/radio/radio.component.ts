@@ -1,11 +1,10 @@
-import { Component, Input, forwardRef } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, inject, Input, input } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { NgClass } from "@angular/common";
 
 @Component({
   selector: "app-radio",
   standalone: true,
-  imports: [NgClass],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./radio.component.html",
   styleUrls: ["./radio.component.scss"],
   providers: [
@@ -17,25 +16,26 @@ import { NgClass } from "@angular/common";
   ],
 })
 export class RadioComponent implements ControlValueAccessor {
-  @Input() label?: string;
-  @Input() value: any;
-  @Input() name?: string;
-  @Input() disabled: boolean = false;
-  @Input() id?: string;
-  @Input() checked: boolean = false; // for static/story use; ControlValueAccessor takes precedence when wired
+  // Signal inputs — pure display config
+  label = input<string>();
+  value = input<any>();
+  name = input<string>();
+  id = input<string>();
+  // For static/story use; ControlValueAccessor takes precedence when wired
+  @Input() checked = false;
 
+  // Mutable by ControlValueAccessor
+  @Input() disabled = false;
   selectedValue: any;
 
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
-  private _generatedId: string;
-
-  constructor() {
-    this._generatedId = `radio-${Math.random().toString(36).substr(2, 9)}`;
-  }
+  private cdr = inject(ChangeDetectorRef);
+  private _generatedId = `radio-${Math.random().toString(36).substr(2, 9)}`;
 
   writeValue(value: any): void {
     this.selectedValue = value;
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: (value: any) => void): void {
@@ -48,12 +48,13 @@ export class RadioComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.cdr.markForCheck();
   }
 
   onRadioChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     if (target.checked) {
-      this.selectedValue = this.value;
+      this.selectedValue = this.value();
       this.onChange(this.selectedValue);
     }
   }
@@ -63,10 +64,10 @@ export class RadioComponent implements ControlValueAccessor {
   }
 
   get isChecked(): boolean {
-    return this.selectedValue === this.value;
+    return this.selectedValue === this.value();
   }
 
   get radioId(): string {
-    return this.id || this._generatedId;
+    return this.id() || this._generatedId;
   }
 }

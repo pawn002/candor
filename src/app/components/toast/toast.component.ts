@@ -1,14 +1,15 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 
 @Component({
   selector: 'app-toast',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div [class]="'toast toast--' + variant" [attr.role]="variant === 'warning' || variant === 'error' ? 'alert' : 'status'">
+    <div [class]="'toast toast--' + variant()" [attr.role]="variant() === 'warning' || variant() === 'error' ? 'alert' : 'status'">
       <svg class="toast__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        @switch (variant) {
+        @switch (variant()) {
           @case ('info') {
             <circle cx="12" cy="12" r="10"/>
             <line x1="12" y1="8" x2="12" y2="12"/>
@@ -31,12 +32,12 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
         }
       </svg>
       <div class="toast__content">
-        @if (title) {
-          <div class="toast__title">{{ title }}</div>
+        @if (title()) {
+          <div class="toast__title">{{ title() }}</div>
         }
-        <div class="toast__message">{{ message }}</div>
+        <div class="toast__message">{{ message() }}</div>
       </div>
-      @if (dismissible) {
+      @if (dismissible()) {
         <button class="toast__dismiss" (click)="dismiss()" aria-label="Dismiss notification">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"/>
@@ -49,12 +50,12 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
   styleUrls: ['./toast.component.scss']
 })
 export class ToastComponent {
-  @Input() variant: ToastVariant = 'info';
-  @Input() title = '';
-  @Input() message = '';
-  @Input() dismissible = true;
+  variant = input<ToastVariant>('info');
+  title = input('');
+  message = input('');
+  dismissible = input(true);
 
-  @Output() dismissed = new EventEmitter<void>();
+  dismissed = output<void>();
 
   dismiss(): void {
     this.dismissed.emit();

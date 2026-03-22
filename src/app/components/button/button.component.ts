@@ -1,5 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'destructive';
 type ButtonSize = 'small' | 'medium' | 'large';
@@ -7,21 +6,21 @@ type ButtonSize = 'small' | 'medium' | 'large';
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [NgClass],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
-  @Input() variant: ButtonVariant = 'primary';
-  @Input() size: ButtonSize = 'medium';
-  @Input() disabled: boolean = false;
-  @Input() type: 'button' | 'submit' | 'reset' = 'button';
-  @Input() ariaLabel?: string;
+  variant = input<ButtonVariant>('primary');
+  size = input<ButtonSize>('medium');
+  disabled = input(false);
+  type = input<'button' | 'submit' | 'reset'>('button');
+  ariaLabel = input<string>();
 
-  @Output() clicked = new EventEmitter<Event>();
+  clicked = output<Event>();
 
   onClick(event: Event) {
-    if (!this.disabled) {
+    if (!this.disabled()) {
       this.clicked.emit(event);
     }
   }
