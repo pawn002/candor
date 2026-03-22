@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, input, output, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, output, signal, viewChild, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-chat-input',
@@ -16,11 +16,19 @@ export class ChatInputComponent {
   send = output<string>();
 
   private textareaRef = viewChild<ElementRef<HTMLTextAreaElement>>('textarea');
+  private cdr = inject(ChangeDetectorRef);
 
   value = '';
+  statusMessage = signal('');
 
   private _id = `chat-input-${Math.random().toString(36).slice(2, 9)}`;
   get inputId() { return this._id; }
+
+  ariaDescribedBy = computed(() => {
+    const parts = [`${this.inputId}-hint`];
+    if (this.disclaimer()) parts.push(`${this.inputId}-disclaimer`);
+    return parts.join(' ');
+  });
 
   onInput(event: Event): void {
     const el = event.target as HTMLTextAreaElement;
@@ -45,6 +53,12 @@ export class ChatInputComponent {
       ref.nativeElement.value = '';
       this.autoGrow(ref.nativeElement);
     }
+    // Reset then set so repeated sends each fire the live region mutation
+    this.statusMessage.set('');
+    setTimeout(() => {
+      this.statusMessage.set('Message sent');
+      this.cdr.markForCheck();
+    });
   }
 
   private autoGrow(el: HTMLTextAreaElement): void {

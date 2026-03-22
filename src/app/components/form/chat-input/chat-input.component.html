@@ -1,6 +1,9 @@
 <div class="chat-input">
   <label [for]="inputId" class="chat-input__label">{{ label() }}</label>
 
+  <!-- sr-only keyboard instructions — always in DOM, referenced by aria-describedby -->
+  <span [id]="inputId + '-hint'" class="sr-only">Press Enter to send. Press Shift+Enter for a new line.</span>
+
   <div class="chat-input__field" [class.chat-input__field--disabled]="disabled()">
     <textarea
       #textarea
@@ -9,10 +12,10 @@
       [placeholder]="placeholder()"
       [disabled]="disabled()"
       [value]="value"
+      [attr.aria-describedby]="ariaDescribedBy()"
       (input)="onInput($event)"
       (keydown)="onKeydown($event)"
       rows="1"
-      aria-multiline="true"
     ></textarea>
 
     <button
@@ -30,6 +33,9 @@
   </div>
 
   @if (disclaimer()) {
-    <p class="chat-input__disclaimer">{{ disclaimer() }}</p>
+    <p [id]="inputId + '-disclaimer'" class="chat-input__disclaimer">{{ disclaimer() }}</p>
   }
+
+  <!-- Send confirmation live region — always in DOM so mutation fires reliably -->
+  <span role="status" class="sr-only" aria-live="polite" aria-atomic="true">{{ statusMessage() }}</span>
 </div>

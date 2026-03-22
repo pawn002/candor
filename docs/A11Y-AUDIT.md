@@ -37,7 +37,7 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 | 9 | Radio | ✅ Done | 1 issue fixed — see findings below |
 | 10 | Switch | ✅ Done | 1 issue fixed — see findings below |
 | 11 | Slider | ✅ Done | 2 issues fixed — see findings below |
-| 12 | ChatInput | ⬜ Pending | |
+| 12 | ChatInput | ✅ Done | 4 issues fixed — see findings below |
 
 ---
 
@@ -260,3 +260,23 @@ No issues found. Native `<input type="checkbox">` with `<label for>` association
 - `slider "Lightness — hold C and H"` (sage green): `aria-valuetext="55%"` confirmed in DOM ✅
 - `slider "Lightness — hold C and H"` (pale rose): `aria-valuetext="94%"` confirmed in DOM ✅
 - `slider "Volume" [disabled]` — no `aria-valuetext` needed; integer is self-explanatory ✅
+
+---
+
+### 12. ChatInput
+
+**Story:** Components/Form/ChatInput
+**Files:** `src/app/components/form/chat-input/chat-input.component.ts` / `.html`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | No send confirmation — Enter/click sent silently; textarea cleared with no AT announcement; user could not tell if action succeeded | Medium | Added `statusMessage = signal('')`; `role="status"` live region always in DOM; `onSend()` resets then sets `"Message sent"` via `setTimeout` + `cdr.markForCheck()` |
+| 2 | No keyboard instructions — Enter=send, Shift+Enter=newline is non-standard for `<textarea>`; undiscoverable via AT | Medium | Added sr-only `<span [id]="inputId+'-hint'">` with instructions; wired to textarea via `aria-describedby` |
+| 3 | Disclaimer not associated with field — safety text DOM-last (after button); keyboard AT users could submit before hearing it; no `aria-describedby` link | Medium | Added `[id]` to disclaimer `<p>`; `ariaDescribedBy` computed signal appends disclaimer ID when present; NVDA now reads both hint and disclaimer on tab-in |
+| 4 | `aria-multiline="true"` redundant on `<textarea>` — implicit in the element | Low | Removed attribute |
+
+**Post-fix AT tree confirms (ChatInput):**
+- Tab-in: `textbox "Message Candor AI"` — description chain reads hint + disclaimer ✅
+- `aria-describedby` resolves to `["Press Enter to send…", "Candor AI can make mistakes…"]` ✅
+- Default story (no disclaimer): `aria-describedby` contains only hint ID ✅
+- Send via Enter: `status "Message sent"` fires; textarea clears; button returns to `[disabled]` ✅
