@@ -1,0 +1,68 @@
+<table
+  role="grid"
+  class="data-grid"
+  [attr.aria-label]="ariaLabel || (caption ? null : 'Data grid')"
+  [class.has-row-headers]="rows[0]?.rowHeader"
+>
+  @if (caption) {
+    <caption class="data-grid__caption">{{ caption }}</caption>
+  }
+
+  @if (columnHeaders.length) {
+    <thead>
+      <tr role="row">
+        @if (rows[0]?.rowHeader) {
+          <!-- Corner cell — no header text, keeps grid alignment -->
+          <td class="data-grid__corner"></td>
+        }
+        @for (header of columnHeaders; track header) {
+          <th role="columnheader" scope="col" class="data-grid__colheader">
+            {{ header }}
+          </th>
+        }
+      </tr>
+    </thead>
+  }
+
+  <tbody>
+    @for (row of rows; track $index; let rowIdx = $index) {
+      <tr role="row">
+        @if (row.rowHeader) {
+          <th role="rowheader" scope="row" class="data-grid__rowheader">
+            {{ row.rowHeader }}
+          </th>
+        }
+
+        @for (cell of row.cells; track $index; let colIdx = $index) {
+          <td
+            #gridcell
+            role="gridcell"
+            class="data-grid__cell"
+            [class.is-selected]="cell.selected"
+            [class.is-disabled]="cell.disabled"
+            [attr.tabindex]="isActive(rowIdx, colIdx) ? 0 : -1"
+            [attr.aria-selected]="cell.selected ? true : null"
+            [attr.aria-disabled]="cell.disabled ? true : null"
+            [attr.aria-label]="cell.label"
+            [attr.data-row]="rowIdx"
+            [attr.data-col]="colIdx"
+            [style.--cell-bg]="cell.background"
+            [style.--cell-fg]="cell.foreground"
+            (keydown)="onKeydown($event, rowIdx, colIdx)"
+            (click)="onClick(rowIdx, colIdx)"
+            (focus)="onFocus(rowIdx, colIdx)"
+          >
+            <span class="data-grid__cell-inner" aria-hidden="true">
+              @if (showLabels) {
+                <span class="data-grid__cell-label">{{ cell.label }}</span>
+              }
+              @if (cell.selected) {
+                <span class="data-grid__check">✓</span>
+              }
+            </span>
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>
