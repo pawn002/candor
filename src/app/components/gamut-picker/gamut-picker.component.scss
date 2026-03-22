@@ -1,0 +1,107 @@
+:host {
+  display: block;
+  font-family: var(--font-family-accessible);
+}
+
+.gamut-grid {
+  border-collapse: collapse;
+  width: auto;
+
+  // Reset Storybook docs global styles that bleed through emulated encapsulation
+  th,
+  td {
+    border: 0;
+    background: none;
+  }
+}
+
+.corner {
+  padding: 0;
+}
+
+.col-header,
+.row-header {
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.02em;
+}
+
+.col-header {
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.row-header {
+  padding: 0.25rem 0.75rem 0.25rem 0;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.cell {
+  padding: 3px;
+  width: 3.25rem;
+  height: 2.75rem;
+}
+
+.cell-btn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm, 4px);
+  cursor: pointer;
+  padding: 0;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus, oklch(0.65 0.18 251));
+    outline-offset: 2px;
+  }
+
+  &[aria-pressed='true'] {
+    border-color: var(--color-focus, oklch(0.65 0.18 251));
+    outline: 2px solid var(--color-focus, oklch(0.65 0.18 251));
+    outline-offset: 2px;
+  }
+}
+
+.preview {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  min-height: 2rem;
+}
+
+.preview-swatch {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-sm, 4px);
+  flex-shrink: 0;
+  border: 1px solid oklch(0.85 0 0);
+}
+
+.preview-code {
+  font-family: var(--font-family-mono);
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+  background: var(--color-bg-surface);
+  padding: 0.2em 0.5em;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+
+.preview-empty {
+  font-size: 0.8125rem;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.02em;
+}
+
+.hint {
+  margin-top: 0.75rem;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-subtle);
+  letter-spacing: 0.02em;
+}
