@@ -36,7 +36,7 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 | 8 | Checkbox | ✅ Done | No issues |
 | 9 | Radio | ✅ Done | 1 issue fixed — see findings below |
 | 10 | Switch | ✅ Done | 1 issue fixed — see findings below |
-| 11 | Slider | ⬜ Pending | |
+| 11 | Slider | ✅ Done | 2 issues fixed — see findings below |
 | 12 | ChatInput | ⬜ Pending | |
 
 ---
@@ -240,3 +240,23 @@ No issues found. Native `<input type="checkbox">` with `<label for>` association
 - `NoLabel` story: inner element exposed as `switch "Toggle feature"` ✅
 - `AllStates` story: all four variants (`switch "Off"`, `switch "On" [checked]`, `switch "Disabled off" [disabled]`, `switch "Disabled on" [checked] [disabled]`) correctly reflected ✅
 - `role="switch"` on `<input type="checkbox">` maps checked→"on" / unchecked→"off" in NVDA — no action needed
+
+---
+
+### 11. Slider
+
+**Story:** Components/Form/Slider
+**File:** `src/app/components/form/slider/slider.component.ts` / `.html`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | No `aria-valuetext` — OKLCH gradient sliders (step=0.001, range 0–1) announced raw decimals (`"0.55"`, `"0.551"`) on every keypress; AT user has no unit context for what the number means | Medium | Added `valueTextFn = input<(v: number) => string>()` and `computedValueText` computed signal; bound `[attr.aria-valuetext]="computedValueText()"` on the `<input>`; updated gradient stories to pass `(v) => (v * 100).toFixed(0) + '%'` |
+| 2 | No unlabeled fallback — component had no escape hatch if a consumer renders without a visible `label` | Low | Added `ariaLabel = input<string>()` bound to `[attr.aria-label]` on the `<input>` |
+
+**Design note:** `valueTextFn` is intentionally consumer-supplied — the component cannot know whether the axis is lightness (0–1 → percent), chroma (dynamic max → raw value with unit), or hue (0–360 → degrees). The CPQI tool should provide an axis-appropriate formatter when wiring up sliders; the pattern is documented in the `GradientTrack` story.
+
+**Post-fix AT tree confirms (Slider):**
+- `slider "Opacity"` value `"40"` — no `aria-valuetext` needed; integer 0–100 is self-explanatory ✅
+- `slider "Lightness — hold C and H"` (sage green): `aria-valuetext="55%"` confirmed in DOM ✅
+- `slider "Lightness — hold C and H"` (pale rose): `aria-valuetext="94%"` confirmed in DOM ✅
+- `slider "Volume" [disabled]` — no `aria-valuetext` needed; integer is self-explanatory ✅

@@ -16,6 +16,8 @@
     [step]="step()"
     [value]="value()"
     [disabled]="disabled()"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-valuetext]="computedValueText()"
     (input)="onInput($event)"
   />
 </div>
