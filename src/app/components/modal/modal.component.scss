@@ -86,9 +86,13 @@ dialog.modal {
         font-size: var(--font-size-base);
         line-height: var(--line-height-relaxed);
 
-        // Suppress focus ring — body is focusable for keyboard scroll, not for interaction
+        // Suppress mouse-click focus ring; show ring for keyboard users who Tab to scroll
         &:focus {
             outline: none;
+        }
+        &:focus-visible {
+            outline: 2px solid var(--color-focus);
+            outline-offset: -2px; // inset — modal__panel clips overflow:hidden
         }
     }
 

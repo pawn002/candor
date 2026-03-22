@@ -22,7 +22,7 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 | 1 | TonePicker | ✅ Done | 4 issues fixed — see findings below |
 | 2 | DataGrid | ✅ Done | 3 issues fixed — see findings below |
 | 3 | Tabs | ✅ Done | 1 issue fixed — see findings below |
-| 4 | Modal | ⬜ Pending | |
+| 4 | Modal | ✅ Done | 4 issues fixed — see findings below |
 | 5 | Menu | ⬜ Pending | |
 | 6 | Accordion | ⬜ Pending | |
 
@@ -134,3 +134,24 @@ Also promoted `.sr-only` utility from `tone-picker.component.scss` to global `st
 - `[activeId]="'someId'"` binding correctly selects the specified tab on mount
 - Arrow key navigation, tab activation, and `role="status"` announcements unaffected
 - `ngAfterContentInit` fallback to first tab still fires when no `activeId` is provided
+
+---
+
+### 4. Modal
+
+**Story:** Components/Modal
+**Files:** `src/app/components/modal/modal.component.ts` / `.scss` / `modal.stories.ts`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | `<header>` inside `<dialog>` exposed as `role="banner"` landmark in Chrome (spec only suppresses banner for header inside article/aside/main/nav/section — not dialog) — pollutes landmark navigation | Medium | Added `role="none"` to `<header class="modal__header">` |
+| 2 | `<footer slot="footer">` in story templates exposed as `role="contentinfo"` landmark inside dialog — same problem | Medium | Changed all story footer slots from `<footer>` to `<div slot="footer">` |
+| 3 | `modal__body` div (`tabindex="0"`, scroll container) had no accessible name — NVDA reads entire text content verbatim on Tab | Medium | Added `aria-label="Dialog content"` |
+| 4 | `&:focus { outline: none }` suppressed focus ring for sighted keyboard users when scroll container is focused | Low | Added `&:focus-visible` rule with inset outline (`outline-offset: -2px`) |
+
+**Post-fix AT tree confirms (Modal):**
+- `banner` landmark absent — heading and Close button appear as plain `generic` nodes under dialog
+- `contentinfo` landmark absent — footer buttons appear as unnamed `generic` group
+- Body scroll container shows as `generic "Dialog content"` — named stop in tab order
+- Dialog `aria-labelledby` → heading association intact; dialog announces as "Dialog title, dialog"
+- Native `<dialog>` focus trap, Escape handling, and return-focus-on-close all correct (no changes needed)
