@@ -46,7 +46,7 @@
     border: 1px solid var(--color-border-default);
     border-radius: var(--spacing-xs);
     overflow: hidden;
-    background: white;
+    background: var(--color-bg-surface);
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
@@ -114,7 +114,7 @@
         display: block;
         font-family: var(--font-family-mono);
         font-size: var(--font-size-xs);
-        background: var(--color-bg-surface);
+        background: var(--color-bg-elevated);
         padding: var(--spacing-xs) var(--spacing-sm);
         border-radius: 4px;
         margin-bottom: var(--spacing-xs);
@@ -126,13 +126,11 @@
         }
 
         &.oklch {
-            background: oklch(0.95 0.02 250);
-            color: oklch(0.35 0.05 250);
+            border-left: 3px solid var(--color-link);
         }
 
         &.variable {
-            background: oklch(0.95 0.02 50);
-            color: oklch(0.4 0.08 50);
+            border-left: 3px solid var(--color-highlight);
         }
     }
 }
