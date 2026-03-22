@@ -13,7 +13,6 @@ const meta: Meta<SliderComponent> = {
     label:    { control: 'text' },
     disabled: { control: 'boolean' },
     gradient: { control: 'text' },
-    valueChange: { action: 'valueChange' },
   },
 };
 
