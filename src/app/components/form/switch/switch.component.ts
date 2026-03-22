@@ -12,6 +12,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         type="checkbox"
         role="switch"
         [id]="switchId"
+        [attr.aria-label]="ariaLabel() || null"
         [name]="name()"
         [checked]="checked"
         [disabled]="disabled"
@@ -38,6 +39,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class SwitchComponent implements ControlValueAccessor {
   label = input<string>();
+  /** Accessible name when no visible label is rendered — bound directly to the <input>, not the host */
+  ariaLabel = input<string>();
   id = input<string>();
   required = input(false);
   name = input<string>();

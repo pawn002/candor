@@ -35,7 +35,7 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 | 7 | Input | ✅ Done | 1 issue fixed — see findings below |
 | 8 | Checkbox | ✅ Done | No issues |
 | 9 | Radio | ✅ Done | 1 issue fixed — see findings below |
-| 10 | Switch | ⬜ Pending | |
+| 10 | Switch | ✅ Done | 1 issue fixed — see findings below |
 | 11 | Slider | ⬜ Pending | |
 | 12 | ChatInput | ⬜ Pending | |
 
@@ -224,3 +224,19 @@ No issues found. Native `<input type="checkbox">` with `<label for>` association
 **Post-fix AT tree confirms (Radio):**
 - `group "Size"` and `group "Color"` correctly exposed — NVDA announces "Size, group" then "Small, checked, 1 of 3, radio button" on entry
 - The component itself is correct; `<fieldset>`/`<legend>` is a consumer responsibility documented via story patterns
+
+---
+
+### 10. Switch
+
+**Story:** Components/Form/Switch
+**File:** `src/app/components/form/switch/switch.component.ts`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | `aria-label` on the `<app-switch>` host element did not propagate to the inner `<input role="switch">` — AT snapshot showed host as `generic "Toggle feature"` but the switch itself was completely unnamed; NVDA would announce just "switch" | High | Added `ariaLabel = input<string>()` to the component; bound `[attr.aria-label]="ariaLabel() \|\| null"` on the `<input>`; updated `NoLabel` story to use `ariaLabel="Toggle feature"` on the component input |
+
+**Post-fix AT tree confirms (Switch):**
+- `NoLabel` story: inner element exposed as `switch "Toggle feature"` ✅
+- `AllStates` story: all four variants (`switch "Off"`, `switch "On" [checked]`, `switch "Disabled off" [disabled]`, `switch "Disabled on" [checked] [disabled]`) correctly reflected ✅
+- `role="switch"` on `<input type="checkbox">` maps checked→"on" / unchecked→"off" in NVDA — no action needed

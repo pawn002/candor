@@ -35,7 +35,8 @@ export const NoLabel: Story = {
   args: { checked: false },
   render: (args) => ({
     props: args,
-    template: `<app-switch [checked]="checked" aria-label="Toggle feature"></app-switch>`,
+    // aria-label on the host element does NOT reach the inner <input> — use [ariaLabel] instead
+    template: `<app-switch [checked]="checked" ariaLabel="Toggle feature"></app-switch>`,
   }),
 };
 
