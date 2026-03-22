@@ -67,12 +67,12 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 
 | # | Component | Status | Notes |
 |---|---|---|---|
-| 21 | Badge | ⬜ Pending | |
-| 22 | Stat | ⬜ Pending | |
-| 23 | Table | ⬜ Pending | |
-| 24 | Card | ⬜ Pending | |
-| 25 | Heading | ⬜ Pending | |
-| 26 | AccessibleText / Text / Article | ⬜ Pending | |
+| 21 | Badge | ✅ Done | No issues |
+| 22 | Stat | ✅ Done | No issues |
+| 23 | Table | ✅ Done | 2 issues fixed — see findings below |
+| 24 | Card | ✅ Done | No issues |
+| 25 | Heading | ✅ Done | No issues |
+| 26 | AccessibleText / Text / Article | ✅ Done | No issues |
 
 ---
 
@@ -366,3 +366,64 @@ No issues found. Selectable chips use `aria-pressed` toggle button pattern ✅. 
 **File:** `src/app/components/button/button.component.html`
 
 No issues found. Native `<button>` with projected content as accessible name ✅. `ariaLabel` input correctly binds `null` (removes attribute) when not provided — no spurious `aria-label="undefined"` ✅. Disabled state via native `[disabled]` ✅.
+
+---
+
+### 21. Badge
+
+**Story:** Components/Badge
+**File:** `src/app/components/badge/badge.component.ts`
+
+No issues found. Non-interactive `<span>` wrapper with text content via `<ng-content>` ✅. Readable in browse mode; no interactive role needed.
+
+---
+
+### 22. Stat
+
+**Story:** Components/Stat
+**File:** `src/app/components/stat/stat.component.html`
+
+No issues found. Value `<p>` carries `aria-label` combining value + unit (e.g. `"3.9 :1"`) so NVDA reads a single coherent string rather than value and unit separately ✅. Label `<p>` provides context before the value in DOM order ✅.
+
+---
+
+### 23. Table
+
+**Story:** Components/Table
+**File:** `src/app/components/table/table.stories.ts`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | Both story tables had no `<caption>` or `aria-label` — NVDA announced "table, N columns, N rows" with no name; AT users had no context for what the table contained | Medium | Added `<caption>Algorithm contrast scores</caption>` to Default story; added `<caption class="sr-only">Color contrast measurements</caption>` to Compact story |
+| 2 | Compact story: left-column descriptor cells were `<td>` not `<th scope="row">` — no formal row header relationship | Low | Changed `<td class="label">` to `<th scope="row" class="label">` in all six Compact rows |
+
+**Post-fix AT tree confirms (Table):**
+- Default: `table "Algorithm contrast scores"` with `columnheader` row ✅
+- Compact: `table "Color contrast measurements"` with `rowheader "WCAG 2.1"`, `rowheader "OKCA"`, etc. ✅
+
+---
+
+### 24. Card
+
+**Story:** Components/Card
+**File:** `src/app/components/card/card.component.ts`
+
+No issues found. Layout wrapper with header/body/footer `<div>` slots — no landmark roles needed; content structure is consumer responsibility ✅.
+
+---
+
+### 25. Heading
+
+**Story:** Typography/Heading
+**File:** `src/app/components/typography/heading/heading.component.ts`
+
+No issues found. Host element carries `role="heading"` + `aria-level` computed from `level` input — all six levels correctly exposed as `heading "..." [level=N]` in AT tree ✅.
+
+---
+
+### 26. AccessibleText / Text / Article
+
+**Stories:** Typography/AccessibleText, Typography/Text, Typography/Article
+**File:** `src/app/components/typography/accessible-text/accessible-text.component.ts`
+
+No issues found. `[attr.role]: 'null'` correctly removes the role attribute from the host element — the `role` input is a styling API only and is not forwarded to ARIA ✅.

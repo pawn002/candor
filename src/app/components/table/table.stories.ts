@@ -34,6 +34,7 @@ export const Default: Story = {
       <div style="max-width: 480px; padding: 1.5rem;">
         <app-table [compact]="compact">
           <table>
+            <caption>Algorithm contrast scores</caption>
             <thead>
               <tr>
                 <th>Algorithm</th>
@@ -77,29 +78,30 @@ export const Compact: Story = {
       <div style="max-width: 360px; padding: 1.5rem;">
         <app-table [compact]="true">
           <table>
+            <caption class="sr-only">Color contrast measurements</caption>
             <tbody>
               <tr>
-                <td class="label">WCAG 2.1</td>
+                <th scope="row" class="label">WCAG 2.1</th>
                 <td class="numeric">3.9</td>
               </tr>
               <tr>
-                <td class="label">OKCA</td>
+                <th scope="row" class="label">OKCA</th>
                 <td class="numeric">4.0</td>
               </tr>
               <tr>
-                <td class="label">Perceptual</td>
+                <th scope="row" class="label">Perceptual</th>
                 <td class="numeric">60</td>
               </tr>
               <tr>
-                <td class="label">Delta E</td>
+                <th scope="row" class="label">Delta E</th>
                 <td class="numeric">48</td>
               </tr>
               <tr>
-                <td class="label">FG · L C H</td>
+                <th scope="row" class="label">FG · L C H</th>
                 <td class="numeric">0.55 · 0.065 · 142°</td>
               </tr>
               <tr>
-                <td class="label">BG · L C H</td>
+                <th scope="row" class="label">BG · L C H</th>
                 <td class="numeric">0.94 · 0.054 · 333°</td>
               </tr>
             </tbody>
