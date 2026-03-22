@@ -84,6 +84,53 @@
             td {
                 padding: 0.25rem var(--spacing-sm);
             }
+
+            // Compact starts with the stripe on row 1 (odd) instead of row 2
+            tbody tr:nth-child(even) td,
+            tbody tr:nth-child(even) th {
+                background: transparent;
+            }
+
+            tbody tr:nth-child(odd) td,
+            tbody tr:nth-child(odd) th {
+                background: oklch(0.85 0 0);
+            }
+
+            @media (prefers-color-scheme: dark) {
+                tbody tr:nth-child(even) td,
+                tbody tr:nth-child(even) th {
+                    background: transparent;
+                }
+
+                tbody tr:nth-child(odd) td,
+                tbody tr:nth-child(odd) th {
+                    background: var(--color-bg-elevated);
+                }
+            }
+
+            [data-theme="dark"] & {
+                tbody tr:nth-child(even) td,
+                tbody tr:nth-child(even) th {
+                    background: transparent;
+                }
+
+                tbody tr:nth-child(odd) td,
+                tbody tr:nth-child(odd) th {
+                    background: var(--color-bg-elevated);
+                }
+            }
+
+            [data-theme="light"] & {
+                tbody tr:nth-child(even) td,
+                tbody tr:nth-child(even) th {
+                    background: transparent;
+                }
+
+                tbody tr:nth-child(odd) td,
+                tbody tr:nth-child(odd) th {
+                    background: oklch(0.85 0 0);
+                }
+            }
         }
     }
 }
