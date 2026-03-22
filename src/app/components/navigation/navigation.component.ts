@@ -5,6 +5,9 @@ export interface NavItem {
   href: string;
   active?: boolean;
   badge?: string;
+  /** Accessible label for the badge — replaces the bare number in the link's AT name.
+   *  Example: '12 unread' → link reads "Inbox 12 unread" instead of "Inbox 12" */
+  badgeLabel?: string;
 }
 
 @Component({
@@ -27,7 +30,7 @@ export interface NavItem {
             >
               {{ item.label }}
               @if (item.badge) {
-                <span class="nav__badge">{{ item.badge }}</span>
+                <span class="nav__badge" [attr.aria-label]="item.badgeLabel || null">{{ item.badge }}</span>
               }
             </a>
           </li>
