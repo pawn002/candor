@@ -1,5 +1,11 @@
 :host {
     display: block;
+
+    &:last-child {
+        .accordion-item {
+            border-bottom: none;
+        }
+    }
 }
 
 // ─── details element ──────────────────────────────────────────────────────────
