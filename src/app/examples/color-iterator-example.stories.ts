@@ -10,6 +10,7 @@ import { CheckboxComponent } from '../components/form/checkbox/checkbox.componen
 import { SliderComponent } from '../components/form/slider/slider.component';
 import { AccordionItemComponent } from '../components/accordion/accordion-item.component';
 import { StatComponent } from '../components/stat/stat.component';
+import { TableComponent } from '../components/table/table.component';
 
 const meta: Meta = {
   title: 'Examples/Color Iterator Example',
@@ -26,6 +27,7 @@ const meta: Meta = {
         SliderComponent,
         AccordionItemComponent,
         StatComponent,
+        TableComponent,
       ],
     }),
   ],
@@ -290,32 +292,20 @@ export const ColorPairIterator: Story = {
               </app-card>
 
               <!-- Metadata card -->
-              <!-- gap: no Table component — raw dl styled with tokens -->
               <app-card variant="default" style="display: block;">
                 <app-accessible-text role="label" [bold]="true" style="display: block; margin-bottom: 0.75rem;">Measurements</app-accessible-text>
-                <dl style="margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 0.25rem 1rem;">
-
-                  <dt style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; align-self: center;">WCAG 2.1</dt>
-                  <dd style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); margin: 0; text-align: right;">3.9</dd>
-
-                  <dt style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; align-self: center;">OKCA</dt>
-                  <dd style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); margin: 0; text-align: right;">4.0</dd>
-
-                  <dt style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; align-self: center;">Perceptual</dt>
-                  <dd style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); margin: 0; text-align: right;">60</dd>
-
-                  <dt style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; align-self: center;">Delta E</dt>
-                  <dd style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); margin: 0; text-align: right;">48</dd>
-
-                  <div style="grid-column: 1 / -1; height: 1px; background: var(--color-border-default); margin: 0.375rem 0;"></div>
-
-                  <dt style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">FG · L C H</dt>
-                  <dd style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); margin: 0; text-align: right;">0.55 · 0.065 · 142°</dd>
-
-                  <dt style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">BG · L C H</dt>
-                  <dd style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); margin: 0; text-align: right;">0.94 · 0.054 · 333°</dd>
-
-                </dl>
+                <app-table [compact]="true">
+                  <table>
+                    <tbody>
+                      <tr><td class="label">WCAG 2.1</td><td class="numeric">3.9</td></tr>
+                      <tr><td class="label">OKCA</td><td class="numeric">4.0</td></tr>
+                      <tr><td class="label">Perceptual</td><td class="numeric">60</td></tr>
+                      <tr><td class="label">Delta E</td><td class="numeric">48</td></tr>
+                      <tr><td class="label">FG · L C H</td><td class="numeric">0.55 · 0.065 · 142°</td></tr>
+                      <tr><td class="label">BG · L C H</td><td class="numeric">0.94 · 0.054 · 333°</td></tr>
+                    </tbody>
+                  </table>
+                </app-table>
               </app-card>
 
             </div>

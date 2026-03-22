@@ -1,0 +1,61 @@
+.table-host {
+    display: block;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th,
+        td {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            text-align: left;
+            border-bottom: var(--border-width-thin) solid var(--color-border-default);
+            font-family: var(--font-family-accessible);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-default);
+            letter-spacing: 0.02em;
+        }
+
+        th {
+            font-weight: var(--font-weight-bold);
+        }
+
+        thead th {
+            color: var(--color-text-subtle-on-surface);
+            font-weight: var(--font-weight-bold);
+            border-bottom: var(--border-width-medium) solid var(--color-border-strong);
+        }
+
+        td {
+            font-variant-numeric: tabular-nums;
+        }
+
+        // Numeric columns — mono + right-align for value-heavy columns
+        th.numeric,
+        td.numeric {
+            font-family: var(--font-family-mono);
+            text-align: right;
+            letter-spacing: 0;
+        }
+
+        // Label column (left side of key-value tables)
+        td.label {
+            color: var(--color-text-subtle-on-surface);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+    }
+
+    // ─── Compact variant ─────────────────────────────────────────────────────
+
+    &--compact {
+        table {
+            th,
+            td {
+                padding: 0.25rem var(--spacing-sm);
+            }
+        }
+    }
+}
