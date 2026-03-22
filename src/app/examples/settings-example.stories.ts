@@ -8,6 +8,10 @@ import { ButtonComponent } from '../components/button/button.component';
 import { HeadingComponent } from '../components/typography/heading/heading.component';
 import { TextComponent } from '../components/typography/text/text.component';
 import { BadgeComponent } from '../components/badge/badge.component';
+import { TabsComponent } from '../components/tabs/tabs.component';
+import { TabPanelComponent } from '../components/tabs/tab-panel.component';
+import { ModalComponent } from '../components/modal/modal.component';
+import { ToastComponent } from '../components/toast/toast.component';
 
 const meta: Meta = {
   title: 'Examples/Settings Example',
@@ -22,6 +26,10 @@ const meta: Meta = {
         HeadingComponent,
         TextComponent,
         BadgeComponent,
+        TabsComponent,
+        TabPanelComponent,
+        ModalComponent,
+        ToastComponent,
       ],
     }),
   ],
@@ -115,6 +123,14 @@ export const AccountSettings: Story = {
           <app-button [variant]="'primary'" [size]="'medium'">Save changes</app-button>
           <app-button [variant]="'ghost'" [size]="'medium'">Discard</app-button>
         </div>
+
+        <!-- Toast: shown here to demonstrate post-save feedback -->
+        <app-toast
+          variant="success"
+          title="Changes saved"
+          message="Your account settings have been updated."
+          style="display: block; margin-top: 2rem;">
+        </app-toast>
       </div>
     `,
   }),
@@ -159,6 +175,113 @@ export const DangerZone: Story = {
           <app-button [variant]="'primary'">Save</app-button>
           <app-button [variant]="'destructive'">Delete account</app-button>
         </div>
+      </div>
+    `,
+  }),
+};
+
+export const TabbedSettings: Story = {
+  render: () => ({
+    template: `
+      <div style="max-width: 640px; padding: 2rem;">
+        <app-breadcrumb [items]="[
+          { label: 'Home', href: '/' },
+          { label: 'Account', href: '/account' },
+          { label: 'Settings' }
+        ]" style="display: block; margin-bottom: 2rem;"></app-breadcrumb>
+
+        <app-heading [level]="1" style="margin-bottom: 1.5rem;">Account settings</app-heading>
+
+        <app-tabs ariaLabel="Settings sections">
+
+          <app-tab-panel tabId="profile" label="Profile">
+            <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--color-bg-surface); border-radius: var(--radius-md);">
+                <div>
+                  <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-default); letter-spacing: 0.02em;">Jane Smith</div>
+                  <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">j.smith@example.com</div>
+                </div>
+                <app-badge variant="success">Verified</app-badge>
+              </div>
+              <div style="display: flex; gap: 1rem;">
+                <app-button [variant]="'secondary'" [size]="'medium'">Edit profile</app-button>
+                <app-button [variant]="'ghost'" [size]="'medium'">Change password</app-button>
+              </div>
+            </div>
+          </app-tab-panel>
+
+          <app-tab-panel tabId="notifications" label="Notifications">
+            <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1rem;">
+              <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md);">
+                <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Email</legend>
+                <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+                  <app-switch label="Security alerts" [checked]="true"></app-switch>
+                  <app-switch label="Account activity" [checked]="true"></app-switch>
+                  <app-switch label="Product updates" [checked]="false"></app-switch>
+                  <app-switch label="Marketing emails" [checked]="false"></app-switch>
+                </div>
+              </fieldset>
+              <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md);">
+                <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Push</legend>
+                <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+                  <app-switch label="New messages" [checked]="true"></app-switch>
+                  <app-switch label="Mentions" [checked]="true"></app-switch>
+                  <app-switch label="Reminders" [checked]="false" [disabled]="true"></app-switch>
+                </div>
+              </fieldset>
+              <app-button [variant]="'primary'" [size]="'medium'" style="align-self: flex-start;">Save preferences</app-button>
+            </div>
+          </app-tab-panel>
+
+          <app-tab-panel tabId="security" label="Security">
+            <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1rem;">
+              <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md);">
+                <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Two-factor authentication</legend>
+                <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+                  <app-switch label="Authenticator app" [checked]="true"></app-switch>
+                  <app-switch label="SMS backup codes" [checked]="false"></app-switch>
+                </div>
+              </fieldset>
+              <app-alert
+                variant="info"
+                title="Recovery codes"
+                message="You have 6 recovery codes remaining. Generate new codes if you've used most of them."
+                style="display: block;">
+              </app-alert>
+              <app-button [variant]="'secondary'" [size]="'medium'" style="align-self: flex-start;">Generate new codes</app-button>
+            </div>
+          </app-tab-panel>
+
+        </app-tabs>
+      </div>
+    `,
+  }),
+};
+
+export const DeleteConfirmation: Story = {
+  render: () => ({
+    template: `
+      <div style="padding: 2rem;">
+        <app-text [variant]="'body'" style="display: block; color: var(--color-text-subtle); margin-bottom: 1rem;">
+          Trigger context: user clicks "Delete account" in advanced settings.
+        </app-text>
+
+        <app-modal [open]="true" title="Delete account" size="sm">
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <app-text [variant]="'body'">
+              This will permanently delete your account and all associated data — projects, settings, billing history, and team memberships. This action cannot be undone.
+            </app-text>
+            <app-alert
+              variant="warning"
+              message="You will lose access immediately and cannot recover your data."
+              style="display: block;">
+            </app-alert>
+          </div>
+          <div slot="footer" style="display: flex; gap: 0.75rem; justify-content: flex-end; padding: 1.25rem 1.5rem; border-top: 1px solid var(--color-border-default);">
+            <app-button [variant]="'ghost'" [size]="'medium'">Cancel</app-button>
+            <app-button [variant]="'destructive'" [size]="'medium'">Delete my account</app-button>
+          </div>
+        </app-modal>
       </div>
     `,
   }),
