@@ -11,6 +11,8 @@ import { SliderComponent } from '../components/form/slider/slider.component';
 import { AccordionItemComponent } from '../components/accordion/accordion-item.component';
 import { StatComponent } from '../components/stat/stat.component';
 import { TableComponent } from '../components/table/table.component';
+import { TonePickerComponent } from '../components/tone-picker/tone-picker.component';
+import { buildGamutRows } from '../components/tone-picker/gamut-data';
 
 const meta: Meta = {
   title: 'Examples/Color Iterator Example',
@@ -28,6 +30,7 @@ const meta: Meta = {
         AccordionItemComponent,
         StatComponent,
         TableComponent,
+        TonePickerComponent,
       ],
     }),
   ],
@@ -40,6 +43,28 @@ type Story = StoryObj;
 // Working pair: fg #647a61 = oklch(0.55 0.065 142), bg #ffe1f9 = oklch(0.94 0.054 333)
 // WCAG 2.1 ratio: 3.9:1 — fails AA normal text, passes large text & non-text
 
+// H=142 olive-green gamut — anchor: L=0.55 C=0.065 (#647a61, the FG in this story)
+const FG_GAMUT_ROWS = buildGamutRows(
+  (() => {
+    const L = [0.95, 0.84, 0.73, 0.62, 0.55, 0.44, 0.33, 0.22, 0.11];
+    const C = [0.020, 0.065, 0.110, 0.155, 0.200];
+    const IG = [
+      [1, 1, 0, 0, 0],
+      [1, 1, 1, 0, 0],
+      [1, 1, 1, 1, 0],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 0],
+      [1, 1, 1, 0, 0],
+      [1, 1, 0, 0, 0],
+      [1, 0, 0, 0, 0],
+    ];
+    return L.map((l, ri) => C.map((c, ci) => ({ l, c, h: 142, ig: !!IG[ri][ci] })));
+  })(),
+  0.55, 0.065,
+);
+const FG_GAMUT_HEADERS = ['C 0.020', 'C 0.065', 'C 0.110', 'C 0.155', 'C 0.200'];
+
 export const ColorPairIterator: Story = {
   render: () => ({
     props: {
@@ -48,6 +73,8 @@ export const ColorPairIterator: Story = {
         { label: 'Blog', href: '#' },
         { label: 'About', href: '#' },
       ],
+      fgGamutRows: FG_GAMUT_ROWS,
+      fgGamutHeaders: FG_GAMUT_HEADERS,
     },
     template: `
       <div style="min-height: 100vh; background: var(--color-bg-page);">
@@ -143,6 +170,19 @@ export const ColorPairIterator: Story = {
                     <span><span style="color: var(--color-text-default);">L</span> 0.55</span>
                     <span><span style="color: var(--color-text-default);">C</span> 0.065</span>
                     <span><span style="color: var(--color-text-default);">H</span> 142°</span>
+                  </div>
+
+                  <!-- LCH Limits tone picker — mirrors CPQI "Foreground LCH Limits" -->
+                  <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
+                    <app-accordion-item title="LCH Limits">
+                      <app-tone-picker
+                        [rows]="fgGamutRows"
+                        [columnHeaders]="fgGamutHeaders"
+                        ariaLabel="Foreground tones — olive H 142"
+                        [size]="'small'"
+                        [selectedValue]="'oklch(0.55 0.065 142)'">
+                      </app-tone-picker>
+                    </app-accordion-item>
                   </div>
 
                 </div>
