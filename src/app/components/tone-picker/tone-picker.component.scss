@@ -72,17 +72,7 @@
 }
 
 // ─── Visually hidden header/UI variants ───────────────────────────────────────
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
+// .sr-only is defined globally in styles.scss
 
 .gamut-grid.hide-headers {
   thead {

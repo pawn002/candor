@@ -20,7 +20,7 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 | # | Component | Status | Notes |
 |---|---|---|---|
 | 1 | TonePicker | ✅ Done | 4 issues fixed — see findings below |
-| 2 | DataGrid | ⬜ Pending | |
+| 2 | DataGrid | ✅ Done | 3 issues fixed — see findings below |
 | 3 | Tabs | ⬜ Pending | |
 | 4 | Modal | ⬜ Pending | |
 | 5 | Menu | ⬜ Pending | |
@@ -93,8 +93,28 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 | 4 | Corner `<td>` (top-left of header row) appeared as unlabeled empty gridcell in virtual cursor navigation | Low | Changed to `role="none"` — removed from AT tree (`aria-hidden` on table cells is not honoured by Chrome) |
 | 5 | `aria-checked="false"` announced on every unselected radio during arrow-key traversal | Low | Left as-is — inherent to `role="radio"`; changing requires a different widget model |
 
-**Post-fix AT tree confirms:**
+---
+
+### 2. DataGrid
+
+**Story:** Components/Data Grid
+**Files:** `src/app/components/data-grid/data-grid.component.ts` / `.html`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | No `aria-describedby` with keyboard instructions — users tab into a grid with a non-obvious model (arrow keys, Home/End, Ctrl+Home/End) with no guidance | Medium | Added sr-only hint paragraph before grid + `aria-describedby` on `<table>` |
+| 2 | No live region on activation or pre-set selection — no confirmation that Enter/Space worked; pre-selected state invisible until navigated to | Medium | Added `role="status"` region; `activate()` sets announcement; `ngAfterViewInit` announces any pre-set `cell.selected` via `setTimeout` + `cdr.markForCheck()` |
+| 3 | Corner `<td>` missing `role="none"` — appeared as unlabeled empty gridcell at top-left for grids with row headers | Low | Added `role="none"` to corner cell |
+
+Also promoted `.sr-only` utility from `tone-picker.component.scss` to global `styles.scss`.
+
+**Post-fix AT tree confirms (TonePicker):**
 - Instructions (`paragraph`) appear before `group` > `grid` in DOM order
 - Corner cell absent from header row (only `columnheader` nodes remain)
 - `status` region is the sole live announcer
 - Pre-selected `[checked]` state correctly reflected on mount
+
+**Post-fix AT tree confirms (DataGrid):**
+- Instructions (`paragraph`) appear before `grid` in DOM order
+- Corner cell absent from header row
+- `status` region present; populates asynchronously via `ngAfterViewInit` + `setTimeout` so live region mutation fires in real browsers

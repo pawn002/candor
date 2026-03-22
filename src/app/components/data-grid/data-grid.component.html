@@ -1,7 +1,12 @@
+<!-- SR-only hint before grid: virtual cursor users read instructions first;
+     aria-describedby delivers them to keyboard tab-in users on entry -->
+<p [id]="hintId" class="sr-only">Arrow keys navigate · Ctrl+Home/End jumps to first/last cell · Enter or Space activates</p>
+
 <table
   role="grid"
   class="data-grid"
   [attr.aria-label]="ariaLabel || (caption ? null : 'Data grid')"
+  [attr.aria-describedby]="hintId"
   [class.has-row-headers]="rows[0]?.rowHeader"
   [class.hide-headers]="hideHeaders"
 >
@@ -13,8 +18,8 @@
     <thead>
       <tr role="row">
         @if (rows[0]?.rowHeader) {
-          <!-- Corner cell — no header text, keeps grid alignment -->
-          <td class="data-grid__corner"></td>
+          <!-- Corner cell — role="none" removes it from the AT tree (aria-hidden not honoured on table cells in Chrome) -->
+          <td class="data-grid__corner" role="none"></td>
         }
         @for (header of columnHeaders; track header) {
           <th role="columnheader" scope="col" class="data-grid__colheader">
@@ -67,3 +72,6 @@
     }
   </tbody>
 </table>
+
+<!-- Announces activation and pre-set selection to AT -->
+<div role="status" aria-live="polite" aria-atomic="true" class="sr-only">{{ announcement }}</div>
