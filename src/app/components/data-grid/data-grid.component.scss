@@ -1,0 +1,155 @@
+// ─── Grid shell ───────────────────────────────────────────────────────────────
+
+.data-grid {
+    border-collapse: separate;
+    border-spacing: 0;
+    font-family: var(--font-family-accessible);
+    // Clip corners cleanly when border-radius is applied
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    // Required so focus rings on edge cells aren't clipped
+    // overflow: visible is set on cells via z-index trick instead
+}
+
+// ─── Caption ─────────────────────────────────────────────────────────────────
+
+.data-grid__caption {
+    caption-side: top;
+    text-align: left;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-default);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    letter-spacing: var(--letter-spacing-wide);
+    border-bottom: 1px solid var(--color-border-default);
+    background: var(--color-bg-surface);
+}
+
+// ─── Headers ─────────────────────────────────────────────────────────────────
+
+.data-grid__corner,
+.data-grid__colheader,
+.data-grid__rowheader {
+    background: var(--color-bg-surface);
+    color: var(--color-text-subtle);
+    font-family: var(--font-family-accessible);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    white-space: nowrap;
+}
+
+.data-grid__colheader {
+    text-align: center;
+    border-bottom: 1px solid var(--color-border-strong);
+}
+
+.data-grid__rowheader {
+    text-align: right;
+    border-right: 1px solid var(--color-border-strong);
+}
+
+.data-grid__corner {
+    border-bottom: 1px solid var(--color-border-strong);
+    border-right: 1px solid var(--color-border-strong);
+}
+
+// ─── Data cells ───────────────────────────────────────────────────────────────
+//
+// Cells use CSS custom properties for color so dark-mode token overrides
+// flow through without needing separate rules.
+
+.data-grid__cell {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    cursor: pointer;
+    background: var(--cell-bg, var(--color-bg-page));
+    color: var(--cell-fg, var(--color-text-default));
+    border: none; // table handles outer border
+    // Hairline between cells to show grid structure
+    box-shadow:
+        inset -1px 0 0 var(--color-border-default),
+        inset 0 -1px 0 var(--color-border-default);
+
+    // Prevent clipping focus ring on boundary cells
+    &:focus {
+        outline: none; // handled by :focus-visible below
+    }
+
+    // ── Focus ring ────────────────────────────────────────────────────────────
+    // Double ring: white inner + azure outer — visible against any background.
+    &:focus-visible {
+        outline: 2px solid white;
+        outline-offset: -2px;
+        box-shadow:
+            inset -1px 0 0 var(--color-border-default),
+            inset 0 -1px 0 var(--color-border-default),
+            0 0 0 3px var(--color-focus);
+        z-index: 2;
+    }
+
+    // ── Selected ──────────────────────────────────────────────────────────────
+    // Inset double ring: white gap + navy border, so it works on any cell color.
+    &.is-selected {
+        box-shadow:
+            inset -1px 0 0 var(--color-border-default),
+            inset 0 -1px 0 var(--color-border-default),
+            inset 0 0 0 2px white,
+            inset 0 0 0 4px var(--color-action-primary);
+        z-index: 1;
+    }
+
+    &.is-selected:focus-visible {
+        box-shadow:
+            inset 0 0 0 2px white,
+            inset 0 0 0 4px var(--color-action-primary),
+            0 0 0 3px var(--color-focus);
+        z-index: 2;
+    }
+
+    // ── Disabled ──────────────────────────────────────────────────────────────
+    &.is-disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+    }
+}
+
+// ─── Cell inner layout ────────────────────────────────────────────────────────
+
+.data-grid__cell-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    gap: 0.2em;
+}
+
+.data-grid__cell-label {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-xs);
+    line-height: 1;
+    // Text shadow ensures readability against any cell background
+    text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.6),
+        0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.data-grid__check {
+    font-size: var(--font-size-sm);
+    line-height: 1;
+    text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.6),
+        0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+// ─── Dark mode adjustments ────────────────────────────────────────────────────
+// Outer border and header backgrounds already adapt via semantic tokens.
+// The double-ring focus/selected indicators use white which remains visible
+// on dark cell colors. No additional dark-mode rules needed.
