@@ -23,7 +23,7 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 | 2 | DataGrid | ✅ Done | 3 issues fixed — see findings below |
 | 3 | Tabs | ✅ Done | 1 issue fixed — see findings below |
 | 4 | Modal | ✅ Done | 4 issues fixed — see findings below |
-| 5 | Menu | ⬜ Pending | |
+| 5 | Menu | ✅ Done | 1 issue fixed — see findings below |
 | 6 | Accordion | ⬜ Pending | |
 
 ---
@@ -155,3 +155,18 @@ Also promoted `.sr-only` utility from `tone-picker.component.scss` to global `st
 - Body scroll container shows as `generic "Dialog content"` — named stop in tab order
 - Dialog `aria-labelledby` → heading association intact; dialog announces as "Dialog title, dialog"
 - Native `<dialog>` focus trap, Escape handling, and return-focus-on-close all correct (no changes needed)
+
+---
+
+### 5. Menu
+
+**Story:** Components/Menu
+**File:** `src/app/components/menu/menu.component.ts`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | `role="menu"` had no accessible name — NVDA announced an unnamed "menu" container on open; trigger's `aria-controls` creates a forward link but SRs don't use it to derive a menu label | Low | Added `triggerId` to the component; `[id]="triggerId"` on the trigger button; `[attr.aria-labelledby]="triggerId"` on the `<ul role="menu">` |
+
+**Post-fix AT tree confirms (Menu):**
+- Menu now exposed as `menu "Options"` — NVDA announces "Options, menu" on entry
+- All other AT behaviour was already correct: `aria-haspopup`, `aria-expanded`, `aria-disabled`, separator skipping, focus management, Escape/Tab close
