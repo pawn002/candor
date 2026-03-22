@@ -37,10 +37,10 @@ export const Default: Story = {
     template: `
       <app-modal [open]="open" [title]="title" [size]="size" (closed)="open = false; closed()">
         <p>This is the modal body. Place any content here — forms, details, confirmations.</p>
-        <footer slot="footer" class="modal__footer">
+        <div slot="footer" class="modal__footer">
           <app-button variant="tertiary" (clicked)="open = false">Cancel</app-button>
           <app-button variant="primary">Confirm</app-button>
-        </footer>
+        </div>
       </app-modal>
     `,
   }),
@@ -55,10 +55,10 @@ export const Small: Story = {
     template: `
       <app-modal [open]="open" [title]="title" [size]="size" (closed)="open = false">
         <p>Are you sure you want to delete this item? This action cannot be undone.</p>
-        <footer slot="footer" class="modal__footer">
+        <div slot="footer" class="modal__footer">
           <app-button variant="tertiary" (clicked)="open = false">Cancel</app-button>
           <app-button variant="secondary">Delete</app-button>
-        </footer>
+        </div>
       </app-modal>
     `,
   }),
@@ -74,10 +74,10 @@ export const Large: Story = {
         <p style="margin-bottom: 1rem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         <p style="margin-bottom: 1rem">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-        <footer slot="footer" class="modal__footer">
+        <div slot="footer" class="modal__footer">
           <app-button variant="tertiary" (clicked)="open = false">Decline</app-button>
           <app-button variant="primary">Accept</app-button>
-        </footer>
+        </div>
       </app-modal>
     `,
   }),
@@ -94,10 +94,10 @@ export const WithTrigger: Story = {
 
       <app-modal [open]="isOpen" [title]="title" [size]="size" (closed)="isOpen = false">
         <p>Modal opened via trigger button. Close with the × button, Escape key, or clicking outside.</p>
-        <footer slot="footer" class="modal__footer">
+        <div slot="footer" class="modal__footer">
           <app-button variant="tertiary" (clicked)="isOpen = false">Cancel</app-button>
           <app-button variant="primary" (clicked)="isOpen = false">Save</app-button>
-        </footer>
+        </div>
       </app-modal>
     `,
   }),
