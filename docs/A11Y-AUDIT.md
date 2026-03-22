@@ -32,7 +32,7 @@ Issues deferred from component audits (too broad to fix in one pass, or cross-cu
 
 | # | Component | Status | Notes |
 |---|---|---|---|
-| 7 | Input | ⬜ Pending | |
+| 7 | Input | ✅ Done | 1 issue fixed — see findings below |
 | 8 | Checkbox | ⬜ Pending | |
 | 9 | Radio | ⬜ Pending | |
 | 10 | Switch | ⬜ Pending | |
@@ -183,3 +183,20 @@ No issues found. The component uses native `<details>`/`<summary>` elements, whi
 - Panel content is correctly hidden from the AT tree when `<details>` is closed and visible when open
 - Enter/Space activation, toggle state announcement, and keyboard navigation all handled natively
 - SVG chevron `aria-hidden="true"` correctly suppressed from NVDA (Playwright snapshot shows the SVG node but NVDA's AT APIs honour `aria-hidden`)
+
+---
+
+### 7. Input
+
+**Story:** Components/Form/Input
+**File:** `src/app/components/form/input/input.component.html`
+
+| # | Issue | Severity | Fix |
+|---|---|---|---|
+| 1 | Error/hint description div was conditionally rendered (`@if (error() \|\| hint())`) — conditionally rendered elements can't be pre-established live regions; error appearing after focus (on-blur validation, server response) was announced silently; hint→error transitions also silent | Medium | Removed `@if` wrapper; description div always in DOM (empty when unused); added `aria-live="polite"` + `aria-atomic="true"`; `aria-describedby` simplified to always point to the div |
+
+**Post-fix AT tree confirms (Input):**
+- Description div present for hint/error states with correct text ✅
+- Empty description div correctly absent from snapshot for states with no hint/error ✅
+- `aria-invalid="true"` + `aria-describedby` → error text on field focus ✅
+- Label/input association via `for`/`id` intact; required state via native `[required]` ✅

@@ -17,19 +17,24 @@
     [value]="value"
     [class]="'input' + (error() ? ' input--error' : '') + (disabled ? ' input--disabled' : '')"
     [attr.aria-invalid]="error() ? 'true' : null"
-    [attr.aria-describedby]="(error() || hint()) ? inputId + '-description' : null"
+    [attr.aria-describedby]="inputId + '-description'"
     (input)="onInput($event)"
     (blur)="onBlur()"
   />
 
-  @if (error() || hint()) {
-    <div [id]="inputId + '-description'" class="input-description">
-      @if (error()) {
-        <span class="input-error-message">{{ error() }}</span>
-      }
-      @if (!error() && hint()) {
-        <span class="input-hint">{{ hint() }}</span>
-      }
-    </div>
-  }
+  <!-- Always in DOM so aria-live fires on content change (conditionally rendered live regions
+       miss the initial mutation). Empty when no error or hint — aria-describedby reads nothing. -->
+  <div
+    [id]="inputId + '-description'"
+    class="input-description"
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    @if (error()) {
+      <span class="input-error-message">{{ error() }}</span>
+    }
+    @if (!error() && hint()) {
+      <span class="input-hint">{{ hint() }}</span>
+    }
+  </div>
 </div>
