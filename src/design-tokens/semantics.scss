@@ -66,11 +66,6 @@
     --color-highlight:            oklch(0.50 0.21 278); // passes on both white and surface-bg
     --color-highlight-decorative: var(--purple-500); // original brand color
 
-    // ─── Colors: Blockquote ────────────────────────────────────────────────────
-    --color-blockquote-bg:     var(--color-bg-surface);
-    --color-blockquote-border: var(--color-action-secondary);
-    --color-blockquote-text:   var(--color-text-subtle-on-surface); // 5.4:1 on --color-blockquote-bg ✅
-
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
     // In light mode: dark navy block (inverted) — no border needed, bg does the work.
     // In dark mode: deep navy tint + explicit border — bg alone can't delineate at low L.

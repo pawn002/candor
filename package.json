@@ -13,7 +13,8 @@
     "test-storybook": "test-storybook",
     "build-storybook": "ng run design-system-playground:build-storybook",
     "test:playwright": "playwright test",
-    "test:playwright:ui": "playwright test --ui"
+    "test:playwright:ui": "playwright test --ui",
+    "build:tokens": "node scripts/build-tokens.js"
   },
   "repository": {
     "type": "git",
