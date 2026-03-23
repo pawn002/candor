@@ -1,8 +1,8 @@
 {
-  "name": "design-system-playground",
+  "name": "@candor-design/tokens",
   "version": "1.0.0",
-  "description": "Project you can use with an AI agent to quickly iterate on initial design ideas. Good for establishing initial typographies and identifying design constraints.",
-  "main": "index.js",
+  "description": "Candor design tokens — CSS custom properties for a humanist design system built with OKLCH.",
+  "files": ["tokens"],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
