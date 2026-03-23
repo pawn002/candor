@@ -16,11 +16,28 @@ Storybook will start on http://localhost:6006
 
 ### 2. View Components
 
-Browse all components and their variations in Storybook. The playground includes:
-- **Typography**: Headings (h1-h6) and text variants
-- **Buttons**: Primary, secondary, tertiary, ghost variants in multiple sizes
-- **Forms**: Inputs, checkboxes, radio buttons with accessible states
-- **Spacing**: Visual representation of the spacing scale
+Browse all components and their variations in Storybook. The library includes:
+
+**Typography**
+Heading, Text, Article, AccessibleText
+
+**Form controls**
+Input, Checkbox, Radio, Switch, Slider, ChatInput
+
+**Navigation & structural**
+Navigation, Breadcrumb, Tabs, Accordion
+
+**Overlays & interaction**
+Modal, Menu, Tooltip, Chip
+
+**Feedback & status**
+Alert, Toast, Progress
+
+**Display**
+Button, Badge, Card, Stat, Table, DataGrid, TonePicker
+
+**Design token documentation**
+Color Showcase, Typography Showcase, Spacing Showcase
 
 ---
 
@@ -242,15 +259,6 @@ Check that the `.stories.ts` file is in the correct location and properly export
 
 ### Playwright tests failing
 Ensure Storybook is running on port 6006 before running tests.
-
----
-
-## Next Steps
-
-1. **Add More Components**: Extend the library as needed
-2. **Custom Color Palettes**: Create brand-specific token sets
-3. **Export Tokens**: Generate tokens for other platforms (Figma, iOS, Android)
-4. **CI/CD Integration**: Automate visual regression tests
 
 ---
 
