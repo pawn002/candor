@@ -1,0 +1,136 @@
+# Accessibility Conformance Statement
+
+**Product:** Candor Design System
+**Version:** 1.0.0
+**Date:** 2026-03-22
+**Standard:** Web Content Accessibility Guidelines (WCAG) 2.1, Level AA
+**Evaluation methodology:** Manual screen reader walkthrough (NVDA + Chrome) + Playwright accessibility tree snapshots across all 26 components
+
+---
+
+## Conformance level
+
+Candor 1.0.0 aims to **conform to WCAG 2.1 Level AA** for all components within scope, subject to the consumer responsibilities and known limitations described below.
+
+---
+
+## Scope
+
+This conformance statement covers the 26 components audited in `docs/A11Y-AUDIT.md`:
+
+**Phase 1 — Custom composite widgets**
+TonePicker, DataGrid, Modal, Tabs, Menu, Accordion
+
+**Phase 2 — Form controls**
+Input, Checkbox, Radio, Switch, Slider, ChatInput
+
+**Phase 3 — Feedback & live regions**
+Alert, Toast, Progress
+
+**Phase 4 — Navigation & structural**
+Navigation, Breadcrumb, Tooltip, Chip, Button
+
+**Phase 5 — Display & typography**
+Badge, Stat, Table, Card, Heading, AccessibleText / Text / Article
+
+---
+
+## What Candor guarantees
+
+### Semantics and roles
+
+Each component exposes correct ARIA roles, states, and properties for its interaction model. Custom widgets use the ARIA authoring practices patterns appropriate to their function (radio group, grid, dialog, tablist, menu, etc.).
+
+### Accessible names
+
+Every interactive element has an accessible name — either from a visible label, associated `<label>`, `aria-label`, or `aria-labelledby`. Components that wrap a native interactive element expose an `ariaLabel` input bound directly to the inner element.
+
+### Keyboard navigation
+
+All interactive components are fully keyboard-operable:
+- Focusable via Tab / Shift+Tab
+- Composite widgets (grids, tab sets, menus) implement the roving tabindex pattern with arrow key navigation
+- Dialogs trap focus on open and restore it on close
+- No keyboard traps outside of intentional modal dialogs
+
+### Contrast
+
+All color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components). Contrast was validated using CPQI CLI against WCAG 2.1, OKCA, and APCA algorithms. OKLCH color space is used throughout to ensure perceptually accurate lightness calculations.
+
+### Live regions
+
+Components that produce dynamic feedback — form errors, status messages, send confirmations, activation results — use pre-established live regions (`role="status"` with `aria-live="polite"` or `role="alert"` with `aria-live="assertive"`). Regions are present in the DOM before content arrives so assistive technology registers the mutation.
+
+### Focus visibility
+
+Focus indicators are visible on all interactive elements. Focus styles use the design system's token-based outline pattern and meet WCAG 2.1 AA focus visibility requirements.
+
+### Responsive and zoom
+
+Components are tested at up to 200% browser zoom without loss of content or functionality.
+
+---
+
+## Consumer responsibilities
+
+Candor components are building blocks. Several accessibility requirements are architectural — they depend on how the consumer assembles components, not on the component implementation itself. The library cannot enforce these, but the Storybook stories for each component demonstrate the correct patterns.
+
+| Pattern | Consumer responsibility | Reference story |
+|---|---|---|
+| Radio group labeling | Wrap `<app-radio>` groups in `<fieldset>` + `<legend>` | Components/Form/Radio — `RadioGroup`, `MultipleGroups` |
+| Form field association | Associate labels with inputs via `for` / `id` when not using `<app-input>` | Components/Form/Alert — `InlineFormValidation` |
+| Table headers and caption | Supply `<caption>` and `<th scope="row">` for key/value tables | Components/Table — `Default`, `Compact` |
+| Badge context | Supply `badgeLabel` on `NavItem` to replace bare numbers with meaningful text | Components/Navigation — `WithBadges` |
+| Slider value text | Supply `valueTextFn` when a slider's axis has domain-specific units or dynamic bounds | Components/Form/Slider — `GradientTrack` |
+| Page structure | Supply `<main>`, `<nav>`, and landmark regions at the page level | Consumer application |
+| Language declaration | Set `lang` attribute on `<html>` | Consumer application |
+
+---
+
+## Known limitations
+
+### OKLCH browser support
+
+OKLCH color values are not supported in all browsers. The design system currently targets modern Chromium-based browsers and Firefox 113+. Safari 15.4+. Older Chromium versions (pre-111), Samsung Internet, and IE do not support OKLCH. Hex fallback tokens are not yet provided. See roadmap.
+
+### AT snapshot scope
+
+The screen reader audit was conducted using NVDA 2024.x with Chrome (latest stable). VoiceOver (macOS/iOS), JAWS, TalkBack, and Narrator were not tested in the v1.0.0 audit cycle. Known divergences between NVDA+Chrome and other AT+browser combinations may exist, particularly for:
+- The `<details>`/`<summary>` pattern (Accordion) — AT support varies by browser
+- `role="grid"` keyboard model (DataGrid, TonePicker) — JAWS handles this differently than NVDA
+
+### Composite widget complexity
+
+Custom composite widgets (TonePicker, DataGrid, Modal, Tabs, Menu) required the most remediation during the audit and carry the highest ongoing risk. They are correct for the tested AT+browser combination but should be re-validated when the AT environment changes (major NVDA release, Chrome AT API changes).
+
+---
+
+## Testing methodology
+
+All 26 components were audited in the following sequence:
+
+1. **Static analysis** — markup read against ARIA authoring practices; role ownership rules, name computation, and state attribute correctness verified
+2. **Live AT snapshot** — Playwright MCP `browser_snapshot` against the Storybook story iframe, capturing the accessibility tree as Chrome's DevTools protocol exposes it
+3. **Attribute verification** — ARIA attributes not surfaced in the snapshot (e.g. `aria-valuetext`) verified via `browser_evaluate`
+4. **Fix and re-snapshot** — issues resolved and snapshot re-taken to confirm the fix
+
+Audit findings and per-component results are in `docs/A11Y-AUDIT.md`. Cross-cutting trends and authoring conventions derived from the audit are in `docs/A11Y-ANALYSIS.md`.
+
+---
+
+## Feedback and issue reporting
+
+Accessibility issues should be reported via GitHub Issues with the label `a11y`. When reporting:
+
+- Identify the component and story
+- Identify the AT + browser combination
+- Describe what was announced vs. what was expected
+- If possible, include a Playwright AT snapshot
+
+---
+
+## Commitment to future conformance
+
+The PR checklist in `.github/PULL_REQUEST_TEMPLATE.md` requires a screen reader walkthrough for any new composite widget before merge. This ensures the audit's findings become a gate, not a one-time event.
+
+The breaking change policy in `docs/BREAKING-CHANGES.md` classifies ARIA structure changes as major version bumps, ensuring consumers are notified when the AT contract changes.

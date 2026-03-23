@@ -450,6 +450,8 @@ Detailed workflow documentation in `docs/`:
 - `PLAYWRIGHT-WORKFLOW.md`: Playwright MCP usage patterns
 - `A11Y-AUDIT.md`: Per-component accessibility audit findings (all 26 components)
 - `A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the audit — authoring conventions, gotchas, and review priorities
+- `ACCESSIBILITY-CONFORMANCE.md`: WCAG 2.1 AA conformance statement — what the library guarantees, consumer responsibilities, known limitations
+- `BREAKING-CHANGES.md`: Breaking change policy — version classification taxonomy and migration note template
 
 ## Git Information
 
