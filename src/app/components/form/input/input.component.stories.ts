@@ -6,19 +6,18 @@ const meta: Meta<InputComponent> = {
   component: InputComponent,
   tags: ['autodocs'],
   argTypes: {
+    label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
+    placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder text' },
+    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text below the field' },
+    error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
     type: {
       control: 'select',
       options: ['text', 'email', 'password', 'number'],
+      type: { name: 'string' },
       description: 'Input type',
     },
-    disabled: {
-      control: 'boolean',
-      description: 'Disabled state',
-    },
-    required: {
-      control: 'boolean',
-      description: 'Required field',
-    },
+    required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
 };
 
@@ -71,6 +70,7 @@ export const Password: Story = {
 };
 
 export const AllStates: Story = {
+  parameters: { controls: { disable: true } },
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 400px;">

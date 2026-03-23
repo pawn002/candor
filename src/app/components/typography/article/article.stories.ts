@@ -8,8 +8,8 @@ const meta: Meta<ArticleComponent> = {
   argTypes: {
     font: {
       control: { type: 'select' },
-      options: ['reading', 'serif'],
-      description: 'Body typeface — Noto Sans (reading) or Noto Serif (serif). Headings always use Roboto Flex.',
+      options: ['reading', 'sans'],
+      description: 'Body typeface — Noto Serif (reading, default) or Noto Sans (sans, for syndication/utility contexts). Headings always use Roboto Flex.',
     },
   },
 };
@@ -67,6 +67,26 @@ const fullArticleContent = `
     an author's full argument — including its qualifications, counterexamples, and admissions of
     uncertainty.
   </p>
+
+  <h4>A Note on Environment</h4>
+  <p>
+    Where you read matters almost as much as how. A quiet room, a single open tab, and no
+    notifications are not luxuries — they are prerequisites for the kind of attention slow
+    reading demands.
+  </p>
+
+  <h5>Recommended conditions</h5>
+  <p>
+    Physical books outperform screens for deep reading in most studies, likely because the
+    absence of hyperlinks removes the temptation to branch away from the current argument.
+  </p>
+
+  <h6>On annotation tools</h6>
+  <p>
+    A pencil remains the best annotation tool. Digital highlighting creates the illusion of
+    engagement without the synthesis that handwritten notes require.
+  </p>
+
   <p>
     That is not inefficiency. That is how understanding actually works.
   </p>
@@ -139,8 +159,8 @@ export const Default: Story = {
   }),
 };
 
-export const Serif: Story = {
-  args: { font: 'serif' },
+export const Sans: Story = {
+  args: { font: 'sans' },
   render: (args) => ({
     props: args,
     template: `<app-article [font]="font">${fullArticleContent}</app-article>`,
@@ -155,11 +175,230 @@ export const WithCode: Story = {
   }),
 };
 
-export const SerifWithCode: Story = {
-  args: { font: 'serif' },
+export const SansWithCode: Story = {
+  args: { font: 'sans' },
   render: (args) => ({
     props: args,
     template: `<app-article [font]="font">${codeArticleContent}</app-article>`,
+  }),
+};
+
+export const WithLinks: Story = {
+  args: { font: 'reading' },
+  render: (args) => ({
+    props: args,
+    template: `<app-article [font]="font">
+      <h1>On Reading and the Open Web</h1>
+      <p>
+        The web was built on links. From the earliest days of
+        <a href="#">CERN's internal documentation</a> to the modern era of
+        <a href="#">interconnected knowledge graphs</a>, the hyperlink remains the
+        fundamental unit of the web's architecture.
+      </p>
+      <p>
+        Yet most reading environments treat links as a necessary intrusion —
+        a flash of blue that pulls the eye away from the sentence it lives in.
+        <a href="#">Typographers have long debated</a> whether underlines aid or
+        hinder scanning, and whether color alone is sufficient to signal interactivity.
+      </p>
+      <h2>Link Accessibility</h2>
+      <p>
+        WCAG 2.1 requires that links be distinguishable from surrounding text by more than
+        color alone — either through underline, weight, or another non-color cue.
+        This article uses <a href="#">underline with a custom offset</a> to satisfy that
+        requirement without cluttering the baseline rhythm.
+      </p>
+      <p>
+        Links within a visited state, <a href="https://pawn002.github.io/blog-public/">like this one</a>, should ideally
+        signal that the destination has already been seen. Here is a run of text with
+        <a href="#">multiple</a> <a href="#">consecutive</a> <a href="#">links</a>
+        to evaluate spacing and visual noise in dense link contexts.
+      </p>
+      <h3>Focus Behaviour</h3>
+      <p>
+        Keyboard users rely on a visible focus ring to navigate. Tab to any
+        <a href="#">link in this paragraph</a> to verify the focus style is
+        present and clearly visible against the page background.
+      </p>
+    </app-article>`,
+  }),
+};
+
+export const WithRichContent: Story = {
+  args: { font: 'reading' },
+  render: (args) => ({
+    props: args,
+    template: `<app-article [font]="font">
+      <h1>Typography in Data-Rich Articles</h1>
+      <p>
+        Editorial layouts often combine prose with structured data —
+        <abbr title="HyperText Markup Language">HTML</abbr> provides the semantic elements,
+        but the design system must ensure they all coexist coherently.
+      </p>
+
+      <h2>Comparing Typeface Metrics</h2>
+      <p>
+        The table below compares key optical characteristics across the typefaces
+        used in this system.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Typeface</th>
+            <th>Role</th>
+            <th>Variable axes</th>
+            <th>Min size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Roboto Flex</td>
+            <td>Display / headings</td>
+            <td>opsz, wght, wdth, GRAD</td>
+            <td>16px</td>
+          </tr>
+          <tr>
+            <td>Noto Sans</td>
+            <td>Long-form reading</td>
+            <td>wght</td>
+            <td>16px</td>
+          </tr>
+          <tr>
+            <td>Atkinson Hyperlegible</td>
+            <td>Critical UI text</td>
+            <td>—</td>
+            <td>14px</td>
+          </tr>
+          <tr>
+            <td>Roboto Mono</td>
+            <td>Code</td>
+            <td>—</td>
+            <td>14px</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Figures and Captions</h2>
+      <p>
+        Images within articles should be accompanied by a <code>figcaption</code>
+        that provides context — captions are rendered at the 14px floor to keep
+        them clearly subordinate to body text.
+      </p>
+      <figure>
+        <img src="https://picsum.photos/seed/article/800/400" alt="A placeholder landscape" />
+        <figcaption>
+          Figure 1. Optical sizing in Roboto Flex means stroke weight adapts
+          to the rendered size — larger text naturally carries heavier strokes.
+        </figcaption>
+      </figure>
+
+      <p>
+        The <abbr title="Web Content Accessibility Guidelines">WCAG</abbr> success
+        criterion 1.4.3 requires a contrast ratio of at least 4.5:1 for normal text.
+        All body tokens in this system are validated against their actual background,
+        not just the page default.
+      </p>
+    </app-article>`,
+  }),
+};
+
+export const WithNumericTable: Story = {
+  args: { font: 'reading' },
+  render: (args) => ({
+    props: args,
+    template: `<app-article [font]="font">
+      <h1>Typographic Scale — Optical Metrics</h1>
+      <p>
+        The table below presents measured optical characteristics for each step in
+        the Candor type scale. Values are derived from the Major Third ratio (1.25×)
+        applied to a 16px base.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Token</th>
+            <th class="numeric">Size (px)</th>
+            <th class="numeric">Size (rem)</th>
+            <th class="numeric">Line height</th>
+            <th class="numeric">Cap height (px)</th>
+            <th class="numeric">x-height (px)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>h1</td>
+            <td><code>--font-size-h1</code></td>
+            <td class="numeric">39.06</td>
+            <td class="numeric">2.441</td>
+            <td class="numeric">1.20</td>
+            <td class="numeric">28.12</td>
+            <td class="numeric">19.53</td>
+          </tr>
+          <tr>
+            <td>h2</td>
+            <td><code>--font-size-h2</code></td>
+            <td class="numeric">31.25</td>
+            <td class="numeric">1.953</td>
+            <td class="numeric">1.20</td>
+            <td class="numeric">22.50</td>
+            <td class="numeric">15.63</td>
+          </tr>
+          <tr>
+            <td>h3</td>
+            <td><code>--font-size-h3</code></td>
+            <td class="numeric">25.00</td>
+            <td class="numeric">1.563</td>
+            <td class="numeric">1.20</td>
+            <td class="numeric">18.00</td>
+            <td class="numeric">12.50</td>
+          </tr>
+          <tr>
+            <td>h4</td>
+            <td><code>--font-size-h4</code></td>
+            <td class="numeric">20.00</td>
+            <td class="numeric">1.250</td>
+            <td class="numeric">1.20</td>
+            <td class="numeric">14.40</td>
+            <td class="numeric">10.00</td>
+          </tr>
+          <tr>
+            <td>body</td>
+            <td><code>--font-size-base</code></td>
+            <td class="numeric">16.00</td>
+            <td class="numeric">1.000</td>
+            <td class="numeric">1.60</td>
+            <td class="numeric">11.52</td>
+            <td class="numeric">8.00</td>
+          </tr>
+          <tr>
+            <td>sm</td>
+            <td><code>--font-size-sm</code></td>
+            <td class="numeric">14.00</td>
+            <td class="numeric">0.875</td>
+            <td class="numeric">1.40</td>
+            <td class="numeric">10.08</td>
+            <td class="numeric">7.00</td>
+          </tr>
+          <tr>
+            <td>xs</td>
+            <td><code>--font-size-xs</code></td>
+            <td class="numeric">12.00</td>
+            <td class="numeric">0.750</td>
+            <td class="numeric">1.40</td>
+            <td class="numeric">8.64</td>
+            <td class="numeric">6.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Cap height is estimated at 72% of the em square for Noto Serif;
+        x-height at 50%. These are approximations — optical correction by
+        the typeface designer means actual rendered values will vary slightly.
+      </p>
+    </app-article>`,
   }),
 };
 
@@ -170,12 +409,12 @@ export const FontComparison: Story = {
     template: `
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
         <div>
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;">Noto Sans (reading)</p>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: var(--spacing-sm); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); font-weight: var(--font-weight-semibold);">Noto Serif (reading)</p>
           <app-article font="reading">${fullArticleContent}</app-article>
         </div>
         <div>
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;">Noto Serif (serif)</p>
-          <app-article font="serif">${fullArticleContent}</app-article>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: var(--spacing-sm); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); font-weight: var(--font-weight-semibold);">Noto Sans (sans)</p>
+          <app-article font="sans">${fullArticleContent}</app-article>
         </div>
       </div>
     `,

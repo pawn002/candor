@@ -4,7 +4,10 @@
     border: none;
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out,
+                color 0.2s ease-in-out,
+                border-color 0.2s ease-in-out,
+                opacity 0.2s ease-in-out;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -20,9 +23,11 @@
         opacity: 0.5;
     }
 
-    // Sizes
+    // ─── Sizes ───────────────────────────────────────────────────────────────
+
     &--small {
         font-size: var(--font-size-sm);
+        letter-spacing: 0.01em; // slight tracking at 14px — consistent with 14px floor principle
         padding: var(--spacing-button-padding-y-sm) var(--spacing-button-padding-x-sm);
         min-height: 2rem;
     }
@@ -39,45 +44,45 @@
         min-height: 3rem;
     }
 
-    // Variants
+    // ─── Variants ────────────────────────────────────────────────────────────
+
     &--primary {
         background-color: var(--color-action-primary);
         color: var(--color-text-on-action);
 
-        &:hover:not(:disabled) {
-            background-color: var(--color-action-primary-hover);
-        }
-
-        &:active:not(:disabled) {
-            background-color: var(--color-action-primary-active);
-        }
+        &:hover:not(:disabled) { background-color: var(--color-action-primary-hover); }
+        &:active:not(:disabled) { background-color: var(--color-action-primary-active); }
     }
 
+    // Outlined primary — same voice as primary, reduced weight
     &--secondary {
-        background-color: var(--color-action-secondary);
-        color: var(--color-text-on-action);
-
-        &:hover:not(:disabled) {
-            background-color: var(--color-action-secondary-hover);
-        }
-
-        &:active:not(:disabled) {
-            background-color: var(--color-action-secondary-active);
-        }
-    }
-
-    &--tertiary {
         background-color: transparent;
         color: var(--color-action-primary);
         border: var(--border-width-thin) solid var(--color-action-primary);
 
-        &:hover:not(:disabled) {
-            background-color: oklch(from var(--color-action-primary) l c h / 0.1);
-        }
+        &:hover:not(:disabled)  { background-color: oklch(from var(--color-action-primary) l c h / 0.08); }
+        &:active:not(:disabled) { background-color: oklch(from var(--color-action-primary) l c h / 0.15); }
+    }
 
-        &:active:not(:disabled) {
-            background-color: oklch(from var(--color-action-primary) l c h / 0.2);
-        }
+    // Destructive — boosted-chroma burgundy (H=347); hue-distinct from error (H=25).
+    // Outlined in both modes: transparent bg, crimson border+text.
+    // Hierarchy reads consistently light/dark; avoids the pink-fill problem H=347 produces
+    // at high lightness on dark backgrounds.
+    &--destructive {
+        background-color: var(--color-action-destructive);
+        color: var(--color-action-destructive-text);
+        border: var(--border-width-thin) solid var(--color-action-destructive-border);
+
+        &:hover:not(:disabled)  { background-color: var(--color-action-destructive-hover); }
+        &:active:not(:disabled) { background-color: var(--color-action-destructive-active); }
+    }
+
+    &--tertiary {
+        background-color: var(--color-action-tertiary);
+        color: var(--color-action-tertiary-text);
+
+        &:hover:not(:disabled)  { background-color: var(--color-action-tertiary-hover); }
+        &:active:not(:disabled) { background-color: oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h); }
     }
 
     &--ghost {
@@ -89,7 +94,8 @@
         }
 
         &:active:not(:disabled) {
-            background-color: var(--color-border-default);
+            // Darken the surface token slightly — avoids borrowing a border token as a fill
+            background-color: oklch(from var(--color-bg-surface) calc(l - 0.06) c h);
         }
     }
 }

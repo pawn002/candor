@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 interface SpacingItem {
   name: string;
@@ -10,7 +9,7 @@ interface SpacingItem {
 @Component({
   selector: 'app-spacing-showcase',
   standalone: true,
-  imports: [NgFor],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './spacing-showcase.component.html',
   styleUrls: ['./spacing-showcase.component.scss']
 })

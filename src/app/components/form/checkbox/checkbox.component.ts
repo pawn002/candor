@@ -1,11 +1,10 @@
-import { Component, Input, forwardRef } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, inject, Input, input } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { NgClass } from "@angular/common";
 
 @Component({
   selector: "app-checkbox",
   standalone: true,
-  imports: [NgClass],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./checkbox.component.html",
   styleUrls: ["./checkbox.component.scss"],
   providers: [
@@ -17,23 +16,24 @@ import { NgClass } from "@angular/common";
   ],
 })
 export class CheckboxComponent implements ControlValueAccessor {
-  @Input() label?: string;
-  @Input() disabled: boolean = false;
-  @Input() id?: string;
-  @Input() required: boolean = false;
-  @Input() name?: string;
-  @Input() checked: boolean = false;
+  // Signal inputs — pure display config
+  label = input<string>();
+  id = input<string>();
+  required = input(false);
+  name = input<string>();
+
+  // Decorator inputs — mutable by ControlValueAccessor
+  @Input() checked = false;
+  @Input() disabled = false;
 
   private onChange: (value: boolean) => void = () => {};
   private onTouched: () => void = () => {};
-  private _generatedId: string;
-
-  constructor() {
-    this._generatedId = `checkbox-${Math.random().toString(36).substr(2, 9)}`;
-  }
+  private cdr = inject(ChangeDetectorRef);
+  private _generatedId = `checkbox-${Math.random().toString(36).substr(2, 9)}`;
 
   writeValue(value: boolean): void {
     this.checked = value || false;
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: (value: boolean) => void): void {
@@ -46,6 +46,7 @@ export class CheckboxComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.cdr.markForCheck();
   }
 
   onCheckboxChange(event: Event): void {
@@ -59,6 +60,6 @@ export class CheckboxComponent implements ControlValueAccessor {
   }
 
   get checkboxId(): string {
-    return this.id || this._generatedId;
+    return this.id() || this._generatedId;
   }
 }

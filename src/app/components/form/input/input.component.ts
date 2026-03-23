@@ -1,11 +1,10 @@
-import { Component, Input, forwardRef } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, inject, Input, input } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { NgClass, NgIf } from "@angular/common";
 
 @Component({
   selector: "app-input",
   standalone: true,
-  imports: [NgClass, NgIf],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./input.component.html",
   styleUrls: ["./input.component.scss"],
   providers: [
@@ -17,27 +16,27 @@ import { NgClass, NgIf } from "@angular/common";
   ],
 })
 export class InputComponent implements ControlValueAccessor {
-  @Input() label?: string;
-  @Input() type: "text" | "email" | "password" | "number" = "text";
-  @Input() placeholder?: string;
-  @Input() disabled: boolean = false;
-  @Input() error?: string;
-  @Input() hint?: string;
-  @Input() required: boolean = false;
-  @Input() id?: string;
+  // Signal inputs — pure display config
+  label = input<string>();
+  type = input<"text" | "email" | "password" | "number">("text");
+  placeholder = input<string>();
+  error = input<string>();
+  hint = input<string>();
+  required = input(false);
+  id = input<string>();
 
-  value: string = "";
+  // Mutable by ControlValueAccessor
+  @Input() disabled = false;
+  value = "";
 
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
-  private _generatedId: string;
-
-  constructor() {
-    this._generatedId = `input-${Math.random().toString(36).substr(2, 9)}`;
-  }
+  private cdr = inject(ChangeDetectorRef);
+  private _generatedId = `input-${Math.random().toString(36).substr(2, 9)}`;
 
   writeValue(value: string): void {
     this.value = value || "";
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: (value: string) => void): void {
@@ -50,6 +49,7 @@ export class InputComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.cdr.markForCheck();
   }
 
   onInput(event: Event): void {
@@ -63,6 +63,6 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   get inputId(): string {
-    return this.id || this._generatedId;
+    return this.id() || this._generatedId;
   }
 }

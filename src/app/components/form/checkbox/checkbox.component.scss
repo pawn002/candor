@@ -49,7 +49,7 @@
 .checkbox-box {
     width: 20px;
     height: 20px;
-    border: var(--border-width-medium) solid var(--color-border-default);
+    border: var(--border-width-medium) solid var(--color-border-control);
     border-radius: var(--radius-sm);
     background-color: var(--color-bg-page);
     position: relative;
@@ -62,6 +62,7 @@
 }
 
 .checkbox-label {
+    font-family: var(--font-family-accessible);
     font-size: var(--font-size-md);
     color: var(--color-text-default);
     user-select: none;

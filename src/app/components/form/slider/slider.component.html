@@ -1,0 +1,23 @@
+@if (label()) {
+  <label [for]="sliderId" class="slider__label">{{ label() }}</label>
+}
+
+<div
+  class="slider__track"
+  [class.slider__track--gradient]="!!gradient()"
+  [style.background]="gradient() ?? null"
+>
+  <input
+    [id]="sliderId"
+    class="slider__input"
+    type="range"
+    [min]="min()"
+    [max]="max()"
+    [step]="step()"
+    [value]="value()"
+    [disabled]="disabled()"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-valuetext]="computedValueText()"
+    (input)="onInput($event)"
+  />
+</div>
