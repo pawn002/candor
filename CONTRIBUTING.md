@@ -33,7 +33,7 @@ Every PR uses `.github/PULL_REQUEST_TEMPLATE.md`. The checklist is tiered:
 
 The composite widget section requires a **screen reader walkthrough** before merge. This is not optional. Composite widgets generated 50% of all AT issues found during the initial 26-component audit. Visual review does not catch AT failures.
 
-See `docs/A11Y-AUDIT.md` for per-component audit findings and `docs/A11Y-ANALYSIS.md` for the cross-cutting patterns that informed the checklist.
+See `docs/A11Y-AUDIT.md` for per-component audit findings, `docs/A11Y-ANALYSIS.md` for the cross-cutting patterns that informed the checklist, and `docs/ACCESSIBILITY-CONFORMANCE.md` for the library's formal conformance statement.
 
 ## Design tokens
 
@@ -63,7 +63,7 @@ Breaking changes require:
 2. A version bump to the next major version
 3. An entry in `CHANGELOG.md` describing what changed and how to migrate
 
-When in doubt about whether a change is breaking, assume it is.
+The full taxonomy and migration note template are in `docs/BREAKING-CHANGES.md`. When in doubt about whether a change is breaking, assume it is.
 
 ## Review expectations
 
