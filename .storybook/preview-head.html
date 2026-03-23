@@ -1,3 +1,93 @@
+<!-- Theme sync: applies data-theme to <html> for all pages including docs-only MDX.
+     The withTheme decorator only fires when a story renders, so pure MDX pages
+     (e.g. Introduction) need this channel listener to receive globals changes.
+
+     Dark mode overrides are injected via JS (appended to <head> after Storybook's
+     emotion sheets) so they win the cascade without fighting specificity. -->
+<script>
+  (function () {
+    var darkSheet = null;
+
+    function darkStyles() {
+      return [
+        /* Page background and default text */
+        '.sbdocs-wrapper { background: var(--color-bg-page) !important; color: var(--color-text-default) !important; }',
+
+        /* Headings */
+        '.sbdocs-wrapper h1, .sbdocs-wrapper h2, .sbdocs-wrapper h3,',
+        '.sbdocs-wrapper h4, .sbdocs-wrapper h5, .sbdocs-wrapper h6 {',
+        '  color: var(--color-text-default) !important;',
+        '}',
+
+        /* Body text */
+        '.sbdocs-wrapper p, .sbdocs-wrapper li, .sbdocs-wrapper strong {',
+        '  color: var(--color-text-default) !important;',
+        '}',
+
+        /* Dividers */
+        '.sbdocs-wrapper hr { border-color: var(--color-border-strong) !important; }',
+
+        /* Table — clear Storybook\'s built-in row stripe (rgb(246,249,252)) */
+        '.sbdocs-wrapper tbody tr { background: transparent !important; }',
+        '.sbdocs-wrapper table { color: var(--color-text-default) !important; }',
+        '.sbdocs-wrapper th {',
+        '  color: var(--color-text-subtle) !important;',
+        '  border-bottom-color: var(--color-border-strong) !important;',
+        '}',
+        '.sbdocs-wrapper td {',
+        '  color: var(--color-text-default) !important;',
+        '  border-bottom-color: var(--color-border-strong) !important;',
+        '}',
+
+        /* Inline code — surface bg, harmonious with dark palette */
+        '.sbdocs-wrapper code {',
+        '  background: var(--color-bg-surface) !important;',
+        '  color: var(--color-text-default) !important;',
+        '  border-radius: 3px !important;',
+        '  padding: 0.15em 0.4em !important;',
+        '}',
+
+        /* Code blocks */
+        '.sbdocs-wrapper pre {',
+        '  background: var(--color-bg-surface) !important;',
+        '  color: var(--color-text-default) !important;',
+        '}',
+        '.sbdocs-wrapper pre code { padding: 0 !important; border-radius: 0 !important; }',
+      ].join('\n');
+    }
+
+    function applyTheme(theme) {
+      var isDark = theme === 'dark';
+      document.documentElement.setAttribute('data-theme', theme || 'light');
+
+      if (isDark) {
+        if (!darkSheet) {
+          darkSheet = document.createElement('style');
+          darkSheet.id = 'candor-dark-docs';
+          document.head.appendChild(darkSheet);
+        }
+        darkSheet.textContent = darkStyles();
+      } else {
+        if (darkSheet) darkSheet.textContent = '';
+      }
+    }
+
+    function attachChannel() {
+      var channel = window.__STORYBOOK_ADDONS_CHANNEL__;
+      if (!channel) { setTimeout(attachChannel, 50); return; }
+
+      channel.on('globalsUpdated', function (e) { applyTheme((e.globals || e).theme); });
+      channel.on('setGlobals',     function (e) { applyTheme((e.globals || e).theme); });
+
+      /* Apply initial theme from URL (?globals=theme:dark) */
+      var m = window.location.search.match(/theme:([a-z]+)/);
+      if (m) applyTheme(m[1]);
+    }
+
+    attachChannel();
+  })();
+</script>
+
 <!-- Noto Font Family - Candor Design System -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -6,7 +96,8 @@
 <style>
   /* Candor Design System — Docs Typography
      !important required to override Storybook's emotion CSS-in-JS styles
-     which are injected after static head styles and win the cascade. */
+     which are injected after static head styles and win the cascade.
+     Dark mode overrides are handled via JS injection above. */
 
   .sbdocs-wrapper h1,
   .sbdocs-wrapper h2,
@@ -18,10 +109,12 @@
     line-height: 1.25 !important;
     font-weight: 600 !important;
     letter-spacing: -0.02em !important;
+    margin-top: 2.5rem !important;
+    margin-bottom: 0.75rem !important;
   }
 
-  .sbdocs-wrapper h1 { font-size: 2.441rem !important; }
-  .sbdocs-wrapper h2 { font-size: 1.953rem !important; }
+  .sbdocs-wrapper h1 { font-size: 2.441rem !important; margin-top: 0 !important; margin-bottom: 0.5rem !important; }
+  .sbdocs-wrapper h2 { font-size: 1.953rem !important; margin-top: 3rem !important; }
   .sbdocs-wrapper h3 { font-size: 1.563rem !important; }
   .sbdocs-wrapper h4 { font-size: 1.25rem !important; }
 
@@ -30,6 +123,28 @@
     font-family: 'Noto Serif', Georgia, serif !important;
     font-size: 1rem !important;
     line-height: 1.75 !important;
+  }
+
+  .sbdocs-wrapper p {
+    margin-top: 0 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .sbdocs-wrapper ul,
+  .sbdocs-wrapper ol {
+    margin-top: 0 !important;
+    margin-bottom: 1.25rem !important;
+    padding-left: 1.5rem !important;
+  }
+
+  .sbdocs-wrapper li {
+    margin-bottom: 0.25rem !important;
+  }
+
+  .sbdocs-wrapper hr {
+    margin: 2.5rem 0 !important;
+    border: none !important;
+    border-top: 1px solid var(--color-border-default, #e8e8e8) !important;
   }
 
   .sbdocs-wrapper strong {
@@ -49,17 +164,18 @@
     line-height: 1.5 !important;
     border-collapse: collapse;
     width: 100%;
+    margin-bottom: 1.5rem !important;
   }
 
   .sbdocs-wrapper th {
     font-weight: 600 !important;
     text-align: left;
     padding: 0.5rem 1rem;
-    border-bottom: 2px solid #e0e0e0;
+    border-bottom: 2px solid var(--color-border-strong, #e0e0e0);
   }
 
   .sbdocs-wrapper td {
     padding: 0.5rem 1rem;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--color-border-strong, #e0e0e0);
   }
 </style>

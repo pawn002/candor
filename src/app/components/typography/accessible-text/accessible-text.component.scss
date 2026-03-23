@@ -6,7 +6,7 @@
 
     // ─── Role variants ─────────────────────────────────────────────────────────
     &.accessible-text--role-label {
-        font-size: var(--font-size-sm);
+        font-size: var(--font-size-sm); // 14px floor
         font-weight: var(--font-weight-bold); // Atkinson only has 400/700 — skip medium/semibold
         letter-spacing: var(--letter-spacing-wide);
         text-transform: uppercase;
@@ -14,28 +14,27 @@
     }
 
     &.accessible-text--role-message {
-        font-size: var(--font-size-md);
-        letter-spacing: var(--letter-spacing-normal);
+        font-size: var(--font-size-md); // 16px
+        letter-spacing: 0.02em; // Atkinson needs positive tracking to prevent glyph clustering
         line-height: var(--line-height-normal);
     }
 
     &.accessible-text--role-status {
-        font-size: var(--font-size-sm);
-        font-weight: var(--font-weight-bold); // Atkinson only has 400/700
-        letter-spacing: var(--letter-spacing-normal);
+        font-size: var(--font-size-sm); // 14px floor
+        letter-spacing: 0.02em; // Atkinson needs positive tracking to prevent glyph clustering
         line-height: var(--line-height-tight);
     }
 
     &.accessible-text--role-annotation {
-        font-size: var(--font-size-sm);
-        letter-spacing: var(--letter-spacing-normal);
+        font-size: var(--font-size-sm); // 14px floor
+        letter-spacing: 0.02em; // Atkinson needs positive tracking to prevent glyph clustering
         line-height: var(--line-height-relaxed);
     }
 
     // ─── Size overrides (come after role to win the cascade) ───────────────────
-    &.accessible-text--size-sm { font-size: var(--font-size-sm); }
-    &.accessible-text--size-md { font-size: var(--font-size-md); }
-    &.accessible-text--size-lg { font-size: var(--font-size-lg); }
+    &.accessible-text--size-sm { font-size: var(--font-size-sm); }  // 14px floor
+    &.accessible-text--size-md { font-size: var(--font-size-md); }  // 16px
+    &.accessible-text--size-lg { font-size: var(--font-size-lg); }  // 20px
 
     // ─── Color variants ────────────────────────────────────────────────────────
     &.accessible-text--color-primary   { color: var(--color-text-default); }

@@ -1,0 +1,9 @@
+@if (label()) {
+  <p class="stat__label">{{ label() }}</p>
+}
+
+<p class="stat__value" [attr.aria-label]="unit() ? (value() + ' ' + unit()) : null">
+  {{ value() }}@if (unit()) {<span class="stat__unit">{{ unit() }}</span>}
+</p>
+
+<ng-content></ng-content>

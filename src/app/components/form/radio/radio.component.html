@@ -2,14 +2,14 @@
   <input
     type="radio"
     [id]="radioId"
-    [name]="name"
-    [value]="value"
-    [checked]="isChecked"
+    [name]="name()"
+    [value]="value()"
+    [checked]="checked || isChecked"
     [disabled]="disabled"
     class="radio-input"
     (change)="onRadioChange($event)"
     (blur)="onBlur()"
   />
   <span class="radio-circle"></span>
-  <span class="radio-label">{{ label }}</span>
+  <span class="radio-label">{{ label() }}</span>
 </label>

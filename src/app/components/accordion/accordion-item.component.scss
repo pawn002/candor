@@ -1,0 +1,87 @@
+:host {
+    display: block;
+
+    &:last-child {
+        .accordion-item {
+            border-bottom: none;
+        }
+    }
+}
+
+// ─── details element ──────────────────────────────────────────────────────────
+
+.accordion-item {
+    border-bottom: 1px solid var(--color-border-strong);
+
+    // Remove default marker
+    > summary {
+        list-style: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+    }
+}
+
+// ─── Summary (trigger) ────────────────────────────────────────────────────────
+
+.accordion-item__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.875rem 0;
+    cursor: pointer;
+    color: var(--color-text-default);
+
+    &:hover {
+        color: var(--color-action-primary);
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: var(--focus-ring-width) solid var(--color-focus);
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
+    }
+}
+
+.accordion-item__title {
+    font-family: var(--font-family-accessible);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.02em;
+    line-height: var(--line-height-tight);
+    flex: 1;
+}
+
+.accordion-item__chevron {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    color: var(--color-text-subtle-on-surface);
+    transition: transform 0.22s ease;
+
+    details[open] & {
+        transform: rotate(180deg);
+    }
+}
+
+// ─── Panel (CSS grid height animation) ───────────────────────────────────────
+
+.accordion-item__panel {
+    display: grid;
+    grid-template-rows: 1fr;
+}
+
+.accordion-item__content {
+    overflow: hidden;
+    padding-bottom: 0.875rem;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-md);
+    color: var(--color-text-default);
+    line-height: var(--line-height-normal);
+}
