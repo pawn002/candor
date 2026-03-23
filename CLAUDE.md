@@ -135,6 +135,13 @@ cpqi match <hex>                       # Find nearest named/brand color
 - Screenshot components: `browser_take_screenshot`
 - Test interactions: `browser_click`, `browser_type`, `browser_press_key`
 
+**AT snapshot workflow** (for accessibility audits):
+1. Navigate to the story iframe directly: `http://localhost:6006/iframe.html?id={story-id}&viewMode=story`
+   - Story ID format: `{title-path-kebab}--{story-name-kebab}` (e.g. `components-form-switch--default`)
+2. Call `browser_wait_for time:2` — snapshot on first navigation is empty without this wait
+3. Call `browser_snapshot` to get the accessibility tree
+4. For ARIA attributes not shown in the snapshot (e.g. `aria-valuetext` on sliders), verify with `browser_evaluate`: `document.querySelector('input[type=range]').getAttribute('aria-valuetext')`
+
 ## Typography Usage Rules
 
 ### Roboto Flex (`--font-family-display`, `--font-family-base`)
@@ -299,6 +306,32 @@ export const Default: Story = {
 - Built-in control flow works correctly with Zone.js enabled
 - When refactoring existing code, always convert old directives to built-in syntax
 
+### Angular Signal Types — Binding Behaviour
+
+| Signal type | Bindable from parent template? | Use when |
+|---|---|---|
+| `signal<T>(value)` | No — internal state only | Value is owned by this component, never set from outside |
+| `input<T>()` | Yes — one-way `[prop]="value"` | Read-only input from parent |
+| `model<T>()` | Yes — two-way `[(prop)]="value"` | Value can flow in and out (selected item, toggle state) |
+
+**The trap:** Using `signal()` where `model()` is needed silently breaks parent template bindings — no error is thrown and the binding is silently ignored. If a story or parent needs to set an initial value or react to changes, the component signal must be `model()`, not `signal()`.
+
+### Zoneless + setTimeout
+
+`setTimeout` callbacks do not trigger change detection in zoneless mode. If you mutate a signal inside `setTimeout`, call `cdr.markForCheck()` immediately after:
+
+```typescript
+private cdr = inject(ChangeDetectorRef);
+
+onSend() {
+  this.statusMessage.set('');
+  setTimeout(() => {
+    this.statusMessage.set('Message sent');
+    this.cdr.markForCheck(); // required — zoneless doesn't detect setTimeout mutations
+  }, 0);
+}
+```
+
 ### View Encapsulation and Projected Content
 
 **NEVER use `::ng-deep`** — it is deprecated by the Angular team and will be removed.
@@ -327,6 +360,57 @@ With `ViewEncapsulation.None`, Angular does not add scoping attributes, so desce
 
 **Why `::ng-deep` fails for projected content**: Angular's emulated encapsulation adds a unique attribute (e.g. `_ngcontent-xxx`) to elements in the component's own template. Elements projected from outside (string literals in stories, or content from a parent template) receive the *parent's* scoping attribute, not the component's — so `:host h1 { }` never matches them. `ViewEncapsulation.None` sidesteps this entirely.
 
+## Accessibility Authoring Conventions
+
+These patterns emerged from the 26-component A11Y audit. See `docs/A11Y-AUDIT.md` for per-component findings and `docs/A11Y-ANALYSIS.md` for cross-cutting trend analysis.
+
+### Live region pre-establishment
+
+A live region must exist in the DOM **before** content arrives. The `@if` belongs inside the region, not wrapping it:
+
+```html
+<!-- ✓ Region always in DOM — empty when unused -->
+<div role="status" aria-live="polite" aria-atomic="true">
+  @if (condition) { {{ message }} }
+</div>
+
+<!-- ✗ Region removed from DOM — AT misses the change -->
+@if (condition) {
+  <div role="status" aria-live="polite">{{ message }}</div>
+}
+```
+
+### Host element ARIA trap (Angular-specific)
+
+`aria-label` placed on `<app-foo>` in a consumer template **does not propagate** to the inner `<input>` or other interactive element inside the component. The host element is a generic container.
+
+Fix: expose an `ariaLabel = input<string>()` on the component class and bind it to the inner element:
+
+```typescript
+ariaLabel = input<string>(); // in component class
+```
+```html
+<input [attr.aria-label]="ariaLabel() || null" ...> <!-- in component template -->
+```
+
+This convention is established on: Switch, Slider, Button.
+
+### Landmark pollution in dialogs/panels
+
+`<header>` inside `<dialog>` gets implicit `role="banner"` in Chrome (HTML spec only suppresses this inside `article`, `aside`, `main`, `nav`, `section`). `<footer>` similarly becomes `role="contentinfo"`.
+
+Fix: `role="none"` on `<header>` inside dialogs/panels; use `<div>` instead of `<footer>` in slotted content.
+
+### Stories as AT documentation
+
+A story that demonstrates wrong usage is as harmful as a component bug — stories are what developers copy. Every story involving grouped controls, tables, or form elements should demonstrate the consumer-level markup that the component cannot enforce:
+
+- Radio groups: `<fieldset>`/`<legend>` (not `<div>`/`<p>`)
+- Tables: `<caption>`, `<th scope="row">` for key/value rows
+- Form fields without an explicit label: `<label for>` / `<input id>` association
+
+---
+
 ## Common Pitfalls
 
 1. **Don't hard-code colors**: Always use design tokens
@@ -336,6 +420,9 @@ With `ViewEncapsulation.None`, Angular does not add scoping attributes, so desce
 5. **Don't modify node_modules**: This is obvious but worth stating
 6. **Never use `::ng-deep`**: It is deprecated. Use `ViewEncapsulation.None` with a host class for scoping when styling projected content (see "View Encapsulation and Projected Content" above)
 7. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
+8. **Don't put `aria-label` on component host elements**: It won't reach the inner interactive element — use the `ariaLabel` input pattern instead (see "Host element ARIA trap" above)
+9. **Don't use `<header>`/`<footer>` inside dialogs or panels**: They inherit landmark roles (`banner`, `contentinfo`) in Chrome. Use `role="none"` or `<div>` (see "Landmark pollution" above)
+10. **Don't expose formatter logic for OKLCH axes**: Axes like chroma have dynamic min/max based on hue — auto-computed formatters will be wrong. Expose a `valueTextFn = input<(v: number) => string>()` and let the consumer supply the semantics
 
 ## Testing Strategy
 
@@ -361,6 +448,8 @@ Detailed workflow documentation in `docs/`:
 - `DESIGN-TOKENS.md`: Token modification guide
 - `CPQI-INTEGRATION.md`: CPQI CLI usage patterns and commands
 - `PLAYWRIGHT-WORKFLOW.md`: Playwright MCP usage patterns
+- `A11Y-AUDIT.md`: Per-component accessibility audit findings (all 26 components)
+- `A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the audit — authoring conventions, gotchas, and review priorities
 
 ## Git Information
 
