@@ -1,8 +1,10 @@
 {
   "name": "@candor-design/tokens",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Candor design tokens — CSS custom properties for a humanist design system built with OKLCH.",
-  "files": ["tokens"],
+  "files": [
+    "tokens"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
