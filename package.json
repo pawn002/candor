@@ -18,16 +18,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pawn002/design-system-playground.git"
+    "url": "git+https://github.com/pawn002/candor.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/pawn002/design-system-playground/issues"
+    "url": "https://github.com/pawn002/candor/issues"
   },
-  "homepage": "https://github.com/pawn002/design-system-playground#readme",
+  "homepage": "https://github.com/pawn002/candor#readme",
   "dependencies": {
     "@angular-devkit/build-angular": "^21.0.2",
     "@angular/animations": "^21.0.3",
