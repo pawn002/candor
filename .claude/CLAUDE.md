@@ -1,5 +1,16 @@
 # Candor — Project Instructions (Claude-specific)
 
+## Storybook (Chromatic)
+
+Published automatically on every merge to `main`.
+
+- **Storybook:** `https://main--69c25e2492ad056c24329876.chromatic.com`
+- **Chromatic library:** `https://www.chromatic.com/library?appId=69c25e2492ad056c24329876&branch=main`
+
+Use the Storybook URL with Playwright MCP to visually inspect components without running Storybook locally.
+
+---
+
 ## Versioning & Release
 
 Candor follows semver. The token package is stable at 1.0.0 — treat MINOR as additive changes, MAJOR as breaking changes to token names or structure.
