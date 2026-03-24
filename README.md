@@ -2,6 +2,8 @@
 
 A humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.1 AA accessibility baked in.
 
+**[Browse components →](https://main--69c25e2492ad056c24329876.chromatic.com)**
+
 ## Install
 
 ```bash

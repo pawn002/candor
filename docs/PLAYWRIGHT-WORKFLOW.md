@@ -4,10 +4,19 @@
 
 This document explains how Claude uses Playwright MCP to provide visual feedback during design iterations. Playwright enables Claude to see the components, capture screenshots, and validate designs visually.
 
+## Published Storybook
+
+Candor's Storybook is published to Chromatic on every merge to `main`:
+**`https://main--69c25e2492ad056c24329876.chromatic.com`**
+
+Use this URL with Playwright MCP for visual inspection without running Storybook locally. For automated Playwright tests, use the local instance (`http://localhost:6006`) as usual.
+
+---
+
 ## What is Playwright MCP?
 
 Playwright MCP is an MCP server that gives Claude direct control over a browser:
-- Navigate to URLs (including local Storybook)
+- Navigate to URLs (including local Storybook or the published Chromatic URL)
 - Take screenshots
 - Interact with elements (click, type, hover)
 - Test keyboard navigation

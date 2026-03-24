@@ -6,7 +6,7 @@ Candor is a humanist design system. Every contribution — components, tokens, s
 
 ```bash
 npm install
-npm run storybook        # http://localhost:6006 — primary development environment
+npm run storybook        # http://localhost:6006 — primary development environment (published: https://main--69c25e2492ad056c24329876.chromatic.com)
 npm start                # http://localhost:4200 — Angular dev server
 npm run test:playwright  # Playwright tests (auto-starts Storybook)
 npm test                 # Angular unit tests
