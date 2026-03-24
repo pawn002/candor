@@ -33,6 +33,10 @@
     "url": "https://github.com/pawn002/candor/issues"
   },
   "homepage": "https://github.com/pawn002/candor#readme",
+  "overrides": {
+    "chokidar": "^5.0.0",
+    "readdirp": "^4.0.0"
+  },
   "dependencies": {
     "@angular-devkit/build-angular": "^21.2.3",
     "@angular/animations": "^21.2.5",
