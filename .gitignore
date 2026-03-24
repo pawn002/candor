@@ -20,6 +20,10 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 
+# Claude Code
+.claude/settings.local.json
+.claude/worktrees/
+
 # Visual Studio Code
 .vscode/*
 !.vscode/settings.json
