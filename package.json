@@ -14,7 +14,10 @@
     "build-storybook": "ng run design-system-playground:build-storybook",
     "test:playwright": "playwright test",
     "test:playwright:ui": "playwright test --ui",
-    "build:tokens": "node scripts/build-tokens.js"
+    "build:tokens": "node scripts/build-tokens.js",
+    "release:patch": "npm version patch && git push origin main --follow-tags",
+    "release:minor": "npm version minor && git push origin main --follow-tags",
+    "release:major": "npm version major && git push origin main --follow-tags"
   },
   "repository": {
     "type": "git",
