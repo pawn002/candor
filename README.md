@@ -1,363 +1,253 @@
-# Design System Playground
+# Candor
 
-An Angular + Storybook sandbox for rapidly iterating on design ideas with real-time accessibility validation. Built to bridge the gap between art direction and accessibility using AI-assisted workflows with Claude Code, Playwright MCP, and the CPQI CLI.
+A humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.1 AA accessibility baked in.
 
-## Overview
+## Install
 
-This playground enables design integrators to:
-- Receive art direction specs and quickly prototype components
-- Use Claude Code with Playwright MCP for visual feedback
-- Validate colors and accessibility with the CPQI CLI
-- Identify design constraints and communicate findings to creative leads
-- Iterate rapidly with confidence that designs are accessible
+```bash
+npm install @candor-design/tokens
+```
 
-## Features
+## Usage
 
-- **Design Token System**: Centralized SCSS tokens for colors (OKLCH), typography, and spacing
-- **Component Library**: Typography, buttons, forms, and spacing showcases
-- **Storybook Integration**: Visual component catalog with accessibility addon
-- **Playwright Testing**: Visual regression and accessibility testing
-- **CPQI CLI Integration**: Color accessibility validation via local `cpqi` CLI
-- **Claude-Optimized Workflow**: Built for AI-assisted design iteration
+### CSS (recommended)
 
-## Quick Start
+Link the stylesheet and use the custom properties directly:
+
+```html
+<link rel="stylesheet" href="node_modules/@candor-design/tokens/tokens/candor-tokens.css">
+```
+
+```css
+.button {
+  background: var(--color-action-primary);
+  color: var(--color-text-on-action);
+  font-family: var(--font-family-base);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+}
+```
+
+### CSS import
+
+```css
+@import url('@candor-design/tokens/tokens/candor-tokens.css');
+```
+
+### Bundler (Vite / webpack / PostCSS)
+
+```css
+@import '@candor-design/tokens/tokens/candor-tokens.css';
+```
+
+The bundler resolves the bare specifier and inlines the file at build time. This is not Sass `@use` — `@use` is for importing Sass modules (`.scss` source files with variables and mixins). `candor-tokens.css` is pre-compiled CSS with no Sass members to import.
+
+### Minified (production)
+
+```html
+<link rel="stylesheet" href="node_modules/@candor-design/tokens/tokens/candor-tokens.min.css">
+```
+
+### JSON (Figma / tooling)
+
+```js
+import tokens from '@candor-design/tokens/tokens/candor-tokens.json';
+
+tokens.root['--color-action-primary']; // oklch(0.27 0.06 245.34)
+tokens.dark['--color-action-primary']; // oklch(0.76 0.05 245.34)
+```
+
+---
+
+## What's included
+
+### Colors
+
+Five OKLCH color families, each with 10 tonal steps (50–900):
+
+| Family | Role |
+|---|---|
+| `--navy-*` | Primary action, headings, inverse surfaces |
+| `--burgundy-*` | Secondary action, accents |
+| `--azure-*` | Links, focus rings, interactive highlights |
+| `--purple-*` | Code highlights, visited links, decorative |
+| `--gray-*` | Text, borders, backgrounds |
+
+Semantic aliases map primitive ramps to roles:
+
+```css
+/* Backgrounds */
+--color-bg-page
+--color-bg-surface
+--color-bg-elevated
+--color-bg-inverse
+
+/* Text */
+--color-text-default      /* 12.6:1 on page — primary body text */
+--color-text-subtle       /*  4.6:1 on page — secondary text */
+--color-text-on-action    /* white on primary/secondary buttons */
+
+/* Action */
+--color-action-primary
+--color-action-primary-hover
+--color-action-secondary
+--color-action-secondary-hover
+--color-action-destructive
+--color-action-destructive-text
+
+/* Status */
+--color-status-error
+--color-status-error-bg
+--color-status-error-text
+--color-status-success
+--color-status-success-bg
+--color-status-success-text
+--color-status-warning
+--color-status-warning-bg
+--color-status-warning-text
+
+/* Other */
+--color-link
+--color-link-visited
+--color-focus
+--color-border-default
+--color-border-control
+```
+
+All semantic color pairs are contrast-validated to WCAG 2.1 AA (4.5:1 text, 3:1 UI components).
+
+### Dark mode
+
+Dark mode activates automatically via `prefers-color-scheme: dark`, or can be forced with a `data-theme` attribute:
+
+```html
+<!-- Force dark -->
+<html data-theme="dark">
+
+<!-- Force light (overrides OS preference) -->
+<html data-theme="light">
+```
+
+Only color tokens change between modes. Spacing, typography, and shape tokens are invariant.
+
+### Typography
+
+```css
+--font-family-base        /* Roboto Flex — variable font, UI workhorse */
+--font-family-display     /* Roboto Flex — headings */
+--font-family-accessible  /* Atkinson Hyperlegible — form labels, error messages, critical UI */
+--font-family-mono        /* Roboto Mono */
+--font-family-serif       /* Noto Serif */
+--font-family-reading     /* Noto Sans — long-form content */
+```
+
+Type scale (Major Third, 1.25 ratio):
+
+```css
+--font-size-sm    /* 14px — system floor for readable text */
+--font-size-base  /* 16px */
+--font-size-lg    /* 20px */
+--font-size-xl    /* 25px */
+--font-size-2xl   /* 31px */
+--font-size-3xl   /* 39px */
+
+--font-size-h1    /* 39px */
+--font-size-h2    /* 31px */
+--font-size-h3    /* 25px */
+--font-size-h4    /* 20px */
+--font-size-h5    /* 16px */
+--font-size-h6    /* 14px */
+```
+
+### Spacing
+
+8px grid:
+
+```css
+--spacing-xs   /*  8px */
+--spacing-sm   /* 16px */
+--spacing-md   /* 24px */
+--spacing-lg   /* 32px */
+--spacing-xl   /* 48px */
+--spacing-2xl  /* 64px */
+--spacing-3xl  /* 96px */
+```
+
+### Shape
+
+```css
+--radius-sm    /*  4px */
+--radius-md    /*  8px */
+--radius-lg    /* 16px */
+--radius-full  /* 9999px */
+
+--border-width-thin    /* 1px */
+--border-width-medium  /* 2px */
+--border-width-thick   /* 4px */
+
+--focus-ring-width   /* 2px */
+--focus-ring-offset  /* 2px */
+```
+
+---
+
+## Design philosophy
+
+Candor is a **humanist** design system. Every decision — OKLCH colors, variable-font typography, perceptual spacing — is oriented toward human vision and reading experience, not machine defaults.
+
+**OKLCH colors** use a perceptually uniform color space, so lightness values reliably map to visual weight across hues. This makes it practical to derive accessible color pairs programmatically and to build predictable tonal scales.
+
+**Roboto Flex** is a variable font with an optical size axis (`opsz`) that automatically adjusts stroke contrast at different sizes — creating natural typographic hierarchy without artificial weight jumps.
+
+**Atkinson Hyperlegible** is reserved for critical UI text (form labels, error messages, status indicators) where legibility under stress matters most.
+
+---
+
+## Development
+
+This repository contains the full design system, including the Angular + Storybook component library that the tokens power.
 
 ### Prerequisites
 
-- Node.js 20.16+, 22.19+, or 24+ (required for Storybook 10 ESM support)
+- Node.js 20.16+, 22.19+, or 24+
 - npm
-- CPQI CLI (local build from `cpqi-cli` repo — see [CPQI-INTEGRATION.md](./docs/CPQI-INTEGRATION.md))
-- Playwright MCP Server (optional, for Claude visual inspection)
 
-### Installation
+### Setup
 
 ```bash
-# Clone the repository
-git clone https://github.com/pawn002/design-system-playground.git
-cd design-system-playground
-
-# Install dependencies
+git clone https://github.com/pawn002/candor.git
+cd candor
 npm install
-
-# Install Playwright browsers
-npx playwright install chromium
 ```
 
-### Running Storybook
+### Build tokens
+
+```bash
+npm run build:tokens
+```
+
+Outputs to `tokens/`:
+- `candor-tokens.css` — expanded CSS with comments
+- `candor-tokens.min.css` — minified for production
+- `candor-tokens.json` — structured JSON (`root` + `dark` keys)
+
+### Storybook
 
 ```bash
 npm run storybook
 ```
 
-Opens Storybook at http://localhost:6006
+Opens at http://localhost:6006
 
-### Running Tests
-
-```bash
-# Run all Playwright tests
-npm run test:playwright
-
-# Run tests in UI mode
-npm run test:playwright:ui
-
-# View test report
-npx playwright show-report
-```
-
-### Running Angular App
+### Tests
 
 ```bash
-npm start
+npm run test:playwright   # Visual regression + a11y tests
+npm test                  # Angular unit tests
 ```
 
-Opens app at http://localhost:4200
-
-## Project Structure
-
-```
-design-system-playground/
-├── .storybook/                 # Storybook configuration
-│   ├── main.ts                 # Storybook setup
-│   └── preview.ts              # Global decorators
-├── docs/                       # Documentation
-│   ├── WORKFLOW.md             # Step-by-step workflow guide
-│   ├── DESIGN-TOKENS.md        # Design tokens guide
-│   ├── CPQI-INTEGRATION.md     # CPQI CLI usage
-│   ├── PLAYWRIGHT-WORKFLOW.md  # Playwright MCP usage
-│   └── examples/               # Session templates
-├── src/
-│   ├── app/
-│   │   ├── components/         # Component library
-│   │   │   ├── typography/     # Heading, text components
-│   │   │   ├── button/         # Button component
-│   │   │   ├── form/           # Input, checkbox, radio
-│   │   │   └── spacing/        # Spacing showcase
-│   │   └── examples/           # Composed examples (Phase 7)
-│   ├── design-tokens/          # Design tokens
-│   │   ├── colors.scss         # OKLCH color palette
-│   │   ├── typography.scss     # Font families, sizes, scale
-│   │   ├── spacing.scss        # 8px grid spacing
-│   │   └── index.scss          # Token exports
-│   ├── main.ts                 # Angular entry point
-│   ├── index.html              # HTML template
-│   └── styles.scss             # Global styles
-├── tests/                      # Playwright tests
-│   ├── visual-regression.spec.ts
-│   ├── accessibility.spec.ts
-│   └── storybook-snapshots.spec.ts
-├── screenshots/                # Generated screenshots
-├── angular.json                # Angular config
-├── package.json                # Dependencies
-├── playwright.config.ts        # Playwright config
-└── README.md                   # This file
-```
-
-## Documentation
-
-- **[WORKFLOW.md](./docs/WORKFLOW.md)** - Complete workflow guide for using the playground
-- **[DESIGN-TOKENS.md](./docs/DESIGN-TOKENS.md)** - How to modify and work with design tokens
-- **[CPQI-INTEGRATION.md](./docs/CPQI-INTEGRATION.md)** - How Claude uses CPQI for color validation
-- **[PLAYWRIGHT-WORKFLOW.md](./docs/PLAYWRIGHT-WORKFLOW.md)** - How Claude uses Playwright for visual inspection
-- **[examples/art-direction-session.md](./docs/examples/art-direction-session.md)** - Session template
-- **[examples/cpqi-workflow.md](./docs/examples/cpqi-workflow.md)** - CPQI command examples
-
-## Typical Design Iteration Session
-
-### Step 1: Receive Art Direction
-
-Creative lead provides specs:
-- Primary color: `#3B82F6`
-- Background: `#FFFFFF`
-- Font: `Inter`
-- Spacing: 8px grid
-
-### Step 2: Update Design Tokens
-
-Modify `src/design-tokens/colors.scss`:
-
-```scss
-$color-primary: oklch(0.55 0.18 250); // Converted from #3B82F6
-$color-background: oklch(0.98 0.01 0); // Converted from #FFFFFF
-```
-
-### Step 3: Visual Inspection (Claude)
-
-Claude uses Playwright MCP to:
-- Navigate to Storybook stories
-- Screenshot components
-- Evaluate visual result
-
-### Step 4: Accessibility Validation (Claude)
-
-Claude uses the CPQI CLI to:
-- Calculate contrast ratios (WCAG)
-- Identify violations
-- Find compliant alternatives with `cpqi find`
-
-### Step 5: Iterate
-
-If issues found:
-- Claude uses `cpqi find` to fix color violations
-- Update design tokens
-- Repeat until satisfied
-
-### Step 6: Report Results
-
-Claude generates session report with:
-- Original specs vs. final tokens
-- Accessibility constraints identified
-- Screenshots as evidence
-- Recommendations for creative leads
-
-## Working with Claude
-
-### Example Commands
-
-**Validate colors:**
-```
-"Check if primary button meets APCA 60 for body text"
-```
-
-**Generate variants:**
-```
-"Give me 5 color variants that maintain APCA 75+ contrast"
-```
-
-**Fix violations:**
-```
-"Our focus indicator doesn't meet WCAG 3:1. Fix it."
-```
-
-**Screenshot components:**
-```
-"Screenshot all button states and show me the focus indicators"
-```
-
-## Design Tokens
-
-### Colors (OKLCH Format)
-
-We use OKLCH instead of hex/RGB because:
-- Perceptually uniform
-- Predictable lightness across hues
-- Works natively with the `cpqi` CLI for programmatic manipulation
-- Better for generating variants
-
-**Example:**
-```scss
-$color-primary: oklch(0.55 0.18 250);
-// L = 0.55 (lightness, 0-1)
-// C = 0.18 (chroma/saturation)
-// H = 250 (hue, degrees)
-```
-
-### Typography Scale
-
-Based on **Major Third (1.25 ratio)**:
-- `$font-size-md`: 1rem (16px) - base
-- `$font-size-lg`: 1.25rem (~20px)
-- `$font-size-xl`: 1.563rem (~25px)
-
-### Spacing Scale
-
-Based on **8px grid**:
-- `$spacing-xs`: 0.5rem (8px)
-- `$spacing-sm`: 1rem (16px)
-- `$spacing-md`: 1.5rem (24px)
-- `$spacing-lg`: 2rem (32px)
-
-## Running Tests
-
-### Visual Regression Tests
-
-```bash
-npm run test:playwright -- tests/visual-regression.spec.ts
-```
-
-Captures screenshots of components for visual comparison.
-
-### Accessibility Tests
-
-```bash
-npm run test:playwright -- tests/accessibility.spec.ts
-```
-
-Tests keyboard navigation, focus states, ARIA attributes.
-
-### Storybook Snapshots
-
-```bash
-npm run test:playwright -- tests/storybook-snapshots.spec.ts
-```
-
-Captures all Storybook stories automatically.
-
-### View Results
-
-```bash
-npx playwright show-report
-```
-
-## Playwright MCP Integration
-
-When Claude has Playwright MCP connected, Claude can:
-
-- **Navigate** to Storybook stories
-- **Screenshot** components in various states
-- **Test** keyboard navigation
-- **Verify** focus indicators
-- **Capture** responsive layouts
-
-See [PLAYWRIGHT-WORKFLOW.md](./docs/PLAYWRIGHT-WORKFLOW.md) for details.
-
-## CPQI CLI Integration
-
-With `cpqi` installed locally, Claude can:
-
-- **Check contrast** — `cpqi contrast <fg> <bg> -q`
-- **Convert hex to OKLCH** — `cpqi meta <hex>`
-- **Fix violations** — `cpqi find <base> <color> --target 4.5 -q`
-- **Generate tonal scales** — `cpqi variants <hex>`
-
-See [CPQI-INTEGRATION.md](./docs/CPQI-INTEGRATION.md) for setup and full command reference.
-
-## Tips for Success
-
-### 1. Start with Tokens
-Always modify design tokens first, never hard-code values in components.
-
-### 2. Use OKLCH for Colors
-OKLCH makes it easier for Claude to generate and manipulate colors programmatically.
-
-### 3. Document Constraints
-When Claude identifies accessibility constraints, document them for creative leads.
-
-### 4. Iterate in Small Steps
-Test one change at a time to understand its impact.
-
-### 5. Screenshot Everything
-Visual evidence helps communicate design decisions to stakeholders.
-
-## Troubleshooting
-
-### Storybook won't start
-
-```bash
-# Clear cache and reinstall
-rm -rf node_modules .storybook-cache
-npm install
-npm run storybook
-```
-
-### Components not showing in Storybook
-
-Check that `.stories.ts` files are in the correct location and properly exported.
-
-### Playwright tests failing
-
-Ensure Storybook is running on port 6006 before running tests, or let Playwright auto-start it.
-
-### Colors look different than expected
-
-1. Check browser support for OKLCH (Chrome 111+, Safari 15.4+)
-2. Add hex fallback for older browsers
-3. Verify in multiple browsers using Playwright
-
-## Tech Stack
-
-- **Angular 21** - Frontend framework (latest stable release)
-- **Storybook 10** - Component development environment (ESM-only)
-- **Playwright** - Testing and visual inspection
-- **TypeScript 5.9** - Type safety
-- **SCSS** - Styling with design tokens
-- **OKLCH** - Perceptually uniform color space
-- **CPQI CLI** - Color accessibility tools (local build)
-- **Playwright MCP** - Browser automation for Claude
-
-## Contributing
-
-This is a personal project for design iteration workflows. Feel free to fork and adapt to your needs.
+---
 
 ## License
 
 ISC
-
-## Resources
-
-- [Storybook Documentation](https://storybook.js.org/)
-- [Playwright Documentation](https://playwright.dev/)
-- [Angular Documentation](https://angular.dev/)
-- [OKLCH Color Space](https://oklch.com/)
-- [APCA Contrast](https://www.myndex.com/APCA/)
-- [WCAG Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
-- [CPQI CLI](https://github.com/pawn002/cpqi-cli)
-
-## Author
-
-J. Z. Rioflorido - Design Integrator specializing in bridging art direction and accessibility
-
-## Acknowledgments
-
-- Built for use with Claude Code and Anthropic's MCP ecosystem
-- Inspired by the need to rapidly iterate on accessible designs
-- Thanks to the design systems community for best practices
