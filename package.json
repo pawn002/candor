@@ -19,7 +19,8 @@
     "build:tokens": "node scripts/build-tokens.js",
     "release:patch": "npm version patch && git push origin main --follow-tags",
     "release:minor": "npm version minor && git push origin main --follow-tags",
-    "release:major": "npm version major && git push origin main --follow-tags"
+    "release:major": "npm version major && git push origin main --follow-tags",
+    "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
   },
   "repository": {
     "type": "git",
@@ -67,6 +68,7 @@
     "@storybook/addon-themes": "^10.3.1",
     "@storybook/angular": "^10.1.4",
     "@storybook/test-runner": "^0.24.2",
+    "chromatic": "^16.0.0",
     "storybook": "^10.1.4"
   }
 }
