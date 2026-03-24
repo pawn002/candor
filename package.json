@@ -1,8 +1,8 @@
 {
-  "name": "design-system-playground",
+  "name": "@candor-design/tokens",
   "version": "1.0.0",
-  "description": "Project you can use with an AI agent to quickly iterate on initial design ideas. Good for establishing initial typographies and identifying design constraints.",
-  "main": "index.js",
+  "description": "Candor design tokens — CSS custom properties for a humanist design system built with OKLCH.",
+  "files": ["tokens"],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -13,20 +13,21 @@
     "test-storybook": "test-storybook",
     "build-storybook": "ng run design-system-playground:build-storybook",
     "test:playwright": "playwright test",
-    "test:playwright:ui": "playwright test --ui"
+    "test:playwright:ui": "playwright test --ui",
+    "build:tokens": "node scripts/build-tokens.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pawn002/design-system-playground.git"
+    "url": "git+https://github.com/pawn002/candor.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "John Z. Rioflorido",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/pawn002/design-system-playground/issues"
+    "url": "https://github.com/pawn002/candor/issues"
   },
-  "homepage": "https://github.com/pawn002/design-system-playground#readme",
+  "homepage": "https://github.com/pawn002/candor#readme",
   "dependencies": {
     "@angular-devkit/build-angular": "^21.0.2",
     "@angular/animations": "^21.0.3",
