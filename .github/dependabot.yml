@@ -1,0 +1,24 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      angular:
+        patterns:
+          - "@angular/*"
+          - "@angular-devkit/*"
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook"
+          - "@chromatic-com/*"
+      fontsource:
+        patterns:
+          - "@fontsource/*"
+          - "@fontsource-variable/*"
+    ignore:
+      - dependency-name: "zone.js"
+        update-types: ["version-update:semver-major"]
