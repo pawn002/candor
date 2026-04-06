@@ -464,3 +464,10 @@ Detailed workflow documentation in `docs/`:
 - Node.js 20.16+, 22.19+, or 24+
 - Required for Storybook 10 ESM support
 - Check with `node --version`
+
+## Publishing
+
+- Package: `@candor-design/tokens`
+- npm publish triggered by version tags via GitHub Actions
+- Uses OIDC trusted publishing — no token required
+- **Before troubleshooting any CI/CD or publish failure, read `STACK.md` in the dev-notes repo first** — it documents the publish mechanism, known runner quirks, and auth approach
