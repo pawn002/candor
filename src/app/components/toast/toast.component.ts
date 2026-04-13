@@ -9,10 +9,10 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
   template: `
     <div [class]="'toast toast--' + variant()" [attr.role]="variant() === 'warning' || variant() === 'error' ? 'alert' : 'status'">
       @switch (variant()) {
-        @case ('info')    { <i class="ph ph-info ph-regular toast__icon" aria-hidden="true"></i> }
-        @case ('success') { <i class="ph ph-check-circle ph-regular toast__icon" aria-hidden="true"></i> }
-        @case ('warning') { <i class="ph ph-warning ph-regular toast__icon" aria-hidden="true"></i> }
-        @case ('error')   { <i class="ph ph-x-circle ph-regular toast__icon" aria-hidden="true"></i> }
+        @case ('info')    { <i class="ph ph-info toast__icon" aria-hidden="true"></i> }
+        @case ('success') { <i class="ph ph-check-circle toast__icon" aria-hidden="true"></i> }
+        @case ('warning') { <i class="ph ph-warning toast__icon" aria-hidden="true"></i> }
+        @case ('error')   { <i class="ph ph-x-circle toast__icon" aria-hidden="true"></i> }
       }
       <div class="toast__content">
         @if (heading()) {
@@ -22,7 +22,7 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
       </div>
       @if (dismissible()) {
         <button class="toast__dismiss" (click)="dismiss()" aria-label="Dismiss notification">
-          <i class="ph ph-x ph-bold" aria-hidden="true"></i>
+          <i class="ph-bold ph-x" aria-hidden="true"></i>
         </button>
       }
     </div>

@@ -406,7 +406,7 @@ Rules:
           align-items: center;
           gap: var(--spacing-xs);
         ">
-          <i class="ph ph-warning ph-regular" style="font-size: 1rem; color: var(--color-status-warning); line-height: 1; flex-shrink: 0;" aria-hidden="true"></i>
+          <i class="ph ph-warning" style="font-size: 1rem; color: var(--color-status-warning); line-height: 1; flex-shrink: 0;" aria-hidden="true"></i>
           <!-- role="status" — polite, does not interrupt -->
           <app-accessible-text role="status">3 responses flagged for review</app-accessible-text>
         </div>
@@ -421,7 +421,7 @@ Rules:
           align-items: center;
           gap: var(--spacing-xs);
         ">
-          <i class="ph ph-check-circle ph-regular" style="font-size: 1rem; color: var(--color-status-success); line-height: 1; flex-shrink: 0;" aria-hidden="true"></i>
+          <i class="ph ph-check-circle" style="font-size: 1rem; color: var(--color-status-success); line-height: 1; flex-shrink: 0;" aria-hidden="true"></i>
           <app-accessible-text role="status">All responses processed — no flags raised</app-accessible-text>
         </div>
 

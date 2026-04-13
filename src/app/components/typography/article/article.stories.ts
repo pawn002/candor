@@ -490,7 +490,7 @@ Hyperlegible — only the body prose switches to Noto Serif.
             align-items: center;
             gap: var(--spacing-xs);
           ">
-            <i class="ph ph-sparkle ph-regular" style="font-size: 1rem; color: var(--color-action-primary); line-height: 1;" aria-hidden="true"></i>
+            <i class="ph ph-sparkle" style="font-size: 1rem; color: var(--color-action-primary); line-height: 1;" aria-hidden="true"></i>
             <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-default);">AI Summary</span>
             <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-left: auto;">Generated · 2 min ago</span>
           </div>

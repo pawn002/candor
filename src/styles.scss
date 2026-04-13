@@ -3,7 +3,7 @@
 @use "./utilities/buttons";
 
 // Icons — Phosphor Icons (peer dependency for component consumers)
-// Weight convention: ph-bold for interactive controls, ph-regular for informational/status icons
+// Weight convention: ph-bold for interactive controls, ph (regular) for informational/status icons
 @import '@phosphor-icons/web/bold/style.css';
 @import '@phosphor-icons/web/regular/style.css';
 

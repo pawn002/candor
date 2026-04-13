@@ -1,0 +1,4 @@
+- group [ref=e7]:
+  - generic "What is OKLCH?" [ref=e8] [cursor=pointer]:
+    - generic [ref=e9]: What is OKLCH?
+    - img [ref=e10]
