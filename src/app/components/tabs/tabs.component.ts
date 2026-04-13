@@ -45,6 +45,10 @@ export class TabsComponent implements AfterContentInit {
   panels = contentChildren(TabPanelComponent);
 
   ariaLabel = input('');
+  // activeId accepts and emits string. If binding to a parent signal, type it as
+  // signal<string>('id') — not a union type like signal<'a'|'b'>('a'). Angular
+  // strict template checking will raise TS2345 if the parent signal is narrower
+  // than string, because the model emits string on change.
   activeId = model('');
   tabChange = output<string>();
 
