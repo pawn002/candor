@@ -3,12 +3,6 @@ name: Publish
 on:
   release:
     types: [published]
-  workflow_dispatch:
-    inputs:
-      dry_run:
-        description: 'Dry run (skip npm publish)'
-        type: boolean
-        default: false
 
 jobs:
   publish:
@@ -22,9 +16,7 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+      - run: npx npm@latest install -g npm
       - run: npm ci
       - run: npm run build:tokens
       - run: npm publish --access public --provenance
-        if: ${{ github.event.inputs.dry_run != 'true' }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
