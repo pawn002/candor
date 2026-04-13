@@ -15,7 +15,7 @@ export interface NavItem {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav [class]="'nav nav--' + orientation()" aria-label="Main navigation">
+    <nav [class]="'nav nav--' + orientation() + (theme() === 'inverse' ? ' nav--inverse' : '')" aria-label="Main navigation">
       @if (brand()) {
         <span class="nav__brand">{{ brand() }}</span>
       }
@@ -43,5 +43,6 @@ export interface NavItem {
 export class NavigationComponent {
   items = input<NavItem[]>([]);
   orientation = input<'horizontal' | 'vertical'>('horizontal');
+  theme = input<'default' | 'inverse'>('default');
   brand = input('');
 }

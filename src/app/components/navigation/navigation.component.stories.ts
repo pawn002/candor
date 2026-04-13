@@ -11,6 +11,11 @@ const meta: Meta<NavigationComponent> = {
       options: ['horizontal', 'vertical'],
       description: 'Navigation layout direction',
     },
+    theme: {
+      control: 'select',
+      options: ['default', 'inverse'],
+      description: 'default renders on a light surface; inverse renders on the dark inverse surface (--color-bg-inverse)',
+    },
     brand: {
       control: 'text',
       description: 'Brand/logo text',
@@ -61,6 +66,19 @@ export const Vertical: Story = {
   render: (args) => ({
     props: args,
     template: `<app-navigation [items]="items" [orientation]="orientation" [brand]="brand"></app-navigation>`,
+  }),
+};
+
+export const Inverse: Story = {
+  args: {
+    items: defaultItems,
+    orientation: 'horizontal',
+    theme: 'inverse',
+    brand: 'Candor',
+  },
+  render: (args) => ({
+    props: args,
+    template: `<app-navigation [items]="items" [orientation]="orientation" [theme]="theme" [brand]="brand"></app-navigation>`,
   }),
 };
 
