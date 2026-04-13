@@ -14,10 +14,18 @@ const meta: Meta<InputComponent> = {
       control: 'select',
       options: ['text', 'email', 'password', 'number'],
       type: { name: 'string' },
-      description: 'Input type',
+      description: 'Input type (ignored when multiline is true)',
     },
     required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
+    multiline: { control: 'boolean', type: { name: 'boolean' }, description: 'Render as <textarea> instead of <input>' },
+    rows: { control: 'number', type: { name: 'number' }, description: 'Visible row count (multiline only)' },
+    resize: {
+      control: 'select',
+      options: ['none', 'vertical', 'both'],
+      type: { name: 'string' },
+      description: 'CSS resize behaviour (multiline only)',
+    },
   },
 };
 
@@ -66,6 +74,35 @@ export const Password: Story = {
     type: 'password',
     placeholder: 'Enter password',
     hint: 'Must be at least 8 characters',
+  },
+};
+
+export const Multiline: Story = {
+  args: {
+    label: 'Description',
+    multiline: true,
+    rows: 4,
+    placeholder: 'Brief description...',
+    hint: 'Maximum 500 characters',
+  },
+};
+
+export const MultilineWithError: Story = {
+  args: {
+    label: 'Description',
+    multiline: true,
+    rows: 4,
+    error: 'Description is required',
+  },
+};
+
+export const MultilineResizeNone: Story = {
+  args: {
+    label: 'Notes',
+    multiline: true,
+    rows: 3,
+    resize: 'none',
+    placeholder: 'Fixed height — no resize handle',
   },
 };
 

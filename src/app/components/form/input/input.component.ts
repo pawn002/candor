@@ -24,6 +24,9 @@ export class InputComponent implements ControlValueAccessor {
   hint = input<string>();
   required = input(false);
   id = input<string>();
+  multiline = input(false);
+  rows = input(3);
+  resize = input<'none' | 'vertical' | 'both'>('vertical');
 
   // Mutable by ControlValueAccessor
   @Input() disabled = false;
@@ -53,7 +56,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   onInput(event: Event): void {
-    const target = event.target as HTMLInputElement;
+    const target = event.target as HTMLInputElement | HTMLTextAreaElement;
     this.value = target.value;
     this.onChange(this.value);
   }
