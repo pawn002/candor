@@ -10,7 +10,7 @@ const meta: Meta<AlertComponent> = {
       control: 'select',
       options: ['info', 'success', 'warning', 'error'],
     },
-    title: { control: 'text' },
+    heading: { control: 'text' },
     message: { control: 'text' },
     dismissible: { control: 'boolean' },
   },
@@ -29,7 +29,7 @@ export const Info: Story = {
 export const Success: Story = {
   args: {
     variant: 'success',
-    title: 'Changes saved',
+    heading: 'Changes saved',
     message: 'Your profile has been updated successfully.',
   },
 };
@@ -37,7 +37,7 @@ export const Success: Story = {
 export const Warning: Story = {
   args: {
     variant: 'warning',
-    title: 'Unsaved changes',
+    heading: 'Unsaved changes',
     message: 'You have unsaved changes that will be lost if you navigate away.',
   },
 };
@@ -45,7 +45,7 @@ export const Warning: Story = {
 export const Error: Story = {
   args: {
     variant: 'error',
-    title: 'Submission failed',
+    heading: 'Submission failed',
     message: 'There was a problem submitting your form. Please try again.',
   },
 };
@@ -53,7 +53,7 @@ export const Error: Story = {
 export const Dismissible: Story = {
   args: {
     variant: 'info',
-    title: 'New feature available',
+    heading: 'New feature available',
     message: 'You can now export your data as CSV from the settings page.',
     dismissible: true,
   },
@@ -64,9 +64,9 @@ export const AllVariants: Story = {
     template: `
       <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 560px;">
         <app-alert variant="info" message="This action cannot be undone. Review before continuing."></app-alert>
-        <app-alert variant="success" title="Payment received" message="Your invoice has been paid and a receipt has been sent."></app-alert>
-        <app-alert variant="warning" title="Storage limit approaching" message="You have used 90% of your allocated storage quota."></app-alert>
-        <app-alert variant="error" title="Authentication failed" message="Your session has expired. Please sign in again."></app-alert>
+        <app-alert variant="success" heading="Payment received" message="Your invoice has been paid and a receipt has been sent."></app-alert>
+        <app-alert variant="warning" heading="Storage limit approaching" message="You have used 90% of your allocated storage quota."></app-alert>
+        <app-alert variant="error" heading="Authentication failed" message="Your session has expired. Please sign in again."></app-alert>
       </div>
     `,
   }),

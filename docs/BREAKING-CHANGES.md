@@ -131,6 +131,34 @@ The conformance model distinguishes what the library guarantees from what the co
 
 ---
 
+## Migration notes
+
+### v2.0.0 (Phase 1)
+
+#### `title` input renamed to `heading` on AccordionItem, Alert, Modal, Toast
+
+**Before:**
+```html
+<app-accordion-item title="Section heading">...</app-accordion-item>
+<app-alert title="Changes saved" message="..."></app-alert>
+<app-modal [title]="dialogTitle" ...></app-modal>
+<app-toast title="Success" message="..."></app-toast>
+```
+
+**After:**
+```html
+<app-accordion-item heading="Section heading">...</app-accordion-item>
+<app-alert heading="Changes saved" message="..."></app-alert>
+<app-modal [heading]="dialogTitle" ...></app-modal>
+<app-toast heading="Success" message="..."></app-toast>
+```
+
+**Why:** Angular reflects unrecognised attribute bindings onto the host element. An input named `title` caused the browser's native tooltip to appear on hover, echoing the component's heading text — a spurious UX behaviour reported by multiple downstream projects.
+
+**Migration:** Find and replace `[title]=` with `[heading]=` and `title="` with `heading="` on `app-accordion-item`, `app-alert`, `app-modal`, and `app-toast` elements. Note: only replace the Angular input binding, not the Storybook `meta.title` field or unrelated HTML `title` attributes.
+
+---
+
 ## Changelog format
 
 `CHANGELOG.md` follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) with semantic versioning.

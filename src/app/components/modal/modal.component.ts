@@ -30,7 +30,7 @@ export type ModalSize = 'sm' | 'md' | 'lg';
         <!-- role="none" suppresses the implicit banner landmark Chrome assigns to <header>
              inside <dialog> (spec only strips it for article/aside/main/nav/section) -->
         <header class="modal__header" role="none">
-          <h2 class="modal__title" [id]="titleId">{{ title() }}</h2>
+          <h2 class="modal__title" [id]="titleId">{{ heading() }}</h2>
           <button class="modal__close" type="button" aria-label="Close" (click)="close()">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -52,7 +52,7 @@ export type ModalSize = 'sm' | 'md' | 'lg';
 })
 export class ModalComponent {
   open = input(false);
-  title = input('');
+  heading = input('');
   size = input<ModalSize>('md');
 
   closed = output<void>();
