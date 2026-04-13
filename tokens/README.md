@@ -1,5 +1,11 @@
 # Candor Design Tokens
 
+**This package ships design tokens only — CSS custom properties, a JSON map, and nothing else.**
+It does not include component markup, component JavaScript, icon assets, or font files.
+See the [Candor Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) for component documentation and usage examples.
+
+---
+
 Auto-generated distribution artifacts. Do not edit these files directly — run `npm run build:tokens` to regenerate from source (`src/design-tokens/`).
 
 ## Files
@@ -34,6 +40,43 @@ All tokens are then available as CSS custom properties:
 ```css
 @import url("candor-tokens.css");
 ```
+
+### Peer dependencies — fonts and icons
+
+The tokens reference several font families that must be installed separately. Candor uses
+[Fontsource](https://fontsource.org/) self-hosted packages — no Google Fonts CDN link needed:
+
+```bash
+npm install @fontsource-variable/roboto-flex @fontsource-variable/roboto-mono \
+            @fontsource-variable/noto-sans @fontsource-variable/noto-serif \
+            @fontsource/atkinson-hyperlegible
+```
+
+Then import the font CSS in your global stylesheet (once, at the root level):
+
+```css
+@import '@fontsource-variable/roboto-flex';
+@import '@fontsource-variable/roboto-mono';
+@import '@fontsource-variable/noto-sans';
+@import '@fontsource-variable/noto-serif';
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+```
+
+For icon support (used by Candor components), install Phosphor Icons:
+
+```bash
+npm install @phosphor-icons/web
+```
+
+```css
+@import '@phosphor-icons/web/bold/style.css';
+@import '@phosphor-icons/web/regular/style.css';
+```
+
+> **Font name note:** The Fontsource variable packages register the font as `'Roboto Flex Variable'`
+> (with the word "Variable" appended). The `--font-family-base` token lists both names —
+> `'Roboto Flex Variable', 'Roboto Flex'` — so the stack resolves correctly in all environments.
 
 ### Dark mode
 
