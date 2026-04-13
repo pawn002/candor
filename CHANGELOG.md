@@ -34,6 +34,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Card:** Removed `overflow: hidden` from `.card` — was clipping sticky children (`<thead>`, sticky toolbar, sticky alert bar inside a card). Border-radius renders correctly without it in modern browsers (#48)
 - **Tokens:** Clarified `--color-toast-message` dark-mode comment — the intentional subtle dimming on dark backgrounds is documented inline to prevent silent substitution with `--color-text-default` (#48)
 
+- **Tokens:** Color re-audit (#14) — full OKCA validation against the OKCA Contrast Guidance scale (4.5 required at 16px; 9.5 regular / 6.5 bold at 14px). 7 failing pairs corrected:
+  - `--color-text-subtle` light: L=0.56 → L=0.50 (OKCA 3.4 → 4.6)
+  - `--color-text-subtle-on-surface` light: L=0.46 → L=0.44 (OKCA 4.1 → 4.6 on gray-100)
+  - `--color-link` light: azure-500 L=0.53 → L=0.49 (OKCA 3.8 → 4.6)
+  - `--color-highlight` light: L=0.50 → L=0.43 (OKCA 3.3 → 4.8 on bg-surface; 4.6 → 6.5 on white)
+  - `--color-status-success-text` light: L=0.50 → L=0.46 (OKCA 3.8 → 4.7 on success-bg)
+  - `--color-action-destructive-text/border` dark: L=0.72 → L=0.74 (OKCA 4.1 → 4.6)
+  - `--color-status-error-text` dark: L=0.77 → L=0.79 (OKCA 4.3 → 5.2 on error-bg)
+  All annotation comments updated to reflect measured OKCA scores rather than WCAG ratios. 14 other pairs confirmed passing. 14px token usage constraint documented in plan.
+
 ### Documentation
 
 - **Card:** Component-level prose covering three integration patterns: light-mode surface layering (shadow required, colour alone insufficient), slot style encapsulation (wrapper-div approach), and `ViewEncapsulation.None` `:host` → host-class substitution (#48)
