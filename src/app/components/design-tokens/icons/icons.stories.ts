@@ -29,24 +29,31 @@ typeface choices (Roboto Flex, Noto Serif, Atkinson Hyperlegible).
 npm install @phosphor-icons/web
 \`\`\`
 
-Import the CSS weights you need in your global stylesheet:
+Import the three weights in your global stylesheet:
 
 \`\`\`css
-@import '@phosphor-icons/web/bold/style.css';   /* interactive controls */
-@import '@phosphor-icons/web/regular/style.css'; /* informational / status */
+@import '@phosphor-icons/web/bold/style.css';
+@import '@phosphor-icons/web/fill/style.css';
+@import '@phosphor-icons/web/regular/style.css';
 \`\`\`
+
+> **Import order matters.** Each weight sets \`font-family: !important\` on its base class.
+> Never put two weight classes on the same element — the last-imported stylesheet wins
+> and the other is silently ignored.
 
 ## Usage
 
-Icons are CSS font-based. Each weight has its own base class — **do not combine weight classes
-on the same element** (the \`font-family: !important\` declarations conflict):
+Each weight has its own base class. Use one base class per icon element:
 
 \`\`\`html
-<!-- Regular — ph is the base class for the regular weight -->
-<i class="ph ph-bell" aria-hidden="true"></i>
+<!-- Fill — action icon -->
+<i class="ph-fill ph-x" aria-hidden="true"></i>
 
-<!-- Bold — ph-bold is the base class for the bold weight -->
-<i class="ph-bold ph-bell" aria-hidden="true"></i>
+<!-- Bold — directional affordance -->
+<i class="ph-bold ph-caret-down" aria-hidden="true"></i>
+
+<!-- Regular — informational -->
+<i class="ph ph-info" aria-hidden="true"></i>
 \`\`\`
 
 > **There is no \`ph-regular\` class.** The regular weight's base class is simply \`ph\`.
@@ -54,24 +61,21 @@ on the same element** (the \`font-family: !important\` declarations conflict):
 Always add \`aria-hidden="true"\` to decorative icons. For icons that carry meaning
 without adjacent text, add a visually-hidden \`<span class="sr-only">\` label instead.
 
-## Weight convention
+## Three-tier weight convention
 
-| Weight | Base class | Icon class | When to use |
+| Weight | Base class | When to use | Why |
 |---|---|---|---|
-| **Bold** | \`ph-bold\` | \`ph-bell\` → \`<i class="ph-bold ph-bell">\` | Interactive controls — buttons, toggle affordances, navigation triggers |
-| **Regular** | \`ph\` | \`ph-bell\` → \`<i class="ph ph-bell">\` | Informational and status — alerts, badges, metadata, decorative |
-
-The rule mirrors the typographic weight convention: bold carries **action intent**, regular
-carries **informational content**. An icon on a button that does something is bold; an icon
-that tells you something is regular.
+| **Fill** | \`ph-fill\` | Action icons — close, dismiss, add, search, download | Solid forms read as "tappable objects" — the fill signals intent to act |
+| **Bold** | \`ph-bold\` | Directional affordances — carets, chevrons, arrows | Bold outline is enough for directional cues; fill would over-weight a subtle hint |
+| **Regular** | \`ph\` | Informational / status — alerts, badges, metadata, decorative | Lighter weight recedes; the adjacent text or color carries the meaning |
 
 ## Sizing
 
-Icons inherit \`font-size\` from their container. Set size explicitly with inline style or
-a utility class. Always pair with \`line-height: 1\` to prevent baseline shift:
+Icons inherit \`font-size\` from their container. Set size explicitly and always pair
+with \`line-height: 1\` to prevent baseline shift:
 
 \`\`\`html
-<i class="ph-bold ph-bell" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
+<i class="ph-fill ph-x" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
 \`\`\`
 
 ## Full icon reference
@@ -86,13 +90,13 @@ a utility class. Always pair with \`line-height: 1\` to prevent baseline shift:
 export default meta;
 type Story = StoryObj<IconsShowcaseComponent>;
 
-// ── Weight comparison ──────────────────────────────────────────────────────────
+// ── Three-tier weight comparison ───────────────────────────────────────────────
 
 export const WeightComparison: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Same icon at Bold (interactive) and Regular (informational) weight side by side. Bold icons have visibly heavier strokes.',
+        story: 'The same icon at all three weights. Fill reads as an object to press; bold reads as a directional hint; regular recedes into context.',
       },
     },
   },
@@ -102,51 +106,66 @@ export const WeightComparison: Story = {
 
         <div style="display: flex; gap: var(--spacing-2xl); align-items: flex-start;">
 
-          <!-- Bold — interactive: base class ph-bold, NO ph -->
+          <!-- Fill — action icons -->
           <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); align-items: center;">
             <p style="
-              font-family: var(--font-family-base);
-              font-size: var(--font-size-sm);
-              font-weight: var(--font-weight-semibold);
-              text-transform: uppercase;
-              letter-spacing: var(--letter-spacing-wide);
-              color: var(--color-text-subtle);
-              margin: 0;
-            ">ph-bold — interactive</p>
+              font-family: var(--font-family-base); font-size: var(--font-size-sm);
+              font-weight: var(--font-weight-semibold); text-transform: uppercase;
+              letter-spacing: var(--letter-spacing-wide); color: var(--color-text-subtle); margin: 0;
+            ">ph-fill — action</p>
             <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; justify-content: center;">
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-bold ph-bell" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
+                <i class="ph-fill ph-x" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
+                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-x</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
+                <i class="ph-fill ph-plus" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
+                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-plus</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
+                <i class="ph-fill ph-magnifying-glass" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
+                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-magnifying-glass</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
+                <i class="ph-fill ph-bell" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
                 <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-bell</span>
               </div>
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-bold ph-x" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-x</span>
+                <i class="ph-fill ph-download-simple" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
+                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-download-simple</span>
               </div>
+            </div>
+          </div>
+
+          <!-- Bold — directional affordances -->
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); align-items: center;">
+            <p style="
+              font-family: var(--font-family-base); font-size: var(--font-size-sm);
+              font-weight: var(--font-weight-semibold); text-transform: uppercase;
+              letter-spacing: var(--letter-spacing-wide); color: var(--color-text-subtle); margin: 0;
+            ">ph-bold — directional</p>
+            <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; justify-content: center;">
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
                 <i class="ph-bold ph-caret-down" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
                 <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-caret-down</span>
               </div>
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-bold ph-plus" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-plus</span>
+                <i class="ph-bold ph-caret-right" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
+                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-caret-right</span>
               </div>
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-bold ph-magnifying-glass" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-magnifying-glass</span>
+                <i class="ph-bold ph-arrow-left" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
+                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-arrow-left</span>
               </div>
             </div>
           </div>
 
-          <!-- Regular — informational: base class ph, NO ph-bold -->
+          <!-- Regular — informational -->
           <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); align-items: center;">
             <p style="
-              font-family: var(--font-family-base);
-              font-size: var(--font-size-sm);
-              font-weight: var(--font-weight-semibold);
-              text-transform: uppercase;
-              letter-spacing: var(--letter-spacing-wide);
-              color: var(--color-text-subtle);
-              margin: 0;
+              font-family: var(--font-family-base); font-size: var(--font-size-sm);
+              font-weight: var(--font-weight-semibold); text-transform: uppercase;
+              letter-spacing: var(--letter-spacing-wide); color: var(--color-text-subtle); margin: 0;
             ">ph — regular (informational)</p>
             <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; justify-content: center;">
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
@@ -185,10 +204,11 @@ export const InContext: Story = {
     docs: {
       description: {
         story: `
-Icons in realistic UI contexts. Bold on button controls, regular on status and metadata.
+Icons in realistic UI contexts demonstrating all three tiers.
 
-The dismiss button on a toast uses \`ph-bold ph-x\` (it's a control); the status icon
-inside the toast uses \`ph ph-check-circle\` (it's informational).
+- **Buttons** use fill — solid forms signal action intent
+- **Accordion / dropdown carets** use bold — a directional hint, not an action object
+- **Toast status icons** use regular — informational content, the colour carries the meaning
         `.trim(),
       },
     },
@@ -197,7 +217,7 @@ inside the toast uses \`ph ph-check-circle\` (it's informational).
     template: `
       <div style="display: flex; flex-direction: column; gap: var(--spacing-md); max-width: 480px;">
 
-        <!-- Button with bold icon — action intent -->
+        <!-- Buttons: fill icons -->
         <div style="display: flex; gap: var(--spacing-sm);">
           <button style="
             display: inline-flex; align-items: center; gap: 0.5rem;
@@ -207,7 +227,7 @@ inside the toast uses \`ph ph-check-circle\` (it's informational).
             font-family: var(--font-family-base); font-size: var(--font-size-md);
             font-weight: var(--font-weight-medium); cursor: pointer;
           ">
-            <i class="ph-bold ph-plus" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
+            <i class="ph-fill ph-plus" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
             Add item
           </button>
           <button style="
@@ -219,28 +239,28 @@ inside the toast uses \`ph ph-check-circle\` (it's informational).
             font-family: var(--font-family-base); font-size: var(--font-size-md);
             font-weight: var(--font-weight-medium); cursor: pointer;
           ">
-            <i class="ph-bold ph-magnifying-glass" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
+            <i class="ph-fill ph-magnifying-glass" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
             Search
           </button>
         </div>
 
-        <!-- Toast — regular status icon (ph), bold dismiss (ph-bold) -->
+        <!-- Toast: regular status icon, fill dismiss button -->
         <div style="
           display: flex; align-items: flex-start; gap: var(--spacing-sm);
           background: var(--color-status-success-bg);
           border: var(--border-width-thin) solid var(--color-status-success);
           border-radius: var(--radius-md); padding: var(--spacing-sm);
         ">
-          <!-- informational — base class ph (regular) -->
+          <!-- informational status icon — regular (ph) -->
           <i class="ph ph-check-circle" style="font-size: 1.25rem; line-height: 1; color: var(--color-status-success); flex-shrink: 0;" aria-hidden="true"></i>
           <span style="flex: 1; font-family: var(--font-family-base); font-size: var(--font-size-md);">Changes saved successfully.</span>
-          <!-- interactive dismiss — base class ph-bold -->
+          <!-- dismiss action — fill (ph-fill) -->
           <button style="background: none; border: none; cursor: pointer; padding: 0; display: flex; color: var(--color-text-subtle);" aria-label="Dismiss">
-            <i class="ph-bold ph-x" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
+            <i class="ph-fill ph-x" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
           </button>
         </div>
 
-        <!-- Nav item — bold caret (interactive toggle affordance) -->
+        <!-- Accordion-style row: bold caret (directional) -->
         <div style="
           display: flex; align-items: center; justify-content: space-between;
           padding: var(--spacing-xs) var(--spacing-sm);
@@ -249,11 +269,11 @@ inside the toast uses \`ph ph-check-circle\` (it's informational).
           border-radius: var(--radius-md); cursor: pointer;
         ">
           <span style="font-family: var(--font-family-base); font-size: var(--font-size-md);">Settings</span>
-          <!-- toggle affordance — ph-bold -->
+          <!-- directional affordance — bold (ph-bold) -->
           <i class="ph-bold ph-caret-down" style="font-size: 1rem; line-height: 1; color: var(--color-text-subtle);" aria-hidden="true"></i>
         </div>
 
-        <!-- Metadata strip — regular icons (informational) -->
+        <!-- Metadata strip: regular icons (informational) -->
         <div style="
           display: flex; gap: var(--spacing-md); align-items: center;
           padding: var(--spacing-xs) 0;
@@ -308,12 +328,11 @@ Correct accessibility patterns for icon usage.
             font-family: var(--font-family-base); font-size: var(--font-size-md);
             font-weight: var(--font-weight-medium); cursor: pointer;
           ">
-            <!-- aria-hidden — the button text "Download" is the accessible name -->
-            <i class="ph-bold ph-download-simple" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
+            <i class="ph-fill ph-download-simple" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
             Download
           </button>
           <pre style="font-family: var(--font-family-mono); font-size: 0.75rem; background: var(--color-bg-surface); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0;">&lt;button&gt;
-  &lt;i class="ph-bold ph-download-simple" aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;i class="ph-fill ph-download-simple" aria-hidden="true"&gt;&lt;/i&gt;
   Download
 &lt;/button&gt;</pre>
         </div>
@@ -328,11 +347,11 @@ Correct accessibility patterns for icon usage.
             border: var(--border-width-thin) solid var(--color-border-subtle);
             border-radius: var(--radius-md); cursor: pointer;
           ">
-            <i class="ph-bold ph-bell" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
+            <i class="ph-fill ph-bell" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
             <span style="position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%); white-space: nowrap;">Notifications</span>
           </button>
           <pre style="font-family: var(--font-family-mono); font-size: 0.75rem; background: var(--color-bg-surface); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0;">&lt;button&gt;
-  &lt;i class="ph-bold ph-bell" aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;i class="ph-fill ph-bell" aria-hidden="true"&gt;&lt;/i&gt;
   &lt;span class="sr-only"&gt;Notifications&lt;/span&gt;
 &lt;/button&gt;</pre>
         </div>

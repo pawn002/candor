@@ -22,7 +22,7 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
       </div>
       @if (dismissible()) {
         <button class="toast__dismiss" (click)="dismiss()" aria-label="Dismiss notification">
-          <i class="ph-bold ph-x" aria-hidden="true"></i>
+          <i class="ph-fill ph-x" aria-hidden="true"></i>
         </button>
       }
     </div>

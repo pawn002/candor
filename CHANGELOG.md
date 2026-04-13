@@ -20,7 +20,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- **Icons:** Adopted Phosphor Icons (`@phosphor-icons/web`) as the design system's icon vocabulary. Load `bold` and regular` weights. Convention: `ph-bold` for interactive controls (chevrons, close, dismiss, carets), `ph` (regular — there is no `ph-regular` class) for informational/status icons.
+- **Icons:** Adopted Phosphor Icons (`@phosphor-icons/web`) as the design system's icon vocabulary. Three-tier weight convention: `ph-fill` for action icons (close, dismiss, add, search — solid forms read as tappable), `ph-bold` for directional affordances (carets, chevrons), `ph` (regular — there is no `ph-regular` class) for informational/status icons.
 - **Accordion, Modal, Toast:** Migrated inline SVG icons to Phosphor — chevron, close ×, status icons, and dismiss ×.
 - **Button:** Added `.btn`, `.btn-sm`, `.btn-lg`, `.btn-primary`, `.btn-secondary`, `.btn-tertiary`, `.btn-ghost`, `.btn-destructive` global CSS utility classes for consumers using native `<button>` or `<a>` elements (#75)
 - **Input:** Added `multiline`, `rows`, and `resize` inputs. When `multiline` is `true`, renders `<textarea>` with identical styling to `<input>` (#53)
