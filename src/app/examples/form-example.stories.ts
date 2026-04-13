@@ -2,6 +2,7 @@ import { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
 import { InputComponent } from "../components/form/input/input.component";
 import { CheckboxComponent } from "../components/form/checkbox/checkbox.component";
+import { RadioComponent } from "../components/form/radio/radio.component";
 import { ButtonComponent } from "../components/button/button.component";
 import { HeadingComponent } from "../components/typography/heading/heading.component";
 import { TextComponent } from "../components/typography/text/text.component";
@@ -16,6 +17,7 @@ const meta: Meta = {
       imports: [
         InputComponent,
         CheckboxComponent,
+        RadioComponent,
         ButtonComponent,
         HeadingComponent,
         TextComponent,
@@ -66,16 +68,12 @@ export const ContactForm: Story = {
             [required]="true">
           </app-input>
 
-          <div>
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
-              Message
-            </label>
-            <textarea
-              rows="5"
-              placeholder="Tell us more about your inquiry..."
-              style="width: 100%; padding: 0.75rem; border: 2px solid var(--color-border-default); border-radius: 4px; font-family: inherit;">
-            </textarea>
-          </div>
+          <app-input
+            [label]="'Message'"
+            [multiline]="true"
+            [rows]="5"
+            [placeholder]="'Tell us more about your inquiry...'">
+          </app-input>
 
           <app-checkbox
             [label]="'I agree to the terms and conditions'"
@@ -204,22 +202,22 @@ export const RegistrationForm: Story = {
             </app-input>
           </div>
 
-          <div>
-            <label style="display: block; margin-bottom: 0.75rem; font-weight: 700; font-family: var(--font-family-accessible); letter-spacing: 0.02em;">
-              Account Type
-            </label>
+          <fieldset style="border: none; padding: 0; margin: 0;">
+            <legend style="font-family: var(--font-family-accessible); font-weight: var(--font-weight-bold); letter-spacing: 0.02em; color: var(--color-text-default); margin-bottom: 0.75rem;">Account Type</legend>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <app-checkbox
+              <app-radio
                 [label]="'Personal Account'"
                 [name]="'accountType'"
+                [value]="'personal'"
                 [checked]="true">
-              </app-checkbox>
-              <app-checkbox
+              </app-radio>
+              <app-radio
                 [label]="'Business Account'"
-                [name]="'accountType'">
-              </app-checkbox>
+                [name]="'accountType'"
+                [value]="'business'">
+              </app-radio>
             </div>
-          </div>
+          </fieldset>
 
           <app-checkbox
             [label]="'I agree to the Terms of Service and Privacy Policy'"

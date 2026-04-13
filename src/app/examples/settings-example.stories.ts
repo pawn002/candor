@@ -266,7 +266,7 @@ export const DeleteConfirmation: Story = {
           Trigger context: user clicks "Delete account" in advanced settings.
         </app-text>
 
-        <app-modal [open]="true" title="Delete account" size="sm">
+        <app-modal [open]="true" heading="Delete account" size="sm">
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             <app-text [variant]="'body'">
               This will permanently delete your account and all associated data — projects, settings, billing history, and team memberships. This action cannot be undone.
