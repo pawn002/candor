@@ -10,6 +10,20 @@ A humanist design system built with OKLCH colors, variable-font typography, and 
 npm install @candor-design/tokens
 ```
 
+### Fonts
+
+Candor uses [Roboto Flex](https://fonts.google.com/specimen/Roboto+Flex) as its UI typeface. The easiest way to load it is via Fontsource:
+
+```bash
+npm install @fontsource-variable/roboto-flex
+```
+
+```css
+@import '@fontsource-variable/roboto-flex/index.css';
+```
+
+> **Note:** `@fontsource-variable/roboto-flex` registers the font as `'Roboto Flex Variable'`. Candor's `--font-sans` token lists this name first so it resolves correctly. If you load the font another way (Google Fonts CDN, self-hosted), ensure the font-face name matches or override `--font-sans` accordingly.
+
 ## Usage
 
 ### CSS (recommended)
