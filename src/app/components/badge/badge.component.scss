@@ -9,7 +9,7 @@
   border-radius: var(--radius-full);
   font-family: var(--font-family-accessible);
   letter-spacing: 0.06em;
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold); // Atkinson only has 400/700 — semibold silently falls back to 400
   white-space: nowrap;
   line-height: var(--line-height-tight);
 

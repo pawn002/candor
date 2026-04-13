@@ -8,6 +8,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   styleUrls: ['./accordion-item.component.scss'],
 })
 export class AccordionItemComponent {
-  title = input('');
+  heading = input('');
   open = input(false);
 }

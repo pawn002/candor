@@ -35,8 +35,8 @@ type AlertVariant = 'info' | 'success' | 'warning' | 'error';
         }
       </svg>
       <div class="alert__content">
-        @if (title()) {
-          <div class="alert__title">{{ title() }}</div>
+        @if (heading()) {
+          <div class="alert__title">{{ heading() }}</div>
         }
         <div class="alert__message">
           <ng-content>{{ message() }}</ng-content>
@@ -56,7 +56,7 @@ type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 })
 export class AlertComponent {
   variant = input<AlertVariant>('info');
-  title = input('');
+  heading = input('');
   message = input('');
   dismissible = input(false);
 
