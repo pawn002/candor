@@ -89,6 +89,33 @@ Candor components are building blocks. Several accessibility requirements are ar
 
 ## Known limitations
 
+### `:visited` link state — color-only distinction (WCAG 1.4.1)
+
+**Criterion:** 1.4.1 Use of Color (Level A)
+**Status:** Partial — platform-limited
+
+Article links display a hue shift from azure (unvisited) to purple (visited). This is color-only
+differentiation. Browsers deliberately prevent non-color CSS properties (font-weight, text-decoration-style,
+background-image, etc.) from applying inside `:visited` rules to block timing-based side-channel attacks
+that would allow a page to infer a user's navigation history. The restriction is enforced silently:
+the CSS parses without error but the properties have no effect.
+
+**What the system does provide:**
+- Both colors independently pass contrast against their backgrounds (light and dark)
+- The azure/purple pair differs primarily in the blue-violet axis, which is preserved under
+  deuteranopia and protanopia (the two most common forms of color vision deficiency)
+- Underline already provides non-color differentiation for link-vs-text (1.4.1 is satisfied for that distinction)
+
+**For consumers who require non-color `:visited` differentiation:**
+Implement a JS-assisted pattern: intercept link clicks, store visited URLs in `localStorage`, and
+apply a CSS class (e.g. `.is-visited`) on page load. A class selector is not restricted by the
+browser privacy rule, so full CSS — `text-decoration-style: double`, appended icon, font-weight
+change — is available.
+
+**Affected component:** Article (`app-article`) links only. No other component exposes `:visited` state.
+
+---
+
 ### OKLCH browser support
 
 OKLCH color values are not supported in all browsers. The design system currently targets modern Chromium-based browsers and Firefox 113+. Safari 15.4+. Older Chromium versions (pre-111), Samsung Internet, and IE do not support OKLCH. Hex fallback tokens are not yet provided. See roadmap.

@@ -39,6 +39,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Card:** Component-level prose covering three integration patterns: light-mode surface layering (shadow required, colour alone insufficient), slot style encapsulation (wrapper-div approach), and `ViewEncapsulation.None` `:host` → host-class substitution (#48)
 - **Card:** Added `SlotEncapsulation` story demonstrating the correct wrapper-div pattern for styling projected content (#48)
 - **AccordionItem:** Added `HierarchyVariants` story showing all three variant levels in a realistic nested accordion context (#48)
+- **Article:** Documented `:visited` link color-only limitation in `WithLinks` story and `ACCESSIBILITY-CONFORMANCE.md`. Browsers silently discard non-color CSS in `:visited` rules to prevent navigation-history side-channel attacks — color-only `:visited` differentiation is unavoidable in native CSS. Both azure/purple colors pass contrast independently; the hue shift is preserved under deuteranopia and protanopia. JS-localStorage pattern noted for consumers who require non-color differentiation (#19)
 
 ---
 

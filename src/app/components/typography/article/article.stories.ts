@@ -217,6 +217,38 @@ export const SansWithCode: Story = {
 };
 
 export const WithLinks: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**Link accessibility — what the system guarantees and what it cannot**
+
+Links satisfy WCAG 1.4.1 (Use of Color) for the link-vs-surrounding-text distinction:
+underline provides the non-color cue regardless of whether the reader distinguishes azure from body text.
+
+**\`:visited\` state is color-only** — and this is a deliberate browser restriction, not a design gap.
+Browsers silently discard all non-color CSS properties in \`:visited\` rules (font-weight,
+text-decoration-style, etc.) to prevent timing-based side-channel attacks that would let a page
+infer which URLs the user has visited. There is no CSS-only workaround.
+
+The system uses an **azure → purple hue shift** for the visited state:
+- Light mode: \`--azure-500\` (OKCA 3.8 on white) → \`--purple-700\` (OKCA 5.4 on white)
+- Dark mode: \`--azure-300\` (OKCA 5.8 on dark page) → \`--purple-300\` (OKCA 6.0 on dark page)
+
+Both colors pass independently. The azure/purple pair differs primarily in the blue-violet axis,
+which is preserved under deuteranopia and protanopia (red-green CVD). Tritanopia affects blue
+discrimination but is rare (~0.003% prevalence).
+
+**Consumers who require non-color \`:visited\` differentiation** can implement a JS-assisted pattern:
+intercept link clicks, store visited URLs in \`localStorage\`, and add a class (e.g. \`.is-visited\`)
+on page load. Full CSS is available on a class selector — including \`text-decoration-style: double\`,
+icon injection, or font-weight changes.
+
+This limitation is documented in \`docs/ACCESSIBILITY-CONFORMANCE.md\`.
+        `.trim(),
+      },
+    },
+  },
   args: { font: 'reading' },
   render: (args) => ({
     props: args,
