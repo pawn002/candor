@@ -1,6 +1,11 @@
 /* Global styles */
 @use "./design-tokens";
 
+// Icons — Phosphor Icons (peer dependency for component consumers)
+// Weight convention: ph-bold for interactive controls, ph-regular for informational/status icons
+@import '@phosphor-icons/web/bold/style.css';
+@import '@phosphor-icons/web/regular/style.css';
+
 // Typography — Fontsource self-hosted fonts (variable where available)
 @import '@fontsource-variable/roboto-flex';
 @import '@fontsource-variable/roboto-mono';
