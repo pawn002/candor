@@ -55,12 +55,12 @@ export const FilterableTable: Story = {
             <app-heading [level]="1" style="margin-bottom: 0.25rem;">Submissions</app-heading>
             <app-text variant="body" style="color: var(--color-text-subtle);">247 results · Page 3 of 25</app-text>
           </div>
-          <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div style="display: flex; align-items: flex-end; gap: 0.75rem;">
             <app-input
               placeholder="Search submissions..."
               style="width: 220px;">
             </app-input>
-            <div style="position: relative; display: inline-flex; align-items: center;">
+            <div style="position: relative; display: inline-flex; align-items: center; margin-bottom: 1px;">
               <app-button variant="secondary" (clicked)="drawerOpen = true">
                 <i class="ph ph-funnel" aria-hidden="true" style="margin-right: 0.4em;"></i>
                 Filters
