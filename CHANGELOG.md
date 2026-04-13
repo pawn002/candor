@@ -17,6 +17,27 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased] — Phase 5
+
+### Added
+
+- **Tokens:** `--spacing-2xs: 0.25rem` (4px) — compact UI contexts: table cells in compact mode, icon nudges, tone-picker cell padding (#48)
+- **Tokens:** `--hit-target-aaa: 2.75rem` (44px) and `--hit-target-aa: 1.375rem` (22px) — WCAG 2.5.5 AAA/AA touch target size tokens, under a new `Interaction` section alongside focus-ring tokens (#48)
+- **AccordionItem:** `variant` input (`'default' | 'subtle' | 'quiet'`) — expresses heading hierarchy in nested accordion groups. `subtle`: regular weight, subtle colour; `quiet`: regular weight, `--font-size-sm`, subtle colour (#48)
+
+### Fixed
+
+- **Card:** Removed `overflow: hidden` from `.card` — was clipping sticky children (`<thead>`, sticky toolbar, sticky alert bar inside a card). Border-radius renders correctly without it in modern browsers (#48)
+- **Tokens:** Clarified `--color-toast-message` dark-mode comment — the intentional subtle dimming on dark backgrounds is documented inline to prevent silent substitution with `--color-text-default` (#48)
+
+### Documentation
+
+- **Card:** Component-level prose covering three integration patterns: light-mode surface layering (shadow required, colour alone insufficient), slot style encapsulation (wrapper-div approach), and `ViewEncapsulation.None` `:host` → host-class substitution (#48)
+- **Card:** Added `SlotEncapsulation` story demonstrating the correct wrapper-div pattern for styling projected content (#48)
+- **AccordionItem:** Added `HierarchyVariants` story showing all three variant levels in a realistic nested accordion context (#48)
+
+---
+
 ## [Unreleased] — Phase 3
 
 ### Documentation
