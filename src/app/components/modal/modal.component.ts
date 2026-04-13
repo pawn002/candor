@@ -8,13 +8,14 @@ import {
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { ButtonComponent } from '../button/button.component';
 export type ModalSize = 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [ButtonComponent],
   encapsulation: ViewEncapsulation.None,
   template: `
     <dialog
@@ -31,9 +32,9 @@ export type ModalSize = 'sm' | 'md' | 'lg';
              inside <dialog> (spec only strips it for article/aside/main/nav/section) -->
         <header class="modal__header" role="none">
           <h2 class="modal__title" [id]="titleId">{{ heading() }}</h2>
-          <button class="modal__close" type="button" aria-label="Close" (click)="close()">
+          <app-button variant="ghost" size="small" ariaLabel="Close" (clicked)="close()">
             <i class="ph-fill ph-x" aria-hidden="true"></i>
-          </button>
+          </app-button>
         </header>
 
         <!-- tabindex="0" makes the overflow scroll region keyboard-reachable.
