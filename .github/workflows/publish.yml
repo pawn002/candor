@@ -26,3 +26,5 @@ jobs:
       - run: npm run build:tokens
       - run: npm publish --access public --provenance
         if: ${{ github.event.inputs.dry_run != 'true' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
