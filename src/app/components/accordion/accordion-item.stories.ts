@@ -19,6 +19,17 @@ const meta: Meta<AccordionItemComponent> = {
     docs: {
       description: {
         component: `
+Accordion renders a group of collapsible sections using native \`<details>\`/\`<summary>\`. It is the right choice when the sections are **parallel and coordinate as a set** — a FAQ list, a settings panel, a table of contents.
+
+**Accordion vs. Disclosure**
+
+| Use | When |
+|---|---|
+| \`app-accordion\` | Two or more parallel sections at the same heading level. Users may want to compare across items or scan headings. |
+| \`app-disclosure\` | A single, contextual reveal — one toggle standing alone. An expandable filter, a "read more", an inline help tip. |
+
+If you have several independent disclosures near each other but opening one should **not** close another, use multiple \`app-disclosure\` instances — not \`app-accordion\`.
+
 **Note:** All stories wrap \`<app-accordion-item>\` in a surface container (\`background: var(--color-bg-surface)\`) for display purposes.
 In real usage, the host element provides this context — no wrapper is required by the component itself.
         `.trim(),
