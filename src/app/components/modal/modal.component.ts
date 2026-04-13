@@ -8,15 +8,13 @@ import {
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { ButtonComponent } from '../button/button.component';
-
 export type ModalSize = 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent],
+  imports: [],
   encapsulation: ViewEncapsulation.None,
   template: `
     <dialog
