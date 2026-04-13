@@ -51,6 +51,11 @@
         }
     }
 
+    &--textarea {
+        min-height: unset; // rows attribute controls height — don't fight it
+        line-height: var(--line-height-normal);
+    }
+
     &:disabled,
     &--disabled {
         background-color: var(--color-bg-surface);

@@ -84,6 +84,30 @@
     }
   }
 
+  // Inverse theme — for dark headers and surfaces
+  &--inverse {
+    background-color: var(--color-bg-inverse);
+    border-bottom-color: var(--color-border-on-inverse);
+
+    .nav__brand {
+      color: var(--color-text-inverse);
+    }
+
+    .nav__link {
+      color: var(--color-text-subtle-on-inverse);
+
+      &:hover {
+        color: var(--color-text-inverse);
+        background-color: oklch(from var(--color-text-inverse) l c h / 0.1);
+      }
+
+      &--active {
+        color: var(--color-text-inverse);
+        font-weight: var(--font-weight-semibold);
+      }
+    }
+  }
+
   // Badge
   &__badge {
     display: inline-flex;

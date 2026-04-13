@@ -10,6 +10,11 @@ const meta: Meta<TabsComponent> = {
   decorators: [moduleMetadata({ imports: [TabPanelComponent] })],
   argTypes: {
     ariaLabel: { control: 'text', type: { name: 'string' }, description: 'Accessible label for the tab list' },
+    theme: {
+      control: 'select',
+      options: ['default', 'inverse'],
+      description: 'default renders on a light surface; inverse renders on --color-bg-inverse',
+    },
   },
 };
 
@@ -30,6 +35,24 @@ export const Default: Story = {
         </app-tab-panel>
         <app-tab-panel tabId="pricing" label="Pricing">
           <p>Choose a plan that fits your needs. All plans include a 14-day free trial with no commitment.</p>
+        </app-tab-panel>
+      </app-tabs>
+    `,
+  }),
+};
+
+export const Inverse: Story = {
+  render: () => ({
+    template: `
+      <app-tabs ariaLabel="Section navigation" theme="inverse">
+        <app-tab-panel tabId="overview" label="Overview">
+          <p style="padding-top: var(--spacing-sm);">Inverse tabs sit on a dark surface — common in app shells with dark headers.</p>
+        </app-tab-panel>
+        <app-tab-panel tabId="details" label="Details">
+          <p style="padding-top: var(--spacing-sm);">The tab list uses --color-bg-inverse; the panels render on the page background below.</p>
+        </app-tab-panel>
+        <app-tab-panel tabId="history" label="History">
+          <p style="padding-top: var(--spacing-sm);">Active tab indicator and text use --color-text-inverse (white in light mode).</p>
         </app-tab-panel>
       </app-tabs>
     `,
