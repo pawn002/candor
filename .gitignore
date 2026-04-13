@@ -148,3 +148,4 @@ dist
 tmp/
 temp/
 nul
+.playwright-mcp/

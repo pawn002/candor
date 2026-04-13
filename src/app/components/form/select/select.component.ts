@@ -41,7 +41,7 @@ export interface SelectOption {
             <option [value]="option.value" [disabled]="option.disabled ?? false">{{ option.label }}</option>
           }
         </select>
-        <i class="ph ph-caret-down ph-bold select__caret" aria-hidden="true"></i>
+        <i class="ph-bold ph-caret-down select__caret" aria-hidden="true"></i>
       </div>
 
       <!-- Always in DOM so aria-live fires on content change -->

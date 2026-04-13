@@ -12,6 +12,39 @@ const meta: Meta<ArticleComponent> = {
       description: 'Body typeface — Noto Serif (reading, default) or Noto Sans (sans, for syndication/utility contexts). Headings always use Roboto Flex.',
     },
   },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`app-article\` renders long-form prose with full semantic HTML support (headings, lists,
+blockquotes, code, tables, figures).
+
+## Serif vs. sans — which font and when
+
+**The rule:** content that originates from a human author or a generative AI model uses
+**Noto Serif** (\`font="reading"\`, the default). Content that is UI infrastructure —
+navigation, settings, system messages, help text — uses **Noto Sans** or Roboto Flex.
+
+The distinction is cognitive context, not visual preference:
+
+| Context | Font | Why |
+|---|---|---|
+| AI-generated summaries, reports, deliberation content | Noto Serif (\`reading\`) | Signals authored content; slows reading toward reflection |
+| Human-authored articles, editorial prose | Noto Serif (\`reading\`) | Same — human and AI prose share the reading frame |
+| Help documentation, release notes, policy text | Noto Serif (\`reading\`) | Sustained reading; benefits from serif rhythm |
+| In-app explanatory copy, onboarding text | Noto Sans (\`sans\`) | Brief, scanning context; utility not reading |
+| Syndicated content with mixed origins | Noto Sans (\`sans\`) | Sans is safer when you cannot verify the reading context |
+
+**The signal serif sends:** In AI-assisted applications, displaying AI-generated content in Noto
+Serif visually communicates "this is a produced artifact — read it, don't scan it." This is a
+deliberate design choice, not an aesthetic preference.
+
+**Headings always use Roboto Flex** regardless of the \`font\` input. Only the body paragraph
+typeface changes.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;
@@ -415,6 +448,74 @@ export const FontComparison: Story = {
         <div>
           <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: var(--spacing-sm); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); font-weight: var(--font-weight-semibold);">Noto Sans (sans)</p>
           <app-article font="sans">${fullArticleContent}</app-article>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+// AI Prose — demonstrates Noto Serif as the correct typeface for AI-generated content.
+// The pattern applies equally to human-authored reports and deliberation content.
+export const AIGeneratedProse: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**Pattern: AI-generated content in Noto Serif**
+
+Use \`font="reading"\` (the default) when displaying AI-generated text. The serif typeface
+signals "produced artifact — read this, don't scan it." This applies to: AI summaries,
+generated reports, deliberation outputs, and AI-assisted writing anywhere in the app.
+
+The framing chrome (card header, metadata, status labels) uses Roboto Flex or Atkinson
+Hyperlegible — only the body prose switches to Noto Serif.
+        `.trim(),
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="max-width: 680px;">
+        <!-- Card framing in Roboto Flex -->
+        <div style="
+          background: var(--color-bg-surface);
+          border: var(--border-width-thin) solid var(--color-border-subtle);
+          border-radius: var(--radius-md);
+          overflow: hidden;
+        ">
+          <div style="
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+          ">
+            <i class="ph ph-sparkle" style="font-size: 1rem; color: var(--color-action-primary); line-height: 1;" aria-hidden="true"></i>
+            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-default);">AI Summary</span>
+            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-left: auto;">Generated · 2 min ago</span>
+          </div>
+          <!-- Body prose in Noto Serif -->
+          <div style="padding: var(--spacing-md);">
+            <app-article font="reading">
+              <p>
+                The council's deliberation on the proposed housing development centred on three
+                interconnected concerns: traffic impact on the B4632 corridor, the adequacy of
+                the proposed green-space offset, and the heritage setting of the adjacent
+                Grade II listed farmhouse.
+              </p>
+              <p>
+                Members broadly supported the principle of the development but identified the
+                traffic assessment as requiring independent review before any resolution could
+                be made. The applicant agreed in principle to commission an updated transport
+                study, with findings to be reported back to committee within eight weeks.
+              </p>
+              <p>
+                On the heritage question, the conservation officer's report was accepted
+                without amendment. The proposed materials palette — hand-made clay brick
+                with a recessed mortar joint — was considered sympathetic to the setting.
+              </p>
+            </app-article>
+          </div>
         </div>
       </div>
     `,
