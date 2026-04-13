@@ -1,5 +1,33 @@
+import { Component, inject } from '@angular/core';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 import { ToastComponent } from './toast.component';
+import { ToastContainerComponent } from './toast-container.component';
+import { ToastService } from './toast.service';
+
+@Component({
+  selector: 'app-toast-service-demo',
+  standalone: true,
+  imports: [ToastContainerComponent],
+  template: `
+    <div style="min-height: 200px; display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-start;">
+      <button class="btn btn-primary btn-sm" (click)="showInfo()">Show info</button>
+      <button class="btn btn-secondary btn-sm" (click)="showSuccess()">Show success</button>
+      <button class="btn btn-tertiary btn-sm" (click)="showWarning()">Show warning</button>
+      <button class="btn btn-ghost btn-sm" (click)="showError()">Show error</button>
+      <button class="btn btn-ghost btn-sm" (click)="showPersistent()">Show persistent (no auto-dismiss)</button>
+    </div>
+    <app-toast-container></app-toast-container>
+  `,
+})
+class ToastServiceDemoComponent {
+  private toasts = inject(ToastService);
+  showInfo()       { this.toasts.show('File saved to your account.', 'info'); }
+  showSuccess()    { this.toasts.show('Changes published successfully.', 'success', { heading: 'Published' }); }
+  showWarning()    { this.toasts.show('Your session expires in 5 minutes.', 'warning'); }
+  showError()      { this.toasts.show('Failed to connect. Check your network.', 'error', { heading: 'Connection error' }); }
+  showPersistent() { this.toasts.show('This toast stays until dismissed.', 'info', { duration: 0 }); }
+}
 
 const meta: Meta<ToastComponent> = {
   title: 'Components/Toast',
@@ -64,6 +92,14 @@ export const WithHeading: Story = {
         <app-toast variant="error" heading="Error" message="Failed to save changes. Please check your connection."></app-toast>
       </div>
     `,
+  }),
+};
+
+export const WithService: StoryObj = {
+  name: 'With ToastService (imperative)',
+  decorators: [moduleMetadata({ imports: [ToastServiceDemoComponent] })],
+  render: () => ({
+    template: `<app-toast-service-demo></app-toast-service-demo>`,
   }),
 };
 

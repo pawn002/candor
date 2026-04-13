@@ -1,0 +1,17 @@
+.toast-container {
+    position: fixed;
+    bottom: var(--spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1100; // above modals (modal overlay is typically ~1000)
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    width: min(calc(100vw - var(--spacing-lg)), 480px);
+    pointer-events: none; // container is transparent to clicks
+
+    // Individual toasts are interactive
+    app-toast {
+        pointer-events: auto;
+    }
+}
