@@ -12,7 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Typography/Article:** Added component-level serif vs. sans decision table: AI-generated content and human-authored prose use Noto Serif (`font="reading"`); UI chrome and scanning contexts use Noto Sans. Added `AIGeneratedProse` story showing the pattern in a realistic AI card context (#73)
 - **Typography/AccessibleText:** Added three AI-app pattern stories: `AICardMetadataHeaders` (model attribution, generation timestamp, source references), `AIConfidenceScores` (inline confidence percentages with low-confidence warning threshold), and `AIStressContextCounters` (session-sensitive live counters with `role="status"` for screen reader announcements) (#71)
 - **Design Tokens/Icons:** New Storybook story documenting Phosphor Icons: installation, weight convention table (bold=interactive, regular=informational), `WeightComparison`, `InContext`, and `AccessibilityPatterns` stories (#68)
-- **Design Tokens/Typography:** New `SizeAndWeightGuidance` story documenting OKCA-informed weight minimums per type scale step — 500 medium is the minimum for 14px readable text — with live Roboto Flex weight comparison and Atkinson Hyperlegible tracking comparison at 14px (#62)
+- **Design Tokens/Typography:** New `OKCAContrastGuidance` story presenting the OKCA contrast score table for sub-16px text. WCAG is silent below 16px; OKCA closes the gap with a geometric ramp anchored at 4.5 (16px regular) → 20 (12px regular). Key Candor implication: `--font-size-sm` (14px) requires a score of 9.5 for regular text and 6.5 for bold — more than double the WCAG 4.5 floor (#62)
 
 ---
 
