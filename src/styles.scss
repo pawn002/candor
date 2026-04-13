@@ -3,8 +3,12 @@
 @use "./utilities/buttons";
 
 // Icons — Phosphor Icons (peer dependency for component consumers)
-// Weight convention: ph-bold for interactive controls, ph-regular for informational/status icons
+// Three-tier weight convention:
+//   ph-fill  — action icons: close, dismiss, add, search (solid form = "tappable")
+//   ph-bold  — directional affordances: carets, chevrons (bold outline = "orientating")
+//   ph       — informational/status: alerts, metadata, decorative (regular outline = "passive")
 @import '@phosphor-icons/web/bold/style.css';
+@import '@phosphor-icons/web/fill/style.css';
 @import '@phosphor-icons/web/regular/style.css';
 
 // Typography — Fontsource self-hosted fonts (variable where available)

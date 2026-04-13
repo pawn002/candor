@@ -4,11 +4,23 @@ All notable changes to this project will be documented in this file.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased] — Phase 3
+
+### Documentation
+
+- **Tokens README:** Added prominent tokens-only scope notice and peer dependency installation guide — Fontsource font packages, Phosphor Icons, and a note on the `'Roboto Flex Variable'` font name (#64)
+- **Typography/Article:** Added component-level serif vs. sans decision table: AI-generated content and human-authored prose use Noto Serif (`font="reading"`); UI chrome and scanning contexts use Noto Sans. Added `AIGeneratedProse` story showing the pattern in a realistic AI card context (#73)
+- **Typography/AccessibleText:** Added three AI-app pattern stories: `AICardMetadataHeaders` (model attribution, generation timestamp, source references), `AIConfidenceScores` (inline confidence percentages with low-confidence warning threshold), and `AIStressContextCounters` (session-sensitive live counters with `role="status"` for screen reader announcements) (#71)
+- **Design Tokens/Icons:** New Storybook story documenting Phosphor Icons: installation, weight convention table (bold=interactive, regular=informational), `WeightComparison`, `InContext`, and `AccessibilityPatterns` stories (#68)
+- **Design Tokens/Typography:** New `OKCAContrastGuidance` story presenting the OKCA contrast score table for sub-16px text. WCAG is silent below 16px; OKCA closes the gap with a geometric ramp anchored at 4.5 (16px regular) → 20 (12px regular). Key Candor implication: `--font-size-sm` (14px) requires a score of 9.5 for regular text and 6.5 for bold — more than double the WCAG 4.5 floor (#62)
+
+---
+
 ## [Unreleased] — Phase 2
 
 ### Added
 
-- **Icons:** Adopted Phosphor Icons (`@phosphor-icons/web`) as the design system's icon vocabulary. Load `bold` and regular` weights. Convention: `ph-bold` for interactive controls (chevrons, close, dismiss, carets), `ph-regular` for informational/status icons.
+- **Icons:** Adopted Phosphor Icons (`@phosphor-icons/web`) as the design system's icon vocabulary. Three-tier weight convention: `ph-fill` for action icons (close, dismiss, add, search — solid forms read as tappable), `ph-bold` for directional affordances (carets, chevrons), `ph` (regular — there is no `ph-regular` class) for informational/status icons.
 - **Accordion, Modal, Toast:** Migrated inline SVG icons to Phosphor — chevron, close ×, status icons, and dismiss ×.
 - **Button:** Added `.btn`, `.btn-sm`, `.btn-lg`, `.btn-primary`, `.btn-secondary`, `.btn-tertiary`, `.btn-ghost`, `.btn-destructive` global CSS utility classes for consumers using native `<button>` or `<a>` elements (#75)
 - **Input:** Added `multiline`, `rows`, and `resize` inputs. When `multiline` is `true`, renders `<textarea>` with identical styling to `<input>` (#53)

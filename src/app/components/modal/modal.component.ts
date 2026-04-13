@@ -32,7 +32,7 @@ export type ModalSize = 'sm' | 'md' | 'lg';
         <header class="modal__header" role="none">
           <h2 class="modal__title" [id]="titleId">{{ heading() }}</h2>
           <button class="modal__close" type="button" aria-label="Close" (click)="close()">
-            <i class="ph ph-x ph-bold" aria-hidden="true"></i>
+            <i class="ph-fill ph-x" aria-hidden="true"></i>
           </button>
         </header>
 

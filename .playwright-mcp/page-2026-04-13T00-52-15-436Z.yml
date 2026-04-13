@@ -1,0 +1,7 @@
+- generic [ref=e4]:
+  - generic [ref=e6]: Default
+  - generic [ref=e8]: Primary
+  - generic [ref=e10]: Secondary
+  - generic [ref=e12]: Success
+  - generic [ref=e14]: Error
+  - generic [ref=e16]: Warning
