@@ -46,6 +46,41 @@
     padding-top: var(--spacing-md);
   }
 
+  // Vertical orientation — tab list on the left, panels on the right
+  &--vertical {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    .tabs__list {
+      flex-direction: column;
+      flex-shrink: 0;
+      min-width: 12rem;
+      border-bottom: none;
+      border-right: var(--border-width-thin) solid var(--color-border-default);
+    }
+
+    .tabs__tab {
+      text-align: left;
+      border-bottom: none;
+      border-right: 2px solid transparent;
+      margin-bottom: 0;
+      margin-right: -1px;
+      padding: var(--spacing-xs) var(--spacing-sm);
+
+      &[aria-selected='true'] {
+        border-bottom-color: transparent;
+        border-right-color: var(--color-action-primary);
+      }
+    }
+
+    .tabs__panels {
+      flex: 1;
+      padding-top: 0;
+      padding-left: var(--spacing-md);
+    }
+  }
+
   // Inverse theme — for dark headers and surfaces
   &--inverse {
     .tabs__list {

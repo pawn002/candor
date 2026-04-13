@@ -15,6 +15,11 @@ const meta: Meta<TabsComponent> = {
       options: ['default', 'inverse'],
       description: 'default renders on a light surface; inverse renders on --color-bg-inverse',
     },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      description: 'horizontal: tab list above panels (default). vertical: tab list left, panels right — suited to sidebar navigation and settings panels.',
+    },
   },
 };
 
@@ -55,6 +60,56 @@ export const Inverse: Story = {
           <p style="padding-top: var(--spacing-sm);">Active tab indicator and text use --color-text-inverse (white in light mode).</p>
         </app-tab-panel>
       </app-tabs>
+    `,
+  }),
+};
+
+export const Vertical: Story = {
+  name: 'Vertical orientation',
+  render: () => ({
+    template: `
+      <app-tabs orientation="vertical" ariaLabel="Account settings">
+        <app-tab-panel tabId="profile" label="Profile">
+          <p>Manage your profile information, including your name, email, and avatar.</p>
+        </app-tab-panel>
+        <app-tab-panel tabId="security" label="Security">
+          <p>Update your password, enable two-factor authentication, and review active sessions.</p>
+        </app-tab-panel>
+        <app-tab-panel tabId="notifications" label="Notifications">
+          <p>Configure email, push, and in-app notification preferences.</p>
+        </app-tab-panel>
+        <app-tab-panel tabId="billing" label="Billing">
+          <p>View billing history, update payment methods, and manage subscriptions.</p>
+        </app-tab-panel>
+      </app-tabs>
+    `,
+  }),
+};
+
+export const VerticalSidebar: Story = {
+  name: 'Pattern: Sidebar navigation',
+  render: () => ({
+    template: `
+      <div style="height: 320px; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-md); overflow: hidden;">
+        <app-tabs orientation="vertical" ariaLabel="Project navigation" style="height: 100%;">
+          <app-tab-panel tabId="overview" label="Overview">
+            <h3 style="margin-top: 0; font-family: var(--font-family-base); font-size: var(--font-size-lg);">Project overview</h3>
+            <p style="color: var(--color-text-subtle);">Summary of goals, timeline, and key stakeholders.</p>
+          </app-tab-panel>
+          <app-tab-panel tabId="deliberations" label="Deliberations">
+            <h3 style="margin-top: 0; font-family: var(--font-family-base); font-size: var(--font-size-lg);">Deliberations</h3>
+            <p style="color: var(--color-text-subtle);">Structured discussion threads and decision records.</p>
+          </app-tab-panel>
+          <app-tab-panel tabId="documents" label="Documents">
+            <h3 style="margin-top: 0; font-family: var(--font-family-base); font-size: var(--font-size-lg);">Documents</h3>
+            <p style="color: var(--color-text-subtle);">Attached files, briefs, and reference materials.</p>
+          </app-tab-panel>
+          <app-tab-panel tabId="settings" label="Settings">
+            <h3 style="margin-top: 0; font-family: var(--font-family-base); font-size: var(--font-size-lg);">Settings</h3>
+            <p style="color: var(--color-text-subtle);">Project name, access controls, and archive options.</p>
+          </app-tab-panel>
+        </app-tabs>
+      </div>
     `,
   }),
 };
