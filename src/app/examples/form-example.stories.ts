@@ -8,6 +8,7 @@ import { HeadingComponent } from "../components/typography/heading/heading.compo
 import { TextComponent } from "../components/typography/text/text.component";
 import { SwitchComponent } from "../components/form/switch/switch.component";
 import { AlertComponent } from "../components/alert/alert.component";
+import { SelectComponent } from "../components/form/select/select.component";
 import { ProgressComponent } from "../components/progress/progress.component";
 
 const meta: Meta = {
@@ -18,6 +19,7 @@ const meta: Meta = {
         InputComponent,
         CheckboxComponent,
         RadioComponent,
+        SelectComponent,
         ButtonComponent,
         HeadingComponent,
         TextComponent,
@@ -61,6 +63,19 @@ export const ContactForm: Story = {
             [type]="'tel'"
             [placeholder]="'(555) 123-4567'">
           </app-input>
+
+          <app-select
+            [label]="'Department'"
+            [required]="true"
+            [options]="[
+              { value: 'support', label: 'Customer support' },
+              { value: 'sales', label: 'Sales' },
+              { value: 'billing', label: 'Billing' },
+              { value: 'technical', label: 'Technical help' },
+              { value: 'other', label: 'Other' }
+            ]"
+            [placeholder]="'Select a department'">
+          </app-select>
 
           <app-input
             [label]="'Subject'"
@@ -201,6 +216,21 @@ export const RegistrationForm: Story = {
               [required]="true">
             </app-input>
           </div>
+
+          <app-select
+            [label]="'Country'"
+            [required]="true"
+            [options]="[
+              { value: 'us', label: 'United States' },
+              { value: 'gb', label: 'United Kingdom' },
+              { value: 'ca', label: 'Canada' },
+              { value: 'au', label: 'Australia' },
+              { value: 'de', label: 'Germany' },
+              { value: 'fr', label: 'France' },
+              { value: 'other', label: 'Other' }
+            ]"
+            [placeholder]="'Select your country'">
+          </app-select>
 
           <fieldset style="border: none; padding: 0; margin: 0;">
             <legend style="font-family: var(--font-family-accessible); font-weight: var(--font-weight-bold); letter-spacing: 0.02em; color: var(--color-text-default); margin-bottom: 0.75rem;">Account Type</legend>
