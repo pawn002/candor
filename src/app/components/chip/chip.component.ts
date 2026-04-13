@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
 
 type ChipVariant = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
 
@@ -9,13 +9,13 @@ type ChipVariant = 'default' | 'primary' | 'secondary' | 'success' | 'warning' |
   template: `
     <span
       [class]="'chip chip--' + variant()"
-      [class.chip--selected]="isSelected()"
+      [class.chip--selected]="selected()"
       [class.chip--disabled]="disabled()"
     >
       @if (selectable()) {
         <button
           class="chip__body chip__body--button"
-          [attr.aria-pressed]="isSelected()"
+          [attr.aria-pressed]="selected()"
           [attr.aria-disabled]="disabled() || null"
           [disabled]="disabled() || null"
           (click)="onToggle()"
@@ -46,22 +46,13 @@ export class ChipComponent {
   selectable = input(false);
   dismissible = input(false);
   disabled = input(false);
-  selected = input(false);
+  selected = model(false);
 
   dismissed = output<void>();
-  selectedChange = output<boolean>();
-
-  protected isSelected = signal(false);
-
-  ngOnInit(): void {
-    this.isSelected.set(this.selected());
-  }
 
   onToggle(): void {
     if (this.disabled()) return;
-    const next = !this.isSelected();
-    this.isSelected.set(next);
-    this.selectedChange.emit(next);
+    this.selected.set(!this.selected());
   }
 
   onDismiss(): void {
