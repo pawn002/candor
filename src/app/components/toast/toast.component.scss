@@ -52,8 +52,8 @@
   // Icon
   &__icon {
     flex-shrink: 0;
-    width: 1.25rem;
-    height: 1.25rem;
+    font-size: 1.25rem;
+    line-height: 1;
     margin-top: 0.125rem;
   }
 
@@ -93,10 +93,8 @@
     color: var(--color-text-subtle);
     transition: color 0.15s ease, background-color 0.15s ease;
 
-    svg {
-      width: 1rem;
-      height: 1rem;
-    }
+    font-size: 1rem;
+    line-height: 1;
 
     &:hover {
       color: var(--color-text-default);

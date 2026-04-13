@@ -32,9 +32,7 @@ export type ModalSize = 'sm' | 'md' | 'lg';
         <header class="modal__header" role="none">
           <h2 class="modal__title" [id]="titleId">{{ heading() }}</h2>
           <button class="modal__close" type="button" aria-label="Close" (click)="close()">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
+            <i class="ph ph-x ph-bold" aria-hidden="true"></i>
           </button>
         </header>
 

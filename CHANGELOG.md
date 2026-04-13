@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased] — Phase 2
+
+### Added
+
+- **Icons:** Adopted Phosphor Icons (`@phosphor-icons/web`) as the design system's icon vocabulary. Load `bold` and regular` weights. Convention: `ph-bold` for interactive controls (chevrons, close, dismiss, carets), `ph-regular` for informational/status icons.
+- **Accordion, Modal, Toast:** Migrated inline SVG icons to Phosphor — chevron, close ×, status icons, and dismiss ×.
+- **Button:** Added `.btn`, `.btn-sm`, `.btn-lg`, `.btn-primary`, `.btn-secondary`, `.btn-tertiary`, `.btn-ghost`, `.btn-destructive` global CSS utility classes for consumers using native `<button>` or `<a>` elements (#75)
+- **Input:** Added `multiline`, `rows`, and `resize` inputs. When `multiline` is `true`, renders `<textarea>` with identical styling to `<input>` (#53)
+- **Select:** New `app-select` wrapper component — native `<select>` with Phosphor caret, ControlValueAccessor, label, placeholder, error, hint, required, and disabled inputs (#54)
+- **Navigation, Tabs:** Added `theme="inverse"` variant for dark headers and inverse surfaces. Uses `--color-bg-inverse`, `--color-text-inverse`, `--color-text-subtle-on-inverse`, and new `--color-border-on-inverse` tokens (#65)
+- **Tokens:** Added `--color-text-subtle-on-inverse` and `--color-border-on-inverse` semantic tokens (light + dark)
+- **Toast:** Added `ToastService` and `ToastContainerComponent` for imperative usage. Place `<app-toast-container>` once in AppComponent; call `toastService.show(message, variant, options)` from anywhere (#66)
+- **Badge:** Added `OrdinalSeverity` pattern story documenting how to map domain severity scales (minor/moderate/fundamental, low/medium/high/critical) onto the existing status token triplets (#74)
+
+---
+
 ## [Unreleased] — Phase 1
 
 ### Breaking

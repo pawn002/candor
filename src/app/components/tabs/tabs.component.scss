@@ -45,4 +45,26 @@
   &__panels {
     padding-top: var(--spacing-md);
   }
+
+  // Inverse theme — for dark headers and surfaces
+  &--inverse {
+    .tabs__list {
+      border-bottom-color: var(--color-border-on-inverse);
+      background-color: var(--color-bg-inverse);
+      padding: 0 var(--spacing-sm);
+    }
+
+    .tabs__tab {
+      color: var(--color-text-subtle-on-inverse);
+
+      &[aria-selected='true'] {
+        color: var(--color-text-inverse);
+        border-bottom-color: var(--color-text-inverse);
+      }
+
+      &:hover {
+        color: var(--color-text-inverse);
+      }
+    }
+  }
 }

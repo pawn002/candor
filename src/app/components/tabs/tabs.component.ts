@@ -18,7 +18,7 @@ import { TabPanelComponent } from './tab-panel.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="tabs">
+    <div [class]="'tabs' + (theme() === 'inverse' ? ' tabs--inverse' : '')">
       <div class="tabs__list" role="tablist" [attr.aria-label]="ariaLabel() || null">
         @for (panel of panels(); track panel.tabId(); let i = $index) {
           <button
@@ -45,6 +45,7 @@ export class TabsComponent implements AfterContentInit {
   panels = contentChildren(TabPanelComponent);
 
   ariaLabel = input('');
+  theme = input<'default' | 'inverse'>('default');
   // activeId accepts and emits string. If binding to a parent signal, type it as
   // signal<string>('id') — not a union type like signal<'a'|'b'>('a'). Angular
   // strict template checking will raise TS2345 if the parent signal is narrower

@@ -65,6 +65,8 @@ dialog.modal {
         cursor: pointer;
         flex-shrink: 0;
         transition: background 0.15s ease, color 0.15s ease;
+        font-size: 1.25rem;
+        line-height: 1;
 
         &:hover {
             background: var(--color-action-tertiary-hover);

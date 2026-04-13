@@ -8,19 +8,35 @@
     </label>
   }
 
-  <input
-    [id]="inputId"
-    [type]="type()"
-    [attr.placeholder]="placeholder() || null"
-    [disabled]="disabled"
-    [required]="required()"
-    [value]="value"
-    [class]="'input' + (error() ? ' input--error' : '') + (disabled ? ' input--disabled' : '')"
-    [attr.aria-invalid]="error() ? 'true' : null"
-    [attr.aria-describedby]="inputId + '-description'"
-    (input)="onInput($event)"
-    (blur)="onBlur()"
-  />
+  @if (multiline()) {
+    <textarea
+      [id]="inputId"
+      [attr.placeholder]="placeholder() || null"
+      [disabled]="disabled"
+      [required]="required()"
+      [rows]="rows()"
+      [class]="'input input--textarea' + (error() ? ' input--error' : '') + (disabled ? ' input--disabled' : '')"
+      [style.resize]="resize()"
+      [attr.aria-invalid]="error() ? 'true' : null"
+      [attr.aria-describedby]="inputId + '-description'"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+    >{{ value }}</textarea>
+  } @else {
+    <input
+      [id]="inputId"
+      [type]="type()"
+      [attr.placeholder]="placeholder() || null"
+      [disabled]="disabled"
+      [required]="required()"
+      [value]="value"
+      [class]="'input' + (error() ? ' input--error' : '') + (disabled ? ' input--disabled' : '')"
+      [attr.aria-invalid]="error() ? 'true' : null"
+      [attr.aria-describedby]="inputId + '-description'"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+    />
+  }
 
   <!-- Always in DOM so aria-live fires on content change (conditionally rendered live regions
        miss the initial mutation). Empty when no error or hint — aria-describedby reads nothing. -->
