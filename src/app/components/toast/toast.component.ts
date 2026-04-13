@@ -32,8 +32,8 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
         }
       </svg>
       <div class="toast__content">
-        @if (title()) {
-          <div class="toast__title">{{ title() }}</div>
+        @if (heading()) {
+          <div class="toast__title">{{ heading() }}</div>
         }
         <div class="toast__message">{{ message() }}</div>
       </div>
@@ -51,7 +51,7 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 })
 export class ToastComponent {
   variant = input<ToastVariant>('info');
-  title = input('');
+  heading = input('');
   message = input('');
   dismissible = input(true);
 

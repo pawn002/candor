@@ -12,7 +12,7 @@ const meta: Meta<AccordionItemComponent> = {
   ],
   tags: ['autodocs'],
   argTypes: {
-    title: { control: 'text', type: { name: 'string' }, description: 'Accordion header label' },
+    heading: { control: 'text', type: { name: 'string' }, description: 'Accordion header label' },
     open: { control: 'boolean', type: { name: 'boolean' }, description: 'Expanded state on initial render' },
   },
   parameters: {
@@ -32,7 +32,7 @@ type Story = StoryObj<AccordionItemComponent>;
 
 export const Default: Story = {
   args: {
-    title: 'What is OKLCH?',
+    heading: 'What is OKLCH?',
     open: false,
   },
   render: (args) => ({
@@ -40,7 +40,7 @@ export const Default: Story = {
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
         <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
-          <app-accordion-item [title]="title" [open]="open">
+          <app-accordion-item [heading]="heading" [open]="open">
             OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
             Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
             making it ideal for programmatic color manipulation.
@@ -53,7 +53,7 @@ export const Default: Story = {
 
 export const OpenByDefault: Story = {
   args: {
-    title: 'What is OKLCH?',
+    heading: 'What is OKLCH?',
     open: true,
   },
   render: (args) => ({
@@ -61,7 +61,7 @@ export const OpenByDefault: Story = {
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
         <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
-          <app-accordion-item [title]="title" [open]="open">
+          <app-accordion-item [heading]="heading" [open]="open">
             OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
             Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
             making it ideal for programmatic color manipulation.
@@ -78,7 +78,7 @@ export const MultipleItems: Story = {
     template: `
       <div style="max-width: 480px; padding: 1.5rem;">
         <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
-        <app-accordion-item title="Contrast algorithm" [open]="true">
+        <app-accordion-item heading="Contrast algorithm" [open]="true">
           <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
             <legend style="display: none;">Contrast algorithm</legend>
             <app-radio name="algo" label="WCAG 2.1" value="wcag21" [checked]="true"></app-radio>
@@ -87,14 +87,14 @@ export const MultipleItems: Story = {
             <app-radio name="algo" label="Delta E" value="deltae"></app-radio>
           </fieldset>
         </app-accordion-item>
-        <app-accordion-item title="Display options">
+        <app-accordion-item heading="Display options">
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
             <app-checkbox label="Hold chroma constant" [checked]="true"></app-checkbox>
             <app-checkbox label="Show gradient track" [checked]="true"></app-checkbox>
             <app-checkbox label="Show gamut boundaries"></app-checkbox>
           </div>
         </app-accordion-item>
-        <app-accordion-item title="About WCAG 2.1">
+        <app-accordion-item heading="About WCAG 2.1">
           The Web Content Accessibility Guidelines 2.1 contrast ratio measures the relative
           luminance difference between foreground and background. A ratio of 4.5:1 is required
           for normal text (AA), 3:1 for large text, and 7:1 for enhanced (AAA).
@@ -104,4 +104,3 @@ export const MultipleItems: Story = {
     `,
   }),
 };
-

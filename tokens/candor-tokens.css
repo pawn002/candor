@@ -73,7 +73,7 @@
   --text-xl: 1.5625rem;
   --text-2xl: 1.953rem;
   --text-3xl: 2.441rem;
-  --font-sans: "Roboto Flex", system-ui, -apple-system, sans-serif;
+  --font-sans: "Roboto Flex Variable", "Roboto Flex", system-ui, -apple-system, sans-serif;
   --font-accessible: "Atkinson Hyperlegible", system-ui, sans-serif;
   --font-mono: "Roboto Mono", "SF Mono", Monaco, Consolas, monospace;
   --font-reading: "Noto Sans", system-ui, sans-serif;

@@ -11,9 +11,9 @@ const meta: Meta<ToastComponent> = {
       options: ['info', 'success', 'warning', 'error'],
       description: 'Toast color variant',
     },
-    title: {
+    heading: {
       control: 'text',
-      description: 'Optional title',
+      description: 'Optional heading',
     },
     message: {
       control: 'text',
@@ -37,7 +37,7 @@ export const Default: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<div style="max-width: 32rem;"><app-toast [variant]="variant" [message]="message" [title]="title" [dismissible]="dismissible"></app-toast></div>`,
+    template: `<div style="max-width: 32rem;"><app-toast [variant]="variant" [message]="message" [heading]="heading" [dismissible]="dismissible"></app-toast></div>`,
   }),
 };
 
@@ -54,14 +54,14 @@ export const AllVariants: Story = {
   }),
 };
 
-export const WithTitle: Story = {
+export const WithHeading: Story = {
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 32rem;">
-        <app-toast variant="info" title="Information" message="This is an informational message with a title."></app-toast>
-        <app-toast variant="success" title="Success" message="Your changes have been saved successfully."></app-toast>
-        <app-toast variant="warning" title="Warning" message="Your session will expire in 5 minutes."></app-toast>
-        <app-toast variant="error" title="Error" message="Failed to save changes. Please check your connection."></app-toast>
+        <app-toast variant="info" heading="Information" message="This is an informational message with a heading."></app-toast>
+        <app-toast variant="success" heading="Success" message="Your changes have been saved successfully."></app-toast>
+        <app-toast variant="warning" heading="Warning" message="Your session will expire in 5 minutes."></app-toast>
+        <app-toast variant="error" heading="Error" message="Failed to save changes. Please check your connection."></app-toast>
       </div>
     `,
   }),
@@ -76,14 +76,14 @@ export const Dismissible: Story = {
       <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 32rem;">
         <app-toast
           variant="success"
-          title="File uploaded"
+          heading="File uploaded"
           message="Your file has been uploaded successfully."
           [dismissible]="true"
           (dismissed)="onDismiss()"
         ></app-toast>
         <app-toast
           variant="error"
-          title="Upload failed"
+          heading="Upload failed"
           message="The file could not be uploaded. Please try again."
           [dismissible]="true"
           (dismissed)="onDismiss()"

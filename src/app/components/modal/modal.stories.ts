@@ -16,7 +16,7 @@ const meta: Meta<ModalComponent> = {
       options: ['sm', 'md', 'lg'],
     },
     open: { control: 'boolean' },
-    title: { control: 'text' },
+    heading: { control: 'text' },
     closed: { action: 'closed' },
   },
 };
@@ -29,13 +29,13 @@ type Story = StoryObj<ModalComponent>;
 export const Default: Story = {
   args: {
     open: true,
-    title: 'Dialog title',
+    heading: 'Dialog title',
     size: 'md',
   },
   render: (args) => ({
     props: args,
     template: `
-      <app-modal [open]="open" [title]="title" [size]="size" (closed)="open = false; closed()">
+      <app-modal [open]="open" [heading]="heading" [size]="size" (closed)="open = false; closed()">
         <p>This is the modal body. Place any content here — forms, details, confirmations.</p>
         <div slot="footer" class="modal__footer">
           <app-button variant="tertiary" (clicked)="open = false">Cancel</app-button>
@@ -49,11 +49,11 @@ export const Default: Story = {
 // ─── Sizes ─────────────────────────────────────────────────────────────────
 
 export const Small: Story = {
-  args: { open: true, title: 'Delete item', size: 'sm' },
+  args: { open: true, heading: 'Delete item', size: 'sm' },
   render: (args) => ({
     props: args,
     template: `
-      <app-modal [open]="open" [title]="title" [size]="size" (closed)="open = false">
+      <app-modal [open]="open" [heading]="heading" [size]="size" (closed)="open = false">
         <p>Are you sure you want to delete this item? This action cannot be undone.</p>
         <div slot="footer" class="modal__footer">
           <app-button variant="tertiary" (clicked)="open = false">Cancel</app-button>
@@ -65,11 +65,11 @@ export const Small: Story = {
 };
 
 export const Large: Story = {
-  args: { open: true, title: 'Terms and conditions', size: 'lg' },
+  args: { open: true, heading: 'Terms and conditions', size: 'lg' },
   render: (args) => ({
     props: args,
     template: `
-      <app-modal [open]="open" [title]="title" [size]="size" (closed)="open = false">
+      <app-modal [open]="open" [heading]="heading" [size]="size" (closed)="open = false">
         <p style="margin-bottom: 1rem">By using Candor Design System, you agree to the following terms and conditions.</p>
         <p style="margin-bottom: 1rem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         <p style="margin-bottom: 1rem">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -86,13 +86,13 @@ export const Large: Story = {
 // ─── With trigger ──────────────────────────────────────────────────────────
 
 export const WithTrigger: Story = {
-  args: { open: false, title: 'Edit profile', size: 'md' },
+  args: { open: false, heading: 'Edit profile', size: 'md' },
   render: (args) => ({
     props: { ...args, isOpen: false },
     template: `
       <app-button variant="primary" (clicked)="isOpen = true">Open modal</app-button>
 
-      <app-modal [open]="isOpen" [title]="title" [size]="size" (closed)="isOpen = false">
+      <app-modal [open]="isOpen" [heading]="heading" [size]="size" (closed)="isOpen = false">
         <p>Modal opened via trigger button. Close with the × button, Escape key, or clicking outside.</p>
         <div slot="footer" class="modal__footer">
           <app-button variant="tertiary" (clicked)="isOpen = false">Cancel</app-button>
@@ -106,11 +106,11 @@ export const WithTrigger: Story = {
 // ─── No footer ─────────────────────────────────────────────────────────────
 
 export const NoFooter: Story = {
-  args: { open: true, title: 'Keyboard shortcuts', size: 'md' },
+  args: { open: true, heading: 'Keyboard shortcuts', size: 'md' },
   render: (args) => ({
     props: args,
     template: `
-      <app-modal [open]="open" [title]="title" [size]="size" (closed)="open = false">
+      <app-modal [open]="open" [heading]="heading" [size]="size" (closed)="open = false">
         <dl style="display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1.5rem;">
           <dt style="font-weight: 600;">⌘ K</dt><dd>Open command palette</dd>
           <dt style="font-weight: 600;">⌘ /</dt><dd>Toggle comment</dd>
