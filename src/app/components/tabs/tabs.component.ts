@@ -18,8 +18,8 @@ import { TabPanelComponent } from './tab-panel.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div [class]="'tabs' + (theme() === 'inverse' ? ' tabs--inverse' : '')">
-      <div class="tabs__list" role="tablist" [attr.aria-label]="ariaLabel() || null">
+    <div [class]="'tabs' + (theme() === 'inverse' ? ' tabs--inverse' : '') + (orientation() === 'vertical' ? ' tabs--vertical' : '')">
+      <div class="tabs__list" role="tablist" [attr.aria-label]="ariaLabel() || null" [attr.aria-orientation]="orientation()">
         @for (panel of panels(); track panel.tabId(); let i = $index) {
           <button
             class="tabs__tab"
@@ -46,6 +46,7 @@ export class TabsComponent implements AfterContentInit {
 
   ariaLabel = input('');
   theme = input<'default' | 'inverse'>('default');
+  orientation = input<'horizontal' | 'vertical'>('horizontal');
   // activeId accepts and emits string. If binding to a parent signal, type it as
   // signal<string>('id') — not a union type like signal<'a'|'b'>('a'). Angular
   // strict template checking will raise TS2345 if the parent signal is narrower
@@ -92,12 +93,20 @@ export class TabsComponent implements AfterContentInit {
 
     let newIndex = -1;
 
+    const isVertical = this.orientation() === 'vertical';
+
     switch (event.key) {
       case 'ArrowRight':
-        newIndex = (currentIndex + 1) % panelIds.length;
+        if (!isVertical) newIndex = (currentIndex + 1) % panelIds.length;
         break;
       case 'ArrowLeft':
-        newIndex = (currentIndex - 1 + panelIds.length) % panelIds.length;
+        if (!isVertical) newIndex = (currentIndex - 1 + panelIds.length) % panelIds.length;
+        break;
+      case 'ArrowDown':
+        if (isVertical) newIndex = (currentIndex + 1) % panelIds.length;
+        break;
+      case 'ArrowUp':
+        if (isVertical) newIndex = (currentIndex - 1 + panelIds.length) % panelIds.length;
         break;
       case 'Home':
         newIndex = 0;
