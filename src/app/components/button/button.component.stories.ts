@@ -147,6 +147,40 @@ export const DestructiveInContext: Story = {
   }),
 };
 
+export const UtilityClasses: Story = {
+  name: 'Utility Classes (.btn)',
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">
+          Plain CSS classes for native &lt;button&gt; and &lt;a&gt; elements. Combine a variant class with an optional size modifier.
+        </p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-tertiary">Tertiary</button>
+          <button class="btn btn-ghost">Ghost</button>
+          <button class="btn btn-destructive">Destructive</button>
+        </div>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+          <button class="btn btn-primary btn-sm">Small primary</button>
+          <button class="btn btn-primary">Medium primary</button>
+          <button class="btn btn-primary btn-lg">Large primary</button>
+        </div>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+          <button class="btn btn-secondary btn-sm">Small secondary</button>
+          <button class="btn btn-secondary">Medium secondary</button>
+          <button class="btn btn-secondary btn-lg">Large secondary</button>
+        </div>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+          <button class="btn btn-primary btn-sm" disabled>Disabled</button>
+          <a href="#" class="btn btn-secondary">Link button</a>
+        </div>
+      </div>
+    `,
+  }),
+};
+
 export const FullMatrix: Story = {
   decorators: [moduleMetadata({ imports: [TextComponent] })],
   render: () => ({
