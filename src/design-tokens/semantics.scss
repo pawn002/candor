@@ -232,11 +232,14 @@
     --color-border-on-inverse: oklch(0.85 0 0); // subtle divider on white inverse surface
 
     // ─── Action — Primary (navy) ───────────────────────────────────────────
-    // Light steps used so fills read against the dark page (3:1 non-text UI ✅).
-    // gray-800 text on navy-300: 7.2:1 ✅
-    --color-action-primary:        var(--navy-300);  //  8.5:1 on bg-page ✅
-    --color-action-primary-hover:  var(--navy-200);  // 12.4:1 on bg-page ✅
-    --color-action-primary-active: var(--navy-200);
+    // Direct OKLCH values instead of navy-* scale refs — the navy palette is
+    // intentionally low-chroma (C≤0.06) which reads as muted gray-blue at
+    // light steps. Boosted chroma (C=0.12) makes the primary button read as
+    // a confident blue without changing hue or breaking contrast targets.
+    // gray-800 text on primary: 5.5:1 ✅ — primary on bg-page: 6.9:1 ✅
+    --color-action-primary:        oklch(0.79 0.12 245); //  6.9:1 on bg-page ✅
+    --color-action-primary-hover:  oklch(0.87 0.08 245); // 11.3:1 on bg-page ✅
+    --color-action-primary-active: oklch(0.87 0.08 245);
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
     // gray-800 text on burgundy-300: ~7:1 ✅
