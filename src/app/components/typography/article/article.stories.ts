@@ -226,25 +226,28 @@ export const WithLinks: Story = {
 Links satisfy WCAG 1.4.1 (Use of Color) for the link-vs-surrounding-text distinction:
 underline provides the non-color cue regardless of whether the reader distinguishes azure from body text.
 
-**\`:visited\` state is color-only** — and this is a deliberate browser restriction, not a design gap.
-Browsers silently discard all non-color CSS properties in \`:visited\` rules (font-weight,
-text-decoration-style, etc.) to prevent timing-based side-channel attacks that would let a page
-infer which URLs the user has visited. There is no CSS-only workaround.
+**\`:visited\` state uses a double-underline indicator** — a structural cue on top of the hue shift.
 
-The system uses an **azure → purple hue shift** for the visited state:
-- Light mode: \`--azure-500\` (OKCA 3.8 on white) → \`--purple-700\` (OKCA 5.4 on white)
-- Dark mode: \`--azure-300\` (OKCA 5.8 on dark page) → \`--purple-300\` (OKCA 6.0 on dark page)
+Browsers only allow color-value CSS properties inside \`:visited\` rules (\`color\`, \`border-color\`,
+\`outline-color\`, etc.) — width, style, and layout properties are silently ignored to prevent
+navigation-history side-channel attacks. This system exploits that constraint:
+a \`border-bottom\` is pre-declared on the base link rule with \`transparent\` color. On \`:visited\`,
+only the border color changes — but the result is a second underline appearing beneath the
+existing \`text-decoration\` underline.
 
-Both colors pass independently. The azure/purple pair differs primarily in the blue-violet axis,
-which is preserved under deuteranopia and protanopia (red-green CVD). Tritanopia affects blue
-discrimination but is rare (~0.003% prevalence).
+**Structural signal:** single underline = unvisited. Double underline = visited.
+This distinguishes the states beyond hue shift, providing a cue that persists under deuteranopia
+and protanopia (red-green CVD), where the azure→purple shift alone may be ambiguous.
 
-**Consumers who require non-color \`:visited\` differentiation** can implement a JS-assisted pattern:
-intercept link clicks, store visited URLs in \`localStorage\`, and add a class (e.g. \`.is-visited\`)
-on page load. Full CSS is available on a class selector — including \`text-decoration-style: double\`,
-icon injection, or font-weight changes.
+**Token mapping:**
+- Light mode: \`--azure-500\` → \`--purple-700\` (both pass WCAG contrast independently)
+- Dark mode: \`--azure-300\` → \`--purple-300\` (both pass WCAG contrast independently)
 
-This limitation is documented in \`docs/ACCESSIBILITY-CONFORMANCE.md\`.
+**Consumers who need even stronger differentiation** (e.g. icon-level indicator) can implement
+a JS-assisted pattern: intercept clicks, store visited URLs in \`localStorage\`, apply a class
+(e.g. \`.is-visited\`). Class selectors are not subject to the \`:visited\` color-only restriction.
+
+See \`docs/ACCESSIBILITY-CONFORMANCE.md\` for the full platform-limitation note.
         `.trim(),
       },
     },

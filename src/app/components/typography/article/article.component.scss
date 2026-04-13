@@ -90,8 +90,17 @@
         color: var(--color-link);
         text-decoration: underline;
         text-underline-offset: 0.2em;
+        // Pre-declared border so :visited can reveal it via color change alone.
+        // The border renders just below the text-decoration underline, producing
+        // a double underline on visited links — a structural cue beyond hue shift.
+        border-bottom: var(--border-width-thin) solid transparent;
+        padding-bottom: 0.15em;
 
-        &:visited { color: var(--color-link-visited); }
+        &:visited {
+            color: var(--color-link-visited);
+            border-bottom-color: var(--color-link-visited);
+        }
+
         &:hover   { color: var(--color-link-hover); }
 
         &:focus-visible {

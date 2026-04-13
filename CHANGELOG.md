@@ -39,7 +39,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Card:** Component-level prose covering three integration patterns: light-mode surface layering (shadow required, colour alone insufficient), slot style encapsulation (wrapper-div approach), and `ViewEncapsulation.None` `:host` → host-class substitution (#48)
 - **Card:** Added `SlotEncapsulation` story demonstrating the correct wrapper-div pattern for styling projected content (#48)
 - **AccordionItem:** Added `HierarchyVariants` story showing all three variant levels in a realistic nested accordion context (#48)
-- **Article:** Documented `:visited` link color-only limitation in `WithLinks` story and `ACCESSIBILITY-CONFORMANCE.md`. Browsers silently discard non-color CSS in `:visited` rules to prevent navigation-history side-channel attacks — color-only `:visited` differentiation is unavoidable in native CSS. Both azure/purple colors pass contrast independently; the hue shift is preserved under deuteranopia and protanopia. JS-localStorage pattern noted for consumers who require non-color differentiation (#19)
+- **Article:** `:visited` link indicator — double underline via `border-bottom` technique. A `border-bottom` pre-declared `transparent` on the base link rule becomes visible (via `border-bottom-color`) in `:visited`, producing a second underline beneath the existing `text-decoration`. Single underline = unvisited; double underline = visited — a structural cue beyond the azure→purple hue shift, preserved under deuteranopia and protanopia. Documented in `WithLinks` story and `ACCESSIBILITY-CONFORMANCE.md` (#19)
 
 ---
 

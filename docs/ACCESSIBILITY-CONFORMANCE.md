@@ -89,28 +89,32 @@ Candor components are building blocks. Several accessibility requirements are ar
 
 ## Known limitations
 
-### `:visited` link state — color-only distinction (WCAG 1.4.1)
+### `:visited` link state — double-underline indicator (WCAG 1.4.1)
 
 **Criterion:** 1.4.1 Use of Color (Level A)
-**Status:** Partial — platform-limited
+**Status:** Partial — platform-limited; mitigated with structural cue
 
-Article links display a hue shift from azure (unvisited) to purple (visited). This is color-only
-differentiation. Browsers deliberately prevent non-color CSS properties (font-weight, text-decoration-style,
-background-image, etc.) from applying inside `:visited` rules to block timing-based side-channel attacks
-that would allow a page to infer a user's navigation history. The restriction is enforced silently:
-the CSS parses without error but the properties have no effect.
+Browsers only allow color-value CSS properties inside `:visited` rules (`color`, `border-color`,
+`outline-color`, etc.). Width, style, and layout properties are silently ignored to prevent
+navigation-history side-channel attacks. `text-decoration-style: double` cannot be set in `:visited`.
 
-**What the system does provide:**
+**The mitigation:** Article links pre-declare `border-bottom: 1px solid transparent` in the base
+rule. On `:visited`, only `border-bottom-color` changes (an allowed color property) — but the effect
+is a second underline appearing beneath the existing `text-decoration` underline. The structural
+signal is: single underline = unvisited, double underline = visited. This cue persists under
+deuteranopia and protanopia (red-green CVD), where hue shift alone may be ambiguous.
+
+**What the system provides:**
+- Double-underline structural indicator (not purely color-dependent)
+- Hue shift: azure (unvisited) → purple (visited)
 - Both colors independently pass contrast against their backgrounds (light and dark)
-- The azure/purple pair differs primarily in the blue-violet axis, which is preserved under
-  deuteranopia and protanopia (the two most common forms of color vision deficiency)
-- Underline already provides non-color differentiation for link-vs-text (1.4.1 is satisfied for that distinction)
 
-**For consumers who require non-color `:visited` differentiation:**
-Implement a JS-assisted pattern: intercept link clicks, store visited URLs in `localStorage`, and
-apply a CSS class (e.g. `.is-visited`) on page load. A class selector is not restricted by the
-browser privacy rule, so full CSS — `text-decoration-style: double`, appended icon, font-weight
-change — is available.
+**Remaining limitation:** The indicator is still ultimately delivered via a color property change
+(`border-bottom-color: transparent → visible`). A strict WCAG 1.4.1 interpretation requires
+non-color means; the double-underline is a structural *effect* of a color change rather than a
+truly independent non-color property. Consumers who need a fully color-independent indicator
+should implement a JS-assisted pattern: intercept clicks, store visited URLs in `localStorage`,
+apply a class (e.g. `.is-visited`). Class selectors have no `:visited` color restriction.
 
 **Affected component:** Article (`app-article`) links only. No other component exposes `:visited` state.
 
