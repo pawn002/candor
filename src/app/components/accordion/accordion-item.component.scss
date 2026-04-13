@@ -56,6 +56,18 @@
     letter-spacing: 0.02em;
     line-height: var(--line-height-tight);
     flex: 1;
+
+    // Hierarchy variants — for nested accordion groups within the same card
+    &--subtle {
+        font-weight: var(--font-weight-regular);
+        color: var(--color-text-subtle);
+    }
+
+    &--quiet {
+        font-weight: var(--font-weight-regular);
+        font-size: var(--font-size-sm);
+        color: var(--color-text-subtle);
+    }
 }
 
 .accordion-item__chevron {

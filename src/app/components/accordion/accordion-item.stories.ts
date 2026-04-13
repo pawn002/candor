@@ -14,6 +14,11 @@ const meta: Meta<AccordionItemComponent> = {
   argTypes: {
     heading: { control: 'text', type: { name: 'string' }, description: 'Accordion header label' },
     open: { control: 'boolean', type: { name: 'boolean' }, description: 'Expanded state on initial render' },
+    variant: {
+      control: 'select',
+      options: ['default', 'subtle', 'quiet'],
+      description: 'Visual weight of the heading — use to express hierarchy in nested accordion groups',
+    },
   },
   parameters: {
     docs: {
@@ -110,6 +115,45 @@ export const MultipleItems: Story = {
           luminance difference between foreground and background. A ratio of 4.5:1 is required
           for normal text (AA), 3:1 for large text, and 7:1 for enhanced (AAA).
         </app-accordion-item>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const HierarchyVariants: Story = {
+  name: 'Hierarchy variants (default / subtle / quiet)',
+  parameters: { controls: { disable: true } },
+  render: () => ({
+    template: `
+      <div style="max-width: 480px; padding: 1.5rem;">
+        <p style="font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 1rem;">
+          Use <code>variant</code> to express heading hierarchy within a nested accordion group.
+          Section headers use <code>default</code>; subsections use <code>subtle</code>;
+          help text or fine print uses <code>quiet</code>.
+        </p>
+        <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
+          <app-accordion-item heading="Contrast settings" variant="default" [open]="true">
+            <div style="padding: 0 0 0.5rem;">
+              <div style="background: var(--color-bg-page); border-radius: var(--radius-sm); padding: 0 0.75rem;">
+                <app-accordion-item heading="Algorithm options" variant="subtle" [open]="true">
+                  <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <legend style="display: none;">Algorithm options</legend>
+                    <app-radio name="algo2" label="WCAG 2.1" value="wcag21" [checked]="true"></app-radio>
+                    <app-radio name="algo2" label="OKCA" value="okca"></app-radio>
+                  </fieldset>
+                </app-accordion-item>
+                <app-accordion-item heading="Why does the algorithm matter?" variant="quiet">
+                  Different algorithms weight hue, lightness, and chroma differently. WCAG 2.1 uses
+                  relative luminance; OKCA uses perceptual uniformity. For small text, OKCA is more
+                  predictive of real-world readability.
+                </app-accordion-item>
+              </div>
+            </div>
+          </app-accordion-item>
+          <app-accordion-item heading="Display options" variant="default">
+            <app-checkbox label="Hold chroma constant" [checked]="true"></app-checkbox>
+          </app-accordion-item>
         </div>
       </div>
     `,

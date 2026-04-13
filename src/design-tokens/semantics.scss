@@ -109,6 +109,7 @@
     @include light-color-tokens;
 
     // ─── Spacing ───────────────────────────────────────────────────────────────
+    --spacing-2xs: 0.25rem;         //  4px — compact UI: table cells, icon nudges, tone-picker padding
     --spacing-xs:  var(--space-1);  //  8px
     --spacing-sm:  var(--space-2);  // 16px
     --spacing-md:  var(--space-3);  // 24px
@@ -144,6 +145,10 @@
 
     --focus-ring-width:  var(--border-width-2);
     --focus-ring-offset: var(--border-width-2);
+
+    // ─── Interaction ───────────────────────────────────────────────────────────
+    --hit-target-aaa: 2.75rem;  // 44px minimum — WCAG 2.5.5 AAA (Target Size Enhanced)
+    --hit-target-aa:  1.375rem; // 22px minimum — WCAG 2.5.5 AA  (Target Size Minimum)
 
     // ─── Typography ────────────────────────────────────────────────────────────
     --font-family-base:       var(--font-sans);        // Roboto Flex — UI workhorse
@@ -215,7 +220,7 @@
     --color-text-subtle:            var(--gray-400);      //  7.5:1 on bg-page ✅
     --color-text-subtle-on-surface: var(--gray-400);      //  6.4:1 on bg-surface ✅
     // Component-scoped: toast message text — gray-400 (L=0.71) on dark status-bgs: 5.2–7.1:1 ✅
-    --color-toast-message:          var(--color-text-subtle); // softer than off-white; not harsh
+    --color-toast-message:          var(--color-text-subtle); // intentionally subtle in dark mode — softer than off-white; dimming is a feature, not a bug
     --color-text-disabled:          var(--gray-600); //  2.7:1 — intentionally below AA
     --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
     --color-text-subtle-on-inverse: oklch(0.40 0 0); // muted text on white inverse surface
