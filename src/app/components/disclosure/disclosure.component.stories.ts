@@ -5,6 +5,24 @@ const meta: Meta<DisclosureComponent> = {
   title: 'Components/Disclosure',
   component: DisclosureComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Disclosure renders a single show/hide toggle following the [APG Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/). It is the right choice for a **contextual, standalone reveal** — one toggle that stands alone without coordinating with siblings.
+
+**Disclosure vs. Accordion**
+
+| Use | When |
+|---|---|
+| \`app-disclosure\` | A single, contextual reveal — an expandable filter section, a "read more" beneath a summary, an inline help tip. It stands alone. |
+| \`app-accordion\` | Two or more parallel sections at the same heading level that form a group — a FAQ list, a settings panel. |
+
+If you have several independent disclosures near each other and opening one should **not** close another, use multiple \`app-disclosure\` instances — not \`app-accordion\`.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     label: {
       control: 'text',
