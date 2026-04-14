@@ -152,7 +152,7 @@ export const LoginForm: Story = {
 
           <app-text [variant]="'body'" style="text-align: center;">
             Don't have an account?
-            <a href="#" style="color: var(--color-action-primary); text-decoration: none;">
+            <a href="#" style="color: var(--color-link);">
               Sign up
             </a>
           </app-text>
@@ -265,7 +265,7 @@ export const RegistrationForm: Story = {
 
           <app-text [variant]="'body'" style="text-align: center;">
             Already have an account?
-            <a href="#" style="color: var(--color-action-primary); text-decoration: none;">
+            <a href="#" style="color: var(--color-link);">
               Sign in
             </a>
           </app-text>

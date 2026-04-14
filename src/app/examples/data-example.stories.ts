@@ -197,7 +197,7 @@ export const FilterableTable: Story = {
 
             <fieldset style="border: none; padding: 0; margin: 0;">
               <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); margin-bottom: 0.75rem; letter-spacing: 0.02em;">Score range</legend>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem;">
                 <app-input label="Min" type="number" placeholder="0"></app-input>
                 <app-input label="Max" type="number" placeholder="100"></app-input>
               </div>

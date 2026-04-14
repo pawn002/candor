@@ -49,46 +49,10 @@
     border-radius: var(--radius-sm);
     overflow: hidden;
     background: var(--color-bg-surface);
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-
-    &:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
 }
 
 .swatch {
     height: 56px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .swatch-overlay {
-        opacity: 0;
-        transition: opacity 0.15s ease;
-        background: rgba(0, 0, 0, 0.45);
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: var(--spacing-xs);
-    }
-
-    &:hover .swatch-overlay {
-        opacity: 1;
-    }
-
-    .color-name {
-        color: white;
-        font-weight: var(--font-weight-semibold);
-        font-size: var(--font-size-sm);
-        text-align: center;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    }
 }
 
 .swatch-info {
