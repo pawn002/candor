@@ -39,7 +39,7 @@ export const BlogPost: Story = {
         </app-navigation>
 
         <!-- Page content -->
-        <div style="max-width: 42rem; margin: 0 auto; padding: 3rem 1.5rem 5rem;">
+        <div style="max-width: 42rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(3rem, 8vw, 5rem);">
 
           <!-- Post header -->
           <header style="margin-bottom: 2.5rem;">
@@ -187,7 +187,7 @@ Works in any framework; no Angular dependency. Load order:
           orientation="horizontal">
         </app-navigation>
 
-        <div style="max-width: 48rem; margin: 0 auto; padding: 3rem 1.5rem 5rem;">
+        <div style="max-width: 48rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(3rem, 8vw, 5rem);">
 
           <header style="margin-bottom: var(--spacing-xl);">
             <h1 style="
@@ -332,7 +332,7 @@ export const PostListingGrid: Story = {
   render: () => ({
     template: `
       <div style="min-height: 100vh; background: var(--color-bg-page);">
-        <div style="max-width: 64rem; margin: 0 auto; padding: 3rem 1.5rem 5rem;">
+        <div style="max-width: 64rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(3rem, 8vw, 5rem);">
 
           <header style="margin-bottom: var(--spacing-xl);">
             <h1 style="

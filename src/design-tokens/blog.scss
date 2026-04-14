@@ -119,8 +119,13 @@
 // ── Post card (editorial list default) ────────────────────────────────────
 
 .post-card {
-    padding: var(--spacing-xl) 0;
+    // Tighter rhythm on mobile — 48px gaps are scroll-expensive on a phone.
+    padding: var(--spacing-lg) 0;
     border-top: var(--border-width-thin) solid var(--color-border-default);
+
+    @media (min-width: 640px) {
+        padding: var(--spacing-xl) 0;
+    }
 
     &:first-child {
         border-top: none;
@@ -128,8 +133,7 @@
     }
 
     // ── Featured variant ──────────────────────────────────────────────────
-    // Horizontal layout above 640px: image on the left, text on the right.
-    // Below 640px it stacks like a standard card.
+    // Stacks on mobile; horizontal split (image left, text right) above 640px.
     &.post-card--featured {
         display: grid;
         grid-template-columns: 1fr;
@@ -142,10 +146,12 @@
         }
 
         .post-card__image {
-            aspect-ratio: 4 / 3;
+            // 16/9 on mobile — taller than the default 16/7, better visual
+            // impact on a narrow screen where width is the constraint.
+            aspect-ratio: 16 / 9;
 
             @media (min-width: 640px) {
-                aspect-ratio: 4 / 3;
+                aspect-ratio: 4 / 3; // taller crop looks better in the narrow left column
             }
         }
 
@@ -154,17 +160,26 @@
         }
 
         .post-card__title {
-            font-size: var(--font-size-h2);
+            // Scale down on mobile: h3 at phone width, h2 on wider screens.
+            font-size: var(--font-size-h3);
+
+            @media (min-width: 640px) {
+                font-size: var(--font-size-h2);
+            }
         }
 
         .post-card__excerpt {
-            -webkit-line-clamp: 4;
+            -webkit-line-clamp: 3; // 4 lines is too many on a narrow phone column
+
+            @media (min-width: 640px) {
+                -webkit-line-clamp: 4;
+            }
         }
     }
 
     // ── Compact variant ───────────────────────────────────────────────────
     &.post-card--compact {
-        padding: var(--spacing-md) 0;
+        padding: var(--spacing-sm) 0;
 
         .post-card__image-link {
             display: none;
