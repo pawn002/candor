@@ -57,6 +57,8 @@ All interactive components are fully keyboard-operable:
 
 All color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components). Contrast was validated using CPQI CLI against WCAG 2.1, OKCA, and APCA algorithms. OKLCH color space is used throughout to ensure perceptually accurate lightness calculations.
 
+Text at 14px and below is additionally validated against a three-tier use-case contrast system (see `docs/CONTRAST-TIERS.md`). Tier 1 (reading text) requires OKCA 9.5 regular / 6.5 bold; Tier 2 (functional UI) requires 6.5 / 4.5; Tier 3 (supplementary, meaning redundantly coded) requires 4.5 / 4.5. Passing OKCA also passes WCAG — zero false-pass guarantee.
+
 ### Live regions
 
 Components that produce dynamic feedback — form errors, status messages, send confirmations, activation results — use pre-established live regions (`role="status"` with `aria-live="polite"` or `role="alert"` with `aria-live="assertive"`). Regions are present in the DOM before content arrives so assistive technology registers the mutation.
