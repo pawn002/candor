@@ -17,6 +17,8 @@ Auto-generated distribution artifacts. Do not edit these files directly — run 
 | `candor-tokens.json` | Structured JSON — for Figma plugins / tooling |
 | `candor-article.css` | Article prose styles — framework-agnostic, readable |
 | `candor-article.min.css` | Minified article prose styles — for production `<link>` |
+| `candor-syntax.css` | Prism.js syntax highlighting theme — readable |
+| `candor-syntax.min.css` | Minified syntax highlighting theme — for production `<link>` |
 
 ## Usage
 
@@ -105,7 +107,64 @@ Wrap post content in a `div` with the `.article` class:
 
 The stylesheet covers headings (h1–h6), paragraphs, lists, blockquotes, inline code, fenced code blocks (`<pre><code>`), figures with captions, tables, links with `:visited` double-underline indicator, and horizontal rules. All values resolve from `candor-tokens.css` — dark mode is inherited automatically.
 
-> **Syntax highlighting:** `candor-article.css` styles the code block *container* (background, border, font) but does not include language-aware token colors. For syntax highlighting, add a compatible theme stylesheet after `candor-article.css`. A Candor-themed syntax highlight stylesheet (`candor-syntax.css`) is planned for a future release.
+> **Syntax highlighting:** `candor-article.css` styles the code block *container* (background, border, font) but does not include language-aware token colors. Add `candor-syntax.css` after `candor-article.css` for Prism.js-based highlighting (see below).
+
+### Syntax highlighting — Prism.js (framework-agnostic)
+
+`candor-syntax.css` is a Prism.js token color theme built from Candor's palette. It targets the dark code-block background that `candor-article.css` sets, with all token colors meeting OKCA ≥ 4.5.
+
+```html
+<link rel="stylesheet" href="path/to/candor-tokens.min.css">
+<link rel="stylesheet" href="path/to/candor-article.min.css">
+<link rel="stylesheet" href="path/to/candor-syntax.min.css">
+```
+
+For 11ty, install and register the syntax highlight plugin:
+
+```bash
+npm install @11ty/eleventy-plugin-syntaxhighlight
+```
+
+```js
+// .eleventy.js
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addPlugin(syntaxHighlight);
+};
+```
+
+Fenced code blocks in Markdown then output Prism-annotated HTML automatically:
+
+````md
+```js
+const color = "oklch(0.49 0.18 250.80)";
+```
+````
+
+**Token color palette** (all validated OKCA ≥ 4.5 on the navy-800 code block background):
+
+| CSS variable | Color | Assigned to |
+|---|---|---|
+| `--syntax-comment` | Muted cool gray-blue | Comments, doctype, CDATA |
+| `--syntax-keyword` | Azure | Keywords, @-rules, HTML tags |
+| `--syntax-string` | Warm amber | Strings, attribute values, URLs |
+| `--syntax-number` | Purple | Numbers, booleans, constants |
+| `--syntax-function` | Near-white azure | Functions, class names, builtins |
+| `--syntax-property` | Rose | CSS properties, selectors, attribute names |
+| `--syntax-operator` | Muted cool | Operators, punctuation |
+| `--syntax-deleted` | Error red | Diff removed lines |
+| `--syntax-inserted` | Success green | Diff added lines |
+| `--syntax-regex` | Amber | Regex literals, template expressions |
+
+Override any role without forking the file:
+
+```css
+:root {
+  --syntax-keyword: oklch(0.82 0.12 160); /* swap azure keywords to teal */
+}
+```
+
+> **Shiki users:** Shiki uses inline styles or its own class system — `candor-syntax.css` does not apply. Use Shiki's theme API with the token color values above.
 
 ---
 
