@@ -1,22 +1,21 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 
-interface ColorSwatch {
+export interface ColorSwatch {
   name: string;
   variable: string;
   description: string;
-  category: string;
-  oklch?: string;
-  hex?: string;
+  category?: string;
+  light?: string;
+  dark?: string;
 }
 
-@Component({
-  selector: "app-color-showcase",
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./color-showcase.component.html",
-  styleUrl: "./color-showcase.component.scss",
-})
-export class ColorShowcaseComponent {
-  colorCategories = [
+export interface ColorCategory {
+  name: string;
+  description: string;
+  colors: ColorSwatch[];
+}
+
+export const COLOR_CATEGORIES: ColorCategory[] = [
     {
       name: "Backgrounds",
       description: "Surface hierarchy — page floor, card surface, elevated (shadow-lifted), and inverse",
@@ -24,27 +23,30 @@ export class ColorShowcaseComponent {
         {
           name: "Page",
           variable: "--color-bg-page",
-          description: "Page floor — white in light mode, deep gray in dark",
-          hex: "#FFFFFF",
+          description: "Page floor",
+          light: "oklch(1 0 0)",
+          dark:  "oklch(0.16 0.02 248.99)",
         },
         {
           name: "Surface",
           variable: "--color-bg-surface",
-          description: "Cards and panels — gray-100 in light mode",
-          oklch: "oklch(0.91 0 0)",
-          hex: "#E0E0E0",
+          description: "Cards and panels",
+          light: "oklch(0.91 0 0)",
+          dark:  "oklch(0.24 0.03 248.99)",
         },
         {
           name: "Elevated",
           variable: "--color-bg-elevated",
-          description: "Shadow-lifted surface — white in light, L=0.30 cool in dark",
+          description: "Shadow-lifted surface",
+          light: "oklch(1 0 0)",
+          dark:  "oklch(0.30 0.02 248)",
         },
         {
           name: "Inverse",
           variable: "--color-bg-inverse",
-          description: "Dark inverse surface — navy-800 in light mode",
-          oklch: "oklch(0.27 0.06 245.34)",
-          hex: "#082840",
+          description: "Dark inverse surface — flips in dark mode",
+          light: "oklch(0.27 0.06 245.34)",
+          dark:  "oklch(1 0 0)",
         },
       ],
     },
@@ -55,28 +57,30 @@ export class ColorShowcaseComponent {
         {
           name: "Default",
           variable: "--color-border-default",
-          description: "Subtle separator — gray-200",
-          oklch: "oklch(0.88 0.005 17.2)",
-          hex: "#DAD8D8",
+          description: "Subtle separator",
+          light: "oklch(0.88 0.005 17.2)",
+          dark:  "oklch(0.46 0 0)",
         },
         {
           name: "Strong",
           variable: "--color-border-strong",
           description: "Emphasized separator — table rules, card edges",
-          oklch: "oklch(0.81 0 0)",
+          light: "oklch(0.81 0 0)",
+          dark:  "oklch(0.56 0 0)",
         },
         {
           name: "Control",
           variable: "--color-border-control",
-          description: "Form control outlines — 3:1 non-text contrast ✅",
-          oklch: "oklch(0.56 0 0)",
+          description: "Form control outlines — 3:1 non-text contrast",
+          light: "oklch(0.56 0 0)",
+          dark:  "oklch(0.56 0 0)",
         },
         {
           name: "Focus",
           variable: "--color-focus",
-          description: "Focus ring — azure-400 (#1493FB), high-visibility",
-          oklch: "oklch(0.65 0.18 250.80)",
-          hex: "#1493FB",
+          description: "Focus ring — high-visibility azure",
+          light: "oklch(0.65 0.18 250.80)",
+          dark:  "oklch(0.77 0.15 250.80)",
         },
       ],
     },
@@ -87,141 +91,150 @@ export class ColorShowcaseComponent {
         {
           name: "Default",
           variable: "--color-text-default",
-          description: "Body text — 12.6:1 on white",
-          oklch: "oklch(0.32 0 0)",
-          hex: "#333333",
+          description: "Body text",
+          light: "oklch(0.32 0 0)",
+          dark:  "oklch(0.88 0.01 248)",
         },
         {
           name: "Subtle",
           variable: "--color-text-subtle",
-          description: "Secondary / supporting text — 4.6:1 on white",
-          oklch: "oklch(0.56 0 0)",
-          hex: "#757575",
+          description: "Secondary / supporting text",
+          light: "oklch(0.50 0 0)",
+          dark:  "oklch(0.71 0 0)",
         },
         {
           name: "Subtle on Surface",
           variable: "--color-text-subtle-on-surface",
-          description: "Secondary text on gray-100 surface — 5.4:1",
-          oklch: "oklch(0.46 0 0)",
+          description: "Secondary text on bg-surface",
+          light: "oklch(0.44 0 0)",
+          dark:  "oklch(0.71 0 0)",
         },
         {
           name: "Disabled",
           variable: "--color-text-disabled",
           description: "Disabled state — intentionally below AA",
-          oklch: "oklch(0.71 0 0)",
+          light: "oklch(0.71 0 0)",
+          dark:  "oklch(0.46 0 0)",
         },
       ],
     },
     {
       name: "Action — Primary",
-      description: "Navy — main interactive color. 15.2:1 with white.",
+      description: "Navy — main interactive color",
       colors: [
         {
-          name: "Navy 800",
+          name: "Primary",
           variable: "--color-action-primary",
-          description: "Primary action bg — buttons, links",
-          oklch: "oklch(0.27 0.06 245.34)",
-          hex: "#082840",
+          description: "Primary button and action fill",
+          light: "oklch(0.27 0.06 245.34)",
+          dark:  "oklch(0.79 0.12 245)",
         },
         {
-          name: "Navy 900 (hover)",
+          name: "Primary Hover",
           variable: "--color-action-primary-hover",
           description: "Hover / active state",
-          oklch: "oklch(0.19 0.05 245.34)",
+          light: "oklch(0.19 0.05 245.34)",
+          dark:  "oklch(0.87 0.08 245)",
         },
       ],
     },
     {
       name: "Action — Secondary",
-      description: "Burgundy — supporting action color. 10.4:1 with white.",
+      description: "Burgundy — supporting action color",
       colors: [
         {
-          name: "Burgundy 700",
+          name: "Secondary",
           variable: "--color-action-secondary",
-          description: "Secondary action bg",
-          oklch: "oklch(0.37 0.08 347.43)",
-          hex: "#5F2B48",
+          description: "Secondary button fill",
+          light: "oklch(0.37 0.08 347.43)",
+          dark:  "oklch(0.76 0.06 347.43)",
         },
         {
-          name: "Burgundy 800 (hover)",
+          name: "Secondary Hover",
           variable: "--color-action-secondary-hover",
           description: "Hover state",
-          oklch: "oklch(0.28 0.07 347.43)",
+          light: "oklch(0.28 0.07 347.43)",
+          dark:  "oklch(0.86 0.05 347.43)",
         },
       ],
     },
     {
       name: "Action — Tertiary",
-      description: "Neutral fill — no border, low-hierarchy action. Navy text on gray bg.",
+      description: "Neutral fill — no border, low-hierarchy action",
       colors: [
         {
-          name: "Gray 200",
+          name: "Tertiary",
           variable: "--color-action-tertiary",
-          description: "Tertiary action bg",
-          oklch: "oklch(0.88 0.005 17.2)",
+          description: "Tertiary button fill",
+          light: "oklch(0.88 0.005 17.2)",
+          dark:  "oklch(0.32 0 0)",
         },
         {
-          name: "Navy (text)",
+          name: "Tertiary Text",
           variable: "--color-action-tertiary-text",
-          description: "Text / icon on tertiary bg — navy-800",
-          oklch: "oklch(0.27 0.06 245.34)",
+          description: "Text / icon on tertiary bg",
+          light: "oklch(0.27 0.06 245.34)",
+          dark:  "oklch(1 0 0)",
         },
       ],
     },
     {
       name: "Action — Destructive",
-      description:
-        "Crimson (H=347, boosted chroma) — outlined only; signals irreversibility. Distinct from error orange-red (H=25).",
+      description: "Crimson (H=347) — outlined only; signals irreversibility. Distinct from error (H=25).",
       colors: [
         {
-          name: "Crimson 700",
+          name: "Destructive Text",
           variable: "--color-action-destructive-text",
-          description: "Destructive label and border — 10.4:1 on white",
-          oklch: "oklch(0.37 0.15 347)",
+          description: "Destructive button label and border",
+          light: "oklch(0.37 0.15 347)",
+          dark:  "oklch(0.74 0.15 347)",
         },
       ],
     },
     {
-      name: "Accent — Azure",
-      description: "Azure blue — #1493FB brand anchor. azure-500/600 are the accessible steps for text on white.",
+      name: "Links",
+      description: "Azure — #1493FB brand anchor. Accessible steps lighten in dark mode.",
       colors: [
         {
-          name: "Azure 400 (brand anchor)",
-          variable: "--color-focus",
-          description: "Original #1493FB — focus ring and dark-bg only",
-          oklch: "oklch(0.65 0.18 250.80)",
-          hex: "#1493FB",
-        },
-        {
-          name: "Azure 500",
+          name: "Link",
           variable: "--color-link",
-          description: "Body link color — 5.1:1 on white",
-          oklch: "oklch(0.53 0.18 250.80)",
+          description: "Body link color",
+          light: "oklch(0.49 0.18 250.80)",
+          dark:  "oklch(0.77 0.15 250.80)",
         },
         {
-          name: "Azure 600 (hover)",
+          name: "Link Hover",
           variable: "--color-link-hover",
-          description: "Link hover — 7.2:1 on white",
-          oklch: "oklch(0.45 0.17 250.80)",
+          description: "Link hover state",
+          light: "oklch(0.45 0.17 250.80)",
+          dark:  "oklch(0.86 0.10 250.80)",
+        },
+        {
+          name: "Link Visited",
+          variable: "--color-link-visited",
+          description: "Visited link — purple, universal convention",
+          light: "oklch(0.47 0.20 278.14)",
+          dark:  "oklch(0.77 0.15 278.14)",
         },
       ],
     },
     {
       name: "Highlight — Purple",
-      description: "Soft purple — #6969F7 brand anchor. Accessible step passes on both white and gray-100 surface.",
+      description: "Soft purple — #6969F7 brand anchor. Used for inline code and accents.",
       colors: [
         {
-          name: "Purple 500 (decorative)",
-          variable: "--color-highlight-decorative",
-          description: "Brand original — decorative only",
-          oklch: "oklch(0.60 0.21 278.14)",
-          hex: "#6969F7",
+          name: "Highlight",
+          variable: "--color-highlight",
+          description: "Inline code, accents — accessible step",
+          light: "oklch(0.43 0.21 278)",
+          dark:  "oklch(0.77 0.15 278.14)",
         },
         {
-          name: "Purple (accessible)",
-          variable: "--color-highlight",
-          description: "Inline code, accents — 4.6:1 on white, 4.6:1 on surface",
-          oklch: "oklch(0.50 0.21 278)",
+          name: "Highlight Decorative",
+          variable: "--color-highlight-decorative",
+          description: "Brand original — decorative only",
+          light: "oklch(0.60 0.21 278.14)",
+          dark:  "oklch(0.68 0.18 278.14)",
         },
       ],
     },
@@ -232,20 +245,23 @@ export class ColorShowcaseComponent {
         {
           name: "Error",
           variable: "--color-status-error",
-          description: "Icon / border — 4.8:1 on white",
-          oklch: "oklch(0.55 0.22 25)",
+          description: "Icon / border use",
+          light: "oklch(0.55 0.22 25)",
+          dark:  "oklch(0.68 0.11 25)",
         },
         {
           name: "Error Background",
           variable: "--color-status-error-bg",
           description: "Toast and alert fill",
-          oklch: "oklch(0.95 0.05 25)",
+          light: "oklch(0.95 0.05 25)",
+          dark:  "oklch(0.23 0.02 18)",
         },
         {
           name: "Error Text",
           variable: "--color-status-error-text",
-          description: "Text on error-bg — 5.8:1",
-          oklch: "oklch(0.45 0.22 25)",
+          description: "Text on error-bg",
+          light: "oklch(0.45 0.22 25)",
+          dark:  "oklch(0.79 0.22 25)",
         },
       ],
     },
@@ -256,20 +272,23 @@ export class ColorShowcaseComponent {
         {
           name: "Success",
           variable: "--color-status-success",
-          description: "Icon / border — 3.3:1 on white",
-          oklch: "oklch(0.63 0.15 144.2)",
+          description: "Icon / border use",
+          light: "oklch(0.63 0.15 144.2)",
+          dark:  "oklch(0.70 0.08 144.2)",
         },
         {
           name: "Success Background",
           variable: "--color-status-success-bg",
           description: "Toast and alert fill",
-          oklch: "oklch(0.95 0.05 145)",
+          light: "oklch(0.95 0.05 145)",
+          dark:  "oklch(0.23 0.02 144)",
         },
         {
           name: "Success Text",
           variable: "--color-status-success-text",
-          description: "Text on success-bg — 4.9:1",
-          oklch: "oklch(0.50 0.15 144.2)",
+          description: "Text on success-bg",
+          light: "oklch(0.46 0.15 144.2)",
+          dark:  "oklch(0.80 0.15 144.2)",
         },
       ],
     },
@@ -280,43 +299,54 @@ export class ColorShowcaseComponent {
         {
           name: "Warning",
           variable: "--color-status-warning",
-          description: "Icon / border — 3.1:1 on white",
-          oklch: "oklch(0.66 0.16 53.54)",
+          description: "Icon / border use",
+          light: "oklch(0.66 0.16 53.54)",
+          dark:  "oklch(0.72 0.09 53.54)",
         },
         {
           name: "Warning Background",
           variable: "--color-status-warning-bg",
           description: "Toast and alert fill",
-          oklch: "oklch(0.95 0.05 53)",
+          light: "oklch(0.95 0.05 53)",
+          dark:  "oklch(0.25 0.02 68)",
         },
         {
           name: "Warning Text",
           variable: "--color-status-warning-text",
-          description: "Text on warning-bg — 7.6:1",
-          oklch: "oklch(0.40 0.16 53.54)",
+          description: "Text on warning-bg",
+          light: "oklch(0.40 0.16 53.54)",
+          dark:  "oklch(0.82 0.16 53.54)",
         },
       ],
     },
     {
       name: "Code Blocks",
-      description:
-        "Inverted dark navy block in light mode. Deep navy tint in dark mode — bg alone can't delineate at low L, so a border is added.",
+      description: "Inverted dark navy in light mode. Deep navy tint in dark mode — border required at low L.",
       colors: [
         {
           name: "Code Background",
           variable: "--color-bg-code",
-          description: "Code block surface — navy-800 in light mode",
-          oklch: "oklch(0.27 0.06 245.34)",
-          hex: "#082840",
+          description: "Code block surface",
+          light: "oklch(0.27 0.06 245.34)",
+          dark:  "oklch(0.20 0.04 248)",
         },
         {
           name: "Code Text",
           variable: "--color-text-code",
-          description: "Text on code bg — white in light mode",
-          oklch: "oklch(1 0 0)",
-          hex: "#FFFFFF",
+          description: "Text on code bg",
+          light: "oklch(1 0 0)",
+          dark:  "oklch(0.88 0.01 248)",
         },
       ],
     },
-  ];
+];
+
+@Component({
+  selector: "app-color-showcase",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: "./color-showcase.component.html",
+  styleUrl: "./color-showcase.component.scss",
+})
+export class ColorShowcaseComponent {
+  colorCategories = COLOR_CATEGORIES;
 }

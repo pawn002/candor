@@ -58,39 +58,13 @@
 .swatch-info {
     padding: var(--spacing-xs) var(--spacing-sm);
 
-    .swatch-title {
-        display: none;
-    }
-
-    .swatch-description {
-        font-size: var(--font-size-sm);
-        color: var(--color-text-subtle);
-        margin: 0 0 var(--spacing-2xs) 0;
-        line-height: var(--line-height-tight);
-    }
-
     .color-value {
         display: block;
         font-family: var(--font-family-mono);
         font-size: 0.65rem;
-        background: var(--color-bg-elevated);
-        padding: 0.1rem var(--spacing-xs);
-        border-radius: 3px;
-        margin-bottom: 2px;
-        color: var(--color-text-default);
+        color: var(--color-text-subtle);
         word-break: break-all;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
-
-        &.oklch {
-            border-left: 2px solid var(--color-link);
-        }
-
-        &.variable {
-            border-left: 2px solid var(--color-highlight);
-        }
+        margin: 0;
     }
 }
 
