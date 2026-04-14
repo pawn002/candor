@@ -33,6 +33,7 @@
 
   &__link {
     color: var(--color-link);
+    font-weight: var(--font-weight-bold);
     text-decoration: none;
 
     &:hover {
@@ -49,6 +50,6 @@
 
   &__current {
     color: var(--color-text-default);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-bold);
   }
 }
