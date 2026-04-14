@@ -1,46 +1,58 @@
 // Candor — blog post listing styles
 //
-// Provides a post-card pattern for blog index pages, RSS-adjacent listings,
-// and tag/category archives. Framework-agnostic — works in 11ty, Astro,
-// Next.js, or any HTML context.
+// Editorial-first layout for blog index pages, tag archives, and "more posts"
+// sections. Framework-agnostic — works in 11ty, Astro, Next.js, or plain HTML.
 //
 // Requires candor-tokens.css (or candor-tokens.min.css) to be loaded first.
 //
-// HTML structure:
+// ── Default layout: editorial list ────────────────────────────────────────
+//
+//   Posts are separated by a rule, not boxed in cards. Typography carries
+//   the hierarchy. Cover images appear as full-width editorial photos.
 //
 //   <ul class="post-list" role="list">
 //     <li>
-//       <article class="post-card">
-//         <!-- optional cover image -->
+//       <article class="post-card post-card--featured">
+//         <!-- featured: horizontal — image left, text right (>640px) -->
 //         <a class="post-card__image-link" href="/slug/" tabindex="-1" aria-hidden="true">
 //           <img class="post-card__image" src="..." alt="">
 //         </a>
 //         <div class="post-card__body">
-//           <!-- tags -->
 //           <div class="post-card__tags">
 //             <span class="post-card__tag">Design Systems</span>
 //           </div>
-//           <!-- title — primary link; this is the keyboard focus target -->
 //           <h2 class="post-card__title">
-//             <a href="/slug/">Post title</a>
+//             <a href="/slug/">Post title</a>  <!-- primary keyboard focus target -->
 //           </h2>
-//           <!-- excerpt -->
 //           <p class="post-card__excerpt">One or two sentences...</p>
-//           <!-- meta -->
 //           <div class="post-card__meta">
-//             <time class="post-card__date">March 2026</time>
+//             <time>March 2026</time>
 //             <span aria-hidden="true">·</span>
 //             <span>6 min read</span>
 //           </div>
 //         </div>
 //       </article>
 //     </li>
+//     <li>
+//       <article class="post-card">
+//         <!-- standard: image stacks above text (or omit image entirely) -->
+//         ...
+//       </article>
+//     </li>
 //   </ul>
 //
-// Modifiers:
-//   .post-list--grid       two-column responsive grid
-//   .post-card--featured   larger title and image; meant for the lead post
-//   .post-card--compact    tighter padding and smaller excerpt; for dense archives
+// ── Grid layout ────────────────────────────────────────────────────────────
+//
+//   Add .post-list--grid to the list element for a two-column card grid.
+//   Cards get a surface background and shadow; image ratio tightens to 3/2.
+//
+//   <ul class="post-list post-list--grid" role="list">...
+//
+// ── Modifiers ──────────────────────────────────────────────────────────────
+//
+//   .post-list--grid       two-column responsive card grid
+//   .post-card--featured   horizontal layout: image left, text right (list only)
+//   .post-card--compact    smaller title, tighter padding, 2-line excerpt
 
 // ── Post list ─────────────────────────────────────────────────────────────
 
@@ -50,37 +62,95 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
 
-    // Two-column responsive grid — columns collapse to one below ~28rem per column.
+    // ── Grid modifier ─────────────────────────────────────────────────────
     &.post-list--grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(min(100%, 28rem), 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
         gap: var(--spacing-lg);
+
+        // In grid mode, cards get their box back
+        .post-card {
+            background-color: var(--color-bg-surface);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border-top: none;
+            padding: 0;
+            transition: box-shadow 150ms ease, transform 150ms ease;
+
+            &:first-child {
+                border-top: none;
+                padding-top: 0;
+            }
+
+            &:has(.post-card__title a:hover) {
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-2px);
+            }
+
+            .post-card__image {
+                aspect-ratio: 3 / 2;
+                border-radius: 0; // no inner rounding needed — card clips it
+            }
+
+            .post-card__image-link {
+                display: block;
+            }
+
+            .post-card__body {
+                padding: var(--spacing-md);
+            }
+
+            .post-card__title {
+                font-size: var(--font-size-h3);
+            }
+
+            // Text-only cards (no image sibling) get an accent border on the
+            // left to hold visual weight against image-heavy cards in the grid.
+            &:not(:has(.post-card__image-link)) .post-card__body {
+                border-left: var(--border-width-thick) solid var(--color-action-primary);
+                padding-left: var(--spacing-md);
+            }
+        }
     }
 }
 
-// ── Post card ─────────────────────────────────────────────────────────────
+// ── Post card (editorial list default) ────────────────────────────────────
 
 .post-card {
-    background-color: var(--color-bg-surface);
-    border: var(--border-width-thin) solid var(--color-border-default);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    transition: box-shadow 150ms ease, border-color 150ms ease;
+    padding: var(--spacing-xl) 0;
+    border-top: var(--border-width-thin) solid var(--color-border-default);
 
-    // Lift the card when the title link is hovered — the card frame responds
-    // without making the whole surface an interactive target (better for AT).
-    &:has(.post-card__title a:hover) {
-        box-shadow: var(--shadow-md);
-        border-color: var(--color-border-strong);
+    &:first-child {
+        border-top: none;
+        padding-top: 0;
     }
 
     // ── Featured variant ──────────────────────────────────────────────────
-    // Larger title and taller image — use for the lead post on an index page.
+    // Horizontal layout above 640px: image on the left, text on the right.
+    // Below 640px it stacks like a standard card.
     &.post-card--featured {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+
+        @media (min-width: 640px) {
+            grid-template-columns: 2fr 3fr;
+            gap: var(--spacing-lg);
+            align-items: start;
+        }
+
         .post-card__image {
-            aspect-ratio: 16 / 7;
+            aspect-ratio: 4 / 3;
+
+            @media (min-width: 640px) {
+                aspect-ratio: 4 / 3;
+            }
+        }
+
+        .post-card__body {
+            padding: 0;
         }
 
         .post-card__title {
@@ -88,20 +158,16 @@
         }
 
         .post-card__excerpt {
-            -webkit-line-clamp: 4; // allow a bit more text for the featured post
+            -webkit-line-clamp: 4;
         }
     }
 
     // ── Compact variant ───────────────────────────────────────────────────
-    // No image, tighter body padding, excerpt capped at 2 lines.
-    // Suitable for tag archives and "more posts" sidebars.
     &.post-card--compact {
+        padding: var(--spacing-md) 0;
+
         .post-card__image-link {
             display: none;
-        }
-
-        .post-card__body {
-            padding: var(--spacing-sm);
         }
 
         .post-card__title {
@@ -119,24 +185,35 @@
 
 .post-card__image-link {
     display: block;
-    // Suppress as a keyboard tab stop — the title link is the canonical link.
-    // Set tabindex="-1" and aria-hidden="true" in HTML.
+    margin-bottom: var(--spacing-md);
     outline: none;
+
+    // Subtle zoom on hover — keeps the interaction feel on the image
+    // without relying on card-level boxing.
+    &:hover .post-card__image,
+    &:focus-visible .post-card__image {
+        transform: scale(1.01);
+    }
+
+    &:focus-visible {
+        outline: var(--focus-ring-width) solid var(--color-focus);
+        outline-offset: var(--focus-ring-offset);
+        border-radius: var(--radius-md);
+    }
 }
 
 .post-card__image {
     display: block;
     width: 100%;
-    aspect-ratio: 2 / 1;
+    aspect-ratio: 16 / 7;
     object-fit: cover;
-    // Smooth the top corners to sit inside the card border-radius.
-    border-radius: calc(var(--radius-md) - 1px) calc(var(--radius-md) - 1px) 0 0;
+    border-radius: var(--radius-md);
+    transition: transform 200ms ease;
 }
 
 // ── Card body ─────────────────────────────────────────────────────────────
 
 .post-card__body {
-    padding: var(--spacing-md);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xs);
@@ -148,21 +225,17 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-2xs);
-    // When no tags are present the empty flex container collapses cleanly.
+    margin-bottom: var(--spacing-2xs);
 }
 
 .post-card__tag {
-    display: inline-block;
     font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
-    letter-spacing: 0.05em;
-    color: var(--color-text-subtle-on-surface);
-    background-color: var(--color-bg-elevated);
-    border: var(--border-width-thin) solid var(--color-border-default);
-    border-radius: var(--radius-sm);
-    padding: 0.1em var(--spacing-xs);
-    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-subtle);
+    line-height: 1;
 }
 
 // ── Title ─────────────────────────────────────────────────────────────────
@@ -171,7 +244,7 @@
     font-family: var(--font-family-display);
     font-size: var(--font-size-h3);
     font-weight: var(--font-weight-bold);
-    font-optical-sizing: auto; // Roboto Flex opsz — stroke weight adapts to rendered size
+    font-optical-sizing: auto;
     line-height: var(--line-height-tight);
     color: var(--color-text-default);
     margin: 0;
@@ -182,12 +255,8 @@
 
         &:hover {
             color: var(--color-link);
-            text-decoration: underline;
-            text-underline-offset: 0.15em;
         }
 
-        // Extend the focus ring to fill the title area so keyboard users see
-        // a clear indicator on a surface they're about to activate.
         &:focus-visible {
             outline: var(--focus-ring-width) solid var(--color-focus);
             outline-offset: var(--focus-ring-offset);
@@ -202,10 +271,9 @@
     font-family: var(--font-family-base);
     font-size: var(--font-size-base);
     line-height: var(--line-height-relaxed);
-    color: var(--color-text-subtle-on-surface);
+    color: var(--color-text-subtle);
     margin: 0;
 
-    // Clamp to 3 lines — enough to signal content without overwhelming the listing.
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -222,6 +290,6 @@
     font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
     letter-spacing: 0.02em;
-    color: var(--color-text-subtle-on-surface);
-    margin-top: var(--spacing-2xs); // extra nudge above the border between body and meta
+    color: var(--color-text-subtle);
+    margin-top: var(--spacing-2xs);
 }
