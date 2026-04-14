@@ -1,6 +1,7 @@
 /* Global styles */
 @use "./design-tokens";
 @use "./utilities/buttons";
+@use "./design-tokens/blog"; // post-card and post-list patterns (framework-agnostic CSS)
 
 // Icons — Phosphor Icons (peer dependency for component consumers)
 // Three-tier weight convention:

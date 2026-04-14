@@ -19,6 +19,8 @@ Auto-generated distribution artifacts. Do not edit these files directly — run 
 | `candor-article.min.css` | Minified article prose styles — for production `<link>` |
 | `candor-syntax.css` | Prism.js syntax highlighting theme — readable |
 | `candor-syntax.min.css` | Minified syntax highlighting theme — for production `<link>` |
+| `candor-blog.css` | Post card and post listing styles — for blog index pages |
+| `candor-blog.min.css` | Minified post listing styles — for production `<link>` |
 
 ## Usage
 
@@ -165,6 +167,49 @@ Override any role without forking the file:
 ```
 
 > **Shiki users:** Shiki uses inline styles or its own class system — `candor-syntax.css` does not apply. Use Shiki's theme API with the token color values above.
+
+---
+
+### Blog post listing (framework-agnostic)
+
+`candor-blog.css` provides `.post-card` and `.post-list` patterns for blog index pages, tag archives, and "more posts" sections.
+
+```html
+<link rel="stylesheet" href="path/to/candor-tokens.min.css">
+<link rel="stylesheet" href="path/to/candor-blog.min.css">
+```
+
+```html
+<ul class="post-list" role="list">
+  <li>
+    <article class="post-card">
+      <!-- optional cover image (tabindex="-1" aria-hidden="true" on the link) -->
+      <a class="post-card__image-link" href="/slug/" tabindex="-1" aria-hidden="true">
+        <img class="post-card__image" src="cover.jpg" alt="">
+      </a>
+      <div class="post-card__body">
+        <div class="post-card__tags">
+          <span class="post-card__tag">Design Systems</span>
+        </div>
+        <h2 class="post-card__title">
+          <a href="/slug/">Post title</a>  <!-- primary keyboard focus target -->
+        </h2>
+        <p class="post-card__excerpt">One or two sentences...</p>
+        <div class="post-card__meta">
+          <time>March 2026</time>
+          <span aria-hidden="true">·</span>
+          <span>6 min read</span>
+        </div>
+      </div>
+    </article>
+  </li>
+</ul>
+```
+
+**Modifiers:**
+- `.post-list--grid` — two-column responsive grid (collapses to one column below ~28rem per column)
+- `.post-card--featured` — larger title (`h2` scale) and taller image (`16/7` ratio); for the lead post
+- `.post-card--compact` — no image, tighter padding, 2-line excerpt; for sidebars and dense archives
 
 ---
 

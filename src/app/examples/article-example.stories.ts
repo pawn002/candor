@@ -148,3 +148,263 @@ export const BlogPost: Story = {
     `,
   }),
 };
+
+export const PostListing: Story = {
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story: `
+Post listing page pattern — blog index, tag archive, or "more posts" section.
+
+Styles live in \`tokens/candor-blog.css\` (compiled from \`src/design-tokens/blog.scss\`).
+Works in any framework; no Angular dependency. Load order:
+
+\`\`\`html
+<link rel="stylesheet" href="candor-tokens.min.css">
+<link rel="stylesheet" href="candor-blog.min.css">
+\`\`\`
+
+**Variants:**
+- \`.post-list--grid\` — two-column responsive grid (auto-collapses to one column)
+- \`.post-card--featured\` — larger title and taller image; for the lead post
+- \`.post-card--compact\` — no image, tighter padding, 2-line excerpt; for sidebars / archives
+
+**Accessibility notes:**
+- Cover image link: set \`tabindex="-1"\` and \`aria-hidden="true"\` — the title \`<a>\` is the canonical keyboard target
+- Use \`<ul role="list">\` with \`<li>\` + \`<article>\` for correct list semantics
+- Each \`<article>\` is self-contained — screen readers can navigate by landmark
+        `.trim(),
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="min-height: 100vh; background: var(--color-bg-page);">
+        <app-navigation
+          brand="Candor"
+          [items]="[{label:'Writing',href:'#',active:true},{label:'Tools',href:'#'},{label:'About',href:'#'}]"
+          orientation="horizontal">
+        </app-navigation>
+
+        <div style="max-width: 48rem; margin: 0 auto; padding: 3rem 1.5rem 5rem;">
+
+          <header style="margin-bottom: var(--spacing-xl);">
+            <h1 style="
+              font-family: var(--font-family-display);
+              font-size: var(--font-size-h2);
+              font-weight: var(--font-weight-bold);
+              font-optical-sizing: auto;
+              line-height: var(--line-height-tight);
+              color: var(--color-text-default);
+              margin: 0 0 var(--spacing-xs);
+            ">Writing</h1>
+            <p style="
+              font-family: var(--font-family-base);
+              font-size: var(--font-size-base);
+              color: var(--color-text-subtle);
+              margin: 0;
+            ">Notes on design, cartography, accessibility, and AI.</p>
+          </header>
+
+          <!-- Post listing — uses candor-blog.css classes -->
+          <ul class="post-list" role="list" style="list-style:none;padding:0;margin:0;">
+
+            <!-- Featured post -->
+            <li>
+              <article class="post-card post-card--featured">
+                <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
+                  <img class="post-card__image" src="https://picsum.photos/seed/featured/800/350" alt="">
+                </a>
+                <div class="post-card__body">
+                  <div class="post-card__tags">
+                    <span class="post-card__tag">Color</span>
+                    <span class="post-card__tag">Design Systems</span>
+                  </div>
+                  <h2 class="post-card__title">
+                    <a href="#">Why perceptual color spaces make better design tools</a>
+                  </h2>
+                  <p class="post-card__excerpt">
+                    Hex values are coordinates, not colors. Moving to OKLCH changes how you think about
+                    palettes, contrast, and iteration — and makes programmatic accessibility validation
+                    reliable in a way that RGB arithmetic never could.
+                  </p>
+                  <div class="post-card__meta">
+                    <time class="post-card__date">March 2026</time>
+                    <span aria-hidden="true">·</span>
+                    <span>6 min read</span>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Standard post -->
+            <li>
+              <article class="post-card">
+                <div class="post-card__body">
+                  <div class="post-card__tags">
+                    <span class="post-card__tag">Accessibility</span>
+                    <span class="post-card__tag">Typography</span>
+                  </div>
+                  <h2 class="post-card__title">
+                    <a href="#">Atkinson Hyperlegible and the problem of conspicuous accessibility</a>
+                  </h2>
+                  <p class="post-card__excerpt">
+                    Accessibility typefaces can signal to disabled readers that something special was
+                    done for them — a subtle form of othering. The question is whether designing for
+                    legibility has to look like designing for legibility.
+                  </p>
+                  <div class="post-card__meta">
+                    <time>February 2026</time>
+                    <span aria-hidden="true">·</span>
+                    <span>8 min read</span>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Post with cover image -->
+            <li>
+              <article class="post-card">
+                <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
+                  <img class="post-card__image" src="https://picsum.photos/seed/maps/800/400" alt="">
+                </a>
+                <div class="post-card__body">
+                  <div class="post-card__tags">
+                    <span class="post-card__tag">Cartography</span>
+                  </div>
+                  <h2 class="post-card__title">
+                    <a href="#">What map projections taught me about data visualization</a>
+                  </h2>
+                  <p class="post-card__excerpt">
+                    Every map projection preserves some properties and distorts others. There is no
+                    neutral representation. The same is true of every chart, graph, and dashboard.
+                  </p>
+                  <div class="post-card__meta">
+                    <time>January 2026</time>
+                    <span aria-hidden="true">·</span>
+                    <span>5 min read</span>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Compact post (no image) -->
+            <li>
+              <article class="post-card post-card--compact">
+                <div class="post-card__body">
+                  <div class="post-card__tags">
+                    <span class="post-card__tag">AI Safety</span>
+                  </div>
+                  <h2 class="post-card__title">
+                    <a href="#">Specification gaming is a design problem</a>
+                  </h2>
+                  <p class="post-card__excerpt">
+                    When a model finds an unintended solution to the stated objective, we call it
+                    misalignment. A designer would call it a brief that didn't say what it meant.
+                  </p>
+                  <div class="post-card__meta">
+                    <time>December 2025</time>
+                    <span aria-hidden="true">·</span>
+                    <span>4 min read</span>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const PostListingGrid: Story = {
+  name: 'Post Listing — Grid',
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story: 'Two-column responsive grid layout. Apply `.post-list--grid` to the list container. Columns collapse to one below ~28rem per column.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="min-height: 100vh; background: var(--color-bg-page);">
+        <div style="max-width: 64rem; margin: 0 auto; padding: 3rem 1.5rem 5rem;">
+
+          <header style="margin-bottom: var(--spacing-xl);">
+            <h1 style="
+              font-family: var(--font-family-display);
+              font-size: var(--font-size-h2);
+              font-weight: var(--font-weight-bold);
+              font-optical-sizing: auto;
+              line-height: var(--line-height-tight);
+              color: var(--color-text-default);
+              margin: 0 0 var(--spacing-xs);
+            ">Writing</h1>
+            <p style="
+              font-family: var(--font-family-base);
+              font-size: var(--font-size-base);
+              color: var(--color-text-subtle);
+              margin: 0;
+            ">Notes on design, cartography, accessibility, and AI.</p>
+          </header>
+
+          <ul class="post-list post-list--grid" role="list" style="list-style:none;padding:0;margin:0;">
+            <li>
+              <article class="post-card">
+                <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
+                  <img class="post-card__image" src="https://picsum.photos/seed/post1/600/300" alt="">
+                </a>
+                <div class="post-card__body">
+                  <div class="post-card__tags"><span class="post-card__tag">Color</span></div>
+                  <h2 class="post-card__title"><a href="#">Why perceptual color spaces make better design tools</a></h2>
+                  <p class="post-card__excerpt">Hex values are coordinates, not colors. Moving to OKLCH changes how you think about palettes, contrast, and iteration.</p>
+                  <div class="post-card__meta"><time>March 2026</time><span aria-hidden="true">·</span><span>6 min read</span></div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="post-card">
+                <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
+                  <img class="post-card__image" src="https://picsum.photos/seed/post2/600/300" alt="">
+                </a>
+                <div class="post-card__body">
+                  <div class="post-card__tags"><span class="post-card__tag">Accessibility</span></div>
+                  <h2 class="post-card__title"><a href="#">Atkinson Hyperlegible and the problem of conspicuous accessibility</a></h2>
+                  <p class="post-card__excerpt">Accessibility typefaces can signal to disabled readers that something special was done for them — a subtle form of othering.</p>
+                  <div class="post-card__meta"><time>February 2026</time><span aria-hidden="true">·</span><span>8 min read</span></div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="post-card">
+                <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
+                  <img class="post-card__image" src="https://picsum.photos/seed/post3/600/300" alt="">
+                </a>
+                <div class="post-card__body">
+                  <div class="post-card__tags"><span class="post-card__tag">Cartography</span></div>
+                  <h2 class="post-card__title"><a href="#">What map projections taught me about data visualization</a></h2>
+                  <p class="post-card__excerpt">Every map projection preserves some properties and distorts others. There is no neutral representation.</p>
+                  <div class="post-card__meta"><time>January 2026</time><span aria-hidden="true">·</span><span>5 min read</span></div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="post-card">
+                <div class="post-card__body">
+                  <div class="post-card__tags"><span class="post-card__tag">AI Safety</span></div>
+                  <h2 class="post-card__title"><a href="#">Specification gaming is a design problem</a></h2>
+                  <p class="post-card__excerpt">When a model finds an unintended solution to the stated objective, we call it misalignment. A designer would call it a brief that didn't say what it meant.</p>
+                  <div class="post-card__meta"><time>December 2025</time><span aria-hidden="true">·</span><span>4 min read</span></div>
+                </div>
+              </article>
+            </li>
+          </ul>
+        </div>
+      </div>
+    `,
+  }),
+};
