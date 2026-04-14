@@ -6,7 +6,7 @@ See the [Candor Storybook](https://main--69c25e2492ad056c24329876.chromatic.com)
 
 ---
 
-Auto-generated distribution artifacts. Do not edit these files directly — run `npm run build:tokens` to regenerate from source (`src/design-tokens/`).
+Auto-generated distribution artifacts. Do not edit these files directly — run `npm run build:tokens` to regenerate from source (`src/design-tokens/`, `src/app/components/typography/article/`).
 
 ## Files
 
@@ -15,6 +15,8 @@ Auto-generated distribution artifacts. Do not edit these files directly — run 
 | `candor-tokens.css` | Full expanded CSS — readable, for dev / CDN use |
 | `candor-tokens.min.css` | Minified CSS — for production `<link>` |
 | `candor-tokens.json` | Structured JSON — for Figma plugins / tooling |
+| `candor-article.css` | Article prose styles — framework-agnostic, readable |
+| `candor-article.min.css` | Minified article prose styles — for production `<link>` |
 
 ## Usage
 
@@ -78,6 +80,34 @@ npm install @phosphor-icons/web
 > **Font name note:** The Fontsource variable packages register the font as `'Roboto Flex Variable'`
 > (with the word "Variable" appended). The `--font-family-base` token lists both names —
 > `'Roboto Flex Variable', 'Roboto Flex'` — so the stack resolves correctly in all environments.
+
+### Article prose styles (framework-agnostic)
+
+`candor-article.css` is a standalone prose stylesheet compiled from the same source as the Angular `<app-article>` component. It works in any framework — 11ty, Astro, Next.js, or plain HTML.
+
+```html
+<link rel="stylesheet" href="path/to/candor-tokens.min.css">
+<link rel="stylesheet" href="path/to/candor-article.min.css">
+```
+
+Wrap post content in a `div` with the `.article` class:
+
+```html
+<div class="article article--font-reading">
+  <h1>Post title</h1>
+  <p>Body copy...</p>
+</div>
+```
+
+**Font variants:**
+- `article--font-reading` — Noto Serif; human or AI-authored prose (default)
+- `article--font-sans` — Noto Sans; utility or syndication contexts
+
+The stylesheet covers headings (h1–h6), paragraphs, lists, blockquotes, inline code, fenced code blocks (`<pre><code>`), figures with captions, tables, links with `:visited` double-underline indicator, and horizontal rules. All values resolve from `candor-tokens.css` — dark mode is inherited automatically.
+
+> **Syntax highlighting:** `candor-article.css` styles the code block *container* (background, border, font) but does not include language-aware token colors. For syntax highlighting, add a compatible theme stylesheet after `candor-article.css`. A Candor-themed syntax highlight stylesheet (`candor-syntax.css`) is planned for a future release.
+
+---
 
 ### Dark mode
 
