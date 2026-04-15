@@ -223,7 +223,7 @@
     --color-text-disabled:          var(--gray-600); //  2.7:1 — intentionally below AA
     --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
     --color-text-subtle-on-inverse: oklch(0.40 0 0); // muted text on white inverse surface
-    --color-text-on-action:         var(--gray-800); // OKCA 5.5 on action-primary ✅
+    --color-text-on-action:         oklch(0.16 0.02 248.99); // OKCA 6.6 on action-primary ✅ — same as bg-page; gray-800 (L=0.24) was OKCA 5.5, fails 14px bold threshold of 6.5
 
     // ─── Borders ───────────────────────────────────────────────────────────
     --color-border-default:    var(--gray-600); // subtle separator — non-text, decorative
