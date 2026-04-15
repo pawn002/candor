@@ -5,7 +5,11 @@ const meta: Meta<MenuComponent> = {
   title: 'Components/Menu',
   component: MenuComponent,
   tags: ['autodocs'],
+  argTypes: {
+    label: { control: 'text' },
+  },
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: `
@@ -22,12 +26,6 @@ not just "More" or "Options".
         `.trim(),
       },
     },
-  },
-  argTypes: {
-    label: { control: 'text' },
-  },
-  parameters: {
-    layout: 'centered',
   },
 };
 
