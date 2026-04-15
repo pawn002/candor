@@ -73,7 +73,7 @@
 
   &__message {
     color: var(--color-toast-message);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-md); // Tier 1 reading text — 14px scores 5.0–9.2 < 9.5; 16px threshold 4.5 ✅
     line-height: var(--line-height-normal);
   }
 
