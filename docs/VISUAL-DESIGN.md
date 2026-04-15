@@ -1,26 +1,24 @@
 # Visual Design in Candor
 
-Candor is a humanist design system. That word is load-bearing. It is not a mood, a color palette, or a stylistic preference — it is a commitment that every surface in the system, including the technical and machine-generated ones, should feel like part of a considered, human-authored artifact.
-
-The typefaces make this concrete. Roboto Flex, Noto Serif, and Atkinson Hyperlegible are all drawn from the humanist tradition: letterforms shaped by the hand, designed for reading by people. OKLCH is used because it models human vision rather than machine arithmetic. These are not incidental choices, and they set the terms for everything built on top of them.
+Candor is a humanist design system: every surface, including technical and machine-generated content, should feel like part of a considered, human-authored artifact. Roboto Flex, Noto Serif, and Atkinson Hyperlegible are all drawn from the humanist tradition — letterforms shaped by the hand, designed for reading by people. OKLCH is used because it models human vision rather than machine arithmetic. These are deliberate choices and they set the terms for everything built on top of them.
 
 ## The core tension
 
-Technical content has real legibility requirements. Code must be scannable. Data tables must differentiate rows. Form errors must be impossible to miss. The humanist position is not to ignore these requirements — it is to meet them while preserving warmth, coherence, and the sense that a human made deliberate choices about every surface.
+Technical content has real legibility requirements. Code must be scannable. Data tables must differentiate rows. Form errors must be impossible to miss. Meeting those requirements is mandatory; the question is always whether they can be met while preserving warmth, coherence, and the sense that a human made deliberate choices about every surface.
 
 The failure mode is always the same: reaching for the clinical default because it is the easy answer. Pure white on pure black. `font-weight: bold` on every state that needs attention. A single 1px hairline between rows. Maximum contrast. These choices are legible, but they are not designed. They interrupt the system's character and betray that no one stopped to think.
 
-**The working question is never "is this legible enough?" alone. It is "is this legible and does it belong to the rest of the artifact?"** Both answers must be yes. If you can only get one, the component is not finished.
+**Every component needs two answers: is this legible, and does it belong to the rest of the artifact?** If you can only get one, the component is not finished.
 
-Candor navigates the tension by making the humanist choice the default path and requiring a reason to deviate from it. The type scale, color tokens, spacing grid, and contrast tiers are all pre-tuned so that a developer assembling components from the library produces humane output without having to think about it. The traps appear when someone reaches outside the token system — picking a raw color, setting a weight manually, choosing a size off-scale — and the clinical default comes back through the gap.
+Candor makes the humanist choice the default path and requires a reason to deviate from it. The type scale, color tokens, spacing grid, and contrast tiers are all pre-tuned so that a developer assembling components from the library produces humane output without having to think about it. The traps appear when someone reaches outside the token system — picking a raw color, setting a weight manually, choosing a size off-scale — and the clinical default comes back through the gap.
 
 ---
 
 ## 1. Grid and alignment
 
-A grid is not a visual style. It is the promise that every element on a screen was placed with reference to every other element. Without that promise, a layout feels accidental no matter how polished the individual pieces are.
+A grid is the promise that every element on a screen was placed with reference to every other element. Without that, a layout feels accidental no matter how polished the individual pieces are.
 
-Candor's grid is the 8px spatial system defined in `src/design-tokens/spacing.scss`. Every gap, padding, margin, and component dimension resolves to a multiple of 8px. This is not an arbitrary rule — it is what allows a card, a form, a table, and a dialog built independently to sit next to each other and feel related. The eye reads the shared rhythm before it reads the content.
+Candor's grid is the 8px spatial system in `src/design-tokens/spacing.scss`. Every gap, padding, margin, and component dimension resolves to a multiple of 8px. That shared rhythm is what allows a card, a form, a table, and a dialog built independently to sit next to each other and feel related. The eye reads the rhythm before it reads the content.
 
 ### What this means in Candor
 
@@ -33,9 +31,9 @@ Candor's grid is the 8px spatial system defined in `src/design-tokens/spacing.sc
 | Trap | What it looks like | Fix |
 |---|---|---|
 | Reaching for an odd value | `padding: 10px` or `gap: 14px` | Pick the nearest spacing token. If none fit, the composition is wrong, not the token scale. |
-| Inconsistent gutter at different breakpoints | Desktop uses `--space-6`, mobile uses a bespoke `16px` | Define responsive spacing with tokens at both ends |
+| Inconsistent gutter at different breakpoints | Desktop uses `--spacing-xl`, mobile uses a bespoke `16px` | Define responsive spacing with tokens at both ends |
 | Content-width drift | Each page picks its own max-width | Use a shared container width; prose columns should cap around 65–75ch for readability |
-| Stacking without rhythm | Everything uses `--space-4` because it is "safe" | Hierarchy needs variation — tighter spacing for related elements, looser for section breaks |
+| Stacking without rhythm | Everything uses `--spacing-md` because it is "safe" | Hierarchy needs variation — tighter spacing for related elements, looser for section breaks |
 
 ### Do / don't
 
@@ -65,14 +63,14 @@ Candor's grid is the 8px spatial system defined in `src/design-tokens/spacing.sc
 
 ## 2. Typographic system
 
-Typography in Candor is not decoration. It is the primary mechanism by which hierarchy, tone, and reading mode are communicated. Before color does any work, the type has already told the reader what they are looking at.
+Typography is the primary mechanism by which hierarchy, tone, and reading mode are communicated. Before color does any work, the type has already told the reader what they are looking at.
 
 Candor uses four families, each with a defined role. Mixing them carelessly produces noise; using them deliberately produces voice.
 
 | Token | Family | Role |
 |---|---|---|
 | `--font-family-display` / `--font-family-base` | Roboto Flex | Headings, UI text, general-purpose. Variable axes (`opsz`, `GRAD`, `wdth`) carry hierarchy beyond weight. |
-| `--font-family-serif` | Noto Serif | Long-form editorial prose in `Article` and similar reading contexts. Not a decorative flourish — it signals "this is written to be read." |
+| `--font-family-serif` | Noto Serif | Long-form editorial prose in `Article` and similar reading contexts. Signals deliberate reading mode. |
 | `--font-family-accessible` | Atkinson Hyperlegible | Form labels, status messages, annotations, badges. Critical UI text where glyph distinction matters at small sizes. |
 | `--font-family-mono` | Noto Sans Mono | Code, technical values, anything where character position carries meaning. |
 
@@ -107,7 +105,7 @@ Atkinson Hyperlegible carries critical UI text because its glyph differentiation
 
 ### The 14px floor and the tier system
 
-No readable text in Candor falls below 14px. 12px (`--font-size-xs`) is for decorative chrome only — never for content a user is expected to read. At 14px, the OKCA contrast tiers (Reading / Functional UI / Supplementary) determine the threshold. See the main `CLAUDE.md` for the tier table.
+No readable text in Candor falls below 14px. 12px (`--font-size-xs`) is for decorative chrome only — never for content a user is expected to read. At 14px, the OKCA contrast tiers (Reading / Functional UI / Supplementary) determine the threshold. See `CLAUDE.md` for the tier table.
 
 ### Traps
 
@@ -123,11 +121,11 @@ No readable text in Candor falls below 14px. 12px (`--font-size-xs`) is for deco
 
 ## 3. Strategic color palette
 
-Candor's palette is deliberately limited. The whole system resolves to a small set of semantic tokens: page, surface, elevated, inverse for backgrounds; default, subtle, subtle-on-surface, disabled for text; primary, secondary, tertiary, destructive for actions; success, warning, error, info for status. That is the entire working vocabulary. If a design needs a color that is not in that list, the first question is always whether the design is wrong, not whether the palette is insufficient.
+Candor's palette is deliberately limited. The whole system resolves to a small set of semantic tokens: page, surface, elevated, inverse for backgrounds; default, subtle, subtle-on-surface, disabled for text; primary, secondary, tertiary, destructive for actions; success, warning, error, info for status. That is the entire working vocabulary. If a design needs a color outside that list, the first question is always whether the design is wrong, not whether the palette is insufficient.
 
-### OKLCH as a design tool, not a format
+### OKLCH as a reasoning tool
 
-OKLCH is not just a more accurate color space. It is a reasoning tool. Because lightness is perceptually uniform, you can manipulate it predictably: dropping L by 0.1 produces a predictable darkening regardless of hue. Because chroma is independent of lightness, you can mute a color without making it darker. This is why Candor uses OKLCH everywhere and why `cpqi` is the canonical tool for checking and adjusting values.
+OKLCH makes color decisions predictable. Because lightness is perceptually uniform, dropping L by 0.1 produces a predictable darkening regardless of hue. Because chroma is independent of lightness, a color can be muted without making it darker. This is why Candor uses OKLCH everywhere and why `cpqi` is the canonical tool for checking and adjusting values.
 
 **Always check gamut.** OKLCH describes a wider space than sRGB. A color that is out of the sRGB gamut will be silently clamped by the browser, and the result will not match the token. `cpqi meta` flags this.
 
@@ -155,7 +153,7 @@ This layering is what allows dark mode, theme variants, and future palette chang
 
 ### The separation of base and text status colors
 
-A status color at its base lightness — the color you use for an icon, a chip background, a left-edge accent — is not the color you use for text at 14px. They live in separate tiers because the contrast math is different. `--color-status-error` is for non-text use; `--color-status-error-text` is for text. Never substitute one for the other. This is one of the most common sources of a failed contrast audit.
+Status base colors — used for icons, chip backgrounds, left-edge accents — are at a lightness that works for non-text use. They are not the same colors used for text. `--color-status-error` is for non-text use; `--color-status-error-text` is for text. The contrast math is different for each. Substituting one for the other is one of the most common sources of a failed contrast audit.
 
 ### The link-color discipline
 
@@ -186,23 +184,21 @@ Dark mode is where clinical defaults are most tempting and most destructive.
 
 ## 4. Useful imagery
 
-Candor is primarily a UI system, so "imagery" here covers the full visual-substance category: photography, illustration, iconography, data visualization, and even decorative shapes. The principle is the same across all of them: if an image is not doing work, it is doing harm.
-
-Work, in this context, means one of four things:
+Candor is primarily a UI system, so "imagery" here covers the full visual-substance category: photography, illustration, iconography, data visualization, and decorative shapes. Every image should serve one of four purposes:
 
 1. **Conveying information** that text cannot convey efficiently (a chart, a diagram, a product photo showing a detail).
 2. **Establishing the character of a surface** (an editorial header image that sets the tone for long-form reading).
 3. **Providing navigation or recognition** (an avatar, a product thumbnail, an icon that speeds wayfinding).
 4. **Expressing brand presence** where a page would otherwise be uncharacterized.
 
-An image that does none of these is filler, and filler erodes the sense that every element was chosen.
+Images that serve none of these are filler, and filler erodes the sense that every element was chosen.
 
 ### What this means in Candor
 
 - **Icons are functional, not decorative.** The icon system is semantic: a checkmark means success, an exclamation means warning. Decorative icons (a sparkle next to a heading for "flair") dilute the semantics and should be removed.
 - **Iconography should pair with text wherever the icon's meaning is not universal.** An icon-only button without an accessible name fails both a11y and comprehension. A status indicator that uses only color (no icon, no text) fails Tier 3 contrast by definition, because color is the sole channel.
 - **Photography and illustration inherit the humanist frame.** A page of warm serif prose with a harsh, desaturated stock photo is incoherent. If photography is used in an Article or editorial surface, it should sit visually inside the system's palette — either through the image selection itself, or through treatment (warm overlay, border, aspect ratio on the spatial grid).
-- **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, the colors should be generated from the same OKLCH foundation (`cpqi variants`).
+- **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`cpqi variants`).
 
 ### Traps
 
@@ -222,7 +218,7 @@ A checklist a reviewer can run on any new screen or component. These are composi
 
 1. **Rhythm is visible.** Squint at the screen. Can you see consistent vertical spacing between sections? If everything runs together or the gaps are erratic, the spacing tokens are being used inconsistently.
 2. **Type hierarchy is legible without color.** Turn the screen grayscale. Can you still tell which element is the page title, which is a section heading, and which is body? If not, the hierarchy is being carried by color rather than type.
-3. **Each type family is playing its defined role.** Candor has four families and all four can legitimately appear on the same screen (UI chrome in Roboto Flex, prose in Noto Serif, labels in Atkinson, code in mono). What creates noise is not the count — it is families appearing outside their roles: Noto Serif on a form label, Atkinson on a heading, mono as a visual flavor choice.
+3. **Each type family is playing its defined role.** Candor has four families and all four can legitimately appear on the same screen (UI chrome in Roboto Flex, prose in Noto Serif, labels in Atkinson, code in mono). What creates noise is families appearing outside their roles: Noto Serif on a form label, Atkinson on a heading, mono as a visual flavor choice.
 4. **Headings feel drawn, not bolded.** If every heading reads as "the same font, heavier," the `opsz` axis is not working. Optical sizing should produce a hierarchy that feels graduated, not stepped.
 5. **Color is doing one job per token.** Errors are `--color-status-error-*`, links are `--color-link`, primary actions are `--color-action-primary`. If a color is being used for two unrelated purposes on the same screen, the semantics are leaking.
 6. **Backgrounds delineate by more than luminance alone.** Cards, panels, and elevated surfaces are distinguishable even on a dark theme. Borders are present where the L-step is subtle.
@@ -249,13 +245,10 @@ Likely causes, in order of frequency:
 
 ### Symptom: "This feels harsh on the eyes"
 
-- **Pure or near-pure white background with pure black text.** `--color-bg-page` in light mode is white by design — that is correct. What is pre-tuned is `--color-text-default`: it is `oklch(0.32 0 0)`, not the darkest possible value. If body text feels harsh, check whether a custom `color: black` or `color: #000` is overriding it.
-- **Maximum contrast text.** Body text at the darkest possible value. `--color-text-default` is intentionally not at the extreme; using a custom darker value defeats that.
+- **Body text overriding `--color-text-default`.** The token is `oklch(0.32 0 0)`, deliberately not the darkest possible value. A custom `color: black` or `color: #000` defeats that. Check for overrides.
 - **High chroma status colors in dark mode.** Saturated error or warning backgrounds glow. Reduce L and C together.
 
 ### Symptom: "The technical content sits outside the design"
-
-This is the most common failure in components like `Code`, `Table`, and data displays.
 
 - **Mono font used without adjustment.** A raw monospace block in the middle of serif prose is jarring. Fix: give it a background (`--color-bg-surface`), padding, and a border radius so it sits inside the visual frame.
 - **Code block background is pure black in dark mode.** It interrupts a warm layout. Fix: use `--color-bg-code`, which in dark mode resolves to `oklch(0.20 0.04 248)` — a deep cool navy, not black. Never set a raw `background: #000` on a code surface.
@@ -282,4 +275,4 @@ This is the most common failure in components like `Code`, `Table`, and data dis
 
 ---
 
-The short version of all of this: Candor assumes you will do the humane thing by default, and it makes that the path of least resistance. The traps appear when someone steps off the path — picks a raw color, sets a weight by hand, chooses an off-scale size, uses a mono font as flavor. When a screen feels wrong, the fix is almost always a step back onto the path, not a new decision added on top.
+The traps appear when someone steps off the path — picks a raw color, sets a weight by hand, chooses an off-scale size, uses a mono font as flavor. When a screen feels wrong, the fix is almost always a step back onto the path, not a new decision added on top.
