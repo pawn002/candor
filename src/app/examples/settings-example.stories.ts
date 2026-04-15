@@ -312,13 +312,14 @@ export const TabbedSettings: Story = {
 
 export const DeleteConfirmation: Story = {
   render: () => ({
+    props: { isOpen: false },
     template: `
       <div style="padding: 2rem;">
-        <app-text [variant]="'body'" style="display: block; color: var(--color-text-subtle); margin-bottom: 1rem;">
-          Trigger context: user clicks "Delete account" in advanced settings.
-        </app-text>
+        <app-button [variant]="'destructive'" [size]="'medium'" (clicked)="isOpen = true">
+          Delete account
+        </app-button>
 
-        <app-modal [open]="true" heading="Delete account" size="sm">
+        <app-modal [open]="isOpen" heading="Delete account" size="sm" (closed)="isOpen = false">
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             <app-text [variant]="'body'">
               This will permanently delete your account and all associated data — projects, settings, billing history, and team memberships. This action cannot be undone.
@@ -330,7 +331,7 @@ export const DeleteConfirmation: Story = {
             </app-alert>
           </div>
           <div slot="footer" style="display: flex; gap: 0.75rem; justify-content: flex-end; padding: 1.25rem 1.5rem; border-top: 1px solid var(--color-border-default);">
-            <app-button [variant]="'ghost'" [size]="'medium'">Cancel</app-button>
+            <app-button [variant]="'ghost'" [size]="'medium'" (clicked)="isOpen = false">Cancel</app-button>
             <app-button [variant]="'destructive'" [size]="'medium'">Delete my account</app-button>
           </div>
         </app-modal>
