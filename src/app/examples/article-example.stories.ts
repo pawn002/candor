@@ -24,7 +24,6 @@ export const BlogPost: Story = {
     props: {
       navItems: [
         { label: 'Writing', href: '#', active: true },
-        { label: 'Tools', href: '#' },
         { label: 'About', href: '#' },
       ],
     },
@@ -33,7 +32,7 @@ export const BlogPost: Story = {
 
         <!-- Navigation -->
         <app-navigation
-          brand="Candor"
+          brand="pawn002"
           [items]="navItems"
           orientation="horizontal">
         </app-navigation>
@@ -43,9 +42,10 @@ export const BlogPost: Story = {
 
           <!-- Post header -->
           <header style="margin-bottom: 2.5rem;">
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
-              <app-badge variant="default">Color</app-badge>
-              <app-badge variant="default">Design Systems</app-badge>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+              <app-badge variant="default">Accessibility</app-badge>
+              <app-badge variant="default">AI</app-badge>
+              <app-badge variant="default">Ethics</app-badge>
             </div>
 
             <h1 style="
@@ -56,7 +56,7 @@ export const BlogPost: Story = {
               line-height: var(--line-height-tight);
               color: var(--color-text-default);
               margin: 0 0 1rem;
-            ">Why perceptual color spaces make better design tools</h1>
+            ">Accessible AI: Why LLM Outputs Fail Users with Disabilities</h1>
 
             <p style="
               font-family: var(--font-family-base);
@@ -64,7 +64,7 @@ export const BlogPost: Story = {
               color: var(--color-text-subtle);
               line-height: var(--line-height-normal);
               margin: 0 0 1.5rem;
-            ">Hex values are coordinates, not colors. Moving to OKLCH changes how you think about palettes, contrast, and iteration.</p>
+            ">LLMs produce technically-valid outputs that fail to serve disabled users. Context is the intervention — examining prompt engineering patterns that shift burden from systems to users.</p>
 
             <div style="
               display: flex;
@@ -77,70 +77,70 @@ export const BlogPost: Story = {
               color: var(--color-text-subtle);
               letter-spacing: 0.02em;
             ">
-              <span>March 2026</span>
+              <span>January 2026</span>
               <span aria-hidden="true">·</span>
-              <span>6 min read</span>
+              <span>8 min read</span>
             </div>
           </header>
 
+          <!-- Hero image -->
+          <figure style="margin: 0 0 2.5rem;">
+            <img
+              src="https://picsum.photos/seed/accessibleai/900/400"
+              alt="Hero illustration: transformation from hollow speech bubble to solid accessible speech bubble, representing how context transforms LLM outputs"
+              style="display: block; width: 100%; border-radius: var(--radius-md); aspect-ratio: 16/7; object-fit: cover;"
+            >
+          </figure>
+
           <!-- Article body -->
           <app-article font="reading">
-            <p>When you pick a color in hex, you're giving the browser a memory address. <code>#1a6fbf</code> means "blue register 26, green register 111, blue register 191" — nothing about how bright it looks, how it relates to adjacent colors, or whether it will hold up on a dark background. The machine knows exactly what to render. You have no useful intuition about it at all.</p>
+            <p>A screen reader user asks an AI assistant to summarize a research paper. The assistant returns five bullet points. Each bullet is a complete sentence, unpunctuated, beginning with a capital letter. The screen reader announces them as a single run-on utterance. The information is all there. The output is inaccessible.</p>
 
-            <p>OKLCH changes that. The three values — lightness, chroma, hue — map directly to things you can reason about:</p>
+            <p>This is not an edge case. It is the default behavior of every major LLM when accessibility context is absent from the prompt. The model produces output that is technically correct and structurally broken — because no one told it otherwise.</p>
 
             <blockquote>
-              <strong>L</strong> is perceptual brightness. <strong>C</strong> is how saturated the color is. <strong>H</strong> is the angle on the color wheel. Move L up and any color gets lighter, predictably, without shifting hue. That's not true in RGB.
+              The accessibility failure is not in the model. It is in the prompt. The model will do exactly what you ask. The question is whether what you asked includes the needs of the person receiving the output.
             </blockquote>
 
-            <h2>The contrast problem with hex</h2>
+            <h2>The compliance gap</h2>
 
-            <p>WCAG contrast ratios are computed from relative luminance, which is derived from sRGB values through a transfer function. The result is that two colors with identical computed contrast ratios can look wildly different in perceptual weight — a saturated blue pair reads as lower contrast than a neutral gray pair at the same WCAG number.</p>
+            <p>WCAG 2.1 was written for static content. It defines requirements for images, color contrast, keyboard navigation, and semantic structure — all properties of a document that exists before a user arrives. LLM output is none of these things. It is generated at request time, shaped entirely by context, and structurally unconstrained by default.</p>
 
-            <p>OKLCH's lightness channel is calibrated to the human visual system. When you check that two colors have a lightness difference of 0.40, you're working in a space where 0.40 means roughly the same perceptual step across all hues. This doesn't replace WCAG — you still need the ratio — but it makes building accessible palettes much less trial-and-error.</p>
+            <p>This creates a compliance gap that organizations are not yet accounting for. A product can pass a WCAG audit and still deliver inaccessible AI-generated content to every user who relies on assistive technology.</p>
 
-            <h2>Building a palette you can actually modify</h2>
+            <h2>Context as intervention</h2>
 
-            <p>The practical advantage shows up during iteration. Suppose your brand primary is <code>oklch(0.45 0.20 250)</code> — a mid-dark navy. You need a hover state. In RGB, you'd pick a color by eye or use a tool. In OKLCH, you take L from 0.45 to 0.40 and you're done. The chroma and hue are unchanged; the relationship is explicit.</p>
+            <p>The intervention is prompt engineering — specifically, injecting accessibility context at the system level so that every generation inherits it without the end user having to ask. A system prompt that instructs the model to use semantic punctuation, avoid markdown in voice contexts, and structure lists as actual lists produces output that works for screen reader users without requiring any change to the user-facing interface.</p>
 
-            <p>The same logic applies to tonal palettes. Fix C and H, step L from 0.95 down to 0.15 in equal increments, and you have a 10-step scale where every step is a consistent perceptual distance from its neighbors. No hand-tuning, no surprises in dark mode.</p>
+            <p>The pattern is straightforward. The resistance is organizational: this requires product and AI teams to treat accessibility as a constraint on generation, not a post-processing filter on output. Those are different architectural positions.</p>
 
-            <h2>Dark mode is where it pays off most</h2>
+            <h2>Shifting the burden</h2>
 
-            <p>Inverting a palette for dark mode is where hex-based systems most often break down. A saturated brand color that reads well on white becomes neon on dark — not because the contrast failed, but because high chroma at high lightness creates a luminous quality that the contrast ratio doesn't capture.</p>
+            <p>The current state places the burden on the disabled user: they must prompt the AI in ways that elicit accessible output, often without knowing which patterns work or why. This is the digital equivalent of asking a wheelchair user to request a ramp — technically possible, fundamentally wrong.</p>
 
-            <p>In OKLCH, that problem has a name and a solution. You reduce C. You might also lower L slightly. Both adjustments are one-axis operations with predictable results. The color stays recognizably itself — same hue — while losing the intensity that was making it uncomfortable to look at.</p>
+            <p>System-level prompt engineering moves the constraint to the right place. The user gets accessible output because the system was built to produce it, not because they knew the right words to ask for it.</p>
           </app-article>
 
-          <!-- Post footer -->
+          <!-- Post footer — prev/next navigation -->
           <footer style="
             margin-top: 3rem;
-            padding-top: 2rem;
+            padding-top: 1.5rem;
             border-top: 1px solid var(--color-border-default);
           ">
-            <app-card variant="elevated" style="display: block;">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
-                <div>
-                  <p style="
-                    font-family: var(--font-family-accessible);
-                    font-size: var(--font-size-sm);
-                    font-weight: var(--font-weight-bold);
-                    color: var(--color-text-subtle);
-                    letter-spacing: 0.05em;
-                    text-transform: uppercase;
-                    margin: 0 0 0.5rem;
-                  ">Try it yourself</p>
-                  <p style="
-                    font-family: var(--font-family-base);
-                    font-size: var(--font-size-base);
-                    color: var(--color-text-default);
-                    margin: 0;
-                    line-height: var(--line-height-normal);
-                  ">The color pair iterator lets you explore OKLCH relationships visually — adjust L, C, and H while watching contrast ratios update in real time.</p>
-                </div>
-                <app-button variant="primary" size="medium">Open tool</app-button>
-              </div>
-            </app-card>
+            <nav aria-label="Post navigation" style="display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+              <a href="#" style="
+                font-family: var(--font-family-accessible);
+                font-size: var(--font-size-sm);
+                color: var(--color-link);
+                letter-spacing: 0.02em;
+              ">← Compliance without Accommodation</a>
+              <a href="#" style="
+                font-family: var(--font-family-accessible);
+                font-size: var(--font-size-sm);
+                color: var(--color-link);
+                letter-spacing: 0.02em;
+              ">The P+F+I+D Framework →</a>
+            </nav>
           </footer>
 
         </div>
@@ -182,8 +182,8 @@ Works in any framework; no Angular dependency. Load order:
     template: `
       <div style="min-height: 100vh; background: var(--color-bg-page);">
         <app-navigation
-          brand="Candor"
-          [items]="[{label:'Writing',href:'#',active:true},{label:'Tools',href:'#'},{label:'About',href:'#'}]"
+          brand="pawn002"
+          [items]="[{label:'Writing',href:'#',active:true},{label:'About',href:'#'}]"
           orientation="horizontal">
         </app-navigation>
 
@@ -204,58 +204,34 @@ Works in any framework; no Angular dependency. Load order:
               font-size: var(--font-size-base);
               color: var(--color-text-subtle);
               margin: 0;
-            ">Notes on design, cartography, accessibility, and AI.</p>
+            ">Cross disciplinary writing bringing together technology, art, and life.</p>
           </header>
 
           <!-- Post listing — uses candor-blog.css classes -->
           <ul class="post-list" role="list" style="list-style:none;padding:0;margin:0;">
 
-            <!-- Featured post -->
+            <!-- Featured post — has hero image -->
             <li>
               <article class="post-card post-card--featured">
                 <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
-                  <img class="post-card__image" src="https://picsum.photos/seed/featured/800/350" alt="">
+                  <img class="post-card__image" src="https://picsum.photos/seed/accessibleai/800/450" alt="">
                 </a>
                 <div class="post-card__body">
                   <div class="post-card__tags">
-                    <span class="post-card__tag">Color</span>
-                    <span class="post-card__tag">Design Systems</span>
-                  </div>
-                  <h2 class="post-card__title">
-                    <a href="#">Why perceptual color spaces make better design tools</a>
-                  </h2>
-                  <p class="post-card__excerpt">
-                    Hex values are coordinates, not colors. Moving to OKLCH changes how you think about
-                    palettes, contrast, and iteration — and makes programmatic accessibility validation
-                    reliable in a way that RGB arithmetic never could.
-                  </p>
-                  <div class="post-card__meta">
-                    <time class="post-card__date">March 2026</time>
-                    <span aria-hidden="true">·</span>
-                    <span>6 min read</span>
-                  </div>
-                </div>
-              </article>
-            </li>
-
-            <!-- Standard post -->
-            <li>
-              <article class="post-card">
-                <div class="post-card__body">
-                  <div class="post-card__tags">
                     <span class="post-card__tag">Accessibility</span>
-                    <span class="post-card__tag">Typography</span>
+                    <span class="post-card__tag">AI</span>
+                    <span class="post-card__tag">Ethics</span>
                   </div>
                   <h2 class="post-card__title">
-                    <a href="#">Atkinson Hyperlegible and the problem of conspicuous accessibility</a>
+                    <a href="#">Accessible AI: Why LLM Outputs Fail Users with Disabilities</a>
                   </h2>
                   <p class="post-card__excerpt">
-                    Accessibility typefaces can signal to disabled readers that something special was
-                    done for them — a subtle form of othering. The question is whether designing for
-                    legibility has to look like designing for legibility.
+                    LLMs produce technically-valid outputs that fail to serve disabled users.
+                    Context is the intervention — examining prompt engineering patterns that
+                    shift burden from users to systems.
                   </p>
                   <div class="post-card__meta">
-                    <time>February 2026</time>
+                    <time datetime="2026-01-21">January 2026</time>
                     <span aria-hidden="true">·</span>
                     <span>8 min read</span>
                   </div>
@@ -263,50 +239,104 @@ Works in any framework; no Angular dependency. Load order:
               </article>
             </li>
 
-            <!-- Post with cover image -->
+            <!-- Standard post — no hero image -->
             <li>
               <article class="post-card">
-                <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
-                  <img class="post-card__image" src="https://picsum.photos/seed/maps/800/400" alt="">
-                </a>
                 <div class="post-card__body">
                   <div class="post-card__tags">
-                    <span class="post-card__tag">Cartography</span>
+                    <span class="post-card__tag">Accessibility</span>
+                    <span class="post-card__tag">AI Safety</span>
+                    <span class="post-card__tag">Policy</span>
                   </div>
                   <h2 class="post-card__title">
-                    <a href="#">What map projections taught me about data visualization</a>
+                    <a href="#">Safe on Paper: What Accessibility Standards Teach AI Safety Governance</a>
                   </h2>
                   <p class="post-card__excerpt">
-                    Every map projection preserves some properties and distorts others. There is no
-                    neutral representation. The same is true of every chart, graph, and dashboard.
+                    Standards calcify. Accessibility governance spent 25 years learning what happens
+                    when compliance diverges from outcomes — AI safety is setting up the same dynamic,
+                    with those lessons available in advance.
                   </p>
                   <div class="post-card__meta">
-                    <time>January 2026</time>
+                    <time datetime="2026-02-28">February 2026</time>
                     <span aria-hidden="true">·</span>
-                    <span>5 min read</span>
+                    <span>7 min read</span>
                   </div>
                 </div>
               </article>
             </li>
 
-            <!-- Compact post (no image) -->
+            <!-- Standard post — no hero image -->
+            <li>
+              <article class="post-card">
+                <div class="post-card__body">
+                  <div class="post-card__tags">
+                    <span class="post-card__tag">Accessibility</span>
+                    <span class="post-card__tag">Policy</span>
+                  </div>
+                  <h2 class="post-card__title">
+                    <a href="#">Compliance without Accommodation: The Unfortunate Circumstance of Existing Accessibility Guidance</a>
+                  </h2>
+                  <p class="post-card__excerpt">
+                    How WCAG's legal codification has created a paradox where organizations face risk
+                    when adopting better solutions — leaving disabled users underserved despite apparent compliance.
+                  </p>
+                  <div class="post-card__meta">
+                    <time datetime="2026-01-20">January 2026</time>
+                    <span aria-hidden="true">·</span>
+                    <span>6 min read</span>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Standard post — has hero image -->
+            <li>
+              <article class="post-card">
+                <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
+                  <img class="post-card__image" src="https://picsum.photos/seed/pfid/800/400" alt="">
+                </a>
+                <div class="post-card__body">
+                  <div class="post-card__tags">
+                    <span class="post-card__tag">Prompt Engineering</span>
+                    <span class="post-card__tag">AI</span>
+                    <span class="post-card__tag">Portfolio</span>
+                  </div>
+                  <h2 class="post-card__title">
+                    <a href="#">The P+F+I+D Framework: A Prompt Engineering Case Study</a>
+                  </h2>
+                  <p class="post-card__excerpt">
+                    A case study documenting the evolution from 0/10 to 9.5/10 prompt engineering
+                    skill through the P+F+I+D framework, featuring real prompts, metrics, and the
+                    CLAUDE.md breakthrough.
+                  </p>
+                  <div class="post-card__meta">
+                    <time datetime="2026-01-15">January 2026</time>
+                    <span aria-hidden="true">·</span>
+                    <span>10 min read</span>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Compact post — no image, older archive entry -->
             <li>
               <article class="post-card post-card--compact">
                 <div class="post-card__body">
                   <div class="post-card__tags">
-                    <span class="post-card__tag">AI Safety</span>
+                    <span class="post-card__tag">AI</span>
+                    <span class="post-card__tag">Portfolio</span>
                   </div>
                   <h2 class="post-card__title">
-                    <a href="#">Specification gaming is a design problem</a>
+                    <a href="#">Building a Privacy-First Transcription Tool with Claude Code</a>
                   </h2>
                   <p class="post-card__excerpt">
-                    When a model finds an unintended solution to the stated objective, we call it
-                    misalignment. A designer would call it a brief that didn't say what it meant.
+                    How I used AI to build an offline transcription app that protects user privacy —
+                    and what it reveals about the democratization of software development.
                   </p>
                   <div class="post-card__meta">
-                    <time>December 2025</time>
+                    <time datetime="2025-11-19">November 2025</time>
                     <span aria-hidden="true">·</span>
-                    <span>4 min read</span>
+                    <span>5 min read</span>
                   </div>
                 </div>
               </article>
@@ -349,59 +379,93 @@ export const PostListingGrid: Story = {
               font-size: var(--font-size-base);
               color: var(--color-text-subtle);
               margin: 0;
-            ">Notes on design, cartography, accessibility, and AI.</p>
+            ">Cross disciplinary writing bringing together technology, art, and life.</p>
           </header>
 
+          <!-- Grid has a mix of image and text-only cards — text-only cards get a left accent border via CSS :not(:has(.post-card__image-link)) -->
           <ul class="post-list post-list--grid" role="list" style="list-style:none;padding:0;margin:0;">
+
+            <!-- Has hero image -->
             <li>
               <article class="post-card">
                 <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
-                  <img class="post-card__image" src="https://picsum.photos/seed/post1/600/300" alt="">
+                  <img class="post-card__image" src="https://picsum.photos/seed/accessibleai/600/400" alt="">
                 </a>
                 <div class="post-card__body">
-                  <div class="post-card__tags"><span class="post-card__tag">Color</span></div>
-                  <h2 class="post-card__title"><a href="#">Why perceptual color spaces make better design tools</a></h2>
-                  <p class="post-card__excerpt">Hex values are coordinates, not colors. Moving to OKLCH changes how you think about palettes, contrast, and iteration.</p>
-                  <div class="post-card__meta"><time>March 2026</time><span aria-hidden="true">·</span><span>6 min read</span></div>
+                  <div class="post-card__tags"><span class="post-card__tag">Accessibility</span><span class="post-card__tag">AI</span></div>
+                  <h2 class="post-card__title"><a href="#">Accessible AI: Why LLM Outputs Fail Users with Disabilities</a></h2>
+                  <p class="post-card__excerpt">LLMs produce technically-valid outputs that fail to serve disabled users. Context is the intervention.</p>
+                  <div class="post-card__meta"><time datetime="2026-01-21">January 2026</time><span aria-hidden="true">·</span><span>8 min read</span></div>
                 </div>
               </article>
             </li>
+
+            <!-- No hero image — gets left accent border in grid -->
+            <li>
+              <article class="post-card">
+                <div class="post-card__body">
+                  <div class="post-card__tags"><span class="post-card__tag">Accessibility</span><span class="post-card__tag">AI Safety</span></div>
+                  <h2 class="post-card__title"><a href="#">Safe on Paper: What Accessibility Standards Teach AI Safety Governance</a></h2>
+                  <p class="post-card__excerpt">Standards calcify. Accessibility governance spent 25 years learning what happens when compliance diverges from outcomes.</p>
+                  <div class="post-card__meta"><time datetime="2026-02-28">February 2026</time><span aria-hidden="true">·</span><span>7 min read</span></div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Has hero image -->
             <li>
               <article class="post-card">
                 <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
-                  <img class="post-card__image" src="https://picsum.photos/seed/post2/600/300" alt="">
+                  <img class="post-card__image" src="https://picsum.photos/seed/pfid/600/400" alt="">
                 </a>
                 <div class="post-card__body">
-                  <div class="post-card__tags"><span class="post-card__tag">Accessibility</span></div>
-                  <h2 class="post-card__title"><a href="#">Atkinson Hyperlegible and the problem of conspicuous accessibility</a></h2>
-                  <p class="post-card__excerpt">Accessibility typefaces can signal to disabled readers that something special was done for them — a subtle form of othering.</p>
-                  <div class="post-card__meta"><time>February 2026</time><span aria-hidden="true">·</span><span>8 min read</span></div>
+                  <div class="post-card__tags"><span class="post-card__tag">Prompt Engineering</span><span class="post-card__tag">AI</span></div>
+                  <h2 class="post-card__title"><a href="#">The P+F+I+D Framework: A Prompt Engineering Case Study</a></h2>
+                  <p class="post-card__excerpt">Documenting the evolution from 0/10 to 9.5/10 prompt engineering skill through a structured framework.</p>
+                  <div class="post-card__meta"><time datetime="2026-01-15">January 2026</time><span aria-hidden="true">·</span><span>10 min read</span></div>
                 </div>
               </article>
             </li>
+
+            <!-- No hero image — gets left accent border in grid -->
+            <li>
+              <article class="post-card">
+                <div class="post-card__body">
+                  <div class="post-card__tags"><span class="post-card__tag">Accessibility</span><span class="post-card__tag">Policy</span></div>
+                  <h2 class="post-card__title"><a href="#">Compliance without Accommodation: The Unfortunate Circumstance of Existing Accessibility Guidance</a></h2>
+                  <p class="post-card__excerpt">How WCAG's legal codification has created a paradox where organizations face risk when adopting better solutions.</p>
+                  <div class="post-card__meta"><time datetime="2026-01-20">January 2026</time><span aria-hidden="true">·</span><span>6 min read</span></div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Has hero image -->
             <li>
               <article class="post-card">
                 <a class="post-card__image-link" href="#" tabindex="-1" aria-hidden="true">
-                  <img class="post-card__image" src="https://picsum.photos/seed/post3/600/300" alt="">
+                  <img class="post-card__image" src="https://picsum.photos/seed/creativedir/600/400" alt="">
                 </a>
                 <div class="post-card__body">
-                  <div class="post-card__tags"><span class="post-card__tag">Cartography</span></div>
-                  <h2 class="post-card__title"><a href="#">What map projections taught me about data visualization</a></h2>
-                  <p class="post-card__excerpt">Every map projection preserves some properties and distorts others. There is no neutral representation.</p>
-                  <div class="post-card__meta"><time>January 2026</time><span aria-hidden="true">·</span><span>5 min read</span></div>
+                  <div class="post-card__tags"><span class="post-card__tag">Design Strategy</span><span class="post-card__tag">Portfolio</span></div>
+                  <h2 class="post-card__title"><a href="#">Working With Creative Direction</a></h2>
+                  <p class="post-card__excerpt">How listening, shared constraints, and translation between disciplines transforms the relationship between creative vision and technical reality.</p>
+                  <div class="post-card__meta"><time datetime="2025-11-22">November 2025</time><span aria-hidden="true">·</span><span>6 min read</span></div>
                 </div>
               </article>
             </li>
+
+            <!-- No hero image — gets left accent border in grid -->
             <li>
               <article class="post-card">
                 <div class="post-card__body">
-                  <div class="post-card__tags"><span class="post-card__tag">AI Safety</span></div>
-                  <h2 class="post-card__title"><a href="#">Specification gaming is a design problem</a></h2>
-                  <p class="post-card__excerpt">When a model finds an unintended solution to the stated objective, we call it misalignment. A designer would call it a brief that didn't say what it meant.</p>
-                  <div class="post-card__meta"><time>December 2025</time><span aria-hidden="true">·</span><span>4 min read</span></div>
+                  <div class="post-card__tags"><span class="post-card__tag">AI</span><span class="post-card__tag">Portfolio</span></div>
+                  <h2 class="post-card__title"><a href="#">Building a Privacy-First Transcription Tool with Claude Code</a></h2>
+                  <p class="post-card__excerpt">How I used AI to build an offline transcription app that protects user privacy — and what it reveals about the democratization of software development.</p>
+                  <div class="post-card__meta"><time datetime="2025-11-19">November 2025</time><span aria-hidden="true">·</span><span>5 min read</span></div>
                 </div>
               </article>
             </li>
+
           </ul>
         </div>
       </div>
