@@ -133,7 +133,9 @@ OKLCH is not just a more accurate color space. It is a reasoning tool. Because l
 
 ### Semantic tokens, not raw values
 
-The strict rule is: components consume semantic tokens, never primitive colors. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-status-error-text`, not the error primitive. This is what allows dark mode, theme variants, and future palette changes to work without touching component code.
+The layering rule: raw OKLCH values belong in `semantics.scss`, where primitives are assigned semantic meaning. Component SCSS — everything in `src/app/components/` — should never contain a raw color value. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-status-error-text`, not a hand-picked red. `semantics.scss` is intentionally full of raw values; that is its job. Component code downstream of it is not.
+
+This layering is what allows dark mode, theme variants, and future palette changes to work without touching component code.
 
 ```scss
 // Do
