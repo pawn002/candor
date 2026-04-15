@@ -21,7 +21,7 @@
         }
 
         thead th {
-            color: var(--color-text-default); // text-subtle-on-surface (L=0.44) scores OKCA 4.6 on surface — under 6.5 bold threshold at 14px
+            color: var(--color-text-subtle-on-surface); // Tier 2 bold threshold 4.5 — OKCA 4.6 ✅
             font-weight: var(--font-weight-bold);
             border-bottom: var(--border-width-medium) solid var(--color-border-strong);
         }
@@ -40,7 +40,7 @@
 
         // Label column (left side of key-value tables)
         td.label {
-            color: var(--color-text-default); // same fix as thead — text-subtle-on-surface fails 14px bold threshold
+            color: var(--color-text-subtle-on-surface); // Tier 3 threshold 4.5 — OKCA 4.6 ✅
         }
 
         // Zebra striping — even rows at deltaE 11 from white in light mode;

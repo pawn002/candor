@@ -252,8 +252,8 @@
     --color-action-destructive:        transparent;
     --color-action-destructive-hover:  oklch(0.72 0.15 347 / 0.12); // subtle rose tint on hover
     --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22); // stronger tint on active
-    --color-action-destructive-text:   oklch(0.82 0.15 347);         // OKCA 7.0 on bg-page ✅ — L=0.74 was OKCA 4.6, fails 14px bold threshold (6.5); L=0.82 clears it
-    --color-action-destructive-border: oklch(0.82 0.15 347);         // matches text
+    --color-action-destructive-text:   oklch(0.74 0.15 347);         // OKCA 4.6 on bg-page ✅ — Tier 2 bold threshold is 4.5; small buttons are bold so 4.6 clears it
+    --color-action-destructive-border: oklch(0.74 0.15 347);         // matches text
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
     // ⚠️  gray-700 bg is only 1.5:1 against page — intentionally subtle in dark mode.

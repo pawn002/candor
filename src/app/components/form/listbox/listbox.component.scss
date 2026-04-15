@@ -172,7 +172,7 @@
 
 .listbox__description {
   font-family: var(--font-family-accessible);
-  font-size: var(--font-size-md); // 16px — text-subtle at 14px fails OKCA 9.5 threshold; 16px only needs 4.5
+  font-size: var(--font-size-sm); // Tier 3 threshold 4.5 — text-subtle OKCA 4.6 ✅
   letter-spacing: 0.02em;
   min-height: 1.25em; // reserve space so layout doesn't shift
 }

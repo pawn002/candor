@@ -12,7 +12,7 @@
     margin: 0;
     padding: 0;
     font-family: var(--font-family-accessible);
-    font-size: var(--font-size-md); // 16px — link color (OKCA 4.6) fails 14px bold threshold; passes 16px bold (4.5)
+    font-size: var(--font-size-sm); // Tier 2 bold threshold 4.5 — link OKCA 4.6 ✅
     letter-spacing: 0.02em;
   }
 
