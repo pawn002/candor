@@ -102,7 +102,7 @@ Roboto Flex is a variable font. The `opsz` (optical size) axis is the single mos
 
 Atkinson Hyperlegible carries critical UI text because its glyph differentiation survives at 14px where other typefaces begin to blur. Two rules:
 
-- **Bold is a hierarchy signal, not an urgency signal.** Form field labels are bold because they are structural anchors. Error messages are not bold — the semantic error color carries the urgency, and Atkinson's regular weight is already legible. Bold on top of a red error message reads as double-emphasis and breaks the hierarchy.
+- **Bold has two distinct jobs in Atkinson contexts — hierarchy and contrast — and they must not be confused.** As a hierarchy signal, bold marks structural anchors: form field labels, section headings. As a contrast call, bold is applied at 14px when the OKCA Tier 2 threshold requires it — bold drops the required score from 6.5 to 4.5, which `--color-text-subtle` (4.6) clears. Error messages are a specific case: they are Tier 1 reading text and must either use `--color-text-default` or be bumped to 16px — not bolded as a workaround. Bold on a red error message reads as double-emphasis and does not substitute for a genuine contrast fix.
 - **Positive letter-spacing is mandatory.** Without it, adjacent glyphs like "rr" cluster into "m." Use `0.06em` for 14px badges, `0.02em` for 16px body roles, `var(--letter-spacing-wide)` for uppercase labels. Never zero.
 
 ### The 14px floor and the tier system
@@ -114,7 +114,7 @@ No readable text in Candor falls below 14px. 12px (`--font-size-xs`) is for deco
 | Trap | What it looks like | Fix |
 |---|---|---|
 | Weight inflation | Every card title is `font-weight: 600` | Let `opsz` do the work; reserve weight for genuine structural emphasis |
-| Atkinson bold on errors | `[bold]="true"` on a `role="status" color="error"` message | Remove bold; color carries urgency |
+| Atkinson bold on errors | `[bold]="true"` on a `role="status" color="error"` message | Remove bold; Tier 1 errors need 16px or `--color-text-default`, not a bold workaround |
 | Mono in UI chrome | Timestamps or labels set in `--font-family-mono` for a "technical" feel | Mono is for content where character position is load-bearing, not for flavor |
 | Serif in forms | Noto Serif on an input's helper text | Helper text is Atkinson; serif is for editorial reading contexts |
 | Off-scale sizes | `font-size: 15px` because 14px felt small and 16px felt big | The scale is the hierarchy. If nothing fits, the layout needs to change, not the scale |
@@ -260,7 +260,7 @@ This is the most common failure in components like `Code`, `Table`, and data dis
 
 ### Symptom: "Everything is bold and nothing stands out"
 
-- **Atkinson bold used for urgency.** Error messages, warnings, and status text are bold. Fix: remove bold; semantic color carries urgency.
+- **Atkinson bold used incorrectly on Tier 1 text.** Error messages and alert body text are bold, but they are Tier 1 (reading text) — bolding does not substitute for the required 9.5 OKCA score. Fix: bump to 16px or use `--color-text-default`. Bold is legitimate at 14px for Tier 2 functional text, where it drops the threshold from 6.5 to 4.5.
 - **Heading weight inflation.** Every heading reaches for `font-weight: 600`. Fix: let optical sizing do the work; remove explicit weight.
 - **Label weight leaking into prose.** Body copy is inheriting a bold style from a parent. Fix: scope the bold; body prose should almost always be regular.
 
