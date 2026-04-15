@@ -12,6 +12,10 @@ const meta: Meta<ModalComponent> = {
   ],
   parameters: {
     docs: {
+      story: {
+        inline: false,
+        iframeHeight: 420,
+      },
       description: {
         component: `
 Centered dialog that interrupts the current flow for confirmation, detail views, or focused tasks.
