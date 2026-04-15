@@ -140,7 +140,7 @@
 
         figcaption {
             font-size: var(--font-size-sm); // 14px floor
-            color: var(--color-text-subtle);
+            color: var(--color-text-default); // text-subtle OKCA 4.6 on page fails 14px regular threshold (9.5)
             margin-top: var(--spacing-xs);
             font-style: italic;
             letter-spacing: 0.03em; // 14px italic needs more air than the 0.02em body baseline

@@ -27,6 +27,7 @@
 
     &--small {
         font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-bold); // 14px bold — drops OKCA threshold from 9.5 to 6.5; all variants ≥ 6.6 ✅
         letter-spacing: 0.01em; // slight tracking at 14px — consistent with 14px floor principle
         padding: var(--spacing-button-padding-y-sm) var(--spacing-button-padding-x-sm);
         min-height: 2rem;

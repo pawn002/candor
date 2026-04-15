@@ -17,7 +17,7 @@
     border: none;
     border-radius: var(--radius-sm);
     background: transparent;
-    color: var(--color-text-subtle);
+    color: var(--color-text-default); // text-subtle OKCA 4.6 on page fails 14px regular threshold (9.5)
     font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
     letter-spacing: 0.02em;
@@ -60,7 +60,7 @@
     justify-content: center;
     min-width: 2rem;
     height: 2rem;
-    color: var(--color-text-subtle);
+    color: var(--color-text-default); // same fix as __btn
     font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
     letter-spacing: 0.02em;

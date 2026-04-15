@@ -10,7 +10,7 @@
 .stat__label {
     margin: 0;
     font-family: var(--font-family-accessible);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-md); // 16px — text-subtle-on-surface OKCA 4.6 on surface fails 14px regular threshold (9.5)
     font-weight: var(--font-weight-regular);
     color: var(--color-text-subtle-on-surface);
     letter-spacing: 0.02em;
