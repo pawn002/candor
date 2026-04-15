@@ -9,8 +9,7 @@ const meta: Meta<TextComponent> = {
     docs: {
       description: {
         component: `
-\`TextComponent\` covers body copy, captions, and UI chrome labels that live outside
-a heading context. Three variants:
+\`TextComponent\` covers body copy, captions, and UI chrome labels. Three variants:
 
 | Variant | Typeface | Use case |
 |---|---|---|
