@@ -18,7 +18,7 @@ Candor makes the humanist choice the default path and requires a reason to devia
 
 A grid is the promise that every element on a screen was placed with reference to every other element. Without that, a layout feels accidental no matter how polished the individual pieces are.
 
-Candor's grid is the 8px spatial system in `src/design-tokens/spacing.scss`. Every gap, padding, margin, and component dimension resolves to a multiple of 8px. That shared rhythm is what allows a card, a form, a table, and a dialog built independently to sit next to each other and feel related. The eye reads the rhythm before it reads the content.
+Candor's grid is the 8px spatial system defined in `src/design-tokens/semantics.scss`. Every gap, padding, margin, and component dimension resolves to a multiple of 8px. That shared rhythm is what allows a card, a form, a table, and a dialog built independently to sit next to each other and feel related. The eye reads the rhythm before it reads the content.
 
 ### What this means in Candor
 
@@ -98,7 +98,7 @@ Roboto Flex is a variable font. The `opsz` (optical size) axis is the single mos
 
 ### Atkinson discipline
 
-Atkinson Hyperlegible carries critical UI text because its glyph differentiation survives at 14px where other typefaces begin to blur. Two rules:
+Atkinson Hyperlegible carries critical UI text because its glyph differentiation survives at 14px where other typefaces begin to blur.
 
 - **Bold has two distinct jobs in Atkinson contexts — hierarchy and contrast — and they must not be confused.** As a hierarchy signal, bold marks structural anchors: form field labels, section headings. As a contrast call, bold is applied at 14px when the OKCA Tier 2 threshold requires it — bold drops the required score from 6.5 to 4.5, which `--color-text-subtle` (4.6) clears. Error messages are a specific case: they are Tier 1 reading text and must either use `--color-text-default` or be bumped to 16px — not bolded as a workaround. Bold on a red error message reads as double-emphasis and does not substitute for a genuine contrast fix.
 - **Positive letter-spacing is mandatory.** Without it, adjacent glyphs like "rr" cluster into "m." Use `0.06em` for 14px badges, `0.02em` for 16px body roles, `var(--letter-spacing-wide)` for uppercase labels. Never zero.
@@ -196,7 +196,7 @@ Images that serve none of these are filler, and filler erodes the sense that eve
 ### What this means in Candor
 
 - **Icons are functional, not decorative.** The icon system is semantic: a checkmark means success, an exclamation means warning. Decorative icons (a sparkle next to a heading for "flair") dilute the semantics and should be removed.
-- **Iconography should pair with text wherever the icon's meaning is not universal.** An icon-only button without an accessible name fails both a11y and comprehension. A status indicator that uses only color (no icon, no text) fails Tier 3 contrast by definition, because color is the sole channel.
+- **Iconography should pair with text wherever the icon's meaning is not universal.** An icon-only button without an accessible name fails both a11y and comprehension. A status indicator that uses only color (no icon, no text) does not qualify for Tier 3 — Tier 3 requires a redundant non-color channel. Without one, the indicator must meet the higher Tier 2 threshold.
 - **Photography and illustration inherit the humanist frame.** A page of warm serif prose with a harsh, desaturated stock photo is incoherent. If photography is used in an Article or editorial surface, it should sit visually inside the system's palette — either through the image selection itself, or through treatment (warm overlay, border, aspect ratio on the spatial grid).
 - **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`cpqi variants`).
 
@@ -208,7 +208,7 @@ Images that serve none of these are filler, and filler erodes the sense that eve
 | Color-only status dots | A red circle with no label, no icon | Add a label or shape; color cannot be the sole channel |
 | Stock imagery disconnected from palette | Cool-tone hero photo on a warm-neutral page | Recolor, overlay, or replace |
 | Chart palette drift | Bar chart uses `#e74c3c` for "error" | Use `--color-status-error` or OKLCH-derived chart tokens |
-| Aspect ratios off-grid | A hero image at `16:9` in a layout where everything else resolves to 8px units | Use aspect ratios that land on the spacing grid |
+| Image container height off-grid | An explicit `height: 250px` on an image container | Use a height token or a value that resolves to a multiple of 8px |
 
 ---
 
@@ -226,7 +226,7 @@ A checklist a reviewer can run on any new screen or component. These are composi
 8. **Interactive affordances are distinct from static text.** Links are visibly links. Buttons are visibly buttons. A user can tell what is clickable without hovering.
 9. **Nothing is at the raw extremes.** No pure black text on white (`color: #000`), no pure black dark backgrounds (`background: #000` — dark mode page is deep navy, not black), no saturated primary at full chroma used as body color. If a value is a raw extreme, it is almost certainly overriding a token that was pre-tuned away from that extreme.
 10. **Content feels read-at, not displayed-at.** Especially for prose surfaces, line length sits in the 65–75ch range, leading is comfortable, and the eye does not bounce. If the layout feels like a database export, it probably is one.
-11. **Icons have meaning.** Every icon on the screen is doing semantic or navigational work. None are decorative flourish.
+11. **Icons have meaning.** Every icon on the screen is doing semantic or navigational work. None are decorative flourishes.
 12. **A reviewer could describe the screen's tone in a sentence.** "Calm, editorial, focused." "Dense, functional, legible." If the tone is unnameable or contradictory, the composition is inconsistent.
 
 ---
@@ -250,7 +250,7 @@ Likely causes, in order of frequency:
 
 ### Symptom: "The technical content sits outside the design"
 
-- **Mono font used without adjustment.** A raw monospace block in the middle of serif prose is jarring. Fix: give it a background (`--color-bg-surface`), padding, and a border radius so it sits inside the visual frame.
+- **Mono font used without adjustment.** A raw monospace block in the middle of serif prose is jarring. Fix: give it a background (`--color-bg-code`), padding, and a border radius so it sits inside the visual frame.
 - **Code block background is pure black in dark mode.** It interrupts a warm layout. Fix: use `--color-bg-code`, which in dark mode resolves to `oklch(0.20 0.04 248)` — a deep cool navy, not black. Never set a raw `background: #000` on a code surface.
 - **Tabular numerals not enabled.** Numbers wobble in columns. Fix: `font-variant-numeric: tabular-nums` on numeric columns.
 - **No typographic treatment of technical content.** Function names, types, and keywords all look identical. Fix: use syntax tokens — even a two-color treatment (identifier vs. keyword) is enough to bring code inside the system.
