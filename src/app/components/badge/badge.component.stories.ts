@@ -18,9 +18,10 @@ headings, or nav items — not as standalone elements.
 Six color variants map to semantic intent: \`default\` (neutral), \`primary\` (brand), \`secondary\`
 (supporting), \`success\`, \`warning\`, \`error\`. Two sizes: \`sm\` (14px, default) and \`md\` (16px).
 
-**Badge text uses Atkinson Hyperlegible** at 14px. The text label is the primary indicator;
-color variant reinforces it. Bold weight is not needed — Atkinson's letterforms carry
-sufficient legibility at regular weight at this size.
+**Badge text uses Atkinson Hyperlegible** at 14px bold. The text label is the primary indicator;
+color variant reinforces it. Bold is appropriate here because it is a structural choice —
+badges are UI labels, not prose — and Atkinson only ships in 400 and 700, so bold is the
+intended weight for small labeled elements.
         `.trim(),
       },
     },
