@@ -22,6 +22,24 @@ const meta: Meta = {
     }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Full-page AI chat interface layout assembling Navigation, Card, AccessibleText, Badge,
+Button, and ChatInput into a conversation UI.
+
+Demonstrates the expected shell structure for an AI chat product:
+a fixed navigation bar, a sidebar listing conversation history, and a main pane with
+message bubbles and the ChatInput anchored to the bottom.
+
+The sidebar uses \`<aside aria-label="Conversation history">\` as a named landmark.
+Message bubbles carrying AI-generated content should include a badge or label
+identifying the source — screen readers need that context before reading the content.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;

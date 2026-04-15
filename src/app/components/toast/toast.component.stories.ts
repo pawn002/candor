@@ -33,6 +33,27 @@ const meta: Meta<ToastComponent> = {
   title: 'Components/Toast',
   component: ToastComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Ephemeral notification that floats over content and auto-dismisses. Use for transient feedback
+that doesn't require acknowledgement — file saved, action completed, background task finished.
+
+**Toast vs. Alert:** Toasts are for events the user triggered but doesn't need to act on.
+Alerts are for persistent conditions the user must read — validation errors, system warnings,
+confirmation requirements.
+
+Toasts are driven by \`ToastService\`, not placed in templates directly. See the
+**Service-driven** story for the recommended usage pattern.
+
+\`\`\`typescript
+toastService.show({ variant: 'success', heading: 'Saved', message: 'Your changes have been saved.' });
+\`\`\`
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     variant: {
       control: 'select',

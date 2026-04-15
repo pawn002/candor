@@ -7,6 +7,56 @@ const meta: Meta<AccessibleTextComponent> = {
   title: 'Typography/AccessibleText',
   component: AccessibleTextComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+**Atkinson Hyperlegible** — the designated typeface for critical UI text.
+
+Use \`AccessibleText\` wherever the text must remain legible under cognitive load at small sizes:
+form labels, error messages, status indicators, annotations, and badges. Its wide letterforms,
+open counters, and distinctive glyphs provide strong legibility at 14px without needing a weight boost.
+
+---
+
+### Four roles
+
+| Role | Use case | Size | Weight |
+|---|---|---|---|
+| \`label\` | Form field labels, section headings, structural anchors | 16px | bold |
+| \`message\` | System messages, inline guidance, body-length explanations | 16px | regular |
+| \`status\` | Validation errors, live counters, state changes | 14px | regular |
+| \`annotation\` | Supporting metadata, hints, legal small print | 14px | regular |
+
+---
+
+### Bold rule
+
+**Bold is for hierarchy, not urgency.** Use \`[bold]="true"\` for \`role="label"\` structural
+anchors only. Error messages, warnings, and status text use regular weight — color carries
+the urgency signal. Bold on top of an error color reads as double-emphasis and disrupts hierarchy.
+
+\`\`\`html
+<!-- ✓ Bold for label — structural anchor -->
+<app-accessible-text role="label" [bold]="true">National Insurance number</app-accessible-text>
+
+<!-- ✓ Regular for status — color carries urgency -->
+<app-accessible-text role="status" color="error">Enter a valid number.</app-accessible-text>
+
+<!-- ✗ Wrong — bold + error color is double-emphasis -->
+<app-accessible-text role="status" color="error" [bold]="true">Enter a valid number.</app-accessible-text>
+\`\`\`
+
+---
+
+### Tracking
+
+Atkinson requires positive letter-spacing to prevent glyph clustering (adjacent glyphs like "rr"
+reading as "m"). Spacing is applied automatically per role — never override to \`letter-spacing: 0\`.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     role: {
       control: 'select',

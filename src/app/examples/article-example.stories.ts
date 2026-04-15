@@ -14,6 +14,30 @@ const meta: Meta = {
     }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Blog and article layout examples using Navigation, Article, Badge, Button, Card, and the
+\`blog.scss\` post-card token layer.
+
+**BlogPost** — a full reading view: Navigation shell, post metadata (tags, date, reading time),
+optional hero image, and an \`ArticleComponent\` body rendered in Noto Serif. Use this as
+the reference layout for any long-form reading context.
+
+**PostListing** — the canonical post list: a featured card (large image, full excerpt) followed
+by standard cards (title + summary, optional image). Cards that lack an image render with a
+left accent border via the \`:not(:has(.post-card__image-link))\` CSS selector in \`blog.scss\`.
+
+**PostListingGrid** — a 3-column grid variant for category or tag archive pages. The same
+image / no-image distinction applies; text-only cards carry the accent border automatically.
+
+Tag pills are separated by a mid-dot CSS \`::before\` pseudo-element so they do not run
+together as a sentence when read aloud by screen readers.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;

@@ -35,6 +35,27 @@ const meta: Meta = {
     }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Interactive color accessibility tool: pick a foreground/background pair and iterate
+over OKLCH gamut space to find contrast-compliant alternatives.
+
+Assembles TonePicker, Slider (OKLCH lightness axis with gradient track), Radio, Checkbox,
+Accordion, Stat (WCAG/OKCA scores), Table (gamut grid), Navigation, Card, Badge,
+and AccessibleText.
+
+The TonePicker renders an OKLCH gamut as a color grid; the Slider sweeps lightness
+while holding chroma and hue constant. Stat components surface WCAG 2.1 and APCA
+contrast ratios in real time as the user drags the slider.
+
+This example is also a stress-test for the design system itself — every component
+is under real conditions with live data rather than static props.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;

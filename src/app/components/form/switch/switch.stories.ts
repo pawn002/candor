@@ -5,6 +5,24 @@ const meta: Meta<SwitchComponent> = {
   title: 'Components/Form/Switch',
   component: SwitchComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Toggle for a boolean setting that takes effect immediately on flip. The visual metaphor is a
+physical on/off switch — no submit required.
+
+**Switch vs. Checkbox:** Use a switch when the change is applied immediately (dark mode,
+notifications, live filter toggles). Use a checkbox when the value is collected and submitted
+as part of a form.
+
+The \`ariaLabel\` input must be set when the switch has no adjacent visible label — the inner
+\`<input type="checkbox">\` needs an accessible name and inheriting one from a host-element
+\`aria-label\` does not work in Angular's component model.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     label: { control: 'text' },
     checked: { control: 'boolean' },

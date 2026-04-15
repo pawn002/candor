@@ -5,6 +5,23 @@ const meta: Meta<InputComponent> = {
   title: 'Components/Form/Input',
   component: InputComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Single-line or multiline text field with label, optional hint, and error state. Covers text,
+email, password, and number input types, plus a textarea mode via \`multiline\`.
+
+The label is always rendered — never omit it for visual reasons. If the design calls for a
+labelless input, use the \`ariaLabel\` input instead so the field remains accessible.
+
+**Hint and error are mutually exclusive at display time.** When \`error\` is set it replaces
+the hint text in the DOM and is associated with the field via \`aria-describedby\`. Don't
+duplicate the error message in both \`hint\` and \`error\`.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
     placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder text' },

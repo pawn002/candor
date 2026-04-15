@@ -30,6 +30,24 @@ const meta: Meta = {
     }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Document editor layout using Toolbar, Tabs, Badge, Select, Heading, Text, Toast, and Button.
+
+The Toolbar implements the [ARIA Toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/)
+with roving tabindex — Tab moves focus into/out of the toolbar, arrow keys navigate between
+controls inside it. Toolbar buttons use native \`<button>\` elements, not \`app-button\`, because
+roving tabindex requires direct focus management on the element itself.
+
+Separators (ToolbarSeparator) divide the toolbar into logical groups (text style vs. alignment vs. insert).
+The Badge on the document title communicates draft/published status at a glance without
+requiring the user to open a settings panel.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;

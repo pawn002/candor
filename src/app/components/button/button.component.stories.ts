@@ -7,6 +7,29 @@ const meta: Meta<ButtonComponent> = {
   title: 'Components/Button',
   component: ButtonComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+The primary interactive element. Five visual variants cover the full hierarchy of actions on a page.
+
+| Variant | Use case |
+|---|---|
+| \`primary\` | The single most important action — one per view |
+| \`secondary\` | Supporting action of similar weight to primary |
+| \`tertiary\` | Low-emphasis action; neutral fill, no border |
+| \`ghost\` | Lowest-emphasis; text-only, no fill or border |
+| \`destructive\` | Irreversible actions — delete, revoke, purge |
+
+**One primary per view.** Multiple primary buttons compete for attention and dilute the affordance.
+If a form has two equally important actions, one should be \`secondary\`.
+
+**Destructive is outlined, not filled.** The crimson color (H=347) signals caution without the
+aggression of a filled red button, and is visually distinct from error orange-red (H=25).
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     variant: {
       control: 'select',

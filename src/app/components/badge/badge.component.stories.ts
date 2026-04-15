@@ -8,6 +8,22 @@ const meta: Meta<BadgeComponent> = {
   component: BadgeComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [CardComponent] })],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Small labeled indicator for status, category, or count. Use badges to annotate list items,
+headings, or nav items — not as standalone elements.
+
+Six color variants map to semantic intent: \`default\` (neutral), \`primary\` (brand), \`secondary\`
+(supporting), \`success\`, \`warning\`, \`error\`. Two sizes: \`sm\` (14px, default) and \`md\` (16px).
+
+**Badge text uses Atkinson Hyperlegible** at 14px — it falls in the Tier 3 contrast category
+(pattern match, meaning redundantly coded). The color alone is sufficient; bold is not needed.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     variant: {
       control: 'select',

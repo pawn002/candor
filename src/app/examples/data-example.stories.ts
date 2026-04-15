@@ -32,6 +32,27 @@ const meta: Meta = {
     }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Filterable data table composing Drawer, Table, Pagination, Input, Select, Checkbox,
+Disclosure, Badge, Heading, Text, and Button.
+
+Demonstrates a canonical list-management UI:
+- **Drawer** holds the filter panel, keeping the table full-width while filters are open
+- **Disclosure** collapses the "Advanced filters" section inside the drawer
+- **Badge** on the filter button shows the count of active filters at a glance
+- **Pagination** navigates large result sets; current page is bound via \`model()\`
+- **Table** renders sortable columns with row-level action menus
+
+The filter drawer uses \`<aside>\` with an \`aria-label\` — landmark navigation
+lets keyboard and screen reader users jump directly to filters without
+tabbing through the full table first.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;

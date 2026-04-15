@@ -44,6 +44,7 @@ export const OKCAContrastGuidance: Story = {
     moduleMetadata({ imports: [TableComponent, AlertComponent] }),
   ],
   parameters: {
+    layout: 'padded',
     docs: {
       description: {
         story: `

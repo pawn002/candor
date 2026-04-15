@@ -40,6 +40,25 @@ const meta: Meta = {
     }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Account settings page assembling the full complement of form and navigation components:
+Breadcrumb, Tabs, Input, Select, Combobox, Switch, Alert, Modal, Toast, Badge, Menu, and Button.
+
+Demonstrates canonical patterns for settings UI:
+- **Tabs** organize settings into logical sections (Profile, Notifications, Security)
+- **Switch** handles instant-effect toggles (email notifications, 2FA)
+- **Modal** gates destructive actions (account deletion) behind a confirmation step
+- **Alert** communicates persistent warnings (unverified email, billing issues)
+- **Toast** confirms completed actions without blocking the page
+
+Use this layout as a reference for any settings or preferences surface.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;

@@ -10,6 +10,29 @@ const meta: Meta<ModalComponent> = {
   decorators: [
     moduleMetadata({ imports: [ButtonComponent] }),
   ],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Centered dialog that interrupts the current flow for confirmation, detail views, or focused tasks.
+Implements the [ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/):
+focus is trapped inside while open, Escape closes it, and focus returns to the trigger on close.
+
+**When to use a modal vs. a drawer:** Modals are for short, decisive interactions — confirm
+delete, enter a PIN, view a summary. Drawers are for richer tasks that benefit from a side
+panel without fully leaving the current page.
+
+\`\`\`html
+<!-- Don't put <header> or <footer> inside — they inherit landmark roles in Chrome -->
+<app-modal heading="Confirm deletion" [open]="open" (close)="open = false">
+  <p>This cannot be undone.</p>
+  <app-button slot="footer" variant="destructive">Delete</app-button>
+</app-modal>
+\`\`\`
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     size: {
       control: { type: 'select' },

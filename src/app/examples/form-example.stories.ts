@@ -30,6 +30,29 @@ const meta: Meta = {
     }),
   ],
   tags: ["autodocs"],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Form composition examples using Input, Checkbox, Radio, Select, Switch, Alert,
+Progress, Heading, Text, and Button.
+
+Demonstrates the canonical patterns for accessible forms in Candor:
+- Every field must have a visible **label** — never rely on placeholder text alone
+- **Radio groups** must be wrapped in \`<fieldset>\`/\`<legend>\` so screen readers
+  announce the group question before each option
+- **Switch** is for settings that take immediate effect; **Checkbox** is for values
+  submitted with the form
+- **Alert** (not Toast) communicates persistent form-level errors — it stays visible
+  until the user corrects the problem
+- **Progress** tracks multi-step form completion when steps cannot fit on one screen
+
+The multi-step story shows \`ProgressComponent\` used as a step indicator with
+\`aria-label="Step 2 of 4: Contact details"\` for AT announcements.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;
