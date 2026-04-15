@@ -218,13 +218,13 @@ A checklist a reviewer can run on any new screen or component. These are composi
 
 1. **Rhythm is visible.** Squint at the screen. Can you see consistent vertical spacing between sections? If everything runs together or the gaps are erratic, the spacing tokens are being used inconsistently.
 2. **Type hierarchy is legible without color.** Turn the screen grayscale. Can you still tell which element is the page title, which is a section heading, and which is body? If not, the hierarchy is being carried by color rather than type.
-3. **No more than three type families are visible.** Display/UI, one reading family (serif or Atkinson depending on context), and optionally mono. A fourth family is almost always a mistake.
+3. **Each type family is playing its defined role.** Candor has four families and all four can legitimately appear on the same screen (UI chrome in Roboto Flex, prose in Noto Serif, labels in Atkinson, code in mono). What creates noise is not the count — it is families appearing outside their roles: Noto Serif on a form label, Atkinson on a heading, mono as a visual flavor choice.
 4. **Headings feel drawn, not bolded.** If every heading reads as "the same font, heavier," the `opsz` axis is not working. Optical sizing should produce a hierarchy that feels graduated, not stepped.
 5. **Color is doing one job per token.** Errors are `--color-status-error-*`, links are `--color-link`, primary actions are `--color-action-primary`. If a color is being used for two unrelated purposes on the same screen, the semantics are leaking.
 6. **Backgrounds delineate by more than luminance alone.** Cards, panels, and elevated surfaces are distinguishable even on a dark theme. Borders are present where the L-step is subtle.
 7. **Edges and corners feel intentional.** Border radii are consistent within a scale. No component has three different radii (4px on a button, 6px on a card, 8px on a modal) unless the system defines them that way.
 8. **Interactive affordances are distinct from static text.** Links are visibly links. Buttons are visibly buttons. A user can tell what is clickable without hovering.
-9. **Nothing is at maximum.** No pure white text, no pure black backgrounds, no saturated primary at full chroma used as body color. If a value is at the extreme, there is almost always a humanist alternative one step in.
+9. **Nothing is at the raw extremes.** No pure black text on white (`color: #000`), no pure black dark backgrounds (`background: #000` — dark mode page is deep navy, not black), no saturated primary at full chroma used as body color. If a value is a raw extreme, it is almost certainly overriding a token that was pre-tuned away from that extreme.
 10. **Content feels read-at, not displayed-at.** Especially for prose surfaces, line length sits in the 65–75ch range, leading is comfortable, and the eye does not bounce. If the layout feels like a database export, it probably is one.
 11. **Icons have meaning.** Every icon on the screen is doing semantic or navigational work. None are decorative flourish.
 12. **A reviewer could describe the screen's tone in a sentence.** "Calm, editorial, focused." "Dense, functional, legible." If the tone is unnameable or contradictory, the composition is inconsistent.
@@ -245,7 +245,7 @@ Likely causes, in order of frequency:
 
 ### Symptom: "This feels harsh on the eyes"
 
-- **Pure or near-pure white background.** Check if `--color-bg-page` is being overridden. The page background is pre-tuned off from pure white.
+- **Pure or near-pure white background with pure black text.** `--color-bg-page` in light mode is white by design — that is correct. What is pre-tuned is `--color-text-default`: it is `oklch(0.32 0 0)`, not the darkest possible value. If body text feels harsh, check whether a custom `color: black` or `color: #000` is overriding it.
 - **Maximum contrast text.** Body text at the darkest possible value. `--color-text-default` is intentionally not at the extreme; using a custom darker value defeats that.
 - **High chroma status colors in dark mode.** Saturated error or warning backgrounds glow. Reduce L and C together.
 
@@ -254,7 +254,7 @@ Likely causes, in order of frequency:
 This is the most common failure in components like `Code`, `Table`, and data displays.
 
 - **Mono font used without adjustment.** A raw monospace block in the middle of serif prose is jarring. Fix: give it a background (`--color-bg-surface`), padding, and a border radius so it sits inside the visual frame.
-- **Code block background is pure black in dark mode.** It interrupts a warm layout. Fix: use `--color-bg-elevated` or a slightly-warmer surface, not `#000`.
+- **Code block background is pure black in dark mode.** It interrupts a warm layout. Fix: use `--color-bg-code`, which in dark mode resolves to `oklch(0.20 0.04 248)` — a deep cool navy, not black. Never set a raw `background: #000` on a code surface.
 - **Tabular numerals not enabled.** Numbers wobble in columns. Fix: `font-variant-numeric: tabular-nums` on numeric columns.
 - **No typographic treatment of technical content.** Function names, types, and keywords all look identical. Fix: use syntax tokens — even a two-color treatment (identifier vs. keyword) is enough to bring code inside the system.
 
