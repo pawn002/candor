@@ -137,7 +137,7 @@
     &.post-card--featured {
         display: grid;
         grid-template-columns: 1fr;
-        gap: var(--spacing-md);
+        gap: var(--spacing-sm);
 
         @media (min-width: 640px) {
             grid-template-columns: 2fr 3fr;
@@ -153,6 +153,10 @@
             @media (min-width: 640px) {
                 aspect-ratio: 4 / 3; // taller crop looks better in the narrow left column
             }
+        }
+
+        .post-card__image-link {
+            margin-bottom: 0; // grid gap owns this spacing — don't double it
         }
 
         .post-card__body {
@@ -250,6 +254,12 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-text-subtle);
+
+    & + .post-card__tag::before {
+        content: "·";
+        margin-right: var(--spacing-2xs);
+        font-weight: var(--font-weight-normal);
+    }
     line-height: 1;
 }
 
