@@ -10,14 +10,14 @@
     --color-bg-inverse:  var(--navy-800);
 
     // ─── Colors: Text ──────────────────────────────────────────────────────────
-    --color-text-default:           var(--gray-700);  // 12.6:1 on --color-bg-page ✅
-    --color-text-subtle:            var(--gray-500);  //  4.6:1 on --color-bg-page ✅
-    --color-text-subtle-on-surface: var(--gray-600);  //  5.4:1 on --color-bg-surface ✅
+    --color-text-default:           var(--gray-700);  // OKCA 11 on page ✅
+    --color-text-subtle:            oklch(0.50 0 0);   // OKCA 4.6 on page ✅ — gray-500 (L=0.56) was OKCA 3.4; stepped to L=0.50 for OKCA compliance (#14)
+    --color-text-subtle-on-surface: oklch(0.44 0 0);  // OKCA 4.6 on bg-surface ✅ — gray-600 (L=0.46) was OKCA 4.1 on gray-100; stepped to L=0.44 (#14)
     --color-text-disabled:          var(--gray-400);
     // Component-scoped: toast message text validated against status backgrounds
     --color-toast-message:          var(--color-text-default); // dark on light status-bgs ✅
     --color-text-inverse:           var(--gray-0);
-    --color-text-subtle-on-inverse: oklch(0.75 0.02 245); // ~5.5:1 on navy-800 ✅ — muted links on dark nav/tabs
+    --color-text-subtle-on-inverse: oklch(0.75 0.02 245); // OKCA 5.5 on bg-inverse ✅ — muted links on dark nav/tabs
     --color-text-on-action:         var(--gray-0);    // white text on primary/secondary buttons
 
     // ─── Colors: Borders ───────────────────────────────────────────────────────
@@ -29,12 +29,12 @@
     --color-border-control: var(--gray-500);
 
     // ─── Colors: Action — Primary (navy) ───────────────────────────────────────
-    --color-action-primary:        var(--navy-800); // 15.2:1 with white ✅
+    --color-action-primary:        var(--navy-800); // OKCA 14.1 on white ✅
     --color-action-primary-hover:  var(--navy-900);
     --color-action-primary-active: var(--navy-900);
 
     // ─── Colors: Action — Secondary (burgundy) ─────────────────────────────────
-    --color-action-secondary:        var(--burgundy-700); // 10.4:1 with white ✅
+    --color-action-secondary:        var(--burgundy-700); // OKCA 9.3 on white ✅
     --color-action-secondary-hover:  var(--burgundy-800);
     --color-action-secondary-active: var(--burgundy-900);
 
@@ -45,7 +45,7 @@
     --color-action-destructive:        transparent;
     --color-action-destructive-hover:  oklch(0.37 0.15 347 / 0.08); // subtle crimson tint on hover
     --color-action-destructive-active: oklch(0.37 0.15 347 / 0.15); // stronger tint on active
-    --color-action-destructive-text:   oklch(0.37 0.15 347);         // 10.4:1 on white ✅
+    --color-action-destructive-text:   oklch(0.37 0.15 347);         // OKCA 8.8 on white ✅
     --color-action-destructive-border: oklch(0.37 0.15 347);         // matches text
 
     // ─── Colors: Action — Tertiary ─────────────────────────────────────────────
@@ -57,15 +57,14 @@
     // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────
     // azure-400 is the brand original (#1493FB) — use on dark backgrounds only.
     // azure-500/600 are the accessible steps for use on white backgrounds.
-    --color-link:         var(--azure-500);   // 5.1:1 on white ✅ — accessible body link color
-    --color-link-hover:   var(--azure-600);   // 7.2:1 on white ✅
-    --color-link-visited: var(--purple-700);  // 6.9:1 on white ✅ — honors universal :visited convention
+    --color-link:         oklch(0.49 0.18 250.80); // OKCA 4.6 on white ✅ — azure-500 (L=0.53) was OKCA 3.8; stepped to L=0.49 for OKCA compliance (#14)
+    --color-link-hover:   var(--azure-600);   // OKCA 5.7 on white ✅
+    --color-link-visited: var(--purple-700);  // OKCA 5.4 on white ✅ — honors universal :visited convention
 
     // ─── Colors: Highlight (purple) ────────────────────────────────────────────
-    // purple-600 (L=0.56) is 4.6:1 on white but only 3.5:1 on --color-bg-surface (gray-200).
-    // Inline code in Article uses highlight on surface-bg, so we step down to L=0.50.
-    // oklch(0.50 0.21 278) = #5048d6 — 4.6:1 on surface-gray ✅, 6:1 on white ✅
-    --color-highlight:            oklch(0.50 0.21 278); // passes on both white and surface-bg
+    // Inline code in Article uses highlight on both white and bg-surface (gray-100).
+    // Stepped to L=0.43 so both contexts pass OKCA 4.5: 4.8 on gray-100, 6.5 on white.
+    --color-highlight:            oklch(0.43 0.21 278); // OKCA 4.8 on bg-surface ✅, OKCA 6.5 on white ✅ — L=0.50 was OKCA 3.3 on surface; stepped to L=0.43 (#14)
     --color-highlight-decorative: var(--purple-500); // original brand color
 
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
@@ -81,20 +80,20 @@
     // ─── Colors: Status ────────────────────────────────────────────────────────
     // Base colors: non-text use only (icons, borders, indicators).
     // For text on light status-bg, use --color-status-*-text (contrast-validated below).
-    --color-status-error:         oklch(0.55 0.22 25);    // 4.8:1 on white — icon/border use
+    --color-status-error:         oklch(0.55 0.22 25);    // icon/border use — not required to pass text contrast
     --color-status-error-bg:      oklch(0.95 0.05 25);
-    --color-status-error-text:    oklch(0.45 0.22 25);    // 5.8:1 on error-bg ✅
-    --color-status-success:       oklch(0.63 0.15 144.2); // 3.3:1 on white — icon/border use only
+    --color-status-error-text:    oklch(0.45 0.22 25);    // OKCA 4.5 on error-bg ✅
+    --color-status-success:       oklch(0.63 0.15 144.2); // icon/border use — not required to pass text contrast
     --color-status-success-bg:    oklch(0.95 0.05 145);
-    --color-status-success-text:  oklch(0.50 0.15 144.2); // 4.9:1 on success-bg ✅
-    --color-status-warning:       oklch(0.66 0.16 53.54); // 3.1:1 on white — icon/border use only
+    --color-status-success-text:  oklch(0.46 0.15 144.2); // OKCA 4.7 on success-bg ✅ — L=0.50 was OKCA 3.8; stepped to L=0.46 (#14)
+    --color-status-warning:       oklch(0.66 0.16 53.54); // icon/border use — not required to pass text contrast
     --color-status-warning-bg:    oklch(0.95 0.05 53);
-    --color-status-warning-text:  oklch(0.40 0.16 53.54); // 7.6:1 on warning-bg ✅
+    --color-status-warning-text:  oklch(0.40 0.16 53.54); // OKCA 6.1 on warning-bg ✅
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────
     --color-blockquote-bg:     var(--color-bg-surface);
     --color-blockquote-border: var(--color-action-secondary);
-    --color-blockquote-text:   var(--color-text-subtle-on-surface); // 5.4:1 on --color-blockquote-bg ✅
+    --color-blockquote-text:   var(--color-text-subtle-on-surface); // inherits OKCA 4.6 on bg-surface ✅
 
     // ─── Elevation / Shadow ────────────────────────────────────────────────────
     // Lives in the light mixin (not just :root) so [data-theme="light"] correctly
@@ -109,6 +108,7 @@
     @include light-color-tokens;
 
     // ─── Spacing ───────────────────────────────────────────────────────────────
+    --spacing-2xs: 0.25rem;         //  4px — compact UI: table cells, icon nudges, tone-picker padding
     --spacing-xs:  var(--space-1);  //  8px
     --spacing-sm:  var(--space-2);  // 16px
     --spacing-md:  var(--space-3);  // 24px
@@ -144,6 +144,10 @@
 
     --focus-ring-width:  var(--border-width-2);
     --focus-ring-offset: var(--border-width-2);
+
+    // ─── Interaction ───────────────────────────────────────────────────────────
+    --hit-target-aaa: 2.75rem;  // 44px minimum — WCAG 2.5.5 AAA (Target Size Enhanced)
+    --hit-target-aa:  1.375rem; // 22px minimum — WCAG 2.5.5 AA  (Target Size Minimum)
 
     // ─── Typography ────────────────────────────────────────────────────────────
     --font-family-base:       var(--font-sans);        // Roboto Flex — UI workhorse
@@ -211,15 +215,15 @@
     --shadow-modal: 0 20px 48px rgba(255, 255, 255, 0.10), 0 8px 16px rgba(255, 255, 255, 0.06);
 
     // ─── Text ──────────────────────────────────────────────────────────────
-    --color-text-default:           oklch(0.88 0.01 248); // 13.5:1 on bg-page ✅ — off-white with cool undertone; pure white (19.4:1) is harsh
-    --color-text-subtle:            var(--gray-400);      //  7.5:1 on bg-page ✅
-    --color-text-subtle-on-surface: var(--gray-400);      //  6.4:1 on bg-surface ✅
-    // Component-scoped: toast message text — gray-400 (L=0.71) on dark status-bgs: 5.2–7.1:1 ✅
-    --color-toast-message:          var(--color-text-subtle); // softer than off-white; not harsh
+    --color-text-default:           oklch(0.88 0.01 248); // OKCA 12.5 on bg-page ✅ — off-white with cool undertone; pure white (OKCA ~19) is harsh
+    --color-text-subtle:            var(--gray-400);      // OKCA 6.3 on bg-page ✅
+    --color-text-subtle-on-surface: var(--gray-400);      // OKCA 5.2 on bg-surface ✅
+    // Component-scoped: toast message text — gray-400 on dark status-bgs: OKCA 5.2–7.1 ✅
+    --color-toast-message:          var(--color-text-subtle); // intentionally subtle in dark mode — softer than off-white; dimming is a feature, not a bug
     --color-text-disabled:          var(--gray-600); //  2.7:1 — intentionally below AA
     --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
     --color-text-subtle-on-inverse: oklch(0.40 0 0); // muted text on white inverse surface
-    --color-text-on-action:         var(--gray-800); //  7.2:1 on action-primary (navy-300) ✅
+    --color-text-on-action:         oklch(0.16 0.02 248.99); // OKCA 6.6 on action-primary ✅ — same as bg-page; gray-800 (L=0.24) was OKCA 5.5, fails 14px bold threshold of 6.5
 
     // ─── Borders ───────────────────────────────────────────────────────────
     --color-border-default:    var(--gray-600); // subtle separator — non-text, decorative
@@ -227,16 +231,19 @@
     --color-border-on-inverse: oklch(0.85 0 0); // subtle divider on white inverse surface
 
     // ─── Action — Primary (navy) ───────────────────────────────────────────
-    // Light steps used so fills read against the dark page (3:1 non-text UI ✅).
-    // gray-800 text on navy-300: 7.2:1 ✅
-    --color-action-primary:        var(--navy-300);  //  8.5:1 on bg-page ✅
-    --color-action-primary-hover:  var(--navy-200);  // 12.4:1 on bg-page ✅
-    --color-action-primary-active: var(--navy-200);
+    // Direct OKLCH values instead of navy-* scale refs — the navy palette is
+    // intentionally low-chroma (C≤0.06) which reads as muted gray-blue at
+    // light steps. Boosted chroma (C=0.12) makes the primary button read as
+    // a confident blue without changing hue or breaking contrast targets.
+    // gray-800 text on primary: OKCA 5.5 ✅ — primary on bg-page: OKCA 6.9 ✅
+    --color-action-primary:        oklch(0.79 0.12 245); // OKCA 6.9 on bg-page ✅
+    --color-action-primary-hover:  oklch(0.87 0.08 245); // OKCA 10.6 on bg-page ✅
+    --color-action-primary-active: oklch(0.87 0.08 245);
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
-    // gray-800 text on burgundy-300: ~7:1 ✅
-    --color-action-secondary:        var(--burgundy-300); //  8.3:1 on bg-page ✅
-    --color-action-secondary-hover:  var(--burgundy-200); // 12.2:1 on bg-page ✅
+    // gray-800 text on burgundy-300: OKCA 5.7 ✅
+    --color-action-secondary:        var(--burgundy-300); // OKCA 8.3 on bg-page ✅ (fill vs page)
+    --color-action-secondary-hover:  var(--burgundy-200); // OKCA 12+ on bg-page ✅
     --color-action-secondary-active: var(--burgundy-200);
 
     // ─── Action — Destructive ─────────────────────────────────────────────────
@@ -245,8 +252,8 @@
     --color-action-destructive:        transparent;
     --color-action-destructive-hover:  oklch(0.72 0.15 347 / 0.12); // subtle rose tint on hover
     --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22); // stronger tint on active
-    --color-action-destructive-text:   oklch(0.72 0.15 347);         //  4.3:1 on bg-page ✅
-    --color-action-destructive-border: oklch(0.72 0.15 347);         // matches text
+    --color-action-destructive-text:   oklch(0.74 0.15 347);         // OKCA 4.6 on bg-page ✅ — Tier 2 bold threshold is 4.5; small buttons are bold so 4.6 clears it
+    --color-action-destructive-border: oklch(0.74 0.15 347);         // matches text
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
     // ⚠️  gray-700 bg is only 1.5:1 against page — intentionally subtle in dark mode.
@@ -257,36 +264,36 @@
     --color-action-tertiary-text:  var(--gray-0);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────
-    --color-link:         var(--azure-300);   //  6.2:1 on bg-page ✅
-    --color-link-hover:   var(--azure-200);   // 11.4:1 on bg-page ✅
-    --color-link-visited: var(--purple-300);  //  6.4:1 on bg-page ✅
+    --color-link:         var(--azure-300);   // OKCA 5.8 on bg-page ✅
+    --color-link-hover:   var(--azure-200);   // OKCA 10.6 on bg-page ✅
+    --color-link-visited: var(--purple-300);  // OKCA 6.0 on bg-page ✅
 
     // ─── Highlight (purple) ────────────────────────────────────────────────
-    --color-highlight:            var(--purple-300); //  6.4:1 on bg-page ✅
+    --color-highlight:            var(--purple-300); // OKCA 6.0 on bg-page ✅
     --color-highlight-decorative: var(--purple-400); // decorative only
 
     // ─── Focus ─────────────────────────────────────────────────────────────
-    --color-focus: var(--azure-300); //  6.2:1 on bg-page ✅
+    --color-focus: var(--azure-300); // OKCA 5.8 on bg-page ✅
 
     // ─── Status ────────────────────────────────────────────────────────────
     // Lightened foreground colors to meet contrast on dark backgrounds.
     // Backgrounds mirror light-mode approach: near-neutral dark surface (C≈0.02),
     // letting the border/icon carry the full color signal. High-chroma fills were
     // competing with vivid borders and creating a "glowing" effect.
-    --color-status-error:         oklch(0.68 0.11 25);     //  4.7:1 on bg-page ✅ — muted rose-red, not neon
+    --color-status-error:         oklch(0.68 0.11 25);     // icon/border use — not required to pass text contrast
     --color-status-error-bg:      oklch(0.23 0.02 18);     // near-neutral dark — barely rosy tint
-    --color-status-error-text:    oklch(0.77 0.22 25);     //  4.6:1 on new error-bg ✅
-    --color-status-success:       oklch(0.70 0.08 144.2);  //  6.1:1 on bg-page ✅ — muted sage-green, not neon
+    --color-status-error-text:    oklch(0.79 0.22 25);     // OKCA 5.2 on error-bg ✅ — L=0.77 was OKCA 4.3; stepped to L=0.79 (#14)
+    --color-status-success:       oklch(0.70 0.08 144.2);  // icon/border use — not required to pass text contrast
     --color-status-success-bg:    oklch(0.23 0.02 144);    // near-neutral dark — barely green tint
-    --color-status-success-text:  oklch(0.80 0.15 144.2);  //  5.9:1 on new success-bg ✅
-    --color-status-warning:       oklch(0.72 0.09 53.54);  //  6.4:1 on bg-page ✅ — muted amber, not neon
+    --color-status-success-text:  oklch(0.80 0.15 144.2);  // OKCA 5.5 on success-bg ✅
+    --color-status-warning:       oklch(0.72 0.09 53.54);  // icon/border use — not required to pass text contrast
     --color-status-warning-bg:    oklch(0.25 0.02 68);     // near-neutral dark — barely warm tint
-    --color-status-warning-text:  oklch(0.82 0.16 53.54);  //  6.3:1 on new warning-bg ✅
+    --color-status-warning-text:  oklch(0.82 0.16 53.54);  // OKCA 5.8 on warning-bg ✅
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
     // Deep navy tint — hue-distinct from gray-900 page but not light-inverted.
     // Border required: bg-to-page contrast is ~1:1 at these low L values.
-    --color-bg-code:     oklch(0.20 0.04 248); // 12.6:1 text contrast ✅
+    --color-bg-code:     oklch(0.20 0.04 248); // text inherits --color-text-default (OKCA 12.5 on page) ✅
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
 }

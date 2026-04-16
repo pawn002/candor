@@ -4,7 +4,6 @@
 
 .card {
   border-radius: var(--radius-md);
-  overflow: hidden;
 
   // Variants
   &--default {
@@ -61,6 +60,7 @@
     &:not(:empty) {
       border-bottom: var(--border-width-medium) solid var(--color-border-default);
       font-family: var(--font-family-base);
+      font-optical-sizing: auto; // activates Roboto Flex opsz axis — weight adapts to size
       font-weight: var(--font-weight-semibold);
       color: var(--color-text-default);
     }
@@ -79,7 +79,10 @@
     &:not(:empty) {
       border-top: var(--border-width-thin) solid var(--color-border-default);
       font-family: var(--font-family-base);
-      color: var(--color-text-subtle);
+      font-size: var(--font-size-sm); // smaller than body — signals secondary/meta content
+      // --color-text-subtle-on-surface: validated against --color-bg-surface (card default bg).
+      // --color-text-subtle alone is only validated against --color-bg-page.
+      color: var(--color-text-subtle-on-surface);
     }
   }
 }

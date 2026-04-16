@@ -1,6 +1,9 @@
 <details class="accordion-item" [open]="open()">
   <summary class="accordion-item__summary">
-    <span class="accordion-item__title">{{ heading() }}</span>
+    <span class="accordion-item__title"
+          [class.accordion-item__title--subtle]="variant() === 'subtle'"
+          [class.accordion-item__title--quiet]="variant() === 'quiet'"
+    >{{ heading() }}</span>
     <i class="ph-bold ph-caret-down accordion-item__chevron" aria-hidden="true"></i>
   </summary>
 

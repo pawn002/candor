@@ -15,6 +15,22 @@ const meta: Meta = {
     }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Composition examples showing how Candor primitives combine into card-shaped UI patterns.
+
+Cards are not a single component — they are a layout convention built from:
+**Heading** (title), **Text** (body copy and metadata), **Button** (primary and secondary actions),
+**Chip** (selectable attributes), **Menu** (overflow actions), and **Tooltip** (inline help text).
+
+These examples demonstrate the expected spacing, typographic hierarchy, and action placement
+for product cards and content cards. Use them as a reference when composing custom card layouts.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;

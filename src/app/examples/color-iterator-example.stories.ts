@@ -35,6 +35,27 @@ const meta: Meta = {
     }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Interactive color accessibility tool: pick a foreground/background pair and iterate
+over OKLCH gamut space to find contrast-compliant alternatives.
+
+Assembles TonePicker, Slider (OKLCH lightness axis with gradient track), Radio, Checkbox,
+Accordion, Stat (WCAG/OKCA scores), Table (gamut grid), Navigation, Card, Badge,
+and AccessibleText.
+
+The TonePicker renders an OKLCH gamut as a color grid; the Slider sweeps lightness
+while holding chroma and hue constant. Stat components surface WCAG 2.1 and APCA
+contrast ratios in real time as the user drags the slider.
+
+This example is also a stress-test for the design system itself — every component
+is under real conditions with live data rather than static props.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;
@@ -198,7 +219,7 @@ export const ColorPairIterator: Story = {
 
                   <!-- LCH Limits tone picker — mirrors CPQI "Foreground LCH Limits" -->
                   <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
-                    <app-accordion-item title="LCH Limits">
+                    <app-accordion-item heading="LCH Limits">
                       <app-tone-picker
                         [rows]="fgGamutRows"
                         [columnHeaders]="fgGamutHeaders"
@@ -268,7 +289,7 @@ export const ColorPairIterator: Story = {
 
                   <!-- LCH Limits tone picker — mirrors CPQI "Background LCH Limits" -->
                   <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
-                    <app-accordion-item title="LCH Limits">
+                    <app-accordion-item heading="LCH Limits">
                       <app-tone-picker
                         [rows]="bgGamutRows"
                         [columnHeaders]="bgGamutHeaders"
@@ -292,7 +313,7 @@ export const ColorPairIterator: Story = {
 
               <!-- Algorithm selector & display options -->
               <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
-                <app-accordion-item title="Contrast algorithm" [open]="true">
+                <app-accordion-item heading="Contrast algorithm" [open]="true">
                   <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
                     <legend style="display: none;">Contrast algorithm</legend>
                     <app-radio name="algorithm" [label]="'WCAG 2.1'" value="wcag21" [checked]="true"></app-radio>
@@ -301,7 +322,7 @@ export const ColorPairIterator: Story = {
                     <app-radio name="algorithm" [label]="'Delta E'" value="deltae"></app-radio>
                   </fieldset>
                 </app-accordion-item>
-                <app-accordion-item title="Display options">
+                <app-accordion-item heading="Display options">
                   <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <app-checkbox [label]="'Hold chroma constant'" [checked]="true"></app-checkbox>
                     <app-checkbox [label]="'Show gradient track'" [checked]="true"></app-checkbox>

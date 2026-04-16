@@ -10,6 +10,22 @@ const meta: Meta<MenuComponent> = {
   },
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: `
+Dropdown list of actions triggered by a button. Implements the
+[ARIA Menu Button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/):
+Arrow keys navigate items, Enter/Space activate, Escape closes and returns focus.
+
+Use a menu when a single button would otherwise need 3+ secondary actions alongside it.
+If you have 1–2 secondary actions, use separate Buttons instead.
+
+Supports separators between logical groups and disabled states on individual items.
+The trigger label becomes the accessible name for the menu button — make it descriptive,
+not just "More" or "Options".
+        `.trim(),
+      },
+    },
   },
 };
 

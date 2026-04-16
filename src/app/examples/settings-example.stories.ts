@@ -1,6 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { BreadcrumbComponent } from '../components/breadcrumb/breadcrumb.component';
+import { InputComponent } from '../components/form/input/input.component';
+import { SelectComponent } from '../components/form/select/select.component';
+import { ComboboxComponent } from '../components/form/combobox/combobox.component';
 import { SwitchComponent } from '../components/form/switch/switch.component';
 import { AlertComponent } from '../components/alert/alert.component';
 import { MenuComponent } from '../components/menu/menu.component';
@@ -19,6 +22,9 @@ const meta: Meta = {
     moduleMetadata({
       imports: [
         BreadcrumbComponent,
+        InputComponent,
+        SelectComponent,
+        ComboboxComponent,
         SwitchComponent,
         AlertComponent,
         MenuComponent,
@@ -34,6 +40,25 @@ const meta: Meta = {
     }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Account settings page assembling the full complement of form and navigation components:
+Breadcrumb, Tabs, Input, Select, Combobox, Switch, Alert, Modal, Toast, Badge, Menu, and Button.
+
+Demonstrates canonical patterns for settings UI:
+- **Tabs** organize settings into logical sections (Profile, Notifications, Security)
+- **Switch** handles instant-effect toggles (email notifications, 2FA)
+- **Modal** gates destructive actions (account deletion) behind a confirmation step
+- **Alert** communicates persistent warnings (unverified email, billing issues)
+- **Toast** confirms completed actions without blocking the page
+
+Use this layout as a reference for any settings or preferences surface.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;
@@ -195,17 +220,44 @@ export const TabbedSettings: Story = {
         <app-tabs ariaLabel="Settings sections">
 
           <app-tab-panel tabId="profile" label="Profile">
-            <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1rem;">
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--color-bg-surface); border-radius: var(--radius-md);">
-                <div>
-                  <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-default); letter-spacing: 0.02em;">Jane Smith</div>
-                  <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">j.smith@example.com</div>
-                </div>
-                <app-badge variant="success">Verified</app-badge>
+            <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1.25rem;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <app-input label="First name" [value]="'Jane'" [required]="true"></app-input>
+                <app-input label="Last name" [value]="'Smith'" [required]="true"></app-input>
               </div>
-              <div style="display: flex; gap: 1rem;">
-                <app-button [variant]="'secondary'" [size]="'medium'">Edit profile</app-button>
-                <app-button [variant]="'ghost'" [size]="'medium'">Change password</app-button>
+              <app-input label="Email address" type="email" [value]="'j.smith@example.com'" [required]="true" hint="Changing your email requires re-verification."></app-input>
+              <app-select
+                label="Language"
+                [options]="[
+                  { value: 'en', label: 'English' },
+                  { value: 'fr', label: 'French' },
+                  { value: 'de', label: 'German' },
+                  { value: 'es', label: 'Spanish' }
+                ]"
+                [value]="'en'">
+              </app-select>
+              <app-combobox
+                label="Timezone"
+                [options]="[
+                  'UTC−12:00 — Baker Island',
+                  'UTC−08:00 — Pacific Time',
+                  'UTC−07:00 — Mountain Time',
+                  'UTC−06:00 — Central Time',
+                  'UTC−05:00 — Eastern Time',
+                  'UTC+00:00 — London',
+                  'UTC+01:00 — Paris, Berlin',
+                  'UTC+05:30 — India',
+                  'UTC+08:00 — Singapore, Hong Kong',
+                  'UTC+09:00 — Tokyo',
+                  'UTC+10:00 — Sydney',
+                  'UTC+12:00 — Auckland'
+                ]"
+                [value]="'UTC+00:00 — London'"
+                hint="Used for scheduling and notifications.">
+              </app-combobox>
+              <div style="display: flex; gap: 1rem; padding-top: 0.5rem;">
+                <app-button [variant]="'primary'" [size]="'medium'">Save changes</app-button>
+                <app-button [variant]="'ghost'" [size]="'medium'">Discard</app-button>
               </div>
             </div>
           </app-tab-panel>
@@ -260,13 +312,14 @@ export const TabbedSettings: Story = {
 
 export const DeleteConfirmation: Story = {
   render: () => ({
+    props: { isOpen: false },
     template: `
       <div style="padding: 2rem;">
-        <app-text [variant]="'body'" style="display: block; color: var(--color-text-subtle); margin-bottom: 1rem;">
-          Trigger context: user clicks "Delete account" in advanced settings.
-        </app-text>
+        <app-button [variant]="'destructive'" [size]="'medium'" (clicked)="isOpen = true">
+          Delete account
+        </app-button>
 
-        <app-modal [open]="true" title="Delete account" size="sm">
+        <app-modal [open]="isOpen" heading="Delete account" size="sm" (closed)="isOpen = false">
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             <app-text [variant]="'body'">
               This will permanently delete your account and all associated data — projects, settings, billing history, and team memberships. This action cannot be undone.
@@ -278,7 +331,7 @@ export const DeleteConfirmation: Story = {
             </app-alert>
           </div>
           <div slot="footer" style="display: flex; gap: 0.75rem; justify-content: flex-end; padding: 1.25rem 1.5rem; border-top: 1px solid var(--color-border-default);">
-            <app-button [variant]="'ghost'" [size]="'medium'">Cancel</app-button>
+            <app-button [variant]="'ghost'" [size]="'medium'" (clicked)="isOpen = false">Cancel</app-button>
             <app-button [variant]="'destructive'" [size]="'medium'">Delete my account</app-button>
           </div>
         </app-modal>

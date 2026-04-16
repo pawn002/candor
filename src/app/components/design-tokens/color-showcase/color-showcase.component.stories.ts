@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { ColorShowcaseComponent } from './color-showcase.component';
+import { moduleMetadata } from '@storybook/angular';
+import { ColorShowcaseComponent, COLOR_CATEGORIES } from './color-showcase.component';
+import { TableComponent } from '../../table/table.component';
 
 const meta: Meta<ColorShowcaseComponent> = {
   title: 'Design Tokens/Colors',
@@ -38,15 +40,78 @@ Validated with \`cpqi contrast\`.
 export default meta;
 type Story = StoryObj<ColorShowcaseComponent>;
 
-export const AllColors: Story = {
-  render: () => ({
-    props: {},
-  }),
+export const LightTheme: Story = {
+  name: 'Light Theme',
+  globals: { theme: 'light' },
+  render: () => ({ props: {} }),
   parameters: {
     docs: {
       description: {
-        story: 'Complete palette showing all personal brand colors organized by semantic role.',
+        story: 'Complete semantic palette in light mode. Token values shown are light-mode resolved values.',
       },
     },
   },
+};
+
+export const DarkTheme: Story = {
+  name: 'Dark Theme',
+  globals: { theme: 'dark' },
+  render: () => ({ props: {} }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Complete semantic palette in dark mode. Swatch colors reflect the active dark-mode token values.',
+      },
+    },
+  },
+};
+
+export const TokenReference: Story = {
+  name: 'Token Reference',
+  decorators: [
+    moduleMetadata({ imports: [TableComponent] }),
+  ],
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        story: 'Full token reference — OKLCH values for both light and dark mode. Source of truth is `src/design-tokens/semantics.scss`.',
+      },
+    },
+  },
+  render: () => ({
+    props: { colorCategories: COLOR_CATEGORIES },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-xl);">
+        @for (category of colorCategories; track category.name) {
+          <section>
+            <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-2xs);">{{ category.name }}</p>
+            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-sm);">{{ category.description }}</p>
+            <app-table [compact]="true">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Token</th>
+                    <th>Light</th>
+                    <th>Dark</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (color of category.colors; track color.name) {
+                    <tr>
+                      <td style="font-family: var(--font-family-mono); font-size: var(--font-size-sm);">{{ color.variable }}</td>
+                      <td style="font-family: var(--font-family-mono); font-size: var(--font-size-sm);">{{ color.light || '—' }}</td>
+                      <td style="font-family: var(--font-family-mono); font-size: var(--font-size-sm);">{{ color.dark || '—' }}</td>
+                      <td class="label">{{ color.description }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </app-table>
+          </section>
+        }
+      </div>
+    `,
+  }),
 };

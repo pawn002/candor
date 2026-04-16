@@ -9,6 +9,7 @@
   // Horizontal
   &--horizontal {
     flex-direction: row;
+    flex-wrap: wrap; // brand + list wrap to two rows on narrow viewports
     align-items: center;
     gap: var(--spacing-xs);
     padding: var(--spacing-sm) var(--spacing-md);
@@ -21,7 +22,16 @@
 
     .nav__list {
       flex-direction: row;
+      flex-wrap: wrap; // items wrap within their row if the viewport is very narrow
       margin-left: auto;
+
+      // Below 640px: drop the list to its own row, flush left.
+      // margin-left: auto on a full-width wrapped row pushes content off-screen;
+      // width: 100% forces the wrap regardless of how many items there are.
+      @media (max-width: 639px) {
+        margin-left: 0;
+        width: 100%;
+      }
     }
   }
 

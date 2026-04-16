@@ -21,6 +21,22 @@ const meta: Meta<SelectComponent> = {
   title: 'Components/Form/Select',
   component: SelectComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Dropdown for selecting one option from a list. Wraps a native \`<select>\` element — keyboard
+navigation, mobile pickers, and browser autofill work out of the box.
+
+**Select vs. Combobox:** Use \`Select\` for short, stable lists (5–15 items) where the user
+picks from known options. Use \`Combobox\` when the list is long, dynamic, or searchable.
+
+Accepts an array of \`{ value, label }\` option objects. Pass an empty \`placeholder\` string
+to show a "choose one" prompt as the first option (not pre-selected).
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     label: { control: 'text', description: 'Field label' },
     placeholder: { control: 'text', description: 'Placeholder shown when no value is selected' },

@@ -12,6 +12,22 @@ const meta: Meta<StatComponent> = {
     moduleMetadata({ imports: [StatComponent, BadgeComponent, AccessibleTextComponent, CardComponent] }),
   ],
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Large numeric display for dashboard metrics and KPI panels. Renders a prominent value,
+an optional unit suffix, and a descriptive label below.
+
+Five semantic color variants signal the metric's state: \`default\`, \`success\`, \`warning\`,
+\`error\`, \`info\`. The color applies to the value and unit, not the label.
+
+Compose with \`BadgeComponent\` for trend indicators (↑ 12% vs. last month) and with
+\`CardComponent\` when the stat lives inside a surface panel.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     value: { control: 'text', type: { name: 'string' }, description: 'Numeric or string value displayed large' },
     unit: { control: 'text', type: { name: 'string' }, description: 'Unit suffix displayed after the value (e.g. % or :1)' },

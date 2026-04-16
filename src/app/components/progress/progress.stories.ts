@@ -5,6 +5,22 @@ const meta: Meta<ProgressComponent> = {
   title: 'Components/Progress',
   component: ProgressComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Progress indicator in two forms: a horizontal bar or a circular spinner.
+
+- **Bar** — for determinate progress with a known percentage (file upload, multi-step form)
+- **Spinner** — for indeterminate loading (waiting on a response, background task)
+
+Set \`[indeterminate]="true"\` when the duration is unknown — this renders an animated
+loop rather than a static bar at 0%. Always provide a \`label\` for screen readers; the
+visual bar conveys no information to assistive technology without it.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     type: {
       control: 'select',

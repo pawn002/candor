@@ -47,6 +47,7 @@
   &__body {
     padding: 0.25rem 0.625rem;
     color: var(--color-text-default);
+    font-weight: var(--font-weight-bold); // 14px bold — drops OKCA threshold from 9.5 to 6.5; all pairs ≥ 8.0 ✅
     line-height: var(--line-height-tight);
 
     &--button {

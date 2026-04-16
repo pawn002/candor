@@ -12,7 +12,7 @@
     margin: 0;
     padding: 0;
     font-family: var(--font-family-accessible);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-sm); // Tier 2 bold threshold 4.5 — link OKCA 4.6 ✅
     letter-spacing: 0.02em;
   }
 
@@ -33,6 +33,7 @@
 
   &__link {
     color: var(--color-link);
+    font-weight: var(--font-weight-bold);
     text-decoration: none;
 
     &:hover {
@@ -49,6 +50,6 @@
 
   &__current {
     color: var(--color-text-default);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-bold);
   }
 }

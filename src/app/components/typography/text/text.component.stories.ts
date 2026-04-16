@@ -5,6 +5,25 @@ const meta: Meta<TextComponent> = {
   title: 'Typography/Text',
   component: TextComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`TextComponent\` covers body copy, captions, and UI chrome labels. Three variants:
+
+| Variant | Typeface | Use case |
+|---|---|---|
+| \`body\` | Noto Serif | General body text, descriptions, explanatory copy |
+| \`caption\` | Noto Serif italic | Supplementary context, figure captions, timestamps |
+| \`label\` | Roboto Flex | UI chrome — button text, tab labels, field annotations |
+
+**Text vs. AccessibleText:** Use \`TextComponent\` for body content rendered in Noto Serif or
+Roboto Flex. Use \`AccessibleTextComponent\` (Atkinson Hyperlegible) for critical functional text —
+form labels, error messages, status indicators — where legibility under stress is the priority.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     variant: {
       control: 'select',

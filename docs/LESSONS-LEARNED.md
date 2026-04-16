@@ -255,6 +255,31 @@ cpqi rounds OKLCH lightness to 2 decimal places, so two visually distinct hex va
 
 ---
 
+### `app-input` in a toolbar row: use `align-items: flex-start`, not `center` or `flex-end`
+
+`app-input` always reserves space below the input field for hint/error text — even when no hint or error is set. This makes the component host element taller than a same-height button, and it makes the extra space appear at the **bottom** of the host (not the top).
+
+Consequence:
+- `align-items: flex-end` — aligns host bottoms, but the visible input field sits ~8px above the button
+- `align-items: center` — centers host midpoints, but the field is at the top half of the host so it still renders slightly above center
+- `align-items: flex-start` — aligns host tops, and since the input field starts at the top of the host, the visible field and the button share the same top edge ✓
+
+**The fix:** `align-items: flex-start` on the row container. If an absolute-positioned badge sits above the button, add `padding-top` equal to the badge overflow (typically 6px) to prevent clipping.
+
+```html
+<div style="display: flex; align-items: flex-start; gap: 0.75rem; padding-top: 6px;">
+  <app-input placeholder="Search..."></app-input>
+  <div style="position: relative;">
+    <app-button variant="secondary">Filters</app-button>
+    <app-badge style="position: absolute; top: -6px; right: -6px;">3</app-badge>
+  </div>
+</div>
+```
+
+**The trap:** `align-items: center` is the intuitive choice for a toolbar. It's wrong whenever `app-input` shares a row with buttons that don't have label/hint space.
+
+---
+
 ### `aria-label` on `<span>` without a role is invalid — use `aria-hidden` for decorative markers
 
 `aria-label` is only meaningful on elements with an ARIA role (implicit or explicit). A plain `<span>` has no implicit role, so `aria-label="required"` on a required-field asterisk is undefined behavior — axe flags it as inconclusive with severity "serious."

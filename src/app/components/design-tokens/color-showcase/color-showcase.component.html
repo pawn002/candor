@@ -11,30 +11,10 @@
                     <div class="color-swatch-card">
                         <div
                             class="swatch"
-                            [style.background]="
-                                color.oklch || 'var(' + color.variable + ')'
-                            "
-                        >
-                            <div class="swatch-overlay">
-                                <span class="color-name">{{ color.name }}</span>
-                            </div>
-                        </div>
+                            [style.background]="'var(' + color.variable + ')'"
+                        ></div>
                         <div class="swatch-info">
-                            <h3 class="swatch-title">{{ color.name }}</h3>
-                            <p class="swatch-description">
-                                {{ color.description }}
-                            </p>
-                            @if (color.hex) {
-                                <code class="color-value">{{ color.hex }}</code>
-                            }
-                            @if (color.oklch) {
-                                <code class="color-value oklch">{{
-                                    color.oklch
-                                }}</code>
-                            }
-                            <code class="color-value variable">{{
-                                color.variable
-                            }}</code>
+                            <code class="color-value">{{ color.variable }}</code>
                         </div>
                     </div>
                 }

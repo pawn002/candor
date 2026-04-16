@@ -5,6 +5,23 @@ const meta: Meta<NavigationComponent> = {
   title: 'Components/Navigation',
   component: NavigationComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Site or section navigation bar. Two orientations: \`horizontal\` (top header) and \`vertical\`
+(sidebar). Two themes: \`default\` and \`inverse\` (dark/navy background).
+
+Pass \`items\` as an array of \`{ label, href, active?, badge? }\` objects. The \`active\` flag
+applies \`aria-current="page"\` and the active link style. Optional \`badge\` renders a numeric
+indicator on the nav item — useful for notification counts.
+
+**Responsive behaviour (horizontal):** Below 640px the brand and item list wrap to two rows.
+The brand stays on row one; the list drops flush-left to row two. No JavaScript required.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     orientation: {
       control: 'select',

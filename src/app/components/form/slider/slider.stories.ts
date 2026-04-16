@@ -5,6 +5,28 @@ const meta: Meta<SliderComponent> = {
   title: 'Components/Form/Slider',
   component: SliderComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Range input with optional gradient track visualization. Designed for continuous numeric values
+where the position on a spectrum matters — lightness, opacity, threshold, volume.
+
+**\`valueTextFn\`** — supply a function \`(value: number) => string\` to provide a meaningful
+\`aria-valuetext\`. This is required whenever the raw number is not self-describing:
+
+\`\`\`typescript
+// Without valueTextFn: screen reader announces "0.65"
+// With valueTextFn: screen reader announces "L=0.65 (medium light)"
+valueTextFn = (v: number) => \`L=\${v.toFixed(2)}\`;
+\`\`\`
+
+The \`gradient\` input accepts a CSS \`linear-gradient()\` string rendered behind the track — use
+it to show the lightness or hue spectrum the slider is traversing.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     min:      { control: { type: 'number' } },
     max:      { control: { type: 'number' } },
