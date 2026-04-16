@@ -72,7 +72,7 @@ Candor uses four families, each with a defined role. Mixing them carelessly prod
 | `--font-family-display` / `--font-family-base` | Roboto Flex | Headings, UI text, general-purpose. Variable axes (`opsz`, `GRAD`, `wdth`) carry hierarchy beyond weight. |
 | `--font-family-serif` | Noto Serif | Long-form editorial prose in `Article` and similar reading contexts. Signals deliberate reading mode. |
 | `--font-family-accessible` | Atkinson Hyperlegible | Form labels, status messages, annotations, badges. Critical UI text where glyph distinction matters at small sizes. |
-| `--font-family-mono` | Noto Sans Mono | Code, technical values, anything where character position carries meaning. |
+| `--font-family-mono` | Roboto Mono | Code, technical values, anything where character position carries meaning. |
 
 ### The variable-font discipline
 
