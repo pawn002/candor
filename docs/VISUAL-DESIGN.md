@@ -105,7 +105,15 @@ Atkinson Hyperlegible carries critical UI text because its glyph differentiation
 
 ### The 14px floor and the tier system
 
-No readable text in Candor falls below 14px. 12px (`--font-size-xs`) is for decorative chrome only — never for content a user is expected to read. At 14px, the OKCA contrast tiers (Reading / Functional UI / Supplementary) determine the threshold. See `CLAUDE.md` for the tier table.
+No readable text in Candor falls below 14px. 12px (`--font-size-xs`) is for decorative chrome only — never for content a user is expected to read. At 14px, a single OKCA threshold is not enough — the required score depends on the perceptual task the text is serving.
+
+| Tier | Perceptual task | 14px regular | 14px bold | Candor components |
+|---|---|---|---|---|
+| 1 — Reading | Sequential decoding — must read to act | **9.5** | **6.5** | Alert body, toast message, modal prose, form error messages |
+| 2 — Functional UI | Recognition — text is the sole channel for meaning | **6.5** | **4.5** | Pagination numbers, breadcrumb links, table cell data, chip labels, button labels |
+| 3 — Supplementary | Pattern match — meaning redundantly coded by shape, icon, or position | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata |
+
+The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 4.6 — it fails Tier 1 and Tier 2 regular, but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change. The fix for a Tier 1 failure is bumping to 16px.
 
 ### Traps
 
