@@ -8,7 +8,7 @@ Technical content has real legibility requirements. Code must be scannable. Data
 
 The failure mode is always the same: reaching for the clinical default because it is the easy answer. Pure white on pure black. `font-weight: bold` on every state that needs attention. A single 1px hairline between rows. Maximum contrast. These choices are legible, but they are not designed. They interrupt the system's character and betray that no one stopped to think.
 
-**Every component needs two answers: is this legible, and does it belong to the rest of the artifact?** If you can only get one, the component is not finished.
+**Every component needs two answers: is this legible, and does it feel like it was made by the same hand as everything around it?** If you can only get one, the component is not finished.
 
 Candor makes the humanist choice the default path and requires a reason to deviate from it. The type scale, color tokens, spacing grid, and contrast tiers are all pre-tuned so that a developer assembling components from the library produces humane output without having to think about it. The traps appear when someone reaches outside the token system — picking a raw color, setting a weight manually, choosing a size off-scale — and the clinical default comes back through the gap.
 
@@ -191,7 +191,7 @@ Candor is primarily a UI system, so "imagery" here covers the full visual-substa
 3. **Providing navigation or recognition** (an avatar, a product thumbnail, an icon that speeds wayfinding).
 4. **Expressing brand presence** where a page would otherwise be uncharacterized.
 
-Images that serve none of these are filler, and filler erodes the sense that every element was chosen.
+Images that serve none of these are filler, and filler signals that no one made a deliberate choice about that surface.
 
 ### What this means in Candor
 
