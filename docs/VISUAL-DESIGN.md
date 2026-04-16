@@ -204,7 +204,7 @@ Images that serve none of these are filler, and filler signals that no one made 
 ### What this means in Candor
 
 - **Icons are functional, not decorative.** The icon system is semantic: a checkmark means success, an exclamation means warning. Decorative icons (a sparkle next to a heading for "flair") dilute the semantics and should be removed.
-- **Iconography should pair with text wherever the icon's meaning is not universal.** An icon-only button without an accessible name fails both a11y and comprehension. A status indicator that uses only color (no icon, no text) does not qualify for Tier 3 — Tier 3 requires a redundant non-color channel. Without one, the indicator must meet the higher Tier 2 threshold.
+- **Iconography should pair with text wherever the icon's meaning is not universal.** An icon-only button without an accessible name fails both a11y and comprehension. A status indicator that uses only color (no icon, no text) does not qualify for Tier 3 — Tier 3 requires a redundant non-color channel. Without one, the indicator must meet the stricter Tier 2 threshold.
 - **Photography and illustration inherit the humanist frame.** A page of warm serif prose with a harsh, desaturated stock photo is incoherent. If photography is used in an Article or editorial surface, it should sit visually inside the system's palette — either through the image selection itself, or through treatment (warm overlay, border, container sized on the spatial grid).
 - **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`cpqi variants`).
 
@@ -233,7 +233,7 @@ A checklist a reviewer can run on any new screen or component. These are composi
 7. **Edges and corners feel intentional.** Border radii are consistent within a scale. No component has three different radii (4px on a button, 6px on a card, 8px on a modal) unless the system defines them that way.
 8. **Interactive affordances are distinct from static text.** Links are visibly links. Buttons are visibly buttons. A user can tell what is clickable without hovering.
 9. **Nothing is at the raw extremes.** No pure black text on white (`color: #000`), no pure black dark backgrounds (`background: #000` — dark mode page is deep navy, not black), no saturated primary at full chroma used as body color. If a value is a raw extreme, it is almost certainly overriding a token that was pre-tuned away from that extreme.
-10. **Content feels read-at, not displayed-at.** Especially for prose surfaces, line length sits in the 65–75ch range, leading is comfortable, and the eye does not bounce. If the layout feels like a database export, it probably is one.
+10. **Content is composed to be read.** Especially for prose surfaces, line length sits in the 65–75ch range, leading is comfortable, and the eye does not bounce. If the layout feels like a database export, it probably is one.
 11. **Icons have meaning.** Every icon on the screen is doing semantic or navigational work. None are decorative flourishes.
 12. **A reviewer could describe the screen's tone in a sentence.** "Calm, editorial, focused." "Dense, functional, legible." If the tone is unnameable or contradictory, the composition is inconsistent.
 
@@ -264,7 +264,7 @@ Likely causes, in order of frequency:
 
 ### Symptom: "Everything is bold and nothing stands out"
 
-- **Atkinson bold used incorrectly on reading text.** Form error messages at 14px are Tier 1 — bold does not substitute for the required 9.5 OKCA score. Fix: use `--color-text-default` or bump to 16px. Bold is legitimate at 14px for Tier 2 functional text, where it drops the threshold from 6.5 to 4.5. Alert and toast body text should be at 16px for this reason.
+- **Atkinson bold used incorrectly on reading text.** Form error messages at 14px are Tier 1 — bold does not substitute for the required 9.5 OKCA score. Fix: use `--color-text-default` or bump to 16px. Bold is legitimate at 14px for Tier 2 functional text, where it drops the threshold from 6.5 to 4.5. Alert and toast body text are at 16px for this reason.
 - **Heading weight inflation.** Every heading reaches for `font-weight: 600`. Fix: let optical sizing do the work; remove explicit weight.
 - **Label weight leaking into prose.** Body copy is inheriting a bold style from a parent. Fix: scope the bold; body prose should almost always be regular.
 
