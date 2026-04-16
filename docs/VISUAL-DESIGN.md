@@ -1,10 +1,10 @@
 # Visual Design in Candor
 
-Candor is a humanist design system: every surface, including technical and machine-generated content, should feel like part of a considered, human-authored artifact. Roboto Flex, Noto Serif, and Atkinson Hyperlegible are all drawn from the humanist tradition — letterforms shaped by the hand, designed for reading by people. OKLCH is used because it models human vision rather than machine arithmetic. These are deliberate choices and they set the terms for everything built on top of them.
+Candor is a humanist design system: every surface, including technical and machine-generated content, should feel like it was made by the same hand. Roboto Flex, Noto Serif, and Atkinson Hyperlegible are all drawn from the humanist tradition — letterforms shaped by the hand, designed for reading by people. OKLCH is used because it models human vision rather than machine arithmetic. These choices are deliberate and they shape every decision built on top of them.
 
 ## The core tension
 
-Technical content has real legibility requirements. Code must be scannable. Data tables must differentiate rows. Form errors must be impossible to miss. Meeting those requirements is mandatory; the question is always whether they can be met while preserving warmth, coherence, and the sense that a human made deliberate choices about every surface.
+Technical content has real legibility requirements. Code must be scannable. Data tables must differentiate rows. Form errors must be impossible to miss. Meeting those requirements is mandatory; the question is always whether they can be met while preserving warmth, coherence, and considered choices at every surface.
 
 The failure mode is always the same: reaching for the clinical default because it is the easy answer. Pure white on pure black. `font-weight: bold` on every state that needs attention. A single 1px hairline between rows. Maximum contrast. These choices are legible, but they are not designed. They interrupt the system's character and betray that no one stopped to think.
 
@@ -139,7 +139,7 @@ OKLCH makes color decisions predictable. Because lightness is perceptually unifo
 
 ### Semantic tokens, not raw values
 
-The layering rule: raw OKLCH values belong in `semantics.scss`, where primitives are assigned semantic meaning. Component SCSS — everything in `src/app/components/` — should never contain a raw color value. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-status-error-text`, not a hand-picked red. `semantics.scss` is intentionally full of raw values; that is its job. Component code downstream of it is not.
+The layering rule: raw OKLCH values belong in `semantics.scss`, where primitives are assigned semantic meaning. Component SCSS — everything in `src/app/components/` — should never contain a raw color value. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-status-error-text`, not a hand-picked red. `semantics.scss` is intentionally full of raw values; that is its job. Component code downstream of it should not be.
 
 This layering is what allows dark mode, theme variants, and future palette changes to work without touching component code.
 
@@ -205,7 +205,7 @@ Images that serve none of these are filler, and filler signals that no one made 
 
 - **Icons are functional, not decorative.** The icon system is semantic: a checkmark means success, an exclamation means warning. Decorative icons (a sparkle next to a heading for "flair") dilute the semantics and should be removed.
 - **Iconography should pair with text wherever the icon's meaning is not universal.** An icon-only button without an accessible name fails both a11y and comprehension. A status indicator that uses only color (no icon, no text) does not qualify for Tier 3 — Tier 3 requires a redundant non-color channel. Without one, the indicator must meet the higher Tier 2 threshold.
-- **Photography and illustration inherit the humanist frame.** A page of warm serif prose with a harsh, desaturated stock photo is incoherent. If photography is used in an Article or editorial surface, it should sit visually inside the system's palette — either through the image selection itself, or through treatment (warm overlay, border, aspect ratio on the spatial grid).
+- **Photography and illustration inherit the humanist frame.** A page of warm serif prose with a harsh, desaturated stock photo is incoherent. If photography is used in an Article or editorial surface, it should sit visually inside the system's palette — either through the image selection itself, or through treatment (warm overlay, border, container sized on the spatial grid).
 - **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`cpqi variants`).
 
 ### Traps
@@ -258,14 +258,13 @@ Likely causes, in order of frequency:
 
 ### Symptom: "The technical content sits outside the design"
 
-- **Mono font used without adjustment.** A raw monospace block in the middle of serif prose is jarring. Fix: give it a background (`--color-bg-code`), padding, and a border radius so it sits inside the visual frame.
-- **Code block background is pure black in dark mode.** It interrupts a warm layout. Fix: use `--color-bg-code`, which in dark mode resolves to `oklch(0.20 0.04 248)` — a deep cool navy, not black. Never set a raw `background: #000` on a code surface.
+- **Mono font used without a container.** A raw monospace block dropped into serif prose with no background, padding, or border radius reads as an intrusion. Fix: wrap it in `--color-bg-code` with padding and a border radius. In dark mode `--color-bg-code` resolves to `oklch(0.20 0.04 248)` — a deep cool navy. Never use `background: #000`.
 - **Tabular numerals not enabled.** Numbers wobble in columns. Fix: `font-variant-numeric: tabular-nums` on numeric columns.
 - **No typographic treatment of technical content.** Function names, types, and keywords all look identical. Fix: use syntax tokens — even a two-color treatment (identifier vs. keyword) is enough to bring code inside the system.
 
 ### Symptom: "Everything is bold and nothing stands out"
 
-- **Atkinson bold used incorrectly on Tier 1 text.** Error messages and alert body text are bold, but they are Tier 1 (reading text) — bolding does not substitute for the required 9.5 OKCA score. Fix: bump to 16px or use `--color-text-default`. Bold is legitimate at 14px for Tier 2 functional text, where it drops the threshold from 6.5 to 4.5.
+- **Atkinson bold used incorrectly on reading text.** Form error messages at 14px are Tier 1 — bold does not substitute for the required 9.5 OKCA score. Fix: use `--color-text-default` or bump to 16px. Bold is legitimate at 14px for Tier 2 functional text, where it drops the threshold from 6.5 to 4.5. Alert and toast body text should be at 16px for this reason.
 - **Heading weight inflation.** Every heading reaches for `font-weight: 600`. Fix: let optical sizing do the work; remove explicit weight.
 - **Label weight leaking into prose.** Body copy is inheriting a bold style from a parent. Fix: scope the bold; body prose should almost always be regular.
 
@@ -283,4 +282,4 @@ Likely causes, in order of frequency:
 
 ---
 
-The traps appear when someone steps off the path — picks a raw color, sets a weight by hand, chooses an off-scale size, uses a mono font as flavor. When a screen feels wrong, the fix is almost always a step back onto the path, not a new decision added on top.
+The traps appear when someone steps off the path — picks a raw color, sets a weight by hand, chooses an off-scale size, uses a mono font as flavor. When a screen feels wrong, the fix is almost always a step back onto the path.
