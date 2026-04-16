@@ -1,4 +1,4 @@
-# CANDOR.md
+# Conscience
 
 Visual design exists to help people understand, navigate, and act. The test is always whether someone using a surface can do what they came to do — not whether the design passes an audit, satisfies an aesthetic, or demonstrates that the system was carefully built. These are different achievements. Confusing them is how design systems drift from tools into cages.
 
