@@ -27,6 +27,9 @@ Candor follows semver. The token package is stable at 1.0.0 — treat MINOR as a
 5. Review and edit the draft on GitHub, then click **Publish release**
 6. GitHub Actions (`publish.yml`) publishes to npm via OIDC trusted publishing — no token needed
 
+### After every release
+- Update the hardcoded version string in `src/Introduction.mdx` line 3 — e.g. `**Version 2.3 · April 2026**`. Chromatic won't reflect the new version until this is pushed to `main`.
+
 ### Never do manually
 - Don't `git tag` by hand — `npm version` handles it
 - Don't `npm publish` directly after the bootstrap — trusted publishing takes over
