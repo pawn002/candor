@@ -57,6 +57,8 @@ All interactive components are fully keyboard-operable:
 
 All color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components). Contrast was validated using CPQI CLI against WCAG 2.1, OKCA, and APCA algorithms. OKLCH color space is used throughout to ensure perceptually accurate lightness calculations.
 
+Text at 14px and below is additionally validated against a three-tier use-case contrast system (see `docs/CONTRAST-TIERS.md`). Tier 1 (reading text) requires OKCA 9.5 regular / 6.5 bold; Tier 2 (functional UI) requires 6.5 / 4.5; Tier 3 (supplementary, meaning redundantly coded) requires 4.5 / 4.5. Passing OKCA also passes WCAG — zero false-pass guarantee.
+
 ### Live regions
 
 Components that produce dynamic feedback — form errors, status messages, send confirmations, activation results — use pre-established live regions (`role="status"` with `aria-live="polite"` or `role="alert"` with `aria-live="assertive"`). Regions are present in the DOM before content arrives so assistive technology registers the mutation.
@@ -88,6 +90,37 @@ Candor components are building blocks. Several accessibility requirements are ar
 ---
 
 ## Known limitations
+
+### `:visited` link state — double-underline indicator (WCAG 1.4.1)
+
+**Criterion:** 1.4.1 Use of Color (Level A)
+**Status:** Partial — platform-limited; mitigated with structural cue
+
+Browsers only allow color-value CSS properties inside `:visited` rules (`color`, `border-color`,
+`outline-color`, etc.). Width, style, and layout properties are silently ignored to prevent
+navigation-history side-channel attacks. `text-decoration-style: double` cannot be set in `:visited`.
+
+**The mitigation:** Article links pre-declare `border-bottom: 1px solid transparent` in the base
+rule. On `:visited`, only `border-bottom-color` changes (an allowed color property) — but the effect
+is a second underline appearing beneath the existing `text-decoration` underline. The structural
+signal is: single underline = unvisited, double underline = visited. This cue persists under
+deuteranopia and protanopia (red-green CVD), where hue shift alone may be ambiguous.
+
+**What the system provides:**
+- Double-underline structural indicator (not purely color-dependent)
+- Hue shift: azure (unvisited) → purple (visited)
+- Both colors independently pass contrast against their backgrounds (light and dark)
+
+**Remaining limitation:** The indicator is still ultimately delivered via a color property change
+(`border-bottom-color: transparent → visible`). A strict WCAG 1.4.1 interpretation requires
+non-color means; the double-underline is a structural *effect* of a color change rather than a
+truly independent non-color property. Consumers who need a fully color-independent indicator
+should implement a JS-assisted pattern: intercept clicks, store visited URLs in `localStorage`,
+apply a class (e.g. `.is-visited`). Class selectors have no `:visited` color restriction.
+
+**Affected component:** Article (`app-article`) links only. No other component exposes `:visited` state.
+
+---
 
 ### OKLCH browser support
 

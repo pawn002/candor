@@ -17,6 +17,47 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased] — Phase 5
+
+### Added
+
+- **Toolbar:** New `app-toolbar` component — `role="toolbar"` container implementing the APG Toolbar pattern. Single tab stop with roving tabindex; Left/Right (horizontal) or Up/Down (vertical) arrow keys navigate between controls; Home/End jump to first/last. Includes `app-toolbar-separator` for visual group dividers. Stories cover formatting buttons, toggle buttons (`aria-pressed`), separators, vertical orientation, and data-table action bar (#27)
+- **Tokens:** `--spacing-2xs: 0.25rem` (4px) — compact UI contexts: table cells in compact mode, icon nudges, tone-picker cell padding (#48)
+- **Tokens:** `--hit-target-aaa: 2.75rem` (44px) and `--hit-target-aa: 1.375rem` (22px) — WCAG 2.5.5 AAA/AA touch target size tokens, under a new `Interaction` section alongside focus-ring tokens (#48)
+- **AccordionItem:** `variant` input (`'default' | 'subtle' | 'quiet'`) — expresses heading hierarchy in nested accordion groups. `subtle`: regular weight, subtle colour; `quiet`: regular weight, `--font-size-sm`, subtle colour (#48)
+
+### Fixed
+
+- **Tokens:** Dark-mode `--color-action-primary` chroma boosted from C=0.05 → C=0.12 (`oklch(0.79 0.12 245)`). The `navy-*` scale is intentionally low-chroma — appropriate for the dark charcoal primaries in light mode, but at L=0.76 C=0.05 the button reads as muted gray-blue rather than a confident CTA. The new value is clearly perceptible as blue without changing hue or breaking contrast (text 5.5:1, button-on-page 6.9:1 ✅). Hover/active updated to `oklch(0.87 0.08 245)` for consistency (#76)
+- **Card:** Footer now uses `--color-text-subtle-on-surface` (validated against `--color-bg-surface`) instead of `--color-text-subtle` (page-only). Footer font-size reduced to `--font-size-sm` to distinguish secondary content from body prose. Header gains `font-optical-sizing: auto` to activate Roboto Flex's optical-size axis (#20)
+- **Modal:** Close button replaced with `app-button variant="ghost" size="small"` — hover, active, and focus ring now drawn from `ButtonComponent` tokens. Removed hand-rolled `.modal__close` SCSS block (#83)
+- **Card:** Removed `overflow: hidden` from `.card` — was clipping sticky children (`<thead>`, sticky toolbar, sticky alert bar inside a card). Border-radius renders correctly without it in modern browsers (#48)
+- **Tokens:** Clarified `--color-toast-message` dark-mode comment — the intentional subtle dimming on dark backgrounds is documented inline to prevent silent substitution with `--color-text-default` (#48)
+
+- **Tokens:** Color re-audit (#14) — full OKCA validation against the OKCA Contrast Guidance scale (4.5 required at 16px; 9.5 regular / 6.5 bold at 14px). 7 failing pairs corrected:
+  - `--color-text-subtle` light: L=0.56 → L=0.50 (OKCA 3.4 → 4.6)
+  - `--color-text-subtle-on-surface` light: L=0.46 → L=0.44 (OKCA 4.1 → 4.6 on gray-100)
+  - `--color-link` light: azure-500 L=0.53 → L=0.49 (OKCA 3.8 → 4.6)
+  - `--color-highlight` light: L=0.50 → L=0.43 (OKCA 3.3 → 4.8 on bg-surface; 4.6 → 6.5 on white)
+  - `--color-status-success-text` light: L=0.50 → L=0.46 (OKCA 3.8 → 4.7 on success-bg)
+  - `--color-action-destructive-text/border` dark: L=0.72 → L=0.74 (OKCA 4.1 → 4.6)
+  - `--color-status-error-text` dark: L=0.77 → L=0.79 (OKCA 4.3 → 5.2 on error-bg)
+  All annotation comments updated to reflect measured OKCA scores rather than WCAG ratios. 14 other pairs confirmed passing. 14px token usage constraint documented in plan.
+
+### Documentation
+
+- **Card:** Component-level prose covering three integration patterns: light-mode surface layering (shadow required, colour alone insufficient), slot style encapsulation (wrapper-div approach), and `ViewEncapsulation.None` `:host` → host-class substitution (#48)
+- **Card:** Added `SlotEncapsulation` story demonstrating the correct wrapper-div pattern for styling projected content (#48)
+- **AccordionItem:** Added `HierarchyVariants` story showing all three variant levels in a realistic nested accordion context (#48)
+- **Article:** `:visited` link indicator — double underline via `border-bottom` technique. A `border-bottom` pre-declared `transparent` on the base link rule becomes visible (via `border-bottom-color`) in `:visited`, producing a second underline beneath the existing `text-decoration`. Single underline = unvisited; double underline = visited — a structural cue beyond the azure→purple hue shift, preserved under deuteranopia and protanopia. Documented in `WithLinks` story and `ACCESSIBILITY-CONFORMANCE.md` (#19)
+- **Visual Design guidance:** New `docs/VISUAL-DESIGN.md` — operational design reference covering grid and alignment, typographic system (variable-font discipline, Atkinson rules, 14px tier table), strategic color palette, and imagery. Includes a 12-point reviewer checklist and clinical-defaults troubleshooting guide (#8)
+- **Conscience:** New `docs/CONSCIENCE.md` — first-principles accountability document. Names what design systems get wrong as a category, Candor's specific risks given its stated philosophy, and standing questions the system must keep answering. Sits outside the operational docs; Candor answers to it
+- **Docs:** Archived six internal/superseded documents to `docs/archive/` — `CPQI-INTEGRATION`, `PLAYWRIGHT-WORKFLOW`, `WORKFLOW`, `A11Y-AUDIT`, `A11Y-ANALYSIS`, `CONTRAST-TIERS`. Visible `docs/` is now six consumer- and contributor-relevant files (#16)
+- **Toast:** Message text bumped from `--font-size-sm` (14px) to `--font-size-md` (16px). At 14px, light-mode toast message scores OKCA 5.0–9.2 against variant backgrounds — all below the Tier 1 reading threshold of 9.5. At 16px the threshold drops to 4.5 and all variants pass
+- **A11Y:** Corrected over-aggressive 14px contrast audit — OKCA two-axis tier system (size × use-case) applied correctly. `--color-text-subtle` at OKCA 4.6 passes Tier 2 bold and Tier 3; it does not require a color fix. Tier 1 failures at 14px resolved by bumping to 16px, not by color changes
+
+---
+
 ## [Unreleased] — Phase 3
 
 ### Documentation

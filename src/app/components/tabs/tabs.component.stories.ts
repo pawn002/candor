@@ -8,6 +8,30 @@ const meta: Meta<TabsComponent> = {
   component: TabsComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [TabPanelComponent] })],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Tabbed interface for switching between related panel views. Implements the
+[ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) with keyboard navigation:
+Arrow keys move between tabs, Home/End jump to first/last.
+
+Each panel is a \`<app-tab-panel>\` child — the tab label is set via the \`label\` input on the
+panel, keeping tab and content co-located.
+
+\`\`\`html
+<app-tabs ariaLabel="Account settings">
+  <app-tab-panel label="Profile">...</app-tab-panel>
+  <app-tab-panel label="Security">...</app-tab-panel>
+</app-tabs>
+\`\`\`
+
+The \`ariaLabel\` input on \`<app-tabs>\` labels the \`role="tablist"\` for screen readers — always set it.
+Two themes: \`default\` (light surface) and \`inverse\` (dark/navy header).
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     ariaLabel: { control: 'text', type: { name: 'string' }, description: 'Accessible label for the tab list' },
     theme: {

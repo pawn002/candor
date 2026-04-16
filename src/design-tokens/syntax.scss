@@ -1,0 +1,153 @@
+// Candor — Prism.js syntax highlighting theme
+//
+// All token colors validated against the lighter code-block background:
+// light-mode navy-800 = oklch(0.27 0.06 245.34). Dark-mode code blocks
+// (oklch(0.20 0.04 248)) are even darker so contrast only improves there.
+//
+// Token coloring is a Tier 3 recognition task — meaning is also encoded by
+// position and the reader's language knowledge. All foreground values meet
+// OKCA ≥ 4.5 (Tier 3 minimum at 14px, per docs/CONTRAST-TIERS.md).
+//
+// Requires candor-tokens.css (code block background, base font, overflow).
+// Works alongside candor-article.css (.article pre) or standalone.
+//
+// Prism output: <pre class="language-js"><code>...<span class="token keyword">...</span></code></pre>
+// 11ty plugin:  @11ty/eleventy-plugin-syntaxhighlight (Prism-based)
+
+// ── Token color palette ────────────────────────────────────────────────────
+//
+// Exposed as CSS custom properties so consumers can override individual roles
+// without forking the file.
+
+:root {
+    // OKCA against light-mode code bg (navy-800 = oklch(0.27 0.06 245.34)):
+    --syntax-comment:   oklch(0.72 0.04 248);     // OKCA 4.7 ✅ — muted cool gray-blue; italic
+    --syntax-keyword:   oklch(0.79 0.15 250.80);  // OKCA 5.0 ✅ — azure; language control flow
+    --syntax-string:    oklch(0.85 0.14 78);      // OKCA 6.6 ✅ — warm amber; string literals
+    --syntax-number:    oklch(0.80 0.14 278);     // OKCA 5.5 ✅ — purple; numerics, booleans
+    --syntax-function:  oklch(0.90 0.06 250);     // OKCA 9.7 ✅ — near-white azure; callsites
+    --syntax-property:  oklch(0.83 0.10 347);     // OKCA 6.7 ✅ — rose; CSS props, attr names
+    --syntax-operator:  oklch(0.75 0.03 248);     // OKCA 5.4 ✅ — muted cool; operators, punctuation
+    --syntax-deleted:   oklch(0.79 0.22 25);      // OKCA 4.5 ✅ — error red; diff removed
+    --syntax-inserted:  oklch(0.80 0.15 144.2);   // OKCA 4.8 ✅ — success green; diff added
+    --syntax-regex:     oklch(0.82 0.15 53.54);   // OKCA 5.4 ✅ — amber; regex, template literals
+}
+
+// ── Token styles ──────────────────────────────────────────────────────────
+//
+// Scoped to Prism-annotated blocks only. Base pre/code styling (background,
+// border, font-size, overflow-x) comes from candor-article.css or from the
+// consumer's own pre rules.
+
+code[class*="language-"],
+pre[class*="language-"] {
+
+    .token {
+
+        // ── Comments ──────────────────────────────────────────────────────
+        &.comment,
+        &.prolog,
+        &.doctype,
+        &.cdata {
+            color: var(--syntax-comment);
+            font-style: italic;
+        }
+
+        // ── Structural ────────────────────────────────────────────────────
+        // Quieter than semantic tokens — they frame code without conveying meaning.
+        &.punctuation {
+            color: var(--syntax-operator);
+        }
+
+        &.namespace {
+            color: var(--syntax-comment); // same pool as comments — low semantic weight
+        }
+
+        // ── Keywords ──────────────────────────────────────────────────────
+        // Language control flow and declarations: if, const, return, import…
+        // Bold weight raises visual prominence without a lightness bump.
+        &.keyword,
+        &.atrule {
+            color: var(--syntax-keyword);
+            font-weight: bold;
+        }
+
+        // ── Markup — Tags and attributes ──────────────────────────────────
+        // HTML/JSX tags share the keyword color (they are the "keywords" of markup).
+        &.tag {
+            color: var(--syntax-keyword);
+        }
+
+        // Attribute names in rose — visually distinct from the tag name.
+        &.attr-name {
+            color: var(--syntax-property);
+        }
+
+        // Attribute values and strings share the string color.
+        &.attr-value {
+            color: var(--syntax-string);
+        }
+
+        // ── Strings ───────────────────────────────────────────────────────
+        &.string,
+        &.char,
+        &.url {
+            color: var(--syntax-string);
+        }
+
+        // ── Numbers, booleans, constants ──────────────────────────────────
+        &.number,
+        &.boolean,
+        &.constant,
+        &.symbol {
+            color: var(--syntax-number);
+        }
+
+        // ── Functions and class names ──────────────────────────────────────
+        // Near-white azure — high contrast, structurally important callsites.
+        &.function,
+        &.class-name,
+        &.builtin {
+            color: var(--syntax-function);
+        }
+
+        // ── CSS properties and selectors ──────────────────────────────────
+        &.property,
+        &.selector {
+            color: var(--syntax-property);
+        }
+
+        // ── Operators ─────────────────────────────────────────────────────
+        &.operator {
+            color: var(--syntax-operator);
+        }
+
+        // ── Regular expressions ───────────────────────────────────────────
+        &.regex,
+        &.variable {
+            color: var(--syntax-regex);
+        }
+
+        // ── Diff output ───────────────────────────────────────────────────
+        // Subtle background tint reinforces the color signal (WCAG 1.4.1).
+        &.deleted {
+            color: var(--syntax-deleted);
+            background-color: oklch(0.79 0.22 25 / 0.15);
+        }
+
+        &.inserted {
+            color: var(--syntax-inserted);
+            background-color: oklch(0.80 0.15 144.2 / 0.15);
+        }
+
+        // ── Emphasis modifiers (language-agnostic) ────────────────────────
+        &.important {
+            color: var(--syntax-regex); // amber — elevated urgency
+            font-weight: bold;
+        }
+
+        &.bold    { font-weight: bold; }
+        &.italic  { font-style: italic; }
+        &.entity  { cursor: help; }
+    }
+}

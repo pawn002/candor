@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 import { TypographyShowcaseComponent } from './typography-showcase.component';
+import { TableComponent } from '../../table/table.component';
+import { AlertComponent } from '../../alert/alert.component';
 
 const meta: Meta<TypographyShowcaseComponent> = {
   title: 'Design Tokens/Typography',
@@ -29,149 +32,169 @@ export const Showcase: Story = {
   render: () => ({}),
 };
 
-// ── OKCA contrast score guidance ──────────────────────────────────────────────
-// Source: issue #62 / @pawn002/okca issue #11.
-// OKCA is polarity-aware and applies chroma compression — its scores are always
-// ≤ the equivalent WCAG score (FP = 0 guarantee). Passing OKCA at these thresholds
-// also passes WCAG. The sub-16px ramp values (12–15px) are editorially derived
-// from a geometric interpolation between known anchors, not from a named standard.
+// ── Contrast guidance ─────────────────────────────────────────────────────────
+// Two axes: font size (OKCA ramp) × use-case tier.
+// Source: issue #62 / @pawn002/okca issue #11 for the size ramp.
+// Tier system derived from APCA use-case sensitivity, adapted for Candor's
+// component set. See docs/CONTRAST-TIERS.md for the full rationale.
 
 export const OKCAContrastGuidance: Story = {
+  name: 'Contrast Guidance',
+  decorators: [
+    moduleMetadata({ imports: [TableComponent, AlertComponent] }),
+  ],
   parameters: {
+    layout: 'padded',
     docs: {
       description: {
         story: `
-**OKCA contrast score requirements by font size**
+Candor's contrast requirements have **two axes**: font size and use-case tier.
 
-WCAG 2.x applies the same 4.5 floor to 16px and 10px alike — it is silent on small text.
-OKCA closes that gap with a geometric ramp anchored at:
-- **16px regular → 4.5** (WCAG normal text floor)
-- **12px regular → 20** (maximum achievable OKCA score: black on white)
+**Size axis** — OKCA raises the required score as text shrinks. Contrast demand more than doubles
+between 16px and 14px for regular-weight text. The ramp is anchored at the WCAG 4.5 floor at 16px
+and at the maximum achievable OKCA score (20 — black on white) at 12px.
 
-**Bold adjustment:** bold text at size N uses the threshold for regular text at N+1 (a one-pixel
-shift, mirroring WCAG's own approach at the large text boundary). All bold values remain ≥ 4.5.
+**Use-case tier axis** — the size penalty at 14px applies in full only to text that is read
+sequentially. The visual system processes short labels and pattern-matched status text differently
+from fluent prose. Three tiers adjust the 14px threshold accordingly.
 
-**Candor token mapping:** Candor's scale jumps from 14px (\`--font-size-sm\`) directly to 16px
-(\`--font-size-md\`) — the 13px and 15px rows exist for interpolation context only. The 12px
-floor row maps to \`--font-size-xs\`, which Candor already reserves for decorative/non-text use.
-
-> The ramp values for 12–15px are editorially derived, not from a named accessibility standard.
-> Re-validate when \`@pawn002/okca\` releases a new version.
+> Sub-16px ramp values (12–15px) are editorially derived from geometric interpolation between
+> known anchors, not from a named standard. OKCA is polarity-aware and chroma-compressed —
+> passing OKCA also passes WCAG (zero false-pass guarantee).
         `.trim(),
       },
     },
   },
   render: () => ({
     template: `
-      <div style="max-width: 640px; display: flex; flex-direction: column; gap: var(--spacing-lg);">
+      <div style="max-width: 720px; display: flex; flex-direction: column; gap: var(--spacing-xl); padding-bottom: var(--spacing-xl);">
 
-        <!-- OKCA contrast table -->
-        <div style="display: flex; flex-direction: column; gap: 0;">
+        <!-- ── Section 1: OKCA size ramp ─────────────────────────────────────── -->
+        <section>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-sm);">Size ramp — Tier 1 (reading text) baseline</p>
+          <app-table [compact]="true">
+            <table>
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Token</th>
+                  <th class="numeric">Regular</th>
+                  <th class="numeric">Bold</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>≥ 24px</td>
+                  <td class="label" style="font-family: var(--font-family-mono);">3xl – xl</td>
+                  <td class="numeric">3.0</td>
+                  <td class="numeric">3.0</td>
+                  <td class="label">WCAG large text — both weights qualify</td>
+                </tr>
+                <tr>
+                  <td>19 – 23px</td>
+                  <td class="label" style="font-family: var(--font-family-mono);">—</td>
+                  <td class="numeric">4.5</td>
+                  <td class="numeric">3.0</td>
+                  <td class="label">Bold qualifies as large from 18.67px; regular does not until 24px</td>
+                </tr>
+                <tr>
+                  <td>16 – 18px</td>
+                  <td class="label" style="font-family: var(--font-family-mono);">--font-size-md</td>
+                  <td class="numeric">4.5</td>
+                  <td class="numeric">4.5</td>
+                  <td class="label">WCAG 4.5 floor — binds both weights</td>
+                </tr>
+                <tr>
+                  <td>15px</td>
+                  <td class="label" style="font-family: var(--font-family-mono);">—</td>
+                  <td class="numeric">6.5</td>
+                  <td class="numeric">4.5</td>
+                  <td class="label">Sub-16px ramp (editorially derived)</td>
+                </tr>
+                <tr>
+                  <td><strong>14px</strong></td>
+                  <td style="font-family: var(--font-family-mono);"><strong>--font-size-sm</strong></td>
+                  <td class="numeric"><strong>9.5</strong></td>
+                  <td class="numeric"><strong>6.5</strong></td>
+                  <td>Candor readable text floor — demand more than doubles vs. 16px</td>
+                </tr>
+                <tr style="opacity: 0.5;">
+                  <td class="label">13px</td>
+                  <td class="label" style="font-family: var(--font-family-mono);">—</td>
+                  <td class="numeric label">13.8</td>
+                  <td class="numeric label">9.5</td>
+                  <td class="label">Not in Candor scale — ramp context only</td>
+                </tr>
+                <tr style="opacity: 0.5;">
+                  <td class="label">12px</td>
+                  <td class="label" style="font-family: var(--font-family-mono);">--font-size-xs</td>
+                  <td class="numeric label">20</td>
+                  <td class="numeric label">13.8</td>
+                  <td class="label">Decorative / non-text only — 20 = black on white</td>
+                </tr>
+                <tr style="opacity: 0.3;">
+                  <td class="label">&lt; 12px</td>
+                  <td class="label">—</td>
+                  <td class="numeric label">—</td>
+                  <td class="numeric label">—</td>
+                  <td class="label">Not supported — contrast cannot compensate for letterform resolution failure</td>
+                </tr>
+              </tbody>
+            </table>
+          </app-table>
+        </section>
 
-          <!-- Header -->
-          <div style="
-            display: grid;
-            grid-template-columns: 5rem 5rem 5rem 5rem 1fr;
-            padding: var(--spacing-xs) var(--spacing-sm);
-            background: var(--color-bg-surface);
-            border-bottom: 2px solid var(--color-border-default);
-          ">
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; font-weight: 600; color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em;">Size</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; font-weight: 600; color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em;">Token</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; font-weight: 600; color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em;">Regular</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; font-weight: 600; color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em;">Bold</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; font-weight: 600; color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em;">Notes</span>
-          </div>
+        <!-- ── Section 2: Use-case tiers ─────────────────────────────────────── -->
+        <section>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-xs);">Use-case tiers — 14px adjustments</p>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-sm);">The size ramp above assumes fluent reading. At 14px the tier system relaxes the threshold for text whose perceptual task is recognition rather than sequential decoding.</p>
+          <app-table>
+            <table>
+              <thead>
+                <tr>
+                  <th>Tier</th>
+                  <th>Perceptual task</th>
+                  <th class="numeric">14px regular</th>
+                  <th class="numeric">14px bold</th>
+                  <th>Candor components</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1 — Reading</strong></td>
+                  <td class="label">Sequential decoding — must read to act</td>
+                  <td class="numeric"><strong>9.5</strong></td>
+                  <td class="numeric"><strong>6.5</strong></td>
+                  <td class="label">Toast message, alert body, modal prose, form error messages, article inline text</td>
+                </tr>
+                <tr>
+                  <td><strong>2 — Functional UI</strong></td>
+                  <td class="label">Recognition — sole channel for meaning</td>
+                  <td class="numeric"><strong>6.5</strong></td>
+                  <td class="numeric"><strong>4.5</strong></td>
+                  <td class="label">Breadcrumb links (bold), pagination numbers, table cell data, accordion quiet headings (bold), chip labels</td>
+                </tr>
+                <tr>
+                  <td><strong>3 — Supplementary</strong></td>
+                  <td class="label">Pattern match — meaning redundantly coded</td>
+                  <td class="numeric"><strong>4.5</strong></td>
+                  <td class="numeric"><strong>4.5</strong></td>
+                  <td class="label">Badge text, hint text, breadcrumb separators, pagination ellipsis, stat labels, table metadata</td>
+                </tr>
+              </tbody>
+            </table>
+          </app-table>
+        </section>
 
-          <!-- ≥24px large text -->
-          <div style="display: grid; grid-template-columns: 5rem 5rem 5rem 5rem 1fr; padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-subtle); align-items: center;">
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">≥ 24px</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">3xl–lg</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">3.0</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">3.0</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">WCAG large text — both weights qualify</span>
-          </div>
-
-          <!-- 23–19px transition zone -->
-          <div style="display: grid; grid-template-columns: 5rem 5rem 5rem 5rem 1fr; padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-subtle); align-items: center;">
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">19–23px</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">—</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">4.5</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">3.0</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">Bold qualifies as large from 18.67px; regular does not until 24px</span>
-          </div>
-
-          <!-- 16–18px normal text -->
-          <div style="display: grid; grid-template-columns: 5rem 5rem 5rem 5rem 1fr; padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-subtle); background: var(--color-bg-surface); align-items: center;">
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">16–18px</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">--f-md</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">4.5</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">4.5</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">WCAG 4.5 floor binds both weights</span>
-          </div>
-
-          <!-- 15px sub-16 ramp start -->
-          <div style="display: grid; grid-template-columns: 5rem 5rem 5rem 5rem 1fr; padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-subtle); align-items: center;">
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">15px</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">—</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">6.5</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">4.5</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">Sub-16px ramp (editorially derived)</span>
-          </div>
-
-          <!-- 14px — Candor floor -->
-          <div style="display: grid; grid-template-columns: 5rem 5rem 5rem 5rem 1fr; padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-subtle); border-left: 3px solid var(--color-status-warning); align-items: center;">
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">14px</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem;">--f-sm</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); font-weight: 600;">9.5</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); font-weight: 600;">6.5</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">Candor readable text floor — contrast demand more than doubles vs. 16px</span>
-          </div>
-
-          <!-- 13px — not in Candor scale, shown for ramp context -->
-          <div style="display: grid; grid-template-columns: 5rem 5rem 5rem 5rem 1fr; padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-subtle); opacity: 0.6; align-items: center;">
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">13px</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">—</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">13.8</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">9.5</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">Not in Candor scale — ramp context only</span>
-          </div>
-
-          <!-- 12px — OKCA floor -->
-          <div style="display: grid; grid-template-columns: 5rem 5rem 5rem 5rem 1fr; padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-subtle); opacity: 0.6; align-items: center;">
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">12px</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">--f-xs</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">20</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">13.8</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">Decorative / non-text only — score of 20 = black on white</span>
-          </div>
-
-          <!-- <12px — unsupported -->
-          <div style="display: grid; grid-template-columns: 5rem 5rem 5rem 5rem 1fr; padding: var(--spacing-xs) var(--spacing-sm); opacity: 0.4; align-items: center;">
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">&lt; 12px</span>
-            <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">—</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">—</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">—</span>
-            <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">Not supported — contrast cannot compensate for letterform resolution failure</span>
-          </div>
-
-        </div>
-
-        <!-- Key implication callout -->
-        <div style="
-          background: var(--color-status-warning-bg);
-          border: var(--border-width-thin) solid var(--color-status-warning);
-          border-radius: var(--radius-md);
-          padding: var(--spacing-sm);
-          display: flex;
-          flex-direction: column;
-          gap: 0.375rem;
-        ">
-          <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold);">What this means at 14px (--font-size-sm)</span>
-          <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm);">
-            Regular text requires an OKCA score of <strong>9.5</strong> — more than double the 4.5 that WCAG requires at 16px.
-            Bold text requires <strong>6.5</strong>. Verify with <code style="font-family: var(--font-family-mono);">cpqi contrast &lt;fg&gt; &lt;bg&gt; -q</code> before shipping any 14px token combination.
-          </span>
+        <!-- Callouts -->
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+          <app-alert variant="warning" heading="Tier 2 authoring constraint" style="display: block;">
+            <code style="font-family: var(--font-family-mono);">--color-text-subtle</code> (OKCA 4.6) fails the 6.5 regular threshold. Functional 14px text using this token must be bold — bold OKCA 4.6 passes the 4.5 bold floor.
+          </app-alert>
+          <app-alert variant="info" heading="Tier 3 condition" style="display: block;">
+            Redundancy must be verified per component. Color-alone does not qualify — the redundant channel must be shape, icon, or spatial context so it holds under colorblindness. This tier is assigned by the system; it is not a consumer opt-in.
+          </app-alert>
         </div>
 
       </div>

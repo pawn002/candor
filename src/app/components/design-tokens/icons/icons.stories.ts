@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import { ButtonComponent } from '../../button/button.component';
+import { AlertComponent } from '../../alert/alert.component';
 
 // Minimal host component — all content is inline HTML in the template.
 @Component({
@@ -200,6 +203,9 @@ export const WeightComparison: Story = {
 // ── In-context examples ────────────────────────────────────────────────────────
 
 export const InContext: Story = {
+  decorators: [
+    moduleMetadata({ imports: [ButtonComponent, AlertComponent] }),
+  ],
   parameters: {
     docs: {
       description: {
@@ -208,7 +214,7 @@ Icons in realistic UI contexts demonstrating all three tiers.
 
 - **Buttons** use fill — solid forms signal action intent
 - **Accordion / dropdown carets** use bold — a directional hint, not an action object
-- **Toast status icons** use regular — informational content, the colour carries the meaning
+- **Metadata icons** use regular — informational content, the colour carries the meaning
         `.trim(),
       },
     },
@@ -219,46 +225,18 @@ Icons in realistic UI contexts demonstrating all three tiers.
 
         <!-- Buttons: fill icons -->
         <div style="display: flex; gap: var(--spacing-sm);">
-          <button style="
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            background: var(--color-action-primary); color: var(--color-text-on-action);
-            border: none; border-radius: var(--radius-md);
-            padding: var(--spacing-button-padding-y) var(--spacing-button-padding-x);
-            font-family: var(--font-family-base); font-size: var(--font-size-md);
-            font-weight: var(--font-weight-medium); cursor: pointer;
-          ">
-            <i class="ph-fill ph-plus" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
+          <app-button variant="primary">
+            <i class="ph-fill ph-plus" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
             Add item
-          </button>
-          <button style="
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            background: transparent; color: var(--color-action-primary);
-            border: var(--border-width-thin) solid var(--color-action-primary);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-button-padding-y) var(--spacing-button-padding-x);
-            font-family: var(--font-family-base); font-size: var(--font-size-md);
-            font-weight: var(--font-weight-medium); cursor: pointer;
-          ">
-            <i class="ph-fill ph-magnifying-glass" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
+          </app-button>
+          <app-button variant="secondary">
+            <i class="ph-fill ph-magnifying-glass" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
             Search
-          </button>
+          </app-button>
         </div>
 
-        <!-- Toast: regular status icon, fill dismiss button -->
-        <div style="
-          display: flex; align-items: flex-start; gap: var(--spacing-sm);
-          background: var(--color-status-success-bg);
-          border: var(--border-width-thin) solid var(--color-status-success);
-          border-radius: var(--radius-md); padding: var(--spacing-sm);
-        ">
-          <!-- informational status icon — regular (ph) -->
-          <i class="ph ph-check-circle" style="font-size: 1.25rem; line-height: 1; color: var(--color-status-success); flex-shrink: 0;" aria-hidden="true"></i>
-          <span style="flex: 1; font-family: var(--font-family-base); font-size: var(--font-size-md);">Changes saved successfully.</span>
-          <!-- dismiss action — fill (ph-fill) -->
-          <button style="background: none; border: none; cursor: pointer; padding: 0; display: flex; color: var(--color-text-subtle);" aria-label="Dismiss">
-            <i class="ph-fill ph-x" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
-          </button>
-        </div>
+        <!-- Alert: status feedback -->
+        <app-alert variant="success" message="Changes saved successfully." [dismissible]="true" style="display: block;"></app-alert>
 
         <!-- Accordion-style row: bold caret (directional) -->
         <div style="
@@ -300,14 +278,17 @@ Icons in realistic UI contexts demonstrating all three tiers.
 // ── Accessibility patterns ─────────────────────────────────────────────────────
 
 export const AccessibilityPatterns: Story = {
+  decorators: [
+    moduleMetadata({ imports: [ButtonComponent] }),
+  ],
   parameters: {
     docs: {
       description: {
         story: `
-Correct accessibility patterns for icon usage.
+Correct accessibility patterns for icon usage with \`app-button\`.
 
-- **Decorative icons** (adjacent visible text): \`aria-hidden="true"\` only — no label needed
-- **Standalone icons** (no visible text): \`aria-hidden="true"\` on the icon + \`<span class="sr-only">\` for the label
+- **Decorative icons** (adjacent visible text): \`aria-hidden="true"\` only — the button's text label is the accessible name
+- **Icon-only buttons** (no visible text): \`aria-hidden="true"\` on the icon + \`ariaLabel\` input on \`app-button\` — sets \`aria-label\` on the inner button element
 - Never put \`aria-label\` on the \`<i>\` element — icon fonts are not semantically meaningful elements
         `.trim(),
       },
@@ -320,40 +301,25 @@ Correct accessibility patterns for icon usage.
         <!-- Pattern A: decorative icon with visible label -->
         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
           <p style="font-family: var(--font-family-mono); font-size: 0.75rem; color: var(--color-text-subtle); margin: 0;">Pattern A — decorative (aria-hidden only)</p>
-          <button style="
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            background: var(--color-action-primary); color: var(--color-text-on-action);
-            border: none; border-radius: var(--radius-md);
-            padding: var(--spacing-button-padding-y) var(--spacing-button-padding-x);
-            font-family: var(--font-family-base); font-size: var(--font-size-md);
-            font-weight: var(--font-weight-medium); cursor: pointer;
-          ">
-            <i class="ph-fill ph-download-simple" style="font-size: 1rem; line-height: 1;" aria-hidden="true"></i>
+          <app-button variant="primary">
+            <i class="ph-fill ph-download-simple" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
             Download
-          </button>
-          <pre style="font-family: var(--font-family-mono); font-size: 0.75rem; background: var(--color-bg-surface); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0;">&lt;button&gt;
+          </app-button>
+          <pre style="font-family: var(--font-family-mono); font-size: 0.75rem; background: var(--color-bg-surface); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0;">&lt;app-button variant="primary"&gt;
   &lt;i class="ph-fill ph-download-simple" aria-hidden="true"&gt;&lt;/i&gt;
   Download
-&lt;/button&gt;</pre>
+&lt;/app-button&gt;</pre>
         </div>
 
-        <!-- Pattern B: standalone icon with sr-only label -->
+        <!-- Pattern B: icon-only with ariaLabel -->
         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <p style="font-family: var(--font-family-mono); font-size: 0.75rem; color: var(--color-text-subtle); margin: 0;">Pattern B — standalone (aria-hidden + sr-only span)</p>
-          <button style="
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 2.5rem; height: 2.5rem;
-            background: transparent; color: var(--color-text-subtle);
-            border: var(--border-width-thin) solid var(--color-border-subtle);
-            border-radius: var(--radius-md); cursor: pointer;
-          ">
+          <p style="font-family: var(--font-family-mono); font-size: 0.75rem; color: var(--color-text-subtle); margin: 0;">Pattern B — icon-only (ariaLabel input)</p>
+          <app-button variant="ghost" ariaLabel="Notifications">
             <i class="ph-fill ph-bell" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
-            <span style="position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%); white-space: nowrap;">Notifications</span>
-          </button>
-          <pre style="font-family: var(--font-family-mono); font-size: 0.75rem; background: var(--color-bg-surface); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0;">&lt;button&gt;
+          </app-button>
+          <pre style="font-family: var(--font-family-mono); font-size: 0.75rem; background: var(--color-bg-surface); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0;">&lt;app-button variant="ghost" ariaLabel="Notifications"&gt;
   &lt;i class="ph-fill ph-bell" aria-hidden="true"&gt;&lt;/i&gt;
-  &lt;span class="sr-only"&gt;Notifications&lt;/span&gt;
-&lt;/button&gt;</pre>
+&lt;/app-button&gt;</pre>
         </div>
 
       </div>

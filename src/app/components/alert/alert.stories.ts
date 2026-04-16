@@ -5,6 +5,24 @@ const meta: Meta<AlertComponent> = {
   title: 'Components/Alert',
   component: AlertComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Inline status message for page-level feedback — form submission results, system notices,
+validation summaries. Four variants: \`info\`, \`success\`, \`warning\`, \`error\`.
+
+**Alert vs. Toast:** Alerts are persistent and inline — they live in the document flow and
+remain visible until dismissed or the state changes. Toasts are ephemeral and float over
+content — use them for transient feedback that doesn't require acknowledgement.
+
+**Warning and success text uses dark text on a tinted background**, not colored text.
+Colored text at these hues fails contrast on white. The background tint + icon + heading
+together carry the semantic signal without needing to rely on text color alone.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     variant: {
       control: 'select',

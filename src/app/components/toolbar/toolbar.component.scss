@@ -1,0 +1,28 @@
+// Toolbar — horizontal or vertical strip of related controls.
+// Implements roving tabindex: only one item is in the tab sequence at
+// a time; arrow keys move focus within the group.
+
+:host {
+  display: block;
+}
+
+// ── Container ─────────────────────────────────────────────────────────────
+
+.toolbar {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  padding: var(--spacing-2xs);
+  background: var(--color-bg-surface);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-md);
+
+  &--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: fit-content;
+  }
+}
+

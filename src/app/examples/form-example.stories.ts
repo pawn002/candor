@@ -2,11 +2,13 @@ import { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
 import { InputComponent } from "../components/form/input/input.component";
 import { CheckboxComponent } from "../components/form/checkbox/checkbox.component";
+import { RadioComponent } from "../components/form/radio/radio.component";
 import { ButtonComponent } from "../components/button/button.component";
 import { HeadingComponent } from "../components/typography/heading/heading.component";
 import { TextComponent } from "../components/typography/text/text.component";
 import { SwitchComponent } from "../components/form/switch/switch.component";
 import { AlertComponent } from "../components/alert/alert.component";
+import { SelectComponent } from "../components/form/select/select.component";
 import { ProgressComponent } from "../components/progress/progress.component";
 
 const meta: Meta = {
@@ -16,6 +18,8 @@ const meta: Meta = {
       imports: [
         InputComponent,
         CheckboxComponent,
+        RadioComponent,
+        SelectComponent,
         ButtonComponent,
         HeadingComponent,
         TextComponent,
@@ -26,6 +30,29 @@ const meta: Meta = {
     }),
   ],
   tags: ["autodocs"],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Form composition examples using Input, Checkbox, Radio, Select, Switch, Alert,
+Progress, Heading, Text, and Button.
+
+Demonstrates the canonical patterns for accessible forms in Candor:
+- Every field must have a visible **label** — never rely on placeholder text alone
+- **Radio groups** must be wrapped in \`<fieldset>\`/\`<legend>\` so screen readers
+  announce the group question before each option
+- **Switch** is for settings that take immediate effect; **Checkbox** is for values
+  submitted with the form
+- **Alert** (not Toast) communicates persistent form-level errors — it stays visible
+  until the user corrects the problem
+- **Progress** tracks multi-step form completion when steps cannot fit on one screen
+
+The multi-step story shows \`ProgressComponent\` used as a step indicator with
+\`aria-label="Step 2 of 4: Contact details"\` for AT announcements.
+        `.trim(),
+      },
+    },
+  },
 };
 
 export default meta;
@@ -60,22 +87,31 @@ export const ContactForm: Story = {
             [placeholder]="'(555) 123-4567'">
           </app-input>
 
+          <app-select
+            [label]="'Department'"
+            [required]="true"
+            [options]="[
+              { value: 'support', label: 'Customer support' },
+              { value: 'sales', label: 'Sales' },
+              { value: 'billing', label: 'Billing' },
+              { value: 'technical', label: 'Technical help' },
+              { value: 'other', label: 'Other' }
+            ]"
+            [placeholder]="'Select a department'">
+          </app-select>
+
           <app-input
             [label]="'Subject'"
             [placeholder]="'How can we help?'"
             [required]="true">
           </app-input>
 
-          <div>
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
-              Message
-            </label>
-            <textarea
-              rows="5"
-              placeholder="Tell us more about your inquiry..."
-              style="width: 100%; padding: 0.75rem; border: 2px solid var(--color-border-default); border-radius: 4px; font-family: inherit;">
-            </textarea>
-          </div>
+          <app-input
+            [label]="'Message'"
+            [multiline]="true"
+            [rows]="5"
+            [placeholder]="'Tell us more about your inquiry...'">
+          </app-input>
 
           <app-checkbox
             [label]="'I agree to the terms and conditions'"
@@ -139,7 +175,7 @@ export const LoginForm: Story = {
 
           <app-text [variant]="'body'" style="text-align: center;">
             Don't have an account?
-            <a href="#" style="color: var(--color-action-primary); text-decoration: none;">
+            <a href="#" style="color: var(--color-link);">
               Sign up
             </a>
           </app-text>
@@ -204,22 +240,37 @@ export const RegistrationForm: Story = {
             </app-input>
           </div>
 
-          <div>
-            <label style="display: block; margin-bottom: 0.75rem; font-weight: 700; font-family: var(--font-family-accessible); letter-spacing: 0.02em;">
-              Account Type
-            </label>
+          <app-select
+            [label]="'Country'"
+            [required]="true"
+            [options]="[
+              { value: 'us', label: 'United States' },
+              { value: 'gb', label: 'United Kingdom' },
+              { value: 'ca', label: 'Canada' },
+              { value: 'au', label: 'Australia' },
+              { value: 'de', label: 'Germany' },
+              { value: 'fr', label: 'France' },
+              { value: 'other', label: 'Other' }
+            ]"
+            [placeholder]="'Select your country'">
+          </app-select>
+
+          <fieldset style="border: none; padding: 0; margin: 0;">
+            <legend style="font-family: var(--font-family-accessible); font-weight: var(--font-weight-bold); letter-spacing: 0.02em; color: var(--color-text-default); margin-bottom: 0.75rem;">Account Type</legend>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <app-checkbox
+              <app-radio
                 [label]="'Personal Account'"
                 [name]="'accountType'"
+                [value]="'personal'"
                 [checked]="true">
-              </app-checkbox>
-              <app-checkbox
+              </app-radio>
+              <app-radio
                 [label]="'Business Account'"
-                [name]="'accountType'">
-              </app-checkbox>
+                [name]="'accountType'"
+                [value]="'business'">
+              </app-radio>
             </div>
-          </div>
+          </fieldset>
 
           <app-checkbox
             [label]="'I agree to the Terms of Service and Privacy Policy'"
@@ -237,7 +288,7 @@ export const RegistrationForm: Story = {
 
           <app-text [variant]="'body'" style="text-align: center;">
             Already have an account?
-            <a href="#" style="color: var(--color-action-primary); text-decoration: none;">
+            <a href="#" style="color: var(--color-link);">
               Sign in
             </a>
           </app-text>

@@ -118,8 +118,8 @@
   .sbdocs-wrapper h3 { font-size: 1.563rem !important; }
   .sbdocs-wrapper h4 { font-size: 1.25rem !important; }
 
-  .sbdocs-wrapper p,
-  .sbdocs-wrapper li {
+  .sbdocs-wrapper p:not(.docs-story p),
+  .sbdocs-wrapper li:not(.docs-story li) {
     font-family: 'Noto Serif', Georgia, serif !important;
     font-size: 1rem !important;
     line-height: 1.75 !important;
@@ -147,7 +147,7 @@
     border-top: 1px solid var(--color-border-default, #e8e8e8) !important;
   }
 
-  .sbdocs-wrapper strong {
+  .sbdocs-wrapper strong:not(.docs-story strong) {
     font-family: 'Noto Sans', system-ui, sans-serif !important;
     font-weight: 600 !important;
   }

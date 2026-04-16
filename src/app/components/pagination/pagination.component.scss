@@ -20,6 +20,7 @@
     color: var(--color-text-subtle);
     font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold); // Tier 2 bold threshold 4.5 — text-subtle OKCA 4.6 fails 6.5 regular; bold drops threshold to 4.5 ✅
     letter-spacing: 0.02em;
     line-height: 1;
     cursor: pointer;
@@ -64,6 +65,6 @@
     font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
     letter-spacing: 0.02em;
-    user-select: none;
+    user-select: none; // Tier 3 (decorative ellipsis) — OKCA 4.6 ✅
   }
 }

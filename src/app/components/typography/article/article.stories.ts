@@ -217,6 +217,41 @@ export const SansWithCode: Story = {
 };
 
 export const WithLinks: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**Link accessibility — what the system guarantees and what it cannot**
+
+Links satisfy WCAG 1.4.1 (Use of Color) for the link-vs-surrounding-text distinction:
+underline provides the non-color cue regardless of whether the reader distinguishes azure from body text.
+
+**\`:visited\` state uses a double-underline indicator** — a structural cue on top of the hue shift.
+
+Browsers only allow color-value CSS properties inside \`:visited\` rules (\`color\`, \`border-color\`,
+\`outline-color\`, etc.) — width, style, and layout properties are silently ignored to prevent
+navigation-history side-channel attacks. This system exploits that constraint:
+a \`border-bottom\` is pre-declared on the base link rule with \`transparent\` color. On \`:visited\`,
+only the border color changes — but the result is a second underline appearing beneath the
+existing \`text-decoration\` underline.
+
+**Structural signal:** single underline = unvisited. Double underline = visited.
+This distinguishes the states beyond hue shift, providing a cue that persists under deuteranopia
+and protanopia (red-green CVD), where the azure→purple shift alone may be ambiguous.
+
+**Token mapping:**
+- Light mode: \`--azure-500\` → \`--purple-700\` (both pass WCAG contrast independently)
+- Dark mode: \`--azure-300\` → \`--purple-300\` (both pass WCAG contrast independently)
+
+**Consumers who need even stronger differentiation** (e.g. icon-level indicator) can implement
+a JS-assisted pattern: intercept clicks, store visited URLs in \`localStorage\`, apply a class
+(e.g. \`.is-visited\`). Class selectors are not subject to the \`:visited\` color-only restriction.
+
+See \`docs/ACCESSIBILITY-CONFORMANCE.md\` for the full platform-limitation note.
+        `.trim(),
+      },
+    },
+  },
   args: { font: 'reading' },
   render: (args) => ({
     props: args,

@@ -7,6 +7,22 @@ const meta: Meta<PaginationComponent> = {
   title: 'Components/Pagination',
   component: PaginationComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Page navigator for paged data sets. Shows the current page, adjacent pages, first/last anchors,
+and an ellipsis when the page count is large. Previous/Next buttons always present.
+
+\`currentPage\` is a two-way bindable \`model()\` input — use \`[(currentPage)]="page"\` to
+keep the parent in sync as the user navigates. \`totalPages\` is read-only.
+
+The component emits a \`pageChange\` event you can listen to for triggering data fetches.
+Pair with \`TableComponent\` for a complete paged data view — see the **With Table** story.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     currentPage: {
       control: { type: 'number', min: 1 },

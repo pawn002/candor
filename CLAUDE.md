@@ -198,6 +198,34 @@ Atkinson Hyperlegible requires positive letter-spacing to prevent glyph clusteri
 
 No readable text in the system should fall below **14px** (`--font-size-sm` = `0.875rem`). This is enforced at the primitive token level. `--text-xs` (12px) is for decorative/non-text use only (icons, badges chrome).
 
+### OKCA Contrast Thresholds — Two Axes
+
+Contrast requirements have **two axes**: font size and use-case tier. **Never apply a single threshold to all 14px text.**
+
+**Size axis (Tier 1 baseline):**
+
+| Size | Regular | Bold |
+|---|---|---|
+| ≥ 24px | 3.0 | 3.0 |
+| 19–23px | 4.5 | 3.0 |
+| 16–18px (`--font-size-md`) | 4.5 | 4.5 |
+| **14px (`--font-size-sm`)** | **9.5** | **6.5** |
+| 12px (`--font-size-xs`) | decorative only | decorative only |
+
+**Use-case tier axis — 14px adjustments:**
+
+| Tier | Perceptual task | 14px regular | 14px bold | Candor components |
+|---|---|---|---|---|
+| **1 — Reading** | Sequential decoding — must read to act | **9.5** | **6.5** | Alert body, toast message, modal prose, form error messages, article body |
+| **2 — Functional UI** | Recognition — sole channel for meaning | **6.5** | **4.5** | Pagination numbers, breadcrumb links, table cell data, chip labels, button labels |
+| **3 — Supplementary** | Pattern match — meaning redundantly coded | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata, breadcrumb separators, pagination ellipsis |
+
+**Key audit rules:**
+- `--color-text-subtle` (OKCA 4.6 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
+- Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight**, not a color change or size bump.
+- Tier 1 failures at 14px are genuine and typically require bumping to 16px (e.g. alert body, toast).
+- Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position) — it is assigned by the system, not a consumer opt-in.
+
 ## File Modifications Guidelines
 
 ### Modifying Design Tokens

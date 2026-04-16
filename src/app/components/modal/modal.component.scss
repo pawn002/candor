@@ -51,34 +51,6 @@ dialog.modal {
         margin: 0;
     }
 
-    .modal__close {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2rem;
-        height: 2rem;
-        padding: 0;
-        border: none;
-        border-radius: var(--radius-sm);
-        background: transparent;
-        color: var(--color-text-subtle);
-        cursor: pointer;
-        flex-shrink: 0;
-        transition: background 0.15s ease, color 0.15s ease;
-        font-size: 1.25rem;
-        line-height: 1;
-
-        &:hover {
-            background: var(--color-action-tertiary-hover);
-            color: var(--color-text-default);
-        }
-
-        &:focus-visible {
-            outline: var(--focus-ring-width) solid var(--color-focus);
-            outline-offset: var(--focus-ring-offset);
-        }
-    }
-
     .modal__body {
         padding: var(--spacing-md);
         overflow-y: auto;

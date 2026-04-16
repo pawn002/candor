@@ -5,6 +5,28 @@ const meta: Meta<RadioComponent> = {
   title: 'Components/Form/Radio',
   component: RadioComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Single-select option within a mutually exclusive group. Radios work in groups — a standalone
+radio button is almost always a mistake; use a checkbox instead.
+
+**Always wrap radio groups in a \`<fieldset>\` with a \`<legend>\`.** The legend is announced
+before each option by screen readers, providing the question context. Without it, a user
+hears "Yes" with no frame of reference for what the question was.
+
+\`\`\`html
+<fieldset>
+  <legend>Preferred contact method</legend>
+  <app-radio name="contact" value="email" label="Email"></app-radio>
+  <app-radio name="contact" value="phone" label="Phone"></app-radio>
+</fieldset>
+\`\`\`
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     label: { control: 'text', type: { name: 'string' }, description: 'Radio button label' },
     value: { control: 'text', type: { name: 'string' }, description: 'Value submitted with the form' },

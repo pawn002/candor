@@ -5,6 +5,46 @@ const meta: Meta<CardComponent> = {
   title: 'Components/Card',
   component: CardComponent,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Versatile surface container. Three variants cover the standard layering hierarchy: \`default\` (surface), \`elevated\` (floats above surface), \`outlined\` (page background with border).
+
+**Light-mode surface layering**
+
+In light mode \`--color-bg-page\` and \`--color-bg-elevated\` are both near-white. Colour alone cannot create visible depth — the \`elevated\` variant relies on \`box-shadow\` for its lift signal. If you are building a card-on-card layout, the inner card should be \`outlined\` or \`default\` (surface tint) rather than another \`elevated\`.
+
+**Styling projected content**
+
+Angular's emulated encapsulation prevents parent SCSS from reaching inside \`CardComponent\`'s template slots. A selector like \`app-card .card__body { ... }\` in a parent component has no effect. The correct approach is to wrap slot content in a \`<div>\` and style that wrapper:
+
+\`\`\`html
+<!-- ✓ Wrap slot content and style the wrapper from the parent -->
+<app-card>
+  <div class="my-content">...</div>
+</app-card>
+\`\`\`
+\`\`\`scss
+// parent.component.scss
+.my-content { padding: 0; }
+\`\`\`
+
+**Copying component styles (\`ViewEncapsulation.None\`)**
+
+If you copy Candor component SCSS into a \`ViewEncapsulation.None\` component, Angular's \`:host\` pseudo-class stops working — styles must be anchored to a host element class instead:
+
+\`\`\`scss
+// ✗ Breaks under ViewEncapsulation.None
+:host { display: block; }
+
+// ✓ Replace :host with a host-element class
+.my-component { display: block; }
+\`\`\`
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     variant: {
       control: 'select',
@@ -75,6 +115,35 @@ export const WithHeaderAndFooter: Story = {
         <p>Card body content goes here. This card has both a header and footer slot populated.</p>
         <div slot="footer">Card Footer — Additional info or actions</div>
       </app-card>
+    `,
+  }),
+};
+
+export const SlotEncapsulation: Story = {
+  name: 'Slot encapsulation — wrapper pattern',
+  parameters: {
+    docs: {
+      description: {
+        story: `
+Parent SCSS cannot reach inside \`CardComponent\`'s template slots. Wrap slot content in a \`<div>\` and style that wrapper from the parent instead. The inner \`<div>\` in this example carries explicit styles to show the boundary.
+        `.trim(),
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="max-width: 24rem;">
+        <app-card variant="outlined" padding="md">
+          <div slot="header">Styled slot content</div>
+          <!-- Wrapper div — style this from your parent component SCSS -->
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+            <p style="margin: 0;">Wrap slot content in a <code>&lt;div&gt;</code> and apply styles to the wrapper.</p>
+            <p style="margin: 0; font-size: var(--font-size-sm); color: var(--color-text-subtle);">
+              Selectors like <code>app-card .card__body</code> in a parent SCSS have no effect due to Angular's emulated encapsulation.
+            </p>
+          </div>
+        </app-card>
+      </div>
     `,
   }),
 };
