@@ -50,6 +50,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Card:** Added `SlotEncapsulation` story demonstrating the correct wrapper-div pattern for styling projected content (#48)
 - **AccordionItem:** Added `HierarchyVariants` story showing all three variant levels in a realistic nested accordion context (#48)
 - **Article:** `:visited` link indicator — double underline via `border-bottom` technique. A `border-bottom` pre-declared `transparent` on the base link rule becomes visible (via `border-bottom-color`) in `:visited`, producing a second underline beneath the existing `text-decoration`. Single underline = unvisited; double underline = visited — a structural cue beyond the azure→purple hue shift, preserved under deuteranopia and protanopia. Documented in `WithLinks` story and `ACCESSIBILITY-CONFORMANCE.md` (#19)
+- **Visual Design guidance:** New `docs/VISUAL-DESIGN.md` — operational design reference covering grid and alignment, typographic system (variable-font discipline, Atkinson rules, 14px tier table), strategic color palette, and imagery. Includes a 12-point reviewer checklist and clinical-defaults troubleshooting guide (#8)
+- **Conscience:** New `docs/CONSCIENCE.md` — first-principles accountability document. Names what design systems get wrong as a category, Candor's specific risks given its stated philosophy, and standing questions the system must keep answering. Sits outside the operational docs; Candor answers to it
+- **Docs:** Archived six internal/superseded documents to `docs/archive/` — `CPQI-INTEGRATION`, `PLAYWRIGHT-WORKFLOW`, `WORKFLOW`, `A11Y-AUDIT`, `A11Y-ANALYSIS`, `CONTRAST-TIERS`. Visible `docs/` is now six consumer- and contributor-relevant files (#16)
+- **Toast:** Message text bumped from `--font-size-sm` (14px) to `--font-size-md` (16px). At 14px, light-mode toast message scores OKCA 5.0–9.2 against variant backgrounds — all below the Tier 1 reading threshold of 9.5. At 16px the threshold drops to 4.5 and all variants pass
+- **A11Y:** Corrected over-aggressive 14px contrast audit — OKCA two-axis tier system (size × use-case) applied correctly. `--color-text-subtle` at OKCA 4.6 passes Tier 2 bold and Tier 3; it does not require a color fix. Tier 1 failures at 14px resolved by bumping to 16px, not by color changes
 
 ---
 
