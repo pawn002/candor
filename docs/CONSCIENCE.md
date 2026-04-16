@@ -20,6 +20,8 @@ Design systems fail in predictable ways, regardless of their quality or intentio
 
 ## Candor's specific risks
 
+Candor's risks share a shape: each is a case of a strength that stopped questioning itself.
+
 **The humanist frame as orthodoxy.** Candor holds that every surface should feel like it was made by the same hand. There are contexts where this is wrong — where a user needs maximum legibility with minimum cognitive overhead, and warmth is a distraction. The humanist framing could override that judgment without it being noticed.
 
 **OKCA as sufficient.** OKCA is the primary validation method. Contrast algorithms answer one question. They do not answer whether text communicates urgency, whether color carries the right meaning for a specific user population, or whether hierarchy tells the right story. Compliance is necessary; it is not sufficient.
