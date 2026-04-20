@@ -69,6 +69,7 @@
     font-size: var(--font-size-md); // 16px — see title comment above
     line-height: var(--line-height-normal);
     letter-spacing: 0.02em;
+    overflow-wrap: break-word;
   }
 
   // Dismiss

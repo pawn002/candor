@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   contentChildren,
@@ -9,7 +10,10 @@ import {
   inject,
   input,
   model,
+  OnDestroy,
   output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { TabPanelComponent } from './tab-panel.component';
 
@@ -17,22 +21,28 @@ import { TabPanelComponent } from './tab-panel.component';
   selector: 'app-tabs',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.tabs--can-scroll-left]': 'canScrollLeft()',
+    '[class.tabs--can-scroll-right]': 'canScrollRight()',
+  },
   template: `
     <div [class]="'tabs' + (theme() === 'inverse' ? ' tabs--inverse' : '') + (orientation() === 'vertical' ? ' tabs--vertical' : '')">
-      <div class="tabs__list" role="tablist" [attr.aria-label]="ariaLabel() || null" [attr.aria-orientation]="orientation()">
-        @for (panel of panels(); track panel.tabId(); let i = $index) {
-          <button
-            class="tabs__tab"
-            role="tab"
-            [id]="'tab-' + panel.tabId()"
-            [attr.aria-selected]="panel.tabId() === activeId()"
-            [attr.aria-controls]="'panel-' + panel.tabId()"
-            [attr.aria-setsize]="panels().length"
-            [attr.aria-posinset]="i + 1"
-            [tabindex]="panel.tabId() === activeId() ? 0 : -1"
-            (click)="activate(panel.tabId())"
-          >{{ panel.label() }}</button>
-        }
+      <div class="tabs__list-wrapper">
+        <div class="tabs__list" role="tablist" #tabList [attr.aria-label]="ariaLabel() || null" [attr.aria-orientation]="orientation()">
+          @for (panel of panels(); track panel.tabId(); let i = $index) {
+            <button
+              class="tabs__tab"
+              role="tab"
+              [id]="'tab-' + panel.tabId()"
+              [attr.aria-selected]="panel.tabId() === activeId()"
+              [attr.aria-controls]="'panel-' + panel.tabId()"
+              [attr.aria-setsize]="panels().length"
+              [attr.aria-posinset]="i + 1"
+              [tabindex]="panel.tabId() === activeId() ? 0 : -1"
+              (click)="activate(panel.tabId())"
+            >{{ panel.label() }}</button>
+          }
+        </div>
       </div>
       <div class="tabs__panels">
         <ng-content></ng-content>
@@ -41,7 +51,7 @@ import { TabPanelComponent } from './tab-panel.component';
   `,
   styleUrls: ['./tabs.component.scss']
 })
-export class TabsComponent implements AfterContentInit {
+export class TabsComponent implements AfterContentInit, OnDestroy {
   panels = contentChildren(TabPanelComponent);
 
   ariaLabel = input('');
@@ -54,6 +64,11 @@ export class TabsComponent implements AfterContentInit {
   activeId = model('');
   tabChange = output<string>();
 
+  canScrollLeft = signal(false);
+  canScrollRight = signal(false);
+
+  private tabListRef = viewChild<ElementRef<HTMLElement>>('tabList');
+  private scrollObserver?: ResizeObserver;
   private el = inject(ElementRef);
 
   constructor() {
@@ -62,6 +77,28 @@ export class TabsComponent implements AfterContentInit {
       const id = this.activeId();
       this.panels().forEach(p => p.setActive(p.tabId() === id));
     });
+
+    afterNextRender(() => {
+      const el = this.tabListRef()?.nativeElement;
+      if (!el) return;
+      const update = () => {
+        if (this.orientation() === 'vertical') {
+          this.canScrollLeft.set(false);
+          this.canScrollRight.set(false);
+          return;
+        }
+        this.canScrollLeft.set(el.scrollLeft > 0);
+        this.canScrollRight.set(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+      };
+      el.addEventListener('scroll', update, { passive: true });
+      this.scrollObserver = new ResizeObserver(update);
+      this.scrollObserver.observe(el);
+      update();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.scrollObserver?.disconnect();
   }
 
   ngAfterContentInit(): void {

@@ -3,10 +3,40 @@
 }
 
 .tabs {
+  &__list-wrapper {
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 6rem;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    &::before {
+      left: 0;
+      background: linear-gradient(to right, var(--color-bg-page), transparent);
+    }
+
+    &::after {
+      right: 0;
+      background: linear-gradient(to left, var(--color-bg-page), transparent);
+    }
+  }
+
   &__list {
     display: flex;
     flex-direction: row;
     border-bottom: var(--border-width-thin) solid var(--color-border-default);
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
   }
 
   &__tab {
@@ -52,6 +82,11 @@
     flex-direction: row;
     align-items: flex-start;
 
+    .tabs__list-wrapper::before,
+    .tabs__list-wrapper::after {
+      display: none;
+    }
+
     .tabs__list {
       flex-direction: column;
       flex-shrink: 0;
@@ -83,6 +118,11 @@
 
   // Inverse theme — for dark headers and surfaces
   &--inverse {
+    .tabs__list-wrapper {
+      &::before { background: linear-gradient(to right, var(--color-bg-inverse), transparent); }
+      &::after  { background: linear-gradient(to left,  var(--color-bg-inverse), transparent); }
+    }
+
     .tabs__list {
       border-bottom-color: var(--color-border-on-inverse);
       background-color: var(--color-bg-inverse);
@@ -103,3 +143,6 @@
     }
   }
 }
+
+:host(.tabs--can-scroll-left) .tabs__list-wrapper::before { opacity: 1; }
+:host(.tabs--can-scroll-right) .tabs__list-wrapper::after { opacity: 1; }

@@ -197,7 +197,7 @@ export const RegistrationForm: Story = {
         </app-text>
 
         <form style="display: flex; flex-direction: column; gap: 1.5rem;">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem;">
             <app-input
               [label]="'First Name'"
               [placeholder]="'John'"
@@ -224,7 +224,7 @@ export const RegistrationForm: Story = {
             [required]="true">
           </app-input>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem;">
             <app-input
               [label]="'Password'"
               [type]="'password'"

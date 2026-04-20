@@ -46,6 +46,9 @@ export default meta;
 type Story = StoryObj;
 
 export const AIChatInterface: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
   render: () => ({
     props: {
       navItems: [
@@ -54,8 +57,17 @@ export const AIChatInterface: Story = {
         { label: 'API', href: '#' },
       ],
     },
+    styles: [`
+      :host { display: block; height: 100vh; overflow: hidden; }
+      @media (max-width: 600px) {
+        .chat-sidebar { display: none !important; }
+        app-navigation { display: none !important; }
+        .chat-messages { padding: 1rem !important; }
+        .chat-input-area { padding: 0.75rem 1rem 1rem !important; }
+      }
+    `],
     template: `
-      <div style="min-height: 100vh; background: var(--color-bg-page); display: flex; flex-direction: column;">
+      <div style="position: fixed; inset: 0; background: var(--color-bg-page); display: flex; flex-direction: column; overflow: hidden;">
 
         <!-- Navigation -->
         <app-navigation
@@ -65,10 +77,11 @@ export const AIChatInterface: Story = {
         </app-navigation>
 
         <!-- Chat layout -->
-        <div style="flex: 1; display: flex;">
+        <div style="flex: 1; display: flex; min-height: 0;">
 
           <!-- Sidebar -->
           <aside
+            class="chat-sidebar"
             aria-label="Conversation history"
             style="
               width: 220px;
@@ -138,7 +151,7 @@ export const AIChatInterface: Story = {
           </aside>
 
           <!-- Main chat column -->
-          <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+          <div style="flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0;">
 
             <!-- Chat header -->
             <header style="
@@ -161,10 +174,12 @@ export const AIChatInterface: Story = {
             <!-- Message thread -->
             <div
               role="log"
+              class="chat-messages"
               aria-label="Conversation"
               aria-live="polite"
               style="
                 flex: 1;
+                overflow-y: auto;
                 padding: 1.5rem;
                 display: flex;
                 flex-direction: column;
@@ -364,7 +379,7 @@ export const AIChatInterface: Story = {
             </div>
 
             <!-- Compose area -->
-            <div style="
+            <div class="chat-input-area" style="
               padding: 1rem 1.5rem 1.25rem;
               border-top: 1px solid var(--color-border-default);
               flex-shrink: 0;
