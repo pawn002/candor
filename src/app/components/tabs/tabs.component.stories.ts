@@ -138,6 +138,34 @@ export const VerticalSidebar: Story = {
   }),
 };
 
+export const ManyTabs: Story = {
+  name: 'Pattern: Many tabs (scroll affordance)',
+  parameters: {
+    docs: {
+      description: {
+        story: `When more tabs exist than the container can display, the tab list scrolls horizontally.
+A gradient fade at the trailing edge signals that additional tabs are available — the partially-visible
+tab label is the affordance. The fade transitions out once the last tab scrolls into full view,
+and a mirrored left-edge fade appears when the list has been scrolled past the first tab.`,
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="max-width: 320px;">
+        <app-tabs ariaLabel="Dashboard sections">
+          <app-tab-panel tabId="overview"      label="Overview">      <p>High-level metrics and recent activity.</p>      </app-tab-panel>
+          <app-tab-panel tabId="analytics"     label="Analytics">     <p>Traffic, conversion, and engagement data.</p>    </app-tab-panel>
+          <app-tab-panel tabId="reports"       label="Reports">       <p>Scheduled and on-demand report archive.</p>      </app-tab-panel>
+          <app-tab-panel tabId="notifications" label="Notifications"> <p>Alerts, mentions, and system messages.</p>       </app-tab-panel>
+          <app-tab-panel tabId="integrations"  label="Integrations">  <p>Connected apps, webhooks, and API keys.</p>      </app-tab-panel>
+          <app-tab-panel tabId="settings"      label="Settings">      <p>Account preferences and access controls.</p>    </app-tab-panel>
+        </app-tabs>
+      </div>
+    `,
+  }),
+};
+
 export const Controlled: Story = {
   render: () => ({
     props: {

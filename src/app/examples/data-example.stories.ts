@@ -68,7 +68,7 @@ export const FilterableTable: Story = {
       currentPage: 3,
     },
     template: `
-      <div style="padding: 2rem; max-width: 900px;">
+      <div style="padding: clamp(1rem, 4vw, 2rem); max-width: 900px;">
 
         <!-- Page header -->
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap;">
@@ -76,10 +76,10 @@ export const FilterableTable: Story = {
             <app-heading [level]="1" style="margin-bottom: 0.25rem;">Submissions</app-heading>
             <app-text variant="body" style="color: var(--color-text-subtle);">247 results · Page 3 of 25</app-text>
           </div>
-          <div style="display: flex; align-items: flex-start; gap: 0.75rem; padding-top: 6px;">
+          <div style="display: flex; align-items: flex-start; gap: 0.75rem; padding-top: 6px; padding-right: 0.5rem;">
             <app-input
               placeholder="Search submissions..."
-              style="width: 220px;">
+              style="flex: 1; min-width: 120px; max-width: 220px;">
             </app-input>
             <div style="position: relative; display: inline-flex; align-items: center;">
               <app-button variant="secondary" (clicked)="drawerOpen = true">
@@ -89,7 +89,7 @@ export const FilterableTable: Story = {
               <!-- Active filter badge -->
               <app-badge
                 variant="primary"
-                style="position: absolute; top: -6px; right: -6px; min-width: 1.25rem; text-align: center;"
+                style="position: absolute; top: -6px; right: 0; min-width: 1.25rem; text-align: center;"
                 aria-label="3 active filters">
                 3
               </app-badge>
@@ -98,7 +98,8 @@ export const FilterableTable: Story = {
         </div>
 
         <!-- Results table -->
-        <app-table style="display: block; margin-bottom: 1.5rem;">
+        <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+        <app-table style="display: block;">
           <table>
             <thead>
               <tr>
@@ -169,6 +170,7 @@ export const FilterableTable: Story = {
             </tbody>
           </table>
         </app-table>
+        </div>
 
         <!-- Pagination -->
         <app-pagination
