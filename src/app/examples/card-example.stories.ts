@@ -39,7 +39,7 @@ type Story = StoryObj;
 export const ProductCard: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 350px; border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
+      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 350px; border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
         <div style="width: 100%; height: 200px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
 
         <div style="padding: 1.5rem;">
@@ -83,7 +83,7 @@ export const ProductCard: Story = {
             ]"></app-menu>
           </div>
         </div>
-      </div>
+      </div></div>
     `,
   }),
 };
@@ -91,7 +91,7 @@ export const ProductCard: Story = {
 export const ArticleCard: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 400px; border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
+      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 400px; border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
         <div style="width: 100%; height: 180px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
 
         <div style="padding: 1.5rem;">
@@ -124,7 +124,7 @@ export const ArticleCard: Story = {
             </app-tooltip>
           </div>
         </div>
-      </div>
+      </div></div>
     `,
   }),
 };
@@ -132,7 +132,7 @@ export const ArticleCard: Story = {
 export const ProfileCard: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 300px; border: 1px solid var(--color-border-default); border-radius: 8px; text-align: center; padding: 2rem;">
+      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 300px; border: 1px solid var(--color-border-default); border-radius: 8px; text-align: center; padding: 2rem;">
         <div style="width: 100px; height: 100px; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
 
         <app-heading [level]="3" style="margin-bottom: 0.25rem;">
@@ -182,7 +182,7 @@ export const ProfileCard: Story = {
             Message
           </app-button>
         </div>
-      </div>
+      </div></div>
     `,
   }),
 };
@@ -195,7 +195,7 @@ export const CardGrid: Story = {
           Featured Products
         </app-heading>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1.5rem;">
           <!-- Card 1 -->
           <div style="border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>

@@ -75,7 +75,7 @@ export const AccountSettings: Story = {
           { label: 'Settings' }
         ]" style="display: block; margin-bottom: 2rem;"></app-breadcrumb>
 
-        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.5rem;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
           <app-heading [level]="1">Account settings</app-heading>
           <app-menu label="Account actions" [entries]="[
             { label: 'Export data' },
@@ -100,12 +100,12 @@ export const AccountSettings: Story = {
         <section style="margin-bottom: 2.5rem;">
           <app-heading [level]="2" style="font-size: var(--font-size-lg); margin-bottom: 1.5rem;">Profile</app-heading>
           <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--color-bg-surface); border-radius: var(--radius-md);">
-              <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; padding: 1rem; background: var(--color-bg-surface); border-radius: var(--radius-md);">
+              <div style="min-width: 0;">
                 <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-default); letter-spacing: 0.02em;">Jane Smith</div>
-                <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">j.smith@example.com</div>
+                <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; overflow-wrap: break-word;">j.smith@example.com</div>
               </div>
-              <app-badge variant="success">Verified</app-badge>
+              <app-badge variant="success" style="flex-shrink: 0;">Verified</app-badge>
             </div>
           </div>
         </section>
@@ -221,7 +221,7 @@ export const TabbedSettings: Story = {
 
           <app-tab-panel tabId="profile" label="Profile">
             <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1.25rem;">
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem;">
                 <app-input label="First name" [value]="'Jane'" [required]="true"></app-input>
                 <app-input label="Last name" [value]="'Smith'" [required]="true"></app-input>
               </div>
