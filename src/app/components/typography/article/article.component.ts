@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
 
-type ArticleFont = 'reading' | 'sans';
+type ArticleFont = 'serif' | 'sans';
 
 @Component({
   selector: 'app-article',
@@ -14,5 +14,5 @@ type ArticleFont = 'reading' | 'sans';
   },
 })
 export class ArticleComponent {
-  font = input<ArticleFont>('reading');
+  font = input<ArticleFont>('serif');
 }

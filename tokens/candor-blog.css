@@ -10,6 +10,7 @@
  *
  * See source file for full HTML structure and modifier reference.
  */
+@charset "UTF-8";
 .post-list {
   list-style: none;
   padding: 0;
@@ -73,7 +74,7 @@
 .post-card.post-card--featured {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
 }
 @media (min-width: 640px) {
   .post-card.post-card--featured {
@@ -89,6 +90,9 @@
   .post-card.post-card--featured .post-card__image {
     aspect-ratio: 4/3;
   }
+}
+.post-card.post-card--featured .post-card__image-link {
+  margin-bottom: 0;
 }
 .post-card.post-card--featured .post-card__body {
   padding: 0;
@@ -166,6 +170,13 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-text-subtle);
+}
+.post-card__tag + .post-card__tag::before {
+  content: "·";
+  margin-right: var(--spacing-2xs);
+  font-weight: var(--font-weight-normal);
+}
+.post-card__tag {
   line-height: 1;
 }
 

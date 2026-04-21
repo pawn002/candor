@@ -9,10 +9,11 @@ const meta: Meta<ChipComponent> = {
     docs: {
       description: {
         component: `
-Small pill-shaped element for tags, filters, and selections. Two interaction modes:
+Small pill-shaped element for tags, filters, and selections. Three interaction modes:
 
 - **Selectable** (\`[selectable]="true"\`) — toggles an active state; use for filter chips where the user turns options on and off
 - **Dismissible** (\`[dismissible]="true"\`) — shows a close button; use for input chips that can be removed (tags on a post, applied filters)
+- **Link** (\`[linkHref]="'/tags/foo'"\`) — renders as \`<a>\`; use when the chip navigates to another page (taxonomy archive, tag cloud). Mutually exclusive with selectable and dismissible.
 
 **Chip vs. Badge:** Badges are static indicators (status, count). Chips are interactive — they respond to clicks and can be removed. If the element has no interaction, use a Badge.
 
@@ -31,6 +32,7 @@ Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warn
     dismissible: { control: 'boolean' },
     disabled: { control: 'boolean' },
     selected: { control: 'boolean' },
+    linkHref: { control: 'text' },
   },
 };
 
@@ -51,6 +53,10 @@ export const SelectableSelected: Story = {
 
 export const Dismissible: Story = {
   args: { label: 'React', variant: 'default', dismissible: true },
+};
+
+export const Link: Story = {
+  args: { label: 'Accessibility', variant: 'default', linkHref: '/tags/accessibility/' },
 };
 
 export const Disabled: Story = {
@@ -95,6 +101,28 @@ export const TagList: Story = {
         <app-chip label="angular" variant="secondary" [dismissible]="true"></app-chip>
         <app-chip label="wcag" variant="success" [dismissible]="true"></app-chip>
         <app-chip label="oklch" variant="primary" [dismissible]="true"></app-chip>
+      </div>
+    `,
+  }),
+};
+
+export const TaxonomyLinks: Story = {
+  name: 'Taxonomy Links',
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use `linkHref` when chips navigate to archive pages. The chip renders as `<a>` — correct semantics for navigation, unlike a button which implies toggling.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        <app-chip label="Accessibility" variant="default" linkHref="/tags/accessibility/"></app-chip>
+        <app-chip label="Design Systems" variant="primary" linkHref="/tags/design-systems/"></app-chip>
+        <app-chip label="Angular" variant="secondary" linkHref="/tags/angular/"></app-chip>
+        <app-chip label="WCAG" variant="success" linkHref="/tags/wcag/"></app-chip>
+        <app-chip label="OKLCH" variant="default" linkHref="/tags/oklch/"></app-chip>
       </div>
     `,
   }),
