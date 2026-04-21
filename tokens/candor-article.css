@@ -8,11 +8,14 @@
  *   <link rel="stylesheet" href="candor-tokens.min.css">
  *   <link rel="stylesheet" href="candor-article.min.css">
  *
- *   <div class="article article--font-reading"><!-- prose content --></div>
+ *   <div class="article article--font-serif"><!-- prose content --></div>
  *
- * Font variants:
- *   article--font-reading  Noto Serif — human/AI-authored prose (default)
- *   article--font-sans     Noto Sans  — utility/syndication contexts
+ * Font modifiers (one required — no default font-family is applied without a modifier):
+ *   article--font-serif    Noto Serif — recommended default for editorial/blog prose
+ *   article--font-sans     Noto Sans  — utility, syndication, or UI-adjacent contexts
+ *
+ * Note: article--font-serif applies --font-family-serif (Noto Serif), NOT the
+ * --font-reading token (which is Noto Sans). The names look related but are not.
  */
 .article {
   display: block;
@@ -21,7 +24,7 @@
   line-height: var(--line-height-relaxed);
   color: var(--color-text-default);
 }
-.article.article--font-reading {
+.article.article--font-serif {
   font-family: var(--font-family-serif);
 }
 .article.article--font-sans {

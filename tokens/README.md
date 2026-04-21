@@ -81,9 +81,14 @@ npm install @phosphor-icons/web
 @import '@phosphor-icons/web/regular/style.css';
 ```
 
-> **Font name note:** The Fontsource variable packages register the font as `'Roboto Flex Variable'`
-> (with the word "Variable" appended). The `--font-family-base` token lists both names —
-> `'Roboto Flex Variable', 'Roboto Flex'` — so the stack resolves correctly in all environments.
+> **Font name note:** The Fontsource variable packages register fonts with a "Variable" suffix in their
+> internal `font-family` name (e.g. `'Roboto Flex Variable'`). Candor's tokens handle this for Roboto
+> Flex by listing both names in the stack — `'Roboto Flex Variable', 'Roboto Flex'`.
+>
+> For **Noto Serif and Noto Sans**, the tokens reference `"Noto Serif"` and `"Noto Sans"` (no "Variable"
+> suffix). If you are writing your own `@font-face` declarations, you **must** use these exact names —
+> not `'Noto Serif Variable'` or `'Noto Sans Variable'`. A mismatch produces a silent fallback to Georgia
+> or system-ui with no console error. The Fontsource `@import` path approach above avoids this entirely.
 
 ### Article prose styles (framework-agnostic)
 
@@ -97,15 +102,23 @@ npm install @phosphor-icons/web
 Wrap post content in a `div` with the `.article` class:
 
 ```html
-<div class="article article--font-reading">
+<div class="article article--font-serif">
   <h1>Post title</h1>
   <p>Body copy...</p>
 </div>
 ```
 
-**Font variants:**
-- `article--font-reading` — Noto Serif; human or AI-authored prose (default)
+**Font modifiers:**
+- `article--font-serif` — Noto Serif (`--font-family-serif`); recommended default for editorial/blog prose
 - `article--font-sans` — Noto Sans; utility or syndication contexts
+
+**End-of-content spacing:** The article stylesheet does not impose bottom padding on its container — that is the responsibility of the page layout. For long-form reading contexts (blog posts, documentation), use at least `--spacing-3xl` (6rem) of bottom padding to give readers a sense of resolution rather than compression at the end of the piece:
+
+```css
+.post-container {
+  padding: var(--spacing-2) var(--spacing-2) var(--spacing-3xl);
+}
+```
 
 The stylesheet covers headings (h1–h6), paragraphs, lists, blockquotes, inline code, fenced code blocks (`<pre><code>`), figures with captions, tables, links with `:visited` double-underline indicator, and horizontal rules. All values resolve from `candor-tokens.css` — dark mode is inherited automatically.
 

@@ -8,8 +8,8 @@ const meta: Meta<ArticleComponent> = {
   argTypes: {
     font: {
       control: { type: 'select' },
-      options: ['reading', 'sans'],
-      description: 'Body typeface — Noto Serif (reading, default) or Noto Sans (sans, for syndication/utility contexts). Headings always use Roboto Flex.',
+      options: ['serif', 'sans'],
+      description: 'Body typeface — Noto Serif (serif, default) or Noto Sans (sans, for syndication/utility contexts). Headings always use Roboto Flex.',
     },
   },
   parameters: {
@@ -22,16 +22,16 @@ blockquotes, code, tables, figures).
 ## Serif vs. sans — which font and when
 
 **The rule:** content that originates from a human author or a generative AI model uses
-**Noto Serif** (\`font="reading"\`, the default). Content that is UI infrastructure —
+**Noto Serif** (\`font="serif"\`, the default). Content that is UI infrastructure —
 navigation, settings, system messages, help text — uses **Noto Sans** or Roboto Flex.
 
 The distinction is cognitive context, not visual preference:
 
 | Context | Font | Why |
 |---|---|---|
-| AI-generated summaries, reports, deliberation content | Noto Serif (\`reading\`) | Signals authored content; slows reading toward reflection |
-| Human-authored articles, editorial prose | Noto Serif (\`reading\`) | Same — human and AI prose share the reading frame |
-| Help documentation, release notes, policy text | Noto Serif (\`reading\`) | Sustained reading; benefits from serif rhythm |
+| AI-generated summaries, reports, deliberation content | Noto Serif (\`serif\`) | Signals authored content; slows reading toward reflection |
+| Human-authored articles, editorial prose | Noto Serif (\`serif\`) | Same — human and AI prose share the reading frame |
+| Help documentation, release notes, policy text | Noto Serif (\`serif\`) | Sustained reading; benefits from serif rhythm |
 | In-app explanatory copy, onboarding text | Noto Sans (\`sans\`) | Brief, scanning context; utility not reading |
 | Syndicated content with mixed origins | Noto Sans (\`sans\`) | Sans is safer when you cannot verify the reading context |
 
@@ -185,7 +185,7 @@ const codeArticleContent = `
 `;
 
 export const Default: Story = {
-  args: { font: 'reading' },
+  args: { font: 'serif' },
   render: (args) => ({
     props: args,
     template: `<app-article [font]="font">${fullArticleContent}</app-article>`,
@@ -201,7 +201,7 @@ export const Sans: Story = {
 };
 
 export const WithCode: Story = {
-  args: { font: 'reading' },
+  args: { font: 'serif' },
   render: (args) => ({
     props: args,
     template: `<app-article [font]="font">${codeArticleContent}</app-article>`,
@@ -252,7 +252,7 @@ See \`docs/ACCESSIBILITY-CONFORMANCE.md\` for the full platform-limitation note.
       },
     },
   },
-  args: { font: 'reading' },
+  args: { font: 'serif' },
   render: (args) => ({
     props: args,
     template: `<app-article [font]="font">
@@ -293,7 +293,7 @@ See \`docs/ACCESSIBILITY-CONFORMANCE.md\` for the full platform-limitation note.
 };
 
 export const WithRichContent: Story = {
-  args: { font: 'reading' },
+  args: { font: 'serif' },
   render: (args) => ({
     props: args,
     template: `<app-article [font]="font">
@@ -371,7 +371,7 @@ export const WithRichContent: Story = {
 };
 
 export const WithNumericTable: Story = {
-  args: { font: 'reading' },
+  args: { font: 'serif' },
   render: (args) => ({
     props: args,
     template: `<app-article [font]="font">
@@ -477,8 +477,8 @@ export const FontComparison: Story = {
     template: `
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
         <div>
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: var(--spacing-sm); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); font-weight: var(--font-weight-semibold);">Noto Serif (reading)</p>
-          <app-article font="reading">${fullArticleContent}</app-article>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: var(--spacing-sm); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); font-weight: var(--font-weight-semibold);">Noto Serif (serif)</p>
+          <app-article font="serif">${fullArticleContent}</app-article>
         </div>
         <div>
           <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin-bottom: var(--spacing-sm); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); font-weight: var(--font-weight-semibold);">Noto Sans (sans)</p>
@@ -498,7 +498,7 @@ export const AIGeneratedProse: Story = {
         story: `
 **Pattern: AI-generated content in Noto Serif**
 
-Use \`font="reading"\` (the default) when displaying AI-generated text. The serif typeface
+Use \`font="serif"\` (the default) when displaying AI-generated text. The serif typeface
 signals "produced artifact — read this, don't scan it." This applies to: AI summaries,
 generated reports, deliberation outputs, and AI-assisted writing anywhere in the app.
 
@@ -531,7 +531,7 @@ Hyperlegible — only the body prose switches to Noto Serif.
           </div>
           <!-- Body prose in Noto Serif -->
           <div style="padding: var(--spacing-md);">
-            <app-article font="reading">
+            <app-article font="serif">
               <p>
                 The council's deliberation on the proposed housing development centred on three
                 interconnected concerns: traffic impact on the B4632 corridor, the adequacy of

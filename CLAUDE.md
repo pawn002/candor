@@ -115,9 +115,10 @@ Angular standalone components in `src/app/components/`:
 2. **Convert to OKLCH**: Run `cpqi meta <hex>` on each color to get exact OKLCH values
 3. **Update tokens**: Modify `src/design-tokens/colors.scss` and other token files
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
-5. **Accessibility validation**: Run `cpqi contrast <fg> <bg> -q` to check contrast ratios
-6. **Iterate**: If violations found, run `cpqi find <bg> <color> --target 4.5 -q` for compliant alternatives
-7. **Report**: Document original specs vs. final implementation, constraints identified
+5. **Mobile check**: Switch Storybook's viewport toolbar to **mobile1 (320 × 568)** and verify: no horizontal overflow, no clipped interactive elements, no layout broken by a fixed column count
+6. **Accessibility validation**: Run `cpqi contrast <fg> <bg> -q` to check contrast ratios
+7. **Iterate**: If violations found, run `cpqi find <bg> <color> --target 4.5 -q` for compliant alternatives
+8. **Report**: Document original specs vs. final implementation, constraints identified
 
 ### Integration Points
 
@@ -225,6 +226,33 @@ Contrast requirements have **two axes**: font size and use-case tier. **Never ap
 - Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight**, not a color change or size bump.
 - Tier 1 failures at 14px are genuine and typically require bumping to 16px (e.g. alert body, toast).
 - Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position) — it is assigned by the system, not a consumer opt-in.
+
+## Responsive Layout Patterns
+
+### Two-column grid
+
+Never use `grid-template-columns: 1fr 1fr` — it forces two columns even when the container is too narrow. Use the intrinsic grid idiom instead:
+
+```css
+/* Two columns that stack gracefully at narrow viewports — no media query needed */
+grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+```
+
+`min(100%, 240px)` prevents any column from exceeding the container width, so the grid degrades to single-column at small sizes automatically.
+
+### Flex children containing long text
+
+Flex children have `min-width: auto` by default, which prevents them from shrinking below their intrinsic content width. This causes text containing long unbreakable tokens (email addresses, URLs, IDs) to overflow the container. Fix:
+
+```css
+/* Allow a flex child to shrink below its content width */
+.text-container {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+```
+
+Apply whenever a flex child holds user-supplied content that may include long unbreakable strings.
 
 ## File Modifications Guidelines
 
