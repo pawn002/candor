@@ -125,8 +125,8 @@ fs.writeFileSync(
 // Framework-agnostic usage:
 //   1. Link candor-tokens.min.css first (provides all var(--...) values)
 //   2. Link candor-article.min.css second
-//   3. Wrap post content: <div class="article article--font-reading">...</div>
-//      Font variants: article--font-reading (Noto Serif) | article--font-sans (Noto Sans)
+//   3. Wrap post content: <div class="article article--font-serif">...</div>
+//      Font modifier: article--font-serif (Noto Serif, default) | article--font-sans (Noto Sans)
 
 const articleExpanded   = sass.compile(ARTICLE_ENTRY, { style: 'expanded' });
 const articleCompressed = sass.compile(ARTICLE_ENTRY, { style: 'compressed' });
@@ -142,11 +142,14 @@ const articleHeader =
   ' *   <link rel="stylesheet" href="candor-tokens.min.css">\n' +
   ' *   <link rel="stylesheet" href="candor-article.min.css">\n' +
   ' *\n' +
-  ' *   <div class="article article--font-reading"><!-- prose content --></div>\n' +
+  ' *   <div class="article article--font-serif"><!-- prose content --></div>\n' +
   ' *\n' +
-  ' * Font variants:\n' +
-  ' *   article--font-reading  Noto Serif — human/AI-authored prose (default)\n' +
-  ' *   article--font-sans     Noto Sans  — utility/syndication contexts\n' +
+  ' * Font modifiers (one required — no default font-family is applied without a modifier):\n' +
+  ' *   article--font-serif    Noto Serif — recommended default for editorial/blog prose\n' +
+  ' *   article--font-sans     Noto Sans  — utility, syndication, or UI-adjacent contexts\n' +
+  ' *\n' +
+  ' * Note: article--font-serif applies --font-family-serif (Noto Serif), NOT the\n' +
+  ' * --font-reading token (which is Noto Sans). The names look related but are not.\n' +
   ' */\n';
 
 fs.writeFileSync(path.join(OUT_DIR, 'candor-article.css'),     articleHeader + articleExpanded.css);

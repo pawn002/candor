@@ -107,7 +107,7 @@
     "--color-text-disabled": "var(--gray-600)",
     "--color-text-inverse": "var(--gray-800)",
     "--color-text-subtle-on-inverse": "oklch(0.40 0 0)",
-    "--color-text-on-action": "var(--gray-800)",
+    "--color-text-on-action": "oklch(0.16 0.02 248.99)",
     "--color-border-default": "var(--gray-600)",
     "--color-border-strong": "var(--gray-500)",
     "--color-border-on-inverse": "oklch(0.85 0 0)",

@@ -12,7 +12,12 @@ type ChipVariant = 'default' | 'primary' | 'secondary' | 'success' | 'warning' |
       [class.chip--selected]="selected()"
       [class.chip--disabled]="disabled()"
     >
-      @if (selectable()) {
+      @if (linkHref()) {
+        <a
+          class="chip__body chip__body--link"
+          [href]="linkHref()"
+        >{{ label() }}</a>
+      } @else if (selectable()) {
         <button
           class="chip__body chip__body--button"
           [attr.aria-pressed]="selected()"
@@ -23,7 +28,7 @@ type ChipVariant = 'default' | 'primary' | 'secondary' | 'success' | 'warning' |
       } @else {
         <span class="chip__body">{{ label() }}</span>
       }
-      @if (dismissible()) {
+      @if (dismissible() && !linkHref()) {
         <button
           class="chip__dismiss"
           [attr.aria-label]="'Remove ' + label()"
@@ -47,6 +52,7 @@ export class ChipComponent {
   dismissible = input(false);
   disabled = input(false);
   selected = model(false);
+  linkHref = input<string | null>(null);
 
   dismissed = output<void>();
 

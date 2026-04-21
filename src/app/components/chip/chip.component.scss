@@ -12,7 +12,13 @@
   font-family: var(--font-family-accessible);
   font-size: var(--font-size-sm);
   letter-spacing: 0.02em;
-  overflow: hidden; // keep child buttons inside the pill
+  overflow: hidden; // keep child button hover backgrounds clipped to pill shape
+
+  // Focus ring on the chip container — child outlines are clipped by overflow:hidden
+  &:has(:focus-visible) {
+    outline: var(--focus-ring-width) solid var(--color-focus);
+    outline-offset: var(--focus-ring-offset);
+  }
 
   // ─── Variants ─────────────────────────────────────────────────────────────
   &--primary   { border-color: var(--color-action-primary);          background-color: oklch(from var(--color-action-primary) l c h / 0.08); }
@@ -58,14 +64,25 @@
       font-size: inherit;
       letter-spacing: inherit;
 
-      &:focus-visible {
-        outline: var(--focus-ring-width) solid var(--color-focus);
-        outline-offset: 0;
-        border-radius: var(--radius-full);
-      }
-
       &:not(:disabled):hover {
         background-color: oklch(from var(--color-action-primary) l c h / 0.06);
+      }
+    }
+
+    &--link {
+      text-decoration: none;
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+      transition: background-color 0.15s ease, color 0.15s ease;
+
+      &:visited {
+        color: var(--color-text-subtle-on-surface); // text-subtle (L0.50) scores 3.4 on surface — below 4.5 Tier 2 bold; on-surface variant (L0.44) scores 4.6 ✅
+      }
+
+      &:hover {
+        background-color: oklch(from var(--color-action-primary) l c h / 0.06);
+        color: var(--color-text-default);
       }
     }
   }
@@ -95,11 +112,6 @@
     &:hover {
       background-color: oklch(from var(--color-action-primary) l c h / 0.12);
       color: var(--color-text-default);
-    }
-
-    &:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
-      outline-offset: 0;
     }
   }
 }

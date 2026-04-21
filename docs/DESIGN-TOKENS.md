@@ -218,9 +218,10 @@ $line-height-loose: 1.75;  // Long-form content
 ### Letter Spacing
 
 ```scss
-$letter-spacing-tight: -0.025em;  // Large headings
-$letter-spacing-normal: 0;        // Default
-$letter-spacing-wide: 0.05em;     // All caps, labels
+$letter-spacing-tight:   -0.025em; // Large headings
+$letter-spacing-normal:  0;        // Default
+$letter-spacing-relaxed: 0.03em;   // Small body text, captions — between normal and wide
+$letter-spacing-wide:    0.05em;   // All caps, labels
 ```
 
 ---

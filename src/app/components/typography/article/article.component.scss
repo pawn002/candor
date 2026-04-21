@@ -5,7 +5,7 @@
     line-height: var(--line-height-relaxed);
     color: var(--color-text-default);
 
-    &.article--font-reading { font-family: var(--font-family-serif); }   // Noto Serif — primary editorial voice
+    &.article--font-serif   { font-family: var(--font-family-serif); }   // Noto Serif — primary editorial voice
     &.article--font-sans    { font-family: var(--font-family-reading); } // Noto Sans — syndication/utility fallback
 
     // Headings — structural voice (Roboto Flex), tight rhythm

@@ -4,20 +4,29 @@ All notable changes to this project will be documented in this file.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [2.2.0] - 2026-04-13
+## [Unreleased]
+
+### Breaking
+
+- **Article:** CSS modifier `article--font-reading` renamed to `article--font-serif` — reflects the token it applies (`--font-family-serif`) and removes the false association with the `--font-reading` token (Noto Sans). Consumers using the framework-agnostic `candor-article.css` must rename the class on their wrapper elements (#93)
+- **Article:** `ArticleComponent` `font` input values changed — `'reading'` → `'serif'`. The `ArticleFont` union type is now `'serif' | 'sans'`. Angular consumers must update `[font]="'reading'"` and `font="reading"` bindings (#93)
 
 ### Added
 
-- **Pagination:** New `app-pagination` component — `<nav aria-label="Pagination">` with previous/next buttons and numbered page links. Current page receives `aria-current="page"` and filled accent treatment. Ellipsis collapses large page ranges, keeping first, last, and current ± 1 always visible. `currentPage` is a two-way bindable `model<number>`; `ariaLabel` input for multiple paginators on the same page (#26)
-- **Disclosure:** New `app-disclosure` component — single show/hide toggle following the APG Disclosure pattern. Button carries `aria-expanded` and `aria-controls` wired to its content panel; caret rotates 180° on open. `open` is a two-way bindable `model<boolean>`. Suitable for FAQ lists, expandable filter sections, and "read more" patterns (#25)
-- **Listbox:** New `app-listbox` component — custom select alternative using `role="listbox"` + `role="option"`. Trigger button shows selected value with `aria-haspopup="listbox"` and `aria-expanded`; dropdown uses `aria-activedescendant` to track keyboard focus without moving DOM focus from the listbox. Full keyboard contract: ArrowDown/Up, Home/End, Enter/Space to select, Escape to close, Tab to close, 500ms typeahead by first character. Disabled options, error/hint with `aria-live`, `ControlValueAccessor` for Angular forms. Label, placeholder, required, hint, and error inputs match `app-select` API (#23)
-- **Drawer:** New `app-drawer` component — slide-in panel anchored to a viewport edge. Uses `<dialog>` for native focus trapping and Escape key handling. `position` input supports `right` (default), `left`, and `bottom`; `size` controls panel width (or height for bottom sheets). Entry animation via `@starting-style`; `prefers-reduced-motion` disables it. Emits `(closed)` on close-button click, Escape, or backdrop click. `dismissOnBackdrop` input can disable backdrop dismissal (#51)
-- **Tabs:** Added `orientation="vertical"` variant. Tab list renders on the left with a right-edge active indicator; panels fill the remaining space. Keyboard navigation uses ArrowUp/Down in vertical mode; `aria-orientation` set on the tablist. Suited to settings panels and sidebar navigation (#52)
-- **Combobox:** New `app-combobox` component — text input + filterable listbox dropdown implementing the APG `list` autocomplete pattern. `role="combobox"` on the input with `aria-expanded`, `aria-controls`, and `aria-activedescendant`; DOM focus stays on the input throughout. Filters options by substring match as the user types; shows all options when the field is empty. Keyboard: ArrowDown/Up navigate options, Enter selects the active option (or sole remaining match), first Escape closes the dropdown, second Escape clears the input, Tab closes. Clear button replaces the caret when text is present. `ControlValueAccessor` for Angular forms; API matches `app-listbox` (#24)
+- **Chip:** `linkHref = input<string | null>(null)` — third interaction mode renders the chip as `<a>` when set. Mutually exclusive with `selectable` and `dismissible`. Includes visited, hover, and focus-visible styles; visited uses `--color-text-subtle-on-surface` (OKCA 4.6 on surface) not `--color-text-subtle` (OKCA 3.4 — fails Tier 2 bold at 14px on surface). New `Link` and `TaxonomyLinks` stories (#97)
+- **Tokens:** `--letter-spacing-relaxed: 0.03em` — moderate tracking between `--letter-spacing-normal` (0) and `--letter-spacing-wide` (0.05em). Suited to small body text and captions where `--letter-spacing-wide` reads as over-spaced (#95)
+
+### Documentation
+
+- **CLAUDE.md:** Added mobile viewport check as step 5 in the design iteration workflow — switch to mobile1 (320 × 568) before closing any story work (#104)
+- **CLAUDE.md:** New "Responsive Layout Patterns" section — intrinsic two-column grid (`repeat(auto-fit, minmax(min(100%, 240px), 1fr))`) and flex child text overflow fix (`min-width: 0` + `overflow-wrap: break-word`) (#102, #103)
+- **Article CSS:** Expanded `candor-article.css` usage comment — modifier listed as required (not optional), disambiguation note that `article--font-serif` applies `--font-family-serif`, not `--font-reading` (#96)
+- **tokens/README.md:** Font `@font-face` naming hazard — `'Noto Serif'` and `'Noto Sans'` must be used exactly; appending "Variable" produces a silent fallback with no console error (#94)
+- **tokens/README.md:** Article end-of-content spacing guidance — minimum `--spacing-3xl` (6rem) bottom padding recommended for long-form reading contexts (#99)
 
 ---
 
-## [Unreleased] — Phase 5
+## [2.3.0] - 2026-04-15
 
 ### Added
 
@@ -33,74 +42,32 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Modal:** Close button replaced with `app-button variant="ghost" size="small"` — hover, active, and focus ring now drawn from `ButtonComponent` tokens. Removed hand-rolled `.modal__close` SCSS block (#83)
 - **Card:** Removed `overflow: hidden` from `.card` — was clipping sticky children (`<thead>`, sticky toolbar, sticky alert bar inside a card). Border-radius renders correctly without it in modern browsers (#48)
 - **Tokens:** Clarified `--color-toast-message` dark-mode comment — the intentional subtle dimming on dark backgrounds is documented inline to prevent silent substitution with `--color-text-default` (#48)
-
-- **Tokens:** Color re-audit (#14) — full OKCA validation against the OKCA Contrast Guidance scale (4.5 required at 16px; 9.5 regular / 6.5 bold at 14px). 7 failing pairs corrected:
-  - `--color-text-subtle` light: L=0.56 → L=0.50 (OKCA 3.4 → 4.6)
-  - `--color-text-subtle-on-surface` light: L=0.46 → L=0.44 (OKCA 4.1 → 4.6 on gray-100)
-  - `--color-link` light: azure-500 L=0.53 → L=0.49 (OKCA 3.8 → 4.6)
-  - `--color-highlight` light: L=0.50 → L=0.43 (OKCA 3.3 → 4.8 on bg-surface; 4.6 → 6.5 on white)
-  - `--color-status-success-text` light: L=0.50 → L=0.46 (OKCA 3.8 → 4.7 on success-bg)
-  - `--color-action-destructive-text/border` dark: L=0.72 → L=0.74 (OKCA 4.1 → 4.6)
-  - `--color-status-error-text` dark: L=0.77 → L=0.79 (OKCA 4.3 → 5.2 on error-bg)
-  All annotation comments updated to reflect measured OKCA scores rather than WCAG ratios. 14 other pairs confirmed passing. 14px token usage constraint documented in plan.
+- **Tokens:** Color re-audit (#14) — full OKCA validation against the OKCA Contrast Guidance scale. 7 failing pairs corrected; 14 other pairs confirmed passing. 14px token usage constraint documented
+- **Examples:** Six example stories made mobile-responsive — fixed widths, hard 2-column grids, and missing scroll affordances corrected (#100)
 
 ### Documentation
 
-- **Card:** Component-level prose covering three integration patterns: light-mode surface layering (shadow required, colour alone insufficient), slot style encapsulation (wrapper-div approach), and `ViewEncapsulation.None` `:host` → host-class substitution (#48)
-- **Card:** Added `SlotEncapsulation` story demonstrating the correct wrapper-div pattern for styling projected content (#48)
-- **AccordionItem:** Added `HierarchyVariants` story showing all three variant levels in a realistic nested accordion context (#48)
-- **Article:** `:visited` link indicator — double underline via `border-bottom` technique. A `border-bottom` pre-declared `transparent` on the base link rule becomes visible (via `border-bottom-color`) in `:visited`, producing a second underline beneath the existing `text-decoration`. Single underline = unvisited; double underline = visited — a structural cue beyond the azure→purple hue shift, preserved under deuteranopia and protanopia. Documented in `WithLinks` story and `ACCESSIBILITY-CONFORMANCE.md` (#19)
-- **Visual Design guidance:** New `docs/VISUAL-DESIGN.md` — operational design reference covering grid and alignment, typographic system (variable-font discipline, Atkinson rules, 14px tier table), strategic color palette, and imagery. Includes a 12-point reviewer checklist and clinical-defaults troubleshooting guide (#8)
-- **Conscience:** New `docs/CONSCIENCE.md` — first-principles accountability document. Names what design systems get wrong as a category, Candor's specific risks given its stated philosophy, and standing questions the system must keep answering. Sits outside the operational docs; Candor answers to it
-- **Docs:** Archived six internal/superseded documents to `docs/archive/` — `CPQI-INTEGRATION`, `PLAYWRIGHT-WORKFLOW`, `WORKFLOW`, `A11Y-AUDIT`, `A11Y-ANALYSIS`, `CONTRAST-TIERS`. Visible `docs/` is now six consumer- and contributor-relevant files (#16)
-- **Toast:** Message text bumped from `--font-size-sm` (14px) to `--font-size-md` (16px). At 14px, light-mode toast message scores OKCA 5.0–9.2 against variant backgrounds — all below the Tier 1 reading threshold of 9.5. At 16px the threshold drops to 4.5 and all variants pass
-- **A11Y:** Corrected over-aggressive 14px contrast audit — OKCA two-axis tier system (size × use-case) applied correctly. `--color-text-subtle` at OKCA 4.6 passes Tier 2 bold and Tier 3; it does not require a color fix. Tier 1 failures at 14px resolved by bumping to 16px, not by color changes
+- **Card:** Component-level prose covering three integration patterns: light-mode surface layering, slot style encapsulation, and `ViewEncapsulation.None` (#48)
+- **Article:** `:visited` link indicator — double underline via `border-bottom` technique (#19)
+- **Visual Design guidance:** New `docs/VISUAL-DESIGN.md` (#8)
+- **Conscience:** New `docs/CONSCIENCE.md`
+- **Docs:** Archived six internal/superseded documents to `docs/archive/` (#16)
+- **Toast:** Message text bumped from `--font-size-sm` (14px) to `--font-size-md` (16px) for Tier 1 contrast compliance
+- **A11Y:** Corrected over-aggressive 14px contrast audit — OKCA two-axis tier system applied correctly
 
 ---
 
-## [Unreleased] — Phase 3
-
-### Documentation
-
-- **Tokens README:** Added prominent tokens-only scope notice and peer dependency installation guide — Fontsource font packages, Phosphor Icons, and a note on the `'Roboto Flex Variable'` font name (#64)
-- **Typography/Article:** Added component-level serif vs. sans decision table: AI-generated content and human-authored prose use Noto Serif (`font="reading"`); UI chrome and scanning contexts use Noto Sans. Added `AIGeneratedProse` story showing the pattern in a realistic AI card context (#73)
-- **Typography/AccessibleText:** Added three AI-app pattern stories: `AICardMetadataHeaders` (model attribution, generation timestamp, source references), `AIConfidenceScores` (inline confidence percentages with low-confidence warning threshold), and `AIStressContextCounters` (session-sensitive live counters with `role="status"` for screen reader announcements) (#71)
-- **Design Tokens/Icons:** New Storybook story documenting Phosphor Icons: installation, weight convention table (bold=interactive, regular=informational), `WeightComparison`, `InContext`, and `AccessibilityPatterns` stories (#68)
-- **Design Tokens/Typography:** New `OKCAContrastGuidance` story presenting the OKCA contrast score table for sub-16px text. WCAG is silent below 16px; OKCA closes the gap with a geometric ramp anchored at 4.5 (16px regular) → 20 (12px regular). Key Candor implication: `--font-size-sm` (14px) requires a score of 9.5 for regular text and 6.5 for bold — more than double the WCAG 4.5 floor (#62)
-
----
-
-## [Unreleased] — Phase 2
+## [2.2.0] - 2026-04-13
 
 ### Added
 
-- **Icons:** Adopted Phosphor Icons (`@phosphor-icons/web`) as the design system's icon vocabulary. Three-tier weight convention: `ph-fill` for action icons (close, dismiss, add, search — solid forms read as tappable), `ph-bold` for directional affordances (carets, chevrons), `ph` (regular — there is no `ph-regular` class) for informational/status icons.
-- **Accordion, Modal, Toast:** Migrated inline SVG icons to Phosphor — chevron, close ×, status icons, and dismiss ×.
-- **Button:** Added `.btn`, `.btn-sm`, `.btn-lg`, `.btn-primary`, `.btn-secondary`, `.btn-tertiary`, `.btn-ghost`, `.btn-destructive` global CSS utility classes for consumers using native `<button>` or `<a>` elements (#75)
-- **Input:** Added `multiline`, `rows`, and `resize` inputs. When `multiline` is `true`, renders `<textarea>` with identical styling to `<input>` (#53)
-- **Select:** New `app-select` wrapper component — native `<select>` with Phosphor caret, ControlValueAccessor, label, placeholder, error, hint, required, and disabled inputs (#54)
-- **Navigation, Tabs:** Added `theme="inverse"` variant for dark headers and inverse surfaces. Uses `--color-bg-inverse`, `--color-text-inverse`, `--color-text-subtle-on-inverse`, and new `--color-border-on-inverse` tokens (#65)
-- **Tokens:** Added `--color-text-subtle-on-inverse` and `--color-border-on-inverse` semantic tokens (light + dark)
-- **Toast:** Added `ToastService` and `ToastContainerComponent` for imperative usage. Place `<app-toast-container>` once in AppComponent; call `toastService.show(message, variant, options)` from anywhere (#66)
-- **Badge:** Added `OrdinalSeverity` pattern story documenting how to map domain severity scales (minor/moderate/fundamental, low/medium/high/critical) onto the existing status token triplets (#74)
+- **Pagination:** New `app-pagination` component — `<nav aria-label="Pagination">` with previous/next buttons and numbered page links. Current page receives `aria-current="page"` and filled accent treatment. Ellipsis collapses large page ranges, keeping first, last, and current ± 1 always visible. `currentPage` is a two-way bindable `model<number>`; `ariaLabel` input for multiple paginators on the same page (#26)
+- **Disclosure:** New `app-disclosure` component — single show/hide toggle following the APG Disclosure pattern. Button carries `aria-expanded` and `aria-controls` wired to its content panel; caret rotates 180° on open. `open` is a two-way bindable `model<boolean>`. Suitable for FAQ lists, expandable filter sections, and "read more" patterns (#25)
+- **Listbox:** New `app-listbox` component — custom select alternative using `role="listbox"` + `role="option"`. Trigger button shows selected value with `aria-haspopup="listbox"` and `aria-expanded`; dropdown uses `aria-activedescendant` to track keyboard focus without moving DOM focus from the listbox. Full keyboard contract: ArrowDown/Up, Home/End, Enter/Space to select, Escape to close, Tab to close, 500ms typeahead by first character. Disabled options, error/hint with `aria-live`, `ControlValueAccessor` for Angular forms. Label, placeholder, required, hint, and error inputs match `app-select` API (#23)
+- **Drawer:** New `app-drawer` component — slide-in panel anchored to a viewport edge. Uses `<dialog>` for native focus trapping and Escape key handling. `position` input supports `right` (default), `left`, and `bottom`; `size` controls panel width (or height for bottom sheets). Entry animation via `@starting-style`; `prefers-reduced-motion` disables it. Emits `(closed)` on close-button click, Escape, or backdrop click. `dismissOnBackdrop` input can disable backdrop dismissal (#51)
+- **Tabs:** Added `orientation="vertical"` variant. Tab list renders on the left with a right-edge active indicator; panels fill the remaining space. Keyboard navigation uses ArrowUp/Down in vertical mode; `aria-orientation` set on the tablist. Suited to settings panels and sidebar navigation (#52)
+- **Combobox:** New `app-combobox` component — text input + filterable listbox dropdown implementing the APG `list` autocomplete pattern. `role="combobox"` on the input with `aria-expanded`, `aria-controls`, and `aria-activedescendant`; DOM focus stays on the input throughout. Filters options by substring match as the user types; shows all options when the field is empty. Keyboard: ArrowDown/Up navigate options, Enter selects the active option (or sole remaining match), first Escape closes the dropdown, second Escape clears the input, Tab closes. Clear button replaces the caret when text is present. `ControlValueAccessor` for Angular forms; API matches `app-listbox` (#24)
 
----
-
-## [Unreleased] — Phase 1
-
-### Breaking
-
-- **AccordionItem, Alert, Modal, Toast:** `title` input renamed to `heading`. Replace `[title]="..."` or `title="..."` with `[heading]="..."` or `heading="..."` on all four components. See [BREAKING-CHANGES.md](docs/BREAKING-CHANGES.md).
-
-### Fixed
-
-- **Tokens:** `--font-sans` now lists `'Roboto Flex Variable'` first so consumers using `@fontsource-variable/roboto-flex` get the correct font instead of a silent fallback to system-ui (#67)
-- **Table:** Dark-mode zebra stripe was invisible because the stripe background matched the table surface (`--color-bg-elevated`). Fixed with `color-mix(in oklch, white 15%, var(--color-bg-elevated))` (#79)
-- **Badge:** `font-weight-semibold` on Atkinson Hyperlegible silently fell back to 400. Changed to `font-weight-bold` (700) which Atkinson actually supports (#72)
-- **Chip:** `isSelected` was initialised once in `ngOnInit` and never updated. Promoted `selected` to `model()` so the chip stays in sync with parent state changes (#55)
-- **Modal:** Removed unused `ButtonComponent` import that caused `NG8113` warnings in consuming projects (#57)
-- **Tabs:** Added comment on `activeId` model clarifying that parent signals must be typed as `string`, not a narrower union type, to avoid TS2345 under strict template checking (#56)
-- **Security:** Updated `@angular/build` to 21.2.7, resolving 19 undici and vite CVEs (#49)
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.0.1] - 2026-03-23
