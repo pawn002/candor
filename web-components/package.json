@@ -1,0 +1,20 @@
+{
+  "name": "@candor-design/web-components",
+  "version": "1.0.0",
+  "description": "Candor design system — Lit web components",
+  "type": "module",
+  "main": "./dist/candor-web-components.umd.cjs",
+  "module": "./dist/candor-web-components.js",
+  "exports": {
+    ".": {
+      "import": "./dist/candor-web-components.js",
+      "require": "./dist/candor-web-components.umd.cjs"
+    }
+  },
+  "files": ["dist"],
+  "keywords": ["web-components", "lit", "design-system", "candor"],
+  "license": "ISC",
+  "peerDependencies": {
+    "@candor-design/tokens": ">=3.0.0"
+  }
+}

@@ -1,4 +1,5 @@
 import type { Preview, StoryContext, StoryFn } from '@storybook/angular';
+import '../src/web-components/index';
 
 // Applies data-theme to the iframe <html> element without wrapping the story,
 // which avoids the Angular rendering issues caused by withThemeByDataAttribute.
