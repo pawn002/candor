@@ -1,20 +1,22 @@
 # Accessibility Conformance Statement
 
-**Product:** Candor Design System
-**Version:** 1.0.0
-**Date:** 2026-03-22
+**Product:** Candor Design System (`@candor-design/tokens` + `@candor-design/web-components`)
+**Version:** 3.0.0
+**Date:** 2026-05-13
 **Standard:** Web Content Accessibility Guidelines (WCAG) 2.1, Level AA
-**Evaluation methodology:** Manual screen reader walkthrough (NVDA + Chrome) + Playwright accessibility tree snapshots across all 26 components
+**Evaluation methodology:** Manual screen reader walkthrough (NVDA + Chrome) + Playwright accessibility tree snapshots across all 26 Angular components; web components carry the same patterns and guarantees by construction (see note below)
 
 ---
 
 ## Conformance level
 
-Candor 1.0.0 aims to **conform to WCAG 2.1 Level AA** for all components within scope, subject to the consumer responsibilities and known limitations described below.
+Candor 3.0.0 aims to **conform to WCAG 2.1 Level AA** for all components within scope, subject to the consumer responsibilities and known limitations described below.
 
 ---
 
 ## Scope
+
+### Angular components (`@candor-design/tokens` + Angular library)
 
 This conformance statement covers the 26 components audited in `docs/A11Y-AUDIT.md`:
 
@@ -32,6 +34,18 @@ Navigation, Breadcrumb, Tooltip, Chip, Button
 
 **Phase 5 — Display & typography**
 Badge, Stat, Table, Card, Heading, AccessibleText / Text / Article
+
+### Web components (`@candor-design/web-components`)
+
+The 34 Lit custom elements in `@candor-design/web-components` implement the same ARIA patterns, keyboard contracts, live region approaches, and focus management as the Angular counterparts they mirror. They carry the same conformance targets by construction — not by separate audit.
+
+A formal screen reader walkthrough of the web components package has not been conducted as of v3.0.0. The following differences from the Angular audit apply:
+
+- **Shadow DOM isolation:** ARIA relationships that cross shadow boundaries (e.g. `aria-labelledby` pointing to an element in light DOM) are not used; all ARIA relationships are contained within each component's shadow root or host element.
+- **Form participation:** Form controls use the `ElementInternals` API rather than Angular's `ControlValueAccessor`. The browser-native form integration means values appear in `FormData` and validation APIs without any Angular dependency.
+- **`candor-article` light DOM:** The article component renders in light DOM (`createRenderRoot()`) so projected prose content is reachable by AT without any Shadow DOM wrapping — equivalent to Angular's `ViewEncapsulation.None`.
+
+Consumers who require a formal web components AT audit should conduct their own walkthrough using the Storybook `Web Components/` stories as the test surface.
 
 ---
 

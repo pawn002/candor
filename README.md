@@ -6,9 +6,19 @@ A humanist design system built with OKLCH colors, variable-font typography, and 
 
 ## Install
 
+### Tokens (CSS custom properties)
+
 ```bash
 npm install @candor-design/tokens
 ```
+
+### Web components (framework-agnostic)
+
+```bash
+npm install @candor-design/web-components @candor-design/tokens
+```
+
+Includes all 34 Candor components as Lit 3 custom elements. No framework required — works in plain HTML, React, Vue, Svelte, or any other environment that supports web standards. Version is kept in sync with `@candor-design/tokens`.
 
 ### Fonts
 
@@ -49,6 +59,35 @@ Link the stylesheet and use the custom properties directly:
 ```css
 @import url('@candor-design/tokens/tokens/candor-tokens.css');
 ```
+
+### Web components
+
+```html
+<link rel="stylesheet" href="node_modules/@candor-design/tokens/tokens/candor-tokens.css">
+<script type="module" src="node_modules/@candor-design/web-components/dist/candor-web-components.js"></script>
+
+<candor-button variant="primary">Save changes</candor-button>
+<candor-input label="Email" type="email" required></candor-input>
+<candor-badge variant="success">Active</candor-badge>
+```
+
+CSS custom properties pierce Shadow DOM boundaries automatically — loading `candor-tokens.css` once is all that's required. No per-component token injection needed.
+
+#### Bundler import
+
+```js
+import '@candor-design/web-components';
+// All 34 custom elements are now registered
+```
+
+#### Tree-shaking
+
+```js
+import '@candor-design/web-components/dist/components/button/candor-button';
+import '@candor-design/web-components/dist/components/badge/candor-badge';
+```
+
+---
 
 ### Bundler (Vite / webpack / PostCSS)
 
@@ -246,6 +285,17 @@ Outputs to `tokens/`:
 - `candor-tokens.css` — expanded CSS with comments
 - `candor-tokens.min.css` — minified for production
 - `candor-tokens.json` — structured JSON (`root` + `dark` keys)
+
+### Build web components
+
+```bash
+npm run build:wc
+```
+
+Outputs to `web-components/dist/`:
+- `candor-web-components.js` — ESM bundle (165 kB, 30 kB gzipped)
+- `candor-web-components.umd.cjs` — UMD for CDN / legacy environments
+- `index.d.ts` + per-component `.d.ts` — TypeScript declarations
 
 ### Storybook
 

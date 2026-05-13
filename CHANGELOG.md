@@ -6,6 +6,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **`@candor-design/web-components` 3.0.0** — new package shipping all 34 Candor components as Lit 3 custom elements. Version aligned to `@candor-design/tokens` so a single version number describes the full design system release. Separate npm package keeps Lit out of Angular-only consumers' dependency graph.
+  - **Custom elements:** `candor-badge`, `candor-alert`, `candor-card`, `candor-stat`, `candor-progress`, `candor-heading`, `candor-text`, `candor-accessible-text`, `candor-article`, `candor-button`, `candor-chip`, `candor-breadcrumb`, `candor-pagination`, `candor-toolbar` + `candor-toolbar-separator`, `candor-navigation`, `candor-input`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-select`, `candor-slider`, `candor-listbox`, `candor-combobox`, `candor-chat-input`, `candor-tooltip`, `candor-modal`, `candor-drawer`, `candor-toast` + `candor-toast-container`, `candor-tabs` + `candor-tab-panel`, `candor-accordion-item`, `candor-disclosure`, `candor-menu`, `candor-table`, `candor-data-grid`
+  - Form controls use the `ElementInternals` API (`static formAssociated = true`) for native form participation — values appear in `FormData`, validation works, `:disabled` applies correctly
+  - CSS custom properties pierce Shadow DOM boundaries, so `candor-tokens.css` loaded once at the document level resolves inside all shadow roots — no injection required
+  - `candor-article` uses light DOM (`createRenderRoot()`) so prose styles reach projected content, equivalent to Angular's `ViewEncapsulation.None`
+  - Stories appear alongside Angular stories in Storybook under the `Web Components/` category
+  - Build: `npm run build:wc` — Vite lib build producing ESM (165 kB) and UMD (151 kB) bundles with declaration files
+
 ---
 
 ## [3.0.0] - 2026-04-20

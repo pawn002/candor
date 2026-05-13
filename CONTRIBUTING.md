@@ -8,6 +8,7 @@ Candor is a humanist design system. Every contribution — components, tokens, s
 npm install
 npm run storybook        # http://localhost:6006 — primary development environment (published: https://main--69c25e2492ad056c24329876.chromatic.com)
 npm start                # http://localhost:4200 — Angular dev server
+npm run build:wc         # Build @candor-design/web-components → web-components/dist/
 npm run test:playwright  # Playwright tests (auto-starts Storybook)
 npm test                 # Angular unit tests
 ```
@@ -43,11 +44,37 @@ Do not add a new semantic token without a corresponding usage in at least one co
 
 ## Component authoring
 
+### Angular components
+
 1. Create the component in `src/app/components/<category>/`
 2. Each component needs: `.ts`, `.scss`, `.stories.ts`
 3. Import tokens: `@use '../../../design-tokens' as tokens;`
 4. Stories use CSF3 format — see existing stories for examples
 5. Stories must demonstrate correct consumer-level markup (see PR checklist — "Stories as AT documentation")
+
+### Lit web components
+
+When adding a new Angular component, add a corresponding Lit custom element in `src/web-components/components/<category>/`:
+
+1. Create `candor-<name>.ts` — extend `LitElement`, use `@customElement('candor-<name>')`, translate Angular SCSS to a `static styles = css\`...\`` template literal (CSS custom properties pierce Shadow DOM, so all `var(--...)` tokens resolve automatically)
+2. Create `candor-<name>.stories.ts` — use `title: 'Web Components/<Category>'` and the Angular Storybook `render: (args) => ({ template: '...' })` pattern with raw HTML custom element tags
+3. Re-export from `src/web-components/index.ts`
+4. Run `npm run build:wc` to verify the build is clean
+
+**Form controls** use `ElementInternals` for native form participation:
+```typescript
+static formAssociated = true;
+private _internals = this.attachInternals();
+// On value change:
+this._internals.setFormValue(this.value);
+```
+
+**`candor-article`** uses light DOM to let prose styles reach projected content:
+```typescript
+override createRenderRoot() { return this; }
+```
+
+**Version:** keep `web-components/package.json` version in sync with `package.json`. Both are bumped together via the release scripts.
 
 ## Breaking changes
 
