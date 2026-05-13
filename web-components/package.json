@@ -1,6 +1,6 @@
 {
   "name": "@candor-design/web-components",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "Candor design system — Lit web components",
   "type": "module",
   "main": "./dist/candor-web-components.umd.cjs",
