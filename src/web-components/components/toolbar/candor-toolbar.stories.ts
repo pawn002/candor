@@ -6,13 +6,13 @@ const meta: Meta = {
   render: () => ({
     template: `
       <candor-toolbar aria-label="Text formatting">
-        <button>Bold</button>
-        <button>Italic</button>
-        <button>Underline</button>
+        <candor-button variant="ghost" size="small">Bold</candor-button>
+        <candor-button variant="ghost" size="small">Italic</candor-button>
+        <candor-button variant="ghost" size="small">Underline</candor-button>
         <candor-toolbar-separator></candor-toolbar-separator>
-        <button>Align left</button>
-        <button>Center</button>
-        <button>Align right</button>
+        <candor-button variant="ghost" size="small">Align left</candor-button>
+        <candor-button variant="ghost" size="small">Center</candor-button>
+        <candor-button variant="ghost" size="small">Align right</candor-button>
       </candor-toolbar>
     `,
   }),
