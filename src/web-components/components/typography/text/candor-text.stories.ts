@@ -27,6 +27,7 @@ export const AllVariants: Story = {
         <candor-text variant="body">Body — Noto Serif, editorial voice. The quick brown fox jumps over the lazy dog.</candor-text>
         <candor-text variant="caption">Caption — italic serif, supplementary metadata.</candor-text>
         <candor-text variant="label">Label — uppercase Roboto Flex</candor-text>
+        <candor-text variant="label" bold>Label — bold (structural hierarchy)</candor-text>
       </div>
     `,
   }),

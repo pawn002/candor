@@ -37,8 +37,8 @@ export class CandorPagination extends LitElement {
     .pagination__ellipsis { padding: 0 0.25rem; color: var(--color-text-subtle); font-size: var(--font-size-sm); user-select: none; }
   `;
 
-  @property({ type: Number }) currentPage = 1;
-  @property({ type: Number }) totalPages = 1;
+  @property({ type: Number, attribute: 'current-page' }) currentPage = 1;
+  @property({ type: Number, attribute: 'total-pages' }) totalPages = 1;
   @property({ attribute: 'aria-label' }) ariaLabel_ = 'Pagination';
 
   private get _pages(): PageItem[] {

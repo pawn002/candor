@@ -11,6 +11,12 @@ export class CandorSlider extends LitElement {
     .slider-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .slider-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); }
     .slider-row { display: flex; align-items: center; gap: var(--spacing-sm); }
+    .slider-row--gradient {
+      height: 2.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border-default);
+      padding: 0 0.5rem;
+    }
     .slider {
       flex: 1;
       -webkit-appearance: none;
@@ -21,6 +27,10 @@ export class CandorSlider extends LitElement {
       outline: none;
       cursor: pointer;
     }
+    .slider-row--gradient .slider {
+      background: transparent;
+      height: 100%;
+    }
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 1.25rem;
@@ -30,6 +40,11 @@ export class CandorSlider extends LitElement {
       border: 2px solid white;
       box-shadow: 0 1px 4px rgba(0,0,0,0.3);
       cursor: pointer;
+    }
+    .slider-row--gradient .slider::-webkit-slider-thumb {
+      background-color: white;
+      border: 2px solid rgba(0,0,0,0.18);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(0,0,0,0.12);
     }
     .slider::-moz-range-thumb {
       width: 1.25rem;
@@ -53,6 +68,7 @@ export class CandorSlider extends LitElement {
   @property({ attribute: 'aria-label' }) ariaLabel_?: string;
   @property({ type: Boolean }) disabled = false;
   @property({ attribute: 'value-text-fn', type: Object }) valueTextFn?: (v: number) => string;
+  @property() gradient?: string;
 
   private _id = `candor-slider-${Math.random().toString(36).slice(2, 9)}`;
 
@@ -71,10 +87,14 @@ export class CandorSlider extends LitElement {
   }
 
   override render() {
+    const hasGradient = !!this.gradient;
     return html`
       <div class="slider-wrapper">
         ${this.label ? html`<label class="slider-label" for="${this._id}">${this.label}</label>` : nothing}
-        <div class="slider-row">
+        <div
+          class="slider-row${hasGradient ? ' slider-row--gradient' : ''}"
+          style="${hasGradient ? `background: ${this.gradient}` : ''}"
+        >
           <input
             class="slider"
             type="range"
@@ -89,7 +109,7 @@ export class CandorSlider extends LitElement {
             aria-valuetext="${this._valueText}"
             @input="${this._onInput}"
           />
-          <span class="slider-value" aria-hidden="true">${this._valueText}</span>
+          ${!hasGradient ? html`<span class="slider-value" aria-hidden="true">${this._valueText}</span>` : nothing}
         </div>
       </div>
     `;

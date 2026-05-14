@@ -24,6 +24,20 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+export const AllStates: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:1.5rem;max-width:420px;">
+        <candor-input label="Default" placeholder="Enter text"></candor-input>
+        <candor-input label="With hint" hint="This is a helpful hint"></candor-input>
+        <candor-input label="Required field" required></candor-input>
+        <candor-input label="With error" error="This field is required"></candor-input>
+        <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
+      </div>
+    `,
+  }),
+};
+
 export const WithError: Story = {
   render: () => ({
     template: `<candor-input label="Email address" type="email" value="bad@" error="Enter a valid email address."></candor-input>`,
