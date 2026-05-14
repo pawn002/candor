@@ -1,6 +1,118 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(`
+  candor-article {
+    display: block;
+    max-width: 65ch;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text-default);
+  }
+  candor-article.article--font-serif { font-family: var(--font-family-serif); }
+  candor-article.article--font-sans  { font-family: var(--font-family-reading); }
+
+  candor-article h1, candor-article h2, candor-article h3,
+  candor-article h4, candor-article h5, candor-article h6 {
+    font-family: var(--font-family-display);
+    font-weight: var(--font-weight-bold);
+    font-optical-sizing: auto;
+    line-height: var(--line-height-tight);
+    color: var(--color-text-default);
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-sm);
+  }
+  candor-article h1:first-child, candor-article h2:first-child,
+  candor-article h3:first-child, candor-article h4:first-child,
+  candor-article h5:first-child, candor-article h6:first-child { margin-top: 0; }
+
+  candor-article h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); }
+  candor-article h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); }
+  candor-article h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); }
+  candor-article h4 { font-size: var(--font-size-h4); }
+  candor-article h5 { font-size: var(--font-size-base); margin-top: var(--spacing-lg); }
+  candor-article h6 { font-size: 0.875rem; margin-top: var(--spacing-md); }
+
+  candor-article p { margin-bottom: var(--spacing-md); }
+  candor-article p:last-child { margin-bottom: 0; }
+
+  candor-article ul, candor-article ol {
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-md);
+  }
+  candor-article li { margin-bottom: var(--spacing-xs); }
+
+  candor-article blockquote {
+    border-left: var(--border-width-thick) solid var(--color-blockquote-border);
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-style: italic;
+    letter-spacing: var(--letter-spacing-italic);
+    color: var(--color-blockquote-text);
+    background-color: var(--color-blockquote-bg);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  candor-article code {
+    font-family: var(--font-family-mono);
+    font-size: 0.875em;
+    background-color: var(--color-bg-surface);
+    padding: 0.1em 0.35em;
+    border-radius: var(--radius-sm);
+    color: var(--color-highlight);
+  }
+
+  candor-article pre {
+    font-family: var(--font-family-mono);
+    font-size: 0.875rem;
+    line-height: var(--line-height-normal);
+    background-color: var(--color-bg-code);
+    color: var(--color-text-code);
+    border: var(--border-width-thin) solid var(--color-border-code);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin-bottom: var(--spacing-md);
+  }
+  candor-article pre code {
+    background: none;
+    padding: 0;
+    font-size: 1em;
+    color: inherit;
+    border-radius: 0;
+  }
+
+  candor-article a {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    border-bottom: var(--border-width-thin) solid transparent;
+    padding-bottom: 0.15em;
+  }
+  candor-article a:visited {
+    color: var(--color-link-visited);
+    border-bottom-color: var(--color-link-visited);
+  }
+  candor-article a:hover { color: var(--color-link-hover); }
+  candor-article a:focus-visible {
+    outline: var(--focus-ring-width) solid var(--color-focus);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-sm);
+  }
+
+  candor-article hr {
+    border: none;
+    border-top: var(--border-width-thin) solid var(--color-border-default);
+    margin: var(--spacing-xl) 0;
+  }
+
+  candor-article strong { font-weight: var(--font-weight-bold); }
+  candor-article em { font-style: italic; letter-spacing: var(--letter-spacing-italic); }
+`);
+
+document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+
 // Light DOM — disables Shadow DOM so prose styles reach slotted content,
 // equivalent to Angular's ViewEncapsulation.None.
 @customElement('candor-article')

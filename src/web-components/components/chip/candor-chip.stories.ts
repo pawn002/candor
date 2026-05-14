@@ -45,3 +45,18 @@ export const Dismissible: Story = {
     `,
   }),
 };
+
+export const AllVariants: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <candor-chip label="Default"></candor-chip>
+        <candor-chip label="Primary" variant="primary"></candor-chip>
+        <candor-chip label="Secondary" variant="secondary"></candor-chip>
+        <candor-chip label="Success" variant="success"></candor-chip>
+        <candor-chip label="Warning" variant="warning"></candor-chip>
+        <candor-chip label="Error" variant="error"></candor-chip>
+      </div>
+    `,
+  }),
+};

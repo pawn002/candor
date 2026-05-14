@@ -4,14 +4,7 @@ const meta: Meta = {
   title: 'Web Components/Breadcrumb',
   tags: ['autodocs'],
   render: () => ({
-    template: `<candor-breadcrumb id="bc"></candor-breadcrumb>
-    <script>
-      document.getElementById('bc').items = [
-        { label: 'Home', href: '#' },
-        { label: 'Settings', href: '#' },
-        { label: 'Account' }
-      ];
-    </script>`,
+    template: `<candor-breadcrumb items='[{"label":"Home","href":"#"},{"label":"Settings","href":"#"},{"label":"Account"}]'></candor-breadcrumb>`,
   }),
 };
 
