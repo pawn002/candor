@@ -6,7 +6,7 @@ export class CandorSlider extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .slider-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .slider-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); }
@@ -70,7 +70,7 @@ export class CandorSlider extends LitElement {
     this.dispatchEvent(new CustomEvent('value-change', { detail: this.value, bubbles: true, composed: true }));
   }
 
-  render() {
+  override render() {
     return html`
       <div class="slider-wrapper">
         ${this.label ? html`<label class="slider-label" for="${this._id}">${this.label}</label>` : nothing}

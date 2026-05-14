@@ -13,7 +13,7 @@ export class CandorCombobox extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .combobox-wrapper {
       display: flex; flex-direction: column; gap: var(--spacing-xs); position: relative;
@@ -173,16 +173,16 @@ export class CandorCombobox extends LitElement {
     if (this._open && !this.contains(e.target as Node)) this._open = false;
   };
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     document.addEventListener('click', this._onDocumentClick);
   }
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener('click', this._onDocumentClick);
   }
 
-  render() {
+  override render() {
     const filtered = this._filtered;
     return html`
       <div class="combobox-wrapper ${this.disabled ? 'combobox-wrapper--disabled' : ''}">

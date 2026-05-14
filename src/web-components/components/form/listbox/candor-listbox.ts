@@ -14,7 +14,7 @@ export class CandorListbox extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .listbox-wrapper {
       display: flex; flex-direction: column; gap: var(--spacing-xs); position: relative;
@@ -162,16 +162,16 @@ export class CandorListbox extends LitElement {
     if (this._open && !this.contains(e.target as Node)) this._close();
   };
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     document.addEventListener('click', this._onDocumentClick);
   }
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener('click', this._onDocumentClick);
   }
 
-  render() {
+  override render() {
     const selected = this._selectedOption;
     return html`
       <div class="listbox-wrapper ${this.disabled ? 'listbox-wrapper--disabled' : ''}">

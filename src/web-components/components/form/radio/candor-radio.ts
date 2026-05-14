@@ -6,7 +6,7 @@ export class CandorRadio extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static styles = css`
+  static override styles = css`
     :host { display: inline-flex; }
     .radio-wrapper {
       display: inline-flex;
@@ -45,7 +45,7 @@ export class CandorRadio extends LitElement {
     }
   }
 
-  render() {
+  override render() {
     return html`
       <label class="radio-wrapper ${this.disabled ? 'radio-wrapper--disabled' : ''}" for="${this._id}">
         <input

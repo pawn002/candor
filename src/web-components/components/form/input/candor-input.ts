@@ -6,7 +6,7 @@ export class CandorInput extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .input-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .input-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); }
@@ -59,7 +59,7 @@ export class CandorInput extends LitElement {
     this.dispatchEvent(new CustomEvent('input-change', { detail: this.value, bubbles: true, composed: true }));
   }
 
-  render() {
+  override render() {
     const inputCls = ['input', this.error ? 'input--error' : '', this.multiline ? 'input--textarea' : ''].filter(Boolean).join(' ');
     return html`
       <div class="input-wrapper">

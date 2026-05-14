@@ -6,7 +6,7 @@ type BadgeSize = 'sm' | 'md';
 
 @customElement('candor-badge')
 export class CandorBadge extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: inline-flex; }
     .badge {
       display: inline-flex;
@@ -32,7 +32,7 @@ export class CandorBadge extends LitElement {
   @property({ reflect: true }) variant: BadgeVariant = 'default';
   @property({ reflect: true }) size: BadgeSize = 'md';
 
-  render() {
+  override render() {
     return html`<span class="badge badge--${this.variant} badge--${this.size}"><slot></slot></span>`;
   }
 }

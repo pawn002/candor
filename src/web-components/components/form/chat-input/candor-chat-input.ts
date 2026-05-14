@@ -5,7 +5,7 @@ let _nextId = 0;
 
 @customElement('candor-chat-input')
 export class CandorChatInput extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .sr-only {
       position: absolute; width: 1px; height: 1px;
@@ -108,7 +108,7 @@ export class CandorChatInput extends LitElement {
     setTimeout(() => { this._statusMessage = ''; }, 2000);
   }
 
-  render() {
+  override render() {
     return html`
       <div class="chat-input">
         <label for="${this._inputId}" class="chat-input__label">${this.label}</label>

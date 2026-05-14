@@ -6,7 +6,7 @@ type HeadingColor = 'primary' | 'secondary' | 'disabled';
 
 @customElement('candor-heading')
 export class CandorHeading extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       font-family: var(--font-family-base);
@@ -33,17 +33,17 @@ export class CandorHeading extends LitElement {
     return parseInt(this.level.substring(1), 10);
   }
 
-  render() {
+  override render() {
     return html`<slot></slot>`;
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.setAttribute('role', 'heading');
     this.setAttribute('aria-level', String(this._ariaLevel));
   }
 
-  updated(changed: Map<string, unknown>) {
+  override updated(changed: Map<string, unknown>) {
     if (changed.has('level')) {
       this.setAttribute('aria-level', String(this._ariaLevel));
     }

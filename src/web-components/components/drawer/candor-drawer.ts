@@ -6,7 +6,7 @@ type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
 
 @customElement('candor-drawer')
 export class CandorDrawer extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: contents; }
     dialog { border: none; padding: 0; background: transparent; max-width: 100vw; max-height: 100dvh; }
     dialog::backdrop { background-color: var(--color-overlay); }
@@ -56,7 +56,7 @@ export class CandorDrawer extends LitElement {
 
   private _titleId = `drawer-title-${Math.random().toString(36).slice(2, 9)}`;
 
-  updated(changed: Map<string, unknown>) {
+  override updated(changed: Map<string, unknown>) {
     if (changed.has('open')) {
       if (this.open) {
         this._dialog?.showModal();
@@ -76,7 +76,7 @@ export class CandorDrawer extends LitElement {
     if (this.dismissOnBackdrop && e.target === this._dialog) this._close();
   }
 
-  render() {
+  override render() {
     return html`
       <dialog
         class="drawer drawer--${this.position} drawer--${this.size}"

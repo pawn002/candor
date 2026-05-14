@@ -12,7 +12,7 @@ export class CandorSelect extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .select-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .select-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); }
@@ -62,7 +62,7 @@ export class CandorSelect extends LitElement {
     this.dispatchEvent(new CustomEvent('change', { detail: this.value, bubbles: true, composed: true }));
   }
 
-  render() {
+  override render() {
     return html`
       <div class="select-wrapper">
         ${this.label ? html`

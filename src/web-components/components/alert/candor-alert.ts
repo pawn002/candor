@@ -5,7 +5,7 @@ type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 
 @customElement('candor-alert')
 export class CandorAlert extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .alert {
       display: flex;
@@ -76,7 +76,7 @@ export class CandorAlert extends LitElement {
     }
   }
 
-  render() {
+  override render() {
     const role = this.variant === 'warning' || this.variant === 'error' ? 'alert' : 'status';
     return html`
       <div class="alert alert--${this.variant}" role="${role}">

@@ -8,7 +8,7 @@ export interface TableRow {
 
 @customElement('candor-table')
 export class CandorTable extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     table {
       width: 100%;
@@ -84,7 +84,7 @@ export class CandorTable extends LitElement {
   @property({ type: Array }) rows: TableRow[] = [];
   @property({ type: Boolean, reflect: true }) compact = false;
 
-  render() {
+  override render() {
     return html`
       <table>
         ${this.caption ? html`<caption>${this.caption}</caption>` : nothing}

@@ -6,7 +6,7 @@ type ProgressSize = 'sm' | 'md' | 'lg';
 
 @customElement('candor-progress')
 export class CandorProgress extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .progress-bar-wrapper { display: flex; flex-direction: column; gap: 0.375rem; }
     .progress-bar__label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; }
@@ -59,7 +59,7 @@ export class CandorProgress extends LitElement {
 
   private _labelId = `progress-label-${Math.random().toString(36).slice(2, 9)}`;
 
-  render() {
+  override render() {
     if (this.type === 'spinner') {
       return html`
         <svg class="spinner spinner--${this.size}" role="status" aria-label="${this.label || 'Loading'}" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">

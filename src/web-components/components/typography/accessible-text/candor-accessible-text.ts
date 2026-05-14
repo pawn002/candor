@@ -7,7 +7,7 @@ type AccessibleTextColor = 'primary' | 'secondary' | 'disabled' | 'error';
 
 @customElement('candor-accessible-text')
 export class CandorAccessibleText extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: inline; }
     .accessible-text {
       font-family: var(--font-family-accessible);
@@ -32,7 +32,7 @@ export class CandorAccessibleText extends LitElement {
   @property({ reflect: true }) color: AccessibleTextColor = 'primary';
   @property({ type: Boolean }) bold = false;
 
-  render() {
+  override render() {
     const cls = [
       'accessible-text',
       `accessible-text--role-${this.role_}`,

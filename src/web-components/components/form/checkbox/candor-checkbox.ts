@@ -6,7 +6,7 @@ export class CandorCheckbox extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static styles = css`
+  static override styles = css`
     :host { display: inline-flex; }
     .checkbox-wrapper {
       display: inline-flex;
@@ -47,7 +47,7 @@ export class CandorCheckbox extends LitElement {
     this.dispatchEvent(new CustomEvent('change', { detail: this.checked, bubbles: true, composed: true }));
   }
 
-  render() {
+  override render() {
     return html`
       <label class="checkbox-wrapper ${this.disabled ? 'checkbox-wrapper--disabled' : ''}" for="${this._id}">
         <input

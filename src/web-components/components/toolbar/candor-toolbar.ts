@@ -15,7 +15,7 @@ let _nextId = 0;
 
 @customElement('candor-toolbar')
 export class CandorToolbar extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .toolbar {
       display: flex;
@@ -45,7 +45,7 @@ export class CandorToolbar extends LitElement {
     items.forEach((item, i) => item.setAttribute('tabindex', i === 0 ? '0' : '-1'));
   }
 
-  firstUpdated() {
+  override firstUpdated() {
     // Set up roving tabindex after slot content renders
     requestAnimationFrame(() => this._initTabindexes());
   }
@@ -79,7 +79,7 @@ export class CandorToolbar extends LitElement {
     items.forEach(item => item.setAttribute('tabindex', item === focused ? '0' : '-1'));
   }
 
-  render() {
+  override render() {
     return html`
       <div
         role="toolbar"
@@ -99,7 +99,7 @@ export class CandorToolbar extends LitElement {
 
 @customElement('candor-toolbar-separator')
 export class CandorToolbarSeparator extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: inline-flex; align-items: center; }
     .separator {
       width: 1px;
@@ -109,7 +109,7 @@ export class CandorToolbarSeparator extends LitElement {
     }
   `;
 
-  render() {
+  override render() {
     return html`<span role="separator" aria-orientation="vertical" class="separator"></span>`;
   }
 }

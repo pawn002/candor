@@ -16,7 +16,7 @@ export interface GridRow {
 
 @customElement('candor-data-grid')
 export class CandorDataGrid extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .sr-only {
       position: absolute; width: 1px; height: 1px; padding: 0;
@@ -215,7 +215,7 @@ export class CandorDataGrid extends LitElement {
     });
   }
 
-  render() {
+  override render() {
     const hasRowHeaders = this._hasRowHeaders;
     return html`
       <p id="${this._hintId}" class="sr-only">

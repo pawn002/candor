@@ -5,7 +5,7 @@ type ModalSize = 'sm' | 'md' | 'lg';
 
 @customElement('candor-modal')
 export class CandorModal extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: contents; }
     dialog {
       border: none;
@@ -59,7 +59,7 @@ export class CandorModal extends LitElement {
 
   private _titleId = `modal-title-${Math.random().toString(36).slice(2, 9)}`;
 
-  updated(changed: Map<string, unknown>) {
+  override updated(changed: Map<string, unknown>) {
     if (changed.has('open')) {
       if (this.open) {
         this._dialog?.showModal();
@@ -79,7 +79,7 @@ export class CandorModal extends LitElement {
     if (e.target === this._dialog) this._close();
   }
 
-  render() {
+  override render() {
     return html`
       <dialog
         aria-labelledby="${this._titleId}"

@@ -6,7 +6,7 @@ export class CandorSwitch extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static styles = css`
+  static override styles = css`
     :host { display: inline-flex; }
     .switch-wrapper {
       display: inline-flex;
@@ -61,7 +61,7 @@ export class CandorSwitch extends LitElement {
     this.dispatchEvent(new CustomEvent('change', { detail: this.checked, bubbles: true, composed: true }));
   }
 
-  render() {
+  override render() {
     return html`
       <label class="switch-wrapper ${this.disabled ? 'switch-wrapper--disabled' : ''}" for="${this._id}">
         <input

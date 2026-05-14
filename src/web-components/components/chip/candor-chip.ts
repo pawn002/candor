@@ -5,7 +5,7 @@ type ChipVariant = 'default' | 'primary' | 'secondary' | 'success' | 'warning' |
 
 @customElement('candor-chip')
 export class CandorChip extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: inline-flex; }
     .chip {
       display: inline-flex;
@@ -85,7 +85,7 @@ export class CandorChip extends LitElement {
     this.dispatchEvent(new CustomEvent('dismissed', { bubbles: true, composed: true }));
   }
 
-  render() {
+  override render() {
     const cls = [
       'chip',
       `chip--${this.variant}`,

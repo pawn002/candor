@@ -5,7 +5,7 @@ type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
 @customElement('candor-tooltip')
 export class CandorTooltip extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: inline-flex; position: relative; }
     .tooltip__bubble {
       position: absolute;
@@ -33,7 +33,7 @@ export class CandorTooltip extends LitElement {
   @property({ reflect: true }) position: TooltipPosition = 'top';
   @state() private _visible = false;
 
-  render() {
+  override render() {
     return html`
       <slot
         @mouseenter="${() => this._visible = true}"

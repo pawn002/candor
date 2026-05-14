@@ -5,7 +5,7 @@ type StatColor = 'default' | 'success' | 'warning' | 'error' | 'info';
 
 @customElement('candor-stat')
 export class CandorStat extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: flex;
       flex-direction: column;
@@ -48,7 +48,7 @@ export class CandorStat extends LitElement {
   @property() unit?: string;
   @property() label?: string;
 
-  render() {
+  override render() {
     return html`
       ${this.label ? html`<p class="stat__label">${this.label}</p>` : nothing}
       <p class="stat__value" aria-label="${this.unit ? `${this.value} ${this.unit}` : nothing}">

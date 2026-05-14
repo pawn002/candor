@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('candor-accordion-item')
 export class CandorAccordionItem extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     :host(:last-child) .accordion-item { border-bottom: none; }
     .accordion-item { border-bottom: 1px solid var(--color-border-strong); }
@@ -29,7 +29,7 @@ export class CandorAccordionItem extends LitElement {
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ reflect: true }) variant: 'default' | 'subtle' | 'quiet' = 'default';
 
-  render() {
+  override render() {
     const titleCls = [
       'accordion-item__title',
       this.variant === 'subtle' ? 'accordion-item__title--subtle' : '',

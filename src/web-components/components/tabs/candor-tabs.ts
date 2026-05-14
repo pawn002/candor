@@ -8,7 +8,7 @@ export interface TabItem {
 
 @customElement('candor-tabs')
 export class CandorTabs extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .tabs__list {
       display: flex;
@@ -69,19 +69,19 @@ export class CandorTabs extends LitElement {
     }
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     if (!this.activeId && this.tabs.length) this.activeId = this.tabs[0].id;
   }
 
-  updated() {
+  override updated() {
     // Sync panels when tabs/activeId changes
     this.querySelectorAll('candor-tab-panel').forEach((panel: Element) => {
       (panel as CandorTabPanel).active = (panel as CandorTabPanel).panelId === this.activeId;
     });
   }
 
-  render() {
+  override render() {
     const cls = ['tabs', this.theme === 'inverse' ? 'tabs--inverse' : ''].filter(Boolean).join(' ');
     return html`
       <div class="${cls}">
@@ -108,7 +108,7 @@ export class CandorTabs extends LitElement {
 
 @customElement('candor-tab-panel')
 export class CandorTabPanel extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     :host(:not([active])) { display: none; }
   `;
@@ -116,7 +116,7 @@ export class CandorTabPanel extends LitElement {
   @property({ attribute: 'panel-id', reflect: true }) panelId = '';
   @property({ type: Boolean, reflect: true }) active = false;
 
-  render() {
+  override render() {
     return html`<div role="tabpanel" id="panel-${this.panelId}" aria-labelledby="tab-${this.panelId}" tabindex="0"><slot></slot></div>`;
   }
 }

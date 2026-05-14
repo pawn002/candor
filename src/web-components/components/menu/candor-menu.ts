@@ -10,7 +10,7 @@ export type MenuEntry = MenuItem | 'separator';
 
 @customElement('candor-menu')
 export class CandorMenu extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: inline-block; position: relative; }
     .menu-trigger {
       display: inline-flex; align-items: center; gap: 0.4rem;
@@ -108,17 +108,17 @@ export class CandorMenu extends LitElement {
     if (this._open && !this.contains(e.target as Node)) this._close();
   };
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     document.addEventListener('click', this._onDocumentClick);
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener('click', this._onDocumentClick);
   }
 
-  render() {
+  override render() {
     return html`
       <button
         class="menu-trigger"

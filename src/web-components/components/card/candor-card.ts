@@ -6,7 +6,7 @@ type CardPadding = 'none' | 'sm' | 'md' | 'lg';
 
 @customElement('candor-card')
 export class CandorCard extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .card { border-radius: var(--radius-md); }
     .card--default  { background-color: var(--color-bg-surface); }
@@ -45,7 +45,7 @@ export class CandorCard extends LitElement {
   @property({ reflect: true }) variant: CardVariant = 'default';
   @property({ reflect: true }) padding: CardPadding = 'md';
 
-  render() {
+  override render() {
     return html`
       <div class="card card--${this.variant} card--padding-${this.padding}">
         <div class="card__header"><slot name="header"></slot></div>

@@ -6,7 +6,7 @@ type ButtonSize = 'small' | 'medium' | 'large';
 
 @customElement('candor-button')
 export class CandorButton extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: inline-flex; }
     .button {
       font-family: var(--font-family-base);
@@ -60,9 +60,9 @@ export class CandorButton extends LitElement {
   @property({ reflect: true }) size: ButtonSize = 'medium';
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() type: 'button' | 'submit' | 'reset' = 'button';
-  @property({ attribute: 'aria-label' }) ariaLabel: string | null = null;
+  @property({ attribute: 'aria-label' }) override ariaLabel: string | null = null;
 
-  render() {
+  override render() {
     return html`
       <button
         class="button button--${this.variant} button--${this.size}"

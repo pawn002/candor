@@ -8,7 +8,7 @@ export interface BreadcrumbItem {
 
 @customElement('candor-breadcrumb')
 export class CandorBreadcrumb extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .breadcrumb { display: block; }
     .breadcrumb__list {
@@ -36,7 +36,7 @@ export class CandorBreadcrumb extends LitElement {
 
   @property({ type: Array }) items: BreadcrumbItem[] = [];
 
-  render() {
+  override render() {
     return html`
       <nav aria-label="Breadcrumb" class="breadcrumb">
         <ol class="breadcrumb__list">

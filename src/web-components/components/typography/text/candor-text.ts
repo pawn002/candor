@@ -7,7 +7,7 @@ type TextColor = 'primary' | 'secondary' | 'disabled';
 
 @customElement('candor-text')
 export class CandorText extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .text {
       font-weight: var(--font-weight-regular);
@@ -35,7 +35,7 @@ export class CandorText extends LitElement {
   @property({ reflect: true }) color: TextColor = 'primary';
   @property({ type: Boolean }) bold = false;
 
-  render() {
+  override render() {
     const cls = [
       'text',
       `text--${this.variant}`,

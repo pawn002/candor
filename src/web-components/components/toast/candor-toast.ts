@@ -12,7 +12,7 @@ const ICONS: Record<ToastVariant, string> = {
 
 @customElement('candor-toast')
 export class CandorToast extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .toast {
       display: flex;
@@ -51,7 +51,7 @@ export class CandorToast extends LitElement {
   @property() message = '';
   @property({ type: Boolean }) dismissible = true;
 
-  render() {
+  override render() {
     const role = this.variant === 'warning' || this.variant === 'error' ? 'alert' : 'status';
     return html`
       <div class="toast toast--${this.variant}" role="${role}">
@@ -78,7 +78,7 @@ export class CandorToast extends LitElement {
 
 @customElement('candor-toast-container')
 export class CandorToastContainer extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       position: fixed;
       z-index: 2000;
@@ -98,7 +98,7 @@ export class CandorToastContainer extends LitElement {
 
   @property({ reflect: true }) position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
 
-  render() {
+  override render() {
     return html`<slot></slot>`;
   }
 }

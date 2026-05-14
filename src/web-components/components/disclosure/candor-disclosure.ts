@@ -5,7 +5,7 @@ let _nextId = 0;
 
 @customElement('candor-disclosure')
 export class CandorDisclosure extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .disclosure__trigger {
       display: flex; align-items: center; justify-content: space-between;
@@ -34,7 +34,7 @@ export class CandorDisclosure extends LitElement {
     this.dispatchEvent(new CustomEvent('toggle', { detail: this.open, bubbles: true, composed: true }));
   }
 
-  render() {
+  override render() {
     return html`
       <div class="disclosure">
         <button

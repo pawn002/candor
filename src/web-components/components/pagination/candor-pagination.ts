@@ -5,7 +5,7 @@ type PageItem = number | 'ellipsis';
 
 @customElement('candor-pagination')
 export class CandorPagination extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .pagination {
       display: flex;
@@ -62,7 +62,7 @@ export class CandorPagination extends LitElement {
     this.requestUpdate();
   }
 
-  render() {
+  override render() {
     return html`
       <nav aria-label="${this.ariaLabel_}" class="pagination">
         <button class="pagination__btn pagination__prev" ?disabled="${this.currentPage <= 1}" aria-label="Previous page" @click="${() => this._goTo(this.currentPage - 1)}">

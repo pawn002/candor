@@ -11,7 +11,7 @@ export interface NavItem {
 
 @customElement('candor-navigation')
 export class CandorNavigation extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host { display: block; }
     .nav { display: flex; font-family: var(--font-family-base); }
     .nav--horizontal {
@@ -62,7 +62,7 @@ export class CandorNavigation extends LitElement {
   @property({ reflect: true }) theme: 'default' | 'inverse' = 'default';
   @property() brand = '';
 
-  render() {
+  override render() {
     const cls = [
       'nav',
       `nav--${this.orientation}`,
