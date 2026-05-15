@@ -1,14 +1,8 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { phInfoFill, phCheckCircleFill, phWarningFill, phXCircleFill, phX } from '../../icons';
 
 type ToastVariant = 'info' | 'success' | 'warning' | 'error';
-
-const ICONS: Record<ToastVariant, string> = {
-  info:    'ℹ',
-  success: '✓',
-  warning: '⚠',
-  error:   '✕',
-};
 
 @customElement('candor-toast')
 export class CandorToast extends LitElement {
@@ -29,7 +23,7 @@ export class CandorToast extends LitElement {
     .toast--success { background-color: var(--color-status-success-bg); border-color: var(--color-status-success); }
     .toast--warning { background-color: var(--color-status-warning-bg); border-color: var(--color-status-warning); }
     .toast--error   { background-color: var(--color-status-error-bg); border-color: var(--color-status-error); }
-    .toast__icon { flex-shrink: 0; font-size: 1rem; line-height: 1.5; }
+    .toast__icon { flex-shrink: 0; width: 1.25rem; height: 1.25rem; margin-top: 0.125rem; }
     .toast--info    .toast__icon { color: var(--color-text-subtle); }
     .toast--success .toast__icon { color: var(--color-status-success); }
     .toast--warning .toast__icon { color: var(--color-status-warning); }
@@ -51,20 +45,27 @@ export class CandorToast extends LitElement {
   @property() message = '';
   @property({ type: Boolean }) dismissible = true;
 
+  private _iconPath() {
+    switch (this.variant) {
+      case 'info':    return phInfoFill;
+      case 'success': return phCheckCircleFill;
+      case 'warning': return phWarningFill;
+      case 'error':   return phXCircleFill;
+    }
+  }
+
   override render() {
     const role = this.variant === 'warning' || this.variant === 'error' ? 'alert' : 'status';
     return html`
       <div class="toast toast--${this.variant}" role="${role}">
-        <span class="toast__icon" aria-hidden="true">${ICONS[this.variant]}</span>
+        <svg class="toast__icon" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${this._iconPath()}"/></svg>
         <div class="toast__content">
           ${this.heading ? html`<div class="toast__title">${this.heading}</div>` : nothing}
           <div class="toast__message">${this.message}</div>
         </div>
         ${this.dismissible ? html`
           <button class="toast__dismiss" aria-label="Dismiss notification" @click="${this._dismiss}">
-            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phX}"/></svg>
           </button>
         ` : nothing}
       </div>

@@ -1,5 +1,6 @@
-import { LitElement, css, html, svg } from 'lit';
+import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { phInfoFill, phCheckCircleFill, phWarningFill, phXCircleFill, phX } from '../../icons';
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 
@@ -67,12 +68,12 @@ export class CandorAlert extends LitElement {
   @property() message = '';
   @property({ type: Boolean }) dismissible = false;
 
-  private _icon() {
+  private _iconPath() {
     switch (this.variant) {
-      case 'info': return svg`<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>`;
-      case 'success': return svg`<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>`;
-      case 'warning': return svg`<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`;
-      case 'error': return svg`<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>`;
+      case 'info':    return phInfoFill;
+      case 'success': return phCheckCircleFill;
+      case 'warning': return phWarningFill;
+      case 'error':   return phXCircleFill;
     }
   }
 
@@ -80,18 +81,14 @@ export class CandorAlert extends LitElement {
     const role = this.variant === 'warning' || this.variant === 'error' ? 'alert' : 'status';
     return html`
       <div class="alert alert--${this.variant}" role="${role}">
-        <svg class="alert__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          ${this._icon()}
-        </svg>
+        <svg class="alert__icon" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${this._iconPath()}"/></svg>
         <div class="alert__content">
           ${this.heading ? html`<div class="alert__title">${this.heading}</div>` : ''}
           <div class="alert__message"><slot>${this.message}</slot></div>
         </div>
         ${this.dismissible ? html`
           <button class="alert__dismiss" @click="${this._dismiss}" aria-label="Dismiss">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+            <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phX}"/></svg>
           </button>
         ` : ''}
       </div>

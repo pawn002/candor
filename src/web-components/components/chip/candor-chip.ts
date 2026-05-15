@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { phX } from '../../icons';
 
 type ChipVariant = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
 
@@ -104,9 +105,7 @@ export class CandorChip extends LitElement {
         ${body}
         ${this.dismissible && !this.linkHref ? html`
           <button class="chip__dismiss" aria-label="Remove ${this.label}" ?disabled="${this.disabled}" @click="${this._onDismiss}">
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+            <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phX}"/></svg>
           </button>
         ` : nothing}
       </span>

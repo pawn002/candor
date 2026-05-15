@@ -20,6 +20,38 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+export const Checked: Story = { args: { label: 'Accept terms and conditions', checked: true } };
+export const Disabled: Story = { args: { label: 'Cannot select', disabled: true } };
+export const CheckedDisabled: Story = { args: { label: 'Already selected and locked', checked: true, disabled: true } };
+
+export const AllStates: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <candor-checkbox label="Unchecked"></candor-checkbox>
+        <candor-checkbox label="Checked" checked></candor-checkbox>
+        <candor-checkbox label="Disabled unchecked" disabled></candor-checkbox>
+        <candor-checkbox label="Disabled checked" checked disabled></candor-checkbox>
+      </div>
+    `,
+  }),
+};
+
+export const Multiple: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <candor-checkbox label="Option 1" checked></candor-checkbox>
+        <candor-checkbox label="Option 2" checked></candor-checkbox>
+        <candor-checkbox label="Option 3"></candor-checkbox>
+        <candor-checkbox label="Disabled option" disabled></candor-checkbox>
+      </div>
+    `,
+  }),
+};
+
 export const Group: Story = {
   render: () => ({
     template: `

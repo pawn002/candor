@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
+import { phX } from '../../icons';
 
 type DrawerPosition = 'left' | 'right' | 'bottom';
 type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
@@ -90,9 +91,7 @@ export class CandorDrawer extends LitElement {
           <header class="drawer__header" role="none">
             ${this.heading ? html`<h2 class="drawer__title" id="${this._titleId}">${this.heading}</h2>` : html`<span></span>`}
             <button class="drawer__close" type="button" aria-label="Close" @click="${this._close}">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phX}"/></svg>
             </button>
           </header>
           <div class="drawer__body" tabindex="0" aria-label="Drawer content"><slot></slot></div>

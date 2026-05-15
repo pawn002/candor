@@ -12,6 +12,7 @@ const meta: Meta = {
     required: { control: 'boolean' },
     disabled: { control: 'boolean' },
     multiline: { control: 'boolean' },
+    resize: { control: 'select', options: ['none', 'vertical', 'both'] },
   },
   args: { label: 'Email address', placeholder: 'you@example.com', type: 'email', required: false, disabled: false, multiline: false },
   render: (args) => ({
@@ -23,6 +24,26 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+export const Required: Story = {
+  args: { label: 'Username', type: 'text', placeholder: 'Enter username', required: true },
+};
+
+export const Disabled: Story = {
+  args: { label: 'Username', type: 'text', placeholder: 'Cannot edit', disabled: true },
+};
+
+export const Password: Story = {
+  args: { label: 'Password', type: 'password', placeholder: 'Enter password', hint: 'Must be at least 8 characters' },
+};
+
+export const MultilineWithError: Story = {
+  args: { label: 'Description', multiline: true, error: 'Description is required' },
+};
+
+export const MultilineResizeNone: Story = {
+  args: { label: 'Notes', multiline: true, placeholder: 'Fixed height — no resize handle', resize: 'none' },
+};
 
 export const AllStates: Story = {
   render: () => ({

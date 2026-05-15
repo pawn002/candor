@@ -39,6 +39,18 @@ export const Disabled: Story = {
   }),
 };
 
+export const WithDisabledOption: Story = {
+  render: () => ({
+    template: `<candor-select label="Priority" placeholder="Select priority" hint="Critical is currently unavailable" options='[{"value":"low","label":"Low"},{"value":"medium","label":"Medium"},{"value":"high","label":"High"},{"value":"critical","label":"Critical","disabled":true}]'></candor-select>`,
+  }),
+};
+
+export const NoLabel: Story = {
+  render: () => ({
+    template: `<candor-select placeholder="Select an option" options='${COUNTRY_OPTIONS}'></candor-select>`,
+  }),
+};
+
 export const AllStates: Story = {
   render: () => ({
     template: `

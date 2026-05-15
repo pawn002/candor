@@ -24,6 +24,45 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+export const Bottom: Story = {
+  args: { text: 'Opens in a new tab', position: 'bottom' },
+  render: (args) => ({
+    template: `<div style="padding:4rem;display:flex;justify-content:center;"><candor-tooltip text="${args['text']}" position="bottom"><a href="#" style="font-family:var(--font-family-base);color:var(--color-link);">External link</a></candor-tooltip></div>`,
+  }),
+};
+
+export const Left: Story = {
+  args: { text: 'Cannot undo this action', position: 'left' },
+  render: (args) => ({
+    template: `<div style="padding:4rem;display:flex;justify-content:center;"><candor-tooltip text="${args['text']}" position="left"><candor-button variant="destructive">Delete</candor-button></candor-tooltip></div>`,
+  }),
+};
+
+export const Right: Story = {
+  args: { text: 'Keyboard shortcut: ⌘K', position: 'right' },
+  render: (args) => ({
+    template: `<div style="padding:4rem;display:flex;justify-content:center;"><candor-tooltip text="${args['text']}" position="right"><candor-button variant="secondary">Search</candor-button></candor-tooltip></div>`,
+  }),
+};
+
+export const IconButton: Story = {
+  render: () => ({
+    template: `
+      <div style="padding:4rem;display:flex;gap:1rem;">
+        <candor-tooltip text="Edit item" position="top">
+          <button style="padding:0.5rem;background:var(--color-bg-surface);color:var(--color-text-subtle);border:1px solid var(--color-border-default);border-radius:var(--radius-sm);cursor:pointer;display:inline-flex;" aria-label="Edit">✏</button>
+        </candor-tooltip>
+        <candor-tooltip text="Duplicate" position="top">
+          <button style="padding:0.5rem;background:var(--color-bg-surface);color:var(--color-text-subtle);border:1px solid var(--color-border-default);border-radius:var(--radius-sm);cursor:pointer;display:inline-flex;" aria-label="Duplicate">⧉</button>
+        </candor-tooltip>
+        <candor-tooltip text="Delete permanently" position="top">
+          <button style="padding:0.5rem;background:var(--color-bg-surface);color:var(--color-status-error);border:1px solid var(--color-border-default);border-radius:var(--radius-sm);cursor:pointer;display:inline-flex;" aria-label="Delete">🗑</button>
+        </candor-tooltip>
+      </div>
+    `,
+  }),
+};
+
 export const AllPositions: Story = {
   render: () => ({
     template: `

@@ -4,14 +4,29 @@ const meta: Meta = {
   title: 'Web Components/Typography/AccessibleText',
   tags: ['autodocs'],
   argTypes: {
-    role_: { control: 'select', options: ['label', 'message', 'status', 'annotation'] },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    color: { control: 'select', options: ['primary', 'secondary', 'disabled', 'error'] },
-    bold: { control: 'boolean' },
+    role_: {
+      control: 'select',
+      options: ['label', 'message', 'status', 'annotation'],
+      description: 'Functional role in the UI',
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Size override (applied after role defaults)',
+    },
+    color: {
+      control: 'select',
+      options: ['primary', 'secondary', 'disabled', 'error'],
+      description: 'Text color',
+    },
+    bold: {
+      control: 'boolean',
+      description: 'Bold weight — for hierarchy/labels only, not urgency',
+    },
   },
   args: { role_: 'label', size: 'md', color: 'primary', bold: false },
   render: (args) => ({
-    template: `<candor-accessible-text role_="${args['role_']}" size="${args['size']}" color="${args['color']}" ${args['bold'] ? 'bold' : ''}>National Insurance number</candor-accessible-text>`,
+    template: `<candor-accessible-text role_="${args['role_']}" size="${args['size']}" color="${args['color']}" ${args['bold'] ? 'bold' : ''}>Accessible Text Playground</candor-accessible-text>`,
   }),
 };
 
@@ -20,14 +35,192 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const AllRoles: Story = {
+export const StatusMessages: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-direction:column;gap:1rem;">
-        <candor-accessible-text role_="label" bold>Form field label</candor-accessible-text>
-        <candor-accessible-text role_="message">Informational message text</candor-accessible-text>
-        <candor-accessible-text role_="status" color="error">Enter a valid email address.</candor-accessible-text>
-        <candor-accessible-text role_="annotation" color="secondary">Last updated 3 hours ago</candor-accessible-text>
+        <candor-accessible-text role_="status" color="error">✕ Error: This field is required.</candor-accessible-text>
+
+        <div style="background:var(--color-status-warning-bg);padding:0.5rem 0.75rem;border-left:3px solid var(--color-status-warning);border-radius:var(--radius-sm);">
+          <candor-accessible-text role_="message">⚠ Warning: This action cannot be undone.</candor-accessible-text>
+        </div>
+
+        <div style="background:var(--color-status-success-bg);padding:0.5rem 0.75rem;border-left:3px solid var(--color-status-success);border-radius:var(--radius-sm);">
+          <candor-accessible-text role_="message">✓ Success: Your changes have been saved.</candor-accessible-text>
+        </div>
+
+        <candor-accessible-text role_="message" color="secondary">ℹ Your session will expire in 5 minutes.</candor-accessible-text>
+      </div>
+    `,
+  }),
+};
+
+export const FontComparison: Story = {
+  render: () => ({
+    template: `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Roboto Flex</p>
+          <candor-text variant="label" size="sm" bold>FORM LABEL</candor-text>
+          <candor-text variant="body" size="md">The quick brown fox jumps over the lazy dog.</candor-text>
+          <candor-text variant="caption" size="sm" color="secondary">Supplementary annotation for context.</candor-text>
+          <candor-text variant="body" size="sm" color="secondary">Error: This field is required.</candor-text>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible</p>
+          <candor-accessible-text role_="label" bold>FORM LABEL</candor-accessible-text>
+          <candor-accessible-text role_="message">The quick brown fox jumps over the lazy dog.</candor-accessible-text>
+          <candor-accessible-text role_="annotation" color="secondary">Supplementary annotation for context.</candor-accessible-text>
+          <candor-accessible-text role_="status" color="error">Error: This field is required.</candor-accessible-text>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const CriticalFormContext: Story = {
+  render: () => ({
+    template: `
+      <div style="max-width:400px;display:flex;flex-direction:column;gap:1.25rem;">
+        <div style="display:flex;flex-direction:column;gap:0.375rem;">
+          <candor-accessible-text role_="label" bold id="ni-label">National Insurance number</candor-accessible-text>
+          <candor-accessible-text role_="annotation" color="secondary">It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ 12 34 56 C'.</candor-accessible-text>
+          <input
+            type="text"
+            style="border:2px solid var(--color-status-error);border-radius:var(--radius-sm);padding:0.5rem 0.75rem;font-family:var(--font-family-base);font-size:var(--font-size-md);width:100%;box-sizing:border-box;"
+            value="QQ 00 00 00"
+            aria-labelledby="ni-label"
+            aria-describedby="ni-error"
+          />
+          <candor-accessible-text role_="status" color="error" id="ni-error">Enter a National Insurance number in the correct format.</candor-accessible-text>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.375rem;">
+          <candor-accessible-text role_="label" bold id="email-label">Email address</candor-accessible-text>
+          <input
+            type="email"
+            style="border:2px solid var(--color-border-strong);border-radius:var(--radius-sm);padding:0.5rem 0.75rem;font-family:var(--font-family-base);font-size:var(--font-size-md);width:100%;box-sizing:border-box;"
+            value="user@example.com"
+            aria-labelledby="email-label"
+          />
+          <div style="background:var(--color-status-success-bg);padding:0.375rem 0.625rem;border-left:3px solid var(--color-status-success);border-radius:var(--radius-sm);display:inline-block;margin-top:0.25rem;">
+            <candor-accessible-text role_="status">✓ Email verified</candor-accessible-text>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const AllRoles: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+        <div style="display:flex;flex-direction:column;gap:0.25rem;">
+          <p style="font-size:0.7rem;color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="label"</p>
+          <candor-accessible-text role_="label">Section Title / Form Field Label</candor-accessible-text>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.25rem;">
+          <p style="font-size:0.7rem;color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="message"</p>
+          <candor-accessible-text role_="message">System message: Your request has been received and is being processed. You will receive a confirmation email shortly.</candor-accessible-text>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.25rem;">
+          <p style="font-size:0.7rem;color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="status"</p>
+          <candor-accessible-text role_="status" color="error">✕ Validation failed — 3 fields require attention</candor-accessible-text>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.25rem;">
+          <p style="font-size:0.7rem;color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="annotation"</p>
+          <candor-accessible-text role_="annotation" color="secondary">This information is collected under the Data Protection Act 2018. Your data will not be shared with third parties without your consent.</candor-accessible-text>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const AICardMetadataHeaders: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:520px;">
+        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);overflow:hidden;">
+          <div style="padding:var(--spacing-xs) var(--spacing-sm);border-bottom:var(--border-width-thin) solid var(--color-border-subtle);display:flex;gap:var(--spacing-md);">
+            <candor-accessible-text role_="annotation" color="secondary">Model: GPT-4o</candor-accessible-text>
+            <candor-accessible-text role_="annotation" color="secondary">Confidence: High</candor-accessible-text>
+            <candor-accessible-text role_="annotation" color="secondary">Generated 3 min ago</candor-accessible-text>
+          </div>
+          <div style="padding:var(--spacing-sm);">
+            <p style="font-family:var(--font-family-reading);font-size:var(--font-size-md);line-height:var(--line-height-relaxed);margin:0;">The proposed development is consistent with Policy H3 of the Local Plan. No material objections have been identified by statutory consultees.</p>
+          </div>
+        </div>
+        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);overflow:hidden;">
+          <div style="padding:var(--spacing-sm);">
+            <p style="font-family:var(--font-family-reading);font-size:var(--font-size-md);line-height:var(--line-height-relaxed);margin:0;">Traffic modelling suggests peak-hour queuing on the B4632 will increase by approximately 4 minutes under the proposed development scenario.</p>
+          </div>
+          <div style="padding:var(--spacing-xs) var(--spacing-sm);border-top:var(--border-width-thin) solid var(--color-border-subtle);display:flex;gap:var(--spacing-md);">
+            <candor-accessible-text role_="annotation" color="secondary">Source: Transport Assessment §4.2</candor-accessible-text>
+            <candor-accessible-text role_="annotation" color="secondary">Reviewed by planning officer</candor-accessible-text>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const AIConfidenceScores: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:480px;">
+        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:var(--spacing-xs);">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-family:var(--font-family-base);font-size:var(--font-size-md);font-weight:var(--font-weight-semibold);">Supportive</span>
+            <candor-accessible-text role_="annotation" color="secondary">87% confidence</candor-accessible-text>
+          </div>
+          <candor-accessible-text role_="annotation" color="secondary">Sentiment classification · Agenda item 3</candor-accessible-text>
+        </div>
+        <div style="background:var(--color-status-warning-bg);border:var(--border-width-thin) solid var(--color-status-warning);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:var(--spacing-xs);">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-family:var(--font-family-base);font-size:var(--font-size-md);font-weight:var(--font-weight-semibold);">Neutral / Ambiguous</span>
+            <candor-accessible-text role_="annotation" color="secondary">43% confidence</candor-accessible-text>
+          </div>
+          <candor-accessible-text role_="status">Requires human review — confidence below threshold</candor-accessible-text>
+        </div>
+        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:0.375rem;">
+          <candor-accessible-text role_="label" bold>Classification breakdown</candor-accessible-text>
+          <div style="display:flex;justify-content:space-between;">
+            <candor-accessible-text role_="annotation">Supportive</candor-accessible-text>
+            <candor-accessible-text role_="annotation" color="secondary">87%</candor-accessible-text>
+          </div>
+          <div style="display:flex;justify-content:space-between;">
+            <candor-accessible-text role_="annotation">Neutral</candor-accessible-text>
+            <candor-accessible-text role_="annotation" color="secondary">9%</candor-accessible-text>
+          </div>
+          <div style="display:flex;justify-content:space-between;">
+            <candor-accessible-text role_="annotation">Opposed</candor-accessible-text>
+            <candor-accessible-text role_="annotation" color="secondary">4%</candor-accessible-text>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const AIStressContextCounters: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:480px;">
+        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:var(--spacing-xs);">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <candor-accessible-text role_="label" bold>Review queue</candor-accessible-text>
+            <candor-accessible-text role_="status" color="secondary">14 of 47 reviewed</candor-accessible-text>
+          </div>
+          <div style="height:6px;background:var(--color-bg-page);border-radius:var(--radius-full);overflow:hidden;">
+            <div style="height:100%;width:30%;background:var(--color-action-primary);border-radius:var(--radius-full);"></div>
+          </div>
+        </div>
+        <div style="background:var(--color-status-warning-bg);border:var(--border-width-thin) solid var(--color-status-warning);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;align-items:center;gap:var(--spacing-xs);">
+          <candor-accessible-text role_="status">⚠ 3 responses flagged for review</candor-accessible-text>
+        </div>
+        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;align-items:center;gap:var(--spacing-xs);">
+          <candor-accessible-text role_="status">✓ All responses processed — no flags raised</candor-accessible-text>
+        </div>
       </div>
     `,
   }),

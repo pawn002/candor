@@ -21,6 +21,14 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+export const BarDeterminate: Story = { args: { type: 'bar', value: 65, label: 'Upload progress', indeterminate: false } };
+export const BarIndeterminate: Story = { args: { type: 'bar', indeterminate: true, label: 'Loading' }, render: () => ({ template: `<candor-progress type="bar" indeterminate label="Loading"></candor-progress>` }) };
+export const BarEmpty: Story = { args: { type: 'bar', value: 0, label: 'Starting upload' } };
+export const BarComplete: Story = { args: { type: 'bar', value: 100, label: 'Upload complete' } };
+export const SpinnerSm: Story = { args: { type: 'spinner', size: 'sm', label: 'Loading' }, render: () => ({ template: `<candor-progress type="spinner" size="sm" label="Loading"></candor-progress>` }) };
+export const SpinnerMd: Story = { args: { type: 'spinner', size: 'md', label: 'Loading content' }, render: () => ({ template: `<candor-progress type="spinner" size="md" label="Loading content"></candor-progress>` }) };
+export const SpinnerLg: Story = { args: { type: 'spinner', size: 'lg', label: 'Processing' }, render: () => ({ template: `<candor-progress type="spinner" size="lg" label="Processing"></candor-progress>` }) };
+
 export const AllBarStates: Story = {
   render: () => ({
     template: `
@@ -63,6 +71,27 @@ export const Spinners: Story = {
         <candor-progress type="spinner" size="sm" label="Loading"></candor-progress>
         <candor-progress type="spinner" size="md" label="Loading"></candor-progress>
         <candor-progress type="spinner" size="lg" label="Loading"></candor-progress>
+      </div>
+    `,
+  }),
+};
+
+export const AllSpinnerSizes: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;align-items:center;gap:2.5rem;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+          <candor-progress type="spinner" size="sm" label="Loading"></candor-progress>
+          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:0.02em;">Small</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+          <candor-progress type="spinner" size="md" label="Loading"></candor-progress>
+          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:0.02em;">Medium</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+          <candor-progress type="spinner" size="lg" label="Loading"></candor-progress>
+          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:0.02em;">Large</span>
+        </div>
       </div>
     `,
   }),

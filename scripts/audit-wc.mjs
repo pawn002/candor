@@ -13,7 +13,7 @@ mkdirSync(OUT, { recursive: true });
 
 // [name, angularId, wcId]
 const PAIRS = [
-  ['heading',        'typography-heading--all-headings',                 'web-components-typography-heading--all-levels'],
+  ['heading',        'typography-heading--all-headings',                 'web-components-typography-heading--all-headings'],
   ['text',           'typography-text--all-variants',                    'web-components-typography-text--all-variants'],
   ['accessible-text','typography-accessibletext--all-roles',             'web-components-typography-accessibletext--all-roles'],
   ['article',        'typography-article--default',                      'web-components-typography-article--serif'],
@@ -41,7 +41,7 @@ const PAIRS = [
   ['modal',          'components-modal--default',                        'web-components-modal--default'],
   ['drawer',         'components-drawer--default',                       'web-components-drawer--default'],
   ['toast',          'components-toast--all-variants',                   'web-components-toast--all-variants'],
-  ['accordion',      'components-accordion--multiple-items',             'web-components-accordion--default'],
+  ['accordion',      'components-accordion--multiple-items',             'web-components-accordion--multiple-items'],
   ['disclosure',     'components-disclosure--default',                   'web-components-disclosure--default'],
   ['tabs',           'components-tabs--default',                         'web-components-tabs--default'],
   ['menu',           'components-menu--default',                         'web-components-menu--default'],

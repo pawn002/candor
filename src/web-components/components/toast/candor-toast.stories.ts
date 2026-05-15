@@ -32,3 +32,27 @@ export const AllVariants: Story = {
     `,
   }),
 };
+
+export const WithHeading: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <candor-toast variant="info" heading="Information" message="This is an informational message with a heading."></candor-toast>
+        <candor-toast variant="success" heading="Success" message="Your changes have been saved successfully."></candor-toast>
+        <candor-toast variant="warning" heading="Warning" message="Your session will expire in 5 minutes."></candor-toast>
+        <candor-toast variant="error" heading="Error" message="Failed to save changes. Please check your connection."></candor-toast>
+      </div>
+    `,
+  }),
+};
+
+export const Dismissible: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <candor-toast variant="success" heading="File uploaded" message="Your file has been uploaded successfully." dismissible></candor-toast>
+        <candor-toast variant="error" heading="Upload failed" message="The file could not be uploaded. Please try again." dismissible></candor-toast>
+      </div>
+    `,
+  }),
+};

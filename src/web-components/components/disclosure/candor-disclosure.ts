@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { phCaretDownBold } from '../../icons';
 
 let _nextId = 0;
 
@@ -16,7 +17,7 @@ export class CandorDisclosure extends LitElement {
     }
     .disclosure__trigger:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); border-radius: var(--radius-sm); }
     .disclosure__label { flex: 1; }
-    .disclosure__icon { font-size: 1rem; color: var(--color-text-subtle); transition: transform 0.2s ease; flex-shrink: 0; }
+    .disclosure__icon { width: 1rem; height: 1rem; color: var(--color-text-subtle); transition: transform 0.2s ease; flex-shrink: 0; }
     .disclosure__icon--open { transform: rotate(180deg); }
     .disclosure__panel[hidden] { display: none; }
     .disclosure__content { padding-top: var(--spacing-sm); font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-default); line-height: var(--line-height-normal); }
@@ -45,7 +46,7 @@ export class CandorDisclosure extends LitElement {
           @click="${this._toggle}"
         >
           <span class="disclosure__label">${this.label}</span>
-          <span class="disclosure__icon ${this.open ? 'disclosure__icon--open' : ''}" aria-hidden="true">▾</span>
+          <svg class="disclosure__icon ${this.open ? 'disclosure__icon--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
         </button>
         <div class="disclosure__panel" id="${this._panelId}" ?hidden="${!this.open}">
           <div class="disclosure__content"><slot></slot></div>

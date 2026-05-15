@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
+import { phPaperPlaneTiltFill } from '../../../icons';
 
 let _nextId = 0;
 
@@ -132,10 +133,7 @@ export class CandorChatInput extends LitElement {
             aria-label="Send message"
             @click="${this._send}"
           >
-            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="19" x2="12" y2="5"/>
-              <polyline points="5 12 12 5 19 12"/>
-            </svg>
+            <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phPaperPlaneTiltFill}"/></svg>
           </button>
         </div>
         ${this.disclaimer

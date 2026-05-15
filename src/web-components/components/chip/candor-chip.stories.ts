@@ -22,6 +22,19 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+export const SelectableSelected: Story = {
+  args: { label: 'TypeScript', variant: 'primary', selectable: true, selected: true },
+};
+
+export const Link: Story = {
+  args: { label: 'Accessibility', variant: 'default' },
+  render: () => ({ template: `<candor-chip label="Accessibility" link-href="/tags/accessibility/"></candor-chip>` }),
+};
+
+export const Disabled: Story = {
+  args: { label: 'Unavailable', variant: 'default', selectable: true, disabled: true },
+};
+
 export const Selectable: Story = {
   render: () => ({
     template: `
@@ -56,6 +69,49 @@ export const AllVariants: Story = {
         <candor-chip label="Success" variant="success"></candor-chip>
         <candor-chip label="Warning" variant="warning"></candor-chip>
         <candor-chip label="Error" variant="error"></candor-chip>
+      </div>
+    `,
+  }),
+};
+
+export const FilterGroup: Story = {
+  render: () => ({
+    template: `
+      <div role="group" aria-label="Filter by technology" style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        <candor-chip label="Angular" variant="primary" selectable selected></candor-chip>
+        <candor-chip label="React" variant="primary" selectable></candor-chip>
+        <candor-chip label="Vue" variant="primary" selectable></candor-chip>
+        <candor-chip label="Svelte" variant="primary" selectable></candor-chip>
+        <candor-chip label="Solid" variant="primary" selectable disabled></candor-chip>
+      </div>
+    `,
+  }),
+};
+
+export const TagList: Story = {
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        <candor-chip label="accessibility" variant="default" dismissible></candor-chip>
+        <candor-chip label="design-system" variant="primary" dismissible></candor-chip>
+        <candor-chip label="angular" variant="secondary" dismissible></candor-chip>
+        <candor-chip label="wcag" variant="success" dismissible></candor-chip>
+        <candor-chip label="oklch" variant="primary" dismissible></candor-chip>
+      </div>
+    `,
+  }),
+};
+
+export const TaxonomyLinks: Story = {
+  name: 'Taxonomy Links',
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        <candor-chip label="Accessibility" variant="default" link-href="/tags/accessibility/"></candor-chip>
+        <candor-chip label="Design Systems" variant="primary" link-href="/tags/design-systems/"></candor-chip>
+        <candor-chip label="Angular" variant="secondary" link-href="/tags/angular/"></candor-chip>
+        <candor-chip label="WCAG" variant="success" link-href="/tags/wcag/"></candor-chip>
+        <candor-chip label="OKLCH" variant="default" link-href="/tags/oklch/"></candor-chip>
       </div>
     `,
   }),

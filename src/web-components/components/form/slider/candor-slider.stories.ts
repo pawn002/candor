@@ -30,6 +30,16 @@ export const Percentage: Story = {
   }),
 };
 
+export const GradientTrack: Story = {
+  name: 'Gradient track — OKLCH lightness axis',
+  render: () => ({
+    template: `<candor-slider id="grad-slider" label="Lightness — hold C and H" min="0" max="1" step="0.001" value="0.55" gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))"></candor-slider>
+    <script>
+      document.getElementById('grad-slider').valueTextFn = (v) => (v * 100).toFixed(0) + '%';
+    </script>`,
+  }),
+};
+
 export const AllVariants: Story = {
   render: () => ({
     template: `
