@@ -2,7 +2,15 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
 export default defineConfig({
-  plugins: [dts({ include: ['src/web-components'], outDir: 'web-components/dist', tsconfigPath: './tsconfig.wc.json' })],
+  publicDir: false,
+  plugins: [
+    dts({
+      include: ['src/web-components'],
+      exclude: ['**/*.stories.ts'],
+      outDir: 'web-components/dist',
+      tsconfigPath: './tsconfig.wc.json',
+    }),
+  ],
   build: {
     lib: {
       entry: 'src/web-components/index.ts',

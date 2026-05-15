@@ -80,11 +80,10 @@ import '@candor-design/web-components';
 // All 34 custom elements are now registered
 ```
 
-#### Tree-shaking
+Named exports are also available for direct class access (e.g. typed references, programmatic instantiation). Importing any class still triggers the package's side-effectful `customElements.define()` calls, so the corresponding tag is also registered:
 
 ```js
-import '@candor-design/web-components/dist/components/button/candor-button';
-import '@candor-design/web-components/dist/components/badge/candor-badge';
+import { CandorButton, CandorBadge } from '@candor-design/web-components';
 ```
 
 ---

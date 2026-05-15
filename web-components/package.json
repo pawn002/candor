@@ -1,19 +1,44 @@
 {
   "name": "@candor-design/web-components",
   "version": "3.0.0",
-  "description": "Candor design system — Lit web components",
+  "description": "Candor design system — Lit 3 custom elements. Framework-agnostic web components paired with @candor-design/tokens.",
   "type": "module",
   "main": "./dist/candor-web-components.umd.cjs",
   "module": "./dist/candor-web-components.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/candor-web-components.js",
       "require": "./dist/candor-web-components.umd.cjs"
     }
   },
-  "files": ["dist"],
-  "keywords": ["web-components", "lit", "design-system", "candor"],
+  "files": ["dist", "README.md"],
+  "sideEffects": true,
+  "keywords": [
+    "web-components",
+    "custom-elements",
+    "lit",
+    "design-system",
+    "candor",
+    "oklch",
+    "accessibility"
+  ],
+  "author": "John Z. Rioflorido",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pawn002/candor.git",
+    "directory": "web-components"
+  },
+  "bugs": {
+    "url": "https://github.com/pawn002/candor/issues"
+  },
+  "homepage": "https://github.com/pawn002/candor#readme",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "peerDependencies": {
     "@candor-design/tokens": ">=3.0.0"
   }
