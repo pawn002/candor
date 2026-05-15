@@ -16,18 +16,24 @@ let _nextId = 0;
 @customElement('candor-toolbar')
 export class CandorToolbar extends LitElement {
   static override styles = css`
+    *, ::before, ::after { box-sizing: border-box; }
     :host { display: block; }
     .toolbar {
-      display: flex;
+      display: inline-flex;
       flex-direction: row;
       align-items: center;
-      gap: var(--spacing-xs);
-      padding: var(--spacing-xs) var(--spacing-sm);
-      background-color: var(--color-bg-surface);
+      gap: var(--spacing-2xs);
+      padding: var(--spacing-2xs);
+      background: var(--color-bg-surface);
       border: var(--border-width-thin) solid var(--color-border-default);
       border-radius: var(--radius-md);
     }
-    .toolbar--vertical { flex-direction: column; align-items: flex-start; }
+    .toolbar--vertical {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: fit-content;
+    }
   `;
 
   @property({ attribute: 'aria-label' }) ariaLabel_ = '';
@@ -100,17 +106,33 @@ export class CandorToolbar extends LitElement {
 @customElement('candor-toolbar-separator')
 export class CandorToolbarSeparator extends LitElement {
   static override styles = css`
-    :host { display: inline-flex; align-items: center; }
+    *, ::before, ::after { box-sizing: border-box; }
+    :host { display: contents; }
     .separator {
-      width: 1px;
-      height: 1.5rem;
-      background-color: var(--color-border-default);
-      margin: 0 var(--spacing-xs);
+      flex-shrink: 0;
+      align-self: stretch;
+      width: var(--border-width-thin);
+      background-color: var(--color-border-strong);
+      margin: var(--spacing-2xs) var(--spacing-xs);
+    }
+    .separator--horizontal {
+      width: auto;
+      height: var(--border-width-thin);
+      align-self: auto;
+      margin: var(--spacing-xs) var(--spacing-2xs);
     }
   `;
 
+  @property({ reflect: true }) orientation: 'vertical' | 'horizontal' = 'vertical';
+
   override render() {
-    return html`<span role="separator" aria-orientation="vertical" class="separator"></span>`;
+    return html`
+      <span
+        role="separator"
+        aria-orientation="${this.orientation}"
+        class="separator ${this.orientation === 'horizontal' ? 'separator--horizontal' : ''}"
+      ></span>
+    `;
   }
 }
 

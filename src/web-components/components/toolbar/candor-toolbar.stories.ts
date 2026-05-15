@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 
+const BTN = 'btn btn-ghost btn-sm';
+
 const meta: Meta = {
   title: 'Web Components/Toolbar',
   tags: ['autodocs'],
@@ -11,9 +13,18 @@ const meta: Meta = {
   render: (args) => ({
     template: `
       <candor-toolbar aria-label="${args['ariaLabel']}" orientation="${args['orientation']}">
-        <candor-button variant="ghost" size="small">Bold</candor-button>
-        <candor-button variant="ghost" size="small">Italic</candor-button>
-        <candor-button variant="ghost" size="small">Underline</candor-button>
+        <button class="${BTN}" type="button" aria-label="Bold" title="Bold">
+          <i class="ph-bold ph-text-b" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Italic" title="Italic">
+          <i class="ph ph-text-italic" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Underline" title="Underline">
+          <i class="ph ph-text-underline" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Strikethrough" title="Strikethrough">
+          <i class="ph ph-text-strikethrough" aria-hidden="true"></i>
+        </button>
       </candor-toolbar>
     `,
   }),
@@ -29,16 +40,36 @@ export const WithSeparators: Story = {
   render: () => ({
     template: `
       <candor-toolbar aria-label="Text formatting">
-        <candor-button variant="ghost" size="small" aria-label="Bold">B</candor-button>
-        <candor-button variant="ghost" size="small" aria-label="Italic">I</candor-button>
-        <candor-button variant="ghost" size="small" aria-label="Underline">U</candor-button>
+        <button class="${BTN}" type="button" aria-label="Bold" title="Bold">
+          <i class="ph-bold ph-text-b" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Italic" title="Italic">
+          <i class="ph ph-text-italic" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Underline" title="Underline">
+          <i class="ph ph-text-underline" aria-hidden="true"></i>
+        </button>
+
         <candor-toolbar-separator></candor-toolbar-separator>
-        <candor-button variant="ghost" size="small" aria-label="Align left">←</candor-button>
-        <candor-button variant="ghost" size="small" aria-label="Align center">↔</candor-button>
-        <candor-button variant="ghost" size="small" aria-label="Align right">→</candor-button>
+
+        <button class="${BTN}" type="button" aria-label="Align left" title="Align left">
+          <i class="ph ph-text-align-left" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Align center" title="Align center">
+          <i class="ph ph-text-align-center" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Align right" title="Align right">
+          <i class="ph ph-text-align-right" aria-hidden="true"></i>
+        </button>
+
         <candor-toolbar-separator></candor-toolbar-separator>
-        <candor-button variant="ghost" size="small" aria-label="Bulleted list">• List</candor-button>
-        <candor-button variant="ghost" size="small" aria-label="Numbered list">1. List</candor-button>
+
+        <button class="${BTN}" type="button" aria-label="Bulleted list" title="Bulleted list">
+          <i class="ph ph-list-bullets" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Numbered list" title="Numbered list">
+          <i class="ph ph-list-numbers" aria-hidden="true"></i>
+        </button>
       </candor-toolbar>
     `,
   }),
@@ -49,49 +80,27 @@ export const WithToggleButtons: Story = {
   render: () => ({
     template: `
       <candor-toolbar aria-label="Text formatting">
-        <button
-          type="button"
-          aria-label="Bold"
-          aria-pressed="true"
-          title="Bold (active)"
-          style="padding:0 0.5rem;height:2rem;border:none;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-family-base);font-weight:bold;background:var(--color-bg-elevated);color:var(--color-action-primary);"
-        >B</button>
-        <button
-          type="button"
-          aria-label="Italic"
-          aria-pressed="false"
-          title="Italic"
-          style="padding:0 0.5rem;height:2rem;border:none;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-family-base);font-style:italic;background:transparent;color:var(--color-text-default);"
-        >I</button>
-        <button
-          type="button"
-          aria-label="Underline"
-          aria-pressed="false"
-          title="Underline"
-          style="padding:0 0.5rem;height:2rem;border:none;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-family-base);text-decoration:underline;background:transparent;color:var(--color-text-default);"
-        >U</button>
+        <button class="${BTN}" type="button" aria-label="Bold" aria-pressed="true" title="Bold (active)"
+                style="background: var(--color-bg-elevated); color: var(--color-action-primary);">
+          <i class="ph-bold ph-text-b" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Italic" aria-pressed="false" title="Italic">
+          <i class="ph ph-text-italic" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Underline" aria-pressed="false" title="Underline">
+          <i class="ph ph-text-underline" aria-hidden="true"></i>
+        </button>
         <candor-toolbar-separator></candor-toolbar-separator>
-        <button
-          type="button"
-          aria-label="Align left"
-          aria-pressed="true"
-          title="Align left (active)"
-          style="padding:0 0.5rem;height:2rem;border:none;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-family-base);background:var(--color-bg-elevated);color:var(--color-action-primary);"
-        >←</button>
-        <button
-          type="button"
-          aria-label="Align center"
-          aria-pressed="false"
-          title="Align center"
-          style="padding:0 0.5rem;height:2rem;border:none;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-family-base);background:transparent;color:var(--color-text-default);"
-        >↔</button>
-        <button
-          type="button"
-          aria-label="Align right"
-          aria-pressed="false"
-          title="Align right"
-          style="padding:0 0.5rem;height:2rem;border:none;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-family-base);background:transparent;color:var(--color-text-default);"
-        >→</button>
+        <button class="${BTN}" type="button" aria-label="Align left" aria-pressed="true" title="Align left (active)"
+                style="background: var(--color-bg-elevated); color: var(--color-action-primary);">
+          <i class="ph ph-text-align-left" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Align center" aria-pressed="false" title="Align center">
+          <i class="ph ph-text-align-center" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Align right" aria-pressed="false" title="Align right">
+          <i class="ph ph-text-align-right" aria-hidden="true"></i>
+        </button>
       </candor-toolbar>
     `,
   }),
@@ -101,12 +110,23 @@ export const Vertical: Story = {
   render: () => ({
     template: `
       <candor-toolbar aria-label="Drawing tools" orientation="vertical">
-        <candor-button variant="ghost" size="small" aria-label="Select" aria-pressed="true">Select</candor-button>
-        <candor-button variant="ghost" size="small" aria-label="Pan" aria-pressed="false">Pan</candor-button>
-        <candor-button variant="ghost" size="small" aria-label="Pencil" aria-pressed="false">Pencil</candor-button>
+        <button class="${BTN}" type="button" aria-label="Select" aria-pressed="true" title="Select"
+                style="background: var(--color-bg-elevated); color: var(--color-action-primary);">
+          <i class="ph ph-cursor" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Pan" aria-pressed="false" title="Pan">
+          <i class="ph ph-hand" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Pencil" aria-pressed="false" title="Pencil">
+          <i class="ph ph-pencil" aria-hidden="true"></i>
+        </button>
         <candor-toolbar-separator orientation="horizontal"></candor-toolbar-separator>
-        <candor-button variant="ghost" size="small" aria-label="Zoom in">+</candor-button>
-        <candor-button variant="ghost" size="small" aria-label="Zoom out">−</candor-button>
+        <button class="${BTN}" type="button" aria-label="Zoom in" title="Zoom in">
+          <i class="ph ph-magnifying-glass-plus" aria-hidden="true"></i>
+        </button>
+        <button class="${BTN}" type="button" aria-label="Zoom out" title="Zoom out">
+          <i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>
+        </button>
       </candor-toolbar>
     `,
   }),
@@ -116,15 +136,30 @@ export const DataTableActions: Story = {
   name: 'Data table actions',
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:640px;">
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); max-width: 640px;">
         <candor-toolbar aria-label="Table actions">
-          <candor-button variant="ghost" size="small">Filter</candor-button>
-          <candor-button variant="ghost" size="small">Sort</candor-button>
+          <button class="${BTN}" type="button" title="Filter rows">
+            <i class="ph ph-funnel" aria-hidden="true"></i>
+            Filter
+          </button>
+          <button class="${BTN}" type="button" title="Sort columns">
+            <i class="ph ph-sort-ascending" aria-hidden="true"></i>
+            Sort
+          </button>
           <candor-toolbar-separator></candor-toolbar-separator>
-          <candor-button variant="ghost" size="small" aria-label="Export as CSV">Export</candor-button>
-          <candor-button variant="ghost" size="small" aria-label="Toggle column visibility">Columns</candor-button>
+          <button class="${BTN}" type="button" aria-label="Export as CSV" title="Export CSV">
+            <i class="ph ph-export" aria-hidden="true"></i>
+            Export
+          </button>
+          <button class="${BTN}" type="button" aria-label="Toggle column visibility" title="Columns">
+            <i class="ph ph-columns" aria-hidden="true"></i>
+            Columns
+          </button>
         </candor-toolbar>
-        <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:var(--spacing-md);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">↑ Table content would appear here</div>
+        <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: var(--spacing-md);
+                    font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">
+          ↑ Table content would appear here
+        </div>
       </div>
     `,
   }),
