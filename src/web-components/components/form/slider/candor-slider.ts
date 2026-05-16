@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('candor-slider')
 export class CandorSlider extends LitElement {
@@ -7,57 +7,115 @@ export class CandorSlider extends LitElement {
   private _internals = this.attachInternals();
 
   static override styles = css`
-    :host { display: block; }
-    .slider-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
-    .slider-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); }
-    .slider-row { display: flex; align-items: center; gap: var(--spacing-sm); }
-    .slider-row--gradient {
+    :host {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+    :host([disabled]) { opacity: 0.5; pointer-events: none; }
+    .slider__label {
+      font-family: var(--font-family-accessible);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-default);
+      letter-spacing: 0.02em;
+    }
+    .slider__row {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    .slider__track {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+    .slider__track--gradient {
       height: 2.75rem;
       border-radius: var(--radius-sm);
       border: 1px solid var(--color-border-default);
       padding: 0 0.5rem;
     }
-    .slider {
-      flex: 1;
+    .slider__input {
       -webkit-appearance: none;
       appearance: none;
-      height: 4px;
-      border-radius: var(--radius-full);
-      background: linear-gradient(to right, var(--color-action-primary) var(--fill-percent, 0%), var(--color-border-default) var(--fill-percent, 0%));
-      outline: none;
-      cursor: pointer;
-    }
-    .slider-row--gradient .slider {
+      width: 100%;
       background: transparent;
-      height: 100%;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
     }
-    .slider::-webkit-slider-thumb {
+    .slider__input::-webkit-slider-runnable-track {
+      height: 4px;
+      border-radius: 99px;
+      background: linear-gradient(
+        to right,
+        var(--color-action-primary) var(--fill-percent, 50%),
+        var(--color-border-strong) var(--fill-percent, 50%)
+      );
+    }
+    .slider__track--gradient .slider__input::-webkit-slider-runnable-track {
+      background: transparent;
+    }
+    .slider__input::-moz-range-track {
+      height: 4px;
+      border-radius: 99px;
+      background: linear-gradient(
+        to right,
+        var(--color-action-primary) var(--fill-percent, 50%),
+        var(--color-border-strong) var(--fill-percent, 50%)
+      );
+    }
+    .slider__track--gradient .slider__input::-moz-range-track {
+      background: transparent;
+    }
+    .slider__input::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1.375rem;
+      height: 1.375rem;
+      margin-top: calc((1.375rem - 4px) / -2);
       border-radius: 50%;
-      background-color: var(--color-action-primary);
-      border: 2px solid white;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      background: #ffffff;
+      border: 2px solid rgba(0, 0, 0, 0.18);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(0, 0, 0, 0.12);
       cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
-    .slider-row--gradient .slider::-webkit-slider-thumb {
-      background-color: white;
-      border: 2px solid rgba(0,0,0,0.18);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(0,0,0,0.12);
+    .slider__input:hover:not(:disabled)::-webkit-slider-thumb {
+      transform: scale(1.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
     }
-    .slider::-moz-range-thumb {
-      width: 1.25rem;
-      height: 1.25rem;
+    .slider__input::-moz-range-thumb {
+      width: 1.375rem;
+      height: 1.375rem;
       border-radius: 50%;
-      background-color: var(--color-action-primary);
-      border: 2px solid white;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      background: #ffffff;
+      border: 2px solid rgba(0, 0, 0, 0.18);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(0, 0, 0, 0.12);
       cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
-    .slider:focus-visible::-webkit-slider-thumb { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: 2px; }
-    .slider:disabled { opacity: 0.5; cursor: not-allowed; }
-    .slider-value { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); min-width: 3ch; text-align: right; }
+    .slider__input:hover:not(:disabled)::-moz-range-thumb {
+      transform: scale(1.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+    }
+    .slider__input:focus { outline: none; }
+    .slider__input:focus-visible::-webkit-slider-thumb {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+    }
+    .slider__input:focus-visible::-moz-range-thumb {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+    }
+    .slider__input:disabled { cursor: not-allowed; }
+    .slider__value {
+      font-family: var(--font-family-accessible);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-subtle);
+      min-width: 3ch;
+      text-align: right;
+    }
   `;
 
   @property({ type: Number }) min = 0;
@@ -66,7 +124,7 @@ export class CandorSlider extends LitElement {
   @property({ type: Number }) value = 0;
   @property() label?: string;
   @property({ attribute: 'aria-label' }) ariaLabel_?: string;
-  @property({ type: Boolean }) disabled = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ attribute: 'value-text-fn', type: Object }) valueTextFn?: (v: number) => string;
   @property() gradient?: string;
 
@@ -89,14 +147,14 @@ export class CandorSlider extends LitElement {
   override render() {
     const hasGradient = !!this.gradient;
     return html`
-      <div class="slider-wrapper">
-        ${this.label ? html`<label class="slider-label" for="${this._id}">${this.label}</label>` : nothing}
+      ${this.label ? html`<label class="slider__label" for="${this._id}">${this.label}</label>` : nothing}
+      <div class="slider__row">
         <div
-          class="slider-row${hasGradient ? ' slider-row--gradient' : ''}"
+          class="slider__track${hasGradient ? ' slider__track--gradient' : ''}"
           style="${hasGradient ? `background: ${this.gradient}` : ''}"
         >
           <input
-            class="slider"
+            class="slider__input"
             type="range"
             id="${this._id}"
             .min="${String(this.min)}"
@@ -109,8 +167,8 @@ export class CandorSlider extends LitElement {
             aria-valuetext="${this._valueText}"
             @input="${this._onInput}"
           />
-          ${!hasGradient ? html`<span class="slider-value" aria-hidden="true">${this._valueText}</span>` : nothing}
         </div>
+        ${!hasGradient ? html`<span class="slider__value" aria-hidden="true">${this._valueText}</span>` : nothing}
       </div>
     `;
   }

@@ -11,26 +11,61 @@ export class CandorCheckbox extends LitElement {
     .checkbox-wrapper {
       display: inline-flex;
       align-items: center;
-      gap: var(--spacing-xs);
+      gap: var(--spacing-sm);
       cursor: pointer;
-      font-family: var(--font-family-accessible);
-      font-size: var(--font-size-md);
-      color: var(--color-text-default);
+      position: relative;
     }
     .checkbox-wrapper--disabled { opacity: 0.5; cursor: not-allowed; }
-    .checkbox {
-      width: 1.125rem;
-      height: 1.125rem;
-      flex-shrink: 0;
+    .checkbox-input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .checkbox-input:focus-visible + .checkbox-box {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+    }
+    .checkbox-input:checked + .checkbox-box {
+      background-color: var(--color-action-primary);
+      border-color: var(--color-action-primary);
+    }
+    .checkbox-input:checked + .checkbox-box::after {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 2px;
+      width: 6px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .checkbox-input:disabled + .checkbox-box {
+      background-color: var(--color-bg-surface);
+      border-color: var(--color-border-default);
+      cursor: not-allowed;
+    }
+    .checkbox-box {
+      width: 20px;
+      height: 20px;
       border: var(--border-width-medium) solid var(--color-border-control);
       border-radius: var(--radius-sm);
       background-color: var(--color-bg-page);
-      cursor: pointer;
-      accent-color: var(--color-action-primary);
+      position: relative;
+      flex-shrink: 0;
+      transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
     }
-    .checkbox:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .checkbox:disabled { cursor: not-allowed; }
-    .checkbox-label { letter-spacing: 0.02em; }
+    .checkbox-box:hover {
+      border-color: var(--color-action-primary);
+    }
+    .checkbox-label {
+      font-family: var(--font-family-accessible);
+      font-size: var(--font-size-md);
+      color: var(--color-text-default);
+      user-select: none;
+      letter-spacing: 0.02em;
+    }
   `;
 
   @property() label?: string;
@@ -51,7 +86,7 @@ export class CandorCheckbox extends LitElement {
     return html`
       <label class="checkbox-wrapper ${this.disabled ? 'checkbox-wrapper--disabled' : ''}" for="${this._id}">
         <input
-          class="checkbox"
+          class="checkbox-input"
           type="checkbox"
           id="${this._id}"
           ?checked="${this.checked}"
@@ -60,6 +95,7 @@ export class CandorCheckbox extends LitElement {
           name="${this.name || nothing}"
           @change="${this._onChange}"
         />
+        <span class="checkbox-box"></span>
         ${this.label ? html`<span class="checkbox-label">${this.label}</span>` : nothing}
         <slot></slot>
       </label>

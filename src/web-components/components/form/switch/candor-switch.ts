@@ -7,43 +7,68 @@ export class CandorSwitch extends LitElement {
   private _internals = this.attachInternals();
 
   static override styles = css`
-    :host { display: inline-flex; }
+    :host { display: inline-block; }
     .switch-wrapper {
       display: inline-flex;
       align-items: center;
-      gap: var(--spacing-xs);
+      gap: var(--spacing-sm);
       cursor: pointer;
-      font-family: var(--font-family-accessible);
-      font-size: var(--font-size-md);
     }
     .switch-wrapper--disabled { opacity: 0.5; cursor: not-allowed; }
-    .switch-input { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
+    .switch-input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .switch-input:focus-visible + .switch-track {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+    }
+    .switch-input:checked + .switch-track {
+      background-color: var(--color-action-primary);
+      border-color: var(--color-action-primary);
+    }
+    .switch-input:checked + .switch-track .switch-thumb {
+      background-color: var(--color-text-on-action);
+      transform: translateX(20px);
+    }
+    .switch-input:disabled + .switch-track {
+      background-color: var(--color-bg-surface);
+      border-color: var(--color-border-default);
+      cursor: not-allowed;
+    }
     .switch-track {
-      position: relative;
       display: inline-flex;
       align-items: center;
-      width: 2.75rem;
-      height: 1.5rem;
+      width: 44px;
+      height: 24px;
+      border-radius: var(--radius-full);
+      background-color: var(--color-bg-surface);
+      border: var(--border-width-medium) solid var(--color-border-control);
+      padding: 3px;
+      flex-shrink: 0;
+      transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+      box-sizing: border-box;
+    }
+    .switch-track:hover {
+      border-color: var(--color-action-primary);
+    }
+    .switch-thumb {
+      width: 18px;
+      height: 18px;
       border-radius: var(--radius-full);
       background-color: var(--color-border-control);
-      transition: background-color 0.2s ease;
+      transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
       flex-shrink: 0;
     }
-    .switch-input:checked + .switch-track { background-color: var(--color-action-primary); }
-    .switch-input:focus-visible + .switch-track { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .switch-thumb {
-      position: absolute;
-      left: 0.2rem;
-      width: 1.1rem;
-      height: 1.1rem;
-      border-radius: 50%;
-      background-color: white;
-      transition: transform 0.2s ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    .switch-label {
+      font-family: var(--font-family-accessible);
+      font-size: var(--font-size-md);
+      color: var(--color-text-default);
+      user-select: none;
+      letter-spacing: 0.02em;
     }
-    .switch-input:checked ~ .switch-thumb,
-    .switch-input:checked + .switch-track .switch-thumb { transform: translateX(1.25rem); }
-    .switch-label { color: var(--color-text-default); letter-spacing: 0.02em; }
   `;
 
   @property() label?: string;

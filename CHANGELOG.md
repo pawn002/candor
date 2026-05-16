@@ -15,6 +15,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - `candor-article` uses light DOM (`createRenderRoot()`) so prose styles reach projected content, equivalent to Angular's `ViewEncapsulation.None`
   - Stories appear alongside Angular stories in Storybook under the `Web Components/` category
   - Build: `npm run build:wc` — Vite lib build producing ESM (165 kB) and UMD (151 kB) bundles with declaration files
+  - **Form control parity:** `candor-checkbox`, `candor-radio`, `candor-switch`, and `candor-slider` now match the Angular rendering primitive. Checkbox/radio use the hidden-input + sibling-span pattern (20×20 box, CSS-drawn check/dot, hover state) instead of `accent-color` on the native input. Switch track uses `--color-bg-surface` + bordered shell with hover, and the thumb changes color on `:checked`. Slider thumb is white-with-shadow at 1.375rem with hover scale, and the track gradient is on `::-webkit-slider-runnable-track`
 
 ---
 
