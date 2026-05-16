@@ -9,18 +9,47 @@ export class CandorDisclosure extends LitElement {
   static override styles = css`
     :host { display: block; }
     .disclosure__trigger {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 0.5rem; width: 100%; padding: 0;
-      background: none; border: none; cursor: pointer;
-      font-family: var(--font-family-base); font-size: var(--font-size-md);
-      color: var(--color-text-default); text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-sm) 0;
+      border: none;
+      border-bottom: 1px solid var(--color-border-subtle);
+      background: transparent;
+      color: var(--color-text-default);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--line-height-tight);
+      cursor: pointer;
+      text-align: left;
     }
-    .disclosure__trigger:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); border-radius: var(--radius-sm); }
+    .disclosure__trigger:hover { color: var(--color-action-primary); }
+    .disclosure__trigger:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+      border-radius: var(--radius-sm);
+    }
     .disclosure__label { flex: 1; }
-    .disclosure__icon { width: 1rem; height: 1rem; color: var(--color-text-subtle); transition: transform 0.2s ease; flex-shrink: 0; }
+    .disclosure__icon {
+      flex-shrink: 0;
+      width: 1rem;
+      height: 1rem;
+      color: var(--color-text-subtle);
+      transition: transform 200ms ease;
+    }
     .disclosure__icon--open { transform: rotate(180deg); }
+    .disclosure__panel { overflow: hidden; }
     .disclosure__panel[hidden] { display: none; }
-    .disclosure__content { padding-top: var(--spacing-sm); font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-default); line-height: var(--line-height-normal); }
+    .disclosure__content {
+      padding: var(--spacing-sm) 0;
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-md);
+      color: var(--color-text-default);
+      line-height: var(--line-height-relaxed);
+    }
   `;
 
   @property() label = '';

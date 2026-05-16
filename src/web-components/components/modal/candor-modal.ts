@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { phX } from '../../icons';
 
 type ModalSize = 'sm' | 'md' | 'lg';
@@ -11,45 +11,100 @@ export class CandorModal extends LitElement {
     dialog {
       border: none;
       padding: 0;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-modal);
       background: transparent;
-      max-width: 100vw;
-      max-height: 100dvh;
+      max-width: none;
+      max-height: none;
+      overflow: visible;
     }
-    dialog::backdrop { background-color: var(--color-overlay); }
+    dialog::backdrop {
+      background-color: var(--color-overlay);
+      backdrop-filter: blur(2px);
+    }
+
     .modal__panel {
       background-color: var(--color-bg-elevated);
       border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-modal);
       display: flex;
       flex-direction: column;
-      max-height: 90dvh;
+      max-height: 90vh;
+      width: 90vw;
       overflow: hidden;
     }
-    .modal__panel--sm { width: min(24rem, 90vw); }
-    .modal__panel--md { width: min(36rem, 90vw); }
-    .modal__panel--lg { width: min(52rem, 90vw); }
+    .modal__panel--sm { max-width: 400px; }
+    .modal__panel--md { max-width: 560px; }
+    .modal__panel--lg { max-width: 768px; }
+
+    /* Header */
     .modal__header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: var(--spacing-md);
+      padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm);
       border-bottom: var(--border-width-thin) solid var(--color-border-default);
       flex-shrink: 0;
     }
-    .modal__title { font-family: var(--font-family-base); font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0; font-optical-sizing: auto; }
-    .modal__close {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 2rem; height: 2rem; padding: 0;
-      border: none; background: none; cursor: pointer;
-      border-radius: var(--radius-sm); color: var(--color-text-subtle);
-      transition: background-color 0.15s ease;
+    .modal__title {
+      font-family: var(--font-family-display);
+      font-optical-sizing: auto;
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--line-height-tight);
+      color: var(--color-text-default);
+      margin: 0;
     }
-    .modal__close:hover { background-color: var(--color-bg-surface); color: var(--color-text-default); }
-    .modal__close:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .modal__body { flex: 1; overflow-y: auto; padding: var(--spacing-md); }
-    .modal__footer { flex-shrink: 0; padding: var(--spacing-md); border-top: var(--border-width-thin) solid var(--color-border-default); }
-    .modal__footer:empty { display: none; }
+
+    /* Close */
+    .modal__close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      color: var(--color-text-subtle);
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .modal__close:hover {
+      background-color: var(--color-action-tertiary-hover);
+      color: var(--color-text-default);
+    }
+    .modal__close:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+    }
+
+    /* Body */
+    .modal__body {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--spacing-md);
+      color: var(--color-text-default);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-relaxed);
+    }
+    .modal__body:focus { outline: none; }
+    .modal__body:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: -2px;
+    }
+
+    /* Footer (projected via [slot=footer]) */
+    .modal__footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-top: var(--border-width-thin) solid var(--color-border-default);
+      flex-shrink: 0;
+    }
+    .modal__footer--empty { display: none; }
   `;
 
   @property({ type: Boolean }) open = false;
@@ -57,6 +112,8 @@ export class CandorModal extends LitElement {
   @property({ reflect: true }) size: ModalSize = 'md';
 
   @query('dialog') private _dialog!: HTMLDialogElement;
+
+  @state() private _hasFooter = false;
 
   private _titleId = `modal-title-${Math.random().toString(36).slice(2, 9)}`;
 
@@ -80,6 +137,11 @@ export class CandorModal extends LitElement {
     if (e.target === this._dialog) this._close();
   }
 
+  private _onFooterSlotChange(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    this._hasFooter = slot.assignedElements().length > 0;
+  }
+
   override render() {
     return html`
       <dialog
@@ -97,7 +159,9 @@ export class CandorModal extends LitElement {
             </button>
           </header>
           <div class="modal__body" tabindex="0" aria-label="Dialog content"><slot></slot></div>
-          <div class="modal__footer"><slot name="footer"></slot></div>
+          <div class="modal__footer ${this._hasFooter ? '' : 'modal__footer--empty'}">
+            <slot name="footer" @slotchange="${this._onFooterSlotChange}"></slot>
+          </div>
         </div>
       </dialog>
     `;

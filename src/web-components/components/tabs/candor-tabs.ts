@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, state, query } from 'lit/decorators.js';
 
 export interface TabItem {
   id: string;
@@ -10,6 +10,33 @@ export interface TabItem {
 export class CandorTabs extends LitElement {
   static override styles = css`
     :host { display: block; }
+    .tabs { display: block; }
+    .tabs__list-wrapper {
+      position: relative;
+    }
+    .tabs__list-wrapper::before,
+    .tabs__list-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 6rem;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .tabs__list-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, var(--color-bg-page), transparent);
+    }
+    .tabs__list-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, var(--color-bg-page), transparent);
+    }
+    .tabs--can-scroll-left .tabs__list-wrapper::before { opacity: 1; }
+    .tabs--can-scroll-right .tabs__list-wrapper::after { opacity: 1; }
+
     .tabs__list {
       display: flex;
       flex-direction: row;
@@ -18,21 +45,82 @@ export class CandorTabs extends LitElement {
       scrollbar-width: none;
     }
     .tabs__list::-webkit-scrollbar { display: none; }
+
     .tabs__tab {
-      appearance: none; background: none; border: none; cursor: pointer;
+      appearance: none;
+      background: none;
+      border: none;
+      cursor: pointer;
       padding: var(--spacing-xs) var(--spacing-sm);
-      font-family: var(--font-family-base); font-size: var(--font-size-base);
-      font-weight: var(--font-weight-regular); color: var(--color-text-subtle);
-      border-bottom: 2px solid transparent; margin-bottom: -1px;
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-regular);
+      color: var(--color-text-subtle);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
       transition: color 0.15s ease, border-color 0.15s ease;
+      white-space: nowrap;
     }
-    .tabs__tab[aria-selected='true'] { color: var(--color-action-primary); border-bottom-color: var(--color-action-primary); font-weight: var(--font-weight-semibold); }
+    .tabs__tab[aria-selected='true'] {
+      color: var(--color-action-primary);
+      border-bottom-color: var(--color-action-primary);
+      font-weight: var(--font-weight-semibold);
+    }
     .tabs__tab:hover { color: var(--color-text-default); }
     .tabs__tab:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
+
     .tabs__panels { padding-top: var(--spacing-md); }
-    .tabs--inverse .tabs__list { border-bottom-color: var(--color-border-on-inverse); background-color: var(--color-bg-inverse); padding: 0 var(--spacing-sm); }
+
+    /* Vertical orientation */
+    .tabs--vertical {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+    }
+    .tabs--vertical .tabs__list-wrapper::before,
+    .tabs--vertical .tabs__list-wrapper::after { display: none; }
+    .tabs--vertical .tabs__list {
+      flex-direction: column;
+      flex-shrink: 0;
+      min-width: 12rem;
+      border-bottom: none;
+      border-right: var(--border-width-thin) solid var(--color-border-default);
+      overflow-x: visible;
+    }
+    .tabs--vertical .tabs__tab {
+      text-align: left;
+      border-bottom: none;
+      border-right: 2px solid transparent;
+      margin-bottom: 0;
+      margin-right: -1px;
+    }
+    .tabs--vertical .tabs__tab[aria-selected='true'] {
+      border-bottom-color: transparent;
+      border-right-color: var(--color-action-primary);
+    }
+    .tabs--vertical .tabs__panels {
+      flex: 1;
+      padding-top: 0;
+      padding-left: var(--spacing-md);
+    }
+
+    /* Inverse theme */
+    .tabs--inverse .tabs__list-wrapper::before {
+      background: linear-gradient(to right, var(--color-bg-inverse), transparent);
+    }
+    .tabs--inverse .tabs__list-wrapper::after {
+      background: linear-gradient(to left, var(--color-bg-inverse), transparent);
+    }
+    .tabs--inverse .tabs__list {
+      border-bottom-color: var(--color-border-on-inverse);
+      background-color: var(--color-bg-inverse);
+      padding: 0 var(--spacing-sm);
+    }
     .tabs--inverse .tabs__tab { color: var(--color-text-subtle-on-inverse); }
-    .tabs--inverse .tabs__tab[aria-selected='true'] { color: var(--color-text-inverse); border-bottom-color: var(--color-text-inverse); }
+    .tabs--inverse .tabs__tab[aria-selected='true'] {
+      color: var(--color-text-inverse);
+      border-bottom-color: var(--color-text-inverse);
+    }
     .tabs--inverse .tabs__tab:hover { color: var(--color-text-inverse); }
   `;
 
@@ -42,11 +130,15 @@ export class CandorTabs extends LitElement {
   @property({ attribute: 'active-id' }) activeId = '';
   @property({ attribute: 'aria-label' }) ariaLabel_ = '';
 
+  @state() private _canScrollLeft = false;
+  @state() private _canScrollRight = false;
+
+  @query('.tabs__list') private _list!: HTMLDivElement;
+
   private _activate(id: string) {
     this.activeId = id;
     this.dispatchEvent(new CustomEvent('tab-change', { detail: id, bubbles: true, composed: true }));
     this.requestUpdate();
-    // Sync panel visibility
     this.querySelectorAll('candor-tab-panel').forEach((panel: Element) => {
       (panel as CandorTabPanel).active = (panel as CandorTabPanel).panelId === id;
     });
@@ -58,8 +150,8 @@ export class CandorTabs extends LitElement {
     const ids = this.tabs.map(t => t.id);
     const current = ids.indexOf(this.activeId);
     let next = -1;
-    if (e.key === 'ArrowRight') next = (current + 1) % ids.length;
-    else if (e.key === 'ArrowLeft') next = (current - 1 + ids.length) % ids.length;
+    if (e.key === 'ArrowRight' || (this.orientation === 'vertical' && e.key === 'ArrowDown')) next = (current + 1) % ids.length;
+    else if (e.key === 'ArrowLeft' || (this.orientation === 'vertical' && e.key === 'ArrowUp')) next = (current - 1 + ids.length) % ids.length;
     else if (e.key === 'Home') next = 0;
     else if (e.key === 'End') next = ids.length - 1;
     if (next >= 0) {
@@ -69,36 +161,71 @@ export class CandorTabs extends LitElement {
     }
   }
 
+  private _updateScrollState = () => {
+    if (!this._list || this.orientation === 'vertical') {
+      this._canScrollLeft = false;
+      this._canScrollRight = false;
+      return;
+    }
+    this._canScrollLeft = this._list.scrollLeft > 0;
+    this._canScrollRight = this._list.scrollLeft + this._list.clientWidth < this._list.scrollWidth - 1;
+  };
+
   override connectedCallback() {
     super.connectedCallback();
     if (!this.activeId && this.tabs.length) this.activeId = this.tabs[0].id;
+    window.addEventListener('resize', this._updateScrollState);
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener('resize', this._updateScrollState);
+  }
+
+  override firstUpdated() {
+    this._updateScrollState();
   }
 
   override updated() {
-    // Sync panels when tabs/activeId changes
     this.querySelectorAll('candor-tab-panel').forEach((panel: Element) => {
       (panel as CandorTabPanel).active = (panel as CandorTabPanel).panelId === this.activeId;
     });
+    this._updateScrollState();
   }
 
   override render() {
-    const cls = ['tabs', this.theme === 'inverse' ? 'tabs--inverse' : ''].filter(Boolean).join(' ');
+    const cls = [
+      'tabs',
+      this.theme === 'inverse' ? 'tabs--inverse' : '',
+      this.orientation === 'vertical' ? 'tabs--vertical' : '',
+      this._canScrollLeft ? 'tabs--can-scroll-left' : '',
+      this._canScrollRight ? 'tabs--can-scroll-right' : '',
+    ].filter(Boolean).join(' ');
     return html`
       <div class="${cls}">
-        <div class="tabs__list" role="tablist" aria-label="${this.ariaLabel_ || nothing}" aria-orientation="${this.orientation}" @keydown="${this._onKeydown}">
-          ${this.tabs.map((tab, i) => html`
-            <button
-              class="tabs__tab"
-              role="tab"
-              id="tab-${tab.id}"
-              aria-selected="${tab.id === this.activeId}"
-              aria-controls="panel-${tab.id}"
-              aria-setsize="${this.tabs.length}"
-              aria-posinset="${i + 1}"
-              tabindex="${tab.id === this.activeId ? '0' : '-1'}"
-              @click="${() => this._activate(tab.id)}"
-            >${tab.label}</button>
-          `)}
+        <div class="tabs__list-wrapper">
+          <div
+            class="tabs__list"
+            role="tablist"
+            aria-label="${this.ariaLabel_ || nothing}"
+            aria-orientation="${this.orientation}"
+            @keydown="${this._onKeydown}"
+            @scroll="${this._updateScrollState}"
+          >
+            ${this.tabs.map((tab, i) => html`
+              <button
+                class="tabs__tab"
+                role="tab"
+                id="tab-${tab.id}"
+                aria-selected="${tab.id === this.activeId}"
+                aria-controls="panel-${tab.id}"
+                aria-setsize="${this.tabs.length}"
+                aria-posinset="${i + 1}"
+                tabindex="${tab.id === this.activeId ? '0' : '-1'}"
+                @click="${() => this._activate(tab.id)}"
+              >${tab.label}</button>
+            `)}
+          </div>
         </div>
         <div class="tabs__panels"><slot></slot></div>
       </div>

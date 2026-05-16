@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { phX } from '../../icons';
 
 type DrawerPosition = 'left' | 'right' | 'bottom';
@@ -9,42 +9,154 @@ type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
 export class CandorDrawer extends LitElement {
   static override styles = css`
     :host { display: contents; }
-    dialog { border: none; padding: 0; background: transparent; max-width: 100vw; max-height: 100dvh; }
+    dialog {
+      border: none;
+      padding: 0;
+      background: transparent;
+      max-width: none;
+      max-height: none;
+      overflow: visible;
+    }
+    dialog[open] {
+      display: flex;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
     dialog::backdrop { background-color: var(--color-overlay); }
-    .drawer { display: flex; height: 100%; }
-    .drawer--left   { justify-content: flex-start; }
-    .drawer--right  { justify-content: flex-end; }
-    .drawer--bottom { align-items: flex-end; }
-    dialog[open] { display: flex; width: 100vw; max-width: 100vw; }
-    .drawer--bottom dialog[open] { height: auto; }
+
+    /* Position layout */
+    .drawer--right  dialog[open] { justify-content: flex-end; align-items: stretch; }
+    .drawer--left   dialog[open] { justify-content: flex-start; align-items: stretch; }
+    .drawer--bottom dialog[open] { flex-direction: column; justify-content: flex-end; align-items: stretch; }
+
+    /* Panel */
     .drawer__panel {
       background-color: var(--color-bg-elevated);
+      box-shadow: var(--shadow-modal);
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      transition: transform 250ms cubic-bezier(0.25, 0, 0.1, 1);
     }
-    .drawer--left .drawer__panel, .drawer--right .drawer__panel {
-      height: 100dvh;
-      max-height: 100dvh;
+    .drawer--left .drawer__panel,
+    .drawer--right .drawer__panel {
+      height: 100%;
     }
-    .drawer--bottom .drawer__panel { width: 100%; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
-    .drawer--sm .drawer__panel    { width: min(20rem, 85vw); }
-    .drawer--md .drawer__panel    { width: min(28rem, 85vw); }
-    .drawer--lg .drawer__panel    { width: min(40rem, 90vw); }
-    .drawer--full .drawer__panel  { width: 100vw; }
+    .drawer--bottom .drawer__panel {
+      width: 100%;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    /* Slide-in animations */
+    .drawer--right .drawer__panel { transform: translateX(0); }
+    @starting-style {
+      .drawer--right dialog[open] .drawer__panel { transform: translateX(100%); }
+    }
+    .drawer--left .drawer__panel { transform: translateX(0); }
+    @starting-style {
+      .drawer--left dialog[open] .drawer__panel { transform: translateX(-100%); }
+    }
+    .drawer--bottom .drawer__panel { transform: translateY(0); }
+    @starting-style {
+      .drawer--bottom dialog[open] .drawer__panel { transform: translateY(100%); }
+    }
+
+    /* Sizes — width for left/right */
+    .drawer--right.drawer--sm   .drawer__panel,
+    .drawer--left.drawer--sm    .drawer__panel { width: min(320px, 100vw); }
+    .drawer--right.drawer--md   .drawer__panel,
+    .drawer--left.drawer--md    .drawer__panel { width: min(480px, 100vw); }
+    .drawer--right.drawer--lg   .drawer__panel,
+    .drawer--left.drawer--lg    .drawer__panel { width: min(640px, 100vw); }
+    .drawer--right.drawer--full .drawer__panel,
+    .drawer--left.drawer--full  .drawer__panel { width: 100vw; }
+
+    /* Sizes — height for bottom sheet */
+    .drawer--bottom.drawer--sm   .drawer__panel { max-height: 30vh; }
+    .drawer--bottom.drawer--md   .drawer__panel { max-height: 50vh; }
+    .drawer--bottom.drawer--lg   .drawer__panel { max-height: 75vh; }
+    .drawer--bottom.drawer--full .drawer__panel { max-height: 100vh; border-radius: 0; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .drawer__panel { transition: none; }
+    }
+
+    /* Header */
     .drawer__header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: var(--spacing-md); border-bottom: var(--border-width-thin) solid var(--color-border-default); flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-md);
+      border-bottom: var(--border-width-thin) solid var(--color-border-default);
+      flex-shrink: 0;
     }
-    .drawer__title { font-family: var(--font-family-base); font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0; font-optical-sizing: auto; }
+    .drawer__title {
+      font-family: var(--font-family-display);
+      font-optical-sizing: auto;
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--line-height-tight);
+      color: var(--color-text-default);
+      margin: 0;
+    }
+
+    /* Close */
     .drawer__close {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 2rem; height: 2rem; padding: 0; border: none; background: none; cursor: pointer;
-      border-radius: var(--radius-sm); color: var(--color-text-subtle); transition: background-color 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      margin-left: auto;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--color-text-subtle);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s ease, color 0.15s ease;
     }
-    .drawer__close:hover { background-color: var(--color-bg-surface); color: var(--color-text-default); }
-    .drawer__close:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .drawer__body { flex: 1; overflow-y: auto; padding: var(--spacing-md); }
+    .drawer__close:hover {
+      background: var(--color-action-tertiary-hover);
+      color: var(--color-text-default);
+    }
+    .drawer__close:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+    }
+
+    /* Body */
+    .drawer__body {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--spacing-md);
+      color: var(--color-text-default);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-relaxed);
+    }
+    .drawer__body:focus { outline: none; }
+    .drawer__body:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: -2px;
+    }
+
+    /* Footer (projected via [slot=footer]) */
+    .drawer__footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-top: var(--border-width-thin) solid var(--color-border-default);
+      flex-shrink: 0;
+    }
+    .drawer__footer--empty { display: none; }
   `;
 
   @property({ type: Boolean }) open = false;
@@ -54,6 +166,8 @@ export class CandorDrawer extends LitElement {
   @property({ type: Boolean, attribute: 'dismiss-on-backdrop' }) dismissOnBackdrop = true;
 
   @query('dialog') private _dialog!: HTMLDialogElement;
+
+  @state() private _hasFooter = false;
 
   private _titleId = `drawer-title-${Math.random().toString(36).slice(2, 9)}`;
 
@@ -77,27 +191,35 @@ export class CandorDrawer extends LitElement {
     if (this.dismissOnBackdrop && e.target === this._dialog) this._close();
   }
 
+  private _onFooterSlotChange(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    this._hasFooter = slot.assignedElements().length > 0;
+  }
+
   override render() {
     return html`
-      <dialog
-        class="drawer drawer--${this.position} drawer--${this.size}"
-        aria-labelledby="${this.heading ? this._titleId : nothing}"
-        aria-label="${!this.heading ? 'Drawer' : nothing}"
-        @click="${this._onBackdropClick}"
-        @close="${this._close}"
-        @cancel="${(e: Event) => { e.preventDefault(); this._close(); }}"
-      >
-        <div class="drawer__panel">
-          <header class="drawer__header" role="none">
-            ${this.heading ? html`<h2 class="drawer__title" id="${this._titleId}">${this.heading}</h2>` : html`<span></span>`}
-            <button class="drawer__close" type="button" aria-label="Close" @click="${this._close}">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phX}"/></svg>
-            </button>
-          </header>
-          <div class="drawer__body" tabindex="0" aria-label="Drawer content"><slot></slot></div>
-          <slot name="footer"></slot>
-        </div>
-      </dialog>
+      <div class="drawer drawer--${this.position} drawer--${this.size}">
+        <dialog
+          aria-labelledby="${this.heading ? this._titleId : nothing}"
+          aria-label="${!this.heading ? 'Drawer' : nothing}"
+          @click="${this._onBackdropClick}"
+          @close="${this._close}"
+          @cancel="${(e: Event) => { e.preventDefault(); this._close(); }}"
+        >
+          <div class="drawer__panel">
+            <header class="drawer__header" role="none">
+              ${this.heading ? html`<h2 class="drawer__title" id="${this._titleId}">${this.heading}</h2>` : html`<span></span>`}
+              <button class="drawer__close" type="button" aria-label="Close" @click="${this._close}">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phX}"/></svg>
+              </button>
+            </header>
+            <div class="drawer__body" tabindex="0" aria-label="Drawer content"><slot></slot></div>
+            <div class="drawer__footer ${this._hasFooter ? '' : 'drawer__footer--empty'}">
+              <slot name="footer" @slotchange="${this._onFooterSlotChange}"></slot>
+            </div>
+          </div>
+        </dialog>
+      </div>
     `;
   }
 }

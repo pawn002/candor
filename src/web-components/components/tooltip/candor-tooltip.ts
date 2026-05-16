@@ -9,24 +9,82 @@ export class CandorTooltip extends LitElement {
     :host { display: inline-flex; position: relative; }
     .tooltip__bubble {
       position: absolute;
-      z-index: 1000;
+      z-index: 100;
       padding: 0.375rem 0.625rem;
       background-color: var(--color-bg-inverse);
       color: var(--color-text-inverse);
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
+      line-height: var(--line-height-tight);
+      letter-spacing: 0.02em;
       border-radius: var(--radius-sm);
       white-space: nowrap;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 0.15s ease;
-      letter-spacing: 0.02em;
+      visibility: hidden;
+      transition: opacity 0.15s ease, visibility 0.15s ease;
     }
-    .tooltip__bubble--visible { opacity: 1; }
-    .tooltip__bubble--top    { bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
-    .tooltip__bubble--bottom { top: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
-    .tooltip__bubble--left   { right: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
-    .tooltip__bubble--right  { left: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+    .tooltip__bubble--visible { opacity: 1; visibility: visible; }
+
+    .tooltip__bubble--top {
+      bottom: calc(100% + 0.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .tooltip__bubble--top::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--color-bg-inverse);
+    }
+
+    .tooltip__bubble--bottom {
+      top: calc(100% + 0.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .tooltip__bubble--bottom::after {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-bottom-color: var(--color-bg-inverse);
+    }
+
+    .tooltip__bubble--left {
+      right: calc(100% + 0.5rem);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .tooltip__bubble--left::after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 5px solid transparent;
+      border-left-color: var(--color-bg-inverse);
+    }
+
+    .tooltip__bubble--right {
+      left: calc(100% + 0.5rem);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .tooltip__bubble--right::after {
+      content: '';
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 5px solid transparent;
+      border-right-color: var(--color-bg-inverse);
+    }
   `;
 
   @property() text = '';
