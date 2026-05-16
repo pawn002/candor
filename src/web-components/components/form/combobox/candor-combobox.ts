@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
+import { phCaretDownBold } from '../../../icons';
 
 export interface ComboboxOption {
   value: string;
@@ -52,7 +53,7 @@ export class CandorCombobox extends LitElement {
     }
     .combobox__caret {
       position: absolute; right: var(--spacing-input-padding-x);
-      font-size: 1rem; color: var(--color-text-subtle); pointer-events: none;
+      width: 1rem; height: 1rem; color: var(--color-text-subtle); pointer-events: none;
       transition: transform 200ms ease, color 200ms ease;
     }
     .combobox__caret--open { transform: rotate(180deg); color: var(--color-action-primary); }
@@ -213,7 +214,7 @@ export class CandorCombobox extends LitElement {
               @focus="${() => { this._open = true; }}"
               @keydown="${this._onKeydown}"
             >
-            <span class="combobox__caret ${this._open ? 'combobox__caret--open' : ''}" aria-hidden="true">▾</span>
+            <svg class="combobox__caret ${this._open ? 'combobox__caret--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
           </div>
           ${this._open && filtered.length > 0 ? html`
             <ul id="${this._listId}" role="listbox" class="combobox__dropdown">

@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { phCaretDownBold } from '../../../icons';
 
 export interface SelectOption {
   value: string;
@@ -23,21 +24,33 @@ export class CandorSelect extends LitElement {
       font-family: var(--font-family-base);
       font-size: var(--font-size-md);
       padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
-      padding-right: 2.5rem;
+      padding-right: calc(var(--spacing-input-padding-x) + 1.75rem);
       border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--radius-md);
       background-color: var(--color-bg-page);
       color: var(--color-text-default);
       appearance: none;
       cursor: pointer;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       min-height: 2.5rem;
     }
+    .select:hover:not(:disabled) { border-color: var(--color-text-subtle); }
     .select:focus { outline: none; border-color: var(--color-action-primary); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-action-primary) l c h / 0.2); }
     .select--error { border-color: var(--color-status-error); }
     .select--error:focus { border-color: var(--color-status-error); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2); }
-    .select:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; }
-    .select-caret { position: absolute; right: 0.75rem; pointer-events: none; color: var(--color-text-subtle); font-size: 0.875rem; }
+    .select:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
+    .select__caret {
+      position: absolute;
+      right: var(--spacing-input-padding-x);
+      width: 1rem;
+      height: 1rem;
+      pointer-events: none;
+      color: var(--color-text-subtle);
+      transition: color 0.15s ease;
+    }
+    .select-control:focus-within .select__caret { color: var(--color-action-primary); }
+    .select-control--error .select__caret { color: var(--color-status-error); }
+    .select-control--disabled .select__caret { color: var(--color-text-disabled); }
     .select-description { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); }
     .select-error-message { color: var(--color-status-error); }
     .select-hint { color: var(--color-text-subtle); }
@@ -71,7 +84,7 @@ export class CandorSelect extends LitElement {
             ${this.required ? html`<span class="select-required" aria-hidden="true">*</span>` : nothing}
           </label>
         ` : nothing}
-        <div class="select-control">
+        <div class="select-control ${this.error ? 'select-control--error' : ''} ${this.disabled ? 'select-control--disabled' : ''}">
           <select
             id="${this._id}"
             class="select ${this.error ? 'select--error' : ''}"
@@ -87,7 +100,7 @@ export class CandorSelect extends LitElement {
               <option value="${opt.value}" ?disabled="${opt.disabled || false}" ?selected="${opt.value === this.value}">${opt.label}</option>
             `)}
           </select>
-          <span class="select-caret" aria-hidden="true">▾</span>
+          <svg class="select__caret" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
         </div>
         <div id="${this._descId}" class="select-description" aria-live="polite" aria-atomic="true">
           ${this.error ? html`<span class="select-error-message">${this.error}</span>` : nothing}

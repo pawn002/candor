@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { phCaretDownBold } from '../../icons';
 
 @customElement('candor-accordion-item')
 export class CandorAccordionItem extends LitElement {
@@ -19,7 +20,7 @@ export class CandorAccordionItem extends LitElement {
     .accordion-item__title { font-family: var(--font-family-accessible); font-size: var(--font-size-md); font-weight: var(--font-weight-bold); letter-spacing: 0.02em; line-height: var(--line-height-tight); flex: 1; }
     .accordion-item__title--subtle { font-weight: var(--font-weight-regular); color: var(--color-text-subtle); }
     .accordion-item__title--quiet { font-weight: var(--font-weight-bold); font-size: var(--font-size-sm); color: var(--color-text-subtle); }
-    .accordion-item__chevron { font-size: 1rem; line-height: 1; flex-shrink: 0; color: var(--color-text-subtle-on-surface); transition: transform 0.22s ease; }
+    .accordion-item__chevron { width: 1rem; height: 1rem; flex-shrink: 0; color: var(--color-text-subtle-on-surface); transition: transform 0.22s ease; }
     details[open] .accordion-item__chevron { transform: rotate(180deg); }
     .accordion-item__panel { display: grid; grid-template-rows: 1fr; }
     .accordion-item__content { overflow: hidden; padding-bottom: 0.875rem; font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-default); line-height: var(--line-height-normal); }
@@ -39,7 +40,7 @@ export class CandorAccordionItem extends LitElement {
       <details class="accordion-item" ?open="${this.open}">
         <summary class="accordion-item__summary">
           <span class="${titleCls}">${this.heading}</span>
-          <span class="accordion-item__chevron" aria-hidden="true">▾</span>
+          <svg class="accordion-item__chevron" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
         </summary>
         <div class="accordion-item__panel">
           <div class="accordion-item__content"><slot></slot></div>

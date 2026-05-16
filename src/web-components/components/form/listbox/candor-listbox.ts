@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { phCaretDownBold } from '../../../icons';
 
 export interface ListboxOption {
   value: string;
@@ -51,7 +52,7 @@ export class CandorListbox extends LitElement {
     }
     .listbox__trigger-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .listbox__caret {
-      flex-shrink: 0; font-size: 1rem; color: var(--color-text-subtle);
+      flex-shrink: 0; width: 1rem; height: 1rem; color: var(--color-text-subtle);
       transition: transform 200ms ease, color 200ms ease;
     }
     .listbox__caret--open { transform: rotate(180deg); color: var(--color-action-primary); }
@@ -200,7 +201,7 @@ export class CandorListbox extends LitElement {
             <span class="listbox__trigger-text">
               ${selected ? selected.label : html`<span style="color:var(--color-text-subtle)">${this.placeholder}</span>`}
             </span>
-            <span class="listbox__caret ${this._open ? 'listbox__caret--open' : ''}" aria-hidden="true">▾</span>
+            <svg class="listbox__caret ${this._open ? 'listbox__caret--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
           </button>
           ${this._open ? html`
             <ul
