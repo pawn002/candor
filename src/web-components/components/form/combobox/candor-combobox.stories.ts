@@ -3,13 +3,41 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Form/Combobox',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-combobox>\` — text input + filterable listbox dropdown. Implements the APG \`list\`
+autocomplete pattern — the user can type freely and suggestions filter in real time.
+
+**ARIA contract:** \`role="combobox"\` on the input with \`aria-expanded\` and
+\`aria-controls\` pointing to the listbox. DOM focus stays on the input at all times —
+\`aria-activedescendant\` on the input tracks the keyboard-highlighted option.
+
+**Keyboard:** ArrowDown/Up navigate options; Enter selects the active option; Escape closes
+the dropdown.
+
+**Combobox vs. Listbox vs. native Select**
+
+| Use | When |
+|---|---|
+| \`candor-select\` | Short lists (≤10), maximum AT compatibility, mobile-first |
+| \`candor-listbox\` | Medium lists, click-to-select without typing, full visual control |
+| \`candor-combobox\` | Long lists, user knows part of the name, search/autocomplete UX |
+
+Form-associated (\`ElementInternals\`): the selected option's value participates in form
+submission. Emits a \`change\` CustomEvent on selection.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    label: { control: 'text' },
-    placeholder: { control: 'text' },
-    disabled: { control: 'boolean' },
-    required: { control: 'boolean' },
-    error: { control: 'text' },
-    hint: { control: 'text' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
+    placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder shown when no value is selected' },
+    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text below the field' },
+    error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
+    required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
   args: {
     label: 'Country',

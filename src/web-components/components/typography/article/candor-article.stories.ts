@@ -3,6 +3,39 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Typography/Article',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-article>\` renders long-form prose with full semantic HTML support (headings,
+lists, blockquotes, code, tables, figures). Uses **light DOM** (\`createRenderRoot()\`
+returns \`this\`) so global prose styles reach projected children — equivalent to Angular's
+\`ViewEncapsulation.None\`.
+
+## Serif vs. sans — which font and when
+
+**The rule:** content that originates from a human author or a generative AI model uses
+**Noto Serif** (\`font="serif"\`, the default). Content that is UI infrastructure —
+navigation, settings, system messages, help text — uses **Noto Sans** or Roboto Flex.
+
+The distinction is cognitive context, not visual preference:
+
+| Context | Font | Why |
+|---|---|---|
+| AI-generated summaries, reports, deliberation content | Noto Serif (\`serif\`) | Signals authored content; slows reading toward reflection |
+| Human-authored articles, editorial prose | Noto Serif (\`serif\`) | Same — human and AI prose share the reading frame |
+| Help documentation, release notes, policy text | Noto Serif (\`serif\`) | Sustained reading; benefits from serif rhythm |
+| In-app explanatory copy, onboarding text | Noto Sans (\`sans\`) | Brief, scanning context; utility not reading |
+
+**The signal serif sends:** In AI-assisted applications, displaying AI-generated content in
+Noto Serif visually communicates "this is a produced artifact — read it, don't scan it."
+
+**Headings always use Roboto Flex** regardless of the \`font\` attribute. Only the body
+paragraph typeface changes.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     font: {
       control: 'select',

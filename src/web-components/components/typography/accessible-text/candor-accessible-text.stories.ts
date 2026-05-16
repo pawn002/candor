@@ -3,6 +3,63 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Typography/AccessibleText',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+**Atkinson Hyperlegible** — the designated typeface for critical UI text.
+
+Use \`<candor-accessible-text>\` wherever the text must remain legible under cognitive load
+at small sizes: form labels, error messages, status indicators, annotations, and badges.
+Its wide letterforms, open counters, and distinctive glyphs provide strong legibility at
+14px without needing a weight boost.
+
+---
+
+### Four roles
+
+| Role | Use case | Size | Weight |
+|---|---|---|---|
+| \`label\` | Form field labels, section headings, structural anchors | 14px | bold + uppercase |
+| \`message\` | System messages, inline guidance, body-length explanations | 16px | regular |
+| \`status\` | Validation errors, live counters, state changes | 14px | regular |
+| \`annotation\` | Supporting metadata, hints, legal small print | 14px | regular + italic |
+
+---
+
+### Bold rule
+
+**Bold is for hierarchy, not urgency.** \`role="label"\` already renders bold; do not also
+set \`bold\` on \`role="status"\` for error states — color carries the urgency signal.
+Bold on top of an error color reads as double-emphasis and disrupts hierarchy.
+
+\`\`\`html
+<!-- ✓ Regular for status — color carries urgency -->
+<candor-accessible-text role_="status" color="error">Enter a valid number.</candor-accessible-text>
+
+<!-- ✗ Wrong — bold + error color is double-emphasis -->
+<candor-accessible-text role_="status" color="error" bold>Enter a valid number.</candor-accessible-text>
+\`\`\`
+
+---
+
+### Tracking
+
+Atkinson requires positive letter-spacing to prevent glyph clustering (adjacent glyphs like
+"rr" reading as "m"). Spacing is applied automatically per role — never override to
+\`letter-spacing: 0\`.
+
+---
+
+### Note on the \`role_\` attribute
+
+The attribute is named \`role_\` (trailing underscore) because \`role\` is a reserved ARIA
+attribute on every HTML element and using it as the WC property would conflict with the
+host element's actual ARIA role.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     role_: {
       control: 'select',

@@ -3,10 +3,40 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Pagination',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-pagination>\` — page navigator for paged data sets. Shows the current page,
+adjacent pages, first/last anchors, and an ellipsis when the page count is large.
+Previous/Next buttons always present.
+
+Listen for the \`page-change\` CustomEvent to trigger data fetches:
+
+\`\`\`javascript
+document.querySelector('candor-pagination')
+  .addEventListener('page-change', (e) => loadPage(e.detail));
+\`\`\`
+
+Pair with \`<candor-table>\` for a complete paged data view.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    currentPage: { control: 'number' },
-    totalPages: { control: 'number' },
-    ariaLabel: { control: 'text' },
+    currentPage: {
+      control: { type: 'number', min: 1 },
+      description: 'Current active page',
+    },
+    totalPages: {
+      control: { type: 'number', min: 1 },
+      description: 'Total number of pages',
+    },
+    ariaLabel_: {
+      control: 'text',
+      type: { name: 'string' },
+      description: 'Accessible label for the nav landmark. Customize when multiple paginators appear on the same page.',
+    },
   },
   args: { currentPage: 3, totalPages: 10 },
   render: (args) => ({

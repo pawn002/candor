@@ -3,11 +3,32 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Stat',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-stat>\` — large numeric display for dashboard metrics and KPI panels. Renders a
+prominent value, an optional unit suffix, and a descriptive label above.
+
+Five semantic color variants signal the metric's state: \`default\`, \`success\`,
+\`warning\`, \`error\`, \`info\`. The color applies to the value and unit, not the label.
+
+Compose with \`<candor-badge>\` for trend indicators (↑ 12% vs. last month) and with
+\`<candor-card>\` when the stat lives inside a surface panel.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    value: { control: 'text' },
-    unit: { control: 'text' },
-    label: { control: 'text' },
-    color: { control: 'select', options: ['default', 'success', 'warning', 'error', 'info'] },
+    value: { control: 'text', type: { name: 'string' }, description: 'Numeric or string value displayed large' },
+    unit: { control: 'text', type: { name: 'string' }, description: 'Unit suffix displayed after the value (e.g. % or :1)' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Descriptive label above the value' },
+    color: {
+      control: 'select',
+      options: ['default', 'success', 'warning', 'error', 'info'],
+      type: { name: 'string' },
+      description: 'Semantic color variant',
+    },
   },
   args: { value: '1,284', unit: '', label: 'Monthly active users', color: 'default' },
   render: (args) => ({

@@ -3,13 +3,37 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Form/Listbox',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-listbox>\` — custom select alternative using \`role="listbox"\` + \`role="option"\`.
+Use when native \`<select>\` styling is insufficient — custom option rendering, visual
+coherence with other Candor form components, or complex option layouts.
+
+**Listbox vs. native Select**
+
+| Use | When |
+|---|---|
+| \`candor-select\` | Simple option lists, forms requiring maximum AT compatibility, mobile contexts where the OS native picker is preferable |
+| \`candor-listbox\` | Long option lists needing visual coherence, when you need the checkmark indicator, or when the OS picker feel is unwanted |
+
+**Keyboard:** ArrowDown/Up navigate options; Home/End jump to first/last; Enter or Space
+selects; Escape closes; Tab closes without selecting.
+
+Form-associated (\`ElementInternals\`): the selected value participates in form submission.
+Emits a \`change\` CustomEvent.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    label: { control: 'text' },
-    placeholder: { control: 'text' },
-    disabled: { control: 'boolean' },
-    required: { control: 'boolean' },
-    error: { control: 'text' },
-    hint: { control: 'text' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
+    placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder shown when no value is selected' },
+    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text below the field' },
+    error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
+    required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
   args: {
     label: 'Preferred language',

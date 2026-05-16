@@ -3,16 +3,48 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Form/Input',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-input>\` — single-line or multiline text field with label, optional hint, and error
+state. Covers text, email, password, and number input types, plus a textarea mode via
+\`multiline\`.
+
+The label is always rendered — never omit it for visual reasons. If the design calls for a
+labelless input, set \`aria-label\` on the host element so the field remains accessible.
+
+**Hint and error are mutually exclusive at display time.** When \`error\` is set it replaces
+the hint text in the DOM and is associated with the field via \`aria-describedby\`. Don't
+duplicate the error message in both \`hint\` and \`error\`.
+
+Form-associated (\`ElementInternals\`): the value appears in \`FormData\` keyed by \`name\`.
+Emits an \`input-change\` CustomEvent on each keystroke.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    label: { control: 'text' },
-    placeholder: { control: 'text' },
-    error: { control: 'text' },
-    hint: { control: 'text' },
-    type: { control: 'select', options: ['text', 'email', 'password', 'number'] },
-    required: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    multiline: { control: 'boolean' },
-    resize: { control: 'select', options: ['none', 'vertical', 'both'] },
+    label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
+    placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder text' },
+    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text below the field' },
+    error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
+    type: {
+      control: 'select',
+      options: ['text', 'email', 'password', 'number'],
+      type: { name: 'string' },
+      description: 'Input type (ignored when multiline is true)',
+    },
+    required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
+    multiline: { control: 'boolean', type: { name: 'boolean' }, description: 'Render as <textarea> instead of <input>' },
+    rows: { control: 'number', type: { name: 'number' }, description: 'Visible row count (multiline only)' },
+    resize: {
+      control: 'select',
+      options: ['none', 'vertical', 'both'],
+      type: { name: 'string' },
+      description: 'CSS resize behaviour (multiline only)',
+    },
   },
   args: { label: 'Email address', placeholder: 'you@example.com', type: 'email', required: false, disabled: false, multiline: false },
   render: (args) => ({

@@ -3,9 +3,33 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Disclosure',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-disclosure>\` renders a single show/hide toggle following the
+[APG Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/). It is the
+right choice for a **contextual, standalone reveal** — one toggle that stands alone
+without coordinating with siblings.
+
+**Disclosure vs. Accordion**
+
+| Use | When |
+|---|---|
+| \`candor-disclosure\` | A single, contextual reveal — an expandable filter section, a "read more" beneath a summary, an inline help tip. It stands alone. |
+| \`candor-accordion-item\` | Two or more parallel sections at the same heading level that form a group — a FAQ list, a settings panel. |
+
+If you have several independent disclosures near each other and opening one should **not**
+close another, use multiple \`<candor-disclosure>\` instances — not a coordinated accordion.
+
+Emits a \`toggle\` CustomEvent with \`{ detail: open }\` on each transition.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    label: { control: 'text' },
-    open: { control: 'boolean' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Trigger button label' },
+    open: { control: 'boolean', type: { name: 'boolean' }, description: 'Open/closed state' },
   },
   args: { label: 'Advanced options', open: false },
   render: (args) => ({

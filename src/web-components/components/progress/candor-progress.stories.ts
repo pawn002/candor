@@ -3,12 +3,39 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Progress',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-progress>\` — progress indicator in two forms: a horizontal bar or a circular
+spinner.
+
+- **Bar** (\`type="bar"\`) — for determinate progress with a known percentage (file upload, multi-step form)
+- **Spinner** (\`type="spinner"\`) — for indeterminate loading (waiting on a response, background task)
+
+Set \`indeterminate\` when the duration is unknown — this renders an animated loop rather
+than a static bar at 0%. Always provide a \`label\` for screen readers; the visual bar
+conveys no information to assistive technology without it.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    type: { control: 'select', options: ['bar', 'spinner'] },
-    value: { control: 'number' },
-    indeterminate: { control: 'boolean' },
-    label: { control: 'text' },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    type: {
+      control: 'select',
+      options: ['bar', 'spinner'],
+      type: { name: 'string' },
+      description: 'Visual form',
+    },
+    value: { control: { type: 'range', min: 0, max: 100, step: 1 }, description: 'Percentage 0–100 (bar only)' },
+    indeterminate: { control: 'boolean', type: { name: 'boolean' }, description: 'Animated loop instead of a value-based fill' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Accessible name announced by screen readers' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      type: { name: 'string' },
+      description: 'Size (spinner only)',
+    },
   },
   args: { type: 'bar', value: 65, indeterminate: false, label: 'Loading data', size: 'md' },
   render: (args) => ({

@@ -3,11 +3,37 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Form/Radio',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-radio>\` — single-select option within a mutually exclusive group. Radios work in
+groups — a standalone radio button is almost always a mistake; use a checkbox instead.
+
+**Always wrap radio groups in a \`<fieldset>\` with a \`<legend>\`.** The legend is announced
+before each option by screen readers, providing the question context. Without it, a user
+hears "Yes" with no frame of reference for what the question was.
+
+\`\`\`html
+<fieldset>
+  <legend>Preferred contact method</legend>
+  <candor-radio name="contact" value="email" label="Email"></candor-radio>
+  <candor-radio name="contact" value="phone" label="Phone"></candor-radio>
+</fieldset>
+\`\`\`
+
+Form-associated (\`ElementInternals\`): the selected value appears in \`FormData\` keyed by
+\`name\` when wrapped in a \`<form>\`.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    label: { control: 'text' },
-    value: { control: 'text' },
-    checked: { control: 'boolean' },
-    disabled: { control: 'boolean' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Radio button label' },
+    value: { control: 'text', type: { name: 'string' }, description: 'Value submitted with the form' },
+    name: { control: 'text', type: { name: 'string' }, description: 'Radio group name' },
+    checked: { control: 'boolean', type: { name: 'boolean' }, description: 'Checked state (for static/story use)' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
   args: { label: 'Option A', value: 'a', checked: false, disabled: false },
   render: (args) => ({

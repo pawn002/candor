@@ -3,6 +3,52 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Tabs',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-tabs>\` — tabbed interface for switching between related panel views. Implements
+the [ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) with keyboard
+navigation: Arrow keys move between tabs, Home/End jump to first/last.
+
+Each panel is a \`<candor-tab-panel>\` child with a \`panel-id\` matching one of the
+\`tabs\` entries. The \`tabs\` array (\`[{ id, label }, ...]\`) drives the tab row; panels
+are slotted in document order.
+
+\`\`\`html
+<candor-tabs aria-label="Account settings" active-id="profile"
+             tabs='[{"id":"profile","label":"Profile"},{"id":"security","label":"Security"}]'>
+  <candor-tab-panel panel-id="profile" active>...</candor-tab-panel>
+  <candor-tab-panel panel-id="security">...</candor-tab-panel>
+</candor-tabs>
+\`\`\`
+
+Set \`aria-label\` on the host element to label the tab list for screen readers — always
+required. Two themes: \`default\` and \`inverse\`. Two orientations: \`horizontal\` (tabs above
+panels) and \`vertical\` (tabs left, panels right). Emits a \`tab-change\` CustomEvent.
+
+Horizontal tabs show fade-gradient affordances on the left/right edges when the tab row
+overflows horizontally.
+        `.trim(),
+      },
+    },
+  },
+  argTypes: {
+    activeId: { control: 'text', type: { name: 'string' }, description: 'Currently selected tab id' },
+    ariaLabel_: { control: 'text', type: { name: 'string' }, description: 'aria-label for the tablist' },
+    theme: {
+      control: 'select',
+      options: ['default', 'inverse'],
+      type: { name: 'string' },
+      description: 'default renders on a light surface; inverse renders on --color-bg-inverse',
+    },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      type: { name: 'string' },
+      description: 'horizontal: tabs above panels (default). vertical: tabs left, panels right.',
+    },
+  },
   render: () => ({
     template: `<candor-tabs
       active-id="overview"

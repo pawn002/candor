@@ -3,9 +3,38 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Tooltip',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Tooltips in Candor are **intentionally invisible to assistive technology**.
+
+The tooltip bubble carries \`aria-hidden="true"\` and is never wired via
+\`aria-describedby\`. This is a deliberate design system position, not an oversight.
+
+**The reasoning:** Tooltips solve a sighted-user problem — persistent label text isn't
+always visible. AT users already receive context through the accessible name, label, and
+surrounding content of the trigger element, without needing a tooltip. Wiring tooltips to
+AT creates double-announcements in browse mode and makes the tooltip a crutch that masks
+under-specified element names.
+
+**The contract this creates for consumers:**
+
+- Every trigger element must be self-describing. An icon-only button needs \`aria-label\`. A truncated label needs a full visible text alternative elsewhere.
+- If the tooltip text is essential to understand the action, it belongs in the element's accessible name or a visible label — not in a tooltip.
+- Use tooltips as a last resort for supplementary pointer-user context, never as the primary channel for critical information.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    text: { control: 'text' },
-    position: { control: 'select', options: ['top', 'bottom', 'left', 'right'] },
+    text: { control: 'text', type: { name: 'string' }, description: 'Tooltip text' },
+    position: {
+      control: 'select',
+      options: ['top', 'bottom', 'left', 'right'],
+      type: { name: 'string' },
+      description: 'Where the bubble appears relative to the trigger',
+    },
   },
   args: { text: 'Helpful information', position: 'top' },
   render: (args) => ({

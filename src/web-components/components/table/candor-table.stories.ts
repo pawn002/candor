@@ -18,6 +18,30 @@ const KV_ROWS = JSON.stringify([
 const meta: Meta = {
   title: 'Web Components/Table',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-table>\` — semantic data table with consistent typography, zebra striping, and a
+\`compact\` density variant.
+
+Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: string[], isHeader?: boolean }[]\`
+via JS properties (or JSON-encoded as attributes). Set \`isHeader: true\` on a row for
+key/value tables where the first cell of each row is a row-header.
+
+Cells with a \`numeric\` class (added via the consumer's CSS) use \`--font-family-mono\`
+and right-align — useful for value-heavy columns.
+
+Zebra striping uses \`oklch(0.85 0 0)\` for even rows — deltaE 11 from white, visible on
+any light background without requiring a surface container.
+        `.trim(),
+      },
+    },
+  },
+  argTypes: {
+    caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption' },
+    compact: { control: 'boolean', type: { name: 'boolean' }, description: 'Tighter row padding' },
+  },
 };
 
 export default meta;

@@ -10,6 +10,35 @@ const COUNTRY_OPTIONS = JSON.stringify([
 const meta: Meta = {
   title: 'Web Components/Form/Select',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-select>\` — dropdown for selecting one option from a list. Wraps a native
+\`<select>\` element — keyboard navigation, mobile pickers, and browser autofill work out of
+the box.
+
+**Select vs. Combobox:** Use \`Select\` for short, stable lists (5–15 items) where the user
+picks from known options. Use \`Combobox\` when the list is long, dynamic, or searchable.
+
+Accepts an array of \`{ value, label }\` option objects via the \`options\` JS property (or
+JSON-encoded as an attribute in static markup). Pass a \`placeholder\` string to show a
+"choose one" prompt as the first option (not pre-selected).
+
+Form-associated (\`ElementInternals\`): the selected value participates in form submission.
+Emits a \`change\` CustomEvent.
+        `.trim(),
+      },
+    },
+  },
+  argTypes: {
+    label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
+    placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder shown when no value is selected' },
+    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text below the field' },
+    error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
+    required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
+  },
 };
 
 export default meta;

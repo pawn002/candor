@@ -3,11 +3,42 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Form/Slider',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-slider>\` — range input with optional gradient track visualization. Designed for
+continuous numeric values where the position on a spectrum matters — lightness, opacity,
+threshold, volume.
+
+**\`value-text-fn\`** — supply a function \`(value: number) => string\` via the JavaScript
+property to provide a meaningful \`aria-valuetext\`. Required whenever the raw number is not
+self-describing:
+
+\`\`\`javascript
+const slider = document.querySelector('candor-slider');
+slider.valueTextFn = (v) => \`L=\${v.toFixed(2)}\`;
+// Without it: screen reader announces "0.65"
+// With it: screen reader announces "L=0.65"
+\`\`\`
+
+The \`gradient\` attribute accepts a CSS \`linear-gradient()\` string rendered behind the
+track — use it to show the lightness or hue spectrum the slider is traversing.
+
+Form-associated (\`ElementInternals\`): the current value participates in form submission.
+Emits a \`value-change\` CustomEvent on input.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    min: { control: 'number' },
-    max: { control: 'number' },
-    value: { control: 'number' },
-    disabled: { control: 'boolean' },
+    min:      { control: { type: 'number' }, description: 'Minimum value' },
+    max:      { control: { type: 'number' }, description: 'Maximum value' },
+    step:     { control: { type: 'number' }, description: 'Step increment' },
+    value:    { control: { type: 'number' }, description: 'Current value' },
+    label:    { control: 'text', type: { name: 'string' }, description: 'Field label' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
+    gradient: { control: 'text', type: { name: 'string' }, description: 'CSS linear-gradient() string for the track background' },
   },
   args: { min: 0, max: 100, value: 40, disabled: false },
   render: (args) => ({

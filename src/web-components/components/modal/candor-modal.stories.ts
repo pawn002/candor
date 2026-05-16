@@ -3,9 +3,44 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Modal',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-modal>\` — centered dialog that interrupts the current flow for confirmation,
+detail views, or focused tasks. Implements the
+[ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/): focus is
+trapped inside while open (via native \`<dialog>\`), Escape closes it, and focus returns to
+the trigger on close.
+
+**When to use a modal vs. a drawer:** Modals are for short, decisive interactions — confirm
+delete, enter a PIN, view a summary. Drawers are for richer tasks that benefit from a side
+panel without fully leaving the current page.
+
+\`\`\`html
+<candor-modal heading="Confirm deletion" id="m">
+  <p>This cannot be undone.</p>
+  <div slot="footer">
+    <candor-button variant="ghost" onclick="m.open = false">Cancel</candor-button>
+    <candor-button variant="destructive">Delete</candor-button>
+  </div>
+</candor-modal>
+\`\`\`
+
+Emits a \`closed\` CustomEvent when dismissed. Backdrop uses \`backdrop-filter: blur(2px)\`.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    heading: { control: 'text' },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    open: { control: 'boolean', type: { name: 'boolean' }, description: 'Controls visibility' },
+    heading: { control: 'text', type: { name: 'string' }, description: 'Dialog title' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      type: { name: 'string' },
+      description: 'Panel max-width (400 / 560 / 768px)',
+    },
   },
   args: { heading: 'Confirm action', size: 'md' },
   render: (args) => ({

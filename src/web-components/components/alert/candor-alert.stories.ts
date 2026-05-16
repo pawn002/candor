@@ -3,11 +3,38 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Alert',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-alert>\` — inline status message for page-level feedback. Use for form submission
+results, system notices, validation summaries. Four variants: \`info\`, \`success\`,
+\`warning\`, \`error\`.
+
+**Alert vs. Toast:** Alerts are persistent and inline — they live in the document flow and
+remain visible until dismissed or the state changes. Toasts are ephemeral and float over
+content — use them for transient feedback that doesn't require acknowledgement.
+
+**Warning and success text uses dark text on a tinted background**, not colored text.
+Colored text at these hues fails contrast on white. The background tint + icon + heading
+together carry the semantic signal without needing to rely on text color alone.
+
+Renders \`role="status"\` for info/success and \`role="alert"\` for warning/error — screen
+readers announce error/warning content automatically when the element appears.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    variant: { control: 'select', options: ['info', 'success', 'warning', 'error'] },
-    heading: { control: 'text' },
-    message: { control: 'text' },
-    dismissible: { control: 'boolean' },
+    variant: {
+      control: 'select',
+      options: ['info', 'success', 'warning', 'error'],
+      type: { name: 'string' },
+      description: 'Alert color variant',
+    },
+    heading: { control: 'text', type: { name: 'string' }, description: 'Optional heading' },
+    message: { control: 'text', type: { name: 'string' }, description: 'Body text' },
+    dismissible: { control: 'boolean', type: { name: 'boolean' }, description: 'Show dismiss button (emits "dismissed" event)' },
   },
   args: { variant: 'info', heading: '', message: 'This is an informational message.', dismissible: false },
   render: (args) => ({

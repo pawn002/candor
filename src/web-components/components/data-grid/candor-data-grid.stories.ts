@@ -50,6 +50,43 @@ const GRID_ROWS = JSON.stringify([
 const meta: Meta = {
   title: 'Web Components/DataGrid',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-data-grid>\` — W3C APG-compliant data grid with full keyboard navigation
+(Pattern 2 — gridcell is the interactive unit).
+
+**Keyboard interaction**
+
+| Key | Action |
+|---|---|
+| Arrow keys | Move focus one cell in any direction |
+| Home | First cell in current row |
+| End | Last cell in current row |
+| Ctrl+Home | First cell in grid |
+| Ctrl+End | Last cell in grid |
+| Enter / Space | Activate focused cell |
+| Tab | Move focus into / out of the grid |
+
+**ARIA roles:** \`role="grid"\` → \`role="row"\` → \`role="gridcell"\` /
+\`role="columnheader"\` / \`role="rowheader"\`
+
+Focus management uses the **roving tabindex** pattern — one cell holds \`tabindex="0"\` at
+a time; arrow keys move the tab stop.
+
+Pass \`rows\` and \`columnheaders\` via JS properties (or JSON-encoded as attributes). Each
+cell has \`{ label, background, foreground, selected?, disabled? }\` — well-suited to
+color-grid and heat-map use cases.
+        `.trim(),
+      },
+    },
+  },
+  argTypes: {
+    caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption (visible above the grid)' },
+    showLabels: { control: 'boolean', type: { name: 'boolean' }, description: 'Show cell label text inside each cell' },
+    hideHeaders: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide row/column headers while keeping them in the DOM for AT' },
+  },
 };
 
 export default meta;

@@ -3,10 +3,31 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Form/Switch',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-switch>\` — toggle for a boolean setting that takes effect immediately on flip. The
+visual metaphor is a physical on/off switch — no submit required.
+
+**Switch vs. Checkbox:** Use a switch when the change is applied immediately (dark mode,
+notifications, live filter toggles). Use a checkbox when the value is collected and submitted
+as part of a form.
+
+Set \`aria-label\` on the custom element when the switch has no adjacent visible label. The
+component reflects it onto the inner \`<input type="checkbox" role="switch">\` — relying on
+attribute inheritance from the host alone does not work.
+
+Form-associated (\`ElementInternals\`): emits a \`change\` CustomEvent and appears in
+\`FormData\` when wrapped in a \`<form>\`.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    label: { control: 'text' },
-    checked: { control: 'boolean' },
-    disabled: { control: 'boolean' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Switch label text' },
+    checked: { control: 'boolean', type: { name: 'boolean' }, description: 'Checked state' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
   args: { label: 'Enable notifications', checked: false, disabled: false },
   render: (args) => ({

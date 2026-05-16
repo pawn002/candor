@@ -3,12 +3,34 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Accordion',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-accordion-item>\` renders a collapsible section using native \`<details>\`/\`<summary>\`.
+Use it as the right choice when sections are **parallel and coordinate as a set** — a FAQ
+list, a settings panel, a table of contents.
+
+**Accordion vs. Disclosure**
+
+| Use | When |
+|---|---|
+| \`candor-accordion-item\` | Two or more parallel sections at the same heading level. Users may want to compare across items or scan headings. |
+| \`candor-disclosure\` | A single, contextual reveal — one toggle standing alone. An expandable filter, a "read more", an inline help tip. |
+
+If you have several independent disclosures near each other but opening one should **not**
+close another, use multiple \`<candor-disclosure>\` instances — not a group of accordion items.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    heading: { control: 'text', description: 'Accordion header label' },
-    open: { control: 'boolean', description: 'Expanded state on initial render' },
+    heading: { control: 'text', type: { name: 'string' }, description: 'Accordion header label' },
+    open: { control: 'boolean', type: { name: 'boolean' }, description: 'Expanded state on initial render' },
     variant: {
       control: 'select',
       options: ['default', 'subtle', 'quiet'],
+      type: { name: 'string' },
       description: 'Visual weight of the heading — use to express hierarchy in nested accordion groups',
     },
   },

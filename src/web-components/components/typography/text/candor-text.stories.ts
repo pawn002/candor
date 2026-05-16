@@ -3,6 +3,26 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Typography/Text',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-text>\` covers body copy, captions, and UI chrome labels. Three variants:
+
+| Variant | Typeface | Use case |
+|---|---|---|
+| \`body\` | Noto Serif | General body text, descriptions, explanatory copy |
+| \`caption\` | Noto Serif italic | Supplementary context, figure captions, timestamps |
+| \`label\` | Roboto Flex | UI chrome — button text, tab labels, field annotations |
+
+**Text vs. AccessibleText:** Use \`<candor-text>\` for body content rendered in Noto Serif
+or Roboto Flex. Use \`<candor-accessible-text>\` (Atkinson Hyperlegible) for critical
+functional text — form labels, error messages, status indicators — where legibility under
+stress is the priority.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
     variant: {
       control: 'select',

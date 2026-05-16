@@ -3,11 +3,37 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Toast',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-toast>\` — ephemeral notification that floats over content. Use for transient
+feedback that doesn't require acknowledgement — file saved, action completed, background
+task finished.
+
+**Toast vs. Alert:** Toasts are for events the user triggered but doesn't need to act on.
+Alerts are for persistent conditions the user must read — validation errors, system warnings,
+confirmation requirements.
+
+Pair with \`<candor-toast-container position="top-right">\` (or another corner) for
+positioning. Auto-dismissal is the consumer's responsibility — listen for the toast's
+\`dismissed\` event or use a \`setTimeout\` to remove it from the DOM after a few seconds.
+
+Renders \`role="status"\` for info/success and \`role="alert"\` for warning/error.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    variant: { control: 'select', options: ['info', 'success', 'warning', 'error'] },
-    heading: { control: 'text' },
-    message: { control: 'text' },
-    dismissible: { control: 'boolean' },
+    variant: {
+      control: 'select',
+      options: ['info', 'success', 'warning', 'error'],
+      type: { name: 'string' },
+      description: 'Toast color variant',
+    },
+    heading: { control: 'text', type: { name: 'string' }, description: 'Optional heading' },
+    message: { control: 'text', type: { name: 'string' }, description: 'Toast message text' },
+    dismissible: { control: 'boolean', type: { name: 'boolean' }, description: 'Show dismiss button (emits "dismissed" event)' },
   },
   args: { variant: 'info', heading: '', message: 'Your changes have been saved.', dismissible: true },
   render: (args) => ({

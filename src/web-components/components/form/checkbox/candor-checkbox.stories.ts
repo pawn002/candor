@@ -3,11 +3,31 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Form/Checkbox',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-checkbox>\` — binary toggle for a single yes/no choice. Use for independent options
+that don't affect each other — "Subscribe to newsletter", "Accept terms", "Enable feature".
+
+**Checkbox vs. Switch:** Use a checkbox when the user must explicitly submit the form to apply
+the change. Use a switch when the change takes effect immediately on toggle.
+
+**Group checkboxes in a \`<fieldset>\` with a \`<legend>\`** when presenting a set of related
+options. A \`<div>\` with a visible heading is not sufficient — screen readers announce the
+legend as the group label for each individual checkbox.
+
+Form-associated (\`ElementInternals\`): the value appears in \`FormData\` when wrapped in a
+\`<form>\`, validation works, and \`:disabled\` styling applies natively.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    label: { control: 'text' },
-    checked: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    required: { control: 'boolean' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Checkbox label text' },
+    checked: { control: 'boolean', type: { name: 'boolean' }, description: 'Checked state' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
+    required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required for form submission' },
   },
   args: { label: 'Accept terms and conditions', checked: false, disabled: false, required: false },
   render: (args) => ({

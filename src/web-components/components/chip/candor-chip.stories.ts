@@ -3,13 +3,39 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Chip',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-chip>\` — small pill-shaped element for tags, filters, and selections. Three
+interaction modes:
+
+- **Selectable** (\`selectable\`) — toggles an active state; use for filter chips where the user turns options on and off
+- **Dismissible** (\`dismissible\`) — shows a close button; use for input chips that can be removed (tags on a post, applied filters)
+- **Link** (\`link-href="/tags/foo"\`) — renders as \`<a>\`; use when the chip navigates to another page (taxonomy archive, tag cloud). Mutually exclusive with selectable and dismissible.
+
+**Chip vs. Badge:** Badges are static indicators (status, count). Chips are interactive —
+they respond to clicks and can be removed. If the element has no interaction, use a Badge.
+
+Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warning\`,
+\`error\`. Emits \`selected-change\` and \`dismissed\` CustomEvents.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    label: { control: 'text' },
-    variant: { control: 'select', options: ['default', 'primary', 'secondary', 'success', 'warning', 'error'] },
-    selectable: { control: 'boolean' },
-    dismissible: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    selected: { control: 'boolean' },
+    label: { control: 'text', type: { name: 'string' }, description: 'Chip text' },
+    variant: {
+      control: 'select',
+      options: ['default', 'primary', 'secondary', 'success', 'warning', 'error'],
+      type: { name: 'string' },
+      description: 'Color variant',
+    },
+    selectable: { control: 'boolean', type: { name: 'boolean' }, description: 'Toggle on click' },
+    dismissible: { control: 'boolean', type: { name: 'boolean' }, description: 'Render close button' },
+    disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
+    selected: { control: 'boolean', type: { name: 'boolean' }, description: 'Selected state (when selectable)' },
+    linkHref: { control: 'text', type: { name: 'string' }, description: 'href; when set, renders as <a> (mutually exclusive with selectable and dismissible)' },
   },
   args: { label: 'Tag', variant: 'default', selectable: false, dismissible: false, disabled: false, selected: false },
   render: (args) => ({

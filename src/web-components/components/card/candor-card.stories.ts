@@ -3,9 +3,49 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Card',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-card>\` — versatile surface container. Three variants cover the standard layering
+hierarchy: \`default\` (surface), \`elevated\` (floats above surface), \`outlined\` (page
+background with border).
+
+**Light-mode surface layering**
+
+In light mode \`--color-bg-page\` and \`--color-bg-elevated\` are both near-white. Colour
+alone cannot create visible depth — the \`elevated\` variant relies on \`box-shadow\` for
+its lift signal. If you are building a card-on-card layout, the inner card should be
+\`outlined\` or \`default\` (surface tint) rather than another \`elevated\`.
+
+**Three named slots**
+
+\`\`\`html
+<candor-card>
+  <span slot="header">Account summary</span>
+  <p>Body content goes here.</p>
+  <span slot="footer">Last updated 3 minutes ago</span>
+</candor-card>
+\`\`\`
+
+Empty header and footer slots collapse — no leftover border or padding when unused.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    variant: { control: 'select', options: ['default', 'elevated', 'outlined'] },
-    padding: { control: 'select', options: ['none', 'sm', 'md', 'lg'] },
+    variant: {
+      control: 'select',
+      options: ['default', 'elevated', 'outlined'],
+      type: { name: 'string' },
+      description: 'Surface treatment',
+    },
+    padding: {
+      control: 'select',
+      options: ['none', 'sm', 'md', 'lg'],
+      type: { name: 'string' },
+      description: 'Interior padding (applies to all three slots)',
+    },
   },
   args: { variant: 'default', padding: 'md' },
   render: (args) => ({

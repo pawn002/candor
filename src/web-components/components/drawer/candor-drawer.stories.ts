@@ -3,10 +3,50 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Drawer',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-drawer>\` renders a slide-in panel anchored to a viewport edge. Uses \`<dialog>\`
+for native focus trapping and Escape key handling.
+
+**Drawer vs. Vertical Tabs**
+
+| Use | When |
+|---|---|
+| \`candor-drawer\` | The panel **overlays** content without navigating away — filters, inspector details, contextual toolbars. |
+| \`candor-tabs orientation="vertical"\` | The panel **replaces** content — settings categories, sidebar nav where the left list selects the main content. |
+
+**Dismissal:** The drawer emits a \`closed\` CustomEvent on Escape, backdrop click (when
+\`dismissOnBackdrop\` is true), and the built-in close button. The parent is responsible
+for syncing \`open="false"\` (or removing the open attribute) in response.
+
+Entry animation uses \`@starting-style\` (Chrome 117+, Firefox 129+); degrades gracefully
+to instant appearance on unsupported browsers. Honors \`prefers-reduced-motion\`.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    heading: { control: 'text' },
-    position: { control: 'select', options: ['left', 'right', 'bottom'] },
-    size: { control: 'select', options: ['sm', 'md', 'lg', 'full'] },
+    open: { control: 'boolean', type: { name: 'boolean' }, description: 'Controls visibility' },
+    heading: { control: 'text', type: { name: 'string' }, description: 'Panel heading. Omit for headless panels.' },
+    position: {
+      control: 'select',
+      options: ['right', 'left', 'bottom'],
+      type: { name: 'string' },
+      description: 'Edge the drawer slides in from',
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg', 'full'],
+      type: { name: 'string' },
+      description: 'Panel width (left/right) or height (bottom)',
+    },
+    dismissOnBackdrop: {
+      control: 'boolean',
+      type: { name: 'boolean' },
+      description: 'Click outside the panel to close',
+    },
   },
   args: { heading: 'Settings', position: 'right', size: 'md' },
   render: (args) => ({

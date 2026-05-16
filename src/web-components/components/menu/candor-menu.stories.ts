@@ -3,6 +3,30 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const meta: Meta = {
   title: 'Web Components/Menu',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-menu>\` — dropdown list of actions triggered by a button. Implements the
+[ARIA Menu Button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/):
+Arrow keys navigate items, Enter/Space activate, Escape closes and returns focus.
+
+Use a menu when a single button would otherwise need 3+ secondary actions alongside it.
+If you have 1–2 secondary actions, use separate \`<candor-button>\` elements instead.
+
+Supports separators between logical groups (\`'separator'\` entry) and disabled states on
+individual items (\`{ label, disabled: true }\`). The trigger label becomes the accessible
+name for the menu button — make it descriptive, not just "More" or "Options".
+
+Pass \`entries\` as \`(MenuItem | 'separator')[]\` via the JS property. Emits a
+\`selected\` CustomEvent with the chosen entry.
+        `.trim(),
+      },
+    },
+  },
+  argTypes: {
+    label: { control: 'text', type: { name: 'string' }, description: 'Trigger button label (becomes the menu\'s accessible name)' },
+  },
   render: () => ({
     template: `<candor-menu id="demo-menu" label="Actions"></candor-menu>
     <script>

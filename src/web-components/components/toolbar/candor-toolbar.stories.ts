@@ -5,9 +5,42 @@ const BTN = 'btn btn-ghost btn-sm';
 const meta: Meta = {
   title: 'Web Components/Toolbar',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+\`<candor-toolbar>\` — horizontal or vertical strip of related controls. Implements the APG
+Toolbar pattern — the entire toolbar is a **single tab stop**; arrow keys move focus
+between controls inside it.
+
+**ARIA contract:** \`role="toolbar"\` on the container; \`aria-label\` or
+\`aria-labelledby\` required for identification when multiple toolbars appear on a page.
+\`aria-orientation\` is set automatically from the \`orientation\` attribute.
+
+**Roving tabindex:** On first Tab into the toolbar, focus lands on the last-active item
+(or the first item on initial visit). Arrow keys (Left/Right for horizontal, Up/Down for
+vertical) move focus; Home/End jump to first/last. Tab moves focus out of the toolbar
+entirely — not to the next item within it.
+
+**Toggle buttons:** Use \`aria-pressed\` on \`<button>\` elements for on/off state (Bold,
+Italic, active filter). The toolbar does not manage pressed state — that is the consumer's
+responsibility.
+
+**Separator:** Use \`<candor-toolbar-separator>\` between logical groups. In a horizontal
+toolbar use the default \`orientation="vertical"\`; in a vertical toolbar set
+\`orientation="horizontal"\`.
+        `.trim(),
+      },
+    },
+  },
   argTypes: {
-    ariaLabel: { control: 'text' },
-    orientation: { control: 'select', options: ['horizontal', 'vertical'] },
+    ariaLabel: { control: 'text', type: { name: 'string' }, description: 'Accessible label for the toolbar' },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      type: { name: 'string' },
+      description: 'Layout direction; controls which arrow keys navigate',
+    },
   },
   args: { ariaLabel: 'Text formatting', orientation: 'horizontal' },
   render: (args) => ({
