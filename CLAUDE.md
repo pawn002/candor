@@ -564,7 +564,7 @@ For projected content (`<slot>`), use `::slotted()` selectors:
 
 ## Accessibility Authoring Conventions
 
-These patterns emerged from the 26-component A11Y audit. See `docs/A11Y-AUDIT.md` for per-component findings and `docs/A11Y-ANALYSIS.md` for cross-cutting trend analysis.
+These patterns emerged from the 26-component A11Y audit. See `docs/A11Y-AUDIT.md` for per-component findings (currently transitioning to a WC-focused, screen-reader-persona scope; historical Angular findings preserved in the same file) and `docs/archive/A11Y-ANALYSIS.md` for cross-cutting trend analysis from the Angular-era audit.
 
 ### Live region pre-establishment
 
@@ -663,8 +663,8 @@ Detailed workflow documentation in `docs/`:
 - `DESIGN-TOKENS.md`: Token modification guide
 - `CPQI-INTEGRATION.md`: CPQI CLI usage patterns and commands
 - `PLAYWRIGHT-WORKFLOW.md`: Playwright MCP usage patterns
-- `A11Y-AUDIT.md`: Per-component accessibility audit findings (all 26 components)
-- `A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the audit — authoring conventions, gotchas, and review priorities
+- `A11Y-AUDIT.md`: Per-component accessibility audit. Subject: `@candor-design/web-components` (primary). Persona scope: screen-reader user (NVDA + Chrome baseline) — other AT personas tracked for follow-up revisions. Historical Angular findings preserved for cross-checking against the WC ports.
+- `archive/A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the Angular-era audit — authoring conventions, gotchas, and review priorities. Pending a WC refresh after the current audit completes.
 - `ACCESSIBILITY-CONFORMANCE.md`: WCAG 2.1 AA conformance statement — what the library guarantees, consumer responsibilities, known limitations
 - `BREAKING-CHANGES.md`: Breaking change policy — version classification taxonomy and migration note template
 
