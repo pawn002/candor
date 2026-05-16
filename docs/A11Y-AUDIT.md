@@ -2,7 +2,11 @@
 
 **Library under audit:** `@candor-design/web-components` (the primary consumer-facing distribution — 34 Lit 3 custom elements).
 
-**Persona scope (this revision):** Screen-reader user — NVDA + Chrome as baseline. **Out of scope** for this revision: keyboard-only-without-SR, voice-control, switch-control, magnification, low-vision-without-SR. Each of those represents a distinct AT user persona with its own audit lens; they will be added in subsequent revisions.
+**Personas covered (in order added):**
+1. **Screen-reader user** — NVDA + Chrome as baseline. Methodology + findings below in the [WC SR Audit Findings](#wc-sr-audit-findings) section.
+2. **Keyboard-only user** (no SR) — sighted user navigating with Tab, Shift+Tab, arrow keys, Enter, Space, Escape. No mouse. Findings in the [WC Keyboard-only Audit Findings](#wc-keyboard-only-audit-findings) section.
+
+**Still out of scope:** voice-control, switch-control, magnification, low-vision-without-SR. Each of those is a distinct AT user persona with its own audit lens; they will be added in subsequent revisions.
 
 **Method per component:**
 1. Navigate to the default story iframe; wait for first render.
@@ -21,7 +25,7 @@ Status legend: ⬜ Pending · 🔄 In Progress · ✅ Pass · ⚠ Issues found �
 
 ## Open Issues Backlog
 
-Issues found during the WC SR audit that aren't fixed in the same session as discovery (cross-cutting, or scoped to a follow-up).
+Issues found during the WC audit (SR + keyboard) that aren't fixed in the same session as discovery (cross-cutting, or scoped to a follow-up). BL-* are screen-reader findings; KB-* are keyboard-only findings.
 
 | ID | Title | Affects | Severity | Source |
 |---|---|---|---|---|
@@ -29,6 +33,7 @@ Issues found during the WC SR audit that aren't fixed in the same session as dis
 | ~~BL-2~~ | ~~Decorative SVGs inside in-shadow buttons appear in the AT tree as `img`.~~ **Withdrawn**: source already has `aria-hidden="true"` on Menu trigger chevron, Modal close icon, and Select caret. The Playwright AT snapshot reports SVGs as `img [ref]` even when aria-hidden — a known snapshot-tool artifact, not what NVDA reads. Confirmed via DOM probe: the icon-only Modal close button has `aria-label="Close"` and the SVG's aria-hidden is honored. | — | n/a | Withdrawn after verification |
 | ~~BL-3~~ | ~~`<script>` blocks in story templates are stripped~~ — **Fixed**: candor-menu stories rewritten to use JSON-encoded `entries='${JSON.stringify(...)}'` attribute injection (mirrors the data-grid pattern). Default story now renders populated. | Menu stories | Medium | Fixed |
 | ~~BL-4~~ | ~~`<li>` separator inside `candor-menu` renders without `role="separator"`~~ — **Fixed**: separator now renders as `<li role="separator">` so screen readers hear a grouping break. | Menu | Low | Fixed |
+| KB-1 | Sibling `<candor-radio>` elements with a shared `name` don't form a browser-native radio group across shadow-DOM boundaries: ArrowDown/Up doesn't move focus or selection between sibling radios. Keyboard-only users must Tab through each option AND press Space to select — the native single-stop "arrow-to-select" pattern is broken. | Radio (any group of `<candor-radio>` siblings sharing a name) | Medium | Phase 2 keyboard pass, Radio Group story |
 
 ---
 
@@ -486,21 +491,100 @@ Article uses semantic HTML (`<article>`, `<h1>`–`<h6>`, `<p>`, `<abbr>`, `<fig
 
 ---
 
+## WC Keyboard-only Audit Findings
+
+**Persona:** Sighted user, no screen reader, no mouse. Navigation is `Tab` / `Shift+Tab` for focus movement; arrow keys for in-widget movement; `Enter` / `Space` to activate; `Escape` to dismiss. Focus must remain visible at all times.
+
+**Method per component:**
+1. Navigate to the default story iframe.
+2. Press `Tab` from a known starting element; record where focus lands and confirm a visible focus indicator (`:focus-visible` outline, ring, or equivalent — `outline: none` without a replacement is a fail).
+3. Continue `Tab`-ing through the component, confirming every interactive element is reachable and the order is logical (matches visual reading order).
+4. For composite widgets, verify roving-tabindex (one Tab stop into the widget, arrow keys to navigate within).
+5. Activate with `Enter` / `Space` and confirm the expected behavior. For overlays (Modal, Drawer, Menu), confirm `Escape` closes and returns focus to the trigger.
+6. `Shift+Tab` exits the widget cleanly.
+7. Document failures; an issue is genuine if a keyboard-only user would be unable to reach, see, activate, or escape a component.
+
+**Phase tables**
+
+### Phase 1 — Composite Widgets
+
+| # | Component | Tab in | Internal nav | Activate | Escape | Focus visible | Status |
+|---|---|---|---|---|---|---|---|
+| 1 | TonePicker | ✅ first in-gamut radio | ✅ arrows, OOG-skip | ✅ Enter / Space | n/a | ✅ outline-focus | ✅ Pass |
+| 2 | DataGrid | ✅ first cell (roving) | ✅ arrows, Home/End | ✅ Enter / Space | n/a | ✅ outline + ring | ✅ Pass |
+| 3 | Tabs | ✅ active tab | ✅ ArrowLeft/Right (auto-activate) | ✅ Enter / Space | n/a | ✅ outline-focus | ✅ Pass |
+| 4 | Modal | ✅ Close button | ✅ Tab cycles within | ✅ Enter | ✅ closes + returns focus to trigger | ✅ outline-focus | ✅ Pass |
+| 5 | Menu | ✅ trigger; Enter opens to first menuitem | ✅ arrows | ✅ Enter / Space | ✅ closes + returns focus to trigger | ✅ outline-focus | ✅ Pass |
+| 6 | Accordion | ✅ summary | ✅ Tab to next | ✅ Enter / Space toggles | n/a | ✅ native | ✅ Pass |
+
+### Phase 2 — Form Controls
+
+| # | Component | Tab in | Activate / value change | Focus visible | Status |
+|---|---|---|---|---|---|
+| 7 | Input | ✅ | ✅ typing | ✅ box-shadow ring + border color shift | ✅ Pass |
+| 8 | Checkbox | ✅ | ✅ Space toggles | ✅ outline on custom box (`:focus-visible` via hidden-input proxy) | ✅ Pass |
+| 9 | Radio | ✅ | ⚠ Space-only (arrow nav broken across shadow roots) | ✅ outline on custom dot | ⚠ KB-1 |
+| 10 | Switch | ✅ | ✅ Space toggles | ✅ outline on custom track | ✅ Pass |
+| 11 | Slider | ✅ | ✅ arrows step value | ✅ native range thumb focus | ✅ Pass |
+| 12 | ChatInput | ✅ textarea | ✅ Enter sends (when not empty); send button enabled when text present | ✅ native textarea focus | ✅ Pass |
+
+### Phase 3 — Feedback & Live Regions
+
+| # | Component | Tab in | Dismiss reachable | Focus visible | Status |
+|---|---|---|---|---|---|
+| 13 | Alert | n/a; dismissible variant has dismiss button | ✅ Tab → "Dismiss" | ✅ | ✅ Pass |
+| 14 | Toast | n/a; dismissible variant has dismiss button | ✅ Tab → "Dismiss notification" | ✅ | ✅ Pass |
+| 15 | Progress | n/a non-interactive | n/a | n/a | ✅ Pass |
+
+### Phase 4 — Navigation & Structural
+
+| # | Component | Tab through links | Active marker visible | Focus visible | Status |
+|---|---|---|---|---|---|
+| 16 | Navigation | ✅ Tab moves through anchors | ✅ aria-current="page" + visual treatment | ✅ outline-focus | ✅ Pass |
+| 17 | Breadcrumb | ✅ Tab moves through link crumbs; current page is plain text (skipped) | ✅ visual + aria-current="page" | ✅ outline-focus | ✅ Pass |
+| 18 | Tooltip | ✅ trigger Tabbable; focus shows the bubble (opacity 0 → 1) | n/a | ✅ outline on trigger | ✅ Pass |
+| 19 | Chip | ✅ static chip — not in tab order (correct for non-interactive) | n/a | n/a | ✅ Pass |
+| 20 | Button | ✅ native button | n/a | ✅ outline-focus | ✅ Pass |
+
+### Phase 5 — Display & Typography
+
+| # | Component | Interactive parts | Slotted-content reach | Status |
+|---|---|---|---|---|
+| 21 | Badge | none | n/a | ✅ Pass |
+| 22 | Stat | none | slotted badges/links reachable via natural tab order | ✅ Pass |
+| 23 | Table | none in default story | n/a | ✅ Pass |
+| 24 | Card | none — host is layout primitive | slotted content (links, buttons) reachable via natural tab order | ✅ Pass |
+| 25 | Heading | none | n/a | ✅ Pass |
+| 26 | AccessibleText / Text / Article | none | slotted content (links inside `<candor-article>`) reachable | ✅ Pass |
+
+**Walkthrough notes (highlights only):**
+- **Phase 1:** All composite widgets pass. Modal uses native `<dialog>.showModal()` for focus trap + return-focus. Menu opens with Enter → first menuitem → arrows → Escape returns focus to trigger. TonePicker / DataGrid use roving tabindex with single-stop entry.
+- **Phase 2:** One real finding (KB-1, Medium). Sibling `<candor-radio>` elements with a shared `name` no longer form a native browser radio group across shadow-DOM boundaries — keyboard users must Tab between options AND press Space to select, instead of the native single-stop ArrowDown-to-select pattern. The component currently relies on browser-native radio grouping, which only works in light DOM. A wrapping `<candor-radio-group>` with explicit keyboard nav would restore the expected UX.
+- **Phase 3:** Both dismissible Alert and Toast surface their dismiss button in the tab order; non-dismissible variants are correctly non-interactive.
+- **Phase 4:** Native anchors / buttons throughout; Tooltip bubble appears on trigger focus via CSS `:focus-within` (no JS needed for keyboard reveal).
+- **Phase 5:** All purely display components — nothing in tab order from the host element itself; slotted content (links, buttons inside Card / Article / Stat) reaches the user via natural document order.
+
+---
+
 ## Summary
 
-**Pass / issue split across 26 components (post-fix):**
-- ✅ Pass (no open issues): **25** components
-- ✅ Pass with caveat: **1** component (Tooltip — AT-hidden by design; intentional for trigger-labeled use only)
+**Personas covered:** Screen-reader (NVDA + Chrome baseline) · Keyboard-only (no SR).
 
-All Phase 1 components that initially had findings (TonePicker, Tabs, Modal, Menu) now pass after the BL-1, BL-3, BL-4, BL-2-withdrawn, and per-component polish fixes.
+**Pass / issue split across 26 components:**
+| Persona | ✅ Pass | ⚠ Issues | ✅ With caveat |
+|---|---|---|---|
+| Screen-reader | 25 | 0 (all fixed) | 1 (Tooltip — AT-hidden by design) |
+| Keyboard-only | 25 | 1 (Radio: KB-1) | 0 |
 
-**Cross-cutting backlog items: 4** — see [Open Issues Backlog](#open-issues-backlog) above.
+All Phase 1 SR findings (TonePicker, Tabs, Modal, Menu) were fixed during this audit. The keyboard pass surfaced one new Medium issue: `<candor-radio>` sibling arrow-navigation across shadow-DOM (KB-1).
 
-**Severity distribution of issues found:**
-- Medium: 1 (BL-3, stripped script tags in story templates → empty Menu default)
+**Cross-cutting backlog items: 5** (4 SR + 1 KB) — see [Open Issues Backlog](#open-issues-backlog) above.
+
+**Severity distribution:**
+- Medium: 2 — BL-3 (fixed); KB-1 (open)
 - Low: 6 — all fixed (BL-1 ariaLabel host duplication, BL-2 withdrawn after verification, BL-4 menu separator role, TonePicker OOG label noise, Tabs panel-host opacity, Progress redundant aria-label)
 
-**No critical or high-severity SR blockers** were found in the WC library. The library cleanly inherits or improves on the historical Angular audit results across all categories.
+**No critical or high-severity blockers** in either persona. The library cleanly inherits or improves on the historical Angular audit results across all categories.
 
 **Recommended next steps:**
 1. ✅ **Done** — all six low-severity items fixed (BL-1/3/4 + TonePicker OOG noise + Tabs panel-host + Progress redundancy). BL-2 withdrawn after verification.
