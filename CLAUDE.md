@@ -4,7 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an Angular + Storybook design system playground built for AI-assisted design iteration with real-time accessibility validation. The primary workflow involves receiving art direction specs, implementing them in design tokens, and validating accessibility using the CPQI CLI for color contrast and Playwright MCP for visual inspection.
+Candor is a design system distributed as three layers, all developed in a single Storybook so the same stories validate every layer:
+
+1. **`@candor-design/tokens`** — the CSS custom-property layer (OKLCH colors, spacing, typography). Everything else is built on top of this.
+2. **`@candor-design/web-components`** — the primary consumer-facing component library: 34 Lit 3 custom elements. Framework-agnostic; the WC stories under `Components/`, `Typography/`, `Design Tokens/`, and `Examples/` are the canonical surface.
+3. **Angular component library** (`src/app/`) — the same component API expressed as Angular standalone components, for teams already on Angular. Stories live under `Angular Components/` in the Storybook tree.
+
+The workflow targets AI-assisted design iteration with real-time accessibility validation: receive art-direction specs, implement them in design tokens, validate accessibility using the CPQI CLI for color contrast, and inspect visually with Playwright MCP. Token changes propagate to both component layers because both consume the same CSS custom properties.
 
 ## Design Philosophy
 
@@ -79,18 +85,29 @@ Colors use OKLCH format: `oklch(L C H)` where:
 
 ### Component Structure
 
-Angular standalone components in `src/app/components/`:
+Two parallel component libraries share the token layer:
+
+**Web components** (`src/web-components/components/`, the primary surface):
+- Each component has a `candor-{name}.ts` (Lit class) + `candor-{name}.stories.ts`. Styles live inside the class via `static styles = css\`...\``.
+- Stories use the same `@storybook/angular` Meta type but render via `template:` literal strings containing custom-element markup.
+- Components register themselves on import via `@customElement('candor-{name}')` — pulling `src/web-components/index.ts` is enough to register all 34 tags.
+- Shadow DOM by default. CSS custom properties pierce shadow boundaries, so tokens reach inner styles without per-component injection.
+
+**Angular components** (`src/app/components/`):
 - Each component has: `.ts`, `.scss`, `.stories.ts` files
 - Stories demonstrate all variants and states
 - Components use `:host` selector for scoping
 - All components are standalone (no NgModule)
 
-**Component categories**:
-- `typography/`: heading, text
+When porting a new feature: implement it in both libraries unless explicitly scoped to one. The WC version is canonical for consumers; the Angular version exists for parity with the Angular library's history. Mirror the API names (props, events) across the two so docs stay valid for both.
+
+**Component categories** (same shape in both libraries):
+- `typography/`: heading, text, accessible-text, article
 - `button/`: button with variants (primary, secondary, tertiary, ghost)
-- `form/`: input, checkbox, radio
-- `spacing/`: spacing-showcase
-- `examples/`: composed component examples (card-example, form-example)
+- `form/`: input, checkbox, radio, switch, slider, select, listbox, combobox, chat-input
+- `data/`: table, data-grid, tone-picker
+- `overlays/`: modal, drawer, tooltip, toast
+- `examples/`: composed stories (color-iterator, settings, article, chat, editor, etc.)
 
 ### Storybook Configuration
 
@@ -416,6 +433,135 @@ With `ViewEncapsulation.None`, Angular does not add scoping attributes, so desce
 
 **Why `::ng-deep` fails for projected content**: Angular's emulated encapsulation adds a unique attribute (e.g. `_ngcontent-xxx`) to elements in the component's own template. Elements projected from outside (string literals in stories, or content from a parent template) receive the *parent's* scoping attribute, not the component's — so `:host h1 { }` never matches them. `ViewEncapsulation.None` sidesteps this entirely.
 
+## Web Components Authoring Conventions
+
+The WC library is the primary consumer-facing distribution. It is built on **Lit 3**, ships as `@candor-design/web-components`, and runs in any framework (or none).
+
+### Component shape
+
+```typescript
+import { LitElement, css, html, nothing } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+
+@customElement('candor-foo')
+export class CandorFoo extends LitElement {
+  static override styles = css`
+    :host { display: block; }
+    /* shadow-DOM-scoped CSS — design tokens reach inside via custom properties */
+  `;
+
+  @property() label = '';                                            // string attribute
+  @property({ type: Boolean, reflect: true }) open = false;          // bool, reflected to DOM
+  @property({ type: Array, attribute: 'menu-items' }) items = [];    // JSON-parsed from attribute
+  @property({ attribute: 'aria-label' }) ariaLabel_ = '';            // host-trap workaround (see below)
+  @state() private _internal = 0;                                    // reactive but not part of public API
+
+  override render() {
+    return html`<button @click=${this._onClick}>${this.label}</button>`;
+  }
+
+  private _onClick = () => {
+    this.dispatchEvent(new CustomEvent('foo-select', {
+      detail: { value: this.label },
+      bubbles: true,
+      composed: true,
+    }));
+  };
+}
+
+declare global {
+  interface HTMLElementTagNameMap { 'candor-foo': CandorFoo; }
+}
+```
+
+Register the component in `src/web-components/index.ts` via `export * from './components/foo/candor-foo';`. The `@customElement()` call runs at import time, so a bare side-effect import registers the tag.
+
+### Attribute / property naming
+
+Lit's `@property()` lowercases the property name when computing the default HTML attribute name. So `columnHeaders` → attribute `columnheaders`, but the **JS property remains camelCase**.
+
+**Always set an explicit kebab-case attribute on multi-word properties** so HTML markup is readable:
+
+```typescript
+@property({ type: Array, attribute: 'column-headers' }) columnHeaders: string[] = [];
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ — without this, attribute is "columnheaders"
+```
+
+**Pass JSON via attributes** (matches the data-grid story pattern):
+
+```html
+<candor-data-grid
+  rows='${JSON.stringify(rows)}'
+  column-headers='${JSON.stringify(headers)}'>
+</candor-data-grid>
+```
+
+`@property({ type: Array })` calls `JSON.parse()` on the attribute value automatically. JS-side setters use the camelCase name (`el.columnHeaders = [...]`), not the lowercased attribute name.
+
+### Custom events
+
+Outputs are DOM `CustomEvent`s, not Angular `Output()`s. Always set `bubbles: true, composed: true` so the event crosses the shadow boundary; otherwise listeners on light-DOM ancestors never see it. Use kebab-case event names (`color-select`, `cell-activate`) to match HTML convention.
+
+Add the event to the global event map if consumers need typed listeners — though most projects bind via `@event-name=...` in templates and don't need this.
+
+### aria-label host-trap
+
+ARIA attributes on the custom element host (`<candor-input aria-label="Email">`) do **not** propagate to the inner `<input>` inside the shadow DOM. Browsers treat the host as a generic container for ARIA purposes.
+
+Expose an `ariaLabel_` property mapped to the `aria-label` attribute and bind it inside:
+
+```typescript
+@property({ attribute: 'aria-label' }) ariaLabel_ = '';
+```
+
+```typescript
+render() {
+  return html`<input aria-label=${this.ariaLabel_ || nothing} />`;
+}
+```
+
+(The trailing underscore avoids clashing with `Element.ariaLabel`, which exists on all elements.)
+
+### Storybook templates: data must flow via attributes, not `<script>`
+
+The Storybook stories use `@storybook/angular`'s renderer for both WC and Angular stories (single Storybook instance). The renderer **strips inline `<script>` tags** from `template:` strings, so this pattern silently leaves elements empty:
+
+```html
+<!-- ✗ WRONG — script tag is stripped, element gets no rows -->
+<candor-data-grid id="my-grid"></candor-data-grid>
+<script>document.getElementById('my-grid').rows = [...];</script>
+```
+
+Use attribute injection instead:
+
+```html
+<!-- ✓ CORRECT -->
+<candor-data-grid rows='${JSON.stringify(rows)}' column-headers='${JSON.stringify(headers)}'></candor-data-grid>
+```
+
+### Shadow DOM scoping
+
+All components use the default shadow DOM. Token CSS custom properties (`--color-…`, `--font-…`, `--spacing-…`) pierce shadow boundaries automatically — loading `candor-tokens.css` once in the consumer page is enough. Do **not** redeclare tokens inside `static styles` or hard-code OKLCH values.
+
+For projected content (`<slot>`), use `::slotted()` selectors:
+
+```css
+::slotted(svg) { width: 1em; height: 1em; }
+```
+
+`::slotted()` only matches direct children of the slot, not descendants. For deeper styling, expose CSS custom properties consumers can set from outside.
+
+### Lit lifecycle quick reference
+
+| Hook | When | Use for |
+|---|---|---|
+| `connectedCallback()` | Element inserted into DOM | Subscribing to global events; remember to call `super.connectedCallback()` |
+| `willUpdate(changed)` | Before each render | React to property changes that should affect this render |
+| `updated(changed)` | After DOM is updated | Focus management, querying the shadow root |
+| `disconnectedCallback()` | Element removed | Cleanup; remember `super.disconnectedCallback()` |
+
+`willUpdate` is the equivalent of Angular's `effect()` for reacting to input changes — check `changed.has('propName')` to gate the work.
+
 ## Accessibility Authoring Conventions
 
 These patterns emerged from the 26-component A11Y audit. See `docs/A11Y-AUDIT.md` for per-component findings and `docs/A11Y-ANALYSIS.md` for cross-cutting trend analysis.
@@ -469,16 +615,29 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 ## Common Pitfalls
 
+### Tokens and visual
+
 1. **Don't hard-code colors**: Always use design tokens
 2. **Don't use hex colors in tokens**: Use OKLCH format
 3. **Don't skip accessibility validation**: Check contrast before finalizing
 4. **Don't create components without stories**: Every component needs a story
 5. **Don't modify node_modules**: This is obvious but worth stating
-6. **Never use `::ng-deep`**: It is deprecated. Use `ViewEncapsulation.None` with a host class for scoping when styling projected content (see "View Encapsulation and Projected Content" above)
-7. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
-8. **Don't put `aria-label` on component host elements**: It won't reach the inner interactive element — use the `ariaLabel` input pattern instead (see "Host element ARIA trap" above)
-9. **Don't use `<header>`/`<footer>` inside dialogs or panels**: They inherit landmark roles (`banner`, `contentinfo`) in Chrome. Use `role="none"` or `<div>` (see "Landmark pollution" above)
-10. **Don't expose formatter logic for OKLCH axes**: Axes like chroma have dynamic min/max based on hue — auto-computed formatters will be wrong. Expose a `valueTextFn = input<(v: number) => string>()` and let the consumer supply the semantics
+6. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
+7. **Don't put `aria-label` on component host elements** (Angular **or** WC): It won't reach the inner interactive element — use the `ariaLabel` input / `ariaLabel_` property pattern instead (see "Host element ARIA trap" and "Web Components Authoring Conventions" above)
+8. **Don't use `<header>`/`<footer>` inside dialogs or panels**: They inherit landmark roles (`banner`, `contentinfo`) in Chrome. Use `role="none"` or `<div>` (see "Landmark pollution" above)
+9. **Don't expose formatter logic for OKLCH axes**: Axes like chroma have dynamic min/max based on hue — auto-computed formatters will be wrong. Expose a `valueTextFn = input<(v: number) => string>()` and let the consumer supply the semantics
+
+### Angular-specific
+
+10. **Never use `::ng-deep`**: It is deprecated. Use `ViewEncapsulation.None` with a host class for scoping when styling projected content (see "View Encapsulation and Projected Content" above)
+11. **Don't use `signal()` where a parent template binds**: Bindings will silently break. Use `model()` for two-way or `input()` for one-way (see "Angular Signal Types — Binding Behaviour" above)
+
+### Web-component-specific
+
+12. **Don't inject data via `<script>` tags in story templates**: Storybook's Angular renderer strips them. Pass data via JSON-encoded attributes (`rows='${JSON.stringify(...)}'`) instead — see "Storybook templates: data must flow via attributes, not <script>" above.
+13. **Don't rely on Lit's default attribute lowercasing for multi-word props**: `columnHeaders` becomes attribute `columnheaders` by default — unreadable in markup. Always set `attribute: 'column-headers'` explicitly on `@property()`.
+14. **Don't omit `composed: true` on dispatched events**: Without it, events stop at the shadow boundary and never reach light-DOM listeners. Always set both `bubbles: true` and `composed: true`.
+15. **Don't redeclare tokens inside `static styles`**: Design tokens pierce shadow DOM automatically via CSS custom properties. Hard-coding `oklch(...)` inside a component breaks dark mode and token-driven theming.
 
 ## Testing Strategy
 

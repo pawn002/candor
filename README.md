@@ -259,7 +259,7 @@ Candor is a **humanist** design system. Every decision — OKLCH colors, variabl
 
 ## Development
 
-This repository contains the full design system, including the Angular + Storybook component library that the tokens power.
+This repository contains the full design system: the **`@candor-design/tokens`** CSS layer, the **`@candor-design/web-components`** Lit 3 custom-element library (the primary consumer-facing distribution), and an Angular standalone-component library that mirrors the same API for teams already on Angular. All three live in a single Storybook so the same stories validate every layer.
 
 ### Prerequisites
 
