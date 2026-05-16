@@ -250,6 +250,15 @@ export class CandorTabPanel extends LitElement {
   @property({ attribute: 'panel-id', reflect: true }) panelId = '';
   @property({ type: Boolean, reflect: true }) active = false;
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    // The host is a styling wrapper; the actual role="tabpanel" lives in the
+    // shadow root. Setting role="presentation" on the host makes that
+    // deterministic — without it, Chrome happens to collapse the empty host
+    // in the AT tree today but the behavior isn't guaranteed.
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'presentation');
+  }
+
   override render() {
     return html`<div role="tabpanel" id="panel-${this.panelId}" aria-labelledby="tab-${this.panelId}" tabindex="0"><slot></slot></div>`;
   }

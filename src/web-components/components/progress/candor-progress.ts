@@ -79,7 +79,7 @@ export class CandorProgress extends LitElement {
           aria-valuemin="${this.indeterminate ? nothing : '0'}"
           aria-valuemax="${this.indeterminate ? nothing : '100'}"
           aria-valuetext="${this.indeterminate ? nothing : `${Math.round(this.value)}%`}"
-          aria-label="${this.label || 'Loading'}"
+          aria-label="${this.label ? nothing : 'Loading'}"
           aria-labelledby="${this.label ? this._labelId : nothing}"
         >
           <div

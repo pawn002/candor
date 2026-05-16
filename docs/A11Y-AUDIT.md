@@ -36,11 +36,11 @@ Issues found during the WC SR audit that aren't fixed in the same session as dis
 
 | # | Component | WC tag | Status | Notes |
 |---|---|---|---|---|
-| 1 | TonePicker | `candor-tone-picker` | ⚠ Issues found | 2 low (BL-1 host-aria-label, OOG label noise) |
+| 1 | TonePicker | `candor-tone-picker` | ✅ Pass | Was 2 low (BL-1 host-aria-label, OOG label noise) — both fixed |
 | 2 | DataGrid | `candor-data-grid` | ✅ Pass | Uses `<caption>` not `aria-label` — avoids the BL-1 trap |
-| 3 | Tabs | `candor-tabs` | ⚠ Issues found | 1 low (BL-1), 1 question (tab-panel host opacity) |
-| 4 | Modal | `candor-modal` | ⚠ Issues found | 1 low (BL-2 close SVG) |
-| 5 | Menu | `candor-menu` | ⚠ Issues found | 1 medium (BL-3 empty default story), 2 low (BL-2, BL-4) |
+| 3 | Tabs | `candor-tabs` | ✅ Pass | Was 1 low (BL-1) + 1 question (tab-panel host opacity) — both fixed |
+| 4 | Modal | `candor-modal` | ✅ Pass | BL-2 (close SVG) withdrawn — source already has aria-hidden |
+| 5 | Menu | `candor-menu` | ✅ Pass | Was 1 medium (BL-3) + 2 low (BL-2 withdrawn, BL-4) — all resolved |
 | 6 | Accordion | `candor-accordion-item` | ✅ Pass | Native `<details>`/`<summary>` — clean |
 
 ---
@@ -64,7 +64,7 @@ Issues found during the WC SR audit that aren't fixed in the same session as dis
 |---|---|---|---|---|
 | 13 | Alert | `candor-alert` | ✅ Pass | `role="alert"` on error/warning; `role="status"` on info/success |
 | 14 | Toast | `candor-toast` | ✅ Pass | `role="status"` (polite); dismiss button has explicit aria-label |
-| 15 | Progress | `candor-progress` | ✅ Pass | `role="progressbar"` with valuemin/max/now/text |
+| 15 | Progress | `candor-progress` | ✅ Pass | `role="progressbar"` with valuemin/max/now/text; redundant aria-label removed |
 
 ---
 
@@ -121,7 +121,7 @@ Issues found during the WC SR audit that aren't fixed in the same session as dis
 | # | Issue | Severity | Notes |
 |---|---|---|---|
 | 1 | Accessible name appears twice: once on the host `generic "Navy H 245.34 — sRGB gamut"`, then again on the inner `grid "Navy H 245.34 — sRGB gamut"`. NVDA on entry reads the name twice in succession. | Low | Caused by the `ariaLabel_` host-trap workaround — we propagate the attribute inward, but the host's own accessible name from the attribute isn't suppressed. Fix would require removing `aria-label` from the host after mirroring it to the inner element, or accepting the duplicate as a price of the WC mapping. Same risk exists on every WC that uses the `ariaLabel_` pattern (see Switch, Slider, Button entries). |
-| 2 | Every out-of-sRGB-gamut cell is exposed as `gridcell "Out of gamut"`. A SR user using virtual-cursor read-all hears "Out of gamut" 40+ times across the grid even though the hint paragraph already explained that blank cells are OOG. | Low | Reduces redundant noise to drop the per-cell label and let OOG cells announce as plain `gridcell` (empty) — the hint already provides the global explanation. Alternatively, `role="none"` on OOG cells, but that breaks consistent column counts in the grid model. |
+| 2 | ~~Every out-of-sRGB-gamut cell is exposed as `gridcell "Out of gamut"`. A SR user using virtual-cursor read-all hears "Out of gamut" 40+ times across the grid even though the hint paragraph already explained that blank cells are OOG.~~ **Fixed**: dropped the per-cell `aria-label` so OOG cells now announce as empty `gridcell` (NVDA: "blank"). The keyboard-hint paragraph above the grid is the single explainer. 44 OOG cells per default story go from "Out of gamut × 44" to "blank × 44" — same row of empty announcements, but each one is shorter and the per-cell label is gone. (Further improvement would require collapsing the OOG cells entirely, which breaks grid column consistency.) | Low | Fixed |
 
 **Cross-check against historical Angular audit:** All four prior fixes (sr-only hint pre-positioning, role="group" wrapper, role="none" on corner, no second aria-live) are preserved in the WC port. The two issues above are WC-specific or were not previously flagged.
 
@@ -179,7 +179,7 @@ Issues found during the WC SR audit that aren't fixed in the same session as dis
 | # | Issue | Severity | Notes |
 |---|---|---|---|
 | 1 | Host generic and tablist both carry the same accessible name ("Product details") — NVDA reads the label twice on widget entry. | Low | Same cross-cutting WC issue as TonePicker; logged once as a cross-cutting backlog item. |
-| 2 | `<candor-tab-panel>` host element has no role; its shadow-root contains the actual `role="tabpanel"`. Chrome appears to collapse the empty host in the AT tree (the snapshot shows `tabpanel` directly), but this depends on the host being `display: contents`-like and could regress. | Question | Worth verifying with a real NVDA session whether the panel host adds noise. Documenting for follow-up. |
+| 2 | ~~`<candor-tab-panel>` host element has no role; its shadow-root contains the actual `role="tabpanel"`. Chrome appears to collapse the empty host in the AT tree, but this depends on the host being `display: contents`-like and could regress.~~ **Fixed**: `connectedCallback` on `CandorTabPanel` now sets `role="presentation"` on the host (unless the consumer overrides). AT tree behavior is now defined rather than relying on Chrome's heuristics; AT snapshot still shows `tabpanel` directly. | Question | Fixed |
 
 **Cross-check against historical Angular audit:** The Angular audit's `model<T>` fix (parent template binding for `activeId`) is moot in the WC port — Lit's `@property` setters always update internal state when set externally, so the binding "works" by default.
 
@@ -359,7 +359,7 @@ Decorative variant icons (`svg`) carry `aria-hidden="true"` ✅. Live region is 
 
 **AT exposure:** `[role="progressbar"]` with `aria-valuemin="0"`, `aria-valuemax="100"`, `aria-valuenow="65"`, `aria-valuetext="65%"`. The `aria-valuetext` formats the announcement for SR users (`"65%"` instead of raw `65`).
 
-**Minor note (not an issue):** The progressbar element has BOTH `aria-label` and `aria-labelledby` set with the same name source. Per ARIA spec, `aria-labelledby` wins; the `aria-label` is redundant but harmless. Removing it would tighten the source of truth.
+**Minor note (now fixed):** The progressbar element previously had BOTH `aria-label` and `aria-labelledby` set with the same name source. Per ARIA spec `aria-labelledby` wins, so the `aria-label` was redundant. The component now emits `aria-labelledby` when a `label` is provided and falls back to `aria-label="Loading"` when not — single source of truth in both branches.
 
 ---
 
@@ -488,23 +488,25 @@ Article uses semantic HTML (`<article>`, `<h1>`–`<h6>`, `<p>`, `<abbr>`, `<fig
 
 ## Summary
 
-**Pass / issue split across 26 components:**
-- ✅ Pass (no issues): **20** components
-- ⚠ Issues found: **4** components (TonePicker, Tabs, Modal, Menu)
-- ✅ Pass with caveat: **2** components (Tooltip — AT-hidden by design; Progress — redundant aria-label)
+**Pass / issue split across 26 components (post-fix):**
+- ✅ Pass (no open issues): **25** components
+- ✅ Pass with caveat: **1** component (Tooltip — AT-hidden by design; intentional for trigger-labeled use only)
+
+All Phase 1 components that initially had findings (TonePicker, Tabs, Modal, Menu) now pass after the BL-1, BL-3, BL-4, BL-2-withdrawn, and per-component polish fixes.
 
 **Cross-cutting backlog items: 4** — see [Open Issues Backlog](#open-issues-backlog) above.
 
 **Severity distribution of issues found:**
 - Medium: 1 (BL-3, stripped script tags in story templates → empty Menu default)
-- Low: 6 (BL-1 ariaLabel host duplication, BL-2 decorative SVGs unhidden, BL-4 menu separator role, TonePicker OOG label noise, Tabs panel-host opacity question)
+- Low: 6 — all fixed (BL-1 ariaLabel host duplication, BL-2 withdrawn after verification, BL-4 menu separator role, TonePicker OOG label noise, Tabs panel-host opacity, Progress redundant aria-label)
 
 **No critical or high-severity SR blockers** were found in the WC library. The library cleanly inherits or improves on the historical Angular audit results across all categories.
 
 **Recommended next steps:**
-1. Fix the 6 low-severity items as a batch — they're cross-cutting and would meaningfully reduce SR noise across the library.
-2. Run a real NVDA + Chrome session against the same 26 components to validate the Playwright AT-tree assumptions, especially on Accordion (`<summary>`) and the host-aria-label duplication (BL-1) where Playwright's snapshot may not exactly mirror NVDA's announcement script.
-3. Expand the audit to other AT user personas — keyboard-only, voice-control, switch-control, magnification — in subsequent revisions.
+1. ✅ **Done** — all six low-severity items fixed (BL-1/3/4 + TonePicker OOG noise + Tabs panel-host + Progress redundancy). BL-2 withdrawn after verification.
+2. Run a real NVDA + Chrome session against the same 26 components to validate the Playwright AT-tree assumptions, especially on Accordion (`<summary>`) and the host-aria-label changes — Playwright's snapshot may not exactly mirror NVDA's announcement script.
+3. Refresh `archive/A11Y-ANALYSIS.md` (or replace) to distill the WC-era patterns from this audit: `observeHostAriaLabel` for host-attribute mirroring, JSON-attribute injection for story data, native HTML elements over ARIA constructs where possible.
+4. Expand the audit to other AT user personas — keyboard-only, voice-control, switch-control, magnification — in subsequent revisions.
 
 ---
 
