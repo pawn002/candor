@@ -198,7 +198,7 @@ export class CandorMenu extends LitElement {
         >
           ${this.entries.map((entry, i) =>
             entry === 'separator'
-              ? html`<li role="none"><div class="menu-separator"></div></li>`
+              ? html`<li role="separator" class="menu-separator"></li>`
               : html`<li role="none">
                   <button
                     role="menuitem"

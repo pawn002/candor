@@ -32,11 +32,6 @@ Pair with \`<candor-table>\` for a complete paged data view.
       control: { type: 'number', min: 1 },
       description: 'Total number of pages',
     },
-    ariaLabel_: {
-      control: 'text',
-      type: { name: 'string' },
-      description: 'Accessible label for the nav landmark. Customize when multiple paginators appear on the same page.',
-    },
   },
   args: { currentPage: 3, totalPages: 10 },
   render: (args) => ({

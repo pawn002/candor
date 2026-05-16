@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../utils/host-aria';
 
 type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'destructive';
 type ButtonSize = 'small' | 'medium' | 'large';
@@ -60,7 +61,21 @@ export class CandorButton extends LitElement {
   @property({ reflect: true }) size: ButtonSize = 'medium';
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() type: 'button' | 'submit' | 'reset' = 'button';
-  @property({ attribute: 'aria-label' }) override ariaLabel: string | null = null;
+
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming on icon-only buttons — see utils/host-aria.ts).
+  @state() private _ariaLabel: string | null = null;
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
 
   override render() {
     return html`
@@ -68,7 +83,7 @@ export class CandorButton extends LitElement {
         class="button button--${this.variant} button--${this.size}"
         ?disabled="${this.disabled}"
         type="${this.type}"
-        aria-label="${this.ariaLabel ?? nothing}"
+        aria-label="${this._ariaLabel ?? nothing}"
         @click="${this._onClick}"
       ><slot></slot></button>
     `;

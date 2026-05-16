@@ -35,7 +35,6 @@ overflows horizontally.
   },
   argTypes: {
     activeId: { control: 'text', type: { name: 'string' }, description: 'Currently selected tab id' },
-    ariaLabel_: { control: 'text', type: { name: 'string' }, description: 'aria-label for the tablist' },
     theme: {
       control: 'select',
       options: ['default', 'inverse'],

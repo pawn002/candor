@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../utils/host-aria';
 
 export interface TabItem {
   id: string;
@@ -128,7 +129,11 @@ export class CandorTabs extends LitElement {
   @property({ reflect: true }) theme: 'default' | 'inverse' = 'default';
   @property({ reflect: true }) orientation: 'horizontal' | 'vertical' = 'horizontal';
   @property({ attribute: 'active-id' }) activeId = '';
-  @property({ attribute: 'aria-label' }) ariaLabel_ = '';
+
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  @state() private _ariaLabel = '';
+  private _stopObservingAriaLabel?: () => void;
 
   @state() private _canScrollLeft = false;
   @state() private _canScrollRight = false;
@@ -175,11 +180,13 @@ export class CandorTabs extends LitElement {
     super.connectedCallback();
     if (!this.activeId && this.tabs.length) this.activeId = this.tabs[0].id;
     window.addEventListener('resize', this._updateScrollState);
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     window.removeEventListener('resize', this._updateScrollState);
+    this._stopObservingAriaLabel?.();
   }
 
   override firstUpdated() {
@@ -207,7 +214,7 @@ export class CandorTabs extends LitElement {
           <div
             class="tabs__list"
             role="tablist"
-            aria-label="${this.ariaLabel_ || nothing}"
+            aria-label="${this._ariaLabel || nothing}"
             aria-orientation="${this.orientation}"
             @keydown="${this._onKeydown}"
             @scroll="${this._updateScrollState}"

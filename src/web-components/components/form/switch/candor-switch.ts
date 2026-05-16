@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../../utils/host-aria';
 
 @customElement('candor-switch')
 export class CandorSwitch extends LitElement {
@@ -72,8 +73,22 @@ export class CandorSwitch extends LitElement {
   `;
 
   @property() label?: string;
-  @property({ attribute: 'aria-label' }) ariaLabel_?: string;
   @property() name?: string;
+
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  @state() private _ariaLabel?: string;
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean }) required = false;
@@ -97,7 +112,7 @@ export class CandorSwitch extends LitElement {
           ?checked="${this.checked}"
           ?disabled="${this.disabled}"
           ?required="${this.required}"
-          aria-label="${this.ariaLabel_ || nothing}"
+          aria-label="${this._ariaLabel || nothing}"
           name="${this.name || nothing}"
           @change="${this._onChange}"
         />

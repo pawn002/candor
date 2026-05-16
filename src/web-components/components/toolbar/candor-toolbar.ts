@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../utils/host-aria';
 
 const FOCUSABLE_SELECTOR = [
   'button:not([disabled])',
@@ -36,9 +37,23 @@ export class CandorToolbar extends LitElement {
     }
   `;
 
-  @property({ attribute: 'aria-label' }) ariaLabel_ = '';
   @property({ attribute: 'aria-labelledby' }) ariaLabelledBy_ = '';
   @property({ reflect: true }) orientation: 'horizontal' | 'vertical' = 'horizontal';
+
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  @state() private _ariaLabel = '';
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
 
   private _toolbarId = `toolbar-${_nextId++}`;
 
@@ -91,7 +106,7 @@ export class CandorToolbar extends LitElement {
         role="toolbar"
         id="${this._toolbarId}"
         class="toolbar ${this.orientation === 'vertical' ? 'toolbar--vertical' : ''}"
-        aria-label="${this.ariaLabel_ || nothing}"
+        aria-label="${this._ariaLabel || nothing}"
         aria-labelledby="${this.ariaLabelledBy_ || nothing}"
         aria-orientation="${this.orientation}"
         @keydown="${this._onKeydown}"

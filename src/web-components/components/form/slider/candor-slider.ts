@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../../utils/host-aria';
 
 @customElement('candor-slider')
 export class CandorSlider extends LitElement {
@@ -123,8 +124,22 @@ export class CandorSlider extends LitElement {
   @property({ type: Number }) step = 0.001;
   @property({ type: Number }) value = 0;
   @property() label?: string;
-  @property({ attribute: 'aria-label' }) ariaLabel_?: string;
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  @state() private _ariaLabel?: string;
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
   @property({ attribute: 'value-text-fn', type: Object }) valueTextFn?: (v: number) => string;
   @property() gradient?: string;
 
@@ -163,7 +178,7 @@ export class CandorSlider extends LitElement {
             .value="${String(this.value)}"
             style="--fill-percent:${this._fillPercent}%"
             ?disabled="${this.disabled}"
-            aria-label="${this.ariaLabel_ || nothing}"
+            aria-label="${this._ariaLabel || nothing}"
             aria-valuetext="${this._valueText}"
             @input="${this._onInput}"
           />

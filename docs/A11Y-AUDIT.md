@@ -25,10 +25,10 @@ Issues found during the WC SR audit that aren't fixed in the same session as dis
 
 | ID | Title | Affects | Severity | Source |
 |---|---|---|---|---|
-| BL-1 | `aria-label` set on a WC host element is announced twice — once on the host generic, once on the inner role/element that the `ariaLabel_` property mirrors it onto. | Any WC using the `ariaLabel_ = property({ attribute: 'aria-label' })` pattern (TonePicker, DataGrid, Tabs, Switch, Slider, Button, others). | Low | Phase 1, TonePicker + Tabs |
-| BL-2 | Decorative SVGs inside in-shadow buttons (chevron caret, close icon, etc.) appear in the AT tree as `img` when they should be `aria-hidden="true"`. | Menu (trigger chevron), Modal (close icon), Select (caret), Accordion (chevron — already fixed). | Low | Phase 1, Menu + Modal |
-| BL-3 | `<script>` blocks in story templates are stripped by Storybook's Angular renderer, leaving WC stories that rely on JS-side property assignment with empty data (e.g. menu stories with `document.getElementById(...).entries = [...]`). | All stories that use script-based property injection. | Medium | Phase 1, Menu (default story shows empty menu) |
-| BL-4 | `<li>` separator inside `candor-menu` renders as `<li role="none"><div class="menu-separator"></div></li>` — no `role="separator"`, so SR users get no grouping signal between menu sections. | Menu | Low | Phase 1, Menu |
+| ~~BL-1~~ | ~~`aria-label` set on a WC host element is announced twice~~ — **Fixed**: introduced `src/web-components/utils/host-aria.ts` (`observeHostAriaLabel` helper) which observes the attribute via MutationObserver, mirrors the value into a component state, and strips the attribute off the host. Rolled out to TonePicker, DataGrid, Tabs, Switch, Slider, Toolbar, Pagination, Button. `role="none"` alone wouldn't fix this because of ARIA presentational-role conflict resolution. | TonePicker, DataGrid, Tabs, Switch, Slider, Toolbar, Pagination, Button | Low | Fixed |
+| ~~BL-2~~ | ~~Decorative SVGs inside in-shadow buttons appear in the AT tree as `img`.~~ **Withdrawn**: source already has `aria-hidden="true"` on Menu trigger chevron, Modal close icon, and Select caret. The Playwright AT snapshot reports SVGs as `img [ref]` even when aria-hidden — a known snapshot-tool artifact, not what NVDA reads. Confirmed via DOM probe: the icon-only Modal close button has `aria-label="Close"` and the SVG's aria-hidden is honored. | — | n/a | Withdrawn after verification |
+| ~~BL-3~~ | ~~`<script>` blocks in story templates are stripped~~ — **Fixed**: candor-menu stories rewritten to use JSON-encoded `entries='${JSON.stringify(...)}'` attribute injection (mirrors the data-grid pattern). Default story now renders populated. | Menu stories | Medium | Fixed |
+| ~~BL-4~~ | ~~`<li>` separator inside `candor-menu` renders without `role="separator"`~~ — **Fixed**: separator now renders as `<li role="separator">` so screen readers hear a grouping break. | Menu | Low | Fixed |
 
 ---
 

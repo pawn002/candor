@@ -453,7 +453,7 @@ export class CandorFoo extends LitElement {
   @property() label = '';                                            // string attribute
   @property({ type: Boolean, reflect: true }) open = false;          // bool, reflected to DOM
   @property({ type: Array, attribute: 'menu-items' }) items = [];    // JSON-parsed from attribute
-  @property({ attribute: 'aria-label' }) ariaLabel_ = '';            // host-trap workaround (see below)
+  // For aria-label: don't use @property — use observeHostAriaLabel (see "aria-label host-trap" below)
   @state() private _internal = 0;                                    // reactive but not part of public API
 
   override render() {
@@ -506,21 +506,34 @@ Add the event to the global event map if consumers need typed listeners — thou
 
 ### aria-label host-trap
 
-ARIA attributes on the custom element host (`<candor-input aria-label="Email">`) do **not** propagate to the inner `<input>` inside the shadow DOM. Browsers treat the host as a generic container for ARIA purposes.
+ARIA attributes on the custom element host (`<candor-input aria-label="Email">`) do **not** propagate to the inner `<input>` inside the shadow DOM — browsers treat the host as a generic container for ARIA purposes — AND if you simply mirror the attribute inward, the host also gets a named generic in the AT tree, so screen readers hear the name **twice**.
 
-Expose an `ariaLabel_` property mapped to the `aria-label` attribute and bind it inside:
+The fix is two-step: mirror the value inward AND strip the attribute off the host. `role="none"` on the host is **not** sufficient — ARIA's presentational-role conflict resolution preserves the host's accessible name when `aria-label` is set. The attribute itself must be removed.
 
-```typescript
-@property({ attribute: 'aria-label' }) ariaLabel_ = '';
-```
+Use the shared `observeHostAriaLabel` helper from `src/web-components/utils/host-aria.ts` — it installs a MutationObserver, mirrors the value into your state, and strips the attribute off the host:
 
 ```typescript
+import { observeHostAriaLabel } from '../../utils/host-aria';
+
+@state() private _ariaLabel = '';
+private _stopObservingAriaLabel?: () => void;
+
+override connectedCallback() {
+  super.connectedCallback();
+  this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+}
+
+override disconnectedCallback() {
+  this._stopObservingAriaLabel?.();
+  super.disconnectedCallback();
+}
+
 render() {
-  return html`<input aria-label=${this.ariaLabel_ || nothing} />`;
+  return html`<input aria-label=${this._ariaLabel || nothing} />`;
 }
 ```
 
-(The trailing underscore avoids clashing with `Element.ariaLabel`, which exists on all elements.)
+**Don't** use `@property({ attribute: 'aria-label' })` for this — Lit's attribute observer would re-clear your cached value the moment you strip the attribute, defeating the fix. Manual observation via the helper avoids the reflection loop.
 
 ### Storybook templates: data must flow via attributes, not `<script>`
 
@@ -623,7 +636,7 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 4. **Don't create components without stories**: Every component needs a story
 5. **Don't modify node_modules**: This is obvious but worth stating
 6. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
-7. **Don't put `aria-label` on component host elements** (Angular **or** WC): It won't reach the inner interactive element — use the `ariaLabel` input / `ariaLabel_` property pattern instead (see "Host element ARIA trap" and "Web Components Authoring Conventions" above)
+7. **Don't put `aria-label` on component host elements without forwarding it inward** (Angular **or** WC): It won't reach the inner interactive element, and if you simply mirror it inward without stripping, screen readers hear the name twice. In Angular, use the `ariaLabel` input pattern (see "Host element ARIA trap" above). In WC, use the `observeHostAriaLabel` helper from `src/web-components/utils/host-aria.ts` (see "aria-label host-trap" above).
 8. **Don't use `<header>`/`<footer>` inside dialogs or panels**: They inherit landmark roles (`banner`, `contentinfo`) in Chrome. Use `role="none"` or `<div>` (see "Landmark pollution" above)
 9. **Don't expose formatter logic for OKLCH axes**: Axes like chroma have dynamic min/max based on hue — auto-computed formatters will be wrong. Expose a `valueTextFn = input<(v: number) => string>()` and let the consumer supply the semantics
 

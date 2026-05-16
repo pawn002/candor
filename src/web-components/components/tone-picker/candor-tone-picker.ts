@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing, type PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../utils/host-aria';
 
 export interface ToneCellValue {
   l: number;
@@ -183,11 +184,29 @@ export class CandorTonePicker extends LitElement {
   @property({ type: Array }) rows: ToneRow[] = [];
   @property({ type: Array, attribute: 'column-headers' }) columnHeaders: string[] = [];
   @property() caption = '';
-  @property({ attribute: 'aria-label' }) ariaLabel_ = '';
   @property({ type: Boolean, reflect: true, attribute: 'hide-headers' }) hideHeaders = false;
   @property({ type: Boolean, reflect: true, attribute: 'hide-ui' }) hideUi = false;
   @property({ reflect: true }) size: 'small' | 'normal' = 'normal';
   @property({ attribute: 'selected-value' }) selectedValue: string | null = null;
+
+  // aria-label is observed via the shared host-aria helper, which mirrors the
+  // value into _ariaLabel and strips the attribute off the host so the inner
+  // grid is the only element to announce the name (avoids host/inner double-
+  // naming — see src/web-components/utils/host-aria.ts).
+  @state() private _ariaLabel = '';
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (value) => {
+      this._ariaLabel = value;
+    });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
 
   @state() private _focusedRow = 0;
   @state() private _focusedCol = 0;
@@ -220,6 +239,7 @@ export class CandorTonePicker extends LitElement {
         }
       }
     }
+
   }
 
   private _inGamutMap(): { setsize: number; map: Map<string, number> } {
@@ -367,7 +387,7 @@ export class CandorTonePicker extends LitElement {
 
   override render() {
     const { setsize, map } = this._inGamutMap();
-    const labelText = this.ariaLabel_ || this.caption || 'Tone picker';
+    const labelText = this._ariaLabel || this.caption || 'Tone picker';
 
     return html`
       <p id="${this._hintId}" class="sr-only">

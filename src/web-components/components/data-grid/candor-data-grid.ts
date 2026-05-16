@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../utils/host-aria';
 
 export interface GridCell {
   label: string;
@@ -147,7 +148,21 @@ export class CandorDataGrid extends LitElement {
   @property({ type: Array }) rows: GridRow[] = [];
   @property({ type: Boolean, reflect: true, attribute: 'hide-headers' }) hideHeaders = false;
   @property({ type: Boolean, attribute: 'show-labels' }) showLabels = false;
-  @property({ attribute: 'aria-label' }) ariaLabel_ = '';
+
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  @state() private _ariaLabel = '';
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
 
   @state() private _activeRow = 0;
   @state() private _activeCol = 0;
@@ -224,7 +239,7 @@ export class CandorDataGrid extends LitElement {
       <table
         role="grid"
         class="data-grid"
-        aria-label="${this.ariaLabel_ || (this.caption ? nothing : 'Data grid')}"
+        aria-label="${this._ariaLabel || (this.caption ? nothing : 'Data grid')}"
         aria-describedby="${this._hintId}"
       >
         ${this.caption ? html`<caption class="data-grid__caption">${this.caption}</caption>` : nothing}

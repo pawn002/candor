@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { phCaretDownBold } from '../../icons';
+import { observeHostAriaLabel } from '../../utils/host-aria';
 
 type PageItem = number | 'ellipsis';
 
@@ -70,7 +71,22 @@ export class CandorPagination extends LitElement {
 
   @property({ type: Number, attribute: 'current-page' }) currentPage = 1;
   @property({ type: Number, attribute: 'total-pages' }) totalPages = 1;
-  @property({ attribute: 'aria-label' }) ariaLabel_ = 'Pagination';
+
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  // Default 'Pagination' is preserved when consumer doesn't override.
+  @state() private _ariaLabel = 'Pagination';
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
 
   private get _pages(): PageItem[] {
     const total = this.totalPages;
@@ -95,7 +111,7 @@ export class CandorPagination extends LitElement {
 
   override render() {
     return html`
-      <nav aria-label="${this.ariaLabel_}" class="pagination">
+      <nav aria-label="${this._ariaLabel}" class="pagination">
         <button class="pagination__btn pagination__prev" ?disabled="${this.currentPage <= 1}" aria-label="Previous page" @click="${() => this._goTo(this.currentPage - 1)}">
           <svg class="pagination__icon pagination__icon--prev" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
         </button>
