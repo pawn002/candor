@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
+import { phCaretDownBold } from '../../icons';
 
 export interface MenuItem {
   label: string;
@@ -13,34 +14,89 @@ export class CandorMenu extends LitElement {
   static override styles = css`
     :host { display: inline-block; position: relative; }
     .menu-trigger {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      padding: var(--spacing-xs) var(--spacing-sm);
-      font-family: var(--font-family-base); font-size: var(--font-size-md);
-      background: var(--color-bg-surface); color: var(--color-text-default);
-      border: var(--border-width-thin) solid var(--color-border-default);
-      border-radius: var(--radius-md); cursor: pointer;
-      transition: background-color 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-default);
+      background-color: var(--color-bg-surface);
+      border: var(--border-width-thin) solid var(--color-border-strong);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
     }
-    .menu-trigger:hover { background-color: var(--color-action-tertiary); }
-    .menu-trigger:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .menu-trigger__chevron { font-size: 0.8rem; transition: transform 0.2s ease; }
+    .menu-trigger:hover {
+      background-color: var(--color-bg-elevated);
+      border-color: var(--color-border-control);
+    }
+    .menu-trigger:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+    }
+    .menu-trigger[aria-expanded='true'] {
+      background-color: var(--color-bg-elevated);
+      border-color: var(--color-action-primary);
+    }
+    .menu-trigger[aria-expanded='true'] .menu-trigger__chevron {
+      transform: rotate(180deg);
+    }
+    .menu-trigger__chevron {
+      width: 1rem;
+      height: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
     .menu-panel {
-      position: absolute; top: calc(100% + 4px); left: 0; z-index: 1000;
-      min-width: 10rem; padding: 0.25rem 0;
-      background: var(--color-bg-elevated); border: var(--border-width-thin) solid var(--color-border-default);
-      border-radius: var(--radius-md); box-shadow: var(--shadow-md);
-      list-style: none; margin: 0;
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      left: 0;
+      z-index: 200;
+      min-width: 10rem;
+      padding: 0.25rem;
+      margin: 0;
+      list-style: none;
+      background-color: var(--color-bg-elevated);
+      border: var(--border-width-thin) solid var(--color-border-default);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
     }
     .menu-item {
-      display: block; width: 100%; padding: 0.5rem var(--spacing-sm);
-      font-family: var(--font-family-base); font-size: var(--font-size-md);
-      color: var(--color-text-default); background: none; border: none;
-      text-align: left; cursor: pointer; transition: background-color 0.1s ease;
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      font-family: var(--font-family-accessible);
+      font-size: var(--font-size-sm);
+      letter-spacing: 0.02em;
+      color: var(--color-text-default);
+      background: none;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: left;
+      transition: background-color 0.1s ease;
     }
-    .menu-item:hover:not(.menu-item--disabled) { background-color: var(--color-bg-surface); }
-    .menu-item:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: -2px; }
-    .menu-item--disabled { color: var(--color-text-disabled); cursor: not-allowed; }
-    .menu-separator { height: 1px; background: var(--color-border-default); margin: 0.25rem 0; }
+    .menu-item:hover:not(.menu-item--disabled),
+    .menu-item:focus:not(.menu-item--disabled) {
+      background-color: var(--color-bg-surface);
+      outline: none;
+    }
+    .menu-item:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: calc(-1 * var(--focus-ring-offset));
+    }
+    .menu-item--disabled {
+      color: var(--color-text-disabled);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .menu-separator {
+      height: var(--border-width-thin);
+      background-color: var(--color-border-default);
+      margin: 0.25rem 0.75rem;
+    }
   `;
 
   @property() label = 'Options';
@@ -130,7 +186,7 @@ export class CandorMenu extends LitElement {
         @keydown="${this._onTriggerKeydown}"
       >
         ${this.label}
-        <span class="menu-trigger__chevron" aria-hidden="true">▾</span>
+        <svg class="menu-trigger__chevron" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
       </button>
       ${this._open ? html`
         <ul

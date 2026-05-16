@@ -109,6 +109,55 @@ sheet.replaceSync(`
 
   candor-article strong { font-weight: var(--font-weight-bold); }
   candor-article em { font-style: italic; letter-spacing: var(--letter-spacing-italic); }
+
+  candor-article abbr[title] {
+    text-decoration: underline dotted;
+    cursor: help;
+  }
+
+  candor-article figure {
+    margin: var(--spacing-lg) 0;
+  }
+  candor-article figure img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-md);
+  }
+  candor-article figcaption {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-subtle);
+    margin-top: var(--spacing-xs);
+    font-style: italic;
+    letter-spacing: 0.03em;
+  }
+
+  candor-article table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--spacing-md);
+  }
+  candor-article table th,
+  candor-article table td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    text-align: left;
+    border-bottom: var(--border-width-thin) solid var(--color-border-default);
+  }
+  candor-article table td {
+    font-variant-numeric: tabular-nums;
+  }
+  candor-article table th.numeric,
+  candor-article table td.numeric {
+    font-family: var(--font-family-mono);
+    text-align: right;
+  }
+  candor-article table thead th {
+    font-weight: var(--font-weight-bold);
+    border-bottom: var(--border-width-medium) solid var(--color-border-strong);
+  }
+  candor-article table tbody tr:last-child td {
+    border-bottom: none;
+  }
 `);
 
 document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];

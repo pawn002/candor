@@ -18,20 +18,36 @@ export class CandorBreadcrumb extends LitElement {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.25rem;
-      font-family: var(--font-family-base);
+      gap: 0;
+      font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
+      letter-spacing: 0.02em;
     }
-    .breadcrumb__item { display: flex; align-items: center; gap: 0.25rem; }
+    .breadcrumb__item {
+      display: flex;
+      align-items: center;
+    }
     .breadcrumb__item:not(:last-child)::after {
-      content: '/';
-      color: var(--color-text-disabled);
-      margin-left: 0.25rem;
+      content: '/' / '';
+      margin: 0 0.5rem;
+      color: var(--color-text-subtle);
+      pointer-events: none;
     }
-    .breadcrumb__link { color: var(--color-link); text-decoration: none; }
+    .breadcrumb__link {
+      color: var(--color-link);
+      font-weight: var(--font-weight-bold);
+      text-decoration: none;
+    }
     .breadcrumb__link:hover { color: var(--color-link-hover); text-decoration: underline; }
-    .breadcrumb__link:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); border-radius: 2px; }
-    .breadcrumb__current { color: var(--color-text-subtle); }
+    .breadcrumb__link:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+      border-radius: var(--radius-sm);
+    }
+    .breadcrumb__current {
+      color: var(--color-text-default);
+      font-weight: var(--font-weight-bold);
+    }
   `;
 
   @property({ type: Array }) items: BreadcrumbItem[] = [];

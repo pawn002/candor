@@ -15,11 +15,12 @@ export class CandorToast extends LitElement {
       padding: var(--spacing-sm) var(--spacing-md);
       border-radius: var(--radius-md);
       border: var(--border-width-thin) solid;
-      font-family: var(--font-family-accessible);
+      border-left-width: 4px;
+      font-family: var(--font-family-base);
       min-width: 18rem;
       max-width: 28rem;
     }
-    .toast--info    { background-color: var(--color-bg-surface); border-color: var(--color-border-strong); }
+    .toast--info    { background-color: var(--color-bg-surface); border-color: var(--color-border-default); }
     .toast--success { background-color: var(--color-status-success-bg); border-color: var(--color-status-success); }
     .toast--warning { background-color: var(--color-status-warning-bg); border-color: var(--color-status-warning); }
     .toast--error   { background-color: var(--color-status-error-bg); border-color: var(--color-status-error); }
@@ -29,14 +30,27 @@ export class CandorToast extends LitElement {
     .toast--warning .toast__icon { color: var(--color-status-warning); }
     .toast--error   .toast__icon { color: var(--color-status-error); }
     .toast__content { flex: 1; min-width: 0; }
-    .toast__title { font-weight: var(--font-weight-semibold); color: var(--color-toast-message); font-size: var(--font-size-md); margin-bottom: 0.2rem; }
-    .toast__message { color: var(--color-toast-message); font-size: var(--font-size-md); letter-spacing: 0.02em; }
+    .toast__title {
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-default);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-tight);
+      margin-bottom: 0.25rem;
+    }
+    .toast__message {
+      color: var(--color-toast-message);
+      font-size: var(--font-size-md);
+      line-height: var(--line-height-normal);
+    }
     .toast__dismiss {
       flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
       width: 1.5rem; height: 1.5rem; padding: 0; border: none; background: none; cursor: pointer;
-      border-radius: var(--radius-sm); color: var(--color-text-subtle); transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: var(--radius-sm); color: var(--color-text-subtle);
+      font-size: 1rem;
+      line-height: 1;
+      transition: color 0.15s ease, background-color 0.15s ease;
     }
-    .toast__dismiss:hover { color: var(--color-text-default); background-color: oklch(from currentColor l c h / 0.1); }
+    .toast__dismiss:hover { color: var(--color-text-default); background-color: var(--color-bg-surface); }
     .toast__dismiss:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
   `;
 

@@ -11,19 +11,43 @@ export class CandorAccessibleText extends LitElement {
     :host { display: inline; }
     .accessible-text {
       font-family: var(--font-family-accessible);
+      font-weight: var(--font-weight-regular);
       line-height: var(--line-height-normal);
     }
-    .accessible-text--role-label      { letter-spacing: var(--letter-spacing-wide); }
-    .accessible-text--role-message    { letter-spacing: 0.02em; }
-    .accessible-text--role-status     { letter-spacing: 0.02em; }
-    .accessible-text--role-annotation { letter-spacing: 0.02em; font-style: italic; }
+    /* Role variants */
+    .accessible-text--role-label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: var(--letter-spacing-wide);
+      text-transform: uppercase;
+      line-height: var(--line-height-tight);
+    }
+    .accessible-text--role-message {
+      font-size: var(--font-size-md);
+      letter-spacing: 0.02em;
+      line-height: var(--line-height-normal);
+    }
+    .accessible-text--role-status {
+      font-size: var(--font-size-sm);
+      letter-spacing: 0.02em;
+      line-height: var(--line-height-tight);
+    }
+    .accessible-text--role-annotation {
+      font-size: var(--font-size-sm);
+      letter-spacing: 0.02em;
+      line-height: var(--line-height-relaxed);
+      font-style: italic;
+    }
+    /* Size overrides win over role sizes (cascade order) */
     .accessible-text--size-sm { font-size: var(--font-size-sm); }
     .accessible-text--size-md { font-size: var(--font-size-md); }
     .accessible-text--size-lg { font-size: var(--font-size-lg); }
+    /* Color variants */
     .accessible-text--color-primary   { color: var(--color-text-default); }
     .accessible-text--color-secondary { color: var(--color-text-subtle); }
     .accessible-text--color-disabled  { color: var(--color-text-disabled); }
-    .accessible-text--color-error     { color: var(--color-status-error-text); }
+    .accessible-text--color-error     { color: var(--color-status-error); }
+    /* Bold modifier */
     .accessible-text--bold { font-weight: var(--font-weight-bold); }
   `;
 

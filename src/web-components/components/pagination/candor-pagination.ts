@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { phCaretDownBold } from '../../icons';
 
 type PageItem = number | 'ellipsis';
 
@@ -11,30 +12,60 @@ export class CandorPagination extends LitElement {
       display: flex;
       align-items: center;
       gap: 0.25rem;
-      font-family: var(--font-family-base);
     }
     .pagination__btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 2.25rem;
-      height: 2.25rem;
-      padding: 0 0.5rem;
-      border: var(--border-width-thin) solid var(--color-border-default);
+      min-width: 2rem;
+      height: 2rem;
+      padding: 0 0.375rem;
+      border: none;
       border-radius: var(--radius-sm);
       background: transparent;
-      font-family: inherit;
+      color: var(--color-text-subtle);
+      font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
-      color: var(--color-text-default);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.02em;
+      line-height: 1;
       cursor: pointer;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      transition: background-color 120ms ease, color 120ms ease;
     }
-    .pagination__btn:hover:not(:disabled) { background-color: var(--color-bg-surface); border-color: var(--color-border-strong); }
-    .pagination__btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .pagination__btn:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .pagination__btn--current { background-color: var(--color-action-primary); color: var(--color-text-on-action); border-color: var(--color-action-primary); font-weight: var(--font-weight-semibold); }
-    .pagination__btn--current:hover:not(:disabled) { background-color: var(--color-action-primary-hover); border-color: var(--color-action-primary-hover); }
-    .pagination__ellipsis { padding: 0 0.25rem; color: var(--color-text-subtle); font-size: var(--font-size-sm); user-select: none; }
+    .pagination__btn:hover:not(:disabled) {
+      background-color: var(--color-bg-surface);
+      color: var(--color-text-default);
+    }
+    .pagination__btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .pagination__btn:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
+      border-radius: var(--radius-sm);
+    }
+    .pagination__btn--current {
+      background-color: var(--color-action-primary);
+      color: var(--color-text-on-action);
+      font-weight: var(--font-weight-medium);
+    }
+    .pagination__btn--current:hover:not(:disabled) {
+      background-color: var(--color-action-primary);
+      color: var(--color-text-on-action);
+    }
+    .pagination__icon { width: 0.875rem; height: 0.875rem; }
+    .pagination__icon--prev { transform: rotate(90deg); }
+    .pagination__icon--next { transform: rotate(-90deg); }
+    .pagination__ellipsis {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2rem;
+      height: 2rem;
+      color: var(--color-text-subtle);
+      font-family: var(--font-family-accessible);
+      font-size: var(--font-size-sm);
+      letter-spacing: 0.02em;
+      user-select: none;
+    }
   `;
 
   @property({ type: Number, attribute: 'current-page' }) currentPage = 1;
@@ -66,7 +97,7 @@ export class CandorPagination extends LitElement {
     return html`
       <nav aria-label="${this.ariaLabel_}" class="pagination">
         <button class="pagination__btn pagination__prev" ?disabled="${this.currentPage <= 1}" aria-label="Previous page" @click="${() => this._goTo(this.currentPage - 1)}">
-          ‹
+          <svg class="pagination__icon pagination__icon--prev" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
         </button>
         ${this._pages.map((item, i) =>
           item === 'ellipsis'
@@ -79,7 +110,7 @@ export class CandorPagination extends LitElement {
               >${item}</button>`
         )}
         <button class="pagination__btn pagination__next" ?disabled="${this.currentPage >= this.totalPages}" aria-label="Next page" @click="${() => this._goTo(this.currentPage + 1)}">
-          ›
+          <svg class="pagination__icon pagination__icon--next" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
         </button>
       </nav>
     `;
