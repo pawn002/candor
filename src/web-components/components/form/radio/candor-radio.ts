@@ -77,10 +77,59 @@ export class CandorRadio extends LitElement {
 
   private _onChange(e: Event) {
     if ((e.target as HTMLInputElement).checked) {
-      this.checked = true;
-      this._internals.setFormValue(this.value);
-      this.dispatchEvent(new CustomEvent('change', { detail: this.value, bubbles: true, composed: true }));
+      this._select();
     }
+  }
+
+  // KB-1 fix: bridges the gap left by native radio grouping not working across
+  // shadow-DOM boundaries. Each <candor-radio> lives in its own shadow root, so
+  // the browser can't tie sibling inputs with a shared `name` into a single
+  // arrow-navigable group. We re-implement the APG Radio Group keyboard model:
+  // ArrowDown/Right → next, ArrowUp/Left → previous (both wrap), Home/End jump
+  // to first/last in-group, disabled siblings are skipped, and focus + selection
+  // move together to match native behavior.
+  private _onKeydown(e: KeyboardEvent) {
+    const fwd = e.key === 'ArrowDown' || e.key === 'ArrowRight';
+    const back = e.key === 'ArrowUp' || e.key === 'ArrowLeft';
+    const home = e.key === 'Home';
+    const end = e.key === 'End';
+    if (!fwd && !back && !home && !end) return;
+    if (!this.name) return;
+
+    const group = this._groupSiblings();
+    if (group.length < 2) return;
+    const idx = group.indexOf(this);
+    if (idx < 0) return;
+
+    let next: CandorRadio;
+    if (home) next = group[0];
+    else if (end) next = group[group.length - 1];
+    else if (fwd) next = group[(idx + 1) % group.length];
+    else next = group[(idx - 1 + group.length) % group.length];
+
+    if (next === this) return;
+    e.preventDefault();
+    next._selectAndFocus(group);
+  }
+
+  private _groupSiblings(): CandorRadio[] {
+    if (!this.name) return [];
+    const scope = this.closest('fieldset') || this.parentElement || document;
+    return Array.from(
+      scope.querySelectorAll<CandorRadio>(`candor-radio[name="${CSS.escape(this.name)}"]`),
+    ).filter((r) => !r.disabled);
+  }
+
+  private _select() {
+    this.checked = true;
+    this._internals.setFormValue(this.value);
+    this.dispatchEvent(new CustomEvent('change', { detail: this.value, bubbles: true, composed: true }));
+  }
+
+  private _selectAndFocus(group: CandorRadio[]) {
+    for (const r of group) if (r !== this) r.checked = false;
+    this._select();
+    this.shadowRoot?.querySelector<HTMLInputElement>('input')?.focus();
   }
 
   override render() {
@@ -95,6 +144,7 @@ export class CandorRadio extends LitElement {
           ?disabled="${this.disabled}"
           name="${this.name || nothing}"
           @change="${this._onChange}"
+          @keydown="${this._onKeydown}"
         />
         <span class="radio-circle"></span>
         ${this.label ? html`<span class="radio-label">${this.label}</span>` : nothing}

@@ -33,7 +33,7 @@ Issues found during the WC audit (SR + keyboard) that aren't fixed in the same s
 | ~~BL-2~~ | ~~Decorative SVGs inside in-shadow buttons appear in the AT tree as `img`.~~ **Withdrawn**: source already has `aria-hidden="true"` on Menu trigger chevron, Modal close icon, and Select caret. The Playwright AT snapshot reports SVGs as `img [ref]` even when aria-hidden — a known snapshot-tool artifact, not what NVDA reads. Confirmed via DOM probe: the icon-only Modal close button has `aria-label="Close"` and the SVG's aria-hidden is honored. | — | n/a | Withdrawn after verification |
 | ~~BL-3~~ | ~~`<script>` blocks in story templates are stripped~~ — **Fixed**: candor-menu stories rewritten to use JSON-encoded `entries='${JSON.stringify(...)}'` attribute injection (mirrors the data-grid pattern). Default story now renders populated. | Menu stories | Medium | Fixed |
 | ~~BL-4~~ | ~~`<li>` separator inside `candor-menu` renders without `role="separator"`~~ — **Fixed**: separator now renders as `<li role="separator">` so screen readers hear a grouping break. | Menu | Low | Fixed |
-| KB-1 | Sibling `<candor-radio>` elements with a shared `name` don't form a browser-native radio group across shadow-DOM boundaries: ArrowDown/Up doesn't move focus or selection between sibling radios. Keyboard-only users must Tab through each option AND press Space to select — the native single-stop "arrow-to-select" pattern is broken. | Radio (any group of `<candor-radio>` siblings sharing a name) | Medium | Phase 2 keyboard pass, Radio Group story |
+| ~~KB-1~~ | ~~Sibling `<candor-radio>` elements with a shared `name` don't form a browser-native radio group across shadow-DOM boundaries.~~ **Fixed**: candor-radio now implements the APG Radio Group keyboard model itself — ArrowDown/Right → next, ArrowUp/Left → previous (both wrap), Home/End jump to first/last in-group, disabled siblings skipped, focus + selection move together. Siblings are discovered by walking up to the nearest `<fieldset>` (or parent element as fallback) and querying `candor-radio[name="..."]`. | Radio | Medium | Fixed |
 
 ---
 
@@ -523,7 +523,7 @@ Article uses semantic HTML (`<article>`, `<h1>`–`<h6>`, `<p>`, `<abbr>`, `<fig
 |---|---|---|---|---|---|
 | 7 | Input | ✅ | ✅ typing | ✅ box-shadow ring + border color shift | ✅ Pass |
 | 8 | Checkbox | ✅ | ✅ Space toggles | ✅ outline on custom box (`:focus-visible` via hidden-input proxy) | ✅ Pass |
-| 9 | Radio | ✅ | ⚠ Space-only (arrow nav broken across shadow roots) | ✅ outline on custom dot | ⚠ KB-1 |
+| 9 | Radio | ✅ | ✅ Arrow keys + Home/End (KB-1 fixed); skips disabled; wraps | ✅ outline on custom dot | ✅ Pass |
 | 10 | Switch | ✅ | ✅ Space toggles | ✅ outline on custom track | ✅ Pass |
 | 11 | Slider | ✅ | ✅ arrows step value | ✅ native range thumb focus | ✅ Pass |
 | 12 | ChatInput | ✅ textarea | ✅ Enter sends (when not empty); send button enabled when text present | ✅ native textarea focus | ✅ Pass |
@@ -574,14 +574,14 @@ Article uses semantic HTML (`<article>`, `<h1>`–`<h6>`, `<p>`, `<abbr>`, `<fig
 | Persona | ✅ Pass | ⚠ Issues | ✅ With caveat |
 |---|---|---|---|
 | Screen-reader | 25 | 0 (all fixed) | 1 (Tooltip — AT-hidden by design) |
-| Keyboard-only | 25 | 1 (Radio: KB-1) | 0 |
+| Keyboard-only | 26 | 0 (KB-1 fixed) | 0 |
 
-All Phase 1 SR findings (TonePicker, Tabs, Modal, Menu) were fixed during this audit. The keyboard pass surfaced one new Medium issue: `<candor-radio>` sibling arrow-navigation across shadow-DOM (KB-1).
+All Phase 1 SR findings (TonePicker, Tabs, Modal, Menu) were fixed during this audit. The keyboard pass surfaced KB-1 (Radio sibling arrow-nav across shadow-DOM), which has since been fixed.
 
-**Cross-cutting backlog items: 5** (4 SR + 1 KB) — see [Open Issues Backlog](#open-issues-backlog) above.
+**Cross-cutting backlog items: 5** (4 SR + 1 KB) — all resolved. See [Open Issues Backlog](#open-issues-backlog) above.
 
 **Severity distribution:**
-- Medium: 2 — BL-3 (fixed); KB-1 (open)
+- Medium: 2 — both fixed (BL-3 stripped script tags; KB-1 radio arrow-nav)
 - Low: 6 — all fixed (BL-1 ariaLabel host duplication, BL-2 withdrawn after verification, BL-4 menu separator role, TonePicker OOG label noise, Tabs panel-host opacity, Progress redundant aria-label)
 
 **No critical or high-severity blockers** in either persona. The library cleanly inherits or improves on the historical Angular audit results across all categories.
