@@ -48,3 +48,4 @@ export * from './components/menu/candor-menu';
 // Data display
 export * from './components/table/candor-table';
 export * from './components/data-grid/candor-data-grid';
+export * from './components/tone-picker/candor-tone-picker';
