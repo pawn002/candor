@@ -17,7 +17,7 @@ import { ModalComponent } from '../components/modal/modal.component';
 import { ToastComponent } from '../components/toast/toast.component';
 
 const meta: Meta = {
-  title: 'Examples/Settings Example',
+  title: 'Angular Components/Examples/Settings Example',
   decorators: [
     moduleMetadata({
       imports: [

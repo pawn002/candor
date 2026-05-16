@@ -6,7 +6,7 @@ import { AccessibleTextComponent } from '../typography/accessible-text/accessibl
 import { CardComponent } from '../card/card.component';
 
 const meta: Meta<StatComponent> = {
-  title: 'Components/Stat',
+  title: 'Angular Components/Stat',
   component: StatComponent,
   decorators: [
     moduleMetadata({ imports: [StatComponent, BadgeComponent, AccessibleTextComponent, CardComponent] }),

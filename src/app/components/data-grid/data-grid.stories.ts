@@ -46,7 +46,7 @@ const TEXT_ROWS: GridRow[] = [
 // ─── Meta ─────────────────────────────────────────────────────────────────────
 
 const meta: Meta<DataGridComponent> = {
-  title: 'Components/Data Grid',
+  title: 'Angular Components/Data Grid',
   component: DataGridComponent,
   tags: ['autodocs'],
   argTypes: {

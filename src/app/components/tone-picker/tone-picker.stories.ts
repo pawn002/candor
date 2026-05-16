@@ -12,7 +12,7 @@ import {
 } from './gamut-data';
 
 const meta: Meta<TonePickerComponent> = {
-  title: 'Components/Tone Picker',
+  title: 'Angular Components/Tone Picker',
   component: TonePickerComponent,
   tags: ['autodocs'],
   argTypes: {

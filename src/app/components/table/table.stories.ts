@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { TableComponent } from './table.component';
 
 const meta: Meta<TableComponent> = {
-  title: 'Components/Table',
+  title: 'Angular Components/Table',
   component: TableComponent,
   decorators: [
     moduleMetadata({ imports: [TableComponent] }),

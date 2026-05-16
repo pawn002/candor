@@ -37,7 +37,7 @@ const TIMEZONES = [
 ];
 
 const meta: Meta<ComboboxComponent> = {
-  title: 'Components/Form/Combobox',
+  title: 'Angular Components/Form/Combobox',
   component: ComboboxComponent,
   tags: ['autodocs'],
   parameters: {

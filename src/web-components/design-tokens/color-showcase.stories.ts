@@ -214,7 +214,7 @@ const renderReferenceTable = (categories: ColorCategory[]) => `
 `;
 
 const meta: Meta = {
-  title: 'Web Components/Design Tokens/Colors',
+  title: 'Design Tokens/Colors',
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',

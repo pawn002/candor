@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { TooltipComponent } from './tooltip.component';
 
 const meta: Meta<TooltipComponent> = {
-  title: 'Components/Tooltip',
+  title: 'Angular Components/Tooltip',
   component: TooltipComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [TooltipComponent] })],

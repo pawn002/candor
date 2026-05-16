@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { AlertComponent } from './alert.component';
 
 const meta: Meta<AlertComponent> = {
-  title: 'Components/Alert',
+  title: 'Angular Components/Alert',
   component: AlertComponent,
   tags: ['autodocs'],
   parameters: {

@@ -27,7 +27,7 @@ const ROLES: { value: string; label: string; disabled?: boolean }[] = [
 ];
 
 const meta: Meta<ListboxComponent> = {
-  title: 'Components/Form/Listbox',
+  title: 'Angular Components/Form/Listbox',
   component: ListboxComponent,
   tags: ['autodocs'],
   parameters: {

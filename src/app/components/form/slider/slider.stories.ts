@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { SliderComponent } from './slider.component';
 
 const meta: Meta<SliderComponent> = {
-  title: 'Components/Form/Slider',
+  title: 'Angular Components/Form/Slider',
   component: SliderComponent,
   tags: ['autodocs'],
   parameters: {

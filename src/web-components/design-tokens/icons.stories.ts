@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 
 const meta: Meta = {
-  title: 'Web Components/Design Tokens/Icons',
+  title: 'Design Tokens/Icons',
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',

@@ -13,7 +13,7 @@ import { HeadingComponent } from '../components/typography/heading/heading.compo
 import { TextComponent } from '../components/typography/text/text.component';
 
 const meta: Meta = {
-  title: 'Examples/Data Example',
+  title: 'Angular Components/Examples/Data Example',
   decorators: [
     moduleMetadata({
       imports: [

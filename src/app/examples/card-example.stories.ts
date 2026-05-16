@@ -8,7 +8,7 @@ import { MenuComponent } from '../components/menu/menu.component';
 import { TooltipComponent } from '../components/tooltip/tooltip.component';
 
 const meta: Meta = {
-  title: 'Examples/Card Example',
+  title: 'Angular Components/Examples/Card Example',
   decorators: [
     moduleMetadata({
       imports: [ButtonComponent, HeadingComponent, TextComponent, ChipComponent, MenuComponent, TooltipComponent],

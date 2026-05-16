@@ -4,7 +4,7 @@ import { PaginationComponent } from './pagination.component';
 import { TableComponent } from '../table/table.component';
 
 const meta: Meta<PaginationComponent> = {
-  title: 'Components/Pagination',
+  title: 'Angular Components/Pagination',
   component: PaginationComponent,
   tags: ['autodocs'],
   parameters: {

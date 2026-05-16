@@ -5,7 +5,7 @@ import { RadioComponent } from '../form/radio/radio.component';
 import { CheckboxComponent } from '../form/checkbox/checkbox.component';
 
 const meta: Meta<AccordionItemComponent> = {
-  title: 'Components/Accordion',
+  title: 'Angular Components/Accordion',
   component: AccordionItemComponent,
   decorators: [
     moduleMetadata({ imports: [AccordionItemComponent, RadioComponent, CheckboxComponent] }),

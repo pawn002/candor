@@ -8,7 +8,7 @@ const defaultItems = JSON.stringify([
 ]);
 
 const meta: Meta = {
-  title: 'Web Components/Navigation',
+  title: 'Components/Navigation',
   tags: ['autodocs'],
   parameters: {
     docs: {

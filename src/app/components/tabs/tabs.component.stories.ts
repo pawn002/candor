@@ -4,7 +4,7 @@ import { TabsComponent } from './tabs.component';
 import { TabPanelComponent } from './tab-panel.component';
 
 const meta: Meta<TabsComponent> = {
-  title: 'Components/Tabs',
+  title: 'Angular Components/Tabs',
   component: TabsComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [TabPanelComponent] })],

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 
 const meta: Meta = {
-  title: 'Web Components/Form/ChatInput',
+  title: 'Components/Form/ChatInput',
   tags: ['autodocs'],
   parameters: {
     docs: {

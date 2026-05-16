@@ -8,7 +8,7 @@ const COUNTRY_OPTIONS = JSON.stringify([
 ]);
 
 const meta: Meta = {
-  title: 'Web Components/Form/Select',
+  title: 'Components/Form/Select',
   tags: ['autodocs'],
   parameters: {
     docs: {

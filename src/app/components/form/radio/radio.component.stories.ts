@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { RadioComponent } from './radio.component';
 
 const meta: Meta<RadioComponent> = {
-  title: 'Components/Form/Radio',
+  title: 'Angular Components/Form/Radio',
   component: RadioComponent,
   tags: ['autodocs'],
   parameters: {

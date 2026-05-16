@@ -12,7 +12,7 @@ import { TabsComponent } from '../components/tabs/tabs.component';
 import { TabPanelComponent } from '../components/tabs/tab-panel.component';
 
 const meta: Meta = {
-  title: 'Examples/Editor Example',
+  title: 'Angular Components/Examples/Editor Example',
   decorators: [
     moduleMetadata({
       imports: [

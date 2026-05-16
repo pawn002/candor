@@ -4,7 +4,7 @@ import { ToolbarComponent } from './toolbar.component';
 import { ToolbarSeparatorComponent } from './toolbar-separator.component';
 
 const meta: Meta<ToolbarComponent> = {
-  title: 'Components/Toolbar',
+  title: 'Angular Components/Toolbar',
   component: ToolbarComponent,
   tags: ['autodocs'],
   decorators: [

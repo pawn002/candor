@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { ChatInputComponent } from './chat-input.component';
 
 const meta: Meta<ChatInputComponent> = {
-  title: 'Components/Form/ChatInput',
+  title: 'Angular Components/Form/ChatInput',
   component: ChatInputComponent,
   tags: ['autodocs'],
   parameters: {

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 const BTN = 'btn btn-ghost btn-sm';
 
 const meta: Meta = {
-  title: 'Web Components/Toolbar',
+  title: 'Components/Toolbar',
   tags: ['autodocs'],
   parameters: {
     docs: {

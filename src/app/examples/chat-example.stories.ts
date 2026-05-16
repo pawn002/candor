@@ -8,7 +8,7 @@ import { AccessibleTextComponent } from '../components/typography/accessible-tex
 import { ChatInputComponent } from '../components/form/chat-input/chat-input.component';
 
 const meta: Meta = {
-  title: 'Examples/Chat Example',
+  title: 'Angular Components/Examples/Chat Example',
   decorators: [
     moduleMetadata({
       imports: [

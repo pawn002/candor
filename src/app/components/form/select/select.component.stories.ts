@@ -18,7 +18,7 @@ const PRIORITY_OPTIONS = [
 ];
 
 const meta: Meta<SelectComponent> = {
-  title: 'Components/Form/Select',
+  title: 'Angular Components/Form/Select',
   component: SelectComponent,
   tags: ['autodocs'],
   parameters: {

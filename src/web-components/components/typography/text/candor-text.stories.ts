@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 
 const meta: Meta = {
-  title: 'Web Components/Typography/Text',
+  title: 'Typography/Text',
   tags: ['autodocs'],
   parameters: {
     docs: {

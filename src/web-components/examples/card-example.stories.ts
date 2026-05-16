@@ -9,7 +9,7 @@ const MENU_ENTRIES = JSON.stringify([
 ]);
 
 const meta: Meta = {
-  title: 'Web Components/Examples/Card Example',
+  title: 'Examples/Card Example',
   tags: ['autodocs'],
   parameters: {
     docs: {

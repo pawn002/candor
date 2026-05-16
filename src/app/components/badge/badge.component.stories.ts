@@ -4,7 +4,7 @@ import { BadgeComponent } from './badge.component';
 import { CardComponent } from '../card/card.component';
 
 const meta: Meta<BadgeComponent> = {
-  title: 'Components/Badge',
+  title: 'Angular Components/Badge',
   component: BadgeComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [CardComponent] })],

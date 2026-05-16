@@ -12,7 +12,7 @@ import { SelectComponent } from "../components/form/select/select.component";
 import { ProgressComponent } from "../components/progress/progress.component";
 
 const meta: Meta = {
-  title: "Examples/Form Example",
+  title: "Angular Components/Examples/Form Example",
   decorators: [
     moduleMetadata({
       imports: [

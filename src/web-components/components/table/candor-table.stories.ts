@@ -16,7 +16,7 @@ const KV_ROWS = JSON.stringify([
 ]);
 
 const meta: Meta = {
-  title: 'Web Components/Table',
+  title: 'Components/Table',
   tags: ['autodocs'],
   parameters: {
     docs: {

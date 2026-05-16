@@ -4,7 +4,7 @@ import { ColorShowcaseComponent, COLOR_CATEGORIES } from './color-showcase.compo
 import { TableComponent } from '../../table/table.component';
 
 const meta: Meta<ColorShowcaseComponent> = {
-  title: 'Design Tokens/Colors',
+  title: 'Angular Components/Design Tokens/Colors',
   component: ColorShowcaseComponent,
   tags: ['autodocs'],
   parameters: {

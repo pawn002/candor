@@ -49,7 +49,7 @@ const TAB_DEFS = JSON.stringify([
 ]);
 
 const meta: Meta = {
-  title: 'Web Components/Examples/Settings Example',
+  title: 'Examples/Settings Example',
   tags: ['autodocs'],
   parameters: {
     docs: {

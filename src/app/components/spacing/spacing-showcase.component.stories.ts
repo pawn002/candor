@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { SpacingShowcaseComponent } from './spacing-showcase.component';
 
 const meta: Meta<SpacingShowcaseComponent> = {
-  title: 'Design Tokens/Spacing',
+  title: 'Angular Components/Design Tokens/Spacing',
   component: SpacingShowcaseComponent,
   tags: ['autodocs'],
   parameters: {

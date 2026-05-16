@@ -4,7 +4,7 @@ import { AccessibleTextComponent } from './accessible-text.component';
 import { TextComponent } from '../text/text.component';
 
 const meta: Meta<AccessibleTextComponent> = {
-  title: 'Typography/AccessibleText',
+  title: 'Angular Components/Typography/AccessibleText',
   component: AccessibleTextComponent,
   tags: ['autodocs'],
   parameters: {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { NavigationComponent, NavItem } from './navigation.component';
 
 const meta: Meta<NavigationComponent> = {
-  title: 'Components/Navigation',
+  title: 'Angular Components/Navigation',
   component: NavigationComponent,
   tags: ['autodocs'],
   parameters: {

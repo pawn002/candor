@@ -38,7 +38,7 @@ const BG_ROWS = JSON.stringify(buildGamut(
 const BG_HEADERS = JSON.stringify(['C 0.020', 'C 0.054', 'C 0.090', 'C 0.130', 'C 0.170']);
 
 const meta: Meta = {
-  title: 'Web Components/Examples/Color Iterator Example',
+  title: 'Examples/Color Iterator Example',
   tags: ['autodocs'],
   parameters: {
     docs: {

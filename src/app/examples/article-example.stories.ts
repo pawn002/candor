@@ -7,7 +7,7 @@ import { ButtonComponent } from '../components/button/button.component';
 import { CardComponent } from '../components/card/card.component';
 
 const meta: Meta = {
-  title: 'Examples/Article Example',
+  title: 'Angular Components/Examples/Article Example',
   decorators: [
     moduleMetadata({
       imports: [NavigationComponent, ArticleComponent, BadgeComponent, ButtonComponent, CardComponent],

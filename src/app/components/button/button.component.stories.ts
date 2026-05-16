@@ -4,7 +4,7 @@ import { ButtonComponent } from './button.component';
 import { TextComponent } from '../typography/text/text.component';
 
 const meta: Meta<ButtonComponent> = {
-  title: 'Components/Button',
+  title: 'Angular Components/Button',
   component: ButtonComponent,
   tags: ['autodocs'],
   parameters: {

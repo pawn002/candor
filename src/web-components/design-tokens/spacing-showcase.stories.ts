@@ -51,7 +51,7 @@ const renderShowcase = () => `
 `;
 
 const meta: Meta = {
-  title: 'Web Components/Design Tokens/Spacing',
+  title: 'Design Tokens/Spacing',
   tags: ['autodocs'],
   parameters: {
     docs: {

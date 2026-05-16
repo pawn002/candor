@@ -30,7 +30,7 @@ class ToastServiceDemoComponent {
 }
 
 const meta: Meta<ToastComponent> = {
-  title: 'Components/Toast',
+  title: 'Angular Components/Toast',
   component: ToastComponent,
   tags: ['autodocs'],
   parameters: {

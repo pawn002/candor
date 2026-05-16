@@ -159,7 +159,7 @@ const renderContrastGuidance = () => `
 `;
 
 const meta: Meta = {
-  title: 'Web Components/Design Tokens/Typography',
+  title: 'Design Tokens/Typography',
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',

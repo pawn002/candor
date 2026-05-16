@@ -15,7 +15,7 @@ import { TonePickerComponent } from '../components/tone-picker/tone-picker.compo
 import { buildGamutRows } from '../components/tone-picker/gamut-data';
 
 const meta: Meta = {
-  title: 'Examples/Color Iterator Example',
+  title: 'Angular Components/Examples/Color Iterator Example',
   decorators: [
     moduleMetadata({
       imports: [

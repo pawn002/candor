@@ -4,7 +4,7 @@ import { DrawerComponent } from './drawer.component';
 import { ButtonComponent } from '../button/button.component';
 
 const meta: Meta<DrawerComponent> = {
-  title: 'Components/Drawer',
+  title: 'Angular Components/Drawer',
   component: DrawerComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [DrawerComponent, ButtonComponent] })],

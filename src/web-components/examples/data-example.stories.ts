@@ -16,7 +16,7 @@ const REVIEWER_OPTIONS = JSON.stringify([
 ]);
 
 const meta: Meta = {
-  title: 'Web Components/Examples/Data Example',
+  title: 'Examples/Data Example',
   tags: ['autodocs'],
   parameters: {
     docs: {

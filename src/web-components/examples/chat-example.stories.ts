@@ -7,7 +7,7 @@ const NAV_ITEMS = JSON.stringify([
 ]);
 
 const meta: Meta = {
-  title: 'Web Components/Examples/Chat Example',
+  title: 'Examples/Chat Example',
   tags: ['autodocs'],
   parameters: {
     docs: {

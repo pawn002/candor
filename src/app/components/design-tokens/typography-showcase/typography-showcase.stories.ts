@@ -5,7 +5,7 @@ import { TableComponent } from '../../table/table.component';
 import { AlertComponent } from '../../alert/alert.component';
 
 const meta: Meta<TypographyShowcaseComponent> = {
-  title: 'Design Tokens/Typography',
+  title: 'Angular Components/Design Tokens/Typography',
   component: TypographyShowcaseComponent,
   tags: ['autodocs'],
   parameters: {

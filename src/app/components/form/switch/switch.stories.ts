@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { SwitchComponent } from './switch.component';
 
 const meta: Meta<SwitchComponent> = {
-  title: 'Components/Form/Switch',
+  title: 'Angular Components/Form/Switch',
   component: SwitchComponent,
   tags: ['autodocs'],
   parameters: {

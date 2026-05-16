@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { MenuComponent } from './menu.component';
 
 const meta: Meta<MenuComponent> = {
-  title: 'Components/Menu',
+  title: 'Angular Components/Menu',
   component: MenuComponent,
   tags: ['autodocs'],
   argTypes: {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { CheckboxComponent } from './checkbox.component';
 
 const meta: Meta<CheckboxComponent> = {
-  title: 'Components/Form/Checkbox',
+  title: 'Angular Components/Form/Checkbox',
   component: CheckboxComponent,
   tags: ['autodocs'],
   parameters: {

@@ -14,7 +14,7 @@ import { AlertComponent } from '../../alert/alert.component';
 class IconsShowcaseComponent {}
 
 const meta: Meta<IconsShowcaseComponent> = {
-  title: 'Design Tokens/Icons',
+  title: 'Angular Components/Design Tokens/Icons',
   component: IconsShowcaseComponent,
   tags: ['autodocs'],
   parameters: {

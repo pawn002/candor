@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { TextComponent } from './text.component';
 
 const meta: Meta<TextComponent> = {
-  title: 'Typography/Text',
+  title: 'Angular Components/Typography/Text',
   component: TextComponent,
   tags: ['autodocs'],
   parameters: {

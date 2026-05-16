@@ -4,7 +4,7 @@ import { ButtonComponent } from '../button/button.component';
 import { ModalComponent } from './modal.component';
 
 const meta: Meta<ModalComponent> = {
-  title: 'Components/Modal',
+  title: 'Angular Components/Modal',
   component: ModalComponent,
   tags: ['autodocs'],
   decorators: [

@@ -48,7 +48,7 @@ const GRID_ROWS = JSON.stringify([
 ]);
 
 const meta: Meta = {
-  title: 'Web Components/DataGrid',
+  title: 'Components/DataGrid',
   tags: ['autodocs'],
   parameters: {
     docs: {
