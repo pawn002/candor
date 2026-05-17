@@ -552,6 +552,41 @@ Use attribute injection instead:
 <candor-data-grid rows='${JSON.stringify(rows)}' column-headers='${JSON.stringify(headers)}'></candor-data-grid>
 ```
 
+### Stateful form-element bindings: use `.prop`, not `?attr`
+
+Native form controls (`<input checked>`, `<input value>`, `<select value>`, `<option selected>`, `<details open>`, …) have a divergent state model: the HTML attribute (`checked`, `open`, …) seeds the *initial* state, but once the user interacts, the live **IDL property** (`input.checked`, `details.open`, …) is the source of truth. The attribute and the property drift apart.
+
+Lit's `?attr="${expr}"` binding writes the **attribute**. For non-stateful elements this is fine. For these stateful form controls, after the user clicks:
+
+1. Native input — `input.checked` becomes `true` (live property).
+2. Host re-renders with `?checked="${false}"` later (e.g. parent state clears it).
+3. Lit removes the `checked` attribute. **But** `input.checked` (the property) stays `true` — removing the attribute doesn't reset post-interaction live state.
+
+The component looks unchanged on screen, and the bug only surfaces when you read `input.checked` programmatically or check what an FAcontrol "actually" shows.
+
+**Use property binding for these cases** (Lit `.prop` syntax assigns the JS property each render, overriding the live state):
+
+```html
+<!-- ✗ WRONG — attribute binding, diverges from live state after user click -->
+<input type="checkbox" ?checked="${this.checked}" />
+
+<!-- ✓ CORRECT — property binding, always reflects host state -->
+<input type="checkbox" .checked="${this.checked}" />
+```
+
+Apply to: `<input>.checked`, `<input>.value`, `<select>.value`, `<option>.selected`, `<details>.open`, `<dialog>.open`. (Dialog also wants `showModal()` / `close()` methods rather than `open` set directly — see candor-modal.)
+
+**Mirror state back from user interactions.** Property binding only fixes the "host → DOM" direction. For the "DOM → host" direction (user clicks/types, host state needs to update), listen to the appropriate change event:
+
+| Element | Event | Property to sync back |
+|---|---|---|
+| `<input type="checkbox\|radio">` | `change` | `this.checked = e.target.checked` |
+| `<input type="text\|email\|…">` / `<textarea>` | `input` | `this.value = e.target.value` |
+| `<select>` | `change` | `this.value = e.target.value` |
+| `<details>` | `toggle` | `this.open = e.target.open` |
+
+Without the toggle listener on `<details>`, the host's `open` property silently desyncs whenever the user clicks the `<summary>` — see commit 551f2d8 for the accordion case.
+
 ### Shadow DOM scoping
 
 All components use the default shadow DOM. Token CSS custom properties (`--color-…`, `--font-…`, `--spacing-…`) pierce shadow boundaries automatically — loading `candor-tokens.css` once in the consumer page is enough. Do **not** redeclare tokens inside `static styles` or hard-code OKLCH values.
@@ -651,6 +686,8 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 13. **Don't rely on Lit's default attribute lowercasing for multi-word props**: `columnHeaders` becomes attribute `columnheaders` by default — unreadable in markup. Always set `attribute: 'column-headers'` explicitly on `@property()`.
 14. **Don't omit `composed: true` on dispatched events**: Without it, events stop at the shadow boundary and never reach light-DOM listeners. Always set both `bubbles: true` and `composed: true`.
 15. **Don't redeclare tokens inside `static styles`**: Design tokens pierce shadow DOM automatically via CSS custom properties. Hard-coding `oklch(...)` inside a component breaks dark mode and token-driven theming.
+16. **Don't use `?checked` / `?open` / `?selected` on native form controls**: After user interaction, the live IDL property (`input.checked`, `details.open`, `option.selected`) diverges from the HTML attribute, and `?attr` binding only writes the attribute. Use `.checked`, `.open`, `.selected` (property binding) so the host's state always wins. Also wire the corresponding change event (`change` / `toggle`) back to the host so user-driven changes don't silently desync — see "Stateful form-element bindings" above.
+17. **Don't rely on native browser radio grouping across `<candor-radio>` siblings**: Each radio is in its own shadow root, so the browser can't tie shared-`name` inputs into one mutually-exclusive group OR an arrow-navigable set. candor-radio implements both behaviors itself by querying sibling `<candor-radio name="…">` elements within the nearest `<fieldset>`. If you build another grouped form control (checkbox-group, etc.), expect to write the same shim.
 
 ## Testing Strategy
 
