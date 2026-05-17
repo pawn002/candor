@@ -148,23 +148,23 @@ export const FilterableTable: Story = {
         </candor-pagination>
 
         <candor-drawer
-          id="filter-drawer"
           heading="Filters"
           position="right"
-          size="sm">
+          size="sm"
+          open>
 
           <div style="display: flex; flex-direction: column; gap: 1.25rem;">
 
             <candor-select
-              id="filter-status"
               label="Status"
-              value="in-review">
+              value="in-review"
+              options='${STATUS_OPTIONS}'>
             </candor-select>
 
             <candor-select
-              id="filter-reviewer"
               label="Reviewer"
-              placeholder="Any reviewer">
+              placeholder="Any reviewer"
+              options='${REVIEWER_OPTIONS}'>
             </candor-select>
 
             <candor-input
@@ -198,23 +198,6 @@ export const FilterableTable: Story = {
         </candor-drawer>
 
       </div>
-
-      <script>
-        (function() {
-          var s = document.getElementById('filter-status');
-          if (s) s.options = ${STATUS_OPTIONS};
-          var r = document.getElementById('filter-reviewer');
-          if (r) r.options = ${REVIEWER_OPTIONS};
-
-          var drawer = document.getElementById('filter-drawer');
-          var openBtn = document.getElementById('open-filters');
-          var applyBtn = document.getElementById('apply-filters');
-          var clearBtn = document.getElementById('clear-filters');
-          if (openBtn && drawer) openBtn.addEventListener('clicked', function() { drawer.open = true; });
-          if (applyBtn && drawer) applyBtn.addEventListener('clicked', function() { drawer.open = false; });
-          if (clearBtn && drawer) clearBtn.addEventListener('clicked', function() { drawer.open = false; });
-        })();
-      </script>
     `,
   }),
 };

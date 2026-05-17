@@ -82,11 +82,11 @@ export const AccountSettings: Story = {
     template: `
       <div style="max-width: 640px; padding: 2rem;">
 
-        <candor-breadcrumb id="settings-bc" style="display: block; margin-bottom: 2rem;"></candor-breadcrumb>
+        <candor-breadcrumb items='${BREADCRUMB_BASIC}' style="display: block; margin-bottom: 2rem;"></candor-breadcrumb>
 
         <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
           <candor-heading level="h1">Account settings</candor-heading>
-          <candor-menu id="settings-menu" label="Account actions"></candor-menu>
+          <candor-menu label="Account actions" entries='${MENU_ENTRIES}'></candor-menu>
         </div>
 
         <candor-text variant="body" style="display: block; color: var(--color-text-subtle); margin-bottom: 2rem;">
@@ -157,14 +157,6 @@ export const AccountSettings: Story = {
           style="display: block; margin-top: 2rem;">
         </candor-toast>
       </div>
-      <script>
-        (function() {
-          var bc = document.getElementById('settings-bc');
-          if (bc) bc.items = ${BREADCRUMB_BASIC};
-          var menu = document.getElementById('settings-menu');
-          if (menu) menu.entries = ${MENU_ENTRIES};
-        })();
-      </script>
     `,
   }),
 };
@@ -173,7 +165,7 @@ export const DangerZone: Story = {
   render: () => ({
     template: `
       <div style="max-width: 640px; padding: 2rem;">
-        <candor-breadcrumb id="danger-bc" style="display: block; margin-bottom: 2rem;"></candor-breadcrumb>
+        <candor-breadcrumb items='${BREADCRUMB_DANGER}' style="display: block; margin-bottom: 2rem;"></candor-breadcrumb>
 
         <candor-heading level="h1" style="margin-bottom: 0.5rem;">Advanced settings</candor-heading>
         <candor-text variant="body" style="display: block; color: var(--color-text-subtle); margin-bottom: 2rem;">
@@ -204,12 +196,6 @@ export const DangerZone: Story = {
           <candor-button variant="destructive">Delete account</candor-button>
         </div>
       </div>
-      <script>
-        (function() {
-          var bc = document.getElementById('danger-bc');
-          if (bc) bc.items = ${BREADCRUMB_DANGER};
-        })();
-      </script>
     `,
   }),
 };
@@ -218,11 +204,11 @@ export const TabbedSettings: Story = {
   render: () => ({
     template: `
       <div style="max-width: 640px; padding: 2rem;">
-        <candor-breadcrumb id="tabbed-bc" style="display: block; margin-bottom: 2rem;"></candor-breadcrumb>
+        <candor-breadcrumb items='${BREADCRUMB_BASIC}' style="display: block; margin-bottom: 2rem;"></candor-breadcrumb>
 
         <candor-heading level="h1" style="margin-bottom: 1.5rem;">Account settings</candor-heading>
 
-        <candor-tabs id="settings-tabs" aria-label="Settings sections" active-id="profile">
+        <candor-tabs aria-label="Settings sections" active-id="profile" tabs='${TAB_DEFS}'>
 
           <candor-tab-panel panel-id="profile" active>
             <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1.25rem;">
@@ -231,8 +217,8 @@ export const TabbedSettings: Story = {
                 <candor-input label="Last name" value="Smith" required></candor-input>
               </div>
               <candor-input label="Email address" type="email" value="j.smith@example.com" required hint="Changing your email requires re-verification."></candor-input>
-              <candor-select id="lang-sel" label="Language" value="en"></candor-select>
-              <candor-combobox id="tz-cb" label="Timezone" value="utc+00" hint="Used for scheduling and notifications."></candor-combobox>
+              <candor-select label="Language" value="en" options='${LANGUAGE_OPTIONS}'></candor-select>
+              <candor-combobox label="Timezone" value="utc+00" hint="Used for scheduling and notifications." options='${TIMEZONE_OPTIONS}'></candor-combobox>
               <div style="display: flex; gap: 1rem; padding-top: 0.5rem;">
                 <candor-button variant="primary" size="medium">Save changes</candor-button>
                 <candor-button variant="ghost" size="medium">Discard</candor-button>
@@ -284,18 +270,6 @@ export const TabbedSettings: Story = {
 
         </candor-tabs>
       </div>
-      <script>
-        (function() {
-          var bc = document.getElementById('tabbed-bc');
-          if (bc) bc.items = ${BREADCRUMB_BASIC};
-          var tabs = document.getElementById('settings-tabs');
-          if (tabs) tabs.tabs = ${TAB_DEFS};
-          var lang = document.getElementById('lang-sel');
-          if (lang) lang.options = ${LANGUAGE_OPTIONS};
-          var tz = document.getElementById('tz-cb');
-          if (tz) tz.options = ${TIMEZONE_OPTIONS};
-        })();
-      </script>
     `,
   }),
 };
@@ -304,11 +278,11 @@ export const DeleteConfirmation: Story = {
   render: () => ({
     template: `
       <div style="padding: 2rem;">
-        <candor-button id="open-delete" variant="destructive" size="medium">
+        <candor-button variant="destructive" size="medium">
           Delete account
         </candor-button>
 
-        <candor-modal id="delete-modal" heading="Delete account" size="sm">
+        <candor-modal heading="Delete account" size="sm" open>
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             <candor-text variant="body">
               This will permanently delete your account and all associated data — projects, settings, billing history, and team memberships. This action cannot be undone.
@@ -320,20 +294,11 @@ export const DeleteConfirmation: Story = {
             </candor-alert>
           </div>
           <div slot="footer">
-            <candor-button id="cancel-delete" variant="ghost" size="medium">Cancel</candor-button>
+            <candor-button variant="ghost" size="medium">Cancel</candor-button>
             <candor-button variant="destructive" size="medium">Delete my account</candor-button>
           </div>
         </candor-modal>
       </div>
-      <script>
-        (function() {
-          var openBtn = document.getElementById('open-delete');
-          var cancelBtn = document.getElementById('cancel-delete');
-          var modal = document.getElementById('delete-modal');
-          if (openBtn && modal) openBtn.addEventListener('clicked', function() { modal.open = true; });
-          if (cancelBtn && modal) cancelBtn.addEventListener('clicked', function() { modal.open = false; });
-        })();
-      </script>
     `,
   }),
 };

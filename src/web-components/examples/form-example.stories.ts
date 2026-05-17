@@ -64,7 +64,7 @@ export const ContactForm: Story = {
           <candor-input label="Email Address" type="email" placeholder="you@example.com" required></candor-input>
           <candor-input label="Phone Number" type="tel" placeholder="(555) 123-4567"></candor-input>
 
-          <candor-select id="dept" label="Department" placeholder="Select a department" required></candor-select>
+          <candor-select label="Department" placeholder="Select a department" required options='${DEPT_OPTIONS}'></candor-select>
 
           <candor-input label="Subject" placeholder="How can we help?" required></candor-input>
 
@@ -79,12 +79,6 @@ export const ContactForm: Story = {
           </div>
         </form>
       </div>
-      <script>
-        (function() {
-          var dept = document.getElementById('dept');
-          if (dept) dept.options = ${DEPT_OPTIONS};
-        })();
-      </script>
     `,
   }),
 };
@@ -148,7 +142,7 @@ export const RegistrationForm: Story = {
             <candor-input label="Confirm Password" type="password" placeholder="Re-enter password" required></candor-input>
           </div>
 
-          <candor-select id="country" label="Country" placeholder="Select your country" required></candor-select>
+          <candor-select label="Country" placeholder="Select your country" required options='${COUNTRY_OPTIONS}'></candor-select>
 
           <fieldset style="border: none; padding: 0; margin: 0;">
             <legend style="font-family: var(--font-family-accessible); font-weight: var(--font-weight-bold); letter-spacing: 0.02em; color: var(--color-text-default); margin-bottom: 0.75rem;">Account Type</legend>
@@ -171,12 +165,6 @@ export const RegistrationForm: Story = {
           </candor-text>
         </form>
       </div>
-      <script>
-        (function() {
-          var c = document.getElementById('country');
-          if (c) c.options = ${COUNTRY_OPTIONS};
-        })();
-      </script>
     `,
   }),
 };

@@ -71,16 +71,10 @@ export const ProductCard: Story = {
             <candor-button variant="primary" size="medium" style="flex: 1;">
               Add to Cart
             </candor-button>
-            <candor-menu id="product-menu" label="More"></candor-menu>
+            <candor-menu label="More" entries='${MENU_ENTRIES}'></candor-menu>
           </div>
         </div>
       </div></div>
-      <script>
-        (function() {
-          var el = document.getElementById('product-menu');
-          if (el) el.entries = ${MENU_ENTRIES};
-        })();
-      </script>
     `,
   }),
 };

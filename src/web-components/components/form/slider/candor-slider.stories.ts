@@ -53,21 +53,14 @@ export const Default: Story = {};
 
 export const Percentage: Story = {
   render: () => ({
-    template: `<candor-slider id="pct-slider" label="Opacity" min="0" max="1" step="0.01" value="0.7"></candor-slider>
-    <script>
-      const s = document.getElementById('pct-slider');
-      s.valueTextFn = (v) => (v * 100).toFixed(0) + '%';
-    </script>`,
+    template: `<candor-slider label="Opacity" min="0" max="100" step="1" value="70"></candor-slider>`,
   }),
 };
 
 export const GradientTrack: Story = {
   name: 'Gradient track — OKLCH lightness axis',
   render: () => ({
-    template: `<candor-slider id="grad-slider" label="Lightness — hold C and H" min="0" max="1" step="0.001" value="0.55" gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))"></candor-slider>
-    <script>
-      document.getElementById('grad-slider').valueTextFn = (v) => (v * 100).toFixed(0) + '%';
-    </script>`,
+    template: `<candor-slider label="Lightness — hold C and H" min="0" max="1" step="0.001" value="0.55" gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))"></candor-slider>`,
   }),
 };
 
