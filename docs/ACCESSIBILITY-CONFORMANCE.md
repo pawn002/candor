@@ -161,7 +161,7 @@ All 26 components were audited in the following sequence:
 3. **Attribute verification** — ARIA attributes not surfaced in the snapshot (e.g. `aria-valuetext`) verified via `browser_evaluate`
 4. **Fix and re-snapshot** — issues resolved and snapshot re-taken to confirm the fix
 
-Audit findings and per-component results are in `docs/A11Y-AUDIT.md`. Cross-cutting trends and authoring conventions derived from the audit are in `docs/A11Y-ANALYSIS.md`.
+Audit findings and per-component results are in `docs/A11Y-AUDIT.md`. Cross-cutting trends and authoring conventions derived from both the Angular-era and WC-era audits are in `docs/archive/A11Y-ANALYSIS.md`.
 
 ---
 

@@ -17,7 +17,7 @@
 
 **Historical context:** A pre-WC version of this audit covered the Angular component library (26 components, completed prior to the WC launch). Those findings are preserved in each component section under "Historical Angular audit" so that fixes applied at the Angular layer can be cross-checked at the WC layer. Many WC components are direct ports of the audited Angular components; convergent findings are expected.
 
-Cross-reference: trend analysis and authoring conventions distilled from the prior Angular audit live in [`docs/archive/A11Y-ANALYSIS.md`](./archive/A11Y-ANALYSIS.md) (due for a WC refresh after this audit).
+Cross-reference: trend analysis and authoring conventions distilled from both the Angular-era and WC-era audits live in [`docs/archive/A11Y-ANALYSIS.md`](./archive/A11Y-ANALYSIS.md).
 
 Status legend: ⬜ Pending · 🔄 In Progress · ✅ Pass · ⚠ Issues found · ⏭ Deferred
 
@@ -589,7 +589,7 @@ All Phase 1 SR findings (TonePicker, Tabs, Modal, Menu) were fixed during this a
 **Recommended next steps:**
 1. ✅ **Done** — all six low-severity items fixed (BL-1/3/4 + TonePicker OOG noise + Tabs panel-host + Progress redundancy). BL-2 withdrawn after verification.
 2. Run a real NVDA + Chrome session against the same 26 components to validate the Playwright AT-tree assumptions, especially on Accordion (`<summary>`) and the host-aria-label changes — Playwright's snapshot may not exactly mirror NVDA's announcement script.
-3. Refresh `archive/A11Y-ANALYSIS.md` (or replace) to distill the WC-era patterns from this audit: `observeHostAriaLabel` for host-attribute mirroring, JSON-attribute injection for story data, native HTML elements over ARIA constructs where possible.
+3. ✅ **Done** — `archive/A11Y-ANALYSIS.md` refreshed with WC-era patterns: `observeHostAriaLabel`, JSON-attribute injection for story data, shadow-DOM radio grouping shim, `.prop` vs `?attr` stateful binding, and updated statistics and recommendations.
 4. Expand the audit to other AT user personas — keyboard-only, voice-control, switch-control, magnification — in subsequent revisions.
 
 ---
