@@ -105,18 +105,41 @@ const renderShowcase = () => `
   </div>
 `;
 
+const sizeRampHeaders = ['Size', 'Token', 'Regular', 'Bold', 'Notes'];
+const sizeRampRows = [
+  { cells: ['≥ 24px', '3xl – xl', '3.0', '3.0', 'WCAG large text — both weights qualify'] },
+  { cells: ['19 – 23px', '—', '4.5', '3.0', 'Bold qualifies as large from 18.67px; regular does not until 24px'] },
+  { cells: ['16 – 18px', '--font-size-md', '4.5', '4.5', 'WCAG 4.5 floor — binds both weights'] },
+  { cells: ['15px', '—', '6.5', '4.5', 'Sub-16px ramp (editorially derived)'] },
+  { cells: ['14px', '--font-size-sm', '9.5', '6.5', 'Candor readable text floor — demand more than doubles vs. 16px'] },
+  { cells: ['13px', '—', '13.8', '9.5', 'Not in Candor scale — ramp context only'] },
+  { cells: ['12px', '--font-size-xs', '20', '13.8', 'Decorative / non-text only — 20 = black on white'] },
+  { cells: ['< 12px', '—', '—', '—', 'Not supported — contrast cannot compensate for letterform resolution failure'] },
+];
+
+const tierHeaders = ['Tier', 'Perceptual task', '14px regular', '14px bold', 'Candor components'];
+const tierRows = [
+  { cells: ['1 — Reading', 'Sequential decoding — must read to act', '9.5', '6.5', 'Toast message, alert body, modal prose, form error messages, article inline text'] },
+  { cells: ['2 — Functional UI', 'Recognition — sole channel for meaning', '6.5', '4.5', 'Breadcrumb links (bold), pagination numbers, table cell data, accordion quiet headings (bold), chip labels'] },
+  { cells: ['3 — Supplementary', 'Pattern match — meaning redundantly coded', '4.5', '4.5', 'Badge text, hint text, breadcrumb separators, pagination ellipsis, stat labels, table metadata'] },
+];
+
 const renderContrastGuidance = () => `
   <div style="max-width: 720px; display: flex; flex-direction: column; gap: var(--spacing-xl); padding-bottom: var(--spacing-xl);">
 
     <section>
       <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-sm);">Size ramp — Tier 1 (reading text) baseline</p>
-      <candor-table id="size-ramp" compact></candor-table>
+      <candor-table compact
+        headers='${JSON.stringify(sizeRampHeaders)}'
+        rows='${JSON.stringify(sizeRampRows)}'></candor-table>
     </section>
 
     <section>
       <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-xs);">Use-case tiers — 14px adjustments</p>
       <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-sm);">The size ramp above assumes fluent reading. At 14px the tier system relaxes the threshold for text whose perceptual task is recognition rather than sequential decoding.</p>
-      <candor-table id="tier-table"></candor-table>
+      <candor-table
+        headers='${JSON.stringify(tierHeaders)}'
+        rows='${JSON.stringify(tierRows)}'></candor-table>
     </section>
 
     <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
@@ -129,33 +152,6 @@ const renderContrastGuidance = () => `
     </div>
 
   </div>
-  <script>
-    (function() {
-      var sizeRamp = document.getElementById('size-ramp');
-      if (sizeRamp) {
-        sizeRamp.headers = ['Size', 'Token', 'Regular', 'Bold', 'Notes'];
-        sizeRamp.rows = [
-          { cells: ['≥ 24px', '3xl – xl', '3.0', '3.0', 'WCAG large text — both weights qualify'] },
-          { cells: ['19 – 23px', '—', '4.5', '3.0', 'Bold qualifies as large from 18.67px; regular does not until 24px'] },
-          { cells: ['16 – 18px', '--font-size-md', '4.5', '4.5', 'WCAG 4.5 floor — binds both weights'] },
-          { cells: ['15px', '—', '6.5', '4.5', 'Sub-16px ramp (editorially derived)'] },
-          { cells: ['14px', '--font-size-sm', '9.5', '6.5', 'Candor readable text floor — demand more than doubles vs. 16px'] },
-          { cells: ['13px', '—', '13.8', '9.5', 'Not in Candor scale — ramp context only'] },
-          { cells: ['12px', '--font-size-xs', '20', '13.8', 'Decorative / non-text only — 20 = black on white'] },
-          { cells: ['< 12px', '—', '—', '—', 'Not supported — contrast cannot compensate for letterform resolution failure'] },
-        ];
-      }
-      var tierTable = document.getElementById('tier-table');
-      if (tierTable) {
-        tierTable.headers = ['Tier', 'Perceptual task', '14px regular', '14px bold', 'Candor components'];
-        tierTable.rows = [
-          { cells: ['1 — Reading', 'Sequential decoding — must read to act', '9.5', '6.5', 'Toast message, alert body, modal prose, form error messages, article inline text'] },
-          { cells: ['2 — Functional UI', 'Recognition — sole channel for meaning', '6.5', '4.5', 'Breadcrumb links (bold), pagination numbers, table cell data, accordion quiet headings (bold), chip labels'] },
-          { cells: ['3 — Supplementary', 'Pattern match — meaning redundantly coded', '4.5', '4.5', 'Badge text, hint text, breadcrumb separators, pagination ellipsis, stat labels, table metadata'] },
-        ];
-      }
-    })();
-  </script>
 `;
 
 const meta: Meta = {
