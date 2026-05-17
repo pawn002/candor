@@ -109,7 +109,7 @@ export class CandorRadio extends LitElement {
 
     if (next === this) return;
     e.preventDefault();
-    next._selectAndFocus(group);
+    next._selectAndFocus();
   }
 
   private _groupSiblings(): CandorRadio[] {
@@ -121,13 +121,23 @@ export class CandorRadio extends LitElement {
   }
 
   private _select() {
+    // Native radio mutual exclusion doesn't cross shadow-DOM boundaries —
+    // each <candor-radio> has its own shadow root so the browser can't see
+    // the sibling inputs as a group. Uncheck siblings explicitly so checking
+    // this one actually means "exclusively this one." Applies to both the
+    // click/change path and the keyboard-nav path.
+    for (const r of this._groupSiblings()) {
+      if (r !== this && r.checked) {
+        r.checked = false;
+        r._internals.setFormValue(null);
+      }
+    }
     this.checked = true;
     this._internals.setFormValue(this.value);
     this.dispatchEvent(new CustomEvent('change', { detail: this.value, bubbles: true, composed: true }));
   }
 
-  private _selectAndFocus(group: CandorRadio[]) {
-    for (const r of group) if (r !== this) r.checked = false;
+  private _selectAndFocus() {
     this._select();
     this.shadowRoot?.querySelector<HTMLInputElement>('input')?.focus();
   }
@@ -140,7 +150,7 @@ export class CandorRadio extends LitElement {
           type="radio"
           id="${this._id}"
           .value="${this.value}"
-          ?checked="${this.checked}"
+          .checked="${this.checked}"
           ?disabled="${this.disabled}"
           name="${this.name || nothing}"
           @change="${this._onChange}"
