@@ -89,7 +89,7 @@ export class CandorCheckbox extends LitElement {
           class="checkbox-input"
           type="checkbox"
           id="${this._id}"
-          ?checked="${this.checked}"
+          .checked="${this.checked}"
           ?disabled="${this.disabled}"
           ?required="${this.required}"
           name="${this.name || nothing}"

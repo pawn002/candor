@@ -30,6 +30,14 @@ export class CandorAccordionItem extends LitElement {
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ reflect: true }) variant: 'default' | 'subtle' | 'quiet' = 'default';
 
+  // Sync host.open with user-driven changes to <details>.open. Without this,
+  // clicking <summary> updates details.open but not this.open, so consumers
+  // reading el.open get stale state.
+  private _onToggle = (e: Event) => {
+    const next = (e.target as HTMLDetailsElement).open;
+    if (this.open !== next) this.open = next;
+  };
+
   override render() {
     const titleCls = [
       'accordion-item__title',
@@ -37,7 +45,7 @@ export class CandorAccordionItem extends LitElement {
       this.variant === 'quiet' ? 'accordion-item__title--quiet' : '',
     ].filter(Boolean).join(' ');
     return html`
-      <details class="accordion-item" ?open="${this.open}">
+      <details class="accordion-item" .open="${this.open}" @toggle="${this._onToggle}">
         <summary class="accordion-item__summary">
           <span class="${titleCls}">${this.heading}</span>
           <svg class="accordion-item__chevron" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>

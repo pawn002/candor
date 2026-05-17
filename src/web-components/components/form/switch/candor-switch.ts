@@ -109,7 +109,7 @@ export class CandorSwitch extends LitElement {
           type="checkbox"
           role="switch"
           id="${this._id}"
-          ?checked="${this.checked}"
+          .checked="${this.checked}"
           ?disabled="${this.disabled}"
           ?required="${this.required}"
           aria-label="${this._ariaLabel || nothing}"
