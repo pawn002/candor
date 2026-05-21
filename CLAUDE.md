@@ -129,24 +129,37 @@ When porting a new feature: implement it in both libraries unless explicitly sco
 ### Typical Session Flow
 
 1. **Receive art direction**: Colors (hex), fonts, spacing requirements
-2. **Convert to OKLCH**: Run `cpqi meta <hex>` on each color to get exact OKLCH values
+2. **Convert to OKLCH**: Run `klar meta <hex>` on each color to get exact OKLCH values
 3. **Update tokens**: Modify `src/design-tokens/colors.scss` and other token files
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
 5. **Mobile check**: Switch Storybook's viewport toolbar to **mobile1 (320 × 568)** and verify: no horizontal overflow, no clipped interactive elements, no layout broken by a fixed column count
-6. **Accessibility validation**: Run `cpqi contrast <fg> <bg> -q` to check contrast ratios
-7. **Iterate**: If violations found, run `cpqi find <bg> <color> --target 4.5 -q` for compliant alternatives
+6. **Accessibility validation**: Run `klar contrast <fg> <bg> -q` to check contrast ratios
+7. **Iterate**: If violations found, run `klar find <bg> <color> --target 4.5 -q` for compliant alternatives
 8. **Report**: Document original specs vs. final implementation, constraints identified
 
 ### Integration Points
 
-**CPQI CLI** (`cpqi --version` to confirm availability):
+**klar CLI** (`klar --version` to confirm availability):
 ```bash
-cpqi meta <hex>                        # Convert hex → OKLCH + color metadata
-cpqi contrast <fg> <bg> -q             # Check contrast ratio (WCAG/APCA)
-cpqi find <bg> <color> --target 4.5 -q # Find lightness-adjusted compliant color
-cpqi variants <hex>                    # Generate a tonal palette
-cpqi match <hex>                       # Find nearest named/brand color
+klar meta <hex>                                      # Convert hex → OKLCH + color metadata
+klar contrast <fg> <bg> -q                           # Check contrast ratio (OKCA, WCAG-compatible)
+klar contrast <fg> <bg> --type deltaE -q             # Perceptual drift between two colors
+klar contrast <fg> <bg> --type apca -q               # APCA Lc score
+klar find <bg> <color> --target 4.5 -q               # Find lightness-adjusted compliant color
+klar variants <hex>                                  # Generate a perceptually-spaced tonal grid
+klar match <color1> <color2>                         # Match chroma of two colors for palette harmony
+klar lightness <hex>                                 # Min/max lightness range for a color in sRGB gamut
+klar pair                                            # Random accessible color pair (seed for exploration)
+klar plugins list                                    # List installed contrast algorithm plugins
 ```
+
+**klar key rules:**
+- **OKCA is the default** — WCAG 2.x-compatible ratio on the 1–21 scale, no `--type` flag needed
+- **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Light-on-dark caps near 21; dark-on-light caps near 20; the same chromatic pair returns different numbers when swapped
+- **deltaE is the art director's metric** — answers "did it change much?"; < 3 imperceptible, 5–10 acceptable drift, 11+ clearly different
+- **Installed plugins** (available via `--type`): `apca` (APCA Lc), `bpca` (Bridge-PCA WCAG ratio), `min-dimension` (minimum px size for non-text UI elements)
+
+See `docs/KLAR-INTEGRATION.md` for full command reference (local file, not in repo).
 
 **When Playwright MCP is connected**:
 - Navigate to stories: `browser_navigate`

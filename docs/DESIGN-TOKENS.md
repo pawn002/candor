@@ -74,7 +74,7 @@ We use **OKLCH** format instead of hex/RGB because:
 
 1. **Perceptually uniform**: Equal changes create equal visual changes
 2. **Predictable**: L=0.5 looks "mid-tone" across all hues
-3. **CPQI CLI compatible**: Easy to manipulate programmatically with `cpqi` commands
+3. **klar CLI compatible**: Easy to manipulate programmatically with `klar` commands
 4. **Better variants**: Generate tints/shades that look natural
 
 ### OKLCH Syntax
@@ -118,10 +118,10 @@ $color-warning: oklch(0.65 0.18 85); // Orange
 
 ### Converting Hex to OKLCH
 
-Use the CPQI CLI:
+Use the klar CLI:
 
 ```bash
-cpqi meta "#3B82F6"
+klar meta "#3B82F6"
 # → Lightness: 0.55, Chroma: 0.18, Hue: 250.8°
 # Use these values: oklch(0.55 0.18 250.8)
 ```
@@ -295,9 +295,9 @@ The **Spacing Showcase** component (`src/app/components/spacing/spacing-showcase
    $color-background: oklch(0.98 0.01 0);
    ```
 
-3. **Validate with CPQI CLI** (Claude does this):
+3. **Validate with klar CLI** (Claude does this):
    ```bash
-   cpqi contrast "#FF5733" "#FFFFFF" -q   # → check ratio ≥ 4.5
+   klar contrast "#FF5733" "#FFFFFF" -q   # → check ratio ≥ 4.5
    ```
 
 4. **View in Storybook:**
