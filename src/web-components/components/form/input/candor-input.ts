@@ -10,7 +10,7 @@ export class CandorInput extends LitElement {
     :host { display: block; }
     .input-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .input-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); }
-    .input-required { color: var(--color-status-error); }
+    .input-required { color: var(--color-status-error-text); }
     .input {
       font-family: var(--font-family-base);
       font-size: var(--font-size-md);
@@ -32,7 +32,7 @@ export class CandorInput extends LitElement {
     .input--textarea { min-height: unset; line-height: var(--line-height-normal); }
     .input:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
     .input-description { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); }
-    .input-error-message { color: var(--color-status-error); }
+    .input-error-message { color: var(--color-status-error-text); font-size: var(--font-size-md); }
     .input-hint { color: var(--color-text-subtle); }
   `;
 
