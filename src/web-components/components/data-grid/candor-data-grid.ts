@@ -47,9 +47,9 @@ export class CandorDataGrid extends LitElement {
     .data-grid__colheader,
     .data-grid__rowheader {
       background: var(--color-bg-surface);
-      color: var(--color-text-subtle);
+      color: var(--color-text-subtle-on-surface);
       font-family: var(--font-family-accessible);
-      font-size: var(--font-size-xs);
+      font-size: var(--font-size-sm);
       font-weight: var(--font-weight-regular);
       letter-spacing: var(--letter-spacing-wide);
       text-transform: uppercase;

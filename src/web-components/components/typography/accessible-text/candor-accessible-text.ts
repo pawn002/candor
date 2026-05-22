@@ -46,7 +46,7 @@ export class CandorAccessibleText extends LitElement {
     .accessible-text--color-primary   { color: var(--color-text-default); }
     .accessible-text--color-secondary { color: var(--color-text-subtle); }
     .accessible-text--color-disabled  { color: var(--color-text-disabled); }
-    .accessible-text--color-error     { color: var(--color-status-error); }
+    .accessible-text--color-error     { color: var(--color-status-error-text); }
     /* Bold modifier */
     .accessible-text--bold { font-weight: var(--font-weight-bold); }
   `;

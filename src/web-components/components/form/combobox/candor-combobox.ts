@@ -24,7 +24,7 @@ export class CandorCombobox extends LitElement {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: 0.02em;
     }
-    .combobox__required { color: var(--color-status-error); margin-left: 0.25em; }
+    .combobox__required { color: var(--color-status-error-text); margin-left: 0.25em; }
     .combobox__control { position: relative; display: flex; align-items: center; }
     .combobox__input {
       width: 100%; min-height: 2.5rem;
@@ -84,7 +84,7 @@ export class CandorCombobox extends LitElement {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
       letter-spacing: 0.02em; min-height: 1.25em;
     }
-    .combobox__error { color: var(--color-status-error); }
+    .combobox__error { color: var(--color-status-error-text); font-size: var(--font-size-md); }
     .combobox__hint { color: var(--color-text-subtle); }
   `;
 

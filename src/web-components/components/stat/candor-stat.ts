@@ -31,9 +31,9 @@ export class CandorStat extends LitElement {
       letter-spacing: -0.02em;
       color: var(--color-text-default);
     }
-    :host([color='success']) .stat__value { color: var(--color-status-success); }
-    :host([color='warning']) .stat__value { color: var(--color-status-warning); }
-    :host([color='error'])   .stat__value { color: var(--color-status-error); }
+    :host([color='success']) .stat__value { color: var(--color-status-success-text); }
+    :host([color='warning']) .stat__value { color: var(--color-status-warning-text); }
+    :host([color='error'])   .stat__value { color: var(--color-status-error-text); }
     :host([color='info'])    .stat__value { color: var(--color-link); }
     .stat__unit {
       font-size: var(--font-size-lg);
