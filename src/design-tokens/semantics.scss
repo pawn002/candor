@@ -246,8 +246,8 @@
     --color-action-primary-active: oklch(0.87 0.08 245);
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
-    // gray-800 text on burgundy-300: OKCA 5.7 ✅
-    --color-action-secondary:        var(--burgundy-300); // OKCA 8.3 on bg-page ✅ (fill vs page)
+    // bg-page text on burgundy-300: OKCA 6.9 ✅
+    --color-action-secondary:        var(--burgundy-300); // OKCA 7.3 on bg-page ✅ (fill vs page)
     --color-action-secondary-hover:  var(--burgundy-200); // OKCA 12+ on bg-page ✅
     --color-action-secondary-active: var(--burgundy-200);
 
