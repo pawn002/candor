@@ -24,9 +24,9 @@
     --color-border-default:    var(--gray-200);
     --color-border-strong:     var(--gray-300);
     --color-border-on-inverse: oklch(0.40 0.05 245); // subtle divider on navy-800 inverse surface
-    // Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1).
-    // gray-500 (L=0.57) passes on both page backgrounds: 4.5:1 light, 4.3:1 dark.
-    --color-border-control: var(--gray-500);
+    // Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA).
+    // L=0.50 (one step below gray-500): OKCA 4.6 on page ✅, OKCA 3.4 on bg-surface ✅
+    --color-border-control: oklch(0.50 0 0);
 
     // ─── Colors: Action — Primary (navy) ───────────────────────────────────────
     --color-action-primary:        var(--navy-800); // OKCA 14.1 on white ✅
@@ -230,6 +230,8 @@
     --color-border-default:    var(--gray-600); // subtle separator — non-text, decorative
     --color-border-strong:     var(--gray-500); //  4.3:1 on bg-page ✅
     --color-border-on-inverse: oklch(0.85 0 0); // subtle divider on white inverse surface
+    // L=0.60: OKCA 3.8 on dark page ✅, OKCA 3.1 on bg-surface ✅ (light mode uses L=0.50; dark needs lighter to contrast against dark surfaces)
+    --color-border-control:    oklch(0.60 0 0);
 
     // ─── Action — Primary (navy) ───────────────────────────────────────────
     // Direct OKLCH values instead of navy-* scale refs — the navy palette is

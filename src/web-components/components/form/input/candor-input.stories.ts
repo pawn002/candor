@@ -108,3 +108,39 @@ export const Multiline: Story = {
     template: `<candor-input label="Message" multiline placeholder="Type your message…" rows="4"></candor-input>`,
   }),
 };
+
+export const OnSurface: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Side-by-side comparison of input borders on page background vs surface background. ' +
+          'Surface background (--color-bg-surface = gray-100 light / gray-800 dark) is where ' +
+          'border-control contrast is tightest — OKCA 2.5 light / 2.6 dark vs the 3.0 non-text threshold.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:640px;">
+        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+          <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:0.05em;text-transform:uppercase;">Page background</div>
+          <div style="background:var(--color-bg-page);border-radius:var(--radius-md);padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem;">
+            <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
+            <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
+            <candor-input label="With error" error="This field is required"></candor-input>
+            <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+          <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:0.05em;text-transform:uppercase;">Surface background</div>
+          <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem;">
+            <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
+            <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
+            <candor-input label="With error" error="This field is required"></candor-input>
+            <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
