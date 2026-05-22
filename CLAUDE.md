@@ -130,12 +130,30 @@ When porting a new feature: implement it in both libraries unless explicitly sco
 
 1. **Receive art direction**: Colors (hex), fonts, spacing requirements
 2. **Convert to OKLCH**: Run `klar meta <hex>` on each color to get exact OKLCH values
-3. **Update tokens**: Modify `src/design-tokens/colors.scss` and other token files
+3. **Update tokens**: Modify `src/design-tokens/semantics.scss` (or `primitives.scss`). After any change, re-export the DTCG artifact: `npm run audit:tokens`
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
 5. **Mobile check**: Switch Storybook's viewport toolbar to **mobile1 (320 × 568)** and verify: no horizontal overflow, no clipped interactive elements, no layout broken by a fixed column count
-6. **Accessibility validation**: Run `klar contrast <fg> <bg> -q` to check contrast ratios
+6. **Accessibility validation**: Run `klar contrast <fg> <bg> -q` to check contrast ratios. For each token you changed, grep `audit/pairings.json` for its DTCG name (e.g. `color.text.subtle`) to find every pairing that references it — then validate each with klar. The `min` field in each pairing entry is the Candor-policy OKCA floor for that pairing.
 7. **Iterate**: If violations found, run `klar find <bg> <color> --target 4.5 -q` for compliant alternatives
 8. **Report**: Document original specs vs. final implementation, constraints identified
+
+### Audit Artifacts
+
+Two machine-readable files in `audit/` serve as the canonical inputs for contrast audits. Keep them current as tokens and components evolve.
+
+**`audit/tokens.dtcg.json`** — auto-generated, do not edit by hand.
+- Produced by `npm run audit:tokens` (runs `scripts/export-tokens-dtcg.js`).
+- Contains all `--color-*` tokens with resolved `oklch()` values in W3C DTCG format, split into `light` and `dark` mode objects.
+- Tokens annotated "icon/border use" in `semantics.scss` carry `$extensions.usage: "non-text"` — these are the tokens that must NOT be used as CSS `color:` values for text.
+- Re-run whenever `src/design-tokens/semantics.scss` or `src/design-tokens/primitives.scss` changes.
+
+**`audit/pairings.json`** — hand-authored, update alongside component changes.
+- 87 foreground/background pairings covering all 34 WC components.
+- Each entry: `{ id, fg, bg, size, weight, min }` using DTCG token references (`{color.status.error-text}`) and an explicit pixel size and weight.
+- `min` is the Candor-policy OKCA floor for that specific pairing — it encodes the tier table from the "OKCA Contrast Thresholds" section above. It is **not** a klar/OKCA standard; it belongs to this design system.
+- When you change a color token: grep `audit/pairings.json` for the token name → find every affected pairing → re-validate those pairs with `klar contrast`.
+- When you add a new component: add entries for every unique `color:` declaration in the component's CSS, following the tier classification rules above.
+- When you add a new semantic token or rename one: update both `tokens.dtcg.json` (re-run the script) and any pairings that reference the old token name.
 
 ### Integration Points
 
@@ -309,6 +327,7 @@ $color-primary: oklch(0.55 0.18 250); // Always use OKLCH format
 3. Import design tokens: `@use '../../../design-tokens' as tokens;`
 4. Create `.stories.ts` file showcasing all variants
 5. Export stories using CSF3 format
+6. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value.
 
 ### Storybook Stories Format
 
@@ -681,6 +700,7 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 1. **Don't hard-code colors**: Always use design tokens
 2. **Don't use hex colors in tokens**: Use OKLCH format
 3. **Don't skip accessibility validation**: Check contrast before finalizing
+3a. **Don't use `--color-status-*` (or any `$extensions.usage: "non-text"` token) as a CSS `color:` value for text**: These tokens — `--color-status-error`, `--color-status-success`, `--color-status-warning`, and the base icon/border variants — are contrast-validated only for non-text use (icons, borders, indicators). Their OKCA against common backgrounds is below every text threshold. Always use the paired `-text` variant: `--color-status-error-text`, `--color-status-success-text`, `--color-status-warning-text`. Check `audit/tokens.dtcg.json` — any token with `"$extensions": { "usage": "non-text" }` must not appear in a `color:` rule.
 4. **Don't create components without stories**: Every component needs a story
 5. **Don't modify node_modules**: This is obvious but worth stating
 6. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
