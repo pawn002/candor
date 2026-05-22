@@ -114,8 +114,10 @@ export const OnSurface: Story = {
     docs: {
       description: {
         story: 'Side-by-side comparison of input borders on page background vs surface background. ' +
-          'Surface background (--color-bg-surface = gray-100 light / gray-800 dark) is where ' +
-          'border-control contrast is tightest — OKCA 2.5 light / 2.6 dark vs the 3.0 non-text threshold.',
+          'The surface container overrides `--color-border-control` to `var(--color-border-control-on-surface)`, ' +
+          'which all child form controls inherit automatically. ' +
+          'Without the override, border-control (gray-500) achieves only OKCA 2.5 on bg-surface — ' +
+          'below the 3.0 non-text contrast threshold.',
       },
     },
   },
@@ -133,7 +135,7 @@ export const OnSurface: Story = {
         </div>
         <div style="display:flex;flex-direction:column;gap:0.5rem;">
           <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:0.05em;text-transform:uppercase;">Surface background</div>
-          <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem;">
+          <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem;--color-border-control:var(--color-border-control-on-surface);">
             <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
             <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
             <candor-input label="With error" error="This field is required"></candor-input>
