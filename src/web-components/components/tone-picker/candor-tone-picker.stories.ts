@@ -184,12 +184,12 @@ export const SmallSize: Story = {
   render: () => ({
     template: `
       <candor-tone-picker
-        aria-label="Purple H 278.14 — compact"
+        aria-label="Indigo H 278.14 — compact"
         size="small"
         hide-headers
         hide-ui
-        rows='${PURPLE_ROWS}'
-        column-headers='${PURPLE_HEADERS}'>
+        rows='${INDIGO_ROWS}'
+        column-headers='${INDIGO_HEADERS}'>
       </candor-tone-picker>
     `,
   }),
