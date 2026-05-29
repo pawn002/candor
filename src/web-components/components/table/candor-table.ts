@@ -44,13 +44,7 @@ export class CandorTable extends LitElement {
     }
     tbody tr:nth-child(even) td,
     tbody tr:nth-child(even) th {
-      background: oklch(0.85 0 0);
-    }
-    @media (prefers-color-scheme: dark) {
-      tbody tr:nth-child(even) td,
-      tbody tr:nth-child(even) th {
-        background: color-mix(in oklch, white 15%, var(--color-bg-elevated));
-      }
+      background: var(--color-bg-surface);
     }
     tbody tr:last-child td {
       border-bottom: none;
@@ -65,17 +59,7 @@ export class CandorTable extends LitElement {
     }
     :host([compact]) tbody tr:nth-child(odd) td,
     :host([compact]) tbody tr:nth-child(odd) th {
-      background: oklch(0.85 0 0);
-    }
-    @media (prefers-color-scheme: dark) {
-      :host([compact]) tbody tr:nth-child(even) td,
-      :host([compact]) tbody tr:nth-child(even) th {
-        background: transparent;
-      }
-      :host([compact]) tbody tr:nth-child(odd) td,
-      :host([compact]) tbody tr:nth-child(odd) th {
-        background: color-mix(in oklch, white 15%, var(--color-bg-elevated));
-      }
+      background: var(--color-bg-surface);
     }
   `;
 
