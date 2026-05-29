@@ -45,8 +45,8 @@ const renderShowcase = () => `
       <div style="margin-bottom: var(--spacing-lg);">
         <h2 style="font-family: var(--font-family-display); font-size: var(--font-size-2xl); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-tight);">Font Families</h2>
         <p style="font-size: var(--font-size-md); color: var(--color-text-subtle); margin: 0; line-height: var(--line-height-normal);">
-          Four-voice system aligned to cognitive mode. Execution voices (navy border) handle
-          task completion and scanning. Interpretation voices (burgundy border) handle reading
+          Four-voice system aligned to cognitive mode. Execution voices (navy accent) handle
+          task completion and scanning. Interpretation voices (burgundy accent) handle reading
           and reflection.
         </p>
       </div>
@@ -54,21 +54,22 @@ const renderShowcase = () => `
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-lg);">
         ${FONT_FAMILIES.map(f => {
           const isInterp = f.mode === 'Interpretation';
-          const borderTop = isInterp ? 'var(--color-action-secondary)' : 'var(--color-action-primary)';
-          const chipBg = isInterp ? 'var(--color-action-secondary)' : 'var(--color-action-primary)';
+          const accentColor = isInterp ? 'var(--color-action-secondary)' : 'var(--color-action-primary)';
+          const chipVariant = isInterp ? 'secondary' : 'primary';
           return `
-            <div style="border: 1px solid var(--color-border-default); border-top: 3px solid ${borderTop}; border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-surface);">
-              <div style="padding: var(--spacing-lg); font-family: var(${f.variable}); font-size: var(--font-size-lg); font-weight: var(--font-weight-regular); color: var(--color-text-default); line-height: var(--line-height-normal); white-space: pre-line; min-height: 112px; display: flex; align-items: center; border-bottom: 1px solid var(--color-border-default);">${f.specimen}</div>
+            <candor-card variant="default" padding="none">
+              <div style="height: var(--border-width-thick); background: ${accentColor};"></div>
+              <div style="padding: var(--spacing-lg); font-family: var(${f.variable}); font-size: var(--font-size-lg); font-weight: var(--font-weight-regular); color: var(--color-text-default); line-height: var(--line-height-normal); white-space: pre-line; min-height: 112px; display: flex; align-items: center; border-bottom: var(--border-width-thin) solid var(--color-border-default);">${f.specimen}</div>
               <div style="padding: var(--spacing-md);">
                 <div style="font-family: var(--font-family-base); font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin-bottom: var(--spacing-xs);">${f.name}</div>
-                <div style="display: flex; gap: 0.5rem; margin-bottom: var(--spacing-xs); flex-wrap: wrap;">
-                  <span style="font-family: var(--font-family-accessible); font-size: var(--font-size-xs); font-weight: var(--font-weight-regular); letter-spacing: 0.05em; padding: 0.2em 0.65em; border-radius: var(--radius-full); background: ${chipBg}; color: var(--color-text-on-action);">${f.mode}</span>
-                  <span style="font-family: var(--font-family-accessible); font-size: var(--font-size-xs); font-weight: var(--font-weight-regular); letter-spacing: 0.05em; padding: 0.2em 0.65em; border-radius: var(--radius-full); background: transparent; color: var(--color-text-subtle); border: 1px solid var(--color-border-default);">${f.voice}</span>
+                <div style="display: flex; gap: var(--spacing-xs); margin-bottom: var(--spacing-xs); flex-wrap: wrap; align-items: center;">
+                  <candor-chip variant="${chipVariant}" label="${f.mode}"></candor-chip>
+                  <candor-chip label="${f.voice}"></candor-chip>
                 </div>
                 <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-normal);">${f.use}</p>
-                <code style="display: block; font-family: var(--font-family-mono); font-size: var(--font-size-xs); background: var(--color-bg-elevated); color: var(--color-text-default); padding: var(--spacing-xs) var(--spacing-sm); border-radius: 4px; border-left: 3px solid var(--color-highlight);">${f.variable}</code>
+                <code style="display: block; font-family: var(--font-family-mono); font-size: var(--font-size-xs); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm);">${f.variable}</code>
               </div>
-            </div>
+            </candor-card>
           `;
         }).join('')}
       </div>
@@ -79,22 +80,22 @@ const renderShowcase = () => `
         <h2 style="font-family: var(--font-family-display); font-size: var(--font-size-2xl); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-tight);">Type Scale</h2>
         <p style="font-size: var(--font-size-md); color: var(--color-text-subtle); margin: 0; line-height: var(--line-height-normal);">
           Major Third ratio (1.25×) from a 1rem (16px) base. The 14px floor
-          (<code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.1em 0.35em; border-radius: 3px;">--font-size-sm</code>) is the minimum for readable
-          text. <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.1em 0.35em; border-radius: 3px;">--font-size-xs</code> (12px) is for decorative
+          (<code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">--font-size-sm</code>) is the minimum for readable
+          text. <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">--font-size-xs</code> (12px) is for decorative
           and non-text use only.
         </p>
       </div>
 
-      <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-surface);">
+      <div style="border: var(--border-width-thin) solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-surface);">
         ${TYPE_SCALE.map((s, i) => {
-          const rowBg = s.isFloor ? 'oklch(0.85 0 0)' : 'transparent';
+          const floorStyle = s.isFloor ? `box-shadow: inset var(--border-width-thick) 0 0 var(--color-action-primary);` : '';
           const opacity = s.isDecorative ? '0.55' : '1';
           const isLast = i === TYPE_SCALE.length - 1;
           return `
-            <div style="display: grid; grid-template-columns: 5rem 1fr; align-items: center; padding: var(--spacing-sm) var(--spacing-md); ${isLast ? '' : 'border-bottom: 1px solid var(--color-border-strong);'} gap: var(--spacing-md); background: ${rowBg}; opacity: ${opacity};">
+            <div style="display: grid; grid-template-columns: 5rem 1fr; align-items: center; padding: var(--spacing-sm) var(--spacing-md); ${isLast ? '' : 'border-bottom: var(--border-width-thin) solid var(--color-border-strong);'} gap: var(--spacing-md); ${floorStyle} opacity: ${opacity};">
               <div style="font-family: var(--font-family-base); font-weight: var(--font-weight-semibold); color: var(--color-text-default); line-height: 1; text-align: right; font-optical-sizing: auto; font-size: ${s.size};">Aa</div>
               <div style="display: flex; align-items: baseline; gap: var(--spacing-sm); flex-wrap: wrap;">
-                <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); background: var(--color-bg-elevated); padding: 0.1em 0.4em; border-radius: 3px; flex-shrink: 0;">${s.token}</code>
+                <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.4em; border-radius: var(--radius-sm); flex-shrink: 0;">${s.token}</code>
                 <span style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; flex-shrink: 0;">${s.size} · ${s.px}</span>
                 <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">${s.use}</span>
               </div>
