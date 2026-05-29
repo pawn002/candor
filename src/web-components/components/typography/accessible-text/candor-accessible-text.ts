@@ -52,7 +52,7 @@ export class CandorAccessibleText extends LitElement {
   `;
 
   @property({ reflect: true }) role_: AccessibleTextRole = 'label';
-  @property({ reflect: true }) size: AccessibleTextSize = 'md';
+  @property({ reflect: true }) size?: AccessibleTextSize;
   @property({ reflect: true }) color: AccessibleTextColor = 'primary';
   @property({ type: Boolean }) bold = false;
 
@@ -60,7 +60,7 @@ export class CandorAccessibleText extends LitElement {
     const cls = [
       'accessible-text',
       `accessible-text--role-${this.role_}`,
-      `accessible-text--size-${this.size}`,
+      this.size ? `accessible-text--size-${this.size}` : '',
       `accessible-text--color-${this.color}`,
       this.bold ? 'accessible-text--bold' : '',
     ].filter(Boolean).join(' ');

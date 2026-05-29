@@ -81,9 +81,9 @@ host element's actual ARIA role.
       description: 'Bold weight — for hierarchy/labels only, not urgency',
     },
   },
-  args: { role_: 'label', size: 'md', color: 'primary', bold: false },
+  args: { role_: 'label', color: 'primary', bold: false },
   render: (args) => ({
-    template: `<candor-accessible-text role_="${args['role_']}" size="${args['size']}" color="${args['color']}" ${args['bold'] ? 'bold' : ''}>Accessible Text Playground</candor-accessible-text>`,
+    template: `<candor-accessible-text role_="${args['role_']}"${args['size'] ? ` size="${args['size']}"` : ''} color="${args['color']}" ${args['bold'] ? 'bold' : ''}>Accessible Text Playground</candor-accessible-text>`,
   }),
 };
 
