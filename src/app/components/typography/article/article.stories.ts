@@ -556,3 +556,100 @@ Hyperlegible — only the body prose switches to Noto Serif.
     `,
   }),
 };
+
+export const HighlightVsVisited: Story = {
+  name: 'Color Audit — Highlight vs Visited',
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        story: `
+**Design decision required.** In the current system \`--color-highlight\` (inline code text)
+and \`--color-link-visited\` share the same indigo primitive in dark mode (ΔE = 0) and are
+barely distinct in light mode (ΔE = 5). A reader cannot reliably tell inline code from a
+visited link by color alone.
+
+Two fixes are shown below. The visited state is forced via \`.is-visited\` so both states are
+always visible regardless of browser history.
+
+- **Option A — background:** inline code uses a surface tint with default text color.
+  No color dependency; code is identified by its container and monospace font alone.
+- **Option B — burgundy:** inline code uses \`--color-action-secondary\` (burgundy, H=347).
+  Color still carries meaning but is now drawn from a completely different hue family.
+        `.trim(),
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <style>
+        .hvv-section {
+          margin-bottom: var(--spacing-xl);
+          padding-bottom: var(--spacing-xl);
+          border-bottom: var(--border-width-thin) solid var(--color-border-default);
+        }
+        .hvv-section:last-child { border-bottom: none; margin-bottom: 0; }
+        .hvv-label {
+          font-family: var(--font-family-accessible);
+          font-size: var(--font-size-sm);
+          font-weight: var(--font-weight-bold);
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          color: var(--color-text-subtle);
+          margin: 0 0 var(--spacing-sm);
+        }
+        /* Force visited appearance so it is always visible */
+        .hvv-section app-article a.is-visited {
+          color: var(--color-link-visited);
+          border-bottom-color: var(--color-link-visited);
+        }
+        /* Option A: background-forward — no color-highlight dependency */
+        .hvv-option-a app-article code {
+          color: var(--color-text-default);
+          background-color: var(--color-bg-elevated);
+          border: var(--border-width-thin) solid var(--color-border-default);
+        }
+        /* Option B: burgundy text */
+        .hvv-option-b app-article code {
+          color: var(--color-action-secondary);
+        }
+      </style>
+
+      <div class="hvv-section">
+        <p class="hvv-label">Current — inline code and visited link are the same color (ΔE 0 dark / ΔE 5 light)</p>
+        <app-article>
+          <p>
+            Use the <code>var()</code> function to reference a custom property — for example,
+            <code>color: var(--color-link)</code> pulls the active link token.
+            The <a href="#">MDN reference</a> covers the full syntax, and
+            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.
+          </p>
+        </app-article>
+      </div>
+
+      <div class="hvv-section hvv-option-a">
+        <p class="hvv-label">Option A — background: code uses elevated surface tint + default text (no hue conflict possible)</p>
+        <app-article>
+          <p>
+            Use the <code>var()</code> function to reference a custom property — for example,
+            <code>color: var(--color-link)</code> pulls the active link token.
+            The <a href="#">MDN reference</a> covers the full syntax, and
+            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.
+          </p>
+        </app-article>
+      </div>
+
+      <div class="hvv-section hvv-option-b">
+        <p class="hvv-label">Option B — burgundy: code uses --color-action-secondary (H=347, clearly not a link)</p>
+        <app-article>
+          <p>
+            Use the <code>var()</code> function to reference a custom property — for example,
+            <code>color: var(--color-link)</code> pulls the active link token.
+            The <a href="#">MDN reference</a> covers the full syntax, and
+            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.
+          </p>
+        </app-article>
+      </div>
+    `,
+  }),
+};
