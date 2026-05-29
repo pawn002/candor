@@ -1,3 +1,5 @@
+import React from 'react';
+import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/angular';
 
 interface FontFamily {
@@ -160,6 +162,11 @@ const meta: Meta = {
   parameters: {
     layout: 'fullscreen',
     docs: {
+      page: () => React.createElement(React.Fragment, null,
+        React.createElement(Title, null),
+        React.createElement(Description, null),
+        React.createElement(Stories, { includePrimary: true })
+      ),
       description: {
         component: `
 Four-voice typographic system aligned to two cognitive modes:

@@ -1,3 +1,5 @@
+import React from 'react';
+import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/angular';
 
 interface SpacingItem {
@@ -55,6 +57,11 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     docs: {
+      page: () => React.createElement(React.Fragment, null,
+        React.createElement(Title, null),
+        React.createElement(Description, null),
+        React.createElement(Stories, { includePrimary: true })
+      ),
       description: {
         component: `
 Candor's spacing scale is built on an **8px grid**. Every step is a named semantic token —

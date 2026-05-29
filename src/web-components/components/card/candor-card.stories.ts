@@ -29,6 +29,29 @@ its lift signal. If you are building a card-on-card layout, the inner card shoul
 \`\`\`
 
 Empty header and footer slots collapse — no leftover border or padding when unused.
+
+**Semantic grouping**
+
+\`<candor-card>\` is a visual container with no implicit ARIA role. When a card represents
+a distinct content region, add \`role="group"\` and name it with \`aria-labelledby\` pointing
+to a heading inside the card, or \`aria-label\` for a concise inline name:
+
+\`\`\`html
+<!-- Preferred: heading inside the card labels the group -->
+<candor-card role="group" aria-labelledby="card-heading">
+  <h3 id="card-heading" slot="header">Account summary</h3>
+  <p>Body content goes here.</p>
+</candor-card>
+
+<!-- Alternative: inline label when no visible heading is needed -->
+<candor-card role="group" aria-label="Account summary">
+  <p>Body content goes here.</p>
+</candor-card>
+\`\`\`
+
+\`role\`, \`aria-label\`, and \`aria-labelledby\` are native HTML attributes and work directly
+on \`<candor-card>\` without any special wiring — the browser exposes them on the host
+element's accessibility node.
         `.trim(),
       },
     },

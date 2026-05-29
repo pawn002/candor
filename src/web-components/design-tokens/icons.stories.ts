@@ -1,3 +1,5 @@
+import React from 'react';
+import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/angular';
 
 const meta: Meta = {
@@ -6,6 +8,11 @@ const meta: Meta = {
   parameters: {
     layout: 'padded',
     docs: {
+      page: () => React.createElement(React.Fragment, null,
+        React.createElement(Title, null),
+        React.createElement(Description, null),
+        React.createElement(Stories, { includePrimary: true })
+      ),
       description: {
         component: `
 Candor uses **Phosphor Icons** as its icon system. Phosphor is a humanist icon family —
@@ -60,7 +67,8 @@ without adjacent text, add a visually-hidden \`<span class="sr-only">\` label in
 
 ## Sizing
 
-Icons inherit \`font-size\` from their container. Set size explicitly and always pair
+Icons inherit \`font-size\` from their container, which works when the icon should match
+the surrounding text. When you need a specific size, set it explicitly — and always pair
 with \`line-height: 1\` to prevent baseline shift:
 
 \`\`\`html
@@ -98,17 +106,16 @@ export const WeightComparison: Story = {
   },
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: var(--spacing-md);">
 
-        <div style="display: flex; gap: var(--spacing-2xl); align-items: flex-start;">
-
-          <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); align-items: center;">
-            <p style="
-              font-family: var(--font-family-base); font-size: var(--font-size-sm);
-              font-weight: var(--font-weight-semibold); text-transform: uppercase;
-              letter-spacing: var(--letter-spacing-wide); color: var(--color-text-subtle); margin: 0;
-            ">ph-fill — action</p>
-            <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; justify-content: center;">
+        <candor-card variant="default" padding="lg" role="group" aria-labelledby="icon-tier-action">
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+              <h3 id="icon-tier-action" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Action</h3>
+              <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.15em 0.45em; border-radius: 4px; border: 1px solid var(--color-border-default); align-self: flex-start;">ph-fill</code>
+              <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Close, add, search, download</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); justify-items: center;">
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
                 <i class="ph-fill ph-x" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
                 <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-x</span>
@@ -122,23 +129,21 @@ export const WeightComparison: Story = {
                 <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-magnifying-glass</span>
               </div>
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-fill ph-bell" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-bell</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
                 <i class="ph-fill ph-download-simple" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
                 <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-download-simple</span>
               </div>
             </div>
           </div>
+        </candor-card>
 
-          <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); align-items: center;">
-            <p style="
-              font-family: var(--font-family-base); font-size: var(--font-size-sm);
-              font-weight: var(--font-weight-semibold); text-transform: uppercase;
-              letter-spacing: var(--letter-spacing-wide); color: var(--color-text-subtle); margin: 0;
-            ">ph-bold — directional</p>
-            <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; justify-content: center;">
+        <candor-card variant="default" padding="lg" role="group" aria-labelledby="icon-tier-directional">
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+              <h3 id="icon-tier-directional" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Directional</h3>
+              <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.15em 0.45em; border-radius: 4px; border: 1px solid var(--color-border-default); align-self: flex-start;">ph-bold</code>
+              <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Carets, chevrons, arrows</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); justify-items: center;">
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
                 <i class="ph-bold ph-caret-down" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
                 <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-caret-down</span>
@@ -151,16 +156,22 @@ export const WeightComparison: Story = {
                 <i class="ph-bold ph-arrow-left" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
                 <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-arrow-left</span>
               </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
+                <i class="ph-bold ph-arrow-up" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
+                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-arrow-up</span>
+              </div>
             </div>
           </div>
+        </candor-card>
 
-          <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); align-items: center;">
-            <p style="
-              font-family: var(--font-family-base); font-size: var(--font-size-sm);
-              font-weight: var(--font-weight-semibold); text-transform: uppercase;
-              letter-spacing: var(--letter-spacing-wide); color: var(--color-text-subtle); margin: 0;
-            ">ph — regular (informational)</p>
-            <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; justify-content: center;">
+        <candor-card variant="default" padding="lg" role="group" aria-labelledby="icon-tier-informational">
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+              <h3 id="icon-tier-informational" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Informational</h3>
+              <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.15em 0.45em; border-radius: 4px; border: 1px solid var(--color-border-default); align-self: flex-start;">ph</code>
+              <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Status, metadata, decorative</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); justify-items: center;">
               <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
                 <i class="ph ph-info" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
                 <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-info</span>
@@ -177,14 +188,10 @@ export const WeightComparison: Story = {
                 <i class="ph ph-x-circle" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
                 <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-x-circle</span>
               </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph ph-sparkle" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-sparkle</span>
-              </div>
             </div>
           </div>
+        </candor-card>
 
-        </div>
       </div>
     `,
   }),
