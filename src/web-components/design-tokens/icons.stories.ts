@@ -100,7 +100,7 @@ export const WeightComparison: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The same icon at all three weights. Fill reads as an object to press; bold reads as a directional hint; regular recedes into context.',
+        story: 'The same icon (`ph-bell`) at all three Phosphor weights. Fill reads as a solid object — use for primary interactive affordances. Bold reads as an emphatic stroke — use for directional affordances like carets and arrows. Regular recedes into context — use for status indicators and ambient decoration.',
       },
     },
   },
@@ -108,86 +108,41 @@ export const WeightComparison: Story = {
     template: `
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: var(--spacing-md);">
 
-        <candor-card variant="default" padding="lg" role="group" aria-labelledby="icon-tier-action">
+        <candor-card variant="default" padding="lg" role="group" aria-labelledby="icon-weight-fill">
           <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
             <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-              <h3 id="icon-tier-action" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Action</h3>
+              <h3 id="icon-weight-fill" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Fill</h3>
               <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.15em 0.45em; border-radius: 4px; border: 1px solid var(--color-border-default); align-self: flex-start;">ph-fill</code>
-              <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Close, add, search, download</p>
+              <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">High-salience interactions — buttons, toggles, active states</p>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); justify-items: center;">
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-fill ph-x" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-x</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-fill ph-plus" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-plus</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-fill ph-magnifying-glass" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-magnifying-glass</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-fill ph-download-simple" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-download-simple</span>
-              </div>
+            <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
+              <i class="ph-fill ph-bell" style="font-size: 3rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
             </div>
           </div>
         </candor-card>
 
-        <candor-card variant="default" padding="lg" role="group" aria-labelledby="icon-tier-directional">
+        <candor-card variant="default" padding="lg" role="group" aria-labelledby="icon-weight-bold">
           <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
             <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-              <h3 id="icon-tier-directional" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Directional</h3>
+              <h3 id="icon-weight-bold" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Bold</h3>
               <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.15em 0.45em; border-radius: 4px; border: 1px solid var(--color-border-default); align-self: flex-start;">ph-bold</code>
-              <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Carets, chevrons, arrows</p>
+              <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Directional affordances — carets, arrows, interactive indicators</p>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); justify-items: center;">
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-bold ph-caret-down" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-caret-down</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-bold ph-caret-right" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-caret-right</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-bold ph-arrow-left" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-arrow-left</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph-bold ph-arrow-up" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-arrow-up</span>
-              </div>
+            <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
+              <i class="ph-bold ph-bell" style="font-size: 3rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
             </div>
           </div>
         </candor-card>
 
-        <candor-card variant="default" padding="lg" role="group" aria-labelledby="icon-tier-informational">
+        <candor-card variant="default" padding="lg" role="group" aria-labelledby="icon-weight-regular">
           <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
             <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-              <h3 id="icon-tier-informational" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Informational</h3>
+              <h3 id="icon-weight-regular" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Regular</h3>
               <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.15em 0.45em; border-radius: 4px; border: 1px solid var(--color-border-default); align-self: flex-start;">ph</code>
-              <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Status, metadata, decorative</p>
+              <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Ambient and informational — status indicators, metadata, decoration</p>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); justify-items: center;">
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph ph-info" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-info</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph ph-check-circle" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-check-circle</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph ph-warning" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-warning</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.375rem;">
-                <i class="ph ph-x-circle" style="font-size: 1.5rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
-                <span style="font-family: var(--font-family-mono); font-size: 0.7rem; color: var(--color-text-subtle);">ph-x-circle</span>
-              </div>
+            <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
+              <i class="ph ph-bell" style="font-size: 3rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
             </div>
           </div>
         </candor-card>
