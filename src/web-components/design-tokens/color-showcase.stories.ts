@@ -220,6 +220,7 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
+    options: { showPanel: false },
     docs: {
       page: () => React.createElement(React.Fragment, null,
         React.createElement(Title, null),
