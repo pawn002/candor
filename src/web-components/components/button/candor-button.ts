@@ -33,7 +33,7 @@ export class CandorButton extends LitElement {
     .button--medium {
       font-size: var(--font-size-md);
       padding: var(--spacing-button-padding-y) var(--spacing-button-padding-x);
-      min-height: 2.5rem;
+      min-height: var(--hit-target-aaa);
     }
     .button--large {
       font-size: var(--font-size-lg);

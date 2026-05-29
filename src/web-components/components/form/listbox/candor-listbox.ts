@@ -28,7 +28,7 @@ export class CandorListbox extends LitElement {
     .listbox__required { color: var(--color-status-error-text); margin-left: 0.25em; }
     .listbox__trigger {
       display: flex; align-items: center; justify-content: space-between;
-      width: 100%; min-height: 2.5rem;
+      width: 100%; min-height: var(--hit-target-aaa);
       padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); background-color: var(--color-bg-page);
@@ -78,7 +78,7 @@ export class CandorListbox extends LitElement {
     .listbox__option-check { flex-shrink: 0; color: var(--color-action-primary); font-size: 1rem; }
     .listbox__description {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: 0.02em; min-height: 1.25em;
+      letter-spacing: 0.02em; min-height: var(--hit-target-aa);
     }
     .listbox__error { color: var(--color-status-error-text); font-size: var(--font-size-md); }
     .listbox__hint { color: var(--color-text-subtle); }

@@ -20,7 +20,7 @@ export class CandorInput extends LitElement {
       background-color: var(--color-bg-page);
       color: var(--color-text-default);
       transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      min-height: 2.5rem;
+      min-height: var(--hit-target-aaa);
       width: 100%;
       box-sizing: border-box;
     }

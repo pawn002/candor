@@ -63,7 +63,7 @@
     background-color: var(--color-bg-page);
     color: var(--color-text-default);
     width: 100%;
-    min-height: 2.5rem;
+    min-height: var(--hit-target-aaa);
     appearance: none; // hide the native OS caret — replaced by Phosphor icon
     cursor: pointer;
     transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;

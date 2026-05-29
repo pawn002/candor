@@ -36,7 +36,7 @@ export class CandorCard extends LitElement {
     .card--padding-sm .card__footer { padding: var(--spacing-sm); }
     .card--padding-md .card__header,
     .card--padding-md .card__body,
-    .card--padding-md .card__footer { padding: var(--spacing-md); }
+    .card--padding-md .card__footer { padding: var(--spacing-card-padding); }
     .card--padding-lg .card__header,
     .card--padding-lg .card__body,
     .card--padding-lg .card__footer { padding: var(--spacing-lg); }

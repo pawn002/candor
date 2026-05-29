@@ -40,7 +40,7 @@
 
 .combobox__input {
   width: 100%;
-  min-height: 2.5rem;
+  min-height: var(--hit-target-aaa);
   padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
   // Extra right padding for the caret/clear button
   padding-right: calc(var(--spacing-input-padding-x) + 1.75rem);
@@ -199,7 +199,7 @@
   font-family: var(--font-family-accessible);
   font-size: var(--font-size-sm); // Tier 3 threshold 4.5 — text-subtle OKCA 4.6 ✅
   letter-spacing: 0.02em;
-  min-height: 1.25em;
+  min-height: var(--hit-target-aa);
 }
 
 .combobox__error {

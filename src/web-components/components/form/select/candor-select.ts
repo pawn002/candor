@@ -32,7 +32,7 @@ export class CandorSelect extends LitElement {
       appearance: none;
       cursor: pointer;
       transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      min-height: 2.5rem;
+      min-height: var(--hit-target-aaa);
     }
     .select:hover:not(:disabled) { border-color: var(--color-text-subtle); }
     .select:focus { outline: none; border-color: var(--color-action-primary); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-action-primary) l c h / 0.2); }

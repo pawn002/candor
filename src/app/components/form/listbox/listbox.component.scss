@@ -35,7 +35,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 2.5rem;
+  min-height: var(--hit-target-aaa);
   padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
   font-family: var(--font-family-base);
   font-size: var(--font-size-md);
@@ -174,7 +174,7 @@
   font-family: var(--font-family-accessible);
   font-size: var(--font-size-sm); // Tier 3 threshold 4.5 — text-subtle OKCA 4.6 ✅
   letter-spacing: 0.02em;
-  min-height: 1.25em; // reserve space so layout doesn't shift
+  min-height: var(--hit-target-aa); // reserve space so layout doesn't shift
 }
 
 .listbox__error {

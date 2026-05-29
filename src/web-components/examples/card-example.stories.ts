@@ -186,7 +186,7 @@ export const CardGrid: Story = {
           Featured Products
         </candor-heading>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-card-gap);">
           <div style="border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
             <div style="padding: 1rem;">
