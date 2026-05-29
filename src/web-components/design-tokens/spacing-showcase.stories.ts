@@ -9,6 +9,7 @@ interface SpacingItem {
 }
 
 const SPACINGS: SpacingItem[] = [
+  { name: '2xs', value: '0.25rem', pixels: '4px' },
   { name: 'xs', value: '0.5rem', pixels: '8px' },
   { name: 'sm', value: '1rem', pixels: '16px' },
   { name: 'md', value: '1.5rem', pixels: '24px' },
@@ -42,7 +43,7 @@ const renderShowcase = () => `
             transparent 7px,
             transparent 8px
           );
-          border: 1px solid var(--color-border-default);
+          border: var(--border-width-thin) solid var(--color-border-default);
           border-radius: var(--radius-sm);
         ">
           <div style="height: 100%; background-color: var(--color-action-primary); opacity: 0.3; border-radius: var(--radius-sm); width: ${s.value};"></div>
