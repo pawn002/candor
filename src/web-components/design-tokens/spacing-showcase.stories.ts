@@ -69,18 +69,24 @@ use these instead of raw pixel or rem values in components and layouts.
 
 | Token | Value | px |
 |---|---|---|
-| \`--spacing-2xs\` | 0.25rem | 4px |
-| \`--spacing-xs\` | 0.5rem | 8px |
-| \`--spacing-sm\` | 1rem | 16px |
-| \`--spacing-md\` | 1.5rem | 24px |
-| \`--spacing-lg\` | 2rem | 32px |
-| \`--spacing-xl\` | 3rem | 48px |
-| \`--spacing-2xl\` | 4rem | 64px |
-| \`--spacing-3xl\` | 6rem | 96px |
+| \`--spacing-2xs\` | 0.25rem | 4 |
+| \`--spacing-xs\` | 0.5rem | 8 |
+| \`--spacing-sm\` | 1rem | 16 |
+| \`--spacing-md\` | 1.5rem | 24 |
+| \`--spacing-lg\` | 2rem | 32 |
+| \`--spacing-xl\` | 3rem | 48 |
+| \`--spacing-2xl\` | 4rem | 64 |
+| \`--spacing-3xl\` | 6rem | 96 |
 
-The scale doubles at the compact end (2xs → xs → sm) and widens at the large end to give
-components room to breathe at layout scale. The bars below are proportional — each bar's
-width equals the spacing value it represents.
+**Why 8px?** Most screen sizes divide evenly by 8, and common component dimensions (icon
+sizes, input heights, button heights) land naturally on 8px multiples. A shared base keeps
+components visually aligned without manual negotiation.
+
+**Why these steps?** The scale has two distinct zones. The compact end (2xs → xs → sm)
+doubles at each step — fine-grained control for internal component spacing like gaps between
+an icon and its label. The large end (md → lg → xl → 2xl → 3xl) grows more gradually —
+these are layout-scale values for section padding, card gaps, and page margins where the
+difference between adjacent steps needs to feel intentional rather than incremental.
         `.trim(),
       },
     },
