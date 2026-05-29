@@ -22,7 +22,7 @@ export class CandorCombobox extends LitElement {
     .combobox-wrapper--disabled .combobox__label { color: var(--color-text-disabled); }
     .combobox__label {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: 0.02em;
+      font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: var(--letter-spacing-relaxed);
     }
     .combobox__required { color: var(--color-status-error-text); margin-left: 0.25em; }
     .combobox__control { position: relative; display: flex; align-items: center; }

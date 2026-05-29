@@ -9,7 +9,7 @@ export class CandorInput extends LitElement {
   static override styles = css`
     :host { display: block; }
     .input-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
-    .input-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); }
+    .input-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); letter-spacing: var(--letter-spacing-relaxed); }
     .input-required { color: var(--color-status-error-text); }
     .input {
       font-family: var(--font-family-base);
@@ -31,7 +31,7 @@ export class CandorInput extends LitElement {
     .input--error:focus { border-color: var(--color-status-error); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2); }
     .input--textarea { min-height: unset; line-height: var(--line-height-normal); }
     .input:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
-    .input-description { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); }
+    .input-description { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: 0.02em; }
     .input-error-message { color: var(--color-status-error-text); font-size: var(--font-size-md); }
     .input-hint { color: var(--color-text-subtle); }
   `;

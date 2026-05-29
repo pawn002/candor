@@ -19,7 +19,7 @@ export class CandorSlider extends LitElement {
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold);
       color: var(--color-text-default);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-relaxed);
     }
     .slider__row {
       display: flex;
@@ -116,6 +116,7 @@ export class CandorSlider extends LitElement {
       color: var(--color-text-subtle);
       min-width: 3ch;
       text-align: right;
+      letter-spacing: 0.02em;
     }
   `;
 

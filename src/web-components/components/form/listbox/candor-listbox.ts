@@ -23,7 +23,7 @@ export class CandorListbox extends LitElement {
     .listbox-wrapper--disabled .listbox__label { color: var(--color-text-disabled); }
     .listbox__label {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: 0.02em;
+      font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: var(--letter-spacing-relaxed);
     }
     .listbox__required { color: var(--color-status-error-text); margin-left: 0.25em; }
     .listbox__trigger {

@@ -20,7 +20,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold); // Atkinson bold for labels — hierarchy signal
   color: var(--color-text-default);
-  letter-spacing: 0.02em;
+  letter-spacing: var(--letter-spacing-relaxed);
 }
 
 .listbox__required {

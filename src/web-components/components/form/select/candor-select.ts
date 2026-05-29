@@ -16,7 +16,7 @@ export class CandorSelect extends LitElement {
   static override styles = css`
     :host { display: block; }
     .select-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
-    .select-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); }
+    .select-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); letter-spacing: var(--letter-spacing-relaxed); }
     .select-required { color: var(--color-status-error-text); }
     .select-control { position: relative; display: flex; align-items: center; }
     .select {
@@ -51,7 +51,7 @@ export class CandorSelect extends LitElement {
     .select-control:focus-within .select__caret { color: var(--color-action-primary); }
     .select-control--error .select__caret { color: var(--color-status-error); }
     .select-control--disabled .select__caret { color: var(--color-text-disabled); }
-    .select-description { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); }
+    .select-description { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: 0.02em; }
     .select-error-message { color: var(--color-status-error-text); font-size: var(--font-size-md); }
     .select-hint { color: var(--color-text-subtle); }
   `;
