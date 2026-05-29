@@ -63,11 +63,10 @@
     --color-link-hover:   var(--azure-600);   // OKCA 5.7 on white ✅
     --color-link-visited: var(--indigo-700);  // OKCA 5.4 on white ✅ — honors universal :visited convention
 
-    // ─── Colors: Highlight (burgundy) / Decorative (indigo) ───────────────────
-    // Inline code uses burgundy-700 — clearly distinct from indigo visited links (ΔE 0 collision fixed).
+    // ─── Colors: Highlight (burgundy) ─────────────────────────────────────────
+    // Inline code — burgundy-700, clearly distinct from indigo visited links (ΔE 0 collision fixed).
     // OKCA 6.5 on bg-surface ✅, 8.8 on white ✅
-    --color-highlight:            var(--burgundy-700); // OKCA 6.5 on bg-surface ✅
-    --color-highlight-decorative: var(--indigo-500); // original #6969F7 brand anchor — decorative only
+    --color-highlight: var(--burgundy-700); // OKCA 6.5 on bg-surface ✅
 
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
     // In light mode: dark navy block (inverted) — no border needed, bg does the work.
@@ -273,10 +272,9 @@
     --color-link-hover:   var(--azure-200);   // OKCA 10.6 on bg-page ✅
     --color-link-visited: var(--indigo-300);  // OKCA 6.0 on bg-page ✅
 
-    // ─── Highlight (burgundy) / Decorative (indigo) ───────────────────────
+    // ─── Highlight (burgundy) ─────────────────────────────────────────────────
     // burgundy-200: OKCA 9.3 on bg-surface ✅, 11.2 on bg-page ✅
-    --color-highlight:            var(--burgundy-200); // OKCA 9.3 on bg-surface ✅
-    --color-highlight-decorative: var(--indigo-400); // decorative only
+    --color-highlight: var(--burgundy-200); // OKCA 9.3 on bg-surface ✅
 
     // ─── Focus ─────────────────────────────────────────────────────────────
     --color-focus: var(--azure-300); // OKCA 5.8 on bg-page ✅

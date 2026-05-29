@@ -88,11 +88,10 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     ],
   },
   {
-    name: 'Highlight & Accents',
-    description: 'Inline code uses burgundy (H=347) — distinct from indigo visited links. Decorative anchor retains the original #6969F7 indigo brand color.',
+    name: 'Highlight',
+    description: 'Inline code — burgundy (H=347), clearly distinct from indigo visited links.',
     colors: [
       { name: 'Highlight', variable: '--color-highlight', description: 'Inline code text — burgundy, clearly distinct from indigo visited links', light: 'oklch(0.37 0.08 347.43)', dark: 'oklch(0.86 0.05 347.43)' },
-      { name: 'Highlight Decorative', variable: '--color-highlight-decorative', description: 'Brand original — decorative only', light: 'oklch(0.60 0.21 278.14)', dark: 'oklch(0.68 0.18 278.14)' },
     ],
   },
   {
@@ -244,7 +243,7 @@ internals.
 - **Navy** \`#082840\` — primary action (15.2:1 with white)
 - **Burgundy** \`#5F2B48\` — secondary action (10.4:1 with white)
 - **Azure** \`#1493FB\` — accent / link (decorative on white; accessible step at azure-500)
-- **Indigo** \`#6969F7\` — decorative anchor (\`--color-highlight-decorative\`); accessible step at indigo-600, 4.6:1
+- **Indigo** \`#6969F7\` — visited link color; accessible step at indigo-600, 4.6:1
 
 ## Accessibility
 All action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components).

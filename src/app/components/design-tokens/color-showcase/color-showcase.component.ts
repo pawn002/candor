@@ -219,8 +219,8 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
       ],
     },
     {
-      name: "Highlight & Accents",
-      description: "Inline code uses burgundy (H=347) — distinct from indigo visited links. Decorative anchor retains the original #6969F7 indigo brand color.",
+      name: "Highlight",
+      description: "Inline code — burgundy (H=347), clearly distinct from indigo visited links.",
       colors: [
         {
           name: "Highlight",
@@ -228,13 +228,6 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
           description: "Inline code text — burgundy, clearly distinct from indigo visited links",
           light: "oklch(0.37 0.08 347.43)",
           dark:  "oklch(0.86 0.05 347.43)",
-        },
-        {
-          name: "Highlight Decorative",
-          variable: "--color-highlight-decorative",
-          description: "Brand original — decorative only",
-          light: "oklch(0.60 0.21 278.14)",
-          dark:  "oklch(0.68 0.18 278.14)",
         },
       ],
     },
