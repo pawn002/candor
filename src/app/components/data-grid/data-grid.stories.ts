@@ -7,8 +7,8 @@ import {
   BURGUNDY_GAMUT_HEADERS,
   AZURE_GAMUT_ROWS,
   AZURE_GAMUT_HEADERS,
-  PURPLE_GAMUT_ROWS,
-  PURPLE_GAMUT_HEADERS,
+  INDIGO_GAMUT_ROWS,
+  INDIGO_GAMUT_HEADERS,
 } from '../tone-picker/gamut-data';
 
 // ─── Simple text grid demo ────────────────────────────────────────────────────
@@ -183,13 +183,13 @@ export const AzureGamut: Story = {
   },
 };
 
-export const PurpleGamut: Story = {
-  name: 'Purple Gamut (L × C)',
+export const IndigoGamut: Story = {
+  name: 'Indigo Gamut (L × C)',
   render: () => ({
     props: {
-      rows: PURPLE_GAMUT_ROWS,
-      columnHeaders: PURPLE_GAMUT_HEADERS,
-      caption: 'Purple H 278.14 — sRGB gamut',
+      rows: INDIGO_GAMUT_ROWS,
+      columnHeaders: INDIGO_GAMUT_HEADERS,
+      caption: 'Indigo H 278.14 — sRGB gamut',
     } satisfies Partial<DataGridComponent>,
   }),
   parameters: {
@@ -197,7 +197,7 @@ export const PurpleGamut: Story = {
     docs: {
       description: {
         story:
-          '9×7 gamut grid for purple (H 278.14). Purple-500 (L=0.60 C=0.21, brand anchor for `--color-highlight`) is pre-selected. Purple has the widest mid-range gamut of the four brand hues.',
+          '9×7 gamut grid for indigo (H 278.14). Indigo-500 (L=0.60 C=0.21, brand anchor for `--color-highlight`) is pre-selected. Indigo has the widest mid-range gamut of the four brand hues.',
       },
     },
   },

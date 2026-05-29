@@ -96,9 +96,9 @@ export const AZURE_GAMUT_ROWS = buildGamutRows(
 );
 export const AZURE_GAMUT_HEADERS = ['C 0.039', 'C 0.086', 'C 0.133', 'C 0.180', 'C 0.227', 'C 0.274', 'C 0.321'];
 
-// ─── Purple — H 278.14 ────────────────────────────────────────────────────────
-// Anchor: L=0.60 C=0.210 (purple-500, brand anchor → --color-highlight)
-export const PURPLE_GAMUT_ROWS = buildGamutRows(
+// ─── Indigo — H 278.14 ───────────────────────────────────────────────────────
+// Anchor: L=0.60 C=0.210 (indigo-500, brand anchor → --color-highlight)
+export const INDIGO_GAMUT_ROWS = buildGamutRows(
   (() => {
     const L = [0.9333, 0.8222, 0.7111, 0.6000, 0.4889, 0.3778, 0.2667, 0.1556, 0.0444];
     const C = [0.0214, 0.0686, 0.1157, 0.1629, 0.2100, 0.2571, 0.3043];
@@ -117,4 +117,4 @@ export const PURPLE_GAMUT_ROWS = buildGamutRows(
   })(),
   0.60, 0.21,
 );
-export const PURPLE_GAMUT_HEADERS = ['C 0.021', 'C 0.069', 'C 0.116', 'C 0.163', 'C 0.210', 'C 0.257', 'C 0.304'];
+export const INDIGO_GAMUT_HEADERS = ['C 0.021', 'C 0.069', 'C 0.116', 'C 0.163', 'C 0.210', 'C 0.257', 'C 0.304'];

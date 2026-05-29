@@ -237,11 +237,11 @@ existing \`text-decoration\` underline.
 
 **Structural signal:** single underline = unvisited. Double underline = visited.
 This distinguishes the states beyond hue shift, providing a cue that persists under deuteranopia
-and protanopia (red-green CVD), where the azure→purple shift alone may be ambiguous.
+and protanopia (red-green CVD), where the azure→indigo shift alone may be ambiguous.
 
 **Token mapping:**
-- Light mode: \`--azure-500\` → \`--purple-700\` (both pass WCAG contrast independently)
-- Dark mode: \`--azure-300\` → \`--purple-300\` (both pass WCAG contrast independently)
+- Light mode: \`--azure-500\` → \`--indigo-700\` (both pass WCAG contrast independently)
+- Dark mode: \`--azure-300\` → \`--indigo-300\` (both pass WCAG contrast independently)
 
 **Consumers who need even stronger differentiation** (e.g. icon-level indicator) can implement
 a JS-assisted pattern: intercept clicks, store visited URLs in \`localStorage\`, apply a class

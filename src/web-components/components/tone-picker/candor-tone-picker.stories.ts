@@ -7,8 +7,8 @@ import {
   BURGUNDY_GAMUT_HEADERS,
   AZURE_GAMUT_ROWS,
   AZURE_GAMUT_HEADERS,
-  PURPLE_GAMUT_ROWS,
-  PURPLE_GAMUT_HEADERS,
+  INDIGO_GAMUT_ROWS,
+  INDIGO_GAMUT_HEADERS,
 } from './gamut-data';
 
 const NAVY_ROWS = JSON.stringify(NAVY_GAMUT_ROWS);
@@ -17,8 +17,8 @@ const BURGUNDY_ROWS = JSON.stringify(BURGUNDY_GAMUT_ROWS);
 const BURGUNDY_HEADERS = JSON.stringify(BURGUNDY_GAMUT_HEADERS);
 const AZURE_ROWS = JSON.stringify(AZURE_GAMUT_ROWS);
 const AZURE_HEADERS = JSON.stringify(AZURE_GAMUT_HEADERS);
-const PURPLE_ROWS = JSON.stringify(PURPLE_GAMUT_ROWS);
-const PURPLE_HEADERS = JSON.stringify(PURPLE_GAMUT_HEADERS);
+const INDIGO_ROWS = JSON.stringify(INDIGO_GAMUT_ROWS);
+const INDIGO_HEADERS = JSON.stringify(INDIGO_GAMUT_HEADERS);
 
 const meta: Meta = {
   title: 'Components/TonePicker',
@@ -151,21 +151,21 @@ export const Azure: Story = {
   }),
 };
 
-export const Purple: Story = {
-  name: 'Purple H 278.14',
+export const Indigo: Story = {
+  name: 'Indigo H 278.14',
   parameters: {
     docs: {
       description: {
-        story: 'Purple (H 278.14). Anchor at L=0.60 C=0.210 — purple-500, `--color-highlight`. Widest mid-range gamut of the four brand hues.',
+        story: 'Indigo (H 278.14). Anchor at L=0.60 C=0.210 — indigo-500, `--color-highlight`. Widest mid-range gamut of the four brand hues.',
       },
     },
   },
   render: () => ({
     template: `
       <candor-tone-picker
-        aria-label="Purple H 278.14 — sRGB gamut"
-        rows='${PURPLE_ROWS}'
-        column-headers='${PURPLE_HEADERS}'>
+        aria-label="Indigo H 278.14 — sRGB gamut"
+        rows='${INDIGO_ROWS}'
+        column-headers='${INDIGO_HEADERS}'>
       </candor-tone-picker>
     `,
   }),

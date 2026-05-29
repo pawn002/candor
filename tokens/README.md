@@ -247,7 +247,7 @@ Tokens include automatic dark mode support via two mechanisms:
 
 Raw values — color ramps, type scale, spacing scale. Prefixed by family:
 
-- `--navy-{50–900}`, `--burgundy-{50–900}`, `--azure-{50–900}`, `--purple-{50–900}`, `--gray-{0–900}`
+- `--navy-{50–900}`, `--burgundy-{50–900}`, `--azure-{50–900}`, `--indigo-{50–900}`, `--gray-{0–900}`
 - `--space-{1–12}`, `--text-{xs–3xl}`
 - `--font-{sans,accessible,mono,reading,serif}`, `--weight-{light–bold}`, `--leading-{tight–relaxed}`
 

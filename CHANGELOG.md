@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Breaking
+
+- **Tokens:** Primitive color ramp `--purple-*` renamed to `--indigo-*` across all ten steps (`--indigo-50` through `--indigo-900`). The hue (H=278.14) is perceptually indigo, not purple. Consumers who reference primitive tokens directly (against the two-tier architecture recommendation) must find-replace `--purple-` → `--indigo-`. Semantic tokens (`--color-highlight`, `--color-highlight-decorative`, `--color-link-visited`) are unchanged and require no consumer action.
+
 ### Added
 
 - **`@candor-design/web-components` 3.0.0** — new package shipping all 34 Candor components as Lit 3 custom elements. Version aligned to `@candor-design/tokens` so a single version number describes the full design system release. Separate npm package keeps Lit out of Angular-only consumers' dependency graph.

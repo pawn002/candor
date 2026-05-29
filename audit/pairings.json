@@ -738,7 +738,7 @@
       "size": 16,
       "weight": "regular",
       "min": 4.5,
-      "note": "Inline code purple on surface — tuned to L=0.43 to clear 4.5 on both page and surface"
+      "note": "Inline code indigo on surface — tuned to L=0.43 to clear 4.5 on both page and surface"
     },
     {
       "id": "article-code-block",

@@ -165,7 +165,7 @@ Status base colors — used for icons, chip backgrounds, left-edge accents — a
 
 ### The link-color discipline
 
-Links must be hue-distinct from body text, not just contrast-compliant. A dark-blue link next to dark-gray body text at the same lightness is technically accessible and practically invisible. `--color-link` is azure (well-separated from the near-black body text hue) and visited links shift to purple via `--color-link-visited`. Underlines stay on for inline links in prose regardless.
+Links must be hue-distinct from body text, not just contrast-compliant. A dark-blue link next to dark-gray body text at the same lightness is technically accessible and practically invisible. `--color-link` is azure (well-separated from the near-black body text hue) and visited links shift to indigo via `--color-link-visited`. Underlines stay on for inline links in prose regardless.
 
 **Visited links use a double-underline cue, not just color.** Browser security restrictions mean `:visited` can only change color properties — `text-decoration-style: dotted` and similar are silently ignored. Candor's `Article` component works around this by pre-declaring a `border-bottom` on every link, colored transparent by default. On `:visited`, the border color is set to `--color-link-visited`, which makes it visible and produces a double underline (text-decoration + border) — a structural non-color cue that survives colorblindness. This pattern should be applied anywhere inline links appear in prose.
 

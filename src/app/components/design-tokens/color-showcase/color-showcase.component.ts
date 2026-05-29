@@ -86,7 +86,7 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
     },
     {
       name: "Text",
-      description: "Type colors from the gray ramp, contrast-validated against their intended backgrounds",
+      description: "Neutral text colors from the gray ramp, contrast-validated against their intended backgrounds",
       colors: [
         {
           name: "Default",
@@ -219,8 +219,8 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
       ],
     },
     {
-      name: "Highlight — Purple",
-      description: "Soft purple — #6969F7 brand anchor. Used for inline code and accents.",
+      name: "Highlight — Indigo",
+      description: "Soft indigo — #6969F7 brand anchor. Used for inline code and accents.",
       colors: [
         {
           name: "Highlight",

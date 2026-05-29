@@ -124,7 +124,7 @@ Five OKLCH color families, each with 10 tonal steps (50–900):
 | `--navy-*` | Primary action, headings, inverse surfaces |
 | `--burgundy-*` | Secondary action, accents |
 | `--azure-*` | Links, focus rings, interactive highlights |
-| `--purple-*` | Code highlights, visited links, decorative |
+| `--indigo-*` | Code highlights, visited links, decorative |
 | `--gray-*` | Text, borders, backgrounds |
 
 Semantic aliases map primitive ramps to roles:

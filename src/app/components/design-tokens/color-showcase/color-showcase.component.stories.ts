@@ -32,7 +32,7 @@ Components reference semantic tokens only. CSS custom properties pierce shadow D
 - **Navy** \`#082840\` — primary action (15.2:1 with white)
 - **Burgundy** \`#5F2B48\` — secondary action (10.4:1 with white)
 - **Azure** \`#1493FB\` — accent / link (decorative on white; accessible step at azure-500)
-- **Purple** \`#6969F7\` — highlight (decorative; accessible step at purple-600, 4.6:1)
+- **Indigo** \`#6969F7\` — highlight (decorative; accessible step at indigo-600, 4.6:1)
 
 ## Accessibility
 All action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components).

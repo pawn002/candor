@@ -39,7 +39,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Text',
-    description: 'Type colors from the gray ramp, contrast-validated against their intended backgrounds',
+    description: 'Neutral text colors from the gray ramp, contrast-validated against their intended backgrounds',
     colors: [
       { name: 'Default', variable: '--color-text-default', description: 'Body text', light: 'oklch(0.32 0 0)', dark: 'oklch(0.88 0.01 248)' },
       { name: 'Subtle', variable: '--color-text-subtle', description: 'Secondary / supporting text', light: 'oklch(0.50 0 0)', dark: 'oklch(0.71 0 0)' },
@@ -88,8 +88,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     ],
   },
   {
-    name: 'Highlight — Purple',
-    description: 'Soft purple — #6969F7 brand anchor. Used for inline code and accents.',
+    name: 'Highlight — Indigo',
+    description: 'Soft indigo — #6969F7 brand anchor. Used for inline code and accents.',
     colors: [
       { name: 'Highlight', variable: '--color-highlight', description: 'Inline code, accents — accessible step', light: 'oklch(0.43 0.21 278)', dark: 'oklch(0.77 0.15 278.14)' },
       { name: 'Highlight Decorative', variable: '--color-highlight-decorative', description: 'Brand original — decorative only', light: 'oklch(0.60 0.21 278.14)', dark: 'oklch(0.68 0.18 278.14)' },
@@ -244,7 +244,7 @@ internals.
 - **Navy** \`#082840\` — primary action (15.2:1 with white)
 - **Burgundy** \`#5F2B48\` — secondary action (10.4:1 with white)
 - **Azure** \`#1493FB\` — accent / link (decorative on white; accessible step at azure-500)
-- **Purple** \`#6969F7\` — highlight (decorative; accessible step at purple-600, 4.6:1)
+- **Indigo** \`#6969F7\` — highlight (decorative; accessible step at indigo-600, 4.6:1)
 
 ## Accessibility
 All action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components).

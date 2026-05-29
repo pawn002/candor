@@ -7,8 +7,8 @@ import {
   BURGUNDY_GAMUT_HEADERS,
   AZURE_GAMUT_ROWS,
   AZURE_GAMUT_HEADERS,
-  PURPLE_GAMUT_ROWS,
-  PURPLE_GAMUT_HEADERS,
+  INDIGO_GAMUT_ROWS,
+  INDIGO_GAMUT_HEADERS,
 } from './gamut-data';
 
 const meta: Meta<TonePickerComponent> = {
@@ -143,12 +143,12 @@ export const Azure: Story = {
   },
 };
 
-export const Purple: Story = {
-  name: 'Purple H 278.14',
+export const Indigo: Story = {
+  name: 'Indigo H 278.14',
   args: {
-    rows: PURPLE_GAMUT_ROWS,
-    columnHeaders: PURPLE_GAMUT_HEADERS,
-    ariaLabel: 'Purple H 278.14 — sRGB gamut',
+    rows: INDIGO_GAMUT_ROWS,
+    columnHeaders: INDIGO_GAMUT_HEADERS,
+    ariaLabel: 'Indigo H 278.14 — sRGB gamut',
   },
   render: (args) => ({
     props: {
@@ -159,7 +159,7 @@ export const Purple: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Purple (H 278.14). Anchor at L=0.60 C=0.210 — purple-500, `--color-highlight`. Widest mid-range gamut of the four brand hues.',
+        story: 'Indigo (H 278.14). Anchor at L=0.60 C=0.210 — indigo-500, `--color-highlight`. Widest mid-range gamut of the four brand hues.',
       },
     },
   },

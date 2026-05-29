@@ -122,7 +122,7 @@ deuteranopia and protanopia (red-green CVD), where hue shift alone may be ambigu
 
 **What the system provides:**
 - Double-underline structural indicator (not purely color-dependent)
-- Hue shift: azure (unvisited) → purple (visited)
+- Hue shift: azure (unvisited) → indigo (visited)
 - Both colors independently pass contrast against their backgrounds (light and dark)
 
 **Remaining limitation:** The indicator is still ultimately delivered via a color property change
