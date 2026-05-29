@@ -24,8 +24,8 @@ The primary interactive element. Five visual variants cover the full hierarchy o
 **One primary per view.** Multiple primary buttons compete for attention and dilute the affordance.
 If a form has two equally important actions, one should be \`secondary\`.
 
-**Destructive is outlined, not filled.** The crimson color (H=347) signals caution without the
-aggression of a filled red button, and is visually distinct from error orange-red (H=25).
+**Destructive is outlined, not filled.** The crimson color (hue=347) signals caution without the
+aggression of a filled red button, and is visually distinct from error orange-red (hue=25).
         `.trim(),
       },
     },
@@ -34,7 +34,7 @@ aggression of a filled red button, and is visually distinct from error orange-re
     variant: {
       control: 'select',
       options: ['primary', 'secondary', 'tertiary', 'ghost', 'destructive'],
-      description: 'Button visual style. primary/secondary/tertiary/ghost follow a loudness hierarchy. destructive (crimson burgundy, H=347) signals irreversible actions — distinct from error (H=25 orange-red).',
+      description: 'Button visual style. primary/secondary/tertiary/ghost follow a loudness hierarchy. destructive (crimson burgundy, hue=347) signals irreversible actions — distinct from error (hue=25 orange-red).',
     },
     size: {
       control: 'select',
@@ -158,7 +158,7 @@ export const DestructiveInContext: Story = {
           </div>
         </div>
         <div>
-          <app-text variant="label" size="sm" color="secondary" style="display: block; margin-bottom: var(--spacing-sm);">With error state nearby — hue separation from H=25 error</app-text>
+          <app-text variant="label" size="sm" color="secondary" style="display: block; margin-bottom: var(--spacing-sm);">With error state nearby — hue separation from hue=25 error</app-text>
           <p style="color: var(--color-status-error-text); font-family: var(--font-family-accessible); font-size: var(--font-size-sm); margin-bottom: var(--spacing-sm);">⚠ This action cannot be undone. 3 records will be permanently deleted.</p>
           <div style="display: flex; gap: 1rem;">
             <app-button variant="ghost">Cancel</app-button>

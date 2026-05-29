@@ -76,6 +76,20 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
           dark:  "oklch(0.56 0 0)",
         },
         {
+          name: "Control on Surface",
+          variable: "--color-border-control-on-surface",
+          description: "Form control outline on bg-surface — higher L for sufficient contrast",
+          light: "oklch(0.50 0 0)",
+          dark:  "oklch(0.60 0 0)",
+        },
+        {
+          name: "On Inverse",
+          variable: "--color-border-on-inverse",
+          description: "Divider on inverse (navy) surface",
+          light: "oklch(0.40 0.05 245)",
+          dark:  "oklch(0.85 0 0)",
+        },
+        {
           name: "Focus",
           variable: "--color-focus",
           description: "Focus ring — high-visibility azure",
@@ -116,6 +130,34 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
           light: "oklch(0.71 0 0)",
           dark:  "oklch(0.46 0 0)",
         },
+        {
+          name: "Inverse",
+          variable: "--color-text-inverse",
+          description: "Text on inverse surface — white in light mode, near-black in dark mode",
+          light: "oklch(1 0 0)",
+          dark:  "oklch(0.24 0.03 248.99)",
+        },
+        {
+          name: "Subtle on Inverse",
+          variable: "--color-text-subtle-on-inverse",
+          description: "Muted text on inverse surface — OKCA 5.5 on bg-inverse",
+          light: "oklch(0.75 0.02 245)",
+          dark:  "oklch(0.40 0 0)",
+        },
+        {
+          name: "On Action",
+          variable: "--color-text-on-action",
+          description: "Text on primary/secondary button fills",
+          light: "oklch(1 0 0)",
+          dark:  "oklch(0.16 0.02 248.99)",
+        },
+        {
+          name: "Toast Message",
+          variable: "--color-toast-message",
+          description: "Toast body text — text-default in light, text-subtle in dark",
+          light: "oklch(0.32 0 0)",
+          dark:  "oklch(0.71 0 0)",
+        },
       ],
     },
     {
@@ -132,7 +174,14 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
         {
           name: "Primary Hover",
           variable: "--color-action-primary-hover",
-          description: "Hover / active state",
+          description: "Hover state",
+          light: "oklch(0.19 0.05 245.34)",
+          dark:  "oklch(0.87 0.08 245)",
+        },
+        {
+          name: "Primary Active",
+          variable: "--color-action-primary-active",
+          description: "Pressed state",
           light: "oklch(0.19 0.05 245.34)",
           dark:  "oklch(0.87 0.08 245)",
         },
@@ -156,6 +205,13 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
           light: "oklch(0.28 0.07 347.43)",
           dark:  "oklch(0.86 0.05 347.43)",
         },
+        {
+          name: "Secondary Active",
+          variable: "--color-action-secondary-active",
+          description: "Pressed state",
+          light: "oklch(0.20 0.05 347.43)",
+          dark:  "oklch(0.86 0.05 347.43)",
+        },
       ],
     },
     {
@@ -170,6 +226,13 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
           dark:  "oklch(0.32 0 0)",
         },
         {
+          name: "Tertiary Hover",
+          variable: "--color-action-tertiary-hover",
+          description: "Hover state",
+          light: "oklch(0.81 0 0)",
+          dark:  "oklch(0.46 0 0)",
+        },
+        {
           name: "Tertiary Text",
           variable: "--color-action-tertiary-text",
           description: "Text / icon on tertiary bg",
@@ -180,12 +243,40 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
     },
     {
       name: "Action — Destructive",
-      description: "Crimson (H=347) — outlined only; signals irreversibility. Distinct from error (H=25).",
+      description: "Crimson (hue=347) — outlined only; signals irreversibility. Distinct from error (hue=25).",
       colors: [
+        {
+          name: "Destructive",
+          variable: "--color-action-destructive",
+          description: "Button fill — transparent (outlined variant)",
+          light: "transparent",
+          dark:  "transparent",
+        },
+        {
+          name: "Destructive Hover",
+          variable: "--color-action-destructive-hover",
+          description: "Subtle crimson tint on hover",
+          light: "oklch(0.37 0.15 347 / 0.08)",
+          dark:  "oklch(0.72 0.15 347 / 0.12)",
+        },
+        {
+          name: "Destructive Active",
+          variable: "--color-action-destructive-active",
+          description: "Stronger crimson tint on press",
+          light: "oklch(0.37 0.15 347 / 0.15)",
+          dark:  "oklch(0.72 0.15 347 / 0.22)",
+        },
         {
           name: "Destructive Text",
           variable: "--color-action-destructive-text",
-          description: "Destructive button label and border",
+          description: "Button label — OKCA 8.8 on white",
+          light: "oklch(0.37 0.15 347)",
+          dark:  "oklch(0.74 0.15 347)",
+        },
+        {
+          name: "Destructive Border",
+          variable: "--color-action-destructive-border",
+          description: "Outline — matches destructive text",
           light: "oklch(0.37 0.15 347)",
           dark:  "oklch(0.74 0.15 347)",
         },
@@ -220,7 +311,7 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
     },
     {
       name: "Highlight",
-      description: "Inline code — burgundy (H=347), clearly distinct from indigo visited links.",
+      description: "Inline code — burgundy (hue=347), clearly distinct from indigo visited links.",
       colors: [
         {
           name: "Highlight",
@@ -233,7 +324,7 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
     },
     {
       name: "Status — Error",
-      description: "H=25 orange-red — failure states and validation errors",
+      description: "Orange-red (hue=25) — failure states and validation errors",
       colors: [
         {
           name: "Error",
@@ -260,7 +351,7 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
     },
     {
       name: "Status — Success",
-      description: "H=144 green — confirmation and completion",
+      description: "Green (hue=144) — confirmation and completion",
       colors: [
         {
           name: "Success",
@@ -287,7 +378,7 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
     },
     {
       name: "Status — Warning",
-      description: "H=53 amber — caution and non-blocking issues",
+      description: "Amber (hue=53) — caution and non-blocking issues",
       colors: [
         {
           name: "Warning",
@@ -314,7 +405,7 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
     },
     {
       name: "Code Blocks",
-      description: "Inverted dark navy in light mode. Deep navy tint in dark mode — border required at low L.",
+      description: "Dark navy surface for code blocks — always visually distinct from ambient backgrounds. Border required when the ambient background is also dark.",
       colors: [
         {
           name: "Code Background",
@@ -329,6 +420,40 @@ export const COLOR_CATEGORIES: ColorCategory[] = [
           description: "Text on code bg",
           light: "oklch(1 0 0)",
           dark:  "oklch(0.88 0.01 248)",
+        },
+        {
+          name: "Code Border",
+          variable: "--color-border-code",
+          description: "Border required in dark mode — transparent in light",
+          light: "transparent",
+          dark:  "oklch(0.56 0 0)",
+        },
+      ],
+    },
+    {
+      name: "Blockquote",
+      description: "Pull-quote surface — bg-surface fill with burgundy left border",
+      colors: [
+        {
+          name: "Blockquote Background",
+          variable: "--color-blockquote-bg",
+          description: "Blockquote surface — inherits bg-surface",
+          light: "oklch(0.91 0 0)",
+          dark:  "oklch(0.24 0.03 248.99)",
+        },
+        {
+          name: "Blockquote Border",
+          variable: "--color-blockquote-border",
+          description: "Left accent border — burgundy (action-secondary)",
+          light: "oklch(0.37 0.08 347.43)",
+          dark:  "oklch(0.76 0.06 347.43)",
+        },
+        {
+          name: "Blockquote Text",
+          variable: "--color-blockquote-text",
+          description: "Blockquote prose — inherits text-subtle-on-surface",
+          light: "oklch(0.44 0 0)",
+          dark:  "oklch(0.71 0 0)",
         },
       ],
     },

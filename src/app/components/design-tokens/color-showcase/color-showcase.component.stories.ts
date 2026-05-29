@@ -107,8 +107,22 @@ export const TokenReference: Story = {
                   @for (color of category.colors; track color.name) {
                     <tr>
                       <td style="font-family: var(--font-family-mono); font-size: var(--font-size-sm);">{{ color.variable }}</td>
-                      <td style="font-family: var(--font-family-mono); font-size: var(--font-size-sm);">{{ color.light || '—' }}</td>
-                      <td style="font-family: var(--font-family-mono); font-size: var(--font-size-sm);">{{ color.dark || '—' }}</td>
+                      <td style="font-family: var(--font-family-mono); font-size: var(--font-size-sm);">
+                        @if (color.light) {
+                          <span style="display:inline-flex;align-items:center;gap:0.375em;">
+                            <span style="display:inline-block;width:0.875rem;height:0.875rem;border-radius:2px;border:1px solid oklch(0 0 0 / 0.12);flex-shrink:0;" [style.background]="color.light"></span>
+                            {{ color.light }}
+                          </span>
+                        } @else { — }
+                      </td>
+                      <td style="font-family: var(--font-family-mono); font-size: var(--font-size-sm);">
+                        @if (color.dark) {
+                          <span style="display:inline-flex;align-items:center;gap:0.375em;">
+                            <span style="display:inline-block;width:0.875rem;height:0.875rem;border-radius:2px;border:1px solid oklch(0 0 0 / 0.12);flex-shrink:0;" [style.background]="color.dark"></span>
+                            {{ color.dark }}
+                          </span>
+                        } @else { — }
+                      </td>
                       <td class="label">{{ color.description }}</td>
                     </tr>
                   }

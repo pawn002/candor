@@ -86,7 +86,7 @@ export const DestructiveInContext: Story = {
           </div>
         </div>
         <div>
-          <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">With error state nearby — hue separation from H=25 error</p>
+          <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">With error state nearby — hue separation from hue=25 error</p>
           <p style="color:var(--color-status-error-text);font-family:var(--font-family-accessible);font-size:var(--font-size-sm);margin-bottom:var(--spacing-sm);">⚠ This action cannot be undone. 3 records will be permanently deleted.</p>
           <div style="display:flex;gap:1rem;">
             <candor-button variant="ghost">Cancel</candor-button>
