@@ -4,7 +4,7 @@
 
 Candor is a design system built on a single premise: *good design tells the truth about what works.* Passing a checklist and working for people are different achievements. The system is built around the second one — for the widest range of people, in the widest range of contexts.
 
-The name comes from a direct line through the work. Accessibility standards that produce false passes, safety benchmarks optimized for clearing thresholds rather than catching failures, governance processes that accept input from affected populations without giving them a seat — these are all failures of candor. A design system named Candor is a commitment to close that gap.
+Candor is a commitment to close the gap between nominal compliance and outcomes that work.
 
 ---
 
@@ -55,9 +55,7 @@ Every semantic color pair has a documented contrast validation against its inten
 
 ## Contrast Methods
 
-Regulatory exposure, outcome validation, and research comparison are different questions — no single algorithm answers all three. WCAG2 answers the first. OKCA answers the second, and is the primary validation method: it addresses known issues with WCAG's luminance math, maintains WCAG compatibility, and is coherent with OKLCH, so the same numeric space used to author colors is used to validate them. The others provide research context.
-
-WCAG 2.x AA is the floor. OKCA raises the bar at small sizes, where WCAG's math compresses in ways that produce passing scores for combinations that don't read. At 14px — the system's readable-text minimum — OKCA requires 9.5 for regular-weight text and 6.5 for bold, roughly double what WCAG requires at 16px. Use-case context adjusts further: recognition tasks (short labels, redundantly-coded status text) qualify for reduced thresholds because the perceptual task is different from sequential reading. The tier system is in `docs/VISUAL-DESIGN.md`.
+Regulatory exposure, outcome validation, and research comparison are different questions — no single algorithm answers all three. OKCA is the primary method: WCAG-compatible, coherent with OKLCH, and structured around a size-and-use-case tier system. See [Design Tokens / Typography → Contrast Guidance](?path=/story/design-tokens-typography--contrast-guidance) for the full tier table.
 
 <table>
   <thead>
@@ -78,43 +76,12 @@ WCAG 2.x AA is the floor. OKCA raises the bar at small sizes, where WCAG's math 
 
 Use the sidebar to explore components by category:
 
-- **Web Components** — All 34 components as Lit 3 custom elements (`<candor-button>`, `<candor-input>`, etc.). Framework-agnostic; works in plain HTML, React, Vue, Svelte, or any other environment.
-- **Angular Components** — Framework-specific bindings for teams on Angular, under `Angular Components/` in the sidebar.
-
-- **Design Tokens** — Color palette (light and dark), spacing scale, typography system, icon set
-- **Typography** — Heading hierarchy, body text, accessible text (Atkinson Hyperlegible), article layout with `:visited` double-underline
-- **Components/Accordion** — Native `<details>`/`<summary>` with variant system (default, subtle, quiet)
-- **Components/Alert** — Inline status messaging with info, success, warning, error variants
-- **Components/Badge** — Status and label badges with semantic color variants
-- **Components/Breadcrumb** — Navigation trail with `aria-current="page"` on current location
-- **Components/Button** — Primary, secondary, tertiary, ghost variants; size scale
-- **Components/Card** — Surface container with optional header, body, and footer slots
-- **Components/Chip** — Compact filter and selection tokens
-- **Components/DataGrid** — Compact key/value and token swatch grid
-- **Components/Disclosure** — Single show/hide toggle following the APG Disclosure pattern
-- **Components/Drawer** — Slide-in panel anchored to viewport edge; left, right, bottom orientations
-- **Components/Menu** — Dropdown action menu
-- **Components/Modal** — Dialog with size variants, attribute-controlled open/close
-- **Components/Navigation** — Horizontal and vertical orientations with active state and badges
-- **Components/Pagination** — Page navigation with ellipsis collapse and `aria-current="page"`
-- **Components/Progress** — Determinate and indeterminate progress indicators
-- **Components/Stat** — Large value display with unit, label, and semantic color
-- **Components/Table** — Full and compact variants with zebra striping
-- **Components/Tabs** — Keyboard-navigable tab panel with ARIA roles
-- **Components/Toast** — Info, success, warning, error notifications with dismiss
-- **Components/TonePicker** — OKLCH tonal palette selector with gamut-bounded hue variants
-- **Components/Toolbar** — Grouped action bar with separator, toggle button, and vertical orientation support
-- **Components/Tooltip** — Hover/focus overlay with `aria-hidden` by design
-- **Form/ChatInput** — Textarea with send action and disclaimer slot
-- **Form/Checkbox** — Single and group patterns
-- **Form/Combobox** — Filterable dropdown with keyboard navigation
-- **Form/Input** — Text, number, multiline; label, hint, error states
-- **Form/Listbox** — Single and multi-select list
-- **Form/Radio** — Group patterns with fieldset/legend
-- **Form/Select** — Native select with design system styling
-- **Form/Slider** — Range input with fill gradient and OKLCH lightness axis support
-- **Form/Switch** — Toggle with two-way bindable state
-- **Examples** — Composed stories showing components working together: Login, Registration, Settings, Data table with filtering, Document and image editors
+- **Design Tokens** — Color palette (light/dark), spacing scale, typography system, icon set
+- **Typography** — Heading hierarchy, body text, accessible text, article layout
+- **Components** — 34 Lit 3 custom elements: accordions, alerts, badges, breadcrumbs, buttons, cards, chips, data grids, drawers, menus, modals, navigation, pagination, progress, stats, tables, tabs, toasts, tone picker, toolbars, tooltips
+- **Form** — Chat input, checkbox, combobox, input, listbox, radio, select, slider, switch
+- **Examples** — Composed stories: login, registration, settings, data table with filtering, document and image editors
+- **Angular Components** — Framework-specific bindings for Angular teams, mirroring the WC surface
 
 Every component story includes controls for all inputs and demonstrates all variants.
 
