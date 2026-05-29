@@ -174,12 +174,12 @@
       },
       "highlight": {
         "$type": "color",
-        "$value": "oklch(0.43 0.21 278)",
-        "$description": "OKCA 4.8 on bg-surface ✅, OKCA 6.5 on white ✅ — L=0.50 was OKCA 3.3 on surface; stepped to L=0.43 (#14)",
+        "$value": "oklch(0.37 0.08 347.43)",
+        "$description": "OKCA 6.5 on bg-surface ✅",
         "decorative": {
           "$type": "color",
           "$value": "oklch(0.60 0.21 278.14)",
-          "$description": "original brand color"
+          "$description": "original #6969F7 brand anchor — decorative only"
         }
       },
       "focus": {
@@ -439,8 +439,8 @@
       },
       "highlight": {
         "$type": "color",
-        "$value": "oklch(0.77 0.15 278.14)",
-        "$description": "OKCA 6.0 on bg-page ✅",
+        "$value": "oklch(0.86 0.05 347.43)",
+        "$description": "OKCA 9.3 on bg-surface ✅",
         "decorative": {
           "$type": "color",
           "$value": "oklch(0.68 0.18 278.14)",

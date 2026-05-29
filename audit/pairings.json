@@ -735,10 +735,10 @@
       "id": "article-inline-code",
       "fg": "{color.highlight}",
       "bg": "{color.bg.surface}",
-      "size": 16,
+      "size": 14,
       "weight": "regular",
-      "min": 4.5,
-      "note": "Inline code indigo on surface — tuned to L=0.43 to clear 4.5 on both page and surface"
+      "min": 6.5,
+      "note": "Inline code burgundy on surface — Tier 2 functional UI at 14px regular (6.5 floor)"
     },
     {
       "id": "article-code-block",

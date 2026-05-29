@@ -583,12 +583,22 @@ always visible regardless of browser history.
   render: () => ({
     template: `
       <style>
-        .hvv-section {
+        .hvv-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: var(--spacing-md);
           margin-bottom: var(--spacing-xl);
           padding-bottom: var(--spacing-xl);
           border-bottom: var(--border-width-thin) solid var(--color-border-default);
         }
-        .hvv-section:last-child { border-bottom: none; margin-bottom: 0; }
+        .hvv-grid:last-child { border-bottom: none; margin-bottom: 0; }
+        .hvv-panel {
+          padding: var(--spacing-md);
+          border-radius: var(--radius-md);
+        }
+        .hvv-panel--dark {
+          background-color: oklch(0.16 0.02 248.99);
+        }
         .hvv-label {
           font-family: var(--font-family-accessible);
           font-size: var(--font-size-sm);
@@ -597,9 +607,16 @@ always visible regardless of browser history.
           letter-spacing: 0.06em;
           color: var(--color-text-subtle);
           margin: 0 0 var(--spacing-sm);
+          grid-column: 1 / -1;
+        }
+        .hvv-mode-tag {
+          font-family: var(--font-family-accessible);
+          font-size: var(--font-size-sm);
+          color: var(--color-text-subtle);
+          margin: 0 0 var(--spacing-xs);
         }
         /* Force visited appearance so it is always visible */
-        .hvv-section app-article a.is-visited {
+        app-article a.is-visited {
           color: var(--color-link-visited);
           border-bottom-color: var(--color-link-visited);
         }
@@ -615,40 +632,70 @@ always visible regardless of browser history.
         }
       </style>
 
-      <div class="hvv-section">
+      <div class="hvv-grid">
         <p class="hvv-label">Current — inline code and visited link are the same color (ΔE 0 dark / ΔE 5 light)</p>
-        <app-article>
-          <p>
-            Use the <code>var()</code> function to reference a custom property — for example,
+        <div class="hvv-panel">
+          <p class="hvv-mode-tag">Light</p>
+          <app-article>
+            <p>Use the <code>var()</code> function to reference a custom property — for example,
             <code>color: var(--color-link)</code> pulls the active link token.
             The <a href="#">MDN reference</a> covers the full syntax, and
-            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.
-          </p>
-        </app-article>
+            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.</p>
+          </app-article>
+        </div>
+        <div class="hvv-panel hvv-panel--dark" data-theme="dark">
+          <p class="hvv-mode-tag">Dark</p>
+          <app-article>
+            <p>Use the <code>var()</code> function to reference a custom property — for example,
+            <code>color: var(--color-link)</code> pulls the active link token.
+            The <a href="#">MDN reference</a> covers the full syntax, and
+            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.</p>
+          </app-article>
+        </div>
       </div>
 
-      <div class="hvv-section hvv-option-a">
+      <div class="hvv-grid hvv-option-a">
         <p class="hvv-label">Option A — background: code uses elevated surface tint + default text (no hue conflict possible)</p>
-        <app-article>
-          <p>
-            Use the <code>var()</code> function to reference a custom property — for example,
+        <div class="hvv-panel">
+          <p class="hvv-mode-tag">Light</p>
+          <app-article>
+            <p>Use the <code>var()</code> function to reference a custom property — for example,
             <code>color: var(--color-link)</code> pulls the active link token.
             The <a href="#">MDN reference</a> covers the full syntax, and
-            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.
-          </p>
-        </app-article>
+            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.</p>
+          </app-article>
+        </div>
+        <div class="hvv-panel hvv-panel--dark" data-theme="dark">
+          <p class="hvv-mode-tag">Dark</p>
+          <app-article>
+            <p>Use the <code>var()</code> function to reference a custom property — for example,
+            <code>color: var(--color-link)</code> pulls the active link token.
+            The <a href="#">MDN reference</a> covers the full syntax, and
+            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.</p>
+          </app-article>
+        </div>
       </div>
 
-      <div class="hvv-section hvv-option-b">
+      <div class="hvv-grid hvv-option-b">
         <p class="hvv-label">Option B — burgundy: code uses --color-action-secondary (H=347, clearly not a link)</p>
-        <app-article>
-          <p>
-            Use the <code>var()</code> function to reference a custom property — for example,
+        <div class="hvv-panel">
+          <p class="hvv-mode-tag">Light</p>
+          <app-article>
+            <p>Use the <code>var()</code> function to reference a custom property — for example,
             <code>color: var(--color-link)</code> pulls the active link token.
             The <a href="#">MDN reference</a> covers the full syntax, and
-            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.
-          </p>
-        </app-article>
+            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.</p>
+          </app-article>
+        </div>
+        <div class="hvv-panel hvv-panel--dark" data-theme="dark">
+          <p class="hvv-mode-tag">Dark</p>
+          <app-article>
+            <p>Use the <code>var()</code> function to reference a custom property — for example,
+            <code>color: var(--color-link)</code> pulls the active link token.
+            The <a href="#">MDN reference</a> covers the full syntax, and
+            <a class="is-visited" href="#">this visited article on cascade</a> shows it applied.</p>
+          </app-article>
+        </div>
       </div>
     `,
   }),
