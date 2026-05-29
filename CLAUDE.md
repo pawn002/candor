@@ -10,24 +10,17 @@ Candor is a design system distributed as three layers, all developed in a single
 2. **`@candor-design/web-components`** — the primary consumer-facing component library: 34 Lit 3 custom elements. Framework-agnostic; the WC stories under `Components/`, `Typography/`, `Design Tokens/`, and `Examples/` are the canonical surface.
 3. **Angular component library** (`src/app/`) — the same component API expressed as Angular standalone components, for teams already on Angular. Stories live under `Angular Components/` in the Storybook tree.
 
-The workflow targets AI-assisted design iteration with real-time accessibility validation: receive art-direction specs, implement them in design tokens, validate accessibility using the CPQI CLI for color contrast, and inspect visually with Playwright MCP. Token changes propagate to both component layers because both consume the same CSS custom properties.
+The workflow targets AI-assisted design iteration with real-time accessibility validation: receive art-direction specs, implement them in design tokens, validate accessibility using the klar CLI for color contrast, and inspect visually with Playwright MCP. Token changes propagate to both component layers because both consume the same CSS custom properties.
 
 ## Design Philosophy
 
 ### Candor is a humanist design system
 
-Candor's typefaces — Roboto Flex, Noto Serif, Atkinson Hyperlegible — are all drawn from the humanist tradition: letterforms shaped by the hand, designed for reading by people. The color system uses perceptual uniformity (OKLCH) precisely because it models human vision, not machine arithmetic. These are not incidental choices.
+Candor's typefaces and OKLCH color system model human vision and the humanist typographic tradition. Every element — including technical, data-heavy, or machine-generated content — should feel like a considered, human-authored artifact.
 
-**The principle:** Every element in Candor — including technical, data-heavy, or machine-generated content — should feel like it belongs to a considered, human-authored artifact. No component escapes this. Code blocks, data tables, monospace text, status indicators, and form chrome all exist within the humanist frame.
-
-**What this means in practice:**
-- Clinical harshness is not "appropriate for technical content" — it is a failure of the system's character. A code block in dark mode should not be a stark white rectangle interrupting a warm layout.
+- Clinical harshness is not "appropriate for technical content" — it is a failure of the system's character.
 - Maximum contrast is not automatically correct. 19.4:1 white-on-dark is a machine default, not a design decision.
-- When a component feels cold, flat, or mechanical, the question is not "is this the right aesthetic for this content type?" — it is "how do we bring this inside the system's character without losing its function?"
-
-**The tension to navigate:** Technical content has real legibility requirements — monospace, high contrast, clear delineation. The humanist position is not to ignore these. It is to meet them while preserving warmth, coherence, and the sense that a human made considered choices about every surface.
-
-**Flag this tension proactively.** When implementing any component where clinical defaults would be the easy choice — code blocks, tables, form inputs, data displays — name the humanist/legibility tension explicitly rather than silently resolving it one way or the other.
+- **Flag proactively:** when implementing components where clinical defaults would be easy (code blocks, tables, form inputs, data displays), name the humanist/legibility tension rather than silently resolving it.
 
 ---
 
@@ -77,11 +70,6 @@ Colors use OKLCH format: `oklch(L C H)` where:
 - C = chroma/saturation
 - H = hue (degrees)
 
-**Why OKLCH**:
-- Perceptually uniform (unlike hex/RGB)
-- Predictable lightness manipulation
-- CPQI CLI works natively with OKLCH
-- Easier for AI to generate/manipulate programmatically
 
 ### Component Structure
 
@@ -367,8 +355,6 @@ export const Default: Story = {
 - **`@for`** - NEVER use `*ngFor` or `NgFor` directive (requires Zone.js)
 - **`@switch` / `@case`** - NEVER use `[ngSwitch]`, `*ngSwitchCase`, or NgSwitch directives (requires Zone.js)
 
-**Why this matters**: Old directive-based syntax (`*ngIf`, `*ngFor`, `NgSwitch`) requires Zone.js for change detection. Built-in control flow (`@if`, `@for`, `@switch`) works perfectly in zoneless mode and is the future of Angular.
-
 **Correct examples**:
 ```typescript
 // ✓ CORRECT - Use @if
@@ -392,24 +378,6 @@ export const Default: Story = {
 }
 ```
 
-**Incorrect examples**:
-```typescript
-// ✗ WRONG - Don't use *ngIf
-<div *ngIf="condition">Content</div>
-
-// ✗ WRONG - Don't use *ngFor
-<div *ngFor="let item of items">{{ item.name }}</div>
-
-// ✗ WRONG - Don't use ngSwitch
-<div [ngSwitch]="value">
-  <div *ngSwitchCase="'option1'">Option 1</div>
-</div>
-```
-
-**Important notes**:
-- Built-in control flow does NOT require imports (no `NgIf`, `NgFor`, `NgSwitch` in component imports)
-- Built-in control flow works correctly with Zone.js enabled
-- When refactoring existing code, always convert old directives to built-in syntax
 
 ### Angular Signal Types — Binding Behaviour
 
@@ -588,13 +556,7 @@ Use attribute injection instead:
 
 Native form controls (`<input checked>`, `<input value>`, `<select value>`, `<option selected>`, `<details open>`, …) have a divergent state model: the HTML attribute (`checked`, `open`, …) seeds the *initial* state, but once the user interacts, the live **IDL property** (`input.checked`, `details.open`, …) is the source of truth. The attribute and the property drift apart.
 
-Lit's `?attr="${expr}"` binding writes the **attribute**. For non-stateful elements this is fine. For these stateful form controls, after the user clicks:
-
-1. Native input — `input.checked` becomes `true` (live property).
-2. Host re-renders with `?checked="${false}"` later (e.g. parent state clears it).
-3. Lit removes the `checked` attribute. **But** `input.checked` (the property) stays `true` — removing the attribute doesn't reset post-interaction live state.
-
-The component looks unchanged on screen, and the bug only surfaces when you read `input.checked` programmatically or check what an FAcontrol "actually" shows.
+Lit's `?attr` binding writes the HTML attribute, which diverges from the live IDL property (`input.checked`, `details.open`) after user interaction. The bug is invisible on screen and only surfaces programmatically.
 
 **Use property binding for these cases** (Lit `.prop` syntax assigns the JS property each render, overriding the live state):
 
@@ -617,7 +579,7 @@ Apply to: `<input>.checked`, `<input>.value`, `<select>.value`, `<option>.select
 | `<select>` | `change` | `this.value = e.target.value` |
 | `<details>` | `toggle` | `this.open = e.target.open` |
 
-Without the toggle listener on `<details>`, the host's `open` property silently desyncs whenever the user clicks the `<summary>` — see commit 551f2d8 for the accordion case.
+Without the toggle listener on `<details>`, the host's `open` property silently desyncs whenever the user clicks the `<summary>`.
 
 ### Shadow DOM scoping
 
@@ -722,40 +684,23 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 16. **Don't use `?checked` / `?open` / `?selected` on native form controls**: After user interaction, the live IDL property (`input.checked`, `details.open`, `option.selected`) diverges from the HTML attribute, and `?attr` binding only writes the attribute. Use `.checked`, `.open`, `.selected` (property binding) so the host's state always wins. Also wire the corresponding change event (`change` / `toggle`) back to the host so user-driven changes don't silently desync — see "Stateful form-element bindings" above.
 17. **Don't rely on native browser radio grouping across `<candor-radio>` siblings**: Each radio is in its own shadow root, so the browser can't tie shared-`name` inputs into one mutually-exclusive group OR an arrow-navigable set. candor-radio implements both behaviors itself by querying sibling `<candor-radio name="…">` elements within the nearest `<fieldset>`. If you build another grouped form control (checkbox-group, etc.), expect to write the same shim.
 
-## Testing Strategy
+## Test Files
 
-### Visual Regression
-Tests capture screenshots of component states for comparison across changes.
-
-### Accessibility Testing
-Tests verify:
-- Keyboard navigation works
-- Focus indicators are visible
-- ARIA attributes are correct
-- Color contrast meets standards
-
-### Test Structure
-- `tests/visual-regression.spec.ts`: Screenshot-based tests
-- `tests/accessibility.spec.ts`: A11y interaction tests
-- `tests/storybook-snapshots.spec.ts`: Automated story screenshots
+- `tests/visual-regression.spec.ts` — screenshot comparisons
+- `tests/accessibility.spec.ts` — keyboard navigation, focus, ARIA
+- `tests/storybook-snapshots.spec.ts` — automated story screenshots
 
 ## Documentation Reference
 
 Detailed workflow documentation in `docs/`:
-- `WORKFLOW.md`: Complete workflow guide
 - `DESIGN-TOKENS.md`: Token modification guide
-- `CPQI-INTEGRATION.md`: CPQI CLI usage patterns and commands
-- `PLAYWRIGHT-WORKFLOW.md`: Playwright MCP usage patterns
-- `A11Y-AUDIT.md`: Per-component accessibility audit. Subject: `@candor-design/web-components` (primary). Persona scope: screen-reader user (NVDA + Chrome baseline) — other AT personas tracked for follow-up revisions. Historical Angular findings preserved for cross-checking against the WC ports.
-- `archive/A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the Angular-era audit — authoring conventions, gotchas, and review priorities. Pending a WC refresh after the current audit completes.
-- `ACCESSIBILITY-CONFORMANCE.md`: WCAG 2.1 AA conformance statement — what the library guarantees, consumer responsibilities, known limitations
-- `BREAKING-CHANGES.md`: Breaking change policy — version classification taxonomy and migration note template
-
-## Git Information
-
-- Main branch: `main`
-- Recent focus: Angular v21 upgrade, Storybook v10 upgrade
-- Component prefix: `app`
+- `KLAR-INTEGRATION.md`: klar CLI full command reference
+- `A11Y-AUDIT.md`: Per-component accessibility audit (WC primary; NVDA + Chrome baseline)
+- `archive/A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the Angular-era audit
+- `archive/WORKFLOW.md`: Complete design iteration workflow guide
+- `archive/PLAYWRIGHT-WORKFLOW.md`: Playwright MCP usage patterns
+- `ACCESSIBILITY-CONFORMANCE.md`: WCAG 2.1 AA conformance statement
+- `BREAKING-CHANGES.md`: Breaking change policy and migration note template
 
 ## Node Version Requirements
 
