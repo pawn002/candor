@@ -123,29 +123,52 @@ export const SpacingInComponents: Story = {
       <div style="max-width: 600px; display: flex; flex-direction: column; gap: var(--spacing-xl);">
 
         <div>
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-xs);">Tight — spacing-xs (8px)</p>
-          <div style="display: flex; gap: var(--spacing-xs);">
-            <div style="padding: var(--spacing-xs) var(--spacing-sm); background: var(--color-bg-surface); border-radius: var(--radius-sm); font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-default);">Item 1</div>
-            <div style="padding: var(--spacing-xs) var(--spacing-sm); background: var(--color-bg-surface); border-radius: var(--radius-sm); font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-default);">Item 2</div>
-            <div style="padding: var(--spacing-xs) var(--spacing-sm); background: var(--color-bg-surface); border-radius: var(--radius-sm); font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-default);">Item 3</div>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Tight — spacing-xs (8px)</p>
+          <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+            <candor-chip label="Item 1"></candor-chip>
+            <candor-chip label="Item 2"></candor-chip>
+            <candor-chip label="Item 3"></candor-chip>
           </div>
         </div>
 
         <div>
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-xs);">Comfortable — spacing-md (24px)</p>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Compact — spacing-sm (16px)</p>
+          <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap;">
+            <candor-button variant="primary">Save changes</candor-button>
+            <candor-button variant="secondary">Preview</candor-button>
+            <candor-button variant="ghost">Cancel</candor-button>
+          </div>
+        </div>
+
+        <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0; border-left: var(--border-width-medium) solid var(--color-border-default); padding-left: var(--spacing-sm);">Above this line, tokens govern spacing <em>within</em> components — the gap between a chip and its neighbour, the distance between buttons in a toolbar. Below, they govern spacing <em>between</em> components at layout scale: card padding, card grids, and page margins. The same token system, two distinct domains.</p>
+
+        <div>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Comfortable — spacing-md (24px)</p>
           <div style="display: flex; gap: var(--spacing-md);">
-            <div style="padding: var(--spacing-md); background: var(--color-bg-surface); border-radius: var(--radius-sm); font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-default);">Item 1</div>
-            <div style="padding: var(--spacing-md); background: var(--color-bg-surface); border-radius: var(--radius-sm); font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-default);">Item 2</div>
-            <div style="padding: var(--spacing-md); background: var(--color-bg-surface); border-radius: var(--radius-sm); font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-default);">Item 3</div>
+            <candor-card variant="default" padding="md" style="flex: 1;">
+              <candor-stat value="2,847" label="Active users"></candor-stat>
+            </candor-card>
+            <candor-card variant="default" padding="md" style="flex: 1;">
+              <candor-stat value="94%" label="Uptime" color="success"></candor-stat>
+            </candor-card>
+            <candor-card variant="default" padding="md" style="flex: 1;">
+              <candor-stat value="138" label="Open tickets"></candor-stat>
+            </candor-card>
           </div>
         </div>
 
         <div>
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-xs);">Loose — spacing-xl (48px)</p>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Loose — spacing-xl (48px)</p>
           <div style="display: flex; gap: var(--spacing-xl);">
-            <div style="padding: var(--spacing-lg); background: var(--color-bg-surface); border-radius: var(--radius-sm); font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-default);">Item 1</div>
-            <div style="padding: var(--spacing-lg); background: var(--color-bg-surface); border-radius: var(--radius-sm); font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-default);">Item 2</div>
-            <div style="padding: var(--spacing-lg); background: var(--color-bg-surface); border-radius: var(--radius-sm); font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-default);">Item 3</div>
+            <candor-card variant="default" padding="lg" style="flex: 1;">
+              <candor-stat value="2,847" label="Active users"></candor-stat>
+            </candor-card>
+            <candor-card variant="default" padding="lg" style="flex: 1;">
+              <candor-stat value="94%" label="Uptime" color="success"></candor-stat>
+            </candor-card>
+            <candor-card variant="default" padding="lg" style="flex: 1;">
+              <candor-stat value="138" label="Open tickets"></candor-stat>
+            </candor-card>
           </div>
         </div>
 
