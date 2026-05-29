@@ -112,7 +112,7 @@ export const WeightComparison: Story = {
           <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
             <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
               <h3 id="icon-weight-fill" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Fill</h3>
-              <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.15em 0.45em; border-radius: 4px; border: 1px solid var(--color-border-default); align-self: flex-start;">ph-fill</code>
+              <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph-fill</code>
               <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">High-salience interactions — buttons, toggles, active states</p>
             </div>
             <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
@@ -125,7 +125,7 @@ export const WeightComparison: Story = {
           <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
             <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
               <h3 id="icon-weight-bold" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Bold</h3>
-              <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.15em 0.45em; border-radius: 4px; border: 1px solid var(--color-border-default); align-self: flex-start;">ph-bold</code>
+              <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph-bold</code>
               <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Directional affordances — carets, arrows, interactive indicators</p>
             </div>
             <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
@@ -138,7 +138,7 @@ export const WeightComparison: Story = {
           <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
             <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
               <h3 id="icon-weight-regular" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Regular</h3>
-              <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-elevated); color: var(--color-text-default); padding: 0.15em 0.45em; border-radius: 4px; border: 1px solid var(--color-border-default); align-self: flex-start;">ph</code>
+              <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph</code>
               <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Ambient and informational — status indicators, metadata, decoration</p>
             </div>
             <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
@@ -226,29 +226,41 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
   },
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: var(--spacing-md); max-width: 480px;">
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-md); max-width: 540px;">
 
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <p style="font-family: var(--font-family-mono); font-size: 0.75rem; color: var(--color-text-subtle); margin: 0;">Pattern A — decorative (aria-hidden only)</p>
-          <candor-button variant="primary">
-            <i class="ph-fill ph-download-simple" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
-            Download
-          </candor-button>
-          <pre style="font-family: var(--font-family-mono); font-size: 0.75rem; background: var(--color-bg-surface); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0;">&lt;candor-button variant="primary"&gt;
+        <candor-card variant="default" padding="md" role="group" aria-labelledby="pattern-a-heading">
+          <div slot="header">
+            <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern A</p>
+            <h3 id="pattern-a-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Decorative icon</h3>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Icon is paired with visible text — the text label is the accessible name. Add <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-hidden="true"</code> to remove the icon from the accessibility tree.</p>
+            <candor-button variant="primary" style="align-self: flex-start;">
+              <i class="ph-fill ph-download-simple" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
+              Download
+            </candor-button>
+            <pre style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="primary"&gt;
   &lt;i class="ph-fill ph-download-simple" aria-hidden="true"&gt;&lt;/i&gt;
   Download
 &lt;/candor-button&gt;</pre>
-        </div>
+          </div>
+        </candor-card>
 
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <p style="font-family: var(--font-family-mono); font-size: 0.75rem; color: var(--color-text-subtle); margin: 0;">Pattern B — icon-only (aria-label attribute)</p>
-          <candor-button variant="ghost" aria-label="Notifications">
-            <i class="ph-fill ph-bell" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
-          </candor-button>
-          <pre style="font-family: var(--font-family-mono); font-size: 0.75rem; background: var(--color-bg-surface); padding: 0.5rem; border-radius: var(--radius-sm); margin: 0;">&lt;candor-button variant="ghost" aria-label="Notifications"&gt;
+        <candor-card variant="default" padding="md" role="group" aria-labelledby="pattern-b-heading">
+          <div slot="header">
+            <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern B</p>
+            <h3 id="pattern-b-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Icon-only button</h3>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">No visible text — the accessible name must be provided via <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-label</code> on <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;candor-button&gt;</code>, which reflects it onto the inner <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;button&gt;</code>.</p>
+            <candor-button variant="ghost" aria-label="Notifications" style="align-self: flex-start;">
+              <i class="ph-fill ph-bell" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
+            </candor-button>
+            <pre style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="ghost" aria-label="Notifications"&gt;
   &lt;i class="ph-fill ph-bell" aria-hidden="true"&gt;&lt;/i&gt;
 &lt;/candor-button&gt;</pre>
-        </div>
+          </div>
+        </candor-card>
 
       </div>
     `,
