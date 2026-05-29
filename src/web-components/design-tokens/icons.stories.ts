@@ -183,16 +183,9 @@ Icons in realistic UI contexts demonstrating all three tiers.
 
         <candor-alert variant="success" message="Changes saved successfully." dismissible style="display: block;"></candor-alert>
 
-        <div style="
-          display: flex; align-items: center; justify-content: space-between;
-          padding: var(--spacing-xs) var(--spacing-sm);
-          background: var(--color-bg-surface);
-          border: var(--border-width-thin) solid var(--color-border-subtle);
-          border-radius: var(--radius-md); cursor: pointer;
-        ">
-          <span style="font-family: var(--font-family-base); font-size: var(--font-size-md);">Settings</span>
-          <i class="ph-bold ph-caret-down" style="font-size: 1rem; line-height: 1; color: var(--color-text-subtle);" aria-hidden="true"></i>
-        </div>
+        <candor-accordion-item heading="Settings">
+          <p style="margin: 0; font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-subtle);">Notification preferences, display options, and account defaults.</p>
+        </candor-accordion-item>
 
         <div style="
           display: flex; gap: var(--spacing-md); align-items: center;
