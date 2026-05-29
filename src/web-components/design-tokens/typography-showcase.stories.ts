@@ -174,9 +174,17 @@ Four-voice typographic system aligned to two cognitive modes:
 - **Execution** (task completion, navigation, scanning): Roboto Flex, Roboto Mono, Atkinson Hyperlegible
 - **Interpretation** (reading, reflecting, conversing): Noto Serif, Noto Sans
 
-Type scale uses a **Major Third ratio (1.25×)** from a 1rem (16px) base. Minimum readable
-text size is 14px (\`--font-size-sm\`). \`--font-size-xs\` (12px) is for decorative and
-non-text use only.
+Type scale uses a **Major Third ratio (1.25×)** from a 1rem (16px) base. The Major Third
+sits between Minor Third (1.2× — steps too subtle for scanning-heavy UIs) and Perfect
+Fourth (1.333× — steps too dramatic for dense data layouts). Two factors make the
+conservative ratio work: Candor's five typefaces already carry intrinsic visual weight
+through their distinct letterforms and stroke character, so the scale reinforces hierarchy
+rather than having to create it alone; and Roboto Flex's optical sizing axis (\`opsz\`) adds
+perceived weight as size increases, meaning the effective hierarchy reads larger than the
+numeric ratio.
+
+Minimum readable text size is 14px (\`--font-size-sm\`). \`--font-size-xs\` (12px) is for
+decorative and non-text use only.
         `.trim(),
       },
     },
