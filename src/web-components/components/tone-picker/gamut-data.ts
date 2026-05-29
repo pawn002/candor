@@ -1,6 +1,6 @@
 import type { ToneCell, ToneRow } from './candor-tone-picker';
 
-// Transforms cpqi `variants` output into ToneRow[] for <candor-tone-picker>.
+// Transforms klar `variants` output into ToneRow[] for <candor-tone-picker>.
 // Each cell carries full OKLCH metadata; disabled=true marks out-of-sRGB-gamut cells.
 export function buildGamutRows(
   grid: Array<Array<{ l: number; c: number; h: number; ig: boolean }>>,

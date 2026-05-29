@@ -1,6 +1,6 @@
 import { GridCell, GridRow } from '../data-grid/data-grid.component';
 
-// Transforms cpqi `variants` output into GridRow[] for GamutPickerComponent or DataGridComponent.
+// Transforms klar `variants` output into GridRow[] for GamutPickerComponent or DataGridComponent.
 // Each cell carries full OKLCH metadata; disabled=true marks out-of-sRGB-gamut cells.
 export function buildGamutRows(
   grid: Array<Array<{ l: number; c: number; h: number; ig: boolean }>>,

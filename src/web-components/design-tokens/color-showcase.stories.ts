@@ -1,3 +1,5 @@
+import React from 'react';
+import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/angular';
 
 interface ColorSwatch {
@@ -219,19 +221,22 @@ const meta: Meta = {
   parameters: {
     layout: 'fullscreen',
     docs: {
+      page: () => React.createElement(React.Fragment, null,
+        React.createElement(Title, null),
+        React.createElement(Description, null),
+        React.createElement(Stories, { includePrimary: true })
+      ),
       description: {
         component: `
-# Color System
-
 Colors use **OKLCH** (Lightness, Chroma, Hue) for perceptual uniformity and predictable
 manipulation.
 
 ## Two-tier architecture
-- **Primitives** — raw ramps (navy-800, burgundy-700, azure-400, …) in \`primitives.scss\`
+- **Primitives** — raw named values (color ramps, type scale, spacing, borders) in \`primitives.scss\`
 - **Semantics** — role-based tokens (--color-action-primary, --color-text-default, …) in \`semantics.scss\`
 
 Components reference semantic tokens only. CSS custom properties pierce shadow DOM, so a
-single \`candor-tokens.css\` load at the document level reaches into every WC's
+single \`candor-tokens.css\` load at the document level reaches into every web component's (WC)
 internals.
 
 ## Brand palette
@@ -242,7 +247,7 @@ internals.
 
 ## Accessibility
 All action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components).
-Validated with \`cpqi contrast\`.
+Validated with \`klar contrast\`.
         `,
       },
     },
