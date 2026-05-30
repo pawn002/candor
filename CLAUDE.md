@@ -198,25 +198,49 @@ See `docs/LESSONS-LEARNED.md` for the full rationale.
 
 ### Atkinson Hyperlegible (`--font-family-accessible`)
 
-Atkinson is the designated typeface for **critical UI text** — form labels, error messages, status indicators, annotations, and badges. Its wider letterforms, open counters, and distinctive glyphs provide strong legibility at small sizes without needing weight support.
+Atkinson is the designated typeface for **instructional UI text** — text the user must read precisely to know what to do next.
 
-**Bold weight rules for Atkinson:**
-- **Use bold only for hierarchy/labeling** — form field labels, section headings, structural anchors where a clear visual break is needed
-- **Do NOT use bold for urgency or emphasis** — error messages, warnings, status text, and annotations should use regular weight (400). The typeface's inherent legibility and the semantic color (red for error, etc.) carry the urgency signal. Bold on top of Atkinson reads as double-emphasis and disrupts hierarchy
-- The `--bold` modifier on `AccessibleTextComponent` exists for intentional overrides but should rarely be needed outside of `role="label"` contexts
+#### Instruction vs. comprehension — the core authoring decision
 
-**Why this matters:** Atkinson performs so well at regular weight that bold becomes a hierarchy signal, not a legibility aid. Overusing bold flattens the hierarchy and makes everything feel heavy.
+The question is not "is this text important?" All text in a well-designed UI is important. The question is: **does the user need to read this precisely to know what to do next?**
 
-**Correct usage:**
+- **Use Atkinson (`candor-accessible-text`)** for instructional text: form field labels, validation errors, status changes, action-required hints. The user must read these correctly to take the right action.
+- **Use Roboto Flex (`--font-family-base`)** for comprehension text: data values, classification results, section headings that organise data, body prose. The user reads these to form a judgment, not to follow an instruction.
+
+**Examples of the distinction:**
 ```html
-<!-- ✓ Bold for label — structural anchor -->
-<app-accessible-text role="label" [bold]="true">National Insurance number</app-accessible-text>
+<!-- ✓ Instructional — user must read this to know what to fix -->
+<candor-accessible-text role_="status" color="error">Enter a valid National Insurance number.</candor-accessible-text>
 
+<!-- ✗ Not instructional — user reads this to understand data -->
+<candor-accessible-text role_="annotation">87% confidence</candor-accessible-text>
+<!-- ✓ Correct for comprehension data -->
+<span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">87%</span>
+```
+
+**Section headings that label data** (e.g. "Classification breakdown") are comprehension text — they organise data, they don't instruct. Use `<candor-text variant="label">` (Roboto Flex uppercase) not `<candor-accessible-text role_="label">`.
+
+#### The four roles
+
+| Role | Use case | Size | Weight | Style |
+|---|---|---|---|---|
+| `label` | Form field labels, structural anchors in instructional contexts | 14px | bold | uppercase |
+| `message` | System messages, body-length guidance the user must act on | 16px | regular | — |
+| `status` | Validation errors, live counters, state changes | 14px | regular | — |
+| `annotation` | Hints, constraints, legal small print that guide an action | 14px | regular | italic |
+
+#### Bold weight rules
+
+- **Use bold only for hierarchy/labeling** — `role_="label"` renders bold automatically
+- **Do NOT use bold for urgency** — error messages and status text use regular weight; the error color carries urgency. Bold on top of error color is double-emphasis and disrupts hierarchy
+- The `bold` attribute exists for intentional overrides but should rarely be needed outside of `role_="label"` contexts
+
+```html
 <!-- ✓ Regular for status — color carries urgency -->
-<app-accessible-text role="status" color="error">Enter a valid number.</app-accessible-text>
+<candor-accessible-text role_="status" color="error">Enter a valid number.</candor-accessible-text>
 
 <!-- ✗ Wrong — bold + error color is double-emphasis -->
-<app-accessible-text role="status" color="error" [bold]="true">Enter a valid number.</app-accessible-text>
+<candor-accessible-text role_="status" color="error" bold>Enter a valid number.</candor-accessible-text>
 ```
 
 ### Atkinson Tracking

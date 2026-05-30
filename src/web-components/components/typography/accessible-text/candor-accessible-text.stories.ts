@@ -7,31 +7,43 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-**Atkinson Hyperlegible** — the designated typeface for critical UI text.
+**Atkinson Hyperlegible** — the designated typeface for instructional UI text.
 
-Use \`<candor-accessible-text>\` wherever the text must remain legible under cognitive load
-at small sizes: form labels, error messages, status indicators, annotations, and badges.
-Its wide letterforms, open counters, and distinctive glyphs provide strong legibility at
-14px without needing a weight boost.
+### Instruction vs. comprehension
+
+The core authoring decision is not "is this text important?" — all text in a well-designed UI is important. The question is: **does the user need to read this precisely to know what to do next?**
+
+- **Use \`<candor-accessible-text>\`** for instructional text: form field labels, validation errors, status changes, action-required hints. The user must read these correctly to take the right action.
+- **Use Roboto Flex** (\`--font-family-base\`) for comprehension text: data values, classification results, section headings that organise data, body prose. The user reads these to form a judgment, not to follow an instruction.
+
+\`\`\`html
+<!-- ✓ Instructional — user must read this to know what to fix -->
+<candor-accessible-text role_="status" color="error">Enter a valid National Insurance number.</candor-accessible-text>
+
+<!-- ✗ Comprehension — user reads this to understand data, not to act -->
+<candor-accessible-text role_="annotation">87% confidence</candor-accessible-text>
+<!-- ✓ Correct for comprehension data -->
+<span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">87%</span>
+\`\`\`
 
 ---
 
 ### Four roles
 
-| Role | Use case | Size | Weight |
-|---|---|---|---|
-| \`label\` | Form field labels, section headings, structural anchors | 14px | bold + uppercase |
-| \`message\` | System messages, inline guidance, body-length explanations | 16px | regular |
-| \`status\` | Validation errors, live counters, state changes | 14px | regular |
-| \`annotation\` | Supporting metadata, hints, legal small print | 14px | regular + italic |
+| Role | Use case | Size | Weight | Style |
+|---|---|---|---|---|
+| \`label\` | Form field labels, structural anchors in instructional contexts | 14px | bold | uppercase |
+| \`message\` | System messages, body-length guidance the user must act on | 16px | regular | — |
+| \`status\` | Validation errors, live counters, state changes | 14px | regular | — |
+| \`annotation\` | Hints, constraints, legal small print that guide an action | 14px | regular | italic |
+
+**Section headings that label data** (not instructional) should use \`<candor-text variant="label">\` instead — same visual treatment, Roboto Flex.
 
 ---
 
 ### Bold rule
 
-**Bold is for hierarchy, not urgency.** \`role="label"\` already renders bold; do not also
-set \`bold\` on \`role="status"\` for error states — color carries the urgency signal.
-Bold on top of an error color reads as double-emphasis and disrupts hierarchy.
+**Bold is for hierarchy, not urgency.** \`role="label"\` always renders bold. Do not set \`bold\` on \`role="status"\` for error states — the error color carries the urgency signal. Bold on top of error color reads as double-emphasis and disrupts hierarchy.
 
 \`\`\`html
 <!-- ✓ Regular for status — color carries urgency -->
@@ -45,17 +57,13 @@ Bold on top of an error color reads as double-emphasis and disrupts hierarchy.
 
 ### Tracking
 
-Atkinson requires positive letter-spacing to prevent glyph clustering (adjacent glyphs like
-"rr" reading as "m"). Spacing is applied automatically per role — never override to
-\`letter-spacing: 0\`.
+Atkinson requires positive letter-spacing to prevent glyph clustering (adjacent glyphs like "rr" reading as "m"). Spacing is applied automatically per role — never override to \`letter-spacing: 0\`.
 
 ---
 
 ### Note on the \`role_\` attribute
 
-The attribute is named \`role_\` (trailing underscore) because \`role\` is a reserved ARIA
-attribute on every HTML element and using it as the WC property would conflict with the
-host element's actual ARIA role.
+The attribute is named \`role_\` (trailing underscore) because \`role\` is a reserved ARIA attribute on every HTML element and using it as the Web Component (WC) property would conflict with the host element's actual ARIA role.
         `.trim(),
       },
     },
@@ -167,23 +175,31 @@ export const CriticalFormContext: Story = {
 export const AllRoles: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:1.5rem;">
-        <div style="display:flex;flex-direction:column;gap:0.25rem;">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="label"</p>
-          <candor-accessible-text role_="label">Section Title / Form Field Label</candor-accessible-text>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:0.25rem;">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="message"</p>
-          <candor-accessible-text role_="message">System message: Your request has been received and is being processed. You will receive a confirmation email shortly.</candor-accessible-text>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:0.25rem;">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="status"</p>
-          <candor-accessible-text role_="status" color="error">✕ Validation failed — 3 fields require attention</candor-accessible-text>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:0.25rem;">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="annotation"</p>
-          <candor-accessible-text role_="annotation" color="secondary">This information is collected under the Data Protection Act 2018. Your data will not be shared with third parties without your consent.</candor-accessible-text>
-        </div>
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:520px;">
+        <candor-card>
+          <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+            <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="label"</p>
+            <candor-accessible-text role_="label">Section Title / Form Field Label</candor-accessible-text>
+          </div>
+        </candor-card>
+        <candor-card>
+          <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+            <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="message"</p>
+            <candor-accessible-text role_="message">System message: Your request has been received and is being processed. You will receive a confirmation email shortly.</candor-accessible-text>
+          </div>
+        </candor-card>
+        <candor-card>
+          <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+            <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="status"</p>
+            <candor-accessible-text role_="status" color="error">✕ Validation failed — 3 fields require attention</candor-accessible-text>
+          </div>
+        </candor-card>
+        <candor-card>
+          <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+            <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="annotation"</p>
+            <candor-accessible-text role_="annotation" color="secondary">This information is collected under the Data Protection Act 2018. Your data will not be shared with third parties without your consent.</candor-accessible-text>
+          </div>
+        </candor-card>
       </div>
     `,
   }),
@@ -235,18 +251,18 @@ export const AIConfidenceScores: Story = {
         </div>
         <candor-card padding="sm">
           <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-            <candor-accessible-text role_="label" bold>Classification breakdown</candor-accessible-text>
+            <candor-text variant="label">Classification breakdown</candor-text>
             <div style="display:flex;justify-content:space-between;">
-              <candor-accessible-text role_="annotation">Supportive</candor-accessible-text>
-              <candor-accessible-text role_="annotation" color="secondary">87%</candor-accessible-text>
+              <span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-default);">Supportive</span>
+              <span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">87%</span>
             </div>
             <div style="display:flex;justify-content:space-between;">
-              <candor-accessible-text role_="annotation">Neutral</candor-accessible-text>
-              <candor-accessible-text role_="annotation" color="secondary">9%</candor-accessible-text>
+              <span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-default);">Neutral</span>
+              <span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">9%</span>
             </div>
             <div style="display:flex;justify-content:space-between;">
-              <candor-accessible-text role_="annotation">Opposed</candor-accessible-text>
-              <candor-accessible-text role_="annotation" color="secondary">4%</candor-accessible-text>
+              <span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-default);">Opposed</span>
+              <span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">4%</span>
             </div>
           </div>
         </candor-card>
