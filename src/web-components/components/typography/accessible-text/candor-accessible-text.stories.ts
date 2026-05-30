@@ -193,25 +193,21 @@ export const AICardMetadataHeaders: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:520px;">
-        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);overflow:hidden;">
-          <div style="padding:var(--spacing-xs) var(--spacing-sm);border-bottom:var(--border-width-thin) solid var(--color-border-subtle);display:flex;gap:var(--spacing-md);">
+        <candor-card>
+          <div slot="header" style="display:flex;gap:var(--spacing-md);">
             <candor-accessible-text role_="annotation" color="secondary">Model: GPT-4o</candor-accessible-text>
             <candor-accessible-text role_="annotation" color="secondary">Confidence: High</candor-accessible-text>
             <candor-accessible-text role_="annotation" color="secondary">Generated 3 min ago</candor-accessible-text>
           </div>
-          <div style="padding:var(--spacing-sm);">
-            <p style="font-family:var(--font-family-reading);font-size:var(--font-size-md);line-height:var(--line-height-relaxed);margin:0;">The proposed development is consistent with Policy H3 of the Local Plan. No material objections have been identified by statutory consultees.</p>
-          </div>
-        </div>
-        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);overflow:hidden;">
-          <div style="padding:var(--spacing-sm);">
-            <p style="font-family:var(--font-family-reading);font-size:var(--font-size-md);line-height:var(--line-height-relaxed);margin:0;">Traffic modelling suggests peak-hour queuing on the B4632 will increase by approximately 4 minutes under the proposed development scenario.</p>
-          </div>
-          <div style="padding:var(--spacing-xs) var(--spacing-sm);border-top:var(--border-width-thin) solid var(--color-border-subtle);display:flex;gap:var(--spacing-md);">
+          <p style="font-family:var(--font-family-reading);font-size:var(--font-size-md);line-height:var(--line-height-relaxed);margin:0;">The proposed development is consistent with Policy H3 of the Local Plan. No material objections have been identified by statutory consultees.</p>
+        </candor-card>
+        <candor-card>
+          <p style="font-family:var(--font-family-reading);font-size:var(--font-size-md);line-height:var(--line-height-relaxed);margin:0;">Traffic modelling suggests peak-hour queuing on the B4632 will increase by approximately 4 minutes under the proposed development scenario.</p>
+          <div slot="footer" style="display:flex;gap:var(--spacing-md);">
             <candor-accessible-text role_="annotation" color="secondary">Source: Transport Assessment §4.2</candor-accessible-text>
             <candor-accessible-text role_="annotation" color="secondary">Reviewed by planning officer</candor-accessible-text>
           </div>
-        </div>
+        </candor-card>
       </div>
     `,
   }),
@@ -221,13 +217,15 @@ export const AIConfidenceScores: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:480px;">
-        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;">
-            <span style="font-family:var(--font-family-base);font-size:var(--font-size-md);font-weight:var(--font-weight-semibold);">Supportive</span>
-            <candor-accessible-text role_="annotation" color="secondary">87% confidence</candor-accessible-text>
+        <candor-card padding="sm">
+          <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <span style="font-family:var(--font-family-base);font-size:var(--font-size-md);font-weight:var(--font-weight-semibold);">Supportive</span>
+              <candor-accessible-text role_="annotation" color="secondary">87% confidence</candor-accessible-text>
+            </div>
+            <candor-accessible-text role_="annotation" color="secondary">Sentiment classification · Agenda item 3</candor-accessible-text>
           </div>
-          <candor-accessible-text role_="annotation" color="secondary">Sentiment classification · Agenda item 3</candor-accessible-text>
-        </div>
+        </candor-card>
         <div style="background:var(--color-status-warning-bg);border:var(--border-width-thin) solid var(--color-status-warning);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:var(--spacing-xs);">
           <div style="display:flex;justify-content:space-between;align-items:baseline;">
             <span style="font-family:var(--font-family-base);font-size:var(--font-size-md);font-weight:var(--font-weight-semibold);">Neutral / Ambiguous</span>
@@ -235,21 +233,23 @@ export const AIConfidenceScores: Story = {
           </div>
           <candor-accessible-text role_="status">Requires human review — confidence below threshold</candor-accessible-text>
         </div>
-        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:0.375rem;">
-          <candor-accessible-text role_="label" bold>Classification breakdown</candor-accessible-text>
-          <div style="display:flex;justify-content:space-between;">
-            <candor-accessible-text role_="annotation">Supportive</candor-accessible-text>
-            <candor-accessible-text role_="annotation" color="secondary">87%</candor-accessible-text>
+        <candor-card padding="sm">
+          <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+            <candor-accessible-text role_="label" bold>Classification breakdown</candor-accessible-text>
+            <div style="display:flex;justify-content:space-between;">
+              <candor-accessible-text role_="annotation">Supportive</candor-accessible-text>
+              <candor-accessible-text role_="annotation" color="secondary">87%</candor-accessible-text>
+            </div>
+            <div style="display:flex;justify-content:space-between;">
+              <candor-accessible-text role_="annotation">Neutral</candor-accessible-text>
+              <candor-accessible-text role_="annotation" color="secondary">9%</candor-accessible-text>
+            </div>
+            <div style="display:flex;justify-content:space-between;">
+              <candor-accessible-text role_="annotation">Opposed</candor-accessible-text>
+              <candor-accessible-text role_="annotation" color="secondary">4%</candor-accessible-text>
+            </div>
           </div>
-          <div style="display:flex;justify-content:space-between;">
-            <candor-accessible-text role_="annotation">Neutral</candor-accessible-text>
-            <candor-accessible-text role_="annotation" color="secondary">9%</candor-accessible-text>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <candor-accessible-text role_="annotation">Opposed</candor-accessible-text>
-            <candor-accessible-text role_="annotation" color="secondary">4%</candor-accessible-text>
-          </div>
-        </div>
+        </candor-card>
       </div>
     `,
   }),
@@ -259,21 +259,23 @@ export const AIStressContextCounters: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:480px;">
-        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <candor-accessible-text role_="label" bold>Review queue</candor-accessible-text>
-            <candor-accessible-text role_="status" color="secondary">14 of 47 reviewed</candor-accessible-text>
+        <candor-card padding="sm">
+          <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <candor-accessible-text role_="label" bold>Review queue</candor-accessible-text>
+              <candor-accessible-text role_="status" color="secondary">14 of 47 reviewed</candor-accessible-text>
+            </div>
+            <div style="height:6px;background:var(--color-bg-page);border-radius:var(--radius-full);overflow:hidden;">
+              <div style="height:100%;width:30%;background:var(--color-action-primary);border-radius:var(--radius-full);"></div>
+            </div>
           </div>
-          <div style="height:6px;background:var(--color-bg-page);border-radius:var(--radius-full);overflow:hidden;">
-            <div style="height:100%;width:30%;background:var(--color-action-primary);border-radius:var(--radius-full);"></div>
-          </div>
-        </div>
+        </candor-card>
         <div style="background:var(--color-status-warning-bg);border:var(--border-width-thin) solid var(--color-status-warning);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;align-items:center;gap:var(--spacing-xs);">
           <candor-accessible-text role_="status">⚠ 3 responses flagged for review</candor-accessible-text>
         </div>
-        <div style="background:var(--color-bg-surface);border:var(--border-width-thin) solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;align-items:center;gap:var(--spacing-xs);">
+        <candor-card padding="sm">
           <candor-accessible-text role_="status">✓ All responses processed — no flags raised</candor-accessible-text>
-        </div>
+        </candor-card>
       </div>
     `,
   }),
