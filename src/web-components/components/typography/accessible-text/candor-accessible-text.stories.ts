@@ -139,22 +139,26 @@ export const CriticalFormContext: Story = {
   render: () => ({
     template: `
       <div style="max-width:400px;display:flex;flex-direction:column;gap:var(--spacing-lg);">
-        <candor-input
-          label="National Insurance number"
-          value="QQ 00 00 00"
-          hint="It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ 12 34 56 C'."
-          error="Enter a National Insurance number in the correct format."
-        ></candor-input>
-        <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+        <candor-card>
           <candor-input
-            label="Email address"
-            type="email"
-            value="user@example.com"
+            label="National Insurance number"
+            value="QQ 00 00 00"
+            hint="It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ 12 34 56 C'."
+            error="Enter a National Insurance number in the correct format."
           ></candor-input>
-          <div style="background:var(--color-status-success-bg);padding:var(--spacing-xs) var(--spacing-sm);border-left:var(--border-width-thick) solid var(--color-status-success);border-radius:var(--radius-sm);">
-            <candor-accessible-text role_="status">✓ Email verified</candor-accessible-text>
+        </candor-card>
+        <candor-card>
+          <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+            <candor-input
+              label="Email address"
+              type="email"
+              value="user@example.com"
+            ></candor-input>
+            <div style="background:var(--color-status-success-bg);padding:var(--spacing-xs) var(--spacing-sm);border-left:var(--border-width-thick) solid var(--color-status-success);border-radius:var(--radius-sm);">
+              <candor-accessible-text role_="status">✓ Email verified</candor-accessible-text>
+            </div>
           </div>
-        </div>
+        </candor-card>
       </div>
     `,
   }),
