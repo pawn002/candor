@@ -276,14 +276,12 @@ export const AIStressContextCounters: Story = {
     template: `
       <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:480px;">
         <candor-card padding="sm">
-          <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <candor-accessible-text role_="label" bold>Review queue</candor-accessible-text>
-              <candor-accessible-text role_="status" color="secondary">14 of 47 reviewed</candor-accessible-text>
-            </div>
-            <div style="height:6px;background:var(--color-bg-page);border-radius:var(--radius-full);overflow:hidden;">
-              <div style="height:100%;width:30%;background:var(--color-action-primary);border-radius:var(--radius-full);"></div>
-            </div>
+          <div slot="header" style="display:flex;justify-content:space-between;align-items:center;">
+            Review queue
+            <candor-accessible-text role_="status" color="secondary">14 of 47 reviewed</candor-accessible-text>
+          </div>
+          <div style="height:6px;background:var(--color-bg-page);border-radius:var(--radius-full);overflow:hidden;">
+            <div style="height:100%;width:30%;background:var(--color-action-primary);border-radius:var(--radius-full);"></div>
           </div>
         </candor-card>
         <div style="background:var(--color-status-warning-bg);border:var(--border-width-thin) solid var(--color-status-warning);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;align-items:center;gap:var(--spacing-xs);">
