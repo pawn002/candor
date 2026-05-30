@@ -138,28 +138,20 @@ export const FontComparison: Story = {
 export const CriticalFormContext: Story = {
   render: () => ({
     template: `
-      <div style="max-width:400px;display:flex;flex-direction:column;gap:1.25rem;">
-        <div style="display:flex;flex-direction:column;gap:0.375rem;">
-          <candor-accessible-text role_="label" bold id="ni-label">National Insurance number</candor-accessible-text>
-          <candor-accessible-text role_="annotation" color="secondary">It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ 12 34 56 C'.</candor-accessible-text>
-          <input
-            type="text"
-            style="border:2px solid var(--color-status-error);border-radius:var(--radius-sm);padding:0.5rem 0.75rem;font-family:var(--font-family-base);font-size:var(--font-size-md);width:100%;box-sizing:border-box;"
-            value="QQ 00 00 00"
-            aria-labelledby="ni-label"
-            aria-describedby="ni-error"
-          />
-          <candor-accessible-text role_="status" color="error" id="ni-error">Enter a National Insurance number in the correct format.</candor-accessible-text>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:0.375rem;">
-          <candor-accessible-text role_="label" bold id="email-label">Email address</candor-accessible-text>
-          <input
+      <div style="max-width:400px;display:flex;flex-direction:column;gap:var(--spacing-lg);">
+        <candor-input
+          label="National Insurance number"
+          value="QQ 00 00 00"
+          hint="It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ 12 34 56 C'."
+          error="Enter a National Insurance number in the correct format."
+        ></candor-input>
+        <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+          <candor-input
+            label="Email address"
             type="email"
-            style="border:2px solid var(--color-border-strong);border-radius:var(--radius-sm);padding:0.5rem 0.75rem;font-family:var(--font-family-base);font-size:var(--font-size-md);width:100%;box-sizing:border-box;"
             value="user@example.com"
-            aria-labelledby="email-label"
-          />
-          <div style="background:var(--color-status-success-bg);padding:0.375rem 0.625rem;border-left:3px solid var(--color-status-success);border-radius:var(--radius-sm);display:inline-block;margin-top:0.25rem;">
+          ></candor-input>
+          <div style="background:var(--color-status-success-bg);padding:var(--spacing-xs) var(--spacing-sm);border-left:var(--border-width-thick) solid var(--color-status-success);border-radius:var(--radius-sm);">
             <candor-accessible-text role_="status">✓ Email verified</candor-accessible-text>
           </div>
         </div>

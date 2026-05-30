@@ -31,9 +31,9 @@ export class CandorInput extends LitElement {
     .input--error:focus { border-color: var(--color-status-error); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2); }
     .input--textarea { min-height: unset; line-height: var(--line-height-normal); }
     .input:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
-    .input-description { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: 0.02em; }
-    .input-error-message { color: var(--color-status-error-text); font-size: var(--font-size-md); }
-    .input-hint { color: var(--color-text-subtle); }
+    .input-hint { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: 0.02em; color: var(--color-text-subtle); }
+    .input-error-message { font-family: var(--font-family-accessible); font-size: var(--font-size-md); letter-spacing: 0.02em; color: var(--color-status-error-text); }
+    .input-error-live { display: contents; }
   `;
 
   @property() label?: string;
@@ -50,7 +50,8 @@ export class CandorInput extends LitElement {
   @property() value = '';
 
   private _id = `candor-input-${Math.random().toString(36).slice(2, 9)}`;
-  private _descId = `${this._id}-desc`;
+  private _hintId = `${this._id}-hint`;
+  private _errorId = `${this._id}-error`;
 
   private _onInput(e: Event) {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
@@ -61,6 +62,7 @@ export class CandorInput extends LitElement {
 
   override render() {
     const inputCls = ['input', this.error ? 'input--error' : '', this.multiline ? 'input--textarea' : ''].filter(Boolean).join(' ');
+    const describedBy = [this.hint ? this._hintId : '', this._errorId].filter(Boolean).join(' ');
     return html`
       <div class="input-wrapper">
         ${this.label ? html`
@@ -69,6 +71,7 @@ export class CandorInput extends LitElement {
             ${this.required ? html`<span class="input-required" aria-hidden="true">*</span>` : nothing}
           </label>
         ` : nothing}
+        ${this.hint ? html`<span id="${this._hintId}" class="input-hint">${this.hint}</span>` : nothing}
         ${this.multiline
           ? html`<textarea
               id="${this._id}"
@@ -80,7 +83,7 @@ export class CandorInput extends LitElement {
               .placeholder="${this.placeholder || ''}"
               .value="${this.value}"
               aria-invalid="${this.error ? 'true' : nothing}"
-              aria-describedby="${this._descId}"
+              aria-describedby="${describedBy}"
               name="${this.name || nothing}"
               @input="${this._onInput}"
             ></textarea>`
@@ -93,13 +96,12 @@ export class CandorInput extends LitElement {
               .placeholder="${this.placeholder || ''}"
               .value="${this.value}"
               aria-invalid="${this.error ? 'true' : nothing}"
-              aria-describedby="${this._descId}"
+              aria-describedby="${describedBy}"
               name="${this.name || nothing}"
               @input="${this._onInput}"
             />`}
-        <div id="${this._descId}" class="input-description" aria-live="polite" aria-atomic="true">
+        <div id="${this._errorId}" class="input-error-live" role="alert" aria-live="polite" aria-atomic="true">
           ${this.error ? html`<span class="input-error-message">${this.error}</span>` : nothing}
-          ${!this.error && this.hint ? html`<span class="input-hint">${this.hint}</span>` : nothing}
         </div>
       </div>
     `;
