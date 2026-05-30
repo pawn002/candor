@@ -8,63 +8,63 @@ type AccessibleTextColor = 'primary' | 'secondary' | 'disabled' | 'error';
 @customElement('candor-accessible-text')
 export class CandorAccessibleText extends LitElement {
   static override styles = css`
-    :host { display: inline; font-family: var(--font-family-accessible); }
-    .accessible-text {
+    :host {
+      display: inline;
       font-family: var(--font-family-accessible);
       font-weight: var(--font-weight-regular);
       line-height: var(--line-height-normal);
+      color: var(--color-text-default);
     }
+
     /* Role variants */
-    .accessible-text--role-label {
+    :host([role_="label"]) {
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold);
       letter-spacing: var(--letter-spacing-wide);
       text-transform: uppercase;
       line-height: var(--line-height-tight);
     }
-    .accessible-text--role-message {
+    :host([role_="message"]) {
       font-size: var(--font-size-md);
       letter-spacing: 0.02em;
       line-height: var(--line-height-normal);
     }
-    .accessible-text--role-status {
+    :host([role_="status"]) {
       font-size: var(--font-size-sm);
       letter-spacing: 0.02em;
       line-height: var(--line-height-tight);
     }
-    .accessible-text--role-annotation {
+    :host([role_="annotation"]) {
       font-size: var(--font-size-sm);
       letter-spacing: 0.02em;
       line-height: var(--line-height-relaxed);
       font-style: italic;
     }
-    /* Size overrides win over role sizes (cascade order) */
-    .accessible-text--size-sm { font-size: var(--font-size-sm); }
-    .accessible-text--size-md { font-size: var(--font-size-md); }
-    .accessible-text--size-lg { font-size: var(--font-size-lg); }
+
+    /* Size overrides — higher specificity via two attribute selectors wins over role */
+    :host([role_][size="sm"]) { font-size: var(--font-size-sm); }
+    :host([role_][size="md"]) { font-size: var(--font-size-md); }
+    :host([role_][size="lg"]) { font-size: var(--font-size-lg); }
+
     /* Color variants */
-    .accessible-text--color-primary   { color: var(--color-text-default); }
-    .accessible-text--color-secondary { color: var(--color-text-subtle); }
-    .accessible-text--color-disabled  { color: var(--color-text-disabled); }
-    .accessible-text--color-error     { color: var(--color-status-error-text); }
+    :host([color="primary"])   { color: var(--color-text-default); }
+    :host([color="secondary"]) { color: var(--color-text-subtle); }
+    :host([color="disabled"])  { color: var(--color-text-disabled); }
+    :host([color="error"])     { color: var(--color-status-error-text); }
+
     /* Bold modifier */
-    .accessible-text--bold { font-weight: var(--font-weight-bold); }
+    :host([bold]) { font-weight: var(--font-weight-bold); }
+
+    .accessible-text { display: contents; }
   `;
 
   @property({ reflect: true }) role_: AccessibleTextRole = 'label';
   @property({ reflect: true }) size?: AccessibleTextSize;
   @property({ reflect: true }) color: AccessibleTextColor = 'primary';
-  @property({ type: Boolean }) bold = false;
+  @property({ type: Boolean, reflect: true }) bold = false;
 
   override render() {
-    const cls = [
-      'accessible-text',
-      `accessible-text--role-${this.role_}`,
-      this.size ? `accessible-text--size-${this.size}` : '',
-      `accessible-text--color-${this.color}`,
-      this.bold ? 'accessible-text--bold' : '',
-    ].filter(Boolean).join(' ');
-    return html`<span class="${cls}"><slot></slot></span>`;
+    return html`<span class="accessible-text"><slot></slot></span>`;
   }
 }
 
