@@ -9,6 +9,8 @@ const meta: Meta = {
         component: `
 **Atkinson Hyperlegible** — the designated typeface for instructional UI text.
 
+Use \`<candor-accessible-text>\` to apply Atkinson with automatic role-based sizing, tracking, and color.
+
 ### Instruction vs. comprehension
 
 The core authoring decision is not "is this text important?" — all text in a well-designed UI is important. The question is: **does the user need to read this precisely to know what to do next?**
@@ -17,12 +19,14 @@ The core authoring decision is not "is this text important?" — all text in a w
 - **Use Roboto Flex** (\`--font-family-base\`) for comprehension text: data values, classification results, section headings that organise data, body prose. The user reads these to form a judgment, not to follow an instruction.
 
 \`\`\`html
-<!-- ✓ Instructional — user must read this to know what to fix -->
+<!-- ✓ Instructional — user must read this precisely to fix their input -->
 <candor-accessible-text role_="status" color="error">Enter a valid National Insurance number.</candor-accessible-text>
 
-<!-- ✗ Comprehension — user reads this to understand data, not to act -->
+<!-- ✗ Wrong — "87% confidence" is a data value the user reads to understand, not to act.
+     The annotation role is for instructional hints (e.g. format guidance), not data values. -->
 <candor-accessible-text role_="annotation">87% confidence</candor-accessible-text>
-<!-- ✓ Correct for comprehension data -->
+
+<!-- ✓ Correct — comprehension data uses Roboto Flex with token styles -->
 <span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">87%</span>
 \`\`\`
 
@@ -43,7 +47,7 @@ The core authoring decision is not "is this text important?" — all text in a w
 
 ### Bold rule
 
-**Bold is for hierarchy, not urgency.** \`role="label"\` always renders bold. Do not set \`bold\` on \`role="status"\` for error states — the error color carries the urgency signal. Bold on top of error color reads as double-emphasis and disrupts hierarchy.
+**Bold is for hierarchy, not urgency.** \`role_="label"\` always renders bold. Do not set \`bold\` on \`role="status"\` for error states — the error color carries the urgency signal. Bold on top of error color reads as double-emphasis and disrupts hierarchy.
 
 \`\`\`html
 <!-- ✓ Regular for status — color carries urgency -->
