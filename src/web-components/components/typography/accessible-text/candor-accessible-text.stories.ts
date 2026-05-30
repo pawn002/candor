@@ -116,15 +116,15 @@ export const FontComparison: Story = {
   render: () => ({
     template: `
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
-        <div style="display:flex;flex-direction:column;gap:0.75rem;">
-          <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Roboto Flex</p>
-          <candor-text variant="label" size="sm" bold>FORM LABEL</candor-text>
-          <candor-text variant="body" size="md">The quick brown fox jumps over the lazy dog.</candor-text>
-          <candor-text variant="caption" size="sm" color="secondary">Supplementary annotation for context.</candor-text>
-          <candor-text variant="body" size="sm" color="secondary">Error: This field is required.</candor-text>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;font-family:var(--font-family-base);">
+          <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Roboto Flex</p>
+          <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;line-height:var(--line-height-tight);">FORM LABEL</span>
+          <span style="font-size:var(--font-size-md);letter-spacing:0.02em;line-height:var(--line-height-normal);">The quick brown fox jumps over the lazy dog.</span>
+          <span style="font-size:var(--font-size-sm);letter-spacing:0.02em;line-height:var(--line-height-relaxed);font-style:italic;color:var(--color-text-subtle);">Supplementary annotation for context.</span>
+          <span style="font-size:var(--font-size-sm);letter-spacing:0.02em;line-height:var(--line-height-tight);color:var(--color-status-error-text);">Error: This field is required.</span>
         </div>
         <div style="display:flex;flex-direction:column;gap:0.75rem;">
-          <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible</p>
+          <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible</p>
           <candor-accessible-text role_="label" bold>FORM LABEL</candor-accessible-text>
           <candor-accessible-text role_="message">The quick brown fox jumps over the lazy dog.</candor-accessible-text>
           <candor-accessible-text role_="annotation" color="secondary">Supplementary annotation for context.</candor-accessible-text>
@@ -173,19 +173,19 @@ export const AllRoles: Story = {
     template: `
       <div style="display:flex;flex-direction:column;gap:1.5rem;">
         <div style="display:flex;flex-direction:column;gap:0.25rem;">
-          <p style="font-size:0.7rem;color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="label"</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="label"</p>
           <candor-accessible-text role_="label">Section Title / Form Field Label</candor-accessible-text>
         </div>
         <div style="display:flex;flex-direction:column;gap:0.25rem;">
-          <p style="font-size:0.7rem;color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="message"</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="message"</p>
           <candor-accessible-text role_="message">System message: Your request has been received and is being processed. You will receive a confirmation email shortly.</candor-accessible-text>
         </div>
         <div style="display:flex;flex-direction:column;gap:0.25rem;">
-          <p style="font-size:0.7rem;color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="status"</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="status"</p>
           <candor-accessible-text role_="status" color="error">✕ Validation failed — 3 fields require attention</candor-accessible-text>
         </div>
         <div style="display:flex;flex-direction:column;gap:0.25rem;">
-          <p style="font-size:0.7rem;color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="annotation"</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="annotation"</p>
           <candor-accessible-text role_="annotation" color="secondary">This information is collected under the Data Protection Act 2018. Your data will not be shared with third parties without your consent.</candor-accessible-text>
         </div>
       </div>
