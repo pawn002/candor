@@ -8,7 +8,7 @@ type AccessibleTextColor = 'primary' | 'secondary' | 'disabled' | 'error';
 @customElement('candor-accessible-text')
 export class CandorAccessibleText extends LitElement {
   static override styles = css`
-    :host { display: inline; }
+    :host { display: inline; font-family: var(--font-family-accessible); }
     .accessible-text {
       font-family: var(--font-family-accessible);
       font-weight: var(--font-weight-regular);
