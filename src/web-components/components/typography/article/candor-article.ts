@@ -1,8 +1,7 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-const sheet = new CSSStyleSheet();
-sheet.replaceSync(`
+const articleStyles = `
   candor-article {
     display: block;
     max-width: 65ch;
@@ -158,9 +157,16 @@ sheet.replaceSync(`
   candor-article table tbody tr:last-child td {
     border-bottom: none;
   }
-`);
+`;
 
-document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+// Inject via <style> element rather than adoptedStyleSheets — Chrome does not
+// apply :visited rules from constructable stylesheets.
+if (!document.getElementById('candor-article-styles')) {
+  const styleEl = document.createElement('style');
+  styleEl.id = 'candor-article-styles';
+  styleEl.textContent = articleStyles;
+  document.head.appendChild(styleEl);
+}
 
 // Light DOM — disables Shadow DOM so prose styles reach slotted content,
 // equivalent to Angular's ViewEncapsulation.None.
