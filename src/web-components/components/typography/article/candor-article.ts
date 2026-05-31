@@ -32,7 +32,7 @@ sheet.replaceSync(`
   candor-article h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); }
   candor-article h4 { font-size: var(--font-size-h4); }
   candor-article h5 { font-size: var(--font-size-base); margin-top: var(--spacing-lg); }
-  candor-article h6 { font-size: 0.875rem; margin-top: var(--spacing-md); }
+  candor-article h6 { font-size: var(--font-size-sm); margin-top: var(--spacing-md); }
 
   candor-article p { margin-bottom: var(--spacing-md); }
   candor-article p:last-child { margin-bottom: 0; }
@@ -65,7 +65,7 @@ sheet.replaceSync(`
 
   candor-article pre {
     font-family: var(--font-family-mono);
-    font-size: 0.875rem;
+    font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
     background-color: var(--color-bg-code);
     color: var(--color-text-code);

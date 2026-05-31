@@ -16,7 +16,7 @@ returns \`this\`) so global prose styles reach projected children — equivalent
 
 **The rule:** content that originates from a human author or a generative AI model uses
 **Noto Serif** (\`font="serif"\`, the default). Content that is UI infrastructure —
-navigation, settings, system messages, help text — uses **Noto Sans** or Roboto Flex.
+navigation, settings, system messages, help text — uses **Noto Sans** (\`font="sans"\`).
 
 The distinction is cognitive context, not visual preference:
 
@@ -120,7 +120,7 @@ const codeArticleContent = `
   </ol>
 `;
 
-export const Serif: Story = {};
+export const Default: Story = {};
 
 export const SansSerif: Story = {
   args: { font: 'sans' },
