@@ -12,6 +12,7 @@ export class CandorButton extends LitElement {
     .button {
       font-family: var(--font-family-base);
       font-weight: var(--font-weight-medium);
+      font-optical-sizing: auto;
       border: none;
       border-radius: var(--radius-md);
       cursor: pointer;

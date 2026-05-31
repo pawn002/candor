@@ -27,12 +27,6 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const Primary: Story = { args: { variant: 'primary' } };
-export const Secondary: Story = { args: { variant: 'secondary', size: 'medium' }, render: () => ({ template: `<candor-button variant="secondary" size="medium">Export</candor-button>` }) };
-export const Tertiary: Story = { args: { variant: 'tertiary', size: 'medium' }, render: () => ({ template: `<candor-button variant="tertiary" size="medium">Learn more</candor-button>` }) };
-export const Ghost: Story = { args: { variant: 'ghost', size: 'medium' }, render: () => ({ template: `<candor-button variant="ghost" size="medium">Cancel</candor-button>` }) };
-export const Destructive: Story = { args: { variant: 'destructive', size: 'medium' }, render: () => ({ template: `<candor-button variant="destructive" size="medium">Delete</candor-button>` }) };
-
 export const AllVariants: Story = {
   render: () => ({
     template: `
