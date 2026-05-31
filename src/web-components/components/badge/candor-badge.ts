@@ -20,7 +20,7 @@ export class CandorBadge extends LitElement {
       line-height: var(--line-height-tight);
     }
     .badge--sm { font-size: var(--font-size-sm); padding: 0.2rem 0.5rem; }
-    .badge--md { font-size: var(--font-size-sm); padding: 0.25rem 0.65rem; }
+    .badge--md { font-size: var(--font-size-md); padding: 0.25rem 0.65rem; }
     .badge--default   { background-color: var(--color-bg-surface); color: var(--color-text-subtle-on-surface); }
     .badge--primary   { background-color: var(--color-action-primary); color: var(--color-text-on-action); }
     .badge--secondary { background-color: var(--color-action-secondary); color: var(--color-text-on-action); }
