@@ -45,6 +45,8 @@ readers announce error/warning content automatically when the element appears.
 export default meta;
 type Story = StoryObj;
 
+export const Default: Story = {};
+
 export const Info: Story = {
   args: { variant: 'info', message: 'Your session will expire in 10 minutes.' },
 };
