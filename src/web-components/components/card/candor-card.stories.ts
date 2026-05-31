@@ -87,20 +87,6 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const Elevated: Story = {
-  args: { variant: 'elevated', padding: 'md' },
-  render: () => ({
-    template: `<candor-card variant="elevated" padding="md"><p style="margin:0">This is an elevated card with a shadow to create visual hierarchy.</p></candor-card>`,
-  }),
-};
-
-export const Outlined: Story = {
-  args: { variant: 'outlined', padding: 'md' },
-  render: () => ({
-    template: `<candor-card variant="outlined" padding="md"><p style="margin:0">This is an outlined card with a border for subtle separation.</p></candor-card>`,
-  }),
-};
-
 export const WithHeaderAndFooter: Story = {
   render: () => ({
     template: `
@@ -137,7 +123,7 @@ export const AllVariants: Story = {
 export const CardGrid: Story = {
   render: () => ({
     template: `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:48rem;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1.5rem;max-width:48rem;">
         <candor-card variant="default" padding="md">
           <div slot="header">Default</div>
           <p style="margin:0">Surface background, no border, no shadow.</p>
