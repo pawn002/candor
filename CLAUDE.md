@@ -255,6 +255,30 @@ Atkinson Hyperlegible requires positive letter-spacing to prevent glyph clusteri
 
 **Never use `letter-spacing: 0` or `--letter-spacing-normal` with Atkinson** — always apply positive tracking.
 
+### candor-article: font and justify attributes
+
+`<candor-article>` is the long-form prose component. Its two attributes:
+
+- **`font="serif"` (default)** — Noto Serif. For human-authored or AI-generated articles, reports, editorial content, and deliberation summaries. Same font for both human and AI prose — the serif register signals "produced artifact, read carefully."
+- **`font="sans"`** — Noto Sans. For UI paragraphs that require sentence-by-sentence reading but aren't authored content: help documentation, onboarding, release notes.
+- **`justify`** — Full justification + hyphenation for `<p>` elements. **Required for AI-generated prose.** See below.
+
+#### The `justify` attribute — AI transparency feature
+
+```html
+<candor-article font="serif" justify lang="en">
+  <p>AI-generated content here.</p>
+</candor-article>
+```
+
+Full justification creates clean block edges — a typographic register associated with formal produced documents. Human-authored prose has a natural ragged right edge. This visual distinction allows readers to identify AI output **immediately and without labels** in critical workflows.
+
+This is a **systems transparency feature**, not a stylistic preference. In high-stakes contexts (planning decisions, medical summaries, legal briefs), users must never have to read carefully to determine whether content was produced by a human or a model. The typographic register makes the distinction automatic and ambient. It also aligns with the spirit of EU AI Act Article 52 disclosure requirements — a persistent designed-in transparency mechanism rather than a pop-up checkbox.
+
+**The formal register does not make AI feel cold.** Content tone is a separate axis from typographic register. AI output can be written warmly; the justification signals origin, not personality.
+
+**Requirements:** Always set `lang="en"` (or the appropriate BCP 47 tag) on the element or an ancestor — `hyphens: auto` requires this to look up hyphenation dictionaries. Justification applies to `<p>` only; headings remain left-aligned.
+
 ### Text Size Floor
 
 No readable text in the system should fall below **14px** (`--font-size-sm` = `0.875rem`). This is enforced at the primitive token level. `--text-xs` (12px) is for decorative/non-text use only (icons, badges chrome).

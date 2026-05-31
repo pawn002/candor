@@ -159,6 +159,14 @@ const articleStyles = `
   candor-article table tbody tr:last-child td {
     border-bottom: none;
   }
+
+  /* justify attribute — full justification for AI-generated or formal document prose.
+     Applies only to paragraphs; headings remain left-aligned.
+     Requires lang attribute on the element or an ancestor for hyphenation to work. */
+  candor-article[justify] p {
+    text-align: justify;
+    hyphens: auto;
+  }
 `;
 
 // Inject via <style> element rather than adoptedStyleSheets — Chrome does not
@@ -175,6 +183,7 @@ if (!document.getElementById('candor-article-styles')) {
 @customElement('candor-article')
 export class CandorArticle extends LitElement {
   @property({ reflect: true }) font: 'serif' | 'sans' = 'serif';
+  @property({ type: Boolean, reflect: true }) justify = false;
 
   override createRenderRoot() { return this; }
 
