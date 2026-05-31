@@ -218,8 +218,9 @@ export const WithRichContent: Story = {
         </thead>
         <tbody>
           <tr><td>Roboto Flex</td><td>Display / headings</td><td>opsz, wght, wdth, GRAD</td><td>16px</td></tr>
-          <tr><td>Noto Sans</td><td>Long-form reading</td><td>wght</td><td>16px</td></tr>
-          <tr><td>Atkinson Hyperlegible</td><td>Critical UI text</td><td>—</td><td>14px</td></tr>
+          <tr><td>Noto Serif</td><td>Authored prose</td><td>wght</td><td>16px</td></tr>
+          <tr><td>Noto Sans</td><td>UI paragraphs</td><td>wght</td><td>16px</td></tr>
+          <tr><td>Atkinson Hyperlegible</td><td>Instructional UI text</td><td>—</td><td>14px</td></tr>
           <tr><td>Roboto Mono</td><td>Code</td><td>—</td><td>14px</td></tr>
         </tbody>
       </table>

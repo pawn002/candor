@@ -135,6 +135,7 @@ const articleStyles = `
     width: 100%;
     border-collapse: collapse;
     margin-bottom: var(--spacing-md);
+    font-family: var(--font-family-base);
   }
   candor-article table th,
   candor-article table td {
