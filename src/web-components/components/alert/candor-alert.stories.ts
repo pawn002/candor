@@ -110,12 +110,17 @@ export const Dismissible: Story = {
 export const InlineFormValidation: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:1rem;max-width:480px;">
-        <div>
-          <label for="story-email" style="display:block;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;color:var(--color-text-subtle);margin-bottom:0.5rem;">Email address</label>
-          <input id="story-email" type="email" value="notanemail" style="display:block;width:100%;padding:var(--spacing-sm);border:2px solid var(--color-status-error);border-radius:var(--radius-md);font-family:var(--font-family-accessible);font-size:var(--font-size-md);background:var(--color-bg-page);color:var(--color-text-default);box-sizing:border-box;" aria-describedby="email-error" aria-invalid="true" />
-        </div>
-        <candor-alert id="email-error" variant="error" message="Enter a valid email address, for example name@example.com."></candor-alert>
+      <div style="padding:var(--spacing-md);max-width:480px;">
+        <candor-card variant="outlined">
+          <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Error — invalid input</p>
+          <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
+            <div>
+              <label for="story-email" style="display:block;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;color:var(--color-text-subtle);margin-bottom:0.5rem;">Email address</label>
+              <input id="story-email" type="email" value="notanemail" style="display:block;width:100%;padding:var(--spacing-sm);border:2px solid var(--color-status-error);border-radius:var(--radius-md);font-family:var(--font-family-accessible);font-size:var(--font-size-md);background:var(--color-bg-page);color:var(--color-text-default);box-sizing:border-box;" aria-describedby="email-error" aria-invalid="true" />
+            </div>
+            <candor-alert id="email-error" variant="error" message="Enter a valid email address, for example name@example.com."></candor-alert>
+          </div>
+        </candor-card>
       </div>
     `,
   }),
