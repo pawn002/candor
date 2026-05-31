@@ -144,7 +144,7 @@ export class CandorDataGrid extends LitElement {
   `;
 
   @property() caption = '';
-  @property({ type: Array }) columnHeaders: string[] = [];
+  @property({ type: Array, attribute: 'column-headers' }) columnHeaders: string[] = [];
   @property({ type: Array }) rows: GridRow[] = [];
   @property({ type: Boolean, reflect: true, attribute: 'hide-headers' }) hideHeaders = false;
   @property({ type: Boolean, attribute: 'show-labels' }) showLabels = false;

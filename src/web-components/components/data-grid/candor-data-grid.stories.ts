@@ -94,19 +94,19 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    template: `<candor-data-grid caption="Heat map" columnheaders='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
+    template: `<candor-data-grid caption="Heat map" column-headers='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
   }),
 };
 
 export const ShowLabels: Story = {
   render: () => ({
-    template: `<candor-data-grid caption="Heat map" show-labels columnheaders='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
+    template: `<candor-data-grid caption="Heat map" show-labels column-headers='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
   }),
 };
 
 export const HideHeaders: Story = {
   render: () => ({
-    template: `<candor-data-grid caption="Heat map" hide-headers columnheaders='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
+    template: `<candor-data-grid caption="Heat map" hide-headers column-headers='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
   }),
 };
 
@@ -114,6 +114,6 @@ export const TokenSwatch: Story = {
   name: 'Token Swatch Grid',
   parameters: { controls: { disable: true } },
   render: () => ({
-    template: `<candor-data-grid caption="Design token colors" show-labels columnheaders='${TOKEN_HEADERS}' rows='${TOKEN_ROWS}'></candor-data-grid>`,
+    template: `<candor-data-grid caption="Design token colors" show-labels column-headers='${TOKEN_HEADERS}' rows='${TOKEN_ROWS}'></candor-data-grid>`,
   }),
 };
