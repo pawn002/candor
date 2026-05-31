@@ -24,8 +24,10 @@ headings, dashboard panels.
 | h2 | \`--font-size-h2\` | ~32px |
 | h3 | \`--font-size-h3\` | ~25px |
 | h4 | \`--font-size-h4\` | ~20px |
-| h5 | \`--font-size-h5\` | ~16px |
-| h6 | \`--font-size-h6\` | ~13px |
+| h5 | \`--font-size-h5\` | 16px |
+| h6 | \`--font-size-h6\` | 14px |
+
+**h6** follows the Major Third scale to ~13px but is floored at \`--font-size-sm\` (14px) — Candor's minimum for any readable text.
 
 ---
 
@@ -70,17 +72,10 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const H1: Story = { args: { level: 'h1' } };
-export const H2: Story = { args: { level: 'h2' } };
-export const H3: Story = { args: { level: 'h3' } };
-export const H4: Story = { args: { level: 'h4' } };
-export const H5: Story = { args: { level: 'h5' } };
-export const H6: Story = { args: { level: 'h6' } };
-
 export const AllHeadings: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);">
         <candor-heading level="h1">The Case for Slower Reading</candor-heading>
         <candor-heading level="h2">What Slow Reading Actually Means</candor-heading>
         <candor-heading level="h3">The Neuroscience of Attention</candor-heading>
@@ -95,7 +90,7 @@ export const AllHeadings: Story = {
 export const ColorVariants: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
         <candor-heading level="h2" color="primary">Primary Color</candor-heading>
         <candor-heading level="h2" color="secondary">Secondary Color</candor-heading>
         <candor-heading level="h2" color="disabled">Disabled Color</candor-heading>
