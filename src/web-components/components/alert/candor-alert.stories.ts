@@ -89,10 +89,19 @@ export const Dismissible: Story = {
   parameters: { controls: { disable: true } },
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:1rem;max-width:560px;">
-        <candor-alert variant="info" heading="New feature available" message="You can now export your data as CSV from the settings page." dismissible></candor-alert>
-        <candor-alert variant="warning" heading="Unsaved changes" message="You have unsaved changes that will be lost if you navigate away." dismissible></candor-alert>
-        <candor-alert variant="error" heading="Subscription expired" message="Your plan has expired. Renew to restore access to all features." dismissible></candor-alert>
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:560px;padding:var(--spacing-md);">
+        <candor-card variant="outlined">
+          <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Info</p>
+          <candor-alert variant="info" heading="New feature available" message="You can now export your data as CSV from the settings page." dismissible></candor-alert>
+        </candor-card>
+        <candor-card variant="outlined">
+          <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Warning</p>
+          <candor-alert variant="warning" heading="Unsaved changes" message="You have unsaved changes that will be lost if you navigate away." dismissible></candor-alert>
+        </candor-card>
+        <candor-card variant="outlined">
+          <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Error</p>
+          <candor-alert variant="error" heading="Subscription expired" message="Your plan has expired. Renew to restore access to all features." dismissible></candor-alert>
+        </candor-card>
       </div>
     `,
   }),
