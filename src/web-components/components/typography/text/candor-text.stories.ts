@@ -61,32 +61,32 @@ export const Sizes: Story = {
     template: `
       <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
         <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
-          <candor-text variant="label" size="xs" color="secondary" style="min-width:7ch;">xs · 12px</candor-text>
+          <candor-text variant="label" size="xs" color="secondary" style="min-width:10ch;">xs · 12px</candor-text>
           <candor-text variant="body" size="xs">Decorative only — icons, badge chrome, non-readable metadata.</candor-text>
         </div>
         <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
-          <candor-text variant="label" size="xs" color="secondary" style="min-width:7ch;">sm · 14px</candor-text>
+          <candor-text variant="label" size="xs" color="secondary" style="min-width:10ch;">sm · 14px</candor-text>
           <candor-text variant="body" size="sm">System floor for readable text. Dense UI, captions, secondary prose.</candor-text>
         </div>
         <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
-          <candor-text variant="label" size="xs" color="secondary" style="min-width:7ch;">md · 16px</candor-text>
+          <candor-text variant="label" size="xs" color="secondary" style="min-width:10ch;">md · 16px</candor-text>
           <candor-text variant="body" size="md">Default body size. Comfortable baseline for sustained reading.</candor-text>
         </div>
         <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
-          <candor-text variant="label" size="xs" color="secondary" style="min-width:7ch;">lg · 20px</candor-text>
+          <candor-text variant="label" size="xs" color="secondary" style="min-width:10ch;">lg · 20px</candor-text>
           <candor-text variant="body" size="lg">Intro paragraphs, pull quotes, lead text above an article.</candor-text>
         </div>
         <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
-          <candor-text variant="label" size="xs" color="secondary" style="min-width:7ch;">xl · 25px</candor-text>
-          <candor-text variant="body" size="xl">Large display text. Prefer HeadingComponent for structural headings.</candor-text>
+          <candor-text variant="label" size="xs" color="secondary" style="min-width:10ch;">xl · 25px</candor-text>
+          <candor-text variant="body" size="xl">Large display text. Prefer &lt;candor-heading&gt; for structural headings.</candor-text>
         </div>
         <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
-          <candor-text variant="label" size="xs" color="secondary" style="min-width:7ch;">2xl · 31px</candor-text>
-          <candor-text variant="body" size="2xl">Display scale — use HeadingComponent (h2) for semantic heading use.</candor-text>
+          <candor-text variant="label" size="xs" color="secondary" style="min-width:10ch;">2xl · 31px</candor-text>
+          <candor-text variant="body" size="2xl">Display scale — use &lt;candor-heading&gt; (h2) for semantic heading use.</candor-text>
         </div>
         <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
-          <candor-text variant="label" size="xs" color="secondary" style="min-width:7ch;">3xl · 39px</candor-text>
-          <candor-text variant="body" size="3xl">Hero display — use HeadingComponent (h1) for semantic heading use.</candor-text>
+          <candor-text variant="label" size="xs" color="secondary" style="min-width:10ch;">3xl · 39px</candor-text>
+          <candor-text variant="body" size="3xl">Hero display — use &lt;candor-heading&gt; (h1) for semantic heading use.</candor-text>
         </div>
       </div>
     `,
