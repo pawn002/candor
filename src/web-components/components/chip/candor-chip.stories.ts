@@ -48,19 +48,6 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const SelectableSelected: Story = {
-  args: { label: 'TypeScript', variant: 'primary', selectable: true, selected: true },
-};
-
-export const Link: Story = {
-  args: { label: 'Accessibility', variant: 'default' },
-  render: () => ({ template: `<candor-chip label="Accessibility" link-href="/tags/accessibility/"></candor-chip>` }),
-};
-
-export const Disabled: Story = {
-  args: { label: 'Unavailable', variant: 'default', selectable: true, disabled: true },
-};
-
 export const Selectable: Story = {
   render: () => ({
     template: `
