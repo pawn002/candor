@@ -14,8 +14,8 @@ export class CandorText extends LitElement {
       line-height: var(--line-height-relaxed);
       color: var(--color-text-default);
     }
-    .text--body    { font-family: var(--font-family-serif); }
-    .text--caption { font-family: var(--font-family-serif); font-style: italic; letter-spacing: 0.03em; }
+    .text--body    { font-family: var(--font-family-reading); }
+    .text--caption { font-family: var(--font-family-reading); font-style: italic; letter-spacing: var(--letter-spacing-italic); }
     .text--label   { font-family: var(--font-family-base); font-weight: var(--font-weight-regular); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; line-height: var(--line-height-tight); }
     .text--size-xs  { font-size: var(--font-size-xs); }
     .text--size-sm  { font-size: var(--font-size-sm); }
