@@ -12,26 +12,24 @@ lists, blockquotes, code, tables, figures). Uses **light DOM** (\`createRenderRo
 returns \`this\`) so global prose styles reach projected children — equivalent to Angular's
 \`ViewEncapsulation.None\`.
 
-## Serif vs. sans — which font and when
+## Three fonts, three reading contexts
 
-**The rule:** content that originates from a human author or a generative AI model uses
-**Noto Serif** (\`font="serif"\`, the default). Content that is UI infrastructure —
-navigation, settings, system messages, help text — uses **Noto Sans** (\`font="sans"\`).
+Candor uses three typefaces, each matched to a distinct reading situation:
 
-The distinction is cognitive context, not visual preference:
+| Font | Token | Context | Reading mode |
+|---|---|---|---|
+| Roboto Flex | \`--font-family-base\` | UI elements — labels, data values, buttons, navigation | Scanning individual items |
+| Noto Sans | \`--font-family-reading\` (\`font="sans"\`) | UI paragraphs — help docs, onboarding, release notes | Reading sentence by sentence, but not authored prose |
+| Noto Serif | \`--font-family-serif\` (\`font="serif"\`, default) | Authored prose — human or AI-generated articles, reports, editorial | Sustained reading; slows toward reflection |
 
-| Context | Font | Why |
-|---|---|---|
-| AI-generated summaries, reports, deliberation content | Noto Serif (\`serif\`) | Signals authored content; slows reading toward reflection |
-| Human-authored articles, editorial prose | Noto Serif (\`serif\`) | Same — human and AI prose share the reading frame |
-| Help documentation, release notes, policy text | Noto Serif (\`serif\`) | Sustained reading; benefits from serif rhythm |
-| In-app explanatory copy, onboarding text | Noto Sans (\`sans\`) | Brief, scanning context; utility not reading |
+**The key distinctions:**
 
-**The signal serif sends:** In AI-assisted applications, displaying AI-generated content in
-Noto Serif visually communicates "this is a produced artifact — read it, don't scan it."
+- **Roboto Flex vs Noto Sans** — individual items vs paragraph blocks. Use Roboto Flex for single values, labels, and short UI copy. Switch to Noto Sans when the reader needs to move through multiple sentences in sequence. Noto Sans also carries broader glyph coverage for multilingual products.
+- **Noto Sans vs Noto Serif** — UI infrastructure vs authored content. Help text exists to support the UI; an article exists as a produced artifact. Serif signals "read this carefully" — the same signal for human and AI-generated prose.
 
-**Headings always use Roboto Flex** regardless of the \`font\` attribute. Only the body
-paragraph typeface changes.
+**The signal serif sends:** In AI-assisted applications, displaying AI output in Noto Serif visually communicates "this is a produced artifact — read it, don't scan it." Noto Sans communicates "this is the product explaining itself."
+
+**Headings always use Roboto Flex** regardless of the \`font\` attribute. Only body paragraph typeface changes.
         `.trim(),
       },
     },
