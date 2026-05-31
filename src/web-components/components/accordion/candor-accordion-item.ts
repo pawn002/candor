@@ -17,9 +17,9 @@ export class CandorAccordionItem extends LitElement {
     .accordion-item__summary:hover { color: var(--color-action-primary); }
     .accordion-item__summary:focus { outline: none; }
     .accordion-item__summary:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: 2px; border-radius: var(--radius-sm); }
-    .accordion-item__title { font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-bold); line-height: var(--line-height-tight); flex: 1; }
+    .accordion-item__title { font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-bold); font-optical-sizing: auto; line-height: var(--line-height-tight); flex: 1; }
     .accordion-item__title--subtle { font-weight: var(--font-weight-regular); color: var(--color-text-subtle); }
-    .accordion-item__title--quiet { font-weight: var(--font-weight-bold); font-size: var(--font-size-sm); color: var(--color-text-subtle); }
+    .accordion-item__title--quiet { font-weight: 500; font-size: var(--font-size-sm); color: var(--color-text-subtle); font-variation-settings: 'GRAD' -150; }
     .accordion-item__chevron { width: 1rem; height: 1rem; flex-shrink: 0; color: var(--color-text-subtle-on-surface); transition: transform 0.22s ease; }
     details[open] .accordion-item__chevron { transform: rotate(180deg); }
     .accordion-item__panel { display: grid; grid-template-rows: 1fr; }

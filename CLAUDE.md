@@ -303,13 +303,14 @@ Contrast requirements have **two axes**: font size and use-case tier. **Never ap
 |---|---|---|---|---|
 | **1 — Reading** | Sequential decoding — must read to act | **9.5** | **6.5** | Alert body, toast message, modal prose, form error messages, article body |
 | **2 — Functional UI** | Recognition — sole channel for meaning | **6.5** | **4.5** | Pagination numbers, breadcrumb links, table cell data, chip labels, button labels |
-| **3 — Supplementary** | Pattern match — meaning redundantly coded | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata, breadcrumb separators, pagination ellipsis |
+| **3 — Supplementary** | Pattern match — meaning redundantly coded | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata, breadcrumb separators, pagination ellipsis, accordion quiet headings (wght 500 — structural nesting is the redundant channel) |
 
 **Key audit rules:**
 - `--color-text-subtle` (OKCA 4.6 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
-- Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight**, not a color change or size bump.
+- Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight (wght ≥ 700)**, not a color change or size bump.
 - Tier 1 failures at 14px are genuine and typically require bumping to 16px (e.g. alert body, toast).
 - Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position) — it is assigned by the system, not a consumer opt-in.
+- **Variable font weight axis**: "bold" means `wght ≥ 700`. Non-`wght` axes — `GRAD`, `opsz`, `wdth` — affect perceived stroke weight visually but do not change the compliance column. A component at `font-weight: 500` with `GRAD: -150` is regular for compliance purposes regardless of visual appearance.
 
 ## Responsive Layout Patterns
 

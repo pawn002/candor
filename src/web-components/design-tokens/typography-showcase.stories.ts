@@ -123,8 +123,8 @@ const sizeRampRows = [
 const tierHeaders = ['Tier', 'Perceptual task', '14px regular', '14px bold', 'Candor components'];
 const tierRows = [
   { cells: ['1 — Reading', 'Sequential decoding — must read to act', '9.5', '6.5', 'Toast message, alert body, modal prose, form error messages, article inline text'] },
-  { cells: ['2 — Functional UI', 'Recognition — sole channel for meaning', '6.5', '4.5', 'Breadcrumb links (bold), pagination numbers, table cell data, accordion quiet headings (bold), chip labels'] },
-  { cells: ['3 — Supplementary', 'Pattern match — meaning redundantly coded', '4.5', '4.5', 'Badge text, hint text, breadcrumb separators, pagination ellipsis, stat labels, table metadata'] },
+  { cells: ['2 — Functional UI', 'Recognition — sole channel for meaning', '6.5', '4.5', 'Breadcrumb links (bold), pagination numbers, table cell data, chip labels'] },
+  { cells: ['3 — Supplementary', 'Pattern match — meaning redundantly coded', '4.5', '4.5', 'Badge text, hint text, breadcrumb separators, pagination ellipsis, stat labels, table metadata, accordion quiet headings (wght 500 — structural nesting is the redundant channel)'] },
 ];
 
 const renderContrastGuidance = () => `
@@ -147,10 +147,13 @@ const renderContrastGuidance = () => `
 
     <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
       <candor-alert variant="warning" heading="Tier 2 authoring constraint" style="display: block;"
-        message="--color-text-subtle (OKCA 4.6) fails the 6.5 regular threshold. Functional 14px text using this token must be bold — bold OKCA 4.6 passes the 4.5 bold floor.">
+        message="--color-text-subtle (OKCA 4.6) fails the 6.5 regular threshold. Functional 14px text using this token must be bold (wght ≥ 700) — bold OKCA 4.6 passes the 4.5 bold floor.">
       </candor-alert>
       <candor-alert variant="info" heading="Tier 3 condition" style="display: block;"
         message="Redundancy must be verified per component. Color-alone does not qualify — the redundant channel must be shape, icon, or spatial context so it holds under colorblindness. This tier is assigned by the system; it is not a consumer opt-in.">
+      </candor-alert>
+      <candor-alert variant="info" heading="Variable font weight axis" style="display: block;"
+        message="'Bold' in this table means wght ≥ 700 (the CSS font-weight axis). Non-wght axes — GRAD, opsz, wdth — affect perceived stroke weight visually but do not change the compliance column. A heading at font-weight: 500 with GRAD: -150 is regular for compliance purposes regardless of how it reads on screen.">
       </candor-alert>
     </div>
 
