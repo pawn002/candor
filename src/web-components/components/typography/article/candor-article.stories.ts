@@ -95,23 +95,23 @@ const codeArticleContent = `
   <p>CSS custom properties — often called <em>CSS variables</em> — are one of the most powerful features added to the language in recent years. They allow you to store values in named containers and reuse them throughout your stylesheet.</p>
   <h2>Declaring a Custom Property</h2>
   <p>You declare a custom property on any element using the <code>--property-name</code> syntax. The most common pattern is declaring them on <code>:root</code> to make them globally available:</p>
-  <pre><code>:root {
+  <pre><code>:root &#123;
   --color-primary: oklch(0.27 0.06 245);
   --spacing-md: 1.5rem;
   --font-size-body: 1.25rem;
-}</code></pre>
+&#125;</code></pre>
   <p>You then reference the value anywhere in your CSS using the <code>var()</code> function. The second argument to <code>var()</code> is an optional fallback value:</p>
-  <pre><code>button {
+  <pre><code>button &#123;
   background-color: var(--color-primary);
   padding: var(--spacing-md, 1rem);
   font-size: var(--font-size-body);
-}</code></pre>
+&#125;</code></pre>
   <h2>Scoping and Inheritance</h2>
   <p>Custom properties follow the CSS cascade. A property declared on a parent element is inherited by its descendants, which makes <strong>component-level theming</strong> straightforward:</p>
-  <pre><code>.card--dark {
+  <pre><code>.card--dark &#123;
   --color-primary: oklch(0.65 0.18 250);
   --color-text: oklch(1 0 0);
-}</code></pre>
+&#125;</code></pre>
   <h3>Key Facts</h3>
   <ol>
     <li>Custom properties are <strong>case-sensitive</strong>: <code>--Color</code> ≠ <code>--color</code>.</li>
@@ -123,20 +123,44 @@ const codeArticleContent = `
 export const Default: Story = {};
 
 export const SansSerif: Story = {
-  args: { font: 'sans' },
+  render: () => ({
+    template: `<candor-article font="sans">
+      <h1>Getting started with Candor</h1>
+      <p>Candor is a design system built around three layers: design tokens, Web Components, and an Angular component library. All three consume the same CSS custom properties, so a single token change propagates everywhere.</p>
+      <h2>What's included</h2>
+      <ul>
+        <li><strong>Tokens</strong> — OKLCH colours, spacing scale, and typography in one CSS file.</li>
+        <li><strong>Web Components</strong> — 34 custom elements that work in any framework.</li>
+        <li><strong>Angular components</strong> — Standalone components for teams already on Angular.</li>
+      </ul>
+      <h2>Where to start</h2>
+      <p>If you're new to Candor, begin with the Introduction page. If you're integrating into an existing project, go straight to the token installation guide.</p>
+    </candor-article>`,
+  }),
 };
 
 export const WithCode: Story = {
-  args: { font: 'serif' },
   render: () => ({
     template: `<candor-article font="serif">${codeArticleContent}</candor-article>`,
   }),
 };
 
 export const SansWithCode: Story = {
-  args: { font: 'sans' },
   render: () => ({
-    template: `<candor-article font="sans">${codeArticleContent}</candor-article>`,
+    template: `<candor-article font="sans">
+      <h1>Installing the token package</h1>
+      <p>Add the Candor token layer to your project with a single package. The tokens are distributed as plain CSS — no build step required.</p>
+      <h2>Install</h2>
+      <pre><code>npm install @candor-design/tokens</code></pre>
+      <h2>Import</h2>
+      <p>Add the stylesheet once at your application root:</p>
+      <pre><code>import '@candor-design/tokens/candor-tokens.css';</code></pre>
+      <p>All <code>--candor-*</code> custom properties are now available globally. Components inherit them automatically via the CSS cascade.</p>
+      <h2>Verify</h2>
+      <p>Open any page and run the following in the browser console to confirm the tokens are loaded:</p>
+      <pre><code>getComputedStyle(document.body).getPropertyValue('--color-bg-page')</code></pre>
+      <p>You should see an <code>oklch()</code> value. If the result is empty, check that the stylesheet is included before your application CSS.</p>
+    </candor-article>`,
   }),
 };
 
