@@ -14,10 +14,9 @@ Six color variants map to semantic intent: \`default\` (neutral), \`primary\` (b
 \`secondary\` (supporting), \`success\`, \`warning\`, \`error\`. Two sizes: \`sm\` (14px,
 default) and \`md\` (16px).
 
-**Badge text uses Atkinson Hyperlegible.** The \`sm\` size (14px) uses bold — at 14px bold
-unlocks a lower OKCA threshold and Atkinson only ships in 400 and 700, so bold is the
-correct weight for small labeled elements. The \`md\` size (16px) uses regular — at 16px
-both weights require the same 4.5 contrast floor, so the lighter weight is preferred.
+Both sizes use **Atkinson Hyperlegible**. \`sm\` (14px) is bold — small text needs the
+heavier stroke for legibility and contrast. \`md\` (16px) is regular — the contrast floor
+is identical for both weights at 16px, so the lighter stroke is preferred.
         `.trim(),
       },
     },
