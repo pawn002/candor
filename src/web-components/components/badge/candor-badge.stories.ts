@@ -14,10 +14,10 @@ Six color variants map to semantic intent: \`default\` (neutral), \`primary\` (b
 \`secondary\` (supporting), \`success\`, \`warning\`, \`error\`. Two sizes: \`sm\` (14px,
 default) and \`md\` (16px).
 
-**Badge text uses Atkinson Hyperlegible** at 14px bold. The text label is the primary
-indicator; color variant reinforces it. Bold is appropriate here because it is a structural
-choice — badges are UI labels, not prose — and Atkinson only ships in 400 and 700, so bold
-is the intended weight for small labeled elements.
+**Badge text uses Atkinson Hyperlegible.** The \`sm\` size (14px) uses bold — at 14px bold
+unlocks a lower OKCA threshold and Atkinson only ships in 400 and 700, so bold is the
+correct weight for small labeled elements. The \`md\` size (16px) uses regular — at 16px
+both weights require the same 4.5 contrast floor, so the lighter weight is preferred.
         `.trim(),
       },
     },
