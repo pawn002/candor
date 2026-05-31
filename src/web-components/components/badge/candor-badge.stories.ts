@@ -79,43 +79,48 @@ export const AllSizes: Story = {
 
 export const OrdinalSeverity: Story = {
   name: 'Pattern: Ordinal Severity Scale',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story: `
+Use the existing status token triplets to express ordered severity scales. The label is
+read as a semantic term — Atkinson bold ensures it is legible at small sizes.
+
+**Mapping rule:** low/minor/suggestion → success (green) · medium/moderate/recommendation
+→ warning (amber) · high/critical/fundamental → error (red)
+        `.trim(),
+      },
+    },
+  },
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:2rem;max-width:560px;font-family:var(--font-family-base);">
-        <div>
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:1rem;line-height:var(--line-height-relaxed);">Use the existing status token triplets to express ordered severity scales. The label is read as a semantic term — Atkinson bold ensures it is legible at small sizes.</p>
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:1.5rem;line-height:var(--line-height-relaxed);">
-            <strong style="color:var(--color-text-default);">Mapping rule:</strong>
-            low/minor/suggestion → success (green) ·
-            medium/moderate/recommendation → warning (amber) ·
-            high/critical/fundamental → error (red)
-          </p>
-        </div>
-        <div>
-          <p style="font-size:var(--font-size-xs);letter-spacing:0.08em;text-transform:uppercase;color:var(--color-text-subtle);margin-bottom:0.75rem;">Disagreement severity</p>
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:560px;padding:var(--spacing-md);">
+        <candor-card variant="outlined">
+          <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Disagreement severity</p>
           <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
             <candor-badge variant="success">Minor</candor-badge>
             <candor-badge variant="warning">Moderate</candor-badge>
             <candor-badge variant="error">Fundamental</candor-badge>
           </div>
-        </div>
-        <div>
-          <p style="font-size:var(--font-size-xs);letter-spacing:0.08em;text-transform:uppercase;color:var(--color-text-subtle);margin-bottom:0.75rem;">Security finding severity</p>
+        </candor-card>
+        <candor-card variant="outlined">
+          <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Security finding severity</p>
           <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
             <candor-badge variant="success">Low</candor-badge>
             <candor-badge variant="warning">Medium</candor-badge>
             <candor-badge variant="error">High</candor-badge>
             <candor-badge variant="error">Critical</candor-badge>
           </div>
-        </div>
-        <div>
-          <p style="font-size:var(--font-size-xs);letter-spacing:0.08em;text-transform:uppercase;color:var(--color-text-subtle);margin-bottom:0.75rem;">Audit finding type</p>
+        </candor-card>
+        <candor-card variant="outlined">
+          <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Audit finding type</p>
           <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
             <candor-badge variant="success">Suggestion</candor-badge>
             <candor-badge variant="warning">Recommendation</candor-badge>
             <candor-badge variant="error">Requirement</candor-badge>
           </div>
-        </div>
+        </candor-card>
       </div>
     `,
   }),
