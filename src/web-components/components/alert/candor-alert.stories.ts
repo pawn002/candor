@@ -47,39 +47,32 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const Info: Story = {
-  args: { variant: 'info', message: 'Your session will expire in 10 minutes.' },
-};
-
-export const Success: Story = {
-  args: { variant: 'success', heading: 'Changes saved', message: 'Your profile has been updated successfully.' },
-};
-
-export const Warning: Story = {
-  args: { variant: 'warning', heading: 'Unsaved changes', message: 'You have unsaved changes that will be lost if you navigate away.' },
-};
-
-export const Error: Story = {
-  args: { variant: 'error', heading: 'Submission failed', message: 'There was a problem submitting your form. Please try again.' },
-};
-
-export const Dismissible: Story = {
-  args: {
-    variant: 'info',
-    heading: 'New feature available',
-    message: 'You can now export your data as CSV from the settings page.',
-    dismissible: true,
-  },
-};
-
 export const AllVariants: Story = {
+  parameters: { controls: { disable: true } },
   render: () => ({
     template: `
       <div style="display:flex;flex-direction:column;gap:1rem;max-width:560px;">
-        <candor-alert variant="info" message="This action cannot be undone. Review before continuing."></candor-alert>
+        <candor-alert variant="info" message="Your session will expire in 10 minutes."></candor-alert>
+        <candor-alert variant="info" heading="Scheduled maintenance" message="The system will be unavailable on Sunday from 02:00–04:00 UTC."></candor-alert>
         <candor-alert variant="success" heading="Payment received" message="Your invoice has been paid and a receipt has been sent."></candor-alert>
+        <candor-alert variant="success" message="Changes saved."></candor-alert>
         <candor-alert variant="warning" heading="Storage limit approaching" message="You have used 90% of your allocated storage quota."></candor-alert>
+        <candor-alert variant="warning" message="This action cannot be undone."></candor-alert>
         <candor-alert variant="error" heading="Authentication failed" message="Your session has expired. Please sign in again."></candor-alert>
+        <candor-alert variant="error" message="Something went wrong. Please try again."></candor-alert>
+      </div>
+    `,
+  }),
+};
+
+export const Dismissible: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => ({
+    template: `
+      <div style="display:flex;flex-direction:column;gap:1rem;max-width:560px;">
+        <candor-alert variant="info" heading="New feature available" message="You can now export your data as CSV from the settings page." dismissible></candor-alert>
+        <candor-alert variant="warning" heading="Unsaved changes" message="You have unsaved changes that will be lost if you navigate away." dismissible></candor-alert>
+        <candor-alert variant="error" heading="Subscription expired" message="Your plan has expired. Renew to restore access to all features." dismissible></candor-alert>
       </div>
     `,
   }),
