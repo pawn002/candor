@@ -79,23 +79,14 @@ export const AllSizes: Story = {
 
 export const OrdinalSeverity: Story = {
   name: 'Pattern: Ordinal Severity Scale',
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story: `
-Use the existing status token triplets to express ordered severity scales. The label is
-read as a semantic term — Atkinson bold ensures it is legible at small sizes.
-
-**Mapping rule:** low/minor/suggestion → success (green) · medium/moderate/recommendation
-→ warning (amber) · high/critical/fundamental → error (red)
-        `.trim(),
-      },
-    },
-  },
+  parameters: { controls: { disable: true } },
   render: () => ({
     template: `
       <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:560px;padding:var(--spacing-md);">
+        <div style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);line-height:var(--line-height-relaxed);display:flex;flex-direction:column;gap:var(--spacing-xs);">
+          <p style="margin:0;">Use the existing status token triplets to express ordered severity scales. The label is read as a semantic term — Atkinson bold ensures it is legible at small sizes.</p>
+          <p style="margin:0;"><strong style="color:var(--color-text-default);font-weight:var(--font-weight-semibold);">Mapping rule:</strong> low/minor/suggestion → success (green) · medium/moderate/recommendation → warning (amber) · high/critical/fundamental → error (red)</p>
+        </div>
         <candor-card variant="outlined">
           <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Disagreement severity</p>
           <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
