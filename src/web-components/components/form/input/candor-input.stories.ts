@@ -29,6 +29,7 @@ Emits an \`input-change\` CustomEvent on each keystroke.
   argTypes: {
     label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
     placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder text' },
+    autocomplete: { control: 'text', type: { name: 'string' }, description: 'HTML autocomplete token (e.g. "email", "current-password", "new-password", "name")' },
     hint: { control: 'text', type: { name: 'string' }, description: 'Helper text above the input (below the label); remains visible alongside error' },
     error: { control: 'text', type: { name: 'string' }, description: 'Validation error message shown below the input; displayed alongside hint when both are set' },
     type: {
@@ -50,7 +51,7 @@ Emits an \`input-change\` CustomEvent on each keystroke.
   },
   args: { label: 'Email address', placeholder: 'you@example.com', type: 'email', required: false, disabled: false, multiline: false },
   render: (args) => ({
-    template: `<candor-input label="${args['label']}" placeholder="${args['placeholder']}" type="${args['type']}" error="${args['error'] || ''}" hint="${args['hint'] || ''}" ${args['required'] ? 'required' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['multiline'] ? 'multiline' : ''}></candor-input>`,
+    template: `<candor-input label="${args['label']}" placeholder="${args['placeholder']}" type="${args['type']}" error="${args['error'] || ''}" hint="${args['hint'] || ''}" ${args['autocomplete'] ? `autocomplete="${args['autocomplete']}"` : ''} ${args['required'] ? 'required' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['multiline'] ? 'multiline' : ''}></candor-input>`,
   }),
 };
 
@@ -68,7 +69,7 @@ export const Disabled: Story = {
 };
 
 export const Password: Story = {
-  args: { label: 'Password', type: 'password', placeholder: 'Enter password', hint: 'Must be at least 8 characters' },
+  args: { label: 'Password', type: 'password', placeholder: 'Enter password', hint: 'Must be at least 8 characters', autocomplete: 'current-password' },
 };
 
 export const MultilineWithError: Story = {

@@ -48,6 +48,7 @@ export class CandorInput extends LitElement {
   @property() resize: 'none' | 'vertical' | 'both' = 'vertical';
   @property({ type: Boolean }) disabled = false;
   @property() value = '';
+  @property() autocomplete?: string;
 
   private _id = `candor-input-${Math.random().toString(36).slice(2, 9)}`;
   private _hintId = `${this._id}-hint`;
@@ -97,6 +98,7 @@ export class CandorInput extends LitElement {
               aria-invalid="${this.error ? 'true' : nothing}"
               aria-describedby="${describedBy}"
               name="${this.name || nothing}"
+              autocomplete="${this.autocomplete || nothing}"
               @input="${this._onInput}"
             ></textarea>`
           : html`<input
@@ -110,6 +112,7 @@ export class CandorInput extends LitElement {
               aria-invalid="${this.error ? 'true' : nothing}"
               aria-describedby="${describedBy}"
               name="${this.name || nothing}"
+              autocomplete="${this.autocomplete || nothing}"
               @input="${this._onInput}"
             />`}
         <div id="${this._errorId}" class="input-error-live" role="alert" aria-live="polite" aria-atomic="true">
