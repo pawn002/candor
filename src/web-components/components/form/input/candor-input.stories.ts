@@ -74,7 +74,7 @@ export const Password: Story = {
 };
 
 export const MultilineWithError: Story = {
-  args: { label: 'Description', multiline: true, error: 'Description is required' },
+  args: { label: 'Description', multiline: true, placeholder: '', error: 'Description is required' },
 };
 
 export const MultilineResizeNone: Story = {
