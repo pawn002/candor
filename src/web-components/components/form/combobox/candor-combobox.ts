@@ -100,6 +100,7 @@ export class CandorCombobox extends LitElement {
   @state() private _inputValue = '';
   @state() private _open = false;
   @state() private _activeIndex = -1;
+  @state() private _filtering = false;
 
   @query('.combobox__input') private _input!: HTMLInputElement;
 
@@ -108,7 +109,7 @@ export class CandorCombobox extends LitElement {
   private _listId = `candor-combobox-list-${this._id}`;
 
   private get _filtered(): ComboboxOption[] {
-    if (!this._inputValue) return this.options;
+    if (!this._filtering || !this._inputValue) return this.options;
     const q = this._inputValue.toLowerCase();
     return this.options.filter(o => o.label.toLowerCase().includes(q));
   }
@@ -121,10 +122,12 @@ export class CandorCombobox extends LitElement {
 
   private _onInput(e: Event) {
     this._inputValue = (e.target as HTMLInputElement).value;
+    this._filtering = true;
     this._open = true;
     this._activeIndex = -1;
     if (!this._inputValue) {
       this.value = '';
+      this._filtering = false;
       this._internals.setFormValue('');
     }
   }
@@ -132,6 +135,7 @@ export class CandorCombobox extends LitElement {
   private _select(opt: ComboboxOption) {
     this.value = opt.value;
     this._inputValue = opt.label;
+    this._filtering = false;
     this._internals.setFormValue(opt.value);
     this.dispatchEvent(new CustomEvent('change', { detail: opt, bubbles: true, composed: true }));
     this._open = false;
@@ -173,7 +177,7 @@ export class CandorCombobox extends LitElement {
   private _onDocumentClick = (e: MouseEvent) => {
     if (this._open && !this.contains(e.target as Node)) {
       this._open = false;
-      // Restore the label of the current selection when closing without a new pick
+      this._filtering = false;
       const opt = this.options.find(o => o.value === this.value);
       this._inputValue = opt ? opt.label : '';
     }
@@ -228,8 +232,8 @@ export class CandorCombobox extends LitElement {
               placeholder="${this.placeholder}"
               ?disabled="${this.disabled}"
               @input="${this._onInput}"
-              @focus="${() => { this._open = true; if (this.value) this._inputValue = ''; }}"
-              @click="${() => { this._open = true; if (this.value) this._inputValue = ''; }}"
+              @focus="${() => { this._open = true; this._filtering = false; }}"
+              @click="${() => { this._open = true; this._filtering = false; }}"
               @keydown="${this._onKeydown}"
             >
             <svg class="combobox__caret ${this._open ? 'combobox__caret--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
