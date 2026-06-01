@@ -84,8 +84,8 @@ export const Large: Story = {
     template: `
       <candor-button onclick="document.getElementById('modal-lg').open = true">Open large modal</candor-button>
       <candor-modal id="modal-lg" heading="${args['heading']}" size="lg">
-        <p style="margin-bottom:1rem">By using Candor Design System, you agree to the following terms and conditions.</p>
-        <p style="margin-bottom:1rem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <p style="margin-bottom:var(--spacing-sm)">By using Candor Design System, you agree to the following terms and conditions.</p>
+        <p style="margin-bottom:var(--spacing-sm)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
           <candor-button variant="tertiary" onclick="document.getElementById('modal-lg').open = false">Decline</candor-button>
@@ -102,11 +102,11 @@ export const NoFooter: Story = {
     template: `
       <candor-button variant="tertiary" onclick="document.getElementById('modal-nf').open = true">Open keyboard shortcuts</candor-button>
       <candor-modal id="modal-nf" heading="${args['heading']}" size="md">
-        <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.5rem 1.5rem;margin:0;">
-          <dt style="font-weight:600;">⌘ K</dt><dd>Open command palette</dd>
-          <dt style="font-weight:600;">⌘ /</dt><dd>Toggle comment</dd>
-          <dt style="font-weight:600;">⌘ Z</dt><dd>Undo</dd>
-          <dt style="font-weight:600;">⌘ ⇧ Z</dt><dd>Redo</dd>
+        <dl style="display:grid;grid-template-columns:auto 1fr;gap:var(--spacing-xs) var(--spacing-md);margin:0;">
+          <dt style="font-weight:var(--font-weight-semibold);">⌘ K</dt><dd>Open command palette</dd>
+          <dt style="font-weight:var(--font-weight-semibold);">⌘ /</dt><dd>Toggle comment</dd>
+          <dt style="font-weight:var(--font-weight-semibold);">⌘ Z</dt><dd>Undo</dd>
+          <dt style="font-weight:var(--font-weight-semibold);">⌘ ⇧ Z</dt><dd>Redo</dd>
         </dl>
       </candor-modal>
     `,

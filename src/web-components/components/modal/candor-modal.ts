@@ -90,8 +90,8 @@ export class CandorModal extends LitElement {
     }
     .modal__body:focus { outline: none; }
     .modal__body:focus-visible {
-      outline: 2px solid var(--color-focus);
-      outline-offset: -2px;
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: calc(-1 * var(--focus-ring-offset));
     }
 
     /* Footer (projected via [slot=footer]) */
