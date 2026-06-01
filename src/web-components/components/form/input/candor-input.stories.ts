@@ -84,12 +84,12 @@ export const MultilineResizeNone: Story = {
 export const AllStates: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:1.5rem;max-width:420px;">
-        <candor-input label="Default" placeholder="Enter text"></candor-input>
-        <candor-input label="With hint" hint="This is a helpful hint"></candor-input>
-        <candor-input label="Required field" required></candor-input>
-        <candor-input label="With error" error="This field is required"></candor-input>
-        <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;">
+        <candor-card><candor-input label="Default" placeholder="Enter text"></candor-input></candor-card>
+        <candor-card><candor-input label="With hint" hint="This is a helpful hint"></candor-input></candor-card>
+        <candor-card><candor-input label="Required field" required></candor-input></candor-card>
+        <candor-card><candor-input label="With error" error="This field is required"></candor-input></candor-card>
+        <candor-card><candor-input label="Disabled" value="Cannot edit" disabled></candor-input></candor-card>
       </div>
     `,
   }),
