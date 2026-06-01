@@ -174,6 +174,18 @@ export class CandorCombobox extends LitElement {
     if (this._open && !this.contains(e.target as Node)) this._open = false;
   };
 
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('value') || changed.has('options')) {
+      const opt = this.options.find(o => o.value === this.value);
+      if (opt) {
+        this._inputValue = opt.label;
+      } else if (changed.has('value') && !this.value) {
+        this._inputValue = '';
+      }
+      this._internals.setFormValue(this.value || null);
+    }
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     document.addEventListener('click', this._onDocumentClick);
