@@ -121,12 +121,10 @@ export class CandorDataGrid extends LitElement {
       font-family: var(--font-family-mono);
       font-size: var(--font-size-xs);
       line-height: 1;
-      text-shadow: 0 0 4px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,0.4);
     }
     .data-grid__check {
       font-size: var(--font-size-sm);
       line-height: 1;
-      text-shadow: 0 0 4px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,0.4);
     }
     :host([hide-headers]) caption,
     :host([hide-headers]) thead {
