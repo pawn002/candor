@@ -65,7 +65,7 @@ export class CandorListbox extends LitElement {
     .listbox__trigger:disabled .listbox__caret { color: var(--color-text-disabled); }
     .listbox__dropdown {
       position: absolute; top: calc(100% + var(--spacing-2xs)); left: 0; right: 0; z-index: 200;
-      max-height: 16rem; overflow-y: auto;
+      margin: 0; max-height: 16rem; overflow-y: auto;
       background: var(--color-bg-elevated);
       border: var(--border-width-thin) solid var(--color-border-default);
       border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: var(--spacing-2xs) 0;
