@@ -33,28 +33,30 @@ export class CandorListbox extends LitElement {
       letter-spacing: var(--letter-spacing-italic); color: var(--color-text-subtle);
     }
     .listbox__trigger {
+      appearance: none; -webkit-appearance: none;
       display: flex; align-items: center; justify-content: space-between;
       width: 100%; min-height: var(--hit-target-aaa);
       padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); background-color: var(--color-bg-page);
-      border: var(--border-width-thin) solid var(--color-border-control);
+      --_border-color: var(--color-border-control);
+      border: var(--border-width-thin) solid var(--_border-color);
       border-radius: var(--radius-md); cursor: pointer; text-align: left;
       gap: var(--spacing-xs); transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .listbox__trigger:hover:not(:disabled) { border-color: var(--color-text-subtle); }
+    .listbox__trigger:hover:not(:disabled) { --_border-color: var(--color-text-subtle); }
     .listbox__trigger:focus-visible {
-      outline: none; border-color: var(--color-action-primary);
+      outline: none; --_border-color: var(--color-action-primary);
       box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-action-primary) l c h / 0.2);
     }
-    .listbox__trigger--error { border-color: var(--color-status-error); }
-    .listbox__trigger--error:focus-visible {
-      border-color: var(--color-status-error);
+    .listbox__trigger.listbox__trigger--error { --_border-color: var(--color-status-error); }
+    .listbox__trigger.listbox__trigger--error:focus-visible {
+      --_border-color: var(--color-status-error);
       box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2);
     }
     .listbox__trigger:disabled {
       background-color: var(--color-bg-surface); color: var(--color-text-disabled);
-      border-color: var(--color-border-default); cursor: not-allowed;
+      --_border-color: var(--color-border-default); cursor: not-allowed;
     }
     .listbox__trigger-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .listbox__caret {
