@@ -11,7 +11,7 @@ export class CandorSlider extends LitElement {
     :host {
       display: flex;
       flex-direction: column;
-      gap: 0.625rem;
+      gap: var(--spacing-xs);
     }
     :host([disabled]) { opacity: 0.5; pointer-events: none; }
     .slider__label {
@@ -34,8 +34,8 @@ export class CandorSlider extends LitElement {
     .slider__track--gradient {
       height: 2.75rem;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--color-border-default);
-      padding: 0 0.5rem;
+      border: var(--border-width-thin) solid var(--color-border-default);
+      padding: 0 var(--spacing-xs);
     }
     .slider__input {
       -webkit-appearance: none;
@@ -76,7 +76,7 @@ export class CandorSlider extends LitElement {
       height: 1.375rem;
       margin-top: calc((1.375rem - 4px) / -2);
       border-radius: 50%;
-      background: #ffffff;
+      background: var(--color-bg-page);
       border: 2px solid rgba(0, 0, 0, 0.18);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(0, 0, 0, 0.12);
       cursor: pointer;
@@ -90,7 +90,7 @@ export class CandorSlider extends LitElement {
       width: 1.375rem;
       height: 1.375rem;
       border-radius: 50%;
-      background: #ffffff;
+      background: var(--color-bg-page);
       border: 2px solid rgba(0, 0, 0, 0.18);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(0, 0, 0, 0.12);
       cursor: pointer;
@@ -116,7 +116,7 @@ export class CandorSlider extends LitElement {
       color: var(--color-text-subtle);
       min-width: 3ch;
       text-align: right;
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-italic);
     }
   `;
 
@@ -143,6 +143,12 @@ export class CandorSlider extends LitElement {
   }
   @property({ attribute: 'value-text-fn', type: Object }) valueTextFn?: (v: number) => string;
   @property() gradient?: string;
+
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('value')) {
+      this._internals.setFormValue(String(this.value));
+    }
+  }
 
   private _id = `candor-slider-${Math.random().toString(36).slice(2, 9)}`;
 

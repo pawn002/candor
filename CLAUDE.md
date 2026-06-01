@@ -146,15 +146,17 @@ Two machine-readable files in `audit/` serve as the canonical inputs for contras
 ### Integration Points
 
 **klar CLI** (`klar --version` to confirm availability):
+All klar commands accept both `<hex>` and `oklch(L C H)` CSS color strings as inputs — pass OKLCH values directly without converting to hex first.
+
 ```bash
-klar meta <hex>                                      # Convert hex → OKLCH + color metadata
+klar meta <color>                                    # Inspect a color: OKLCH axes, saturation, gamut
 klar contrast <fg> <bg> -q                           # Check contrast ratio (OKCA, WCAG-compatible)
 klar contrast <fg> <bg> --type deltaE -q             # Perceptual drift between two colors
 klar contrast <fg> <bg> --type apca -q               # APCA Lc score
 klar find <bg> <color> --target 4.5 -q               # Find lightness-adjusted compliant color
-klar variants <hex>                                  # Generate a perceptually-spaced tonal grid
+klar variants <color>                                # Generate a perceptually-spaced tonal grid
 klar match <color1> <color2>                         # Match chroma of two colors for palette harmony
-klar lightness <hex>                                 # Min/max lightness range for a color in sRGB gamut
+klar lightness <color>                               # Min/max lightness range for a color in sRGB gamut
 klar pair                                            # Random accessible color pair (seed for exploration)
 klar plugins list                                    # List installed contrast algorithm plugins
 ```
