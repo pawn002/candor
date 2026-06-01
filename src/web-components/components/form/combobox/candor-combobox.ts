@@ -80,12 +80,16 @@ export class CandorCombobox extends LitElement {
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-subtle); font-style: italic;
     }
+    .combobox__hint {
+      margin-top: calc(-1 * var(--spacing-xs));
+      font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
+      letter-spacing: var(--letter-spacing-italic); color: var(--color-text-subtle);
+    }
     .combobox__description {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
       letter-spacing: var(--letter-spacing-italic); min-height: var(--hit-target-aa);
     }
     .combobox__error { color: var(--color-status-error-text); font-size: var(--font-size-md); }
-    .combobox__hint { color: var(--color-text-subtle); }
   `;
 
   @property() label = '';
@@ -107,6 +111,8 @@ export class CandorCombobox extends LitElement {
   private _id = _nextId++;
   private _inputId = `candor-combobox-input-${this._id}`;
   private _listId = `candor-combobox-list-${this._id}`;
+  private _hintId = `candor-combobox-hint-${this._id}`;
+  private _errId = `candor-combobox-err-${this._id}`;
 
   private get _filtered(): ComboboxOption[] {
     if (!this._filtering || !this._inputValue) return this.options;
@@ -215,6 +221,7 @@ export class CandorCombobox extends LitElement {
 
   override render() {
     const filtered = this._filtered;
+    const describedBy = [this.hint ? this._hintId : '', this._errId].filter(Boolean).join(' ');
     return html`
       <div class="combobox-wrapper ${this.disabled ? 'combobox-wrapper--disabled' : ''}">
         ${this.label ? html`
@@ -223,6 +230,7 @@ export class CandorCombobox extends LitElement {
             ${this.required ? html`<span class="combobox__required" aria-hidden="true">*</span>` : nothing}
           </label>
         ` : nothing}
+        ${this.hint ? html`<span id="${this._hintId}" class="combobox__hint">${this.hint}</span>` : nothing}
         <div style="position:relative">
           <div class="combobox__control ${this.error ? 'combobox__control--error' : ''}">
             <input
@@ -237,6 +245,7 @@ export class CandorCombobox extends LitElement {
               aria-activedescendant="${this._activeOptionId || nothing}"
               aria-required="${this.required || nothing}"
               aria-invalid="${this.error ? 'true' : nothing}"
+              aria-describedby="${describedBy}"
               .value="${this._inputValue}"
               placeholder="${this.placeholder}"
               ?disabled="${this.disabled}"
@@ -273,11 +282,7 @@ export class CandorCombobox extends LitElement {
             </div>
           ` : nothing}
         </div>
-        ${this.error
-          ? html`<span class="combobox__description combobox__error" role="alert">${this.error}</span>`
-          : this.hint
-            ? html`<span class="combobox__description combobox__hint">${this.hint}</span>`
-            : html`<span class="combobox__description"></span>`}
+        <span id="${this._errId}" class="combobox__description combobox__error" role="alert">${this.error}</span>
       </div>
     `;
   }

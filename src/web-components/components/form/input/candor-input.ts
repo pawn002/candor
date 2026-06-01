@@ -31,8 +31,8 @@ export class CandorInput extends LitElement {
     .input--error:focus { border-color: var(--color-status-error); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2); }
     .input--textarea { min-height: unset; line-height: var(--line-height-normal); }
     .input:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
-    .input-hint { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: 0.02em; color: var(--color-text-subtle); }
-    .input-error-message { font-family: var(--font-family-accessible); font-size: var(--font-size-md); letter-spacing: 0.02em; color: var(--color-status-error-text); }
+    .input-hint { margin-top: calc(-1 * var(--spacing-xs)); font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-italic); color: var(--color-text-subtle); }
+    .input-error-message { font-family: var(--font-family-accessible); font-size: var(--font-size-md); letter-spacing: var(--letter-spacing-italic); color: var(--color-status-error-text); }
     .input-error-live { display: contents; }
   `;
 
