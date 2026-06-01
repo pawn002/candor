@@ -45,7 +45,6 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const Checked: Story = { args: { label: 'Dark mode', checked: true } };
 export const Disabled: Story = {
   parameters: {
     docs: {
@@ -56,13 +55,62 @@ export const Disabled: Story = {
   },
   args: { label: 'Unavailable option', disabled: true, hint: 'Not available on your current plan.' },
 };
-export const DisabledChecked: Story = {
-  args: { label: 'Locked setting', checked: true, disabled: true, hint: 'Managed by your administrator.' },
-};
 
 export const NoLabel: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use `aria-label` when the visible label comes from surrounding context — ' +
+          'a table row, a settings list, or a data grid cell — rather than from the ' +
+          'component itself. The label is stripped from the host and forwarded to the ' +
+          'inner `<input role="switch">` so screen readers hear it exactly once. ' +
+          'See **FeatureTable** for a real-world example of this pattern.',
+      },
+    },
+  },
   args: {},
   render: () => ({ template: `<candor-switch aria-label="Toggle feature"></candor-switch>` }),
+};
+
+export const FeatureTable: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'When switches appear in a table or settings list, the row label provides ' +
+          'the accessible name — no visible label is needed on the switch itself. ' +
+          'Pass `aria-label` matching the row label so screen readers announce the ' +
+          'correct name without repeating it.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <table style="border-collapse:collapse;width:100%;max-width:400px;font-family:var(--font-family-base);font-size:var(--font-size-md);">
+        <caption style="text-align:left;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-relaxed);text-transform:uppercase;color:var(--color-text-subtle);padding-bottom:var(--spacing-xs);">Feature flags</caption>
+        <tbody>
+          <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
+            <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Dark mode</td>
+            <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Dark mode"></candor-switch></td>
+          </tr>
+          <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
+            <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Beta features</td>
+            <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Beta features" checked></candor-switch></td>
+          </tr>
+          <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
+            <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Analytics tracking</td>
+            <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Analytics tracking" checked></candor-switch></td>
+          </tr>
+          <tr>
+            <td style="padding:var(--spacing-sm) 0;">
+              <div style="color:var(--color-text-default);">Marketing emails</div>
+              <candor-accessible-text role_="annotation">Unsubscribed at the account level.</candor-accessible-text>
+            </td>
+            <td style="padding:var(--spacing-sm) 0;text-align:right;vertical-align:top;"><candor-switch aria-label="Marketing emails" disabled></candor-switch></td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+  }),
 };
 
 export const FormGroup: Story = {
@@ -84,11 +132,23 @@ export const FormGroup: Story = {
 export const States: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
-        <candor-switch label="Off (default)"></candor-switch>
-        <candor-switch label="On" checked></candor-switch>
-        <candor-switch label="Disabled off" disabled hint="Not available on your current plan."></candor-switch>
-        <candor-switch label="Disabled on" checked disabled hint="Managed by your administrator."></candor-switch>
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:320px;">
+        <candor-card>
+          <span slot="header">Off (default)</span>
+          <candor-switch label="Enable notifications"></candor-switch>
+        </candor-card>
+        <candor-card>
+          <span slot="header">On</span>
+          <candor-switch label="Enable notifications" checked></candor-switch>
+        </candor-card>
+        <candor-card>
+          <span slot="header">Disabled off</span>
+          <candor-switch label="Enable notifications" disabled hint="Not available on your current plan."></candor-switch>
+        </candor-card>
+        <candor-card>
+          <span slot="header">Disabled on</span>
+          <candor-switch label="Enable notifications" checked disabled hint="Managed by your administrator."></candor-switch>
+        </candor-card>
       </div>
     `,
   }),
