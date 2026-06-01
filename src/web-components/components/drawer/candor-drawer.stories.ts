@@ -64,30 +64,6 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const RightDrawer: Story = {
-  name: 'Position: Right (default)',
-  render: () => ({
-    template: `
-      <candor-button onclick="document.getElementById('drawer-right').open = true">Open right drawer</candor-button>
-      <candor-drawer id="drawer-right" heading="Right panel" position="right">
-        <p style="margin:0">Slides in from the right edge. Default position.</p>
-      </candor-drawer>
-    `,
-  }),
-};
-
-export const LeftDrawer: Story = {
-  name: 'Position: Left',
-  render: () => ({
-    template: `
-      <candor-button onclick="document.getElementById('drawer-left').open = true">Open left drawer</candor-button>
-      <candor-drawer id="drawer-left" heading="Left panel" position="left">
-        <p style="margin:0">Slides in from the left edge. Suited to sidebar navigation overlays.</p>
-      </candor-drawer>
-    `,
-  }),
-};
-
 export const BottomSheet: Story = {
   name: 'Position: Bottom',
   render: () => ({
@@ -111,16 +87,8 @@ export const WithFooter: Story = {
       <candor-button onclick="document.getElementById('drawer-footer').open = true">Open drawer</candor-button>
       <candor-drawer id="drawer-footer" heading="Edit filter">
         <div style="display:flex;flex-direction:column;gap:1rem;">
-          <label style="display:flex;flex-direction:column;gap:0.25rem;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:0.02em;">
-            Status
-            <select style="padding:0.5rem;border:1px solid var(--color-border-default);border-radius:var(--radius-sm);">
-              <option>Active</option><option>Inactive</option><option>Pending</option>
-            </select>
-          </label>
-          <label style="display:flex;flex-direction:column;gap:0.25rem;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:0.02em;">
-            Date range
-            <input type="date" style="padding:0.5rem;border:1px solid var(--color-border-default);border-radius:var(--radius-sm);">
-          </label>
+          <candor-select label="Status" options='[{"value":"active","label":"Active"},{"value":"inactive","label":"Inactive"},{"value":"pending","label":"Pending"}]'></candor-select>
+          <candor-input label="Date range" placeholder="YYYY-MM-DD"></candor-input>
         </div>
         <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
           <candor-button variant="ghost" onclick="document.getElementById('drawer-footer').open = false">Cancel</candor-button>
