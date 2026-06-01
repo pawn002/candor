@@ -9,8 +9,8 @@ export class CandorInput extends LitElement {
   static override styles = css`
     :host { display: block; }
     .input-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
-    .input-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); letter-spacing: var(--letter-spacing-relaxed); }
-    .input-required { color: var(--color-status-error-text); }
+    .input-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; letter-spacing: var(--letter-spacing-relaxed); }
+    .input-required { margin-left: 0.25em; color: var(--color-status-error-text); }
     .input {
       font-family: var(--font-family-base);
       font-size: var(--font-size-md);
