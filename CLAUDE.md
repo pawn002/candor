@@ -249,9 +249,11 @@ Atkinson Hyperlegible requires positive letter-spacing to prevent glyph clusteri
 
 | Context | Value | Reason |
 |---|---|---|
-| Badges | `0.06em` | Small size (14px) needs more air |
-| Body roles (message, status, annotation) | `0.02em` | 16px has more natural spacing |
+| Badges, chips, breadcrumbs | `0.04em`–`0.06em` | UI signal — elevated tracking marks the element as a label or interactive UI unit |
+| Body roles (message, status, annotation) | `0.02em` | Prose-like — should blend with surrounding text, not read as a UI label |
 | Labels (uppercase) | `var(--letter-spacing-wide)` = `0.05em` | Uppercase already benefits from tracking |
+
+**The underlying principle:** tracking is a UI signal, not just a legibility fix. Elevated tracking (0.04em–0.06em) tells the reader "this is a UI element." Annotation prose (disclaimers, footnotes, hints) intentionally stays at `0.02em` even at 14px — it should feel like a paragraph, not a label. Applying badge-level tracking to a footnote would make it read as a structural element when it isn't.
 
 **Never use `letter-spacing: 0` or `--letter-spacing-normal` with Atkinson** — always apply positive tracking.
 
