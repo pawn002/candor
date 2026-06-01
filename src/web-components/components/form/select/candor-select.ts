@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { phCaretDownBold } from '../../../icons';
+import { observeHostAriaLabel } from '../../../utils/host-aria';
 
 export interface SelectOption {
   value: string;
@@ -18,6 +19,11 @@ export class CandorSelect extends LitElement {
     .select-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .select-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); letter-spacing: var(--letter-spacing-relaxed); }
     .select-required { color: var(--color-status-error-text); }
+    .select-hint {
+      margin-top: calc(-1 * var(--spacing-xs));
+      font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
+      letter-spacing: var(--letter-spacing-italic); color: var(--color-text-subtle);
+    }
     .select-control { position: relative; display: flex; align-items: center; }
     .select {
       width: 100%;
@@ -51,9 +57,11 @@ export class CandorSelect extends LitElement {
     .select-control:focus-within .select__caret { color: var(--color-action-primary); }
     .select-control--error .select__caret { color: var(--color-status-error); }
     .select-control--disabled .select__caret { color: var(--color-text-disabled); }
-    .select-description { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: 0.02em; }
-    .select-error-message { color: var(--color-status-error-text); font-size: var(--font-size-md); }
-    .select-hint { color: var(--color-text-subtle); }
+    .select-error-live { display: contents; }
+    .select-error-message {
+      font-family: var(--font-family-accessible); font-size: var(--font-size-md);
+      letter-spacing: var(--letter-spacing-italic); color: var(--color-status-error-text);
+    }
   `;
 
   @property({ type: Array }) options: SelectOption[] = [];
@@ -66,8 +74,36 @@ export class CandorSelect extends LitElement {
   @property() value = '';
   @property() name?: string;
 
+  @state() private _ariaLabel = '';
+  private _stopObservingAriaLabel?: () => void;
+  @query('select') private _select?: HTMLSelectElement;
+
   private _id = `candor-select-${Math.random().toString(36).slice(2, 9)}`;
-  private _descId = `${this._id}-desc`;
+  private _hintId = `${this._id}-hint`;
+  private _errId = `${this._id}-err`;
+
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('value') || changed.has('options')) {
+      this._internals.setFormValue(this.value || null);
+    }
+    if (changed.has('value') || changed.has('required')) {
+      if (this.required && !this.value) {
+        this._internals.setValidity({ valueMissing: true }, 'Please select an option', this._select);
+      } else {
+        this._internals.setValidity({});
+      }
+    }
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback() {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
 
   private _onChange(e: Event) {
     this.value = (e.target as HTMLSelectElement).value;
@@ -76,6 +112,7 @@ export class CandorSelect extends LitElement {
   }
 
   override render() {
+    const describedBy = [this.hint ? this._hintId : '', this._errId].filter(Boolean).join(' ');
     return html`
       <div class="select-wrapper">
         ${this.label ? html`
@@ -84,6 +121,7 @@ export class CandorSelect extends LitElement {
             ${this.required ? html`<span class="select-required" aria-hidden="true">*</span>` : nothing}
           </label>
         ` : nothing}
+        ${this.hint ? html`<span id="${this._hintId}" class="select-hint">${this.hint}</span>` : nothing}
         <div class="select-control ${this.error ? 'select-control--error' : ''} ${this.disabled ? 'select-control--disabled' : ''}">
           <select
             id="${this._id}"
@@ -91,20 +129,20 @@ export class CandorSelect extends LitElement {
             ?disabled="${this.disabled}"
             ?required="${this.required}"
             aria-invalid="${this.error ? 'true' : nothing}"
-            aria-describedby="${this._descId}"
+            aria-describedby="${describedBy}"
+            aria-label="${this._ariaLabel || nothing}"
             name="${this.name || nothing}"
             @change="${this._onChange}"
           >
-            ${this.placeholder ? html`<option value="" ?disabled="${true}" ?selected="${!this.value}">${this.placeholder}</option>` : nothing}
+            ${this.placeholder ? html`<option value="" .selected="${!this.value}" disabled>${this.placeholder}</option>` : nothing}
             ${this.options.map(opt => html`
-              <option value="${opt.value}" ?disabled="${opt.disabled || false}" ?selected="${opt.value === this.value}">${opt.label}</option>
+              <option value="${opt.value}" ?disabled="${opt.disabled || false}" .selected="${opt.value === this.value}">${opt.label}</option>
             `)}
           </select>
           <svg class="select__caret" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
         </div>
-        <div id="${this._descId}" class="select-description" aria-live="polite" aria-atomic="true">
+        <div id="${this._errId}" class="select-error-live" role="alert" aria-live="polite" aria-atomic="true">
           ${this.error ? html`<span class="select-error-message">${this.error}</span>` : nothing}
-          ${!this.error && this.hint ? html`<span class="select-hint">${this.hint}</span>` : nothing}
         </div>
       </div>
     `;
