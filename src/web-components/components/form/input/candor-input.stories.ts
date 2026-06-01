@@ -103,7 +103,7 @@ export const WithError: Story = {
 
 export const WithHint: Story = {
   render: () => ({
-    template: `<candor-input label="Password" type="password" hint="At least 8 characters, one number."></candor-input>`,
+    template: `<candor-input label="Email address" type="email" placeholder="you@example.com" hint="We'll only use this to send your receipt."></candor-input>`,
   }),
 };
 
@@ -127,19 +127,19 @@ export const OnSurface: Story = {
   },
   render: () => ({
     template: `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:640px;">
-        <div style="display:flex;flex-direction:column;gap:0.5rem;">
-          <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:0.05em;text-transform:uppercase;">Page background</div>
-          <div style="background:var(--color-bg-page);border-radius:var(--radius-md);padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);max-width:640px;">
+        <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+          <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Page background</div>
+          <div style="background:var(--color-bg-page);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);">
             <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
             <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
             <candor-input label="With error" error="This field is required"></candor-input>
             <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:0.5rem;">
-          <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:0.05em;text-transform:uppercase;">Surface background</div>
-          <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:1.25rem;display:flex;flex-direction:column;gap:1.25rem;--color-border-control:var(--color-border-control-on-surface);">
+        <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+          <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Surface background</div>
+          <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);--color-border-control:var(--color-border-control-on-surface);">
             <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
             <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
             <candor-input label="With error" error="This field is required"></candor-input>
