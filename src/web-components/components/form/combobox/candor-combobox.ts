@@ -21,6 +21,7 @@ export class CandorCombobox extends LitElement {
       display: flex; flex-direction: column; gap: var(--spacing-xs); position: relative;
     }
     .combobox-wrapper--disabled .combobox__label { color: var(--color-text-disabled); }
+    .combobox-wrapper--disabled .combobox__caret { cursor: not-allowed; }
     .combobox__label {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: var(--letter-spacing-relaxed);
@@ -261,7 +262,7 @@ export class CandorCombobox extends LitElement {
               @keydown="${this._onKeydown}"
             >
             <svg class="combobox__caret ${this._open ? 'combobox__caret--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"
-              @mousedown="${(e: MouseEvent) => { e.preventDefault(); const wasOpen = this._open; this._input.focus(); this._open = !wasOpen; this._filtering = false; }}"
+              @mousedown="${(e: MouseEvent) => { if (this.disabled) return; e.preventDefault(); const wasOpen = this._open; this._input.focus(); this._open = !wasOpen; this._filtering = false; }}"
             ><path d="${phCaretDownBold}"/></svg>
           </div>
           ${this._open && filtered.length > 0 ? html`
