@@ -70,8 +70,8 @@ export class CandorDataGrid extends LitElement {
     }
     .data-grid__cell {
       position: relative;
-      width: 2.5rem;
-      height: 2.5rem;
+      min-width: 2.5rem;
+      min-height: 2.5rem;
       padding: 0;
       cursor: pointer;
       background: var(--cell-bg, var(--color-bg-page));
