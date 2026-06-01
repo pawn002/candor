@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 
-const COUNTRY_OPTIONS = JSON.stringify([
-  { value: 'gb', label: 'United Kingdom' },
-  { value: 'us', label: 'United States' },
-  { value: 'de', label: 'Germany' },
-  { value: 'fr', label: 'France' },
+const FREQUENCY_OPTIONS = JSON.stringify([
+  { value: 'never', label: 'Never' },
+  { value: 'daily', label: 'Daily' },
+  { value: 'weekly', label: 'Weekly' },
+  { value: 'monthly', label: 'Monthly' },
 ]);
 
 const meta: Meta = {
@@ -59,25 +59,37 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    template: `<candor-select label="Country" placeholder="Select a country" hint="Select your country of residence" options='${COUNTRY_OPTIONS}'></candor-select>`,
+    template: `<candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." options='${FREQUENCY_OPTIONS}'></candor-select>`,
   }),
 };
 
 export const WithError: Story = {
   render: () => ({
-    template: `<candor-select label="Country" placeholder="Select a country" error="Please select a country" options='${COUNTRY_OPTIONS}'></candor-select>`,
+    template: `<candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." error="Please choose a frequency." options='${FREQUENCY_OPTIONS}'></candor-select>`,
   }),
 };
 
 export const Required: Story = {
   render: () => ({
-    template: `<candor-select label="Country" placeholder="Select a country" required options='${COUNTRY_OPTIONS}'></candor-select>`,
+    template: `<candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." required options='${FREQUENCY_OPTIONS}'></candor-select>`,
   }),
 };
 
 export const Disabled: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: '**Candor pattern: disabled fields must have a hint.** A disabled control with no ' +
+          'explanation reads as broken. The hint is the only channel for telling the user ' +
+          'whether the lock is a permission boundary, a system constraint, or a state they ' +
+          'can change elsewhere. The one exception: when the reason is unambiguously obvious ' +
+          'from immediate visual context (e.g. a field grayed out beneath an off toggle it ' +
+          'directly depends on).',
+      },
+    },
+  },
   render: () => ({
-    template: `<candor-select label="Country" value="us" disabled options='${COUNTRY_OPTIONS}'></candor-select>`,
+    template: `<candor-select label="Email digest" value="weekly" hint="Managed by your organisation. Contact your administrator to change." disabled options='${FREQUENCY_OPTIONS}'></candor-select>`,
   }),
 };
 
@@ -98,7 +110,7 @@ export const NoLabel: Story = {
     },
   },
   render: () => ({
-    template: `<candor-select aria-label="Country" placeholder="Select an option" options='${COUNTRY_OPTIONS}'></candor-select>`,
+    template: `<candor-select aria-label="Email digest" placeholder="Choose frequency" options='${FREQUENCY_OPTIONS}'></candor-select>`,
   }),
 };
 
@@ -106,10 +118,22 @@ export const AllStates: Story = {
   render: () => ({
     template: `
       <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;">
-        <candor-select label="Default" placeholder="Select a country" hint="Select your country of residence" options='${COUNTRY_OPTIONS}'></candor-select>
-        <candor-select label="With error" placeholder="Select a country" error="Please select a country" options='${COUNTRY_OPTIONS}'></candor-select>
-        <candor-select label="Required" placeholder="Select a country" required options='${COUNTRY_OPTIONS}'></candor-select>
-        <candor-select label="Disabled" value="us" disabled options='${COUNTRY_OPTIONS}'></candor-select>
+        <candor-card>
+          <span slot="header">Default</span>
+          <candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." options='${FREQUENCY_OPTIONS}'></candor-select>
+        </candor-card>
+        <candor-card>
+          <span slot="header">With error</span>
+          <candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." error="Please choose a frequency." options='${FREQUENCY_OPTIONS}'></candor-select>
+        </candor-card>
+        <candor-card>
+          <span slot="header">Required</span>
+          <candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." required options='${FREQUENCY_OPTIONS}'></candor-select>
+        </candor-card>
+        <candor-card>
+          <span slot="header">Disabled</span>
+          <candor-select label="Email digest" value="weekly" hint="Managed by your organisation. Contact your administrator to change." disabled options='${FREQUENCY_OPTIONS}'></candor-select>
+        </candor-card>
       </div>
     `,
   }),
