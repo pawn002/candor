@@ -52,7 +52,7 @@ Emits an \`input-change\` CustomEvent on each keystroke.
   },
   args: { label: 'Email address', placeholder: 'you@example.com', type: 'email', required: false, disabled: false, multiline: false },
   render: (args) => ({
-    template: `<candor-input label="${args['label']}" placeholder="${args['placeholder'] || ''}" type="${args['type']}" error="${args['error'] || ''}" hint="${args['hint'] || ''}" ${args['value'] ? `value="${args['value']}"` : ''} ${args['autocomplete'] ? `autocomplete="${args['autocomplete']}"` : ''} ${args['required'] ? 'required' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['multiline'] ? 'multiline' : ''}></candor-input>`,
+    template: `<candor-input label="${args['label']}" placeholder="${args['placeholder'] || ''}" type="${args['type']}" error="${args['error'] || ''}" hint="${args['hint'] || ''}" ${args['value'] ? `value="${args['value']}"` : ''} ${args['autocomplete'] ? `autocomplete="${args['autocomplete']}"` : ''} ${args['rows'] ? `rows="${args['rows']}"` : ''} ${args['resize'] ? `resize="${args['resize']}"` : ''} ${args['required'] ? 'required' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['multiline'] ? 'multiline' : ''}></candor-input>`,
   }),
 };
 
