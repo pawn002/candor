@@ -34,12 +34,13 @@ const meta: Meta = {
 Use when native \`<select>\` styling is insufficient — custom option rendering, visual
 coherence with other Candor form components, or complex option layouts.
 
-**Listbox vs. native Select**
+**Which picker to use**
 
-| Use | When |
+| Component | When |
 |---|---|
-| \`candor-select\` | Simple option lists, forms requiring maximum AT compatibility, mobile contexts where the OS native picker is preferable |
-| \`candor-listbox\` | Long option lists needing visual coherence, when you need the checkmark indicator, or when the OS picker feel is unwanted |
+| \`candor-select\` | Simple lists (≤ ~15 options), forms requiring maximum AT compatibility, mobile contexts where the OS native picker is preferable |
+| \`candor-listbox\` | Moderate lists (≤ ~15 options) needing visual coherence or the checkmark indicator; options must be scannable without scrolling |
+| \`candor-combobox\` | Large lists (16+ options) where users must search rather than scan — filter-as-you-type makes the list tractable |
 
 **Keyboard:** ArrowDown/Up navigate options; Home/End jump to first/last; Enter or Space
 selects; Escape closes; Tab closes without selecting.
@@ -117,6 +118,15 @@ export const WithHint: Story = {
 
 export const LongList: Story = {
   name: 'Long list (scroll)',
+  parameters: {
+    docs: {
+      description: {
+        story: '12-item list shown at its scrollable limit. This is near the practical ceiling for a listbox — ' +
+          'once users must scroll to find an option, the task has shifted from recognition to search. ' +
+          'For lists of 16+ options, use `<candor-combobox>` with filter-as-you-type instead.',
+      },
+    },
+  },
   render: () => ({
     template: `<div style="max-width:320px;"><candor-listbox
       label="Country"
