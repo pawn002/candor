@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 
 @customElement('candor-input')
 export class CandorInput extends LitElement {
@@ -53,9 +53,16 @@ export class CandorInput extends LitElement {
   private _hintId = `${this._id}-hint`;
   private _errorId = `${this._id}-error`;
 
+  @query('input, textarea') private _field?: HTMLInputElement | HTMLTextAreaElement;
+
   override updated(changed: Map<string, unknown>) {
-    if (changed.has('value')) {
+    if (changed.has('value') || changed.has('required')) {
       this._internals.setFormValue(this.value);
+      if (this.required && !this.value) {
+        this._internals.setValidity({ valueMissing: true }, 'Please fill in this field', this._field);
+      } else {
+        this._internals.setValidity({});
+      }
     }
   }
 

@@ -212,6 +212,13 @@ export class CandorCombobox extends LitElement {
       }
       this._internals.setFormValue(this.value || null);
     }
+    if (changed.has('value') || changed.has('required')) {
+      if (this.required && !this.value) {
+        this._internals.setValidity({ valueMissing: true }, 'Please select an option', this._input);
+      } else {
+        this._internals.setValidity({});
+      }
+    }
   }
 
   override connectedCallback() {
