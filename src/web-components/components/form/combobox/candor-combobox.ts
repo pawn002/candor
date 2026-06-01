@@ -171,7 +171,12 @@ export class CandorCombobox extends LitElement {
   }
 
   private _onDocumentClick = (e: MouseEvent) => {
-    if (this._open && !this.contains(e.target as Node)) this._open = false;
+    if (this._open && !this.contains(e.target as Node)) {
+      this._open = false;
+      // Restore the label of the current selection when closing without a new pick
+      const opt = this.options.find(o => o.value === this.value);
+      this._inputValue = opt ? opt.label : '';
+    }
   };
 
   override updated(changed: Map<string, unknown>) {
@@ -223,7 +228,8 @@ export class CandorCombobox extends LitElement {
               placeholder="${this.placeholder}"
               ?disabled="${this.disabled}"
               @input="${this._onInput}"
-              @focus="${() => { this._open = true; }}"
+              @focus="${() => { this._open = true; if (this.value) this._inputValue = ''; }}"
+              @click="${() => { this._open = true; if (this.value) this._inputValue = ''; }}"
               @keydown="${this._onKeydown}"
             >
             <svg class="combobox__caret ${this._open ? 'combobox__caret--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
