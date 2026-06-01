@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 import { phCaretDownBold } from '../../../icons';
+import { observeHostAriaLabel } from '../../../utils/host-aria';
 
 export interface ListboxOption {
   value: string;
@@ -26,6 +27,11 @@ export class CandorListbox extends LitElement {
       font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: var(--letter-spacing-relaxed);
     }
     .listbox__required { color: var(--color-status-error-text); margin-left: 0.25em; }
+    .listbox__hint {
+      margin-top: calc(-1 * var(--spacing-xs));
+      font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
+      letter-spacing: var(--letter-spacing-italic); color: var(--color-text-subtle);
+    }
     .listbox__trigger {
       display: flex; align-items: center; justify-content: space-between;
       width: 100%; min-height: var(--hit-target-aaa);
@@ -58,11 +64,11 @@ export class CandorListbox extends LitElement {
     .listbox__caret--open { transform: rotate(180deg); color: var(--color-action-primary); }
     .listbox__trigger:disabled .listbox__caret { color: var(--color-text-disabled); }
     .listbox__dropdown {
-      position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 200;
+      position: absolute; top: calc(100% + var(--spacing-2xs)); left: 0; right: 0; z-index: 200;
       max-height: 16rem; overflow-y: auto;
       background: var(--color-bg-elevated);
       border: var(--border-width-thin) solid var(--color-border-default);
-      border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: 0.25rem 0;
+      border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: var(--spacing-2xs) 0;
     }
     .listbox__option {
       display: flex; align-items: center; justify-content: space-between;
@@ -76,12 +82,11 @@ export class CandorListbox extends LitElement {
     .listbox__option--disabled { color: var(--color-text-disabled); cursor: not-allowed; pointer-events: none; }
     .listbox__option-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .listbox__option-check { flex-shrink: 0; color: var(--color-action-primary); font-size: 1rem; }
-    .listbox__description {
-      font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: 0.02em; min-height: var(--hit-target-aa);
+    .listbox__error-live { display: contents; }
+    .listbox__error-message {
+      font-family: var(--font-family-accessible); font-size: var(--font-size-md);
+      letter-spacing: var(--letter-spacing-italic); color: var(--color-status-error-text);
     }
-    .listbox__error { color: var(--color-status-error-text); font-size: var(--font-size-md); }
-    .listbox__hint { color: var(--color-text-subtle); }
   `;
 
   @property() label = '';
@@ -95,10 +100,16 @@ export class CandorListbox extends LitElement {
 
   @state() private _open = false;
   @state() private _activeIndex = -1;
+  @state() private _ariaLabel = '';
+  private _stopObservingAriaLabel?: () => void;
+
+  @query('button') private _trigger?: HTMLButtonElement;
 
   private _id = _nextId++;
   private _triggerId = `candor-listbox-trigger-${this._id}`;
   private _listId = `candor-listbox-list-${this._id}`;
+  private _hintId = `candor-listbox-hint-${this._id}`;
+  private _errId = `candor-listbox-err-${this._id}`;
 
   private get _selectedOption(): ListboxOption | undefined {
     return this.options.find(o => o.value === this.value);
@@ -108,6 +119,19 @@ export class CandorListbox extends LitElement {
     return this._activeIndex >= 0
       ? `candor-listbox-opt-${this._id}-${this._activeIndex}`
       : '';
+  }
+
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('value') || changed.has('options')) {
+      this._internals.setFormValue(this.value || null);
+    }
+    if (changed.has('value') || changed.has('required')) {
+      if (this.required && !this.value) {
+        this._internals.setValidity({ valueMissing: true }, 'Please select an option', this._trigger);
+      } else {
+        this._internals.setValidity({});
+      }
+    }
   }
 
   private _open_() {
@@ -138,7 +162,6 @@ export class CandorListbox extends LitElement {
   }
 
   private _onListKeydown(e: KeyboardEvent) {
-    const opts = this.options.filter(o => !o.disabled);
     const cur = this._activeIndex;
     switch (e.key) {
       case 'ArrowDown':
@@ -166,14 +189,17 @@ export class CandorListbox extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     document.addEventListener('click', this._onDocumentClick);
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
   }
   override disconnectedCallback() {
+    this._stopObservingAriaLabel?.();
     super.disconnectedCallback();
     document.removeEventListener('click', this._onDocumentClick);
   }
 
   override render() {
     const selected = this._selectedOption;
+    const describedBy = [this.hint ? this._hintId : '', this._errId].filter(Boolean).join(' ');
     return html`
       <div class="listbox-wrapper ${this.disabled ? 'listbox-wrapper--disabled' : ''}">
         ${this.label ? html`
@@ -182,6 +208,7 @@ export class CandorListbox extends LitElement {
             ${this.required ? html`<span class="listbox__required" aria-hidden="true">*</span>` : nothing}
           </label>
         ` : nothing}
+        ${this.hint ? html`<span id="${this._hintId}" class="listbox__hint">${this.hint}</span>` : nothing}
         <div style="position:relative">
           <button
             id="${this._triggerId}"
@@ -192,8 +219,10 @@ export class CandorListbox extends LitElement {
             aria-expanded="${this._open}"
             aria-controls="${this._listId}"
             aria-labelledby="${this.label ? this._triggerId + '-label' : nothing}"
+            aria-label="${this._ariaLabel || nothing}"
             aria-required="${this.required || nothing}"
             aria-invalid="${this.error ? 'true' : nothing}"
+            aria-describedby="${describedBy}"
             ?disabled="${this.disabled}"
             @click="${() => this._open ? this._close() : this._open_()}"
             @keydown="${this._onTriggerKeydown}"
@@ -232,11 +261,9 @@ export class CandorListbox extends LitElement {
             </ul>
           ` : nothing}
         </div>
-        ${this.error
-          ? html`<span class="listbox__description listbox__error" role="alert">${this.error}</span>`
-          : this.hint
-            ? html`<span class="listbox__description listbox__hint">${this.hint}</span>`
-            : html`<span class="listbox__description"></span>`}
+        <div id="${this._errId}" class="listbox__error-live" role="alert" aria-live="polite" aria-atomic="true">
+          ${this.error ? html`<span class="listbox__error-message">${this.error}</span>` : nothing}
+        </div>
       </div>
     `;
   }

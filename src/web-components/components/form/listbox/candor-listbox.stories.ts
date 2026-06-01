@@ -53,8 +53,8 @@ Emits a \`change\` CustomEvent.
   argTypes: {
     label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
     placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder shown when no value is selected' },
-    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text below the field' },
-    error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
+    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text above the trigger (below the label); remains visible alongside error' },
+    error: { control: 'text', type: { name: 'string' }, description: 'Validation error message shown below the trigger; displayed alongside hint when both are set' },
     required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
@@ -127,8 +127,18 @@ export const LongList: Story = {
 };
 
 export const NoLabel: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'When no visible label is present, set `aria-label` on the host element. ' +
+          'The component strips it from the host and forwards it to the inner trigger button, ' +
+          'preventing the host from being named twice in the accessibility tree.',
+      },
+    },
+  },
   render: () => ({
     template: `<candor-listbox
+      aria-label="Filter by role"
       placeholder="Filter by role"
       options='${ROLES_JSON}'
     ></candor-listbox>`,
