@@ -53,17 +53,17 @@ export class CandorCombobox extends LitElement {
     }
     .combobox__caret {
       position: absolute; right: var(--spacing-input-padding-x);
-      width: 1rem; height: 1rem; color: var(--color-text-subtle); pointer-events: none;
+      width: 1rem; height: 1rem; color: var(--color-text-subtle); cursor: pointer;
       transition: transform 200ms ease, color 200ms ease;
     }
     .combobox__caret--open { transform: rotate(180deg); color: var(--color-action-primary); }
     .combobox__control:focus-within .combobox__caret { color: var(--color-action-primary); }
     .combobox__dropdown {
-      position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 200;
-      max-height: 16rem; overflow-y: auto;
+      position: absolute; top: calc(100% + var(--spacing-2xs)); left: 0; right: 0; z-index: 200;
+      margin: 0; max-height: 16rem; overflow-y: auto;
       background: var(--color-bg-elevated);
       border: var(--border-width-thin) solid var(--color-border-default);
-      border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: 0.25rem 0;
+      border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: var(--spacing-2xs) 0;
     }
     .combobox__option {
       display: flex; align-items: center; justify-content: space-between;
@@ -82,7 +82,7 @@ export class CandorCombobox extends LitElement {
     }
     .combobox__description {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: 0.02em; min-height: var(--hit-target-aa);
+      letter-spacing: var(--letter-spacing-italic); min-height: var(--hit-target-aa);
     }
     .combobox__error { color: var(--color-status-error-text); font-size: var(--font-size-md); }
     .combobox__hint { color: var(--color-text-subtle); }
@@ -169,7 +169,16 @@ export class CandorCombobox extends LitElement {
         }
         break;
       case 'Escape':
-        this._open = false;
+        if (this._open) {
+          this._open = false;
+        } else if (this.value || this._inputValue) {
+          this.value = '';
+          this._inputValue = '';
+          this._filtering = false;
+          this._activeIndex = -1;
+          this._internals.setFormValue(null);
+          this.dispatchEvent(new CustomEvent('change', { detail: null, bubbles: true, composed: true }));
+        }
         break;
     }
   }
@@ -236,7 +245,9 @@ export class CandorCombobox extends LitElement {
               @click="${() => { this._open = true; this._filtering = false; }}"
               @keydown="${this._onKeydown}"
             >
-            <svg class="combobox__caret ${this._open ? 'combobox__caret--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
+            <svg class="combobox__caret ${this._open ? 'combobox__caret--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"
+              @mousedown="${(e: MouseEvent) => { e.preventDefault(); const wasOpen = this._open; this._input.focus(); this._open = !wasOpen; this._filtering = false; }}"
+            ><path d="${phCaretDownBold}"/></svg>
           </div>
           ${this._open && filtered.length > 0 ? html`
             <ul id="${this._listId}" role="listbox" class="combobox__dropdown">
