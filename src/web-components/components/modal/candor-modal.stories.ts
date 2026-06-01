@@ -42,11 +42,11 @@ Emits a \`closed\` CustomEvent when dismissed. Backdrop uses \`backdrop-filter: 
       description: 'Panel max-width (400 / 560 / 768px)',
     },
   },
-  args: { heading: 'Confirm action', size: 'md' },
+  args: { open: false, heading: 'Confirm action', size: 'md' },
   render: (args) => ({
     template: `
       <candor-button onclick="document.getElementById('demo-modal').open = true">Open modal</candor-button>
-      <candor-modal id="demo-modal" heading="${args['heading']}" size="${args['size']}">
+      <candor-modal id="demo-modal" heading="${args['heading']}" size="${args['size']}" ${args['open'] ? 'open' : ''}>
         <p style="margin:0">Are you sure you want to proceed? This action cannot be undone.</p>
         <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
           <candor-button variant="secondary" onclick="document.getElementById('demo-modal').open = false">Cancel</candor-button>
@@ -79,14 +79,24 @@ export const Small: Story = {
 };
 
 export const Large: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Long content overflows the body — the panel caps at 90 vh and the body region scrolls independently. Header and footer stay fixed.',
+      },
+    },
+  },
   args: { heading: 'Terms and conditions', size: 'lg' },
   render: (args) => ({
     template: `
       <candor-button onclick="document.getElementById('modal-lg').open = true">Open large modal</candor-button>
       <candor-modal id="modal-lg" heading="${args['heading']}" size="lg">
-        <p style="margin-bottom:var(--spacing-sm)">By using Candor Design System, you agree to the following terms and conditions.</p>
+        <p style="margin-bottom:var(--spacing-sm)">By using Candor Design System, you agree to the following terms and conditions. Please read carefully before accepting.</p>
         <p style="margin-bottom:var(--spacing-sm)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p style="margin-bottom:var(--spacing-sm)">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p style="margin-bottom:var(--spacing-sm)">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+        <p style="margin-bottom:var(--spacing-sm)">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
         <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
           <candor-button variant="tertiary" onclick="document.getElementById('modal-lg').open = false">Decline</candor-button>
           <candor-button onclick="document.getElementById('modal-lg').open = false">Accept</candor-button>
