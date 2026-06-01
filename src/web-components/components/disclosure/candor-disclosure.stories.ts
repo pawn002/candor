@@ -74,16 +74,16 @@ export const ExpandableFilter: Story = {
       <div style="max-width:280px;">
         <candor-disclosure label="Filter by status" open>
           <div style="display:flex;flex-direction:column;gap:0.5rem;padding-bottom:0.25rem;">
-            <label style="display:flex;gap:0.5rem;align-items:center;font-size:var(--font-size-sm);font-family:var(--font-family-accessible);letter-spacing:0.02em;"><input type="checkbox" checked> Active</label>
-            <label style="display:flex;gap:0.5rem;align-items:center;font-size:var(--font-size-sm);font-family:var(--font-family-accessible);letter-spacing:0.02em;"><input type="checkbox"> Inactive</label>
-            <label style="display:flex;gap:0.5rem;align-items:center;font-size:var(--font-size-sm);font-family:var(--font-family-accessible);letter-spacing:0.02em;"><input type="checkbox"> Pending</label>
+            <candor-checkbox label="Active" checked></candor-checkbox>
+            <candor-checkbox label="Inactive"></candor-checkbox>
+            <candor-checkbox label="Pending"></candor-checkbox>
           </div>
         </candor-disclosure>
         <candor-disclosure label="Filter by role">
           <div style="display:flex;flex-direction:column;gap:0.5rem;padding-bottom:0.25rem;">
-            <label style="display:flex;gap:0.5rem;align-items:center;font-size:var(--font-size-sm);font-family:var(--font-family-accessible);letter-spacing:0.02em;"><input type="checkbox" checked> Admin</label>
-            <label style="display:flex;gap:0.5rem;align-items:center;font-size:var(--font-size-sm);font-family:var(--font-family-accessible);letter-spacing:0.02em;"><input type="checkbox" checked> Member</label>
-            <label style="display:flex;gap:0.5rem;align-items:center;font-size:var(--font-size-sm);font-family:var(--font-family-accessible);letter-spacing:0.02em;"><input type="checkbox"> Viewer</label>
+            <candor-checkbox label="Admin" checked></candor-checkbox>
+            <candor-checkbox label="Member" checked></candor-checkbox>
+            <candor-checkbox label="Viewer"></candor-checkbox>
           </div>
         </candor-disclosure>
       </div>
