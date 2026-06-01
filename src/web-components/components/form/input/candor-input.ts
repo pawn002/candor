@@ -53,10 +53,15 @@ export class CandorInput extends LitElement {
   private _hintId = `${this._id}-hint`;
   private _errorId = `${this._id}-error`;
 
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('value')) {
+      this._internals.setFormValue(this.value);
+    }
+  }
+
   private _onInput(e: Event) {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
     this.value = target.value;
-    this._internals.setFormValue(this.value);
     this.dispatchEvent(new CustomEvent('input-change', { detail: this.value, bubbles: true, composed: true }));
   }
 

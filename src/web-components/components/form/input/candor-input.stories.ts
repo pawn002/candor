@@ -14,9 +14,11 @@ state. Covers text, email, password, and number input types, plus a textarea mod
 The label is always rendered — never omit it for visual reasons. If the design calls for a
 labelless input, set \`aria-label\` on the host element so the field remains accessible.
 
-**Hint and error are mutually exclusive at display time.** When \`error\` is set it replaces
-the hint text in the DOM and is associated with the field via \`aria-describedby\`. Don't
-duplicate the error message in both \`hint\` and \`error\`.
+**Hint and error are shown simultaneously.** The hint appears above the input (between label
+and field); the error appears below. Both are associated with the field via \`aria-describedby\`
+so screen readers announce them on focus. Keep hint text focused on format guidance — it
+remains visible when an error is shown, giving the user the context they need to correct
+their input.
 
 Form-associated (\`ElementInternals\`): the value appears in \`FormData\` keyed by \`name\`.
 Emits an \`input-change\` CustomEvent on each keystroke.
@@ -27,8 +29,8 @@ Emits an \`input-change\` CustomEvent on each keystroke.
   argTypes: {
     label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
     placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder text' },
-    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text below the field' },
-    error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
+    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text above the input (below the label); remains visible alongside error' },
+    error: { control: 'text', type: { name: 'string' }, description: 'Validation error message shown below the input; displayed alongside hint when both are set' },
     type: {
       control: 'select',
       options: ['text', 'email', 'password', 'number'],
