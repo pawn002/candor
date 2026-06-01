@@ -723,7 +723,7 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 ### Form authoring
 
-- **Disabled fields must have a hint.** A disabled control without explanation reads as broken. The hint is the only channel for telling the user whether the lock is a permission boundary, a system constraint, or a state they can change elsewhere. Apply to every form component (`candor-input`, `candor-select`, `candor-listbox`, `candor-combobox`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-slider`). The one exception: when the reason is unambiguously obvious from immediate visual context — e.g. a field grayed out directly beneath the off-toggle it depends on.
+- **Disabled fields must have a hint.** A disabled control without explanation reads as broken. The hint is the only channel for telling the user whether the lock is a permission boundary, a system constraint, or a state they can change elsewhere. Apply to every form component (`candor-input`, `candor-select`, `candor-listbox`, `candor-combobox`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-slider`). The one exception: when the reason is unambiguously obvious from immediate visual context — e.g. a field grayed out directly beneath the off-toggle it depends on. Note: `candor-slider` has no built-in `hint` prop — the consumer supplies hint text via an adjacent `<candor-accessible-text role_="annotation">` element, which stays at full opacity (the slider's disabled state dims the host, which would also dim an internal hint).
 
 ### Tokens and visual
 

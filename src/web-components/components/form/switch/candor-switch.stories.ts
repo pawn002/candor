@@ -18,6 +18,10 @@ Set \`aria-label\` on the custom element when the switch has no adjacent visible
 component reflects it onto the inner \`<input type="checkbox" role="switch">\` — relying on
 attribute inheritance from the host alone does not work.
 
+Set \`hint\` whenever the switch is disabled — a disabled control with no explanation reads as
+broken. The hint is the only channel for telling the user whether the lock is a permission
+boundary, a system constraint, or a state they can change elsewhere.
+
 Form-associated (\`ElementInternals\`): emits a \`change\` CustomEvent and appears in
 \`FormData\` when wrapped in a \`<form>\`.
         `.trim(),
@@ -26,12 +30,13 @@ Form-associated (\`ElementInternals\`): emits a \`change\` CustomEvent and appea
   },
   argTypes: {
     label: { control: 'text', type: { name: 'string' }, description: 'Switch label text' },
+    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text shown below the switch; always include when disabled' },
     checked: { control: 'boolean', type: { name: 'boolean' }, description: 'Checked state' },
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
   args: { label: 'Enable notifications', checked: false, disabled: false },
   render: (args) => ({
-    template: `<candor-switch label="${args['label']}" ${args['checked'] ? 'checked' : ''} ${args['disabled'] ? 'disabled' : ''}></candor-switch>`,
+    template: `<candor-switch label="${args['label']}" ${args['hint'] ? `hint="${args['hint']}"` : ''} ${args['checked'] ? 'checked' : ''} ${args['disabled'] ? 'disabled' : ''}></candor-switch>`,
   }),
 };
 
@@ -41,8 +46,19 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const Checked: Story = { args: { label: 'Dark mode', checked: true } };
-export const Disabled: Story = { args: { label: 'Unavailable option', disabled: true } };
-export const DisabledChecked: Story = { args: { label: 'Locked setting', checked: true, disabled: true } };
+export const Disabled: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: '**Candor pattern: disabled fields must have a hint.** Always explain why the switch is locked.',
+      },
+    },
+  },
+  args: { label: 'Unavailable option', disabled: true, hint: 'Not available on your current plan.' },
+};
+export const DisabledChecked: Story = {
+  args: { label: 'Locked setting', checked: true, disabled: true, hint: 'Managed by your administrator.' },
+};
 
 export const NoLabel: Story = {
   args: {},
@@ -52,13 +68,13 @@ export const NoLabel: Story = {
 export const FormGroup: Story = {
   render: () => ({
     template: `
-      <fieldset style="border:1px solid var(--color-border-default);border-radius:var(--radius-md);padding:var(--spacing-md);max-width:360px;">
-        <legend style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;color:var(--color-text-subtle);padding:0 0.5rem;">Notification preferences</legend>
-        <div style="display:flex;flex-direction:column;gap:1.25rem;margin-top:0.5rem;">
+      <fieldset style="border:var(--border-width-thin) solid var(--color-border-default);border-radius:var(--radius-md);padding:var(--spacing-md);max-width:360px;">
+        <legend style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;color:var(--color-text-subtle);padding:0 var(--spacing-xs);">Notification preferences</legend>
+        <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);margin-top:var(--spacing-xs);">
           <candor-switch label="Email notifications" checked></candor-switch>
           <candor-switch label="Push notifications"></candor-switch>
           <candor-switch label="Weekly digest" checked></candor-switch>
-          <candor-switch label="Marketing emails" disabled></candor-switch>
+          <candor-switch label="Marketing emails" disabled hint="Unsubscribed at the account level. Contact support to change."></candor-switch>
         </div>
       </fieldset>
     `,
@@ -68,11 +84,11 @@ export const FormGroup: Story = {
 export const States: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
         <candor-switch label="Off (default)"></candor-switch>
         <candor-switch label="On" checked></candor-switch>
-        <candor-switch label="Disabled off" disabled></candor-switch>
-        <candor-switch label="Disabled on" checked disabled></candor-switch>
+        <candor-switch label="Disabled off" disabled hint="Not available on your current plan."></candor-switch>
+        <candor-switch label="Disabled on" checked disabled hint="Managed by your administrator."></candor-switch>
       </div>
     `,
   }),

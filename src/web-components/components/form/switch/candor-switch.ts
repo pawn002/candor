@@ -8,7 +8,8 @@ export class CandorSwitch extends LitElement {
   private _internals = this.attachInternals();
 
   static override styles = css`
-    :host { display: inline-block; }
+    :host { display: block; }
+    .switch-container { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .switch-wrapper {
       display: inline-flex;
       align-items: center;
@@ -68,11 +69,18 @@ export class CandorSwitch extends LitElement {
       font-size: var(--font-size-md);
       color: var(--color-text-default);
       user-select: none;
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-italic);
+    }
+    .switch-hint {
+      font-family: var(--font-family-accessible);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-subtle);
+      letter-spacing: var(--letter-spacing-italic);
     }
   `;
 
   @property() label?: string;
+  @property() hint?: string;
   @property() name?: string;
 
   // aria-label observed manually so the attribute is stripped off the host
@@ -94,6 +102,13 @@ export class CandorSwitch extends LitElement {
   @property({ type: Boolean }) required = false;
 
   private _id = `candor-switch-${Math.random().toString(36).slice(2, 9)}`;
+  private _hintId = `${this._id}-hint`;
+
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('checked')) {
+      this._internals.setFormValue(this.checked ? 'on' : null);
+    }
+  }
 
   private _onChange(e: Event) {
     this.checked = (e.target as HTMLInputElement).checked;
@@ -103,25 +118,29 @@ export class CandorSwitch extends LitElement {
 
   override render() {
     return html`
-      <label class="switch-wrapper ${this.disabled ? 'switch-wrapper--disabled' : ''}" for="${this._id}">
-        <input
-          class="switch-input"
-          type="checkbox"
-          role="switch"
-          id="${this._id}"
-          .checked="${this.checked}"
-          ?disabled="${this.disabled}"
-          ?required="${this.required}"
-          aria-label="${this._ariaLabel || nothing}"
-          name="${this.name || nothing}"
-          @change="${this._onChange}"
-        />
-        <span class="switch-track">
-          <span class="switch-thumb"></span>
-        </span>
-        ${this.label ? html`<span class="switch-label">${this.label}</span>` : nothing}
-        <slot></slot>
-      </label>
+      <div class="switch-container">
+        <label class="switch-wrapper ${this.disabled ? 'switch-wrapper--disabled' : ''}" for="${this._id}">
+          <input
+            class="switch-input"
+            type="checkbox"
+            role="switch"
+            id="${this._id}"
+            .checked="${this.checked}"
+            ?disabled="${this.disabled}"
+            ?required="${this.required}"
+            aria-label="${this._ariaLabel || nothing}"
+            aria-describedby="${this.hint ? this._hintId : nothing}"
+            name="${this.name || nothing}"
+            @change="${this._onChange}"
+          />
+          <span class="switch-track">
+            <span class="switch-thumb"></span>
+          </span>
+          ${this.label ? html`<span class="switch-label">${this.label}</span>` : nothing}
+          <slot></slot>
+        </label>
+        ${this.hint ? html`<span id="${this._hintId}" class="switch-hint">${this.hint}</span>` : nothing}
+      </div>
     `;
   }
 }
