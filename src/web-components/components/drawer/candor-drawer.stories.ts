@@ -113,7 +113,7 @@ export const NoDismissOnBackdrop: Story = {
 };
 
 export const LargeDrawer: Story = {
-  name: 'Size: lg',
+  name: 'Size: Large',
   render: () => ({
     template: `
       <candor-button onclick="document.getElementById('drawer-lg').open = true">Open large drawer</candor-button>
