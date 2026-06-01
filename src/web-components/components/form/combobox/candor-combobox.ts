@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
 import { phCaretDownBold } from '../../../icons';
+import { observeHostAriaLabel } from '../../../utils/host-aria';
 
 export interface ComboboxOption {
   value: string;
@@ -105,6 +106,8 @@ export class CandorCombobox extends LitElement {
   @state() private _open = false;
   @state() private _activeIndex = -1;
   @state() private _filtering = false;
+  @state() private _ariaLabel = '';
+  private _stopObservingAriaLabel?: () => void;
 
   @query('.combobox__input') private _input!: HTMLInputElement;
 
@@ -213,8 +216,10 @@ export class CandorCombobox extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     document.addEventListener('click', this._onDocumentClick);
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
   }
   override disconnectedCallback() {
+    this._stopObservingAriaLabel?.();
     super.disconnectedCallback();
     document.removeEventListener('click', this._onDocumentClick);
   }
@@ -239,6 +244,7 @@ export class CandorCombobox extends LitElement {
               type="text"
               role="combobox"
               autocomplete="off"
+              aria-label="${this._ariaLabel || nothing}"
               aria-autocomplete="list"
               aria-expanded="${this._open}"
               aria-controls="${this._listId}"

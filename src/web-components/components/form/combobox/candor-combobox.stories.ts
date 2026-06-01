@@ -54,7 +54,7 @@ autocomplete pattern — the user can type freely and suggestions filter in real
 \`aria-activedescendant\` on the input tracks the keyboard-highlighted option.
 
 **Keyboard:** ArrowDown/Up navigate options; Enter selects the active option; Escape closes
-the dropdown.
+the dropdown (second Escape clears the value); Tab closes the dropdown.
 
 **Combobox vs. Listbox vs. native Select**
 
@@ -73,7 +73,7 @@ submission. Emits a \`change\` CustomEvent on selection.
   argTypes: {
     label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
     placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder shown when no value is selected' },
-    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text below the field' },
+    hint: { control: 'text', type: { name: 'string' }, description: 'Helper text above the input (below the label)' },
     error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
     required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
@@ -137,8 +137,12 @@ export const LongLabels: Story = {
 };
 
 export const NoLabel: Story = {
+  parameters: {
+    docs: { description: { story: 'When no visible label is provided, supply `aria-label` on the host — the component forwards it to the inner input and strips it from the host to avoid double-naming in the AT tree.' } }
+  },
   render: () => ({
     template: `<candor-combobox
+      aria-label="Country"
       placeholder="Search countries…"
       options='${COUNTRIES_JSON}'
     ></candor-combobox>`,
