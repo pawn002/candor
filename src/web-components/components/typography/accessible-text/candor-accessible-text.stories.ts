@@ -148,6 +148,15 @@ export const FontComparison: Story = {
 };
 
 export const CriticalFormContext: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `**Label casing rule:** form field labels use sentence case ("National Insurance number", "Email address") — they name what the user fills in.
+Structural UI anchors — \`<candor-accessible-text role_="label">\` used to head a region or column — render uppercase via CSS ("PAGE BACKGROUND", "SURFACE BACKGROUND").
+The test: does the user fill it in? → sentence case. Does it label a section of the interface? → uppercase Atkinson anchor.`,
+      },
+    },
+  },
   render: () => ({
     template: `
       <div style="max-width:400px;display:flex;flex-direction:column;gap:var(--spacing-lg);">

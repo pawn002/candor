@@ -121,17 +121,25 @@ export const LongList: Story = {
   parameters: {
     docs: {
       description: {
-        story: '12-item list shown at its scrollable limit. This is near the practical ceiling for a listbox — ' +
-          'once users must scroll to find an option, the task has shifted from recognition to search. ' +
-          'For lists of 16+ options, use `<candor-combobox>` with filter-as-you-type instead.',
+        story: '12-item list (all 12 months) shown at its scrollable limit. This is the practical ceiling for ' +
+          'a listbox — the complete, bounded set fits without user search. ' +
+          'For lists of 16+ options, or any list that is a subset of a larger dataset (e.g. countries), ' +
+          'use `<candor-combobox>` with filter-as-you-type instead.',
       },
     },
   },
   render: () => ({
     template: `<div style="max-width:320px;"><candor-listbox
-      label="Country"
-      placeholder="Select a country"
-      options='${COUNTRIES_JSON}'
+      label="Birth month"
+      placeholder="Select a month"
+      options='${JSON.stringify([
+        { value: '01', label: 'January' }, { value: '02', label: 'February' },
+        { value: '03', label: 'March' }, { value: '04', label: 'April' },
+        { value: '05', label: 'May' }, { value: '06', label: 'June' },
+        { value: '07', label: 'July' }, { value: '08', label: 'August' },
+        { value: '09', label: 'September' }, { value: '10', label: 'October' },
+        { value: '11', label: 'November' }, { value: '12', label: 'December' },
+      ])}'
     ></candor-listbox></div>`,
   }),
 };

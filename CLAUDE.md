@@ -229,6 +229,17 @@ The question is not "is this text important?" All text in a well-designed UI is 
 | `status` | Validation errors, live counters, state changes | 14px | regular | — |
 | `annotation` | Hints, constraints, legal small print that guide an action | 14px | regular | italic |
 
+#### Label casing
+
+Form field labels and structural UI anchors are both "labels" but follow different casing rules:
+
+| Context | Casing | Example |
+|---|---|---|
+| Form field label (`<label>` inside form components) | Sentence case | "Birth month", "Email address" |
+| Structural UI anchor (`candor-accessible-text role_="label"`) | Uppercase (via CSS) | "PAGE BACKGROUND", "SURFACE BACKGROUND" |
+
+**The test:** does the user fill it in? → sentence case. Does it label a region or column of the UI? → uppercase Atkinson anchor.
+
 #### Bold weight rules
 
 - **Use bold only for hierarchy/labeling** — `role_="label"` renders bold automatically
