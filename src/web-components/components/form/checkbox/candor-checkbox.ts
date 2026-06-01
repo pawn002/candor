@@ -76,9 +76,14 @@ export class CandorCheckbox extends LitElement {
 
   private _id = `candor-checkbox-${Math.random().toString(36).slice(2, 9)}`;
 
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('checked')) {
+      this._internals.setFormValue(this.checked ? 'on' : null);
+    }
+  }
+
   private _onChange(e: Event) {
     this.checked = (e.target as HTMLInputElement).checked;
-    this._internals.setFormValue(this.checked ? 'on' : null);
     this.dispatchEvent(new CustomEvent('change', { detail: this.checked, bubbles: true, composed: true }));
   }
 
