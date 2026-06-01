@@ -28,6 +28,7 @@ Emits an \`input-change\` CustomEvent on each keystroke.
   },
   argTypes: {
     label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
+    value: { control: 'text', type: { name: 'string' }, description: 'Pre-filled field value' },
     placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder text' },
     autocomplete: { control: 'text', type: { name: 'string' }, description: 'HTML autocomplete token (e.g. "email", "current-password", "new-password", "name")' },
     hint: { control: 'text', type: { name: 'string' }, description: 'Helper text above the input (below the label); remains visible alongside error' },
@@ -51,7 +52,7 @@ Emits an \`input-change\` CustomEvent on each keystroke.
   },
   args: { label: 'Email address', placeholder: 'you@example.com', type: 'email', required: false, disabled: false, multiline: false },
   render: (args) => ({
-    template: `<candor-input label="${args['label']}" placeholder="${args['placeholder']}" type="${args['type']}" error="${args['error'] || ''}" hint="${args['hint'] || ''}" ${args['autocomplete'] ? `autocomplete="${args['autocomplete']}"` : ''} ${args['required'] ? 'required' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['multiline'] ? 'multiline' : ''}></candor-input>`,
+    template: `<candor-input label="${args['label']}" placeholder="${args['placeholder'] || ''}" type="${args['type']}" error="${args['error'] || ''}" hint="${args['hint'] || ''}" ${args['value'] ? `value="${args['value']}"` : ''} ${args['autocomplete'] ? `autocomplete="${args['autocomplete']}"` : ''} ${args['required'] ? 'required' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['multiline'] ? 'multiline' : ''}></candor-input>`,
   }),
 };
 
@@ -65,7 +66,7 @@ export const Required: Story = {
 };
 
 export const Disabled: Story = {
-  args: { label: 'Username', type: 'text', placeholder: 'Cannot edit', disabled: true },
+  args: { label: 'Username', type: 'text', value: 'Cannot edit', disabled: true },
 };
 
 export const Password: Story = {
