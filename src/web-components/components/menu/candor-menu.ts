@@ -1,10 +1,12 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
-import { phCaretDownBold } from '../../icons';
+import { phCaretDownBold, phDotsThreeVerticalBold, phCheckBold } from '../../icons';
+import { observeHostAriaLabel } from '../../utils/host-aria';
 
 export interface MenuItem {
   label: string;
   disabled?: boolean;
+  checked?: boolean;
 }
 
 export type MenuEntry = MenuItem | 'separator';
@@ -27,6 +29,12 @@ export class CandorMenu extends LitElement {
       border-radius: var(--radius-md);
       cursor: pointer;
       transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .menu-trigger--icon-only {
+      padding: var(--spacing-xs);
+      width: 2.5rem;
+      height: 2.5rem;
+      justify-content: center;
     }
     .menu-trigger:hover {
       background-color: var(--color-bg-elevated);
@@ -63,8 +71,14 @@ export class CandorMenu extends LitElement {
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-md);
     }
+    .menu-panel--right {
+      left: auto;
+      right: 0;
+    }
     .menu-item {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
       width: 100%;
       padding: 0.5rem 0.75rem;
       font-family: var(--font-family-accessible);
@@ -92,6 +106,17 @@ export class CandorMenu extends LitElement {
       cursor: not-allowed;
       pointer-events: none;
     }
+    .menu-item__check {
+      width: 0.875rem;
+      height: 0.875rem;
+      flex-shrink: 0;
+      color: var(--color-action-primary);
+    }
+    .menu-item__check--empty {
+      width: 0.875rem;
+      height: 0.875rem;
+      flex-shrink: 0;
+    }
     .menu-separator {
       height: var(--border-width-thin);
       background-color: var(--color-border-default);
@@ -99,20 +124,27 @@ export class CandorMenu extends LitElement {
     }
   `;
 
-  @property() label = 'Options';
+  @property() label = '';
   @property({ type: Array }) entries: MenuEntry[] = [];
+  @property() align: 'left' | 'right' = 'left';
 
   @state() private _open = false;
   @state() private _focusedIndex = 0;
+  @state() private _ariaLabel?: string;
 
   private _menuId = `candor-menu-${Math.random().toString(36).slice(2, 9)}`;
   private _triggerId = `candor-menu-trigger-${Math.random().toString(36).slice(2, 9)}`;
+  private _stopObservingAriaLabel?: () => void;
 
   @query('.menu-trigger') private _trigger!: HTMLButtonElement;
   @queryAll('.menu-item') private _items!: NodeListOf<HTMLButtonElement>;
 
   private get _itemEntries(): MenuItem[] {
     return this.entries.filter((e): e is MenuItem => e !== 'separator');
+  }
+
+  private get _hasCheckedItems(): boolean {
+    return this._itemEntries.some(e => e.checked !== undefined);
   }
 
   private _open_() {
@@ -166,33 +198,40 @@ export class CandorMenu extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
     document.addEventListener('click', this._onDocumentClick);
   }
 
   override disconnectedCallback() {
-    super.disconnectedCallback();
+    this._stopObservingAriaLabel?.();
     document.removeEventListener('click', this._onDocumentClick);
+    super.disconnectedCallback();
   }
 
   override render() {
+    const iconOnly = !this.label;
+    const hasChecked = this._hasCheckedItems;
     return html`
       <button
-        class="menu-trigger"
+        class="menu-trigger${iconOnly ? ' menu-trigger--icon-only' : ''}"
         id="${this._triggerId}"
         aria-haspopup="menu"
         aria-expanded="${this._open}"
         aria-controls="${this._menuId}"
+        aria-label="${this._ariaLabel || nothing}"
         @click="${this._toggle}"
         @keydown="${this._onTriggerKeydown}"
       >
-        ${this.label}
-        <svg class="menu-trigger__chevron" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
+        ${iconOnly
+          ? html`<svg class="menu-trigger__chevron" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phDotsThreeVerticalBold}"/></svg>`
+          : html`${this.label}<svg class="menu-trigger__chevron" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>`
+        }
       </button>
       ${this._open ? html`
         <ul
           id="${this._menuId}"
           role="menu"
-          class="menu-panel"
+          class="menu-panel${this.align === 'right' ? ' menu-panel--right' : ''}"
           aria-labelledby="${this._triggerId}"
           @keydown="${this._onMenuKeydown}"
         >
@@ -201,13 +240,22 @@ export class CandorMenu extends LitElement {
               ? html`<li role="separator" class="menu-separator"></li>`
               : html`<li role="none">
                   <button
-                    role="menuitem"
+                    role="${hasChecked ? 'menuitemradio' : 'menuitem'}"
                     class="menu-item ${entry.disabled ? 'menu-item--disabled' : ''}"
                     aria-disabled="${entry.disabled || nothing}"
+                    aria-checked="${hasChecked ? (entry.checked ? 'true' : 'false') : nothing}"
                     tabindex="${this._focusedIndex === this._getItemIndex(i) ? '0' : '-1'}"
                     @click="${() => this._select(entry)}"
                     @mouseenter="${() => this._focusedIndex = this._getItemIndex(i)}"
-                  >${entry.label}</button>
+                  >
+                    ${hasChecked
+                      ? (entry.checked
+                          ? html`<svg class="menu-item__check" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCheckBold}"/></svg>`
+                          : html`<span class="menu-item__check--empty"></span>`)
+                      : nothing
+                    }
+                    ${entry.label}
+                  </button>
                 </li>`
           )}
         </ul>
