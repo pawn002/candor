@@ -40,10 +40,6 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const Checked: Story = { args: { label: 'Accept terms and conditions', checked: true } };
-export const Disabled: Story = { args: { label: 'Cannot select', disabled: true } };
-export const CheckedDisabled: Story = { args: { label: 'Already selected and locked', checked: true, disabled: true } };
-
 export const AllStates: Story = {
   parameters: { controls: { disable: true } },
   render: () => ({
@@ -76,7 +72,7 @@ export const Group: Story = {
   render: () => ({
     template: `
       <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
-        <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);margin-bottom:0.5rem;">Notifications</legend>
+        <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem;">Notifications</legend>
         <candor-checkbox label="Email notifications" checked></candor-checkbox>
         <candor-checkbox label="SMS notifications"></candor-checkbox>
         <candor-checkbox label="Push notifications" disabled></candor-checkbox>
