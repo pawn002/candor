@@ -63,7 +63,7 @@ export class CandorRadio extends LitElement {
       font-size: var(--font-size-md);
       color: var(--color-text-default);
       user-select: none;
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-italic);
     }
   `;
 
@@ -74,6 +74,12 @@ export class CandorRadio extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   private _id = `candor-radio-${Math.random().toString(36).slice(2, 9)}`;
+
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('checked') || changed.has('value')) {
+      this._internals.setFormValue(this.checked ? this.value : null);
+    }
+  }
 
   private _onChange(e: Event) {
     if ((e.target as HTMLInputElement).checked) {
