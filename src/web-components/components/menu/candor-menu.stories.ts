@@ -6,7 +6,7 @@ const DEMO_ENTRIES = JSON.stringify([
   'separator',
   { label: 'Share' },
   'separator',
-  { label: 'Delete', disabled: false },
+  { label: 'Delete' },
 ]);
 
 const ACTION_ENTRIES = JSON.stringify([
@@ -98,7 +98,7 @@ export const WithDisabledItems: Story = {
 export const InToolbar: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:var(--color-bg-surface);border-radius:var(--radius-md);border:1px solid var(--color-border-default);">
+      <div style="display:flex;align-items:center;gap:var(--spacing-sm);padding:var(--spacing-sm);background:var(--color-bg-surface);border-radius:var(--radius-md);border:var(--border-width-thin) solid var(--color-border-default);">
         <candor-menu label="File" entries='${TOOLBAR_FILE}'></candor-menu>
         <candor-menu label="Edit" entries='${TOOLBAR_EDIT}'></candor-menu>
         <candor-menu label="View" entries='${TOOLBAR_VIEW}'></candor-menu>

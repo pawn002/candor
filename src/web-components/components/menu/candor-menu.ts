@@ -55,7 +55,7 @@ export class CandorMenu extends LitElement {
       left: 0;
       z-index: 200;
       min-width: 10rem;
-      padding: 0.25rem;
+      padding: var(--spacing-2xs);
       margin: 0;
       list-style: none;
       background-color: var(--color-bg-elevated);
@@ -69,7 +69,7 @@ export class CandorMenu extends LitElement {
       padding: 0.5rem 0.75rem;
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-italic);
       color: var(--color-text-default);
       background: none;
       border: none;
