@@ -10,7 +10,7 @@ export class CandorStat extends LitElement {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: var(--spacing-xs);
     }
     .stat__label {
       margin: 0;
@@ -18,7 +18,7 @@ export class CandorStat extends LitElement {
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-regular);
       color: var(--color-text-subtle-on-surface);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-italic);
       text-align: center;
     }
     .stat__value {
@@ -39,7 +39,7 @@ export class CandorStat extends LitElement {
       font-size: var(--font-size-lg);
       font-weight: var(--font-weight-regular);
       color: var(--color-text-subtle);
-      letter-spacing: 0;
+      letter-spacing: var(--letter-spacing-normal);
     }
   `;
 

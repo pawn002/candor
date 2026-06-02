@@ -46,11 +46,11 @@ export const ContrastRatio: Story = {
   parameters: { controls: { disable: true } },
   render: () => ({
     template: `
-      <div style="max-width:320px;padding:1rem;">
+      <div style="max-width:320px;padding:var(--spacing-sm);">
         <candor-card variant="elevated">
-          <div style="padding:0.5rem 0;">
+          <div style="padding:var(--spacing-xs) 0;">
             <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning">
-              <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;">
+              <div style="display:flex;gap:var(--spacing-xs);flex-wrap:wrap;justify-content:center;">
                 <candor-badge variant="error" size="sm">AA text ✗</candor-badge>
                 <candor-badge variant="success" size="sm">Large text ✓</candor-badge>
                 <candor-badge variant="success" size="sm">Non-text ✓</candor-badge>
@@ -69,11 +69,12 @@ export const ContrastRatio: Story = {
 export const AllColors: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;">
+      <div style="display:flex;gap:var(--spacing-lg);flex-wrap:wrap;justify-content:center;">
         <candor-stat value="98.7" unit="%" label="Uptime" color="success"></candor-stat>
         <candor-stat value="42" label="Pending" color="warning"></candor-stat>
         <candor-stat value="3" label="Failures" color="error"></candor-stat>
         <candor-stat value="1,284" label="Users" color="default"></candor-stat>
+        <candor-stat value="512" label="API calls" color="info"></candor-stat>
       </div>
     `,
   }),
