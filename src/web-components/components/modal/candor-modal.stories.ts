@@ -21,11 +21,15 @@ panel without fully leaving the current page.
 <candor-modal heading="Confirm deletion" id="m">
   <p>This cannot be undone.</p>
   <div slot="footer">
-    <candor-button variant="ghost" onclick="m.open = false">Cancel</candor-button>
-    <candor-button variant="destructive">Delete</candor-button>
+    <candor-button variant="ghost" size="small" onclick="m.open = false">Cancel</candor-button>
+    <candor-button variant="destructive" size="small">Delete</candor-button>
   </div>
 </candor-modal>
 \`\`\`
+
+**Footer buttons:** use \`size="small"\` — medium buttons overpower the modal's compact panel. The
+component cannot enforce this (slot content is consumer-owned), so every footer should set it
+explicitly.
 
 Emits a \`closed\` CustomEvent when dismissed. Backdrop uses \`backdrop-filter: blur(2px)\`.
         `.trim(),
@@ -49,8 +53,8 @@ Emits a \`closed\` CustomEvent when dismissed. Backdrop uses \`backdrop-filter: 
       <candor-modal id="demo-modal" heading="${args['heading']}" size="${args['size']}" ${args['open'] ? 'open' : ''}>
         <p style="margin:0">Are you sure you want to proceed? This action cannot be undone.</p>
         <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
-          <candor-button variant="secondary" onclick="document.getElementById('demo-modal').open = false">Cancel</candor-button>
-          <candor-button onclick="document.getElementById('demo-modal').open = false">Confirm</candor-button>
+          <candor-button variant="secondary" size="small" onclick="document.getElementById('demo-modal').open = false">Cancel</candor-button>
+          <candor-button size="small" onclick="document.getElementById('demo-modal').open = false">Confirm</candor-button>
         </div>
       </candor-modal>
     `,
@@ -70,8 +74,8 @@ export const Small: Story = {
       <candor-modal id="modal-sm" heading="${args['heading']}" size="sm">
         <p style="margin:0">Are you sure you want to delete this item? This action cannot be undone.</p>
         <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
-          <candor-button variant="tertiary" onclick="document.getElementById('modal-sm').open = false">Cancel</candor-button>
-          <candor-button variant="destructive" onclick="document.getElementById('modal-sm').open = false">Delete</candor-button>
+          <candor-button variant="tertiary" size="small" onclick="document.getElementById('modal-sm').open = false">Cancel</candor-button>
+          <candor-button variant="destructive" size="small" onclick="document.getElementById('modal-sm').open = false">Delete</candor-button>
         </div>
       </candor-modal>
     `,
@@ -98,8 +102,8 @@ export const Large: Story = {
         <p style="margin-bottom:var(--spacing-sm)">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
         <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
         <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
-          <candor-button variant="tertiary" onclick="document.getElementById('modal-lg').open = false">Decline</candor-button>
-          <candor-button onclick="document.getElementById('modal-lg').open = false">Accept</candor-button>
+          <candor-button variant="tertiary" size="small" onclick="document.getElementById('modal-lg').open = false">Decline</candor-button>
+          <candor-button size="small" onclick="document.getElementById('modal-lg').open = false">Accept</candor-button>
         </div>
       </candor-modal>
     `,
