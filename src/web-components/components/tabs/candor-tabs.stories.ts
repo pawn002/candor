@@ -37,7 +37,9 @@ tab in view automatically.
     },
   },
   argTypes: {
-    activeId: { control: 'text', type: { name: 'string' }, description: 'Currently selected tab id' },
+    'aria-label': { control: 'text', description: 'Required. Labels the tab list for screen readers. Set on the host — forwarded to [role="tablist"] internally.' },
+    tabs: { control: 'object', description: 'Array of { id: string, label: string } — drives the tab row. Panels are matched by panel-id.' },
+    activeId: { control: 'text', type: { name: 'string' }, description: 'Id of the initially selected tab. Defaults to the first tab.' },
     theme: {
       control: 'select',
       options: ['default', 'inverse'],
@@ -50,6 +52,7 @@ tab in view automatically.
       type: { name: 'string' },
       description: 'horizontal: tabs above panels (default). vertical: tabs left, panels right.',
     },
+    'tab-change': { control: false, description: 'CustomEvent fired on tab selection. event.detail is the id of the newly active tab.' },
   },
   render: () => ({
     template: `<candor-tabs
@@ -172,7 +175,8 @@ export const ManyTabs: Story = {
   }),
 };
 
-export const Controlled: Story = {
+export const PreSelected: Story = {
+  name: 'Pre-selected tab',
   render: () => ({
     template: `<candor-tabs
       active-id="settings"
@@ -186,6 +190,42 @@ export const Controlled: Story = {
       </candor-tab-panel>
       <candor-tab-panel panel-id="billing">
         <p style="margin:0">View your billing history, update payment methods, and manage subscriptions.</p>
+      </candor-tab-panel>
+    </candor-tabs>`,
+  }),
+};
+
+export const Controlled: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Select a tab — a `tab-change` CustomEvent fires with the new tab id as `event.detail`. ' +
+          'Wire it to your data layer or router:\n\n' +
+          '```js\n' +
+          "const tabs = document.querySelector('candor-tabs');\n" +
+          "tabs.addEventListener('tab-change', (e) => {\n" +
+          '  router.navigate(e.detail);   // e.g. update URL\n' +
+          '  tabs.activeId = e.detail;    // sync back if managing state externally\n' +
+          '});\n' +
+          '```\n\n' +
+          'The component manages its own visual state internally, so navigation works in the canvas without an external handler.',
+      },
+    },
+  },
+  render: () => ({
+    template: `<candor-tabs
+      active-id="overview"
+      aria-label="Product details"
+      tabs='[{"id":"overview","label":"Overview"},{"id":"specs","label":"Specifications"},{"id":"reviews","label":"Reviews"}]'>
+      <candor-tab-panel panel-id="overview" active>
+        <p style="margin:0">Overview content. Open the browser console and select a tab to see the <code>tab-change</code> event fire.</p>
+      </candor-tab-panel>
+      <candor-tab-panel panel-id="specs">
+        <p style="margin:0">Specifications content.</p>
+      </candor-tab-panel>
+      <candor-tab-panel panel-id="reviews">
+        <p style="margin:0">Customer reviews.</p>
       </candor-tab-panel>
     </candor-tabs>`,
   }),

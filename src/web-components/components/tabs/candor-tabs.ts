@@ -142,6 +142,10 @@ export class CandorTabs extends LitElement {
       background-color: var(--color-bg-inverse);
       padding: 0 var(--spacing-sm);
     }
+    /* Restore scroll clearance when inverse + overflow — the padding shorthand above overrides
+       the general can-scroll rules at equal specificity, so re-assert with 3-class selectors. */
+    .tabs--inverse.tabs--can-scroll-left .tabs__list { padding-left: var(--spacing-lg); }
+    .tabs--inverse.tabs--can-scroll-right .tabs__list { padding-right: var(--spacing-lg); }
     .tabs--inverse .tabs__scroll-btn { color: var(--color-text-subtle-on-inverse); }
     .tabs--inverse .tabs__scroll-btn:hover { color: var(--color-text-inverse); }
     .tabs--inverse .tabs__tab { color: var(--color-text-subtle-on-inverse); }
