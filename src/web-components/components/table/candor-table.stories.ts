@@ -34,6 +34,10 @@ const meta: Meta = {
 \`<candor-table>\` — semantic data table with consistent typography, zebra striping, and a
 \`compact\` density variant.
 
+Set \`caption\` to render a visible \`<caption>\` element above the table — this is the
+primary accessible name for the table and should always be provided. Screen readers
+announce it when the user enters the table.
+
 Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: string[], isHeader?: boolean }[]\`
 via JS properties (or JSON-encoded as attributes). Set \`isHeader: true\` on a row for
 key/value tables where the first cell of each row is a row-header.
