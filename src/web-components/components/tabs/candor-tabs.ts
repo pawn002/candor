@@ -21,7 +21,7 @@ export class CandorTabs extends LitElement {
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 6rem;
+      width: 3rem;
       pointer-events: none;
       z-index: 1;
       opacity: 0;
@@ -38,6 +38,30 @@ export class CandorTabs extends LitElement {
     .tabs--can-scroll-left .tabs__list-wrapper::before { opacity: 1; }
     .tabs--can-scroll-right .tabs__list-wrapper::after { opacity: 1; }
 
+    .tabs__scroll-btn {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: 2;
+      display: none;
+      align-items: center;
+      padding: 0 var(--spacing-xs);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-text-subtle);
+      transition: color 0.15s ease;
+    }
+    .tabs__scroll-btn:hover { color: var(--color-text-default); }
+    .tabs__scroll-btn:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: -2px;
+    }
+    .tabs__scroll-btn--left { left: 0; }
+    .tabs__scroll-btn--right { right: 0; }
+    .tabs--can-scroll-left .tabs__scroll-btn--left { display: flex; }
+    .tabs--can-scroll-right .tabs__scroll-btn--right { display: flex; }
+
     .tabs__list {
       display: flex;
       flex-direction: row;
@@ -46,6 +70,8 @@ export class CandorTabs extends LitElement {
       scrollbar-width: none;
     }
     .tabs__list::-webkit-scrollbar { display: none; }
+    .tabs--can-scroll-left .tabs__list { padding-left: 2rem; }
+    .tabs--can-scroll-right .tabs__list { padding-right: 2rem; }
 
     .tabs__tab {
       appearance: none;
@@ -80,6 +106,7 @@ export class CandorTabs extends LitElement {
     }
     .tabs--vertical .tabs__list-wrapper::before,
     .tabs--vertical .tabs__list-wrapper::after { display: none; }
+    .tabs--vertical .tabs__scroll-btn { display: none !important; }
     .tabs--vertical .tabs__list {
       flex-direction: column;
       flex-shrink: 0;
@@ -87,6 +114,8 @@ export class CandorTabs extends LitElement {
       border-bottom: none;
       border-right: var(--border-width-thin) solid var(--color-border-default);
       overflow-x: visible;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
     }
     .tabs--vertical .tabs__tab {
       text-align: left;
@@ -117,6 +146,8 @@ export class CandorTabs extends LitElement {
       background-color: var(--color-bg-inverse);
       padding: 0 var(--spacing-sm);
     }
+    .tabs--inverse .tabs__scroll-btn { color: var(--color-text-subtle-on-inverse); }
+    .tabs--inverse .tabs__scroll-btn:hover { color: var(--color-text-inverse); }
     .tabs--inverse .tabs__tab { color: var(--color-text-subtle-on-inverse); }
     .tabs--inverse .tabs__tab[aria-selected='true'] {
       color: var(--color-text-inverse);
@@ -176,6 +207,10 @@ export class CandorTabs extends LitElement {
     this._canScrollRight = this._list.scrollLeft + this._list.clientWidth < this._list.scrollWidth - 1;
   };
 
+  private _scrollTabs(dir: -1 | 1) {
+    this._list.scrollBy({ left: dir * 200, behavior: 'smooth' });
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     if (!this.activeId && this.tabs.length) this.activeId = this.tabs[0].id;
@@ -211,6 +246,15 @@ export class CandorTabs extends LitElement {
     return html`
       <div class="${cls}">
         <div class="tabs__list-wrapper">
+          <button
+            class="tabs__scroll-btn tabs__scroll-btn--left"
+            aria-label="Scroll tabs left"
+            @click="${() => this._scrollTabs(-1)}"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M10 3L6 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
           <div
             class="tabs__list"
             role="tablist"
@@ -233,6 +277,15 @@ export class CandorTabs extends LitElement {
               >${tab.label}</button>
             `)}
           </div>
+          <button
+            class="tabs__scroll-btn tabs__scroll-btn--right"
+            aria-label="Scroll tabs right"
+            @click="${() => this._scrollTabs(1)}"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M6 3L10 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
         <div class="tabs__panels"><slot></slot></div>
       </div>

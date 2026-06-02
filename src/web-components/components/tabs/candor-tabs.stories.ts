@@ -27,8 +27,10 @@ Set \`aria-label\` on the host element to label the tab list for screen readers 
 required. Two themes: \`default\` and \`inverse\`. Two orientations: \`horizontal\` (tabs above
 panels) and \`vertical\` (tabs left, panels right). Emits a \`tab-change\` CustomEvent.
 
-Horizontal tabs show fade-gradient affordances on the left/right edges when the tab row
-overflows horizontally.
+When the horizontal tab row overflows, chevron scroll buttons appear at the edges —
+clicking scrolls the list by 200px. A fade gradient behind each button reinforces
+the direction. Both buttons are keyboard-focusable; the scroll list itself also
+responds to arrow keys and touch swipe.
         `.trim(),
       },
     },
@@ -152,19 +154,19 @@ export const ManyTabs: Story = {
   name: 'Pattern: Many tabs (scroll affordance)',
   render: () => ({
     template: `
-      <div style="max-width:320px;">
-        <candor-tabs
-          active-id="overview"
-          aria-label="Dashboard sections"
-          tabs='[{"id":"overview","label":"Overview"},{"id":"analytics","label":"Analytics"},{"id":"reports","label":"Reports"},{"id":"notifications","label":"Notifications"},{"id":"integrations","label":"Integrations"},{"id":"settings","label":"Settings"}]'>
-          <candor-tab-panel panel-id="overview" active><p style="margin:0">High-level metrics and recent activity.</p></candor-tab-panel>
-          <candor-tab-panel panel-id="analytics"><p style="margin:0">Traffic, conversion, and engagement data.</p></candor-tab-panel>
-          <candor-tab-panel panel-id="reports"><p style="margin:0">Scheduled and on-demand report archive.</p></candor-tab-panel>
-          <candor-tab-panel panel-id="notifications"><p style="margin:0">Alerts, mentions, and system messages.</p></candor-tab-panel>
-          <candor-tab-panel panel-id="integrations"><p style="margin:0">Connected apps, webhooks, and API keys.</p></candor-tab-panel>
-          <candor-tab-panel panel-id="settings"><p style="margin:0">Account preferences and access controls.</p></candor-tab-panel>
-        </candor-tabs>
-      </div>
+      <candor-tabs
+        active-id="overview"
+        aria-label="Dashboard sections"
+        tabs='[{"id":"overview","label":"Overview"},{"id":"analytics","label":"Analytics"},{"id":"reports","label":"Reports"},{"id":"notifications","label":"Notifications"},{"id":"integrations","label":"Integrations"},{"id":"settings","label":"Settings"},{"id":"audit","label":"Audit log"},{"id":"billing","label":"Billing &amp; subscriptions"}]'>
+        <candor-tab-panel panel-id="overview" active><p style="margin:0">High-level metrics and recent activity.</p></candor-tab-panel>
+        <candor-tab-panel panel-id="analytics"><p style="margin:0">Traffic, conversion, and engagement data.</p></candor-tab-panel>
+        <candor-tab-panel panel-id="reports"><p style="margin:0">Scheduled and on-demand report archive.</p></candor-tab-panel>
+        <candor-tab-panel panel-id="notifications"><p style="margin:0">Alerts, mentions, and system messages.</p></candor-tab-panel>
+        <candor-tab-panel panel-id="integrations"><p style="margin:0">Connected apps, webhooks, and API keys.</p></candor-tab-panel>
+        <candor-tab-panel panel-id="settings"><p style="margin:0">Account preferences and access controls.</p></candor-tab-panel>
+        <candor-tab-panel panel-id="audit"><p style="margin:0">User activity and access history.</p></candor-tab-panel>
+        <candor-tab-panel panel-id="billing"><p style="margin:0">Invoices, payment methods, and plan details.</p></candor-tab-panel>
+      </candor-tabs>
     `,
   }),
 };
