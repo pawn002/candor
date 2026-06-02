@@ -8,10 +8,10 @@ type ProgressSize = 'sm' | 'md' | 'lg';
 export class CandorProgress extends LitElement {
   static override styles = css`
     :host { display: block; }
-    .progress-bar-wrapper { display: flex; flex-direction: column; gap: 0.375rem; }
-    .progress-bar__label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; }
+    .progress-bar-wrapper { display: flex; flex-direction: column; gap: var(--spacing-2xs); }
+    .progress-bar__label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-italic); }
     .progress-bar {
-      height: 8px;
+      height: var(--spacing-xs);
       background-color: var(--color-bg-surface);
       border-radius: var(--radius-full);
       overflow: hidden;
@@ -33,8 +33,8 @@ export class CandorProgress extends LitElement {
     }
     .spinner { animation: spinner-rotate 1.2s linear infinite; display: block; }
     .spinner--sm { width: 1.25rem; height: 1.25rem; }
-    .spinner--md { width: 2rem; height: 2rem; }
-    .spinner--lg { width: 3rem; height: 3rem; }
+    .spinner--md { width: var(--spacing-lg); height: var(--spacing-lg); }
+    .spinner--lg { width: var(--spacing-xl); height: var(--spacing-xl); }
     .spinner__track { stroke: var(--color-border-default); }
     .spinner__arc {
       stroke: var(--color-action-primary);

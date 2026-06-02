@@ -48,7 +48,6 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const BarDeterminate: Story = { args: { type: 'bar', value: 65, label: 'Upload progress', indeterminate: false } };
 export const BarIndeterminate: Story = { args: { type: 'bar', indeterminate: true, label: 'Loading' }, render: () => ({ template: `<candor-progress type="bar" indeterminate label="Loading"></candor-progress>` }) };
 export const BarEmpty: Story = { args: { type: 'bar', value: 0, label: 'Starting upload' } };
 export const BarComplete: Story = { args: { type: 'bar', value: 100, label: 'Upload complete' } };
@@ -59,45 +58,27 @@ export const SpinnerLg: Story = { args: { type: 'spinner', size: 'lg', label: 'P
 export const AllBarStates: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:1.5rem;max-width:500px;">
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:500px;">
         <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:0.25rem;">0% · Not started</div>
+          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">0% · Not started</div>
           <candor-progress value="0" label="Not started"></candor-progress>
         </div>
         <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:0.25rem;">33% · In progress</div>
+          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">33% · In progress</div>
           <candor-progress value="33" label="In progress"></candor-progress>
         </div>
         <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:0.25rem;">65% · Nearly there</div>
+          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">65% · Nearly there</div>
           <candor-progress value="65" label="Nearly there"></candor-progress>
         </div>
         <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:0.25rem;">100% · Complete</div>
+          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">100% · Complete</div>
           <candor-progress value="100" label="Complete"></candor-progress>
         </div>
         <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:0.25rem;">Indeterminate · Loading</div>
+          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">Indeterminate · Loading</div>
           <candor-progress indeterminate label="Loading"></candor-progress>
         </div>
-      </div>
-    `,
-  }),
-};
-
-export const Indeterminate: Story = {
-  render: () => ({
-    template: `<candor-progress indeterminate label="Processing…"></candor-progress>`,
-  }),
-};
-
-export const Spinners: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;gap:1rem;align-items:center;">
-        <candor-progress type="spinner" size="sm" label="Loading"></candor-progress>
-        <candor-progress type="spinner" size="md" label="Loading"></candor-progress>
-        <candor-progress type="spinner" size="lg" label="Loading"></candor-progress>
       </div>
     `,
   }),
@@ -106,18 +87,18 @@ export const Spinners: Story = {
 export const AllSpinnerSizes: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;align-items:center;gap:2.5rem;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+      <div style="display:flex;align-items:center;gap:var(--spacing-xl);">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--spacing-xs);">
           <candor-progress type="spinner" size="sm" label="Loading"></candor-progress>
-          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:0.02em;">Small</span>
+          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-italic);">Small</span>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--spacing-xs);">
           <candor-progress type="spinner" size="md" label="Loading"></candor-progress>
-          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:0.02em;">Medium</span>
+          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-italic);">Medium</span>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--spacing-xs);">
           <candor-progress type="spinner" size="lg" label="Loading"></candor-progress>
-          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:0.02em;">Large</span>
+          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-italic);">Large</span>
         </div>
       </div>
     `,
