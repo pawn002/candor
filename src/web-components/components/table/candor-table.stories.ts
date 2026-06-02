@@ -1,5 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 
+const FINANCE_HEADERS = JSON.stringify(['Quarter', 'Revenue', 'Expenses', 'Net']);
+const FINANCE_ROWS = JSON.stringify([
+  { cells: ['Q1 2024', '£1,240,000', '£980,000', '£260,000'] },
+  { cells: ['Q2 2024', '£1,380,000', '£1,050,000', '£330,000'] },
+  { cells: ['Q3 2024', '£1,190,000', '£970,000', '£220,000'] },
+  { cells: ['Q4 2024', '£1,560,000', '£1,120,000', '£440,000'] },
+]);
+const NUMERIC_COLS = JSON.stringify([1, 2, 3]);
+
 const TEAM_HEADERS = JSON.stringify(['Name', 'Role', 'Department', 'Start date']);
 const TEAM_ROWS = JSON.stringify([
   { cells: ['Alice Okonkwo', 'Senior Engineer', 'Platform', '2021-03-15'] },
@@ -29,11 +38,14 @@ Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: string[], isHeader?:
 via JS properties (or JSON-encoded as attributes). Set \`isHeader: true\` on a row for
 key/value tables where the first cell of each row is a row-header.
 
-Cells with a \`numeric\` class (added via the consumer's CSS) use \`--font-family-mono\`
-and right-align — useful for value-heavy columns.
+Pass \`numeric-columns\` as a JSON array of column indices (zero-based) to apply
+monospace typography and right-alignment to value-heavy columns.
 
 Zebra striping uses \`--color-bg-surface\` for even rows, visible on
 any light background without requiring a surface container.
+
+At narrow viewports, cell content wraps rather than overflowing — the table stays
+within its container without horizontal scroll.
         `.trim(),
       },
     },
@@ -41,6 +53,7 @@ any light background without requiring a surface container.
   argTypes: {
     caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption' },
     compact: { control: 'boolean', type: { name: 'boolean' }, description: 'Tighter row padding' },
+    numericColumns: { control: 'object', description: 'Zero-based column indices to render with monospace font, right-aligned' },
   },
 };
 
@@ -62,5 +75,11 @@ export const Compact: Story = {
 export const KeyValue: Story = {
   render: () => ({
     template: `<candor-table rows='${KV_ROWS}'></candor-table>`,
+  }),
+};
+
+export const Numeric: Story = {
+  render: () => ({
+    template: `<candor-table caption="Quarterly financial summary" headers='${FINANCE_HEADERS}' rows='${FINANCE_ROWS}' numeric-columns='${NUMERIC_COLS}'></candor-table>`,
   }),
 };

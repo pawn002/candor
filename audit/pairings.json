@@ -619,6 +619,15 @@
       "note": "th[scope=row] on even zebra row — same Tier 2 bold threshold"
     },
     {
+      "id": "table-caption",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Table caption — Tier 3 Supplementary (position is redundant channel); OKCA 4.6"
+    },
+    {
       "id": "tabs-inactive",
       "fg": "{color.text.subtle}",
       "bg": "{color.bg.page}",

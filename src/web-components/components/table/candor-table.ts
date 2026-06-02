@@ -45,9 +45,6 @@ export class CandorTable extends LitElement {
       text-align: right;
       letter-spacing: var(--letter-spacing-normal);
     }
-    td.label {
-      color: var(--color-text-subtle-on-surface);
-    }
     tbody tr:nth-child(even) td,
     tbody tr:nth-child(even) th {
       background: var(--color-bg-surface);
@@ -73,6 +70,7 @@ export class CandorTable extends LitElement {
   @property({ type: Array }) headers: string[] = [];
   @property({ type: Array }) rows: TableRow[] = [];
   @property({ type: Boolean, reflect: true }) compact = false;
+  @property({ type: Array, attribute: 'numeric-columns' }) numericColumns: number[] = [];
 
   override render() {
     return html`
@@ -80,17 +78,18 @@ export class CandorTable extends LitElement {
         ${this.caption ? html`<caption>${this.caption}</caption>` : nothing}
         ${this.headers.length ? html`
           <thead>
-            <tr>${this.headers.map(h => html`<th scope="col">${h}</th>`)}</tr>
+            <tr>${this.headers.map((h, i) => html`<th scope="col" class=${this.numericColumns.includes(i) ? 'numeric' : nothing}>${h}</th>`)}</tr>
           </thead>
         ` : nothing}
         <tbody>
           ${this.rows.map(row => html`
             <tr>
-              ${row.cells.map((cell, i) =>
-                i === 0 && (row.isHeader || !this.headers.length)
-                  ? html`<th scope="row">${cell}</th>`
-                  : html`<td>${cell}</td>`
-              )}
+              ${row.cells.map((cell, i) => {
+                const isNumeric = this.numericColumns.includes(i);
+                return i === 0 && (row.isHeader || !this.headers.length)
+                  ? html`<th scope="row" class=${isNumeric ? 'numeric' : nothing}>${cell}</th>`
+                  : html`<td class=${isNumeric ? 'numeric' : nothing}>${cell}</td>`;
+              })}
             </tr>
           `)}
         </tbody>
