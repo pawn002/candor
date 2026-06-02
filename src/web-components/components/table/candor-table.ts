@@ -49,7 +49,8 @@ export class CandorTable extends LitElement {
     tbody tr:nth-child(even) th {
       background: var(--color-bg-surface);
     }
-    tbody tr:last-child td {
+    tbody tr:last-child td,
+    tbody tr:last-child th {
       border-bottom: none;
     }
     :host([compact]) th,
