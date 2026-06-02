@@ -12,15 +12,15 @@ export class CandorPagination extends LitElement {
     .pagination {
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: var(--spacing-2xs);
     }
     .pagination__btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 2rem;
-      height: 2rem;
-      padding: 0 0.375rem;
+      min-width: var(--spacing-lg);
+      height: var(--spacing-lg);
+      padding: 0 var(--spacing-2xs);
       border: none;
       border-radius: var(--radius-sm);
       background: transparent;
@@ -52,15 +52,15 @@ export class CandorPagination extends LitElement {
       background-color: var(--color-action-primary);
       color: var(--color-text-on-action);
     }
-    .pagination__icon { width: 0.875rem; height: 0.875rem; }
+    .pagination__icon { width: var(--font-size-sm); height: var(--font-size-sm); }
     .pagination__icon--prev { transform: rotate(90deg); }
     .pagination__icon--next { transform: rotate(-90deg); }
     .pagination__ellipsis {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 2rem;
-      height: 2rem;
+      min-width: var(--spacing-lg);
+      height: var(--spacing-lg);
       color: var(--color-text-subtle);
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
