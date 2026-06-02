@@ -28,7 +28,7 @@ export class CandorPagination extends LitElement {
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-italic);
       line-height: 1;
       cursor: pointer;
       transition: background-color 120ms ease, color 120ms ease;
@@ -64,7 +64,7 @@ export class CandorPagination extends LitElement {
       color: var(--color-text-subtle);
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-italic);
       user-select: none;
     }
   `;

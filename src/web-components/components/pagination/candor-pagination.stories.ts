@@ -19,6 +19,10 @@ document.querySelector('candor-pagination')
 \`\`\`
 
 Pair with \`<candor-table>\` for a complete paged data view.
+
+When more than one paginator appears on the same page, set \`aria-label\` on each
+to give screen readers a unique landmark name (e.g. \`"Documents pagination"\`,
+\`"Images pagination"\`). Defaults to \`"Pagination"\`.
         `.trim(),
       },
     },
@@ -68,29 +72,21 @@ export const SinglePage: Story = {
   args: { currentPage: 1, totalPages: 1 },
 };
 
+const tableHeaders = JSON.stringify(['Name', 'Role', 'Status']);
+const tableRows = JSON.stringify([
+  { cells: ['Alice Chen', 'Engineer', 'Active'] },
+  { cells: ['Ben Morris', 'Designer', 'Active'] },
+  { cells: ['Clara Kim', 'Manager', 'Away'] },
+  { cells: ['Dan Park', 'Engineer', 'Active'] },
+  { cells: ['Eva Rose', 'Analyst', 'Active'] },
+]);
+
 export const WithTable: Story = {
   name: 'Pattern: Below a Table',
   render: () => ({
     template: `
       <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
-        <candor-table>
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Role</th>
-                <th scope="col">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Alice Chen</td><td>Engineer</td><td>Active</td></tr>
-              <tr><td>Ben Morris</td><td>Designer</td><td>Active</td></tr>
-              <tr><td>Clara Kim</td><td>Manager</td><td>Away</td></tr>
-              <tr><td>Dan Park</td><td>Engineer</td><td>Active</td></tr>
-              <tr><td>Eva Rose</td><td>Analyst</td><td>Active</td></tr>
-            </tbody>
-          </table>
-        </candor-table>
+        <candor-table headers='${tableHeaders}' rows='${tableRows}'></candor-table>
         <div style="display:flex;justify-content:flex-end;">
           <candor-pagination current-page="3" total-pages="12"></candor-pagination>
         </div>
@@ -108,11 +104,11 @@ export const MultiplePaginators: Story = {
           <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-xs);">When more than one paginator exists on a page, customize <code>aria-label</code> so screen reader users can distinguish them.</p>
         </div>
         <div>
-          <p style="font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-bottom:0.5rem;">Documents</p>
+          <p style="font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-bottom:var(--spacing-xs);">Documents</p>
           <candor-pagination current-page="2" total-pages="8" aria-label="Documents pagination"></candor-pagination>
         </div>
         <div>
-          <p style="font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-bottom:0.5rem;">Images</p>
+          <p style="font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-bottom:var(--spacing-xs);">Images</p>
           <candor-pagination current-page="1" total-pages="4" aria-label="Images pagination"></candor-pagination>
         </div>
       </div>
