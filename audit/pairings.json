@@ -757,6 +757,15 @@
       "weight": "regular",
       "min": 4.5,
       "note": "Blockquote body (subtle-on-surface on surface bg) — Tier 1 Reading"
+    },
+    {
+      "id": "nav-badge-text",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.secondary}",
+      "size": 14,
+      "weight": "semibold",
+      "min": 4.5,
+      "note": "Navigation badge count (white on burgundy) — Tier 3 Supplementary; OKCA 9.3 validated"
     }
   ]
 }

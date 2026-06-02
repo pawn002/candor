@@ -61,6 +61,7 @@ export class CandorNavigation extends LitElement {
   @property({ reflect: true }) orientation: 'horizontal' | 'vertical' = 'horizontal';
   @property({ reflect: true }) theme: 'default' | 'inverse' = 'default';
   @property() brand = '';
+  @property() label = 'Main navigation';
 
   override render() {
     const cls = [
@@ -70,7 +71,7 @@ export class CandorNavigation extends LitElement {
     ].filter(Boolean).join(' ');
 
     return html`
-      <nav class="${cls}" aria-label="Main navigation">
+      <nav class="${cls}" aria-label="${this.label}">
         ${this.brand ? html`<span class="nav__brand">${this.brand}</span>` : nothing}
         <ul class="nav__list" role="list">
           ${this.items.map(item => html`
