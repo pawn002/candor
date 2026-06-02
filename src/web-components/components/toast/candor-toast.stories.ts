@@ -48,7 +48,8 @@ showToast('Your changes have been saved.', 'success');
     },
     heading: { control: 'text', type: { name: 'string' }, description: 'Optional heading' },
     message: { control: 'text', type: { name: 'string' }, description: 'Toast message text' },
-    dismissible: { control: 'boolean', type: { name: 'boolean' }, description: 'Show dismiss button (emits "dismissed" event)' },
+    dismissible: { control: 'boolean', type: { name: 'boolean' }, description: 'Show dismiss button' },
+    dismissed: { control: false, description: 'CustomEvent fired when the dismiss button is clicked. Consumer is responsible for removing the element from the DOM.' },
   },
   args: { variant: 'info', heading: '', message: 'Your changes have been saved.', dismissible: true },
   render: (args) => ({
@@ -74,28 +75,31 @@ export const AllVariants: Story = {
   }),
 };
 
-export const InContainer: Story = {
-  name: 'In container (positioned)',
+export const Triggered: Story = {
+  name: 'Triggered (button → toast)',
   parameters: {
     docs: {
       description: {
         story:
-          '`<candor-toast-container>` fixes a toast stack to a corner of the viewport. ' +
-          'This story pre-loads two toasts into a `top-right` container — in production, ' +
-          'toasts are added/removed via the `showToast` helper shown in the component description above. ' +
-          'The dismiss button removes the toast from the DOM and fires a `dismissed` event so your timer can be cleared.',
+          'Click the button to add a toast. Each click cycles through the four variants so you can see them stack. ' +
+          'Toasts auto-dismiss after 4 s; the dismiss button clears the timer and removes immediately.',
       },
     },
   },
   render: () => ({
     template: `
-      <div style="position:relative;height:220px;border:1px solid var(--color-border-default);border-radius:var(--radius-md);overflow:hidden;background:var(--color-bg-page);padding:var(--spacing-md);">
-        <p style="margin:0;font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Application content</p>
-        <candor-toast-container position="top-right" style="--toast-container-position:absolute;">
-          <candor-toast variant="success" heading="Saved" message="Your changes have been saved." dismissible></candor-toast>
-          <candor-toast variant="info" message="Background sync completed." dismissible></candor-toast>
-        </candor-toast-container>
-      </div>
+      <candor-toast-container position="top-right"></candor-toast-container>
+      <candor-button onclick="(function(el){
+        var variants=['success','info','warning','error'];
+        var messages=['Changes saved successfully.','Background sync complete.','Storage at 95% capacity.','Upload failed — please retry.'];
+        el._n = el._n === undefined ? 0 : el._n;
+        var i = el._n % 4; el._n++;
+        var c = document.querySelector('candor-toast-container');
+        var t = Object.assign(document.createElement('candor-toast'), { variant: variants[i], message: messages[i], dismissible: true });
+        c.appendChild(t);
+        var timer = setTimeout(function(){ t.remove(); }, 4000);
+        t.addEventListener('dismissed', function(){ clearTimeout(timer); t.remove(); });
+      })(this)">Trigger notification</candor-button>
     `,
   }),
 };
