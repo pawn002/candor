@@ -95,7 +95,7 @@ export class CandorToast extends LitElement {
 export class CandorToastContainer extends LitElement {
   static override styles = css`
     :host {
-      position: fixed;
+      position: var(--toast-container-position, fixed);
       z-index: 2000;
       display: flex;
       flex-direction: column;

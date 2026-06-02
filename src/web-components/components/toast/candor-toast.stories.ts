@@ -89,13 +89,13 @@ export const InContainer: Story = {
   },
   render: () => ({
     template: `
-      <p style="margin:0;font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">
-        Toasts are fixed to the top-right corner of this canvas iframe.
-      </p>
-      <candor-toast-container position="top-right">
-        <candor-toast variant="success" heading="Saved" message="Your changes have been saved." dismissible></candor-toast>
-        <candor-toast variant="info" message="Background sync completed." dismissible></candor-toast>
-      </candor-toast-container>
+      <div style="position:relative;height:220px;border:1px solid var(--color-border-default);border-radius:var(--radius-md);overflow:hidden;background:var(--color-bg-surface);padding:var(--spacing-md);">
+        <p style="margin:0;font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Application content</p>
+        <candor-toast-container position="top-right" style="--toast-container-position:absolute;">
+          <candor-toast variant="success" heading="Saved" message="Your changes have been saved." dismissible></candor-toast>
+          <candor-toast variant="info" message="Background sync completed." dismissible></candor-toast>
+        </candor-toast-container>
+      </div>
     `,
   }),
 };
