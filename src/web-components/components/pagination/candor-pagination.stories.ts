@@ -115,3 +115,25 @@ export const MultiplePaginators: Story = {
     `,
   }),
 };
+
+export const Controlled: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Click any page — a `page-change` CustomEvent fires with the new page number as `event.detail`. ' +
+          'Wire it to your data layer:\n\n' +
+          '```js\n' +
+          "const pager = document.querySelector('candor-pagination');\n" +
+          "pager.addEventListener('page-change', (e) => {\n" +
+          '  loadPage(e.detail);          // fetch the new page of data\n' +
+          '  pager.currentPage = e.detail; // sync back if you control it externally\n' +
+          '});\n' +
+          '```\n\n' +
+          'In a reactive framework, bind `current-page` to a variable and update it in the handler. ' +
+          'The component manages its own visual state internally, so navigation works in the canvas without an external handler.',
+      },
+    },
+  },
+  args: { currentPage: 6, totalPages: 20 },
+};
