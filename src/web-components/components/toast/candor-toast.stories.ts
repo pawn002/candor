@@ -15,11 +15,26 @@ task finished.
 Alerts are for persistent conditions the user must read — validation errors, system warnings,
 confirmation requirements.
 
-Pair with \`<candor-toast-container position="top-right">\` (or another corner) for
-positioning. Auto-dismissal is the consumer's responsibility — listen for the toast's
-\`dismissed\` event or use a \`setTimeout\` to remove it from the DOM after a few seconds.
-
 Renders \`role="status"\` for info/success and \`role="alert"\` for warning/error.
+
+Use \`<candor-toast-container position="top-right">\` (or \`top-left\`, \`bottom-right\`,
+\`bottom-left\`) to fix a stack to a corner of the viewport. Add and remove toasts
+programmatically — auto-dismissal is the consumer's responsibility:
+
+\`\`\`js
+const container = document.querySelector('candor-toast-container');
+
+function showToast(message, variant = 'info', autoDismissMs = 4000) {
+  const toast = Object.assign(document.createElement('candor-toast'), {
+    message, variant, dismissible: true,
+  });
+  container.appendChild(toast);
+  const timer = setTimeout(() => toast.remove(), autoDismissMs);
+  toast.addEventListener('dismissed', () => { clearTimeout(timer); toast.remove(); });
+}
+
+showToast('Your changes have been saved.', 'success');
+\`\`\`
         `.trim(),
       },
     },
@@ -55,6 +70,32 @@ export const AllVariants: Story = {
         <candor-toast variant="warning" heading="Low storage" message="You are using 95% of your quota." dismissible></candor-toast>
         <candor-toast variant="error" heading="Upload failed" message="The file exceeds the 10 MB limit." dismissible></candor-toast>
       </div>
+    `,
+  }),
+};
+
+export const InContainer: Story = {
+  name: 'In container (positioned)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`<candor-toast-container>` fixes a toast stack to a corner of the viewport. ' +
+          'This story pre-loads two toasts into a `top-right` container — in production, ' +
+          'toasts are added/removed via the `showToast` helper shown in the component description above. ' +
+          'The dismiss button removes the toast from the DOM and fires a `dismissed` event so your timer can be cleared.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <p style="margin:0;font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">
+        Toasts are fixed to the top-right corner of this canvas iframe.
+      </p>
+      <candor-toast-container position="top-right">
+        <candor-toast variant="success" heading="Saved" message="Your changes have been saved." dismissible></candor-toast>
+        <candor-toast variant="info" message="Background sync completed." dismissible></candor-toast>
+      </candor-toast-container>
     `,
   }),
 };
