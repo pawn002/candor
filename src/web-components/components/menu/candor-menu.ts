@@ -19,7 +19,7 @@ export class CandorMenu extends LitElement {
       display: inline-flex;
       align-items: center;
       gap: 0.375rem;
-      padding: var(--spacing-sm) var(--spacing-md);
+      padding: var(--spacing-xs) var(--spacing-sm);
       font-family: var(--font-family-base);
       font-size: var(--font-size-md);
       font-weight: var(--font-weight-medium);
