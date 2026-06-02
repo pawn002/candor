@@ -592,6 +592,33 @@
       "note": "td.label — key/value row label; Tier 3 Supplementary (row position is the redundant channel)"
     },
     {
+      "id": "table-cell-zebra",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "min": 6.5,
+      "note": "td on even zebra row — same Tier 2 Functional threshold as on bg-page"
+    },
+    {
+      "id": "table-kv-row-header",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "th[scope=row] in key/value table — 14px bold Tier 2 Functional"
+    },
+    {
+      "id": "table-kv-row-header-zebra",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "th[scope=row] on even zebra row — same Tier 2 bold threshold"
+    },
+    {
       "id": "tabs-inactive",
       "fg": "{color.text.subtle}",
       "bg": "{color.bg.page}",

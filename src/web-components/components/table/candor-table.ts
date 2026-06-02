@@ -14,6 +14,13 @@ export class CandorTable extends LitElement {
       width: 100%;
       border-collapse: collapse;
     }
+    caption {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-subtle);
+      text-align: center;
+      padding-bottom: var(--spacing-xs);
+    }
     th, td {
       padding: var(--spacing-xs) var(--spacing-sm);
       text-align: left;

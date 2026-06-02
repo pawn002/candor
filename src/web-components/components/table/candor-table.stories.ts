@@ -49,7 +49,7 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => ({
-    template: `<candor-table headers='${TEAM_HEADERS}' rows='${TEAM_ROWS}'></candor-table>`,
+    template: `<candor-table caption="Team roster" headers='${TEAM_HEADERS}' rows='${TEAM_ROWS}'></candor-table>`,
   }),
 };
 
