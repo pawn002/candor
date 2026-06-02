@@ -57,7 +57,7 @@ export class CandorToast extends LitElement {
   @property({ reflect: true }) variant: ToastVariant = 'info';
   @property() heading = '';
   @property() message = '';
-  @property({ type: Boolean }) dismissible = true;
+  @property({ type: Boolean }) dismissible = false;
 
   private _iconPath() {
     switch (this.variant) {
