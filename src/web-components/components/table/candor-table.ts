@@ -80,7 +80,7 @@ export class CandorTable extends LitElement {
           ${this.rows.map(row => html`
             <tr>
               ${row.cells.map((cell, i) =>
-                row.isHeader || i === 0 && !this.headers.length
+                i === 0 && (row.isHeader || !this.headers.length)
                   ? html`<th scope="row">${cell}</th>`
                   : html`<td>${cell}</td>`
               )}
