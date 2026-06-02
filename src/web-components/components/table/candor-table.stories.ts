@@ -44,8 +44,9 @@ monospace typography and right-alignment to value-heavy columns.
 Zebra striping uses \`--color-bg-surface\` for even rows, visible on
 any light background without requiring a surface container.
 
-At narrow viewports, cell content wraps rather than overflowing — the table stays
-within its container without horizontal scroll.
+At narrow viewports, text content wraps within cells. For tables where wrapping is
+not appropriate (value-heavy columns, long unbreakable strings), wrap the element
+in a container with \`overflow-x: auto\` to expose a horizontal scrollbar.
         `.trim(),
       },
     },
