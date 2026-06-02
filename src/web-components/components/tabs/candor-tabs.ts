@@ -21,7 +21,7 @@ export class CandorTabs extends LitElement {
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 3rem;
+      width: var(--spacing-xl);
       pointer-events: none;
       z-index: 1;
       opacity: 0;
@@ -66,8 +66,8 @@ export class CandorTabs extends LitElement {
       scrollbar-width: none;
     }
     .tabs__list::-webkit-scrollbar { display: none; }
-    .tabs--can-scroll-left .tabs__list { padding-left: 2rem; }
-    .tabs--can-scroll-right .tabs__list { padding-right: 2rem; }
+    .tabs--can-scroll-left .tabs__list { padding-left: var(--spacing-lg); }
+    .tabs--can-scroll-right .tabs__list { padding-right: var(--spacing-lg); }
 
     .tabs__tab {
       appearance: none;
@@ -79,8 +79,8 @@ export class CandorTabs extends LitElement {
       font-size: var(--font-size-base);
       font-weight: var(--font-weight-regular);
       color: var(--color-text-subtle);
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
+      border-bottom: var(--border-width-medium) solid transparent;
+      margin-bottom: calc(-1 * var(--border-width-thin));
       transition: color 0.15s ease, border-color 0.15s ease;
       white-space: nowrap;
     }
@@ -116,9 +116,9 @@ export class CandorTabs extends LitElement {
     .tabs--vertical .tabs__tab {
       text-align: left;
       border-bottom: none;
-      border-right: 2px solid transparent;
+      border-right: var(--border-width-medium) solid transparent;
       margin-bottom: 0;
-      margin-right: -1px;
+      margin-right: calc(-1 * var(--border-width-thin));
     }
     .tabs--vertical .tabs__tab[aria-selected='true'] {
       border-bottom-color: transparent;
