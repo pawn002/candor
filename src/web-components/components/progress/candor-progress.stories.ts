@@ -51,27 +51,12 @@ export const Default: Story = {};
 export const AllBarStates: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:500px;">
-        <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">0% · Not started</div>
-          <candor-progress value="0" label="Not started"></candor-progress>
-        </div>
-        <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">33% · In progress</div>
-          <candor-progress value="33" label="In progress"></candor-progress>
-        </div>
-        <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">65% · Nearly there</div>
-          <candor-progress value="65" label="Nearly there"></candor-progress>
-        </div>
-        <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">100% · Complete</div>
-          <candor-progress value="100" label="Complete"></candor-progress>
-        </div>
-        <div>
-          <div style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-2xs);">Indeterminate · Loading</div>
-          <candor-progress indeterminate label="Loading"></candor-progress>
-        </div>
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:500px;">
+        <candor-card><span slot="header">0% · Not started</span><candor-progress value="0" label="Not started"></candor-progress></candor-card>
+        <candor-card><span slot="header">33% · In progress</span><candor-progress value="33" label="In progress"></candor-progress></candor-card>
+        <candor-card><span slot="header">65% · Nearly there</span><candor-progress value="65" label="Nearly there"></candor-progress></candor-card>
+        <candor-card><span slot="header">100% · Complete</span><candor-progress value="100" label="Complete"></candor-progress></candor-card>
+        <candor-card><span slot="header">Indeterminate · Loading</span><candor-progress indeterminate label="Loading"></candor-progress></candor-card>
       </div>
     `,
   }),
@@ -80,19 +65,19 @@ export const AllBarStates: Story = {
 export const AllSpinnerSizes: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;align-items:center;gap:var(--spacing-xl);">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--spacing-xs);">
+      <div style="display:flex;gap:var(--spacing-sm);">
+        <candor-card style="flex:1;text-align:center;">
+          <span slot="header">Small</span>
           <candor-progress type="spinner" size="sm" label="Loading"></candor-progress>
-          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-italic);">Small</span>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--spacing-xs);">
+        </candor-card>
+        <candor-card style="flex:1;text-align:center;">
+          <span slot="header">Medium</span>
           <candor-progress type="spinner" size="md" label="Loading"></candor-progress>
-          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-italic);">Medium</span>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--spacing-xs);">
+        </candor-card>
+        <candor-card style="flex:1;text-align:center;">
+          <span slot="header">Large</span>
           <candor-progress type="spinner" size="lg" label="Loading"></candor-progress>
-          <span style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-italic);">Large</span>
-        </div>
+        </candor-card>
       </div>
     `,
   }),
