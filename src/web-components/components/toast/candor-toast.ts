@@ -15,7 +15,7 @@ export class CandorToast extends LitElement {
       padding: var(--spacing-sm) var(--spacing-md);
       border-radius: var(--radius-md);
       border: var(--border-width-thin) solid;
-      border-left-width: 4px;
+      border-left-width: var(--border-width-thick);
       font-family: var(--font-family-base);
       min-width: 18rem;
       max-width: 28rem;
@@ -35,7 +35,7 @@ export class CandorToast extends LitElement {
       color: var(--color-text-default);
       font-size: var(--font-size-base);
       line-height: var(--line-height-tight);
-      margin-bottom: 0.25rem;
+      margin-bottom: var(--spacing-2xs);
     }
     .toast__message {
       color: var(--color-toast-message);

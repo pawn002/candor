@@ -49,7 +49,7 @@ export const Default: Story = {};
 export const AllVariants: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
         <candor-toast variant="info" message="Your session expires in 10 minutes."></candor-toast>
         <candor-toast variant="success" heading="Saved" message="Your profile has been updated." dismissible></candor-toast>
         <candor-toast variant="warning" heading="Low storage" message="You are using 95% of your quota." dismissible></candor-toast>
@@ -62,7 +62,7 @@ export const AllVariants: Story = {
 export const WithHeading: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
         <candor-toast variant="info" heading="Information" message="This is an informational message with a heading."></candor-toast>
         <candor-toast variant="success" heading="Success" message="Your changes have been saved successfully."></candor-toast>
         <candor-toast variant="warning" heading="Warning" message="Your session will expire in 5 minutes."></candor-toast>
@@ -75,7 +75,7 @@ export const WithHeading: Story = {
 export const Dismissible: Story = {
   render: () => ({
     template: `
-      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
         <candor-toast variant="success" heading="File uploaded" message="Your file has been uploaded successfully." dismissible></candor-toast>
         <candor-toast variant="error" heading="Upload failed" message="The file could not be uploaded. Please try again." dismissible></candor-toast>
       </div>
