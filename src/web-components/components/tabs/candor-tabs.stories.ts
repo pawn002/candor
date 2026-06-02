@@ -29,8 +29,9 @@ panels) and \`vertical\` (tabs left, panels right). Emits a \`tab-change\` Custo
 
 When the horizontal tab row overflows, chevron scroll buttons appear at the edges —
 clicking scrolls the list by 200px. A fade gradient behind each button reinforces
-the direction. Both buttons are keyboard-focusable; the scroll list itself also
-responds to arrow keys and touch swipe.
+the direction. The buttons are intentionally excluded from Tab order (mouse/touch
+only); keyboard users arrow through tabs and the list scrolls to keep the focused
+tab in view automatically.
         `.trim(),
       },
     },

@@ -53,10 +53,6 @@ export class CandorTabs extends LitElement {
       transition: color 0.15s ease;
     }
     .tabs__scroll-btn:hover { color: var(--color-text-default); }
-    .tabs__scroll-btn:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
-      outline-offset: -2px;
-    }
     .tabs__scroll-btn--left { left: 0; }
     .tabs__scroll-btn--right { right: 0; }
     .tabs--can-scroll-left .tabs__scroll-btn--left { display: flex; }
@@ -193,7 +189,9 @@ export class CandorTabs extends LitElement {
     if (next >= 0) {
       e.preventDefault();
       this._activate(ids[next]);
-      this.shadowRoot?.querySelector<HTMLButtonElement>(`#tab-${ids[next]}`)?.focus();
+      const btn = this.shadowRoot?.querySelector<HTMLButtonElement>(`#tab-${ids[next]}`);
+      btn?.focus();
+      btn?.scrollIntoView({ inline: 'nearest', block: 'nearest' });
     }
   }
 
@@ -249,6 +247,7 @@ export class CandorTabs extends LitElement {
           <button
             class="tabs__scroll-btn tabs__scroll-btn--left"
             aria-label="Scroll tabs left"
+            tabindex="-1"
             @click="${() => this._scrollTabs(-1)}"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -280,6 +279,7 @@ export class CandorTabs extends LitElement {
           <button
             class="tabs__scroll-btn tabs__scroll-btn--right"
             aria-label="Scroll tabs right"
+            tabindex="-1"
             @click="${() => this._scrollTabs(1)}"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
