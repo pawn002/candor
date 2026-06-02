@@ -32,7 +32,7 @@ key/value tables where the first cell of each row is a row-header.
 Cells with a \`numeric\` class (added via the consumer's CSS) use \`--font-family-mono\`
 and right-align — useful for value-heavy columns.
 
-Zebra striping uses \`oklch(0.85 0 0)\` for even rows — deltaE 11 from white, visible on
+Zebra striping uses \`--color-bg-surface\` for even rows, visible on
 any light background without requiring a surface container.
         `.trim(),
       },

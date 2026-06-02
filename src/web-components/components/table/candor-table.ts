@@ -18,10 +18,9 @@ export class CandorTable extends LitElement {
       padding: var(--spacing-xs) var(--spacing-sm);
       text-align: left;
       border-bottom: var(--border-width-thin) solid var(--color-border-strong);
-      font-family: var(--font-family-accessible);
+      font-family: var(--font-family-base);
       font-size: var(--font-size-sm);
       color: var(--color-text-default);
-      letter-spacing: 0.02em;
     }
     th {
       font-weight: var(--font-weight-bold);
@@ -37,7 +36,7 @@ export class CandorTable extends LitElement {
     th.numeric, td.numeric {
       font-family: var(--font-family-mono);
       text-align: right;
-      letter-spacing: 0;
+      letter-spacing: var(--letter-spacing-normal);
     }
     td.label {
       color: var(--color-text-subtle-on-surface);
@@ -51,7 +50,7 @@ export class CandorTable extends LitElement {
     }
     :host([compact]) th,
     :host([compact]) td {
-      padding: 0.25rem var(--spacing-sm);
+      padding: var(--spacing-2xs) var(--spacing-sm);
     }
     :host([compact]) tbody tr:nth-child(even) td,
     :host([compact]) tbody tr:nth-child(even) th {
