@@ -48,13 +48,6 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const BarIndeterminate: Story = { args: { type: 'bar', indeterminate: true, label: 'Loading' }, render: () => ({ template: `<candor-progress type="bar" indeterminate label="Loading"></candor-progress>` }) };
-export const BarEmpty: Story = { args: { type: 'bar', value: 0, label: 'Starting upload' } };
-export const BarComplete: Story = { args: { type: 'bar', value: 100, label: 'Upload complete' } };
-export const SpinnerSm: Story = { args: { type: 'spinner', size: 'sm', label: 'Loading' }, render: () => ({ template: `<candor-progress type="spinner" size="sm" label="Loading"></candor-progress>` }) };
-export const SpinnerMd: Story = { args: { type: 'spinner', size: 'md', label: 'Loading content' }, render: () => ({ template: `<candor-progress type="spinner" size="md" label="Loading content"></candor-progress>` }) };
-export const SpinnerLg: Story = { args: { type: 'spinner', size: 'lg', label: 'Processing' }, render: () => ({ template: `<candor-progress type="spinner" size="lg" label="Processing"></candor-progress>` }) };
-
 export const AllBarStates: Story = {
   render: () => ({
     template: `
