@@ -80,16 +80,16 @@ type Story = StoryObj;
 export const AccountSettings: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 640px; padding: 2rem;">
+      <main style="max-width: 640px; padding: var(--spacing-lg);">
 
-        <candor-breadcrumb items='${BREADCRUMB_BASIC}' style="display: block; margin-bottom: 2rem;"></candor-breadcrumb>
+        <candor-breadcrumb items='${BREADCRUMB_BASIC}' style="display: block; margin-bottom: var(--spacing-lg);"></candor-breadcrumb>
 
-        <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: var(--spacing-xs); margin-bottom: var(--spacing-xs);">
           <candor-heading level="h1">Account settings</candor-heading>
           <candor-menu label="Account actions" entries='${MENU_ENTRIES}'></candor-menu>
         </div>
 
-        <candor-text variant="body" style="display: block; color: var(--color-text-subtle); margin-bottom: 2rem;">
+        <candor-text variant="body" style="display: block; color: var(--color-text-subtle); margin-bottom: var(--spacing-lg);">
           Manage your profile, preferences, and security settings.
         </candor-text>
 
@@ -97,13 +97,13 @@ export const AccountSettings: Story = {
           variant="info"
           heading="Verify your email"
           message="We sent a verification link to j.smith@example.com. Check your inbox to confirm your address."
-          style="display: block; margin-bottom: 2rem;">
+          style="display: block; margin-bottom: var(--spacing-lg);">
         </candor-alert>
 
         <section style="margin-bottom: 2.5rem;">
-          <candor-heading level="h2" style="font-size: var(--font-size-lg); margin-bottom: 1.5rem;">Profile</candor-heading>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; padding: 1rem; background: var(--color-bg-surface); border-radius: var(--radius-md);">
+          <candor-heading level="h2" style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);">Profile</candor-heading>
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--spacing-xs); padding: var(--spacing-sm); background: var(--color-bg-surface); border-radius: var(--radius-md);">
               <div style="min-width: 0;">
                 <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-default); letter-spacing: 0.02em;">Jane Smith</div>
                 <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; overflow-wrap: break-word;">j.smith@example.com</div>
@@ -114,10 +114,10 @@ export const AccountSettings: Story = {
         </section>
 
         <section style="margin-bottom: 2.5rem;">
-          <candor-heading level="h2" style="font-size: var(--font-size-lg); margin-bottom: 1.5rem;">Notifications</candor-heading>
-          <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); margin-bottom: 1rem;">
-            <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Email</legend>
-            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+          <candor-heading level="h2" style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);">Notifications</candor-heading>
+          <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); margin-bottom: var(--spacing-sm);">
+            <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 var(--spacing-xs);">Email</legend>
+            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
               <candor-switch label="Security alerts" checked></candor-switch>
               <candor-switch label="Account activity" checked></candor-switch>
               <candor-switch label="Product updates"></candor-switch>
@@ -125,27 +125,27 @@ export const AccountSettings: Story = {
             </div>
           </fieldset>
           <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md);">
-            <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Push</legend>
-            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+            <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 var(--spacing-xs);">Push</legend>
+            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
               <candor-switch label="New messages" checked></candor-switch>
               <candor-switch label="Mentions" checked></candor-switch>
-              <candor-switch label="Reminders" disabled></candor-switch>
+              <candor-switch label="Reminders" disabled hint="Requires push to be enabled on your device"></candor-switch>
             </div>
           </fieldset>
         </section>
 
         <section style="margin-bottom: 2.5rem;">
-          <candor-heading level="h2" style="font-size: var(--font-size-lg); margin-bottom: 1.5rem;">Security</candor-heading>
+          <candor-heading level="h2" style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);">Security</candor-heading>
           <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md);">
-            <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Two-factor authentication</legend>
-            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+            <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 var(--spacing-xs);">Two-factor authentication</legend>
+            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
               <candor-switch label="Authenticator app" checked></candor-switch>
               <candor-switch label="SMS backup codes"></candor-switch>
             </div>
           </fieldset>
         </section>
 
-        <div style="display: flex; gap: 1rem;">
+        <div style="display: flex; gap: var(--spacing-sm);">
           <candor-button variant="primary" size="medium">Save changes</candor-button>
           <candor-button variant="ghost" size="medium">Discard</candor-button>
         </div>
@@ -154,9 +154,9 @@ export const AccountSettings: Story = {
           variant="success"
           heading="Changes saved"
           message="Your account settings have been updated."
-          style="display: block; margin-top: 2rem;">
+          style="display: block; margin-top: var(--spacing-lg);">
         </candor-toast>
-      </div>
+      </main>
     `,
   }),
 };
@@ -164,11 +164,11 @@ export const AccountSettings: Story = {
 export const DangerZone: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 640px; padding: 2rem;">
-        <candor-breadcrumb items='${BREADCRUMB_DANGER}' style="display: block; margin-bottom: 2rem;"></candor-breadcrumb>
+      <main style="max-width: 640px; padding: var(--spacing-lg);">
+        <candor-breadcrumb items='${BREADCRUMB_DANGER}' style="display: block; margin-bottom: var(--spacing-lg);"></candor-breadcrumb>
 
-        <candor-heading level="h1" style="margin-bottom: 0.5rem;">Advanced settings</candor-heading>
-        <candor-text variant="body" style="display: block; color: var(--color-text-subtle); margin-bottom: 2rem;">
+        <candor-heading level="h1" style="margin-bottom: var(--spacing-xs);">Advanced settings</candor-heading>
+        <candor-text variant="body" style="display: block; color: var(--color-text-subtle); margin-bottom: var(--spacing-lg);">
           These settings affect your account permanently. Proceed with care.
         </candor-text>
 
@@ -176,14 +176,14 @@ export const DangerZone: Story = {
           variant="warning"
           heading="These actions cannot be undone"
           message="Changes made in this section permanently affect your account and data."
-          style="display: block; margin-bottom: 2rem;">
+          style="display: block; margin-bottom: var(--spacing-lg);">
         </candor-alert>
 
-        <section style="margin-bottom: 2rem;">
-          <candor-heading level="h2" style="font-size: var(--font-size-lg); margin-bottom: 1.5rem;">Data and privacy</candor-heading>
+        <section style="margin-bottom: var(--spacing-lg);">
+          <candor-heading level="h2" style="font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);">Data and privacy</candor-heading>
           <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md);">
-            <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Sharing</legend>
-            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+            <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 var(--spacing-xs);">Sharing</legend>
+            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
               <candor-switch label="Allow analytics collection" checked></candor-switch>
               <candor-switch label="Share usage data with partners"></candor-switch>
               <candor-switch label="Personalised recommendations" checked></candor-switch>
@@ -191,11 +191,11 @@ export const DangerZone: Story = {
           </fieldset>
         </section>
 
-        <div style="display: flex; gap: 1rem;">
+        <div style="display: flex; gap: var(--spacing-sm);">
           <candor-button variant="primary">Save</candor-button>
           <candor-button variant="destructive">Delete account</candor-button>
         </div>
-      </div>
+      </main>
     `,
   }),
 };
@@ -203,23 +203,23 @@ export const DangerZone: Story = {
 export const TabbedSettings: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 640px; padding: 2rem;">
-        <candor-breadcrumb items='${BREADCRUMB_BASIC}' style="display: block; margin-bottom: 2rem;"></candor-breadcrumb>
+      <main style="max-width: 640px; padding: var(--spacing-lg);">
+        <candor-breadcrumb items='${BREADCRUMB_BASIC}' style="display: block; margin-bottom: var(--spacing-lg);"></candor-breadcrumb>
 
-        <candor-heading level="h1" style="margin-bottom: 1.5rem;">Account settings</candor-heading>
+        <candor-heading level="h1" style="margin-bottom: var(--spacing-md);">Account settings</candor-heading>
 
         <candor-tabs aria-label="Settings sections" active-id="profile" tabs='${TAB_DEFS}'>
 
           <candor-tab-panel panel-id="profile" active>
-            <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1.25rem;">
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem;">
+            <div style="padding: var(--spacing-md) 0; display: flex; flex-direction: column; gap: 1.25rem;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--spacing-sm);">
                 <candor-input label="First name" value="Jane" required></candor-input>
                 <candor-input label="Last name" value="Smith" required></candor-input>
               </div>
               <candor-input label="Email address" type="email" value="j.smith@example.com" required hint="Changing your email requires re-verification."></candor-input>
               <candor-select label="Language" value="en" options='${LANGUAGE_OPTIONS}'></candor-select>
               <candor-combobox label="Timezone" value="utc+00" hint="Used for scheduling and notifications." options='${TIMEZONE_OPTIONS}'></candor-combobox>
-              <div style="display: flex; gap: 1rem; padding-top: 0.5rem;">
+              <div style="display: flex; gap: var(--spacing-sm); padding-top: var(--spacing-xs);">
                 <candor-button variant="primary" size="medium">Save changes</candor-button>
                 <candor-button variant="ghost" size="medium">Discard</candor-button>
               </div>
@@ -227,10 +227,10 @@ export const TabbedSettings: Story = {
           </candor-tab-panel>
 
           <candor-tab-panel panel-id="notifications">
-            <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1rem;">
+            <div style="padding: var(--spacing-md) 0; display: flex; flex-direction: column; gap: var(--spacing-sm);">
               <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md);">
-                <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Email</legend>
-                <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+                <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 var(--spacing-xs);">Email</legend>
+                <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
                   <candor-switch label="Security alerts" checked></candor-switch>
                   <candor-switch label="Account activity" checked></candor-switch>
                   <candor-switch label="Product updates"></candor-switch>
@@ -238,11 +238,11 @@ export const TabbedSettings: Story = {
                 </div>
               </fieldset>
               <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md);">
-                <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Push</legend>
-                <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+                <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 var(--spacing-xs);">Push</legend>
+                <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
                   <candor-switch label="New messages" checked></candor-switch>
                   <candor-switch label="Mentions" checked></candor-switch>
-                  <candor-switch label="Reminders" disabled></candor-switch>
+                  <candor-switch label="Reminders" disabled hint="Requires push to be enabled on your device"></candor-switch>
                 </div>
               </fieldset>
               <candor-button variant="primary" size="medium" style="align-self: flex-start;">Save preferences</candor-button>
@@ -250,10 +250,10 @@ export const TabbedSettings: Story = {
           </candor-tab-panel>
 
           <candor-tab-panel panel-id="security">
-            <div style="padding: 1.5rem 0; display: flex; flex-direction: column; gap: 1rem;">
+            <div style="padding: var(--spacing-md) 0; display: flex; flex-direction: column; gap: var(--spacing-sm);">
               <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md);">
-                <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Two-factor authentication</legend>
-                <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem;">
+                <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 var(--spacing-xs);">Two-factor authentication</legend>
+                <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
                   <candor-switch label="Authenticator app" checked></candor-switch>
                   <candor-switch label="SMS backup codes"></candor-switch>
                 </div>
@@ -269,7 +269,7 @@ export const TabbedSettings: Story = {
           </candor-tab-panel>
 
         </candor-tabs>
-      </div>
+      </main>
     `,
   }),
 };
@@ -277,13 +277,13 @@ export const TabbedSettings: Story = {
 export const DeleteConfirmation: Story = {
   render: () => ({
     template: `
-      <div style="padding: 2rem;">
+      <div style="padding: var(--spacing-lg);">
         <candor-button variant="destructive" size="medium">
           Delete account
         </candor-button>
 
         <candor-modal heading="Delete account" size="sm" open>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
             <candor-text variant="body">
               This will permanently delete your account and all associated data — projects, settings, billing history, and team memberships. This action cannot be undone.
             </candor-text>
