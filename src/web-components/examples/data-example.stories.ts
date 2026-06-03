@@ -149,8 +149,7 @@ export const FilterableTable: Story = {
         <candor-drawer
           heading="Filters"
           position="right"
-          size="sm"
-          open>
+          size="sm">
 
           <div style="display: flex; flex-direction: column; gap: 1.25rem;">
 
