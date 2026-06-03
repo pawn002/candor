@@ -50,6 +50,19 @@ directly encodes the L value. The numeric display is hidden in gradient mode; se
 
 Form-associated (\`ElementInternals\`): the current value participates in form submission.
 Emits a \`value-change\` CustomEvent on input.
+
+**Sizing:** Override track and thumb geometry per-instance via CSS custom properties.
+The thumb centering calc updates automatically when either var changes.
+
+| Property | Default | Controls |
+|---|---|---|
+| \`--candor-slider-track-height\` | \`4px\` | Slim track height |
+| \`--candor-slider-thumb-size\` | \`1.375rem\` | Thumb diameter |
+| \`--candor-slider-gradient-height\` | \`2.75rem\` | Gradient variant container height |
+
+\`\`\`css
+candor-slider#volume { --candor-slider-thumb-size: 1.75rem; }
+\`\`\`
         `.trim(),
       },
     },

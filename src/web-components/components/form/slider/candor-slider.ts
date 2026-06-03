@@ -12,6 +12,11 @@ export class CandorSlider extends LitElement {
       display: flex;
       flex-direction: column;
       gap: var(--spacing-xs);
+      /* Sizing — consumers may override per-instance:
+         candor-slider { --candor-slider-thumb-size: 1.75rem; } */
+      --candor-slider-track-height: 4px;
+      --candor-slider-thumb-size: 1.375rem;
+      --candor-slider-gradient-height: 2.75rem;
     }
     :host([disabled]) { opacity: 0.5; pointer-events: none; }
     .slider__label {
@@ -32,7 +37,7 @@ export class CandorSlider extends LitElement {
       align-items: center;
     }
     .slider__track--gradient {
-      height: 2.75rem;
+      height: var(--candor-slider-gradient-height);
       border-radius: var(--radius-sm);
       border: var(--border-width-thin) solid var(--color-border-default);
       padding: 0 var(--spacing-xs);
@@ -47,7 +52,7 @@ export class CandorSlider extends LitElement {
       margin: 0;
     }
     .slider__input::-webkit-slider-runnable-track {
-      height: 4px;
+      height: var(--candor-slider-track-height);
       border-radius: 99px;
       background: linear-gradient(
         to right,
@@ -59,7 +64,7 @@ export class CandorSlider extends LitElement {
       background: transparent;
     }
     .slider__input::-moz-range-track {
-      height: 4px;
+      height: var(--candor-slider-track-height);
       border-radius: 99px;
       background: linear-gradient(
         to right,
@@ -72,9 +77,9 @@ export class CandorSlider extends LitElement {
     }
     .slider__input::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 1.375rem;
-      height: 1.375rem;
-      margin-top: calc((1.375rem - 4px) / -2);
+      width: var(--candor-slider-thumb-size);
+      height: var(--candor-slider-thumb-size);
+      margin-top: calc((var(--candor-slider-thumb-size) - var(--candor-slider-track-height)) / -2);
       border-radius: 50%;
       background: var(--color-bg-page);
       border: var(--border-width-medium) solid rgba(0, 0, 0, 0.18);
@@ -87,8 +92,8 @@ export class CandorSlider extends LitElement {
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
     }
     .slider__input::-moz-range-thumb {
-      width: 1.375rem;
-      height: 1.375rem;
+      width: var(--candor-slider-thumb-size);
+      height: var(--candor-slider-thumb-size);
       border-radius: 50%;
       background: var(--color-bg-page);
       border: var(--border-width-medium) solid rgba(0, 0, 0, 0.18);
