@@ -12,19 +12,19 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-Blog and article layout examples using \`<candor-navigation>\`, \`<candor-article>\`,
-\`<candor-badge>\`, \`<candor-button>\`, \`<candor-card>\`, and the framework-agnostic
-\`candor-blog.css\` post-card token layer.
+These stories are one possible composition of Candor primitives into a blog or article
+layout — not a canonical pattern. Treat them as a starting point, not a prescription.
+They use \`<candor-navigation>\`, \`<candor-article>\`, \`<candor-badge>\`, \`<candor-button>\`,
+\`<candor-card>\`, and the framework-agnostic \`candor-blog.css\` post-card token layer.
 
 **BlogPost** — a full reading view: navigation shell, post metadata (tags, date, reading
-time), optional hero image, and a \`<candor-article>\` body rendered in Noto Serif. Use this
-as the reference layout for any long-form reading context.
+time), optional hero image, and a \`<candor-article>\` body rendered in Noto Serif.
 
-**PostListing** — the canonical post list: a featured card (large image, full excerpt)
-followed by standard cards. Cards that lack an image render with a left accent border via
+**PostListing** — a featured card (large image, full excerpt) followed by standard cards.
+Cards that lack an image render with a left accent border via
 the \`:not(:has(.post-card__image-link))\` CSS selector in \`candor-blog.css\`.
 
-**PostListingGrid** — a 3-column grid variant for category or tag archive pages.
+**PostListingGrid** — a two-column responsive grid variant for category or tag archive pages.
 
 Tag pills are separated by a mid-dot CSS \`::before\` pseudo-element so they do not run
 together as a sentence when read aloud by screen readers.
