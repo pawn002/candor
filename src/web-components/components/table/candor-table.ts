@@ -9,9 +9,10 @@ export interface TableRow {
 @customElement('candor-table')
 export class CandorTable extends LitElement {
   static override styles = css`
-    :host { display: block; }
+    :host { display: block; overflow-x: auto; }
     table {
-      width: 100%;
+      min-width: 100%;
+      width: max-content;
       border-collapse: collapse;
     }
     caption {
