@@ -183,8 +183,7 @@ export const AIChatInterface: Story = {
                     width: 2rem;
                     height: 2rem;
                     border-radius: var(--radius-full);
-                    background: var(--color-bg-surface);
-                    border: 1px solid var(--color-border-strong);
+                    background: var(--color-action-primary);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -192,7 +191,7 @@ export const AIChatInterface: Story = {
                     font-family: var(--font-family-accessible);
                     font-size: var(--font-size-xs);
                     font-weight: var(--font-weight-bold);
-                    color: var(--color-text-subtle-on-surface);
+                    color: var(--color-text-on-action);
                     letter-spacing: 0.06em;
                   ">
                   P
@@ -207,7 +206,8 @@ export const AIChatInterface: Story = {
                     width: 2rem;
                     height: 2rem;
                     border-radius: var(--radius-full);
-                    background: var(--color-action-primary);
+                    background: var(--color-bg-surface);
+                    border: 1px solid var(--color-border-default);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -215,7 +215,7 @@ export const AIChatInterface: Story = {
                     font-family: var(--font-family-accessible);
                     font-size: var(--font-size-xs);
                     font-weight: var(--font-weight-bold);
-                    color: var(--color-text-on-action);
+                    color: var(--color-text-subtle-on-surface);
                     letter-spacing: 0.06em;
                   ">
                   AI
@@ -259,8 +259,7 @@ export const AIChatInterface: Story = {
                     width: 2rem;
                     height: 2rem;
                     border-radius: var(--radius-full);
-                    background: var(--color-bg-surface);
-                    border: 1px solid var(--color-border-strong);
+                    background: var(--color-action-primary);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -268,7 +267,7 @@ export const AIChatInterface: Story = {
                     font-family: var(--font-family-accessible);
                     font-size: var(--font-size-xs);
                     font-weight: var(--font-weight-bold);
-                    color: var(--color-text-subtle-on-surface);
+                    color: var(--color-text-on-action);
                     letter-spacing: 0.06em;
                   ">
                   P
@@ -283,7 +282,8 @@ export const AIChatInterface: Story = {
                     width: 2rem;
                     height: 2rem;
                     border-radius: var(--radius-full);
-                    background: var(--color-action-primary);
+                    background: var(--color-bg-surface);
+                    border: 1px solid var(--color-border-default);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -291,7 +291,7 @@ export const AIChatInterface: Story = {
                     font-family: var(--font-family-accessible);
                     font-size: var(--font-size-xs);
                     font-weight: var(--font-weight-bold);
-                    color: var(--color-text-on-action);
+                    color: var(--color-text-subtle-on-surface);
                     letter-spacing: 0.06em;
                   ">
                   AI
