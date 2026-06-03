@@ -67,7 +67,7 @@ export const AIChatInterface: Story = {
             style="
               width: 220px;
               flex-shrink: 0;
-              background: var(--color-bg-surface);
+              background: var(--color-bg-page);
               border-right: 1px solid var(--color-border-default);
               display: flex;
               flex-direction: column;
