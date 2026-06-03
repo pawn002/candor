@@ -169,11 +169,11 @@ export const DocumentEditor: Story = {
 export const ImageEditor: Story = {
   render: () => ({
     template: `
-      <main style="padding: 2rem;">
+      <main style="min-height: 100vh; background: var(--color-bg-page); padding: 1.5rem 2rem;">
 
-        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; max-width: 640px;">
+        <div style="max-width: 760px; display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.25rem; gap: 1rem; flex-wrap: wrap;">
           <div>
-            <candor-heading level="h1" style="margin-bottom: 0.25rem;">hero-banner.png</candor-heading>
+            <candor-heading level="h1" style="margin-bottom: 0.125rem;">hero-banner.png</candor-heading>
             <candor-text variant="body" style="color: var(--color-text-subtle);">1440 × 480 px · PNG</candor-text>
           </div>
           <div style="display: flex; gap: 0.75rem; padding-top: var(--spacing-2xs);">
@@ -182,13 +182,13 @@ export const ImageEditor: Story = {
           </div>
         </div>
 
-        <div style="display: flex; gap: 0; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; max-width: 640px;">
+        <div style="display: flex; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; max-width: 760px;">
 
-          <div style="border-right: 1px solid var(--color-border-default); background: var(--color-bg-surface); padding: 0.375rem;">
+          <div style="border-right: 1px solid var(--color-border-default); background: var(--color-bg-elevated); padding: 0.375rem; flex-shrink: 0;">
             <candor-toolbar aria-label="Drawing tools" orientation="vertical">
 
               <button class="btn btn-ghost btn-sm" type="button" aria-label="Select" aria-pressed="true" title="Select"
-                      style="background: var(--color-bg-elevated); color: var(--color-action-primary);">
+                      style="background: var(--color-bg-page); color: var(--color-action-primary);">
                 <i class="ph ph-cursor" aria-hidden="true"></i>
               </button>
               <button class="btn btn-ghost btn-sm" type="button" aria-label="Pan" aria-pressed="false" title="Pan">
@@ -222,13 +222,14 @@ export const ImageEditor: Story = {
             </candor-toolbar>
           </div>
 
-          <div style="flex: 1; display: flex; flex-direction: column;">
-            <div style="border-bottom: 1px solid var(--color-border-default); background: var(--color-bg-surface); padding: 0.375rem 0.625rem; display: flex; align-items: center; justify-content: space-between;">
+          <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+
+            <div style="border-bottom: 1px solid var(--color-border-default); background: var(--color-bg-surface); padding: 0.375rem 0.625rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
               <candor-toolbar aria-label="View controls">
                 <button class="btn btn-ghost btn-sm" type="button" aria-label="Fit to window" title="Fit to window">
                   <i class="ph ph-arrows-out" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-ghost btn-sm" type="button" aria-label="Reset zoom" title="Actual size">
+                <button class="btn btn-ghost btn-sm" type="button" aria-label="Actual size" title="Actual size">
                   <i class="ph ph-frame-corners" aria-hidden="true"></i>
                 </button>
                 <candor-toolbar-separator></candor-toolbar-separator>
@@ -239,11 +240,26 @@ export const ImageEditor: Story = {
                   <i class="ph ph-arrow-clockwise" aria-hidden="true"></i>
                 </button>
               </candor-toolbar>
-              <candor-badge variant="default">75%</candor-badge>
+              <div style="display: flex; align-items: center; gap: 0.375rem;">
+                <candor-accessible-text role_="annotation">Zoom</candor-accessible-text>
+                <candor-badge variant="default" aria-label="Zoom: 75%">75%</candor-badge>
+              </div>
             </div>
 
-            <div style="flex: 1; min-height: 280px; background: var(--color-bg-surface); display: flex; align-items: center; justify-content: center; padding: 2rem;">
-              <div style="width: 100%; height: 140px; background: linear-gradient(135deg, var(--color-bg-surface) 0%, var(--color-bg-elevated) 100%); border-radius: var(--radius-md); border: 1px dashed var(--color-border-default); display: flex; align-items: center; justify-content: center;">
+            <div style="flex: 1; min-height: 300px; background: oklch(0.82 0 0); display: flex; align-items: center; justify-content: center; padding: 2rem;">
+              <div
+                role="img"
+                aria-label="Canvas: hero-banner.png, 1440 × 480"
+                style="
+                  width: 100%;
+                  height: 160px;
+                  background: var(--color-bg-page);
+                  border-radius: var(--radius-sm);
+                  box-shadow: 0 2px 16px oklch(0.4 0 0 / 0.18);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                ">
                 <candor-text variant="body" style="color: var(--color-text-subtle);">hero-banner.png — 1440 × 480</candor-text>
               </div>
             </div>
