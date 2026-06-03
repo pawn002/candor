@@ -31,9 +31,12 @@ export class CandorModal extends LitElement {
       width: 90vw;
       overflow: hidden;
     }
-    .modal__panel--sm { max-width: 400px; }
-    .modal__panel--md { max-width: 560px; }
-    .modal__panel--lg { max-width: 768px; }
+    /* Max-width — consumers may override per-instance:
+       candor-modal { --candor-modal-max-width: 700px; } */
+    :host { --candor-modal-max-width: 560px; }
+    :host([size='sm']) { --candor-modal-max-width: 400px; }
+    :host([size='lg']) { --candor-modal-max-width: 768px; }
+    .modal__panel { max-width: var(--candor-modal-max-width); }
 
     /* Header */
     .modal__header {

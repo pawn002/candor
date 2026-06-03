@@ -64,21 +64,17 @@ export class CandorDrawer extends LitElement {
       .drawer--bottom dialog[open] .drawer__panel { transform: translateY(100%); }
     }
 
-    /* Sizes — width for left/right */
-    .drawer--right.drawer--sm   .drawer__panel,
-    .drawer--left.drawer--sm    .drawer__panel { width: min(320px, 100vw); }
-    .drawer--right.drawer--md   .drawer__panel,
-    .drawer--left.drawer--md    .drawer__panel { width: min(480px, 100vw); }
-    .drawer--right.drawer--lg   .drawer__panel,
-    .drawer--left.drawer--lg    .drawer__panel { width: min(640px, 100vw); }
-    .drawer--right.drawer--full .drawer__panel,
-    .drawer--left.drawer--full  .drawer__panel { width: 100vw; }
+    /* Size defaults — consumers may override per-instance:
+       candor-drawer { --candor-drawer-size: 400px; --candor-drawer-height: 60vh; } */
+    :host { --candor-drawer-size: 480px; --candor-drawer-height: 50vh; }
+    :host([size='sm'])   { --candor-drawer-size: 320px; --candor-drawer-height: 30vh; }
+    :host([size='lg'])   { --candor-drawer-size: 640px; --candor-drawer-height: 75vh; }
+    :host([size='full']) { --candor-drawer-size: 100vw; --candor-drawer-height: 100vh; }
 
-    /* Sizes — height for bottom sheet */
-    .drawer--bottom.drawer--sm   .drawer__panel { max-height: 30vh; }
-    .drawer--bottom.drawer--md   .drawer__panel { max-height: 50vh; }
-    .drawer--bottom.drawer--lg   .drawer__panel { max-height: 75vh; }
-    .drawer--bottom.drawer--full .drawer__panel { max-height: 100vh; border-radius: 0; }
+    .drawer--right .drawer__panel,
+    .drawer--left  .drawer__panel { width: min(var(--candor-drawer-size), 100vw); }
+    .drawer--bottom .drawer__panel { max-height: var(--candor-drawer-height); }
+    .drawer--bottom.drawer--full .drawer__panel { border-radius: 0; }
 
     @media (prefers-reduced-motion: reduce) {
       .drawer__panel { transition: none; }
@@ -142,8 +138,8 @@ export class CandorDrawer extends LitElement {
     }
     .drawer__body:focus { outline: none; }
     .drawer__body:focus-visible {
-      outline: 2px solid var(--color-focus);
-      outline-offset: -2px;
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: calc(-1 * var(--focus-ring-offset));
     }
 
     /* Footer (projected via [slot=footer]) */

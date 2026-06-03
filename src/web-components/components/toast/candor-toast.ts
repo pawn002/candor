@@ -7,7 +7,13 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 @customElement('candor-toast')
 export class CandorToast extends LitElement {
   static override styles = css`
-    :host { display: block; }
+    /* Width — consumers may override per-instance:
+       candor-toast { --candor-toast-min-width: 24rem; } */
+    :host {
+      display: block;
+      --candor-toast-min-width: 18rem;
+      --candor-toast-max-width: 28rem;
+    }
     .toast {
       display: flex;
       align-items: flex-start;
@@ -17,8 +23,8 @@ export class CandorToast extends LitElement {
       border: var(--border-width-thin) solid;
       border-left-width: var(--border-width-thick);
       font-family: var(--font-family-base);
-      min-width: 18rem;
-      max-width: 28rem;
+      min-width: var(--candor-toast-min-width);
+      max-width: var(--candor-toast-max-width);
     }
     .toast--info    { background-color: var(--color-bg-surface); border-color: var(--color-border-default); }
     .toast--success { background-color: var(--color-status-success-bg); border-color: var(--color-status-success); }
