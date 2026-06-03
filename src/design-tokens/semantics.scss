@@ -81,13 +81,13 @@
     // ─── Colors: Status ────────────────────────────────────────────────────────
     // Base colors: non-text use only (icons, borders, indicators).
     // For text on light status-bg, use --color-status-*-text (contrast-validated below).
-    --color-status-error:         oklch(0.55 0.22 25);    // icon/border use — not required to pass text contrast
+    --color-status-error:         oklch(0.54 0.22 25);    // icon/border use — OKCA 3.0 on error-bg ✅ (WCAG 1.4.11)
     --color-status-error-bg:      oklch(0.95 0.05 25);
     --color-status-error-text:    oklch(0.45 0.22 25);    // OKCA 4.5 on error-bg ✅
-    --color-status-success:       oklch(0.63 0.15 144.2); // icon/border use — not required to pass text contrast
+    --color-status-success:       oklch(0.55 0.15 144.2); // icon/border use — OKCA 3.0 on success-bg ✅ (WCAG 1.4.11)
     --color-status-success-bg:    oklch(0.95 0.05 145);
     --color-status-success-text:  oklch(0.46 0.15 144.2); // OKCA 4.7 on success-bg ✅ — L=0.50 was OKCA 3.8; stepped to L=0.46 (#14)
-    --color-status-warning:       oklch(0.66 0.16 53.54); // icon/border use — not required to pass text contrast
+    --color-status-warning:       oklch(0.54 0.16 53.54); // icon/border use — OKCA 3.0 on warning-bg ✅ (WCAG 1.4.11)
     --color-status-warning-bg:    oklch(0.95 0.05 53);
     --color-status-warning-text:  oklch(0.40 0.16 53.54); // OKCA 6.1 on warning-bg ✅
 

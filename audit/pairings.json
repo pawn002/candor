@@ -847,6 +847,69 @@
       "weight": "regular",
       "min": 4.5,
       "note": "Keyboard navigation hint — Tier 3 Supplementary (behavior is redundant channel)"
+    },
+    {
+      "id": "article-link",
+      "fg": "{color.link}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 4.6 ✅ (tight — tightest use of this color)"
+    },
+    {
+      "id": "article-link-visited",
+      "fg": "{color.link.visited}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.4 ✅"
+    },
+    {
+      "id": "article-link-hover",
+      "fg": "{color.link.hover}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 5.7 ✅"
+    },
+    {
+      "id": "alert-icon-info",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Info icon in candor-alert and candor-toast (non-text currentColor SVG on surface bg) — OKCA 3.4 ✅ non-text 3:1"
+    },
+    {
+      "id": "status-icon-success",
+      "fg": "{color.status.success}",
+      "bg": "{color.status.success-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Success icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 4.4 dark ✅"
+    },
+    {
+      "id": "status-icon-warning",
+      "fg": "{color.status.warning}",
+      "bg": "{color.status.warning-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Warning icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 4.4 dark ✅"
+    },
+    {
+      "id": "status-icon-error",
+      "fg": "{color.status.error}",
+      "bg": "{color.status.error-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Error icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 3.4 dark ✅"
     }
   ]
 }
