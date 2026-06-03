@@ -20,6 +20,7 @@ export class CandorButton extends LitElement {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      white-space: nowrap;
       text-decoration: none;
     }
     .button:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
