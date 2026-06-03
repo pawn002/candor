@@ -106,42 +106,42 @@ export const FilterableTable: Story = {
             <tbody>
               <tr>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">Miriam Okonkwo</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);"><candor-badge variant="warning">In review</candor-badge></td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);"><candor-badge variant="warning" size="sm">In review</candor-badge></td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">12 Apr 2026</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">J. Harlow</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">74</td>
               </tr>
               <tr>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Thomas Brandt</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="success">Approved</candor-badge></td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="success" size="sm">Approved</candor-badge></td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">11 Apr 2026</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">S. Patel</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">91</td>
               </tr>
               <tr>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">Aiko Sato</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);"><candor-badge variant="error">Declined</candor-badge></td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);"><candor-badge variant="error" size="sm">Declined</candor-badge></td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">10 Apr 2026</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">J. Harlow</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">38</td>
               </tr>
               <tr>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Carlos Reyes</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="warning">In review</candor-badge></td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="warning" size="sm">In review</candor-badge></td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">9 Apr 2026</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">M. Chen</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">67</td>
               </tr>
               <tr>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">Priya Nair</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);"><candor-badge variant="success">Approved</candor-badge></td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);"><candor-badge variant="success" size="sm">Approved</candor-badge></td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">8 Apr 2026</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">S. Patel</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">88</td>
               </tr>
               <tr>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Lena Fischer</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="default">Pending</candor-badge></td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="default" size="sm">Pending</candor-badge></td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">7 Apr 2026</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">—</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">—</td>
