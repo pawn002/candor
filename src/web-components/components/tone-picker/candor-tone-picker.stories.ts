@@ -83,22 +83,39 @@ export const Default: Story = {
   }),
 };
 
-export const Navy: Story = {
-  name: 'Navy H 245.34',
+export const BrandGamuts: Story = {
+  name: 'Brand gamuts',
   parameters: {
+    controls: { disable: true },
     docs: {
       description: {
-        story: 'Navy (H 245.34). Anchor at L=0.27 C=0.060 — navy-800, `--color-action-primary`.',
+        story:
+          'All four Candor brand hues at `size="small"`. The in-sRGB-gamut region (the filled cells) ' +
+          'varies meaningfully per hue — Indigo has the widest mid-range gamut, Burgundy the narrowest. ' +
+          'Supply your own gamut data to the component for non-brand hues.',
       },
     },
   },
   render: () => ({
     template: `
-      <candor-tone-picker
-        aria-label="Navy H 245.34 — sRGB gamut"
-        rows='${NAVY_ROWS}'
-        column-headers='${NAVY_HEADERS}'>
-      </candor-tone-picker>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-lg);">
+        <div>
+          <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Navy H 245.34</p>
+          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Navy H 245.34" rows='${NAVY_ROWS}' column-headers='${NAVY_HEADERS}'></candor-tone-picker>
+        </div>
+        <div>
+          <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Burgundy H 347.43</p>
+          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Burgundy H 347.43" rows='${BURGUNDY_ROWS}' column-headers='${BURGUNDY_HEADERS}'></candor-tone-picker>
+        </div>
+        <div>
+          <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Azure H 250.80</p>
+          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Azure H 250.80" rows='${AZURE_ROWS}' column-headers='${AZURE_HEADERS}'></candor-tone-picker>
+        </div>
+        <div>
+          <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Indigo H 278.14</p>
+          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Indigo H 278.14" rows='${INDIGO_ROWS}' column-headers='${INDIGO_HEADERS}'></candor-tone-picker>
+        </div>
+      </div>
     `,
   }),
 };
@@ -121,66 +138,6 @@ export const PreSelected: Story = {
         selected-value="oklch(0.27 0.060 245.34)"
         rows='${NAVY_ROWS}'
         column-headers='${NAVY_HEADERS}'>
-      </candor-tone-picker>
-    `,
-  }),
-};
-
-export const Burgundy: Story = {
-  name: 'Burgundy H 347.43',
-  parameters: {
-    docs: {
-      description: {
-        story: 'Burgundy (H 347.43). Anchor at L=0.37 C=0.080 — burgundy-700, `--color-action-secondary`.',
-      },
-    },
-  },
-  render: () => ({
-    template: `
-      <candor-tone-picker
-        aria-label="Burgundy H 347.43 — sRGB gamut"
-        rows='${BURGUNDY_ROWS}'
-        column-headers='${BURGUNDY_HEADERS}'>
-      </candor-tone-picker>
-    `,
-  }),
-};
-
-export const Azure: Story = {
-  name: 'Azure H 250.80',
-  parameters: {
-    docs: {
-      description: {
-        story: 'Azure (H 250.80). Anchor at L=0.65 C=0.180 — azure-400, `--color-focus`.',
-      },
-    },
-  },
-  render: () => ({
-    template: `
-      <candor-tone-picker
-        aria-label="Azure H 250.80 — sRGB gamut"
-        rows='${AZURE_ROWS}'
-        column-headers='${AZURE_HEADERS}'>
-      </candor-tone-picker>
-    `,
-  }),
-};
-
-export const Indigo: Story = {
-  name: 'Indigo H 278.14',
-  parameters: {
-    docs: {
-      description: {
-        story: 'Indigo (H 278.14). Anchor at L=0.60 C=0.210 — indigo-500, `--color-highlight`. Widest mid-range gamut of the four brand hues.',
-      },
-    },
-  },
-  render: () => ({
-    template: `
-      <candor-tone-picker
-        aria-label="Indigo H 278.14 — sRGB gamut"
-        rows='${INDIGO_ROWS}'
-        column-headers='${INDIGO_HEADERS}'>
       </candor-tone-picker>
     `,
   }),
