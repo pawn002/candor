@@ -121,8 +121,14 @@ export const LoginForm: Story = {
 
 export const RegistrationForm: Story = {
   render: () => ({
+    styles: [`
+      .reg-actions { flex-direction: row; }
+      @media (max-width: 480px) {
+        .reg-actions { flex-direction: column; }
+      }
+    `],
     template: `
-      <main style="max-width: 600px; margin: 0 auto; padding: var(--spacing-lg);">
+      <main style="max-width: 600px; margin: 0 auto; padding: clamp(0.5rem, 4vw, 2rem);">
         <candor-heading level="h1" style="margin-bottom: var(--spacing-xs);">
           Create Account
         </candor-heading>
@@ -156,7 +162,7 @@ export const RegistrationForm: Story = {
 
           <candor-checkbox label="I agree to the Terms of Service and Privacy Policy" required></candor-checkbox>
 
-          <div style="display: flex; gap: var(--spacing-sm);">
+          <div class="reg-actions" style="display: flex; gap: var(--spacing-sm);">
             <candor-button variant="primary" size="medium">Create Account</candor-button>
             <candor-button variant="secondary" size="medium">Back</candor-button>
           </div>
