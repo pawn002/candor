@@ -13,20 +13,19 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-Full-page AI chat interface layout assembling \`<candor-navigation>\`, \`<candor-card>\`,
+Full-page AI chat interface layout assembling \`<candor-navigation>\`,
 \`<candor-article>\`, \`<candor-accessible-text>\`, \`<candor-badge>\`, \`<candor-button>\`, and
 \`<candor-chat-input>\` into a conversation UI.
 
 Demonstrates the expected shell structure for an AI chat product: a fixed navigation bar,
-a sidebar listing conversation history, and a main pane with message bubbles and the
-ChatInput anchored to the bottom.
+a sidebar listing conversation history grouped by time, and a main pane with message turns
+and the ChatInput anchored to the bottom.
 
-The sidebar uses \`<aside aria-label="Conversation history">\` as a named landmark.
-Both sides of the conversation use Noto Serif — the serif register signals a considered,
-human-quality exchange on both ends. AI message bubbles use \`<candor-article font="serif" justify>\`;
-the full justification is the sole ambient signal distinguishing AI output from human input,
-without relying on labels alone. The AI avatar carries \`aria-label="Candor AI"\`
-so screen readers receive source attribution before the content is announced.
+Both sides use Noto Serif — the serif register signals a considered exchange on both ends.
+AI turns use \`<candor-article font="serif" justify>\`; full justification is the sole ambient
+signal distinguishing AI output from human input. Turn labels ("You" / "Candor AI") above
+each message follow the convention established by ChatGPT and Claude. Code blocks include
+a Copy button — universally expected and the first thing developers notice if absent.
         `.trim(),
       },
     },
@@ -52,6 +51,8 @@ export const AIChatInterface: Story = {
         outline-offset: var(--focus-ring-offset);
         border-radius: var(--radius-sm);
       }
+      .code-block { position: relative; }
+      .code-block candor-button { position: absolute; top: var(--spacing-xs); right: var(--spacing-xs); }
       @media (max-width: 600px) {
         .chat-sidebar { display: none !important; }
         candor-navigation { display: none !important; }
@@ -90,7 +91,7 @@ export const AIChatInterface: Story = {
               <candor-accessible-text
                 role_="label"
                 style="display: block; padding: 0 0.5rem; margin-bottom: 0.375rem;">
-                Recent
+                Today
               </candor-accessible-text>
 
               <a href="#" aria-current="page" style="
@@ -172,157 +173,203 @@ export const AIChatInterface: Story = {
                 gap: 1.5rem;
               ">
 
-              <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 0.625rem;">
-                <div style="
-                  flex: 1;
-                  min-width: 0;
-                  background: var(--color-bg-elevated);
-                  color: var(--color-text-default);
-                  border: 1px solid var(--color-border-default);
-                  border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
-                  padding: 0.75rem 1rem;
-                  font-family: var(--font-family-serif);
-                  font-size: var(--font-size-md);
-                  line-height: var(--line-height-normal);
-                ">
-                  What lightness value should I target in OKLCH if a brand primary needs to pass WCAG AA on white?
-                </div>
-                <div
-                  aria-hidden="true"
-                  style="
-                    width: 2rem;
-                    height: 2rem;
-                    border-radius: var(--radius-full);
-                    background: var(--color-action-primary);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-shrink: 0;
-                    font-family: var(--font-family-accessible);
-                    font-size: var(--font-size-xs);
-                    font-weight: var(--font-weight-bold);
-                    color: var(--color-text-on-action);
-                    letter-spacing: 0.06em;
+              <div>
+                <p style="
+                  text-align: right;
+                  font-family: var(--font-family-accessible);
+                  font-size: var(--font-size-sm);
+                  font-weight: var(--font-weight-bold);
+                  color: var(--color-text-subtle);
+                  letter-spacing: 0.02em;
+                  margin: 0 0 0.25rem;
+                  padding-right: 2.625rem;
+                ">You</p>
+                <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 0.625rem;">
+                  <div style="
+                    max-width: 68%;
+                    background: var(--color-bg-elevated);
+                    color: var(--color-text-default);
+                    border: 1px solid var(--color-border-default);
+                    border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
+                    padding: 0.75rem 1rem;
+                    font-family: var(--font-family-serif);
+                    font-size: var(--font-size-md);
+                    line-height: var(--line-height-normal);
                   ">
-                  P
+                    What lightness value should I target in OKLCH if a brand primary needs to pass WCAG AA on white?
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    style="
+                      width: 2rem;
+                      height: 2rem;
+                      border-radius: var(--radius-full);
+                      background: var(--color-action-primary);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex-shrink: 0;
+                      font-family: var(--font-family-accessible);
+                      font-size: var(--font-size-xs);
+                      font-weight: var(--font-weight-bold);
+                      color: var(--color-text-on-action);
+                      letter-spacing: 0.06em;
+                    ">
+                    P
+                  </div>
                 </div>
               </div>
 
-              <div style="display: flex; gap: 0.625rem; align-items: flex-start;">
-                <div
-                  role="img"
-                  aria-label="Candor AI"
-                  style="
-                    width: 2rem;
-                    height: 2rem;
-                    border-radius: var(--radius-full);
-                    background: var(--color-bg-surface);
-                    border: 1px solid var(--color-border-default);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-shrink: 0;
-                    font-family: var(--font-family-accessible);
-                    font-size: var(--font-size-xs);
-                    font-weight: var(--font-weight-bold);
-                    color: var(--color-text-subtle);
-                    letter-spacing: 0.06em;
-                  ">
-                  AI
-                </div>
-                <div style="flex: 1; min-width: 0;">
-                  <candor-card variant="default" style="display: block;">
+              <div>
+                <p style="
+                  font-family: var(--font-family-accessible);
+                  font-size: var(--font-size-sm);
+                  font-weight: var(--font-weight-bold);
+                  color: var(--color-text-subtle);
+                  letter-spacing: 0.02em;
+                  margin: 0 0 0.25rem;
+                  padding-left: 2.625rem;
+                ">Candor AI</p>
+                <div style="display: flex; gap: 0.625rem; align-items: flex-start;">
+                  <div
+                    role="img"
+                    aria-label="Candor AI"
+                    style="
+                      width: 2rem;
+                      height: 2rem;
+                      border-radius: var(--radius-full);
+                      background: var(--color-bg-surface);
+                      border: 1px solid var(--color-border-default);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex-shrink: 0;
+                      font-family: var(--font-family-accessible);
+                      font-size: var(--font-size-xs);
+                      font-weight: var(--font-weight-bold);
+                      color: var(--color-text-subtle);
+                      letter-spacing: 0.06em;
+                    ">
+                    AI
+                  </div>
+                  <div style="flex: 1; min-width: 0;">
                     <candor-article font="serif" justify lang="en">
                       <p>
                         For WCAG AA (4.5:1 against white), you need <strong>L&nbsp;≤&nbsp;0.55</strong>. Below that threshold, any reasonably saturated hue gives you the headroom you need — the exact cutoff shifts slightly with chroma, but 0.55 is a safe working ceiling.
                       </p>
                       <p>A practical navy starting point:</p>
-                      <pre tabindex="0"><code>// WCAG AA on white — L ≤ 0.55
+                      <div class="code-block">
+                        <pre tabindex="0"><code>// WCAG AA on white — L ≤ 0.55
 --color-brand:        oklch(0.45 0.20 250);  // 7.1:1 ✅
 --color-brand-hover:  oklch(0.38 0.20 250);  // 9.8:1 ✅
 --color-brand-active: oklch(0.32 0.20 250);  // 13.2:1 ✅</code></pre>
+                        <candor-button variant="ghost" size="small">Copy</candor-button>
+                      </div>
                       <p>
                         Holding C and H constant means every interactive state is a pure lightness shift — the color stays recognizably itself across rest, hover, and active.
                       </p>
                     </candor-article>
-                  </candor-card>
+                  </div>
                 </div>
               </div>
 
-              <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 0.625rem;">
-                <div style="
-                  flex: 1;
-                  min-width: 0;
-                  background: var(--color-bg-elevated);
-                  color: var(--color-text-default);
-                  border: 1px solid var(--color-border-default);
-                  border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
-                  padding: 0.75rem 1rem;
-                  font-family: var(--font-family-serif);
-                  font-size: var(--font-size-md);
-                  line-height: var(--line-height-normal);
-                ">
-                  And for dark mode? I need the same hue to work on a dark page.
-                </div>
-                <div
-                  aria-hidden="true"
-                  style="
-                    width: 2rem;
-                    height: 2rem;
-                    border-radius: var(--radius-full);
-                    background: var(--color-action-primary);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-shrink: 0;
-                    font-family: var(--font-family-accessible);
-                    font-size: var(--font-size-xs);
-                    font-weight: var(--font-weight-bold);
-                    color: var(--color-text-on-action);
-                    letter-spacing: 0.06em;
-                  ">
-                  P
-                </div>
-              </div>
-
-              <div style="display: flex; gap: 0.625rem; align-items: flex-start;">
-                <div
-                  role="img"
-                  aria-label="Candor AI"
-                  style="
-                    width: 2rem;
-                    height: 2rem;
-                    border-radius: var(--radius-full);
-                    background: var(--color-bg-surface);
+              <div>
+                <p style="
+                  text-align: right;
+                  font-family: var(--font-family-accessible);
+                  font-size: var(--font-size-sm);
+                  font-weight: var(--font-weight-bold);
+                  color: var(--color-text-subtle);
+                  letter-spacing: 0.02em;
+                  margin: 0 0 0.25rem;
+                  padding-right: 2.625rem;
+                ">You</p>
+                <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 0.625rem;">
+                  <div style="
+                    max-width: 68%;
+                    background: var(--color-bg-elevated);
+                    color: var(--color-text-default);
                     border: 1px solid var(--color-border-default);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-shrink: 0;
-                    font-family: var(--font-family-accessible);
-                    font-size: var(--font-size-xs);
-                    font-weight: var(--font-weight-bold);
-                    color: var(--color-text-subtle);
-                    letter-spacing: 0.06em;
+                    border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
+                    padding: 0.75rem 1rem;
+                    font-family: var(--font-family-serif);
+                    font-size: var(--font-size-md);
+                    line-height: var(--line-height-normal);
                   ">
-                  AI
+                    And for dark mode? I need the same hue to work on a dark page.
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    style="
+                      width: 2rem;
+                      height: 2rem;
+                      border-radius: var(--radius-full);
+                      background: var(--color-action-primary);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex-shrink: 0;
+                      font-family: var(--font-family-accessible);
+                      font-size: var(--font-size-xs);
+                      font-weight: var(--font-weight-bold);
+                      color: var(--color-text-on-action);
+                      letter-spacing: 0.06em;
+                    ">
+                    P
+                  </div>
                 </div>
-                <div style="flex: 1; min-width: 0;">
-                  <candor-card variant="default" style="display: block;">
+              </div>
+
+              <div>
+                <p style="
+                  font-family: var(--font-family-accessible);
+                  font-size: var(--font-size-sm);
+                  font-weight: var(--font-weight-bold);
+                  color: var(--color-text-subtle);
+                  letter-spacing: 0.02em;
+                  margin: 0 0 0.25rem;
+                  padding-left: 2.625rem;
+                ">Candor AI</p>
+                <div style="display: flex; gap: 0.625rem; align-items: flex-start;">
+                  <div
+                    role="img"
+                    aria-label="Candor AI"
+                    style="
+                      width: 2rem;
+                      height: 2rem;
+                      border-radius: var(--radius-full);
+                      background: var(--color-bg-surface);
+                      border: 1px solid var(--color-border-default);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex-shrink: 0;
+                      font-family: var(--font-family-accessible);
+                      font-size: var(--font-size-xs);
+                      font-weight: var(--font-weight-bold);
+                      color: var(--color-text-subtle);
+                      letter-spacing: 0.06em;
+                    ">
+                    AI
+                  </div>
+                  <div style="flex: 1; min-width: 0;">
                     <candor-article font="serif" justify lang="en">
                       <p>
                         Dark mode inverts the contrast direction — now you need enough lightness <em>above</em> the dark background. On Candor's page color (<code>oklch(0.16 0.02 249)</code>), you need <strong>L&nbsp;≥&nbsp;0.60</strong> for 4.5:1.
                       </p>
                       <p>Keep the hue; step L up significantly, and ease off chroma slightly — high C at high L reads electric on a dark surface:</p>
-                      <pre tabindex="0"><code>// Same hue, inverted lightness, reduced chroma
+                      <div class="code-block">
+                        <pre tabindex="0"><code>// Same hue, inverted lightness, reduced chroma
 --color-brand-dark:        oklch(0.72 0.18 250);  // 5.1:1 on dark page ✅
 --color-brand-dark-hover:  oklch(0.80 0.16 250);  // 7.4:1 ✅
 --color-brand-dark-active: oklch(0.85 0.14 250);  // 10.2:1 ✅</code></pre>
+                        <candor-button variant="ghost" size="small">Copy</candor-button>
+                      </div>
                       <p>
                         The chroma taper (0.18 → 0.14) is the same principle as the dark mode status colors — prevent the neon quality that high C at high L produces against a very dark background.
                       </p>
                     </candor-article>
-                  </candor-card>
+                  </div>
                 </div>
               </div>
 
