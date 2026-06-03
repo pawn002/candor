@@ -67,10 +67,10 @@ export class CandorTonePicker extends LitElement {
 
     .col-header,
     .row-header {
+      font-family: var(--font-family-base);
       font-size: var(--font-size-sm);
       font-weight: 400;
       color: var(--color-text-subtle);
-      letter-spacing: 0.02em;
     }
 
     .col-header {
@@ -215,7 +215,7 @@ export class CandorTonePicker extends LitElement {
     :host([show-labels]) .cell-label {
       display: block;
       width: 9rem;
-      font-family: var(--font-family-mono);
+      font-family: var(--font-family-base);
       font-size: var(--font-size-sm);
       line-height: var(--line-height-relaxed);
       color: var(--color-text-subtle);
