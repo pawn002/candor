@@ -36,7 +36,7 @@ type Story = StoryObj;
 export const ProductCard: Story = {
   render: () => ({
     template: `
-      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 350px; border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
+      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 350px; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
         <div style="width: 100%; height: 200px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
 
         <div style="padding: 1.5rem;">
@@ -58,13 +58,11 @@ export const ProductCard: Story = {
               <candor-text variant="caption" style="display: block; text-decoration: line-through; color: var(--color-text-subtle);">
                 $299.99
               </candor-text>
-              <candor-heading level="h4" style="color: var(--color-action-primary);">
+              <p style="font-family: var(--font-family-display); font-size: var(--font-size-h4); font-weight: var(--font-weight-bold); color: var(--color-status-success-text); line-height: var(--line-height-tight); margin: 0;">
                 $249.99
-              </candor-heading>
+              </p>
             </div>
-            <div style="background: oklch(0.95 0.05 145); color: oklch(0.35 0.15 145); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem; font-weight: 600;">
-              Save 17%
-            </div>
+            <candor-badge variant="success">Save 17%</candor-badge>
           </div>
 
           <div style="display: flex; gap: 0.5rem; align-items: center;">
@@ -82,13 +80,13 @@ export const ProductCard: Story = {
 export const ArticleCard: Story = {
   render: () => ({
     template: `
-      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 400px; border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
+      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 400px; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
         <div style="width: 100%; height: 180px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
 
         <div style="padding: 1.5rem;">
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
-            <candor-chip label="Design" variant="primary"></candor-chip>
-            <candor-chip label="Accessibility" variant="secondary"></candor-chip>
+            <candor-badge variant="default">Design</candor-badge>
+            <candor-badge variant="default">Accessibility</candor-badge>
           </div>
 
           <candor-heading level="h3" style="margin-bottom: 0.5rem;">
@@ -123,7 +121,7 @@ export const ArticleCard: Story = {
 export const ProfileCard: Story = {
   render: () => ({
     template: `
-      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 300px; border: 1px solid var(--color-border-default); border-radius: 8px; text-align: center; padding: 2rem;">
+      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 300px; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); text-align: center; padding: 2rem;">
         <div style="width: 100px; height: 100px; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
 
         <candor-heading level="h3" style="margin-bottom: 0.25rem;">
@@ -139,30 +137,9 @@ export const ProfileCard: Story = {
         </candor-text>
 
         <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--color-border-default); border-bottom: 1px solid var(--color-border-default);">
-          <div>
-            <candor-heading level="h5" style="margin-bottom: 0.25rem;">
-              1.2k
-            </candor-heading>
-            <candor-text variant="caption" style="display: block; color: var(--color-text-subtle);">
-              Followers
-            </candor-text>
-          </div>
-          <div>
-            <candor-heading level="h5" style="margin-bottom: 0.25rem;">
-              584
-            </candor-heading>
-            <candor-text variant="caption" style="display: block; color: var(--color-text-subtle);">
-              Following
-            </candor-text>
-          </div>
-          <div>
-            <candor-heading level="h5" style="margin-bottom: 0.25rem;">
-              127
-            </candor-heading>
-            <candor-text variant="caption" style="display: block; color: var(--color-text-subtle);">
-              Projects
-            </candor-text>
-          </div>
+          <candor-stat value="1.2k" label="Followers"></candor-stat>
+          <candor-stat value="584" label="Following"></candor-stat>
+          <candor-stat value="127" label="Projects"></candor-stat>
         </div>
 
         <div style="display: flex; gap: 0.5rem;">
@@ -187,7 +164,7 @@ export const CardGrid: Story = {
         </candor-heading>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-card-gap);">
-          <div style="border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
+          <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
             <div style="padding: 1rem;">
               <candor-heading level="h4" style="margin-bottom: 0.5rem;">
@@ -202,7 +179,7 @@ export const CardGrid: Story = {
             </div>
           </div>
 
-          <div style="border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
+          <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
             <div style="padding: 1rem;">
               <candor-heading level="h4" style="margin-bottom: 0.5rem;">
@@ -217,7 +194,7 @@ export const CardGrid: Story = {
             </div>
           </div>
 
-          <div style="border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden;">
+          <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
             <div style="padding: 1rem;">
               <candor-heading level="h4" style="margin-bottom: 0.5rem;">
