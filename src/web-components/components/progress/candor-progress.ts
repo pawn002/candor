@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../utils/host-aria';
 
 type ProgressType = 'bar' | 'spinner';
 type ProgressSize = 'sm' | 'md' | 'lg';
@@ -57,6 +58,19 @@ export class CandorProgress extends LitElement {
   @property() label = '';
   @property({ reflect: true }) size: ProgressSize = 'md';
 
+  @state() private _ariaLabel: string | null = null;
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
+
   private _labelId = `progress-label-${Math.random().toString(36).slice(2, 9)}`;
 
   override render() {
@@ -79,7 +93,7 @@ export class CandorProgress extends LitElement {
           aria-valuemin="${this.indeterminate ? nothing : '0'}"
           aria-valuemax="${this.indeterminate ? nothing : '100'}"
           aria-valuetext="${this.indeterminate ? nothing : `${Math.round(this.value)}%`}"
-          aria-label="${this.label ? nothing : 'Loading'}"
+          aria-label="${this.label ? nothing : (this._ariaLabel || 'Loading')}"
           aria-labelledby="${this.label ? this._labelId : nothing}"
         >
           <div

@@ -277,7 +277,7 @@ export const FileUpload: Story = {
               <candor-text variant="caption">quarterly-report.pdf</candor-text>
               <candor-text variant="caption" style="color: var(--color-status-success-text); font-weight: var(--font-weight-semibold);">Done</candor-text>
             </div>
-            <candor-progress type="bar" value="100"></candor-progress>
+            <candor-progress type="bar" value="100" aria-label="quarterly-report.pdf"></candor-progress>
           </div>
 
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
@@ -285,7 +285,7 @@ export const FileUpload: Story = {
               <candor-text variant="caption">presentation-slides.pptx</candor-text>
               <candor-text variant="caption" style="color: var(--color-text-subtle);">65%</candor-text>
             </div>
-            <candor-progress type="bar" value="65"></candor-progress>
+            <candor-progress type="bar" value="65" aria-label="presentation-slides.pptx"></candor-progress>
           </div>
 
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
@@ -293,7 +293,7 @@ export const FileUpload: Story = {
               <candor-text variant="caption">data-export.csv</candor-text>
               <candor-text variant="caption" style="color: var(--color-text-subtle);">Waiting...</candor-text>
             </div>
-            <candor-progress type="bar" value="0"></candor-progress>
+            <candor-progress type="bar" value="0" aria-label="data-export.csv"></candor-progress>
           </div>
 
         </div>
