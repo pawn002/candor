@@ -43,6 +43,15 @@ export const AIChatInterface: Story = {
   render: () => ({
     styles: [`
       :host { display: block; height: 100vh; overflow: hidden; }
+      .chat-sidebar a:hover {
+        background: var(--color-action-tertiary);
+        color: var(--color-text-default);
+      }
+      .chat-sidebar a:focus-visible {
+        outline: var(--focus-ring-width) solid var(--color-focus);
+        outline-offset: var(--focus-ring-offset);
+        border-radius: var(--radius-sm);
+      }
       @media (max-width: 600px) {
         .chat-sidebar { display: none !important; }
         candor-navigation { display: none !important; }
@@ -103,7 +112,7 @@ export const AIChatInterface: Story = {
                 margin-bottom: 0.125rem;
                 font-family: var(--font-family-accessible);
                 font-size: var(--font-size-sm);
-                color: var(--color-text-subtle-on-surface);
+                color: var(--color-text-subtle);
                 letter-spacing: 0.02em;
               ">Design token naming</a>
               <a href="#" style="
@@ -114,7 +123,7 @@ export const AIChatInterface: Story = {
                 margin-bottom: 0.125rem;
                 font-family: var(--font-family-accessible);
                 font-size: var(--font-size-sm);
-                color: var(--color-text-subtle-on-surface);
+                color: var(--color-text-subtle);
                 letter-spacing: 0.02em;
               ">Tonal palette from hex</a>
               <a href="#" style="
@@ -124,7 +133,7 @@ export const AIChatInterface: Story = {
                 text-decoration: none;
                 font-family: var(--font-family-accessible);
                 font-size: var(--font-size-sm);
-                color: var(--color-text-subtle-on-surface);
+                color: var(--color-text-subtle);
                 letter-spacing: 0.02em;
               ">Dark mode contrast strategy</a>
             </nav>
@@ -215,7 +224,7 @@ export const AIChatInterface: Story = {
                     font-family: var(--font-family-accessible);
                     font-size: var(--font-size-xs);
                     font-weight: var(--font-weight-bold);
-                    color: var(--color-text-subtle-on-surface);
+                    color: var(--color-text-subtle);
                     letter-spacing: 0.06em;
                   ">
                   AI
@@ -291,7 +300,7 @@ export const AIChatInterface: Story = {
                     font-family: var(--font-family-accessible);
                     font-size: var(--font-size-xs);
                     font-weight: var(--font-weight-bold);
-                    color: var(--color-text-subtle-on-surface);
+                    color: var(--color-text-subtle);
                     letter-spacing: 0.06em;
                   ">
                   AI
