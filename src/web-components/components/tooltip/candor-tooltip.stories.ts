@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import './candor-tooltip';
+import '../button/candor-button';
 
 const meta: Meta = {
   title: 'Components/Tooltip',
@@ -7,7 +9,7 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-Tooltips in Candor are **intentionally invisible to assistive technology**.
+Tooltips in Candor are **intentionally invisible to assistive technology (AT)**.
 
 The tooltip bubble carries \`aria-hidden="true"\` and is never wired via
 \`aria-describedby\`. This is a deliberate design system position, not an oversight.
@@ -28,18 +30,18 @@ under-specified element names.
     },
   },
   argTypes: {
-    text: { control: 'text', type: { name: 'string' }, description: 'Tooltip text' },
+    text: { control: 'text', type: { name: 'string' }, description: 'Tooltip text shown in the bubble' },
     position: {
       control: 'select',
       options: ['top', 'bottom', 'left', 'right'],
       type: { name: 'string' },
-      description: 'Where the bubble appears relative to the trigger',
+      description: 'Where the bubble appears relative to the trigger element',
     },
   },
   args: { text: 'Helpful information', position: 'top' },
   render: (args) => ({
     template: `
-      <div style="padding:4rem;display:flex;justify-content:center;">
+      <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
         <candor-tooltip text="${args['text']}" position="${args['position']}">
           <candor-button variant="secondary">Hover or focus me</candor-button>
         </candor-tooltip>
@@ -54,38 +56,100 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const Bottom: Story = {
-  args: { text: 'Opens in a new tab', position: 'bottom' },
-  render: (args) => ({
-    template: `<div style="padding:4rem;display:flex;justify-content:center;"><candor-tooltip text="${args['text']}" position="bottom"><a href="#" style="font-family:var(--font-family-base);color:var(--color-link);">External link</a></candor-tooltip></div>`,
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Bottom placement — suits triggers where upward space is constrained. ' +
+          'The trigger\'s accessible name ("External link") is the primary information channel; the tooltip adds supplementary context for pointer users.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
+        <candor-tooltip text="Opens in a new tab" position="bottom">
+          <a href="#" style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-link);">External link</a>
+        </candor-tooltip>
+      </div>
+    `,
   }),
 };
 
 export const Left: Story = {
-  args: { text: 'Cannot undo this action', position: 'left' },
-  render: (args) => ({
-    template: `<div style="padding:4rem;display:flex;justify-content:center;"><candor-tooltip text="${args['text']}" position="left"><candor-button variant="destructive">Delete</candor-button></candor-tooltip></div>`,
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Left-side placement for controls near the right edge of the viewport. ' +
+          'The trigger has a self-describing label ("Delete"); the tooltip reinforces the irreversibility of the action.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
+        <candor-tooltip text="Cannot undo this action" position="left">
+          <candor-button variant="destructive">Delete</candor-button>
+        </candor-tooltip>
+      </div>
+    `,
   }),
 };
 
 export const Right: Story = {
-  args: { text: 'Keyboard shortcut: ⌘K', position: 'right' },
-  render: (args) => ({
-    template: `<div style="padding:4rem;display:flex;justify-content:center;"><candor-tooltip text="${args['text']}" position="right"><candor-button variant="secondary">Search</candor-button></candor-tooltip></div>`,
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Right-side placement for controls near the left edge of the viewport. ' +
+          'Keyboard shortcuts and accelerators are ideal tooltip content — useful context that does not belong in the accessible name.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
+        <candor-tooltip text="Keyboard shortcut: ⌘K" position="right">
+          <candor-button variant="secondary">Search</candor-button>
+        </candor-tooltip>
+      </div>
+    `,
   }),
 };
 
 export const IconButton: Story = {
+  name: 'Icon button',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Icon-only buttons always require an `aria-label` on the trigger — the tooltip bubble is `aria-hidden` and cannot substitute for it. ' +
+          'The `aria-label` is the accessible name for keyboard and screen reader users; the tooltip is supplementary visual context for pointer users only.',
+      },
+    },
+  },
   render: () => ({
     template: `
-      <div style="padding:4rem;display:flex;gap:1rem;">
+      <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-sm);">
         <candor-tooltip text="Edit item" position="top">
-          <button style="padding:0.5rem;background:var(--color-bg-surface);color:var(--color-text-subtle);border:1px solid var(--color-border-default);border-radius:var(--radius-sm);cursor:pointer;display:inline-flex;" aria-label="Edit">✏</button>
+          <candor-button variant="ghost" size="small" aria-label="Edit">
+            <i class="ph ph-pencil-simple" aria-hidden="true"></i>
+          </candor-button>
         </candor-tooltip>
         <candor-tooltip text="Duplicate" position="top">
-          <button style="padding:0.5rem;background:var(--color-bg-surface);color:var(--color-text-subtle);border:1px solid var(--color-border-default);border-radius:var(--radius-sm);cursor:pointer;display:inline-flex;" aria-label="Duplicate">⧉</button>
+          <candor-button variant="ghost" size="small" aria-label="Duplicate">
+            <i class="ph ph-copy" aria-hidden="true"></i>
+          </candor-button>
         </candor-tooltip>
         <candor-tooltip text="Delete permanently" position="top">
-          <button style="padding:0.5rem;background:var(--color-bg-surface);color:var(--color-status-error);border:1px solid var(--color-border-default);border-radius:var(--radius-sm);cursor:pointer;display:inline-flex;" aria-label="Delete">🗑</button>
+          <candor-button variant="destructive" size="small" aria-label="Delete permanently">
+            <i class="ph ph-trash" aria-hidden="true"></i>
+          </candor-button>
         </candor-tooltip>
       </div>
     `,
@@ -93,9 +157,20 @@ export const IconButton: Story = {
 };
 
 export const AllPositions: Story = {
+  name: 'All positions',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'All four tooltip positions. The consumer chooses the position based on available viewport space — ' +
+          'each `<candor-tooltip>` is an independent instance with no auto-flip behaviour.',
+      },
+    },
+  },
   render: () => ({
     template: `
-      <div style="padding:4rem;display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;">
+      <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-lg);justify-content:center;flex-wrap:wrap;">
         <candor-tooltip text="Top tooltip" position="top"><candor-button variant="secondary">Top</candor-button></candor-tooltip>
         <candor-tooltip text="Bottom tooltip" position="bottom"><candor-button variant="secondary">Bottom</candor-button></candor-tooltip>
         <candor-tooltip text="Left tooltip" position="left"><candor-button variant="secondary">Left</candor-button></candor-tooltip>

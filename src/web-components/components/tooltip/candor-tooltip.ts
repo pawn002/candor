@@ -10,7 +10,7 @@ export class CandorTooltip extends LitElement {
     .tooltip__bubble {
       position: absolute;
       z-index: 100;
-      padding: 0.375rem 0.625rem;
+      padding: var(--spacing-2xs) var(--spacing-xs);
       background-color: var(--color-bg-inverse);
       color: var(--color-text-inverse);
       font-family: var(--font-family-accessible);
@@ -27,7 +27,7 @@ export class CandorTooltip extends LitElement {
     .tooltip__bubble--visible { opacity: 1; visibility: visible; }
 
     .tooltip__bubble--top {
-      bottom: calc(100% + 0.5rem);
+      bottom: calc(100% + var(--spacing-xs));
       left: 50%;
       transform: translateX(-50%);
     }
@@ -42,7 +42,7 @@ export class CandorTooltip extends LitElement {
     }
 
     .tooltip__bubble--bottom {
-      top: calc(100% + 0.5rem);
+      top: calc(100% + var(--spacing-xs));
       left: 50%;
       transform: translateX(-50%);
     }
@@ -57,7 +57,7 @@ export class CandorTooltip extends LitElement {
     }
 
     .tooltip__bubble--left {
-      right: calc(100% + 0.5rem);
+      right: calc(100% + var(--spacing-xs));
       top: 50%;
       transform: translateY(-50%);
     }
@@ -72,7 +72,7 @@ export class CandorTooltip extends LitElement {
     }
 
     .tooltip__bubble--right {
-      left: calc(100% + 0.5rem);
+      left: calc(100% + var(--spacing-xs));
       top: 50%;
       transform: translateY(-50%);
     }
