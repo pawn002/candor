@@ -49,7 +49,7 @@ type Story = StoryObj;
 export const FilterableTable: Story = {
   render: () => ({
     template: `
-      <div style="padding: clamp(1rem, 4vw, 2rem); max-width: 900px;">
+      <main style="padding: clamp(1rem, 4vw, 2rem); max-width: 900px;">
 
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap;">
           <div>
@@ -63,7 +63,6 @@ export const FilterableTable: Story = {
             </candor-input>
             <div style="position: relative; display: inline-flex; align-items: center;">
               <candor-button id="open-filters" variant="secondary">
-                <i class="ph ph-funnel" aria-hidden="true" style="margin-right: 0.4em;"></i>
                 Filters
               </candor-button>
               <candor-badge
@@ -87,11 +86,11 @@ export const FilterableTable: Story = {
           ">
             <thead>
               <tr>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle-on-surface); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Applicant</th>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle-on-surface); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Status</th>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle-on-surface); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Submitted</th>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle-on-surface); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Reviewer</th>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle-on-surface); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Score</th>
+                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Applicant</th>
+                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Status</th>
+                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Submitted</th>
+                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Reviewer</th>
+                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Score</th>
               </tr>
             </thead>
             <tbody>
@@ -103,11 +102,11 @@ export const FilterableTable: Story = {
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">74</td>
               </tr>
               <tr>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">Thomas Brandt</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);"><candor-badge variant="success">Approved</candor-badge></td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">11 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">S. Patel</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">91</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Thomas Brandt</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="success">Approved</candor-badge></td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">11 Apr 2026</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">S. Patel</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">91</td>
               </tr>
               <tr>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">Aiko Sato</td>
@@ -117,11 +116,11 @@ export const FilterableTable: Story = {
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">38</td>
               </tr>
               <tr>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">Carlos Reyes</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);"><candor-badge variant="warning">In review</candor-badge></td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">9 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">M. Chen</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">67</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Carlos Reyes</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="warning">In review</candor-badge></td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">9 Apr 2026</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">M. Chen</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">67</td>
               </tr>
               <tr>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">Priya Nair</td>
@@ -131,11 +130,11 @@ export const FilterableTable: Story = {
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">88</td>
               </tr>
               <tr>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">Lena Fischer</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);"><candor-badge variant="default">Pending</candor-badge></td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">7 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">—</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: oklch(0.85 0 0);">—</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Lena Fischer</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="default">Pending</candor-badge></td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">7 Apr 2026</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">—</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">—</td>
               </tr>
             </tbody>
           </table>
@@ -173,7 +172,7 @@ export const FilterableTable: Story = {
             </candor-input>
 
             <fieldset style="border: none; padding: 0; margin: 0;">
-              <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); margin-bottom: 0.75rem; letter-spacing: 0.02em;">Score range</legend>
+              <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin-bottom: 0.75rem;">Score range</legend>
               <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem;">
                 <candor-input label="Min" type="number" placeholder="0"></candor-input>
                 <candor-input label="Max" type="number" placeholder="100"></candor-input>
@@ -197,7 +196,7 @@ export const FilterableTable: Story = {
 
         </candor-drawer>
 
-      </div>
+      </main>
     `,
   }),
 };
