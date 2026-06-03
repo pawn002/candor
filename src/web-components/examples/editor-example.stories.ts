@@ -53,7 +53,7 @@ export const DocumentEditor: Story = {
 
         <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
 
-          <div style="border-bottom: 1px solid var(--color-border-default); padding: 0.375rem 0.5rem; background: var(--color-bg-surface);">
+          <div style="border-bottom: 1px solid var(--color-border-default); padding: 0.375rem 0.5rem; background: var(--color-bg-surface); overflow-x: auto;">
             <candor-toolbar aria-label="Text formatting">
 
               <select
