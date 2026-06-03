@@ -34,18 +34,19 @@ toolbar use the default \`orientation="vertical"\`; in a vertical toolbar set
     },
   },
   argTypes: {
-    ariaLabel: { control: 'text', type: { name: 'string' }, description: 'Accessible label for the toolbar' },
+    'aria-label': { control: 'text', type: { name: 'string' }, description: 'Accessible label for the toolbar. Required when no visible label element exists on the page.' },
+    ariaLabelledby: { control: 'text', type: { name: 'string' }, description: 'ID of an element that already labels this toolbar. Use instead of aria-label when the label is visible elsewhere on the page.' },
     orientation: {
       control: 'select',
       options: ['horizontal', 'vertical'],
       type: { name: 'string' },
-      description: 'Layout direction; controls which arrow keys navigate',
+      description: 'Layout direction; controls which arrow keys navigate and the required separator orientation',
     },
   },
-  args: { ariaLabel: 'Text formatting', orientation: 'horizontal' },
+  args: { 'aria-label': 'Text formatting', orientation: 'horizontal' },
   render: (args) => ({
     template: `
-      <candor-toolbar aria-label="${args['ariaLabel']}" orientation="${args['orientation']}">
+      <candor-toolbar aria-label="${args['aria-label']}" orientation="${args['orientation']}">
         <button class="${BTN}" type="button" aria-label="Bold" title="Bold">
           <i class="ph-bold ph-text-b" aria-hidden="true"></i>
         </button>
@@ -70,6 +71,17 @@ export const Default: Story = {};
 
 export const WithSeparators: Story = {
   name: 'With separators (grouped controls)',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Use `<candor-toolbar-separator>` between logical groups of controls. ' +
+          'In a horizontal toolbar the default `orientation="vertical"` produces a thin vertical rule. ' +
+          'Arrow key navigation crosses separators — they are presentational only and are not focusable.',
+      },
+    },
+  },
   render: () => ({
     template: `
       <candor-toolbar aria-label="Text formatting">
@@ -110,6 +122,17 @@ export const WithSeparators: Story = {
 
 export const WithToggleButtons: Story = {
   name: 'Toggle buttons (aria-pressed)',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Toggle buttons carry `aria-pressed="true"` when active. ' +
+          'The toolbar does not manage pressed state — the consumer toggles `aria-pressed` and applies an active visual style on each click. ' +
+          'Bold and Align Left are shown pre-pressed here; clicking does not toggle state in this static demo.',
+      },
+    },
+  },
   render: () => ({
     template: `
       <candor-toolbar aria-label="Text formatting">
@@ -140,6 +163,17 @@ export const WithToggleButtons: Story = {
 };
 
 export const Vertical: Story = {
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Set `orientation="vertical"` to stack controls top to bottom. ' +
+          'Arrow navigation switches to Up/Down; Left/Right have no effect. ' +
+          'Use `orientation="horizontal"` on `<candor-toolbar-separator>` to produce a horizontal dividing line inside a vertical toolbar.',
+      },
+    },
+  },
   render: () => ({
     template: `
       <candor-toolbar aria-label="Drawing tools" orientation="vertical">
@@ -167,24 +201,35 @@ export const Vertical: Story = {
 
 export const DataTableActions: Story = {
   name: 'Data table actions',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Toolbars above data tables typically mix icon-only and icon+text buttons. ' +
+          'Buttons with visible text labels do not need `aria-label` — the visible text is already the accessible name. ' +
+          'Icon-only buttons always need `aria-label`.',
+      },
+    },
+  },
   render: () => ({
     template: `
       <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); max-width: 640px;">
         <candor-toolbar aria-label="Table actions">
-          <button class="${BTN}" type="button" title="Filter rows">
+          <button class="${BTN}" type="button">
             <i class="ph ph-funnel" aria-hidden="true"></i>
             Filter
           </button>
-          <button class="${BTN}" type="button" title="Sort columns">
+          <button class="${BTN}" type="button">
             <i class="ph ph-sort-ascending" aria-hidden="true"></i>
             Sort
           </button>
           <candor-toolbar-separator></candor-toolbar-separator>
-          <button class="${BTN}" type="button" aria-label="Export as CSV" title="Export CSV">
+          <button class="${BTN}" type="button">
             <i class="ph ph-export" aria-hidden="true"></i>
             Export
           </button>
-          <button class="${BTN}" type="button" aria-label="Toggle column visibility" title="Columns">
+          <button class="${BTN}" type="button">
             <i class="ph ph-columns" aria-hidden="true"></i>
             Columns
           </button>

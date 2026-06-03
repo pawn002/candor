@@ -37,7 +37,7 @@ export class CandorToolbar extends LitElement {
     }
   `;
 
-  @property({ attribute: 'aria-labelledby' }) ariaLabelledBy_ = '';
+  @property({ attribute: 'aria-labelledby' }) ariaLabelledby = '';
   @property({ reflect: true }) orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   // aria-label observed manually so the attribute is stripped off the host
@@ -107,7 +107,7 @@ export class CandorToolbar extends LitElement {
         id="${this._toolbarId}"
         class="toolbar ${this.orientation === 'vertical' ? 'toolbar--vertical' : ''}"
         aria-label="${this._ariaLabel || nothing}"
-        aria-labelledby="${this.ariaLabelledBy_ || nothing}"
+        aria-labelledby="${this.ariaLabelledby || nothing}"
         aria-orientation="${this.orientation}"
         @keydown="${this._onKeydown}"
         @focusin="${this._onFocusin}"
