@@ -146,13 +146,13 @@ export const SpacingInComponents: Story = {
           <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Comfortable — spacing-md (24px)</p>
           <div style="display: flex; gap: var(--spacing-md);">
             <candor-card variant="default" padding="md" style="flex: 1;">
-              <candor-stat value="2,847" label="Active users"></candor-stat>
+              <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
             </candor-card>
             <candor-card variant="default" padding="md" style="flex: 1;">
-              <candor-stat value="94%" label="Uptime" color="success"></candor-stat>
+              <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
             </candor-card>
             <candor-card variant="default" padding="md" style="flex: 1;">
-              <candor-stat value="138" label="Open tickets"></candor-stat>
+              <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>
             </candor-card>
           </div>
         </div>
@@ -161,13 +161,13 @@ export const SpacingInComponents: Story = {
           <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Loose — spacing-xl (48px)</p>
           <div style="display: flex; gap: var(--spacing-xl);">
             <candor-card variant="default" padding="lg" style="flex: 1;">
-              <candor-stat value="2,847" label="Active users"></candor-stat>
+              <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
             </candor-card>
             <candor-card variant="default" padding="lg" style="flex: 1;">
-              <candor-stat value="94%" label="Uptime" color="success"></candor-stat>
+              <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
             </candor-card>
             <candor-card variant="default" padding="lg" style="flex: 1;">
-              <candor-stat value="138" label="Open tickets"></candor-stat>
+              <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>
             </candor-card>
           </div>
         </div>

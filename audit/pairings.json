@@ -161,7 +161,7 @@
       "size": 39,
       "weight": "bold",
       "min": 3.0,
-      "note": "candor-stat default color — 39px bold, large text threshold"
+      "note": "candor-stat default color — 25–39px bold (sm/md/lg sizes), all large text, threshold 3.0"
     },
     {
       "id": "stat-value-success",
@@ -170,7 +170,7 @@
       "size": 39,
       "weight": "bold",
       "min": 3.0,
-      "note": "candor-stat color=success — 39px bold, large text; was using non-text token before audit"
+      "note": "candor-stat color=success — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
     },
     {
       "id": "stat-value-warning",
@@ -179,7 +179,7 @@
       "size": 39,
       "weight": "bold",
       "min": 3.0,
-      "note": "candor-stat color=warning — 39px bold, large text; was using non-text token before audit"
+      "note": "candor-stat color=warning — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
     },
     {
       "id": "stat-value-error",
@@ -188,7 +188,7 @@
       "size": 39,
       "weight": "bold",
       "min": 3.0,
-      "note": "candor-stat color=error — 39px bold, large text"
+      "note": "candor-stat color=error — 25–39px bold (sm/md/lg sizes), all large text"
     },
     {
       "id": "stat-value-info",
@@ -197,7 +197,7 @@
       "size": 39,
       "weight": "bold",
       "min": 3.0,
-      "note": "candor-stat color=info uses --color-link as foreground — 39px bold, large text"
+      "note": "candor-stat color=info uses --color-link as foreground — 25–39px bold (sm/md/lg sizes), all large text"
     },
     {
       "id": "stat-unit",

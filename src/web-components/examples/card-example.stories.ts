@@ -136,9 +136,9 @@ export const ProfileCard: Story = {
         </candor-text>
 
         <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--color-border-default); border-bottom: 1px solid var(--color-border-default);">
-          <candor-stat value="1.2k" label="Followers"></candor-stat>
-          <candor-stat value="584" label="Following"></candor-stat>
-          <candor-stat value="127" label="Projects"></candor-stat>
+          <candor-stat value="1.2k" label="Followers" size="sm"></candor-stat>
+          <candor-stat value="584" label="Following" size="sm"></candor-stat>
+          <candor-stat value="127" label="Projects" size="sm"></candor-stat>
         </div>
 
         <div style="display: flex; gap: 0.5rem;">

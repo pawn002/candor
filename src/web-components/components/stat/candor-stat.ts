@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 type StatColor = 'default' | 'success' | 'warning' | 'error' | 'info';
+type StatSize  = 'sm' | 'md' | 'lg';
 
 @customElement('candor-stat')
 export class CandorStat extends LitElement {
@@ -10,8 +11,10 @@ export class CandorStat extends LitElement {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--spacing-xs);
+      gap: var(--spacing-2xs);
     }
+    :host([size='md']),
+    :host([size='lg']) { gap: var(--spacing-xs); }
     .stat__label {
       margin: 0;
       font-family: var(--font-family-accessible);
@@ -24,13 +27,15 @@ export class CandorStat extends LitElement {
     .stat__value {
       margin: 0;
       font-family: var(--font-family-display);
-      font-size: var(--font-size-3xl);
+      font-size: var(--font-size-xl);
       font-weight: var(--font-weight-bold);
       font-optical-sizing: auto;
       line-height: 1;
       letter-spacing: -0.02em;
       color: var(--color-text-default);
     }
+    :host([size='md']) .stat__value { font-size: var(--font-size-2xl); }
+    :host([size='lg']) .stat__value { font-size: var(--font-size-3xl); }
     :host([color='success']) .stat__value { color: var(--color-status-success-text); }
     :host([color='warning']) .stat__value { color: var(--color-status-warning-text); }
     :host([color='error'])   .stat__value { color: var(--color-status-error-text); }
@@ -44,6 +49,7 @@ export class CandorStat extends LitElement {
   `;
 
   @property({ reflect: true }) color: StatColor = 'default';
+  @property({ reflect: true }) size: StatSize = 'md';
   @property() value: string | number = '';
   @property() unit?: string;
   @property() label?: string;

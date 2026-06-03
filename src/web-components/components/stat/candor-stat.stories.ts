@@ -7,8 +7,12 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-stat>\` — large numeric display for dashboard metrics and KPI panels. Renders a
-prominent value, an optional unit suffix, and a descriptive label above.
+\`<candor-stat>\` — numeric display for metrics, KPIs, and profile stats.
+
+**Three sizes** for different hierarchy levels:
+- \`size="sm"\` (25px value) — compact stats inside cards, profile panels, sidebars
+- \`size="md"\` (31px value, default) — standard dashboard metrics and section-level KPIs
+- \`size="lg"\` (39px value) — hero KPIs and prominent page-level statistics
 
 Five semantic color variants signal the metric's state: \`default\`, \`success\`,
 \`warning\`, \`error\`, \`info\`. The color applies to the value and unit, not the label.
@@ -29,10 +33,16 @@ Compose with \`<candor-badge>\` for trend indicators (↑ 12% vs. last month) an
       type: { name: 'string' },
       description: 'Semantic color variant',
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      type: { name: 'string' },
+      description: 'Value font size — sm (25px), md (31px, default), lg (39px)',
+    },
   },
-  args: { value: '1,284', unit: '', label: 'Monthly active users', color: 'default' },
+  args: { value: '1,284', unit: '', label: 'Monthly active users', color: 'default', size: 'md' },
   render: (args) => ({
-    template: `<candor-stat value="${args['value']}" unit="${args['unit']}" label="${args['label']}" color="${args['color']}"></candor-stat>`,
+    template: `<candor-stat value="${args['value']}" unit="${args['unit']}" label="${args['label']}" color="${args['color']}" size="${args['size']}"></candor-stat>`,
   }),
 };
 
@@ -40,6 +50,28 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+export const AllSizes: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => ({
+    template: `
+      <div style="display:flex;gap:var(--spacing-xl);flex-wrap:wrap;align-items:flex-end;">
+        <div style="text-align:center;">
+          <candor-stat value="1,284" label="Users" size="sm"></candor-stat>
+          <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">size="sm"</candor-accessible-text>
+        </div>
+        <div style="text-align:center;">
+          <candor-stat value="1,284" label="Users" size="md"></candor-stat>
+          <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">size="md" (default)</candor-accessible-text>
+        </div>
+        <div style="text-align:center;">
+          <candor-stat value="1,284" label="Users" size="lg"></candor-stat>
+          <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">size="lg"</candor-accessible-text>
+        </div>
+      </div>
+    `,
+  }),
+};
 
 export const ContrastRatio: Story = {
   name: 'Contrast ratio — warning state',
@@ -70,11 +102,11 @@ export const AllColors: Story = {
   render: () => ({
     template: `
       <div style="display:flex;gap:var(--spacing-lg);flex-wrap:wrap;justify-content:center;">
-        <candor-stat value="98.7" unit="%" label="Uptime" color="success"></candor-stat>
-        <candor-stat value="42" label="Pending" color="warning"></candor-stat>
-        <candor-stat value="3" label="Failures" color="error"></candor-stat>
-        <candor-stat value="1,284" label="Users" color="default"></candor-stat>
-        <candor-stat value="512" label="API calls" color="info"></candor-stat>
+        <candor-stat value="98.7" unit="%" label="Uptime" color="success" size="lg"></candor-stat>
+        <candor-stat value="42" label="Pending" color="warning" size="lg"></candor-stat>
+        <candor-stat value="3" label="Failures" color="error" size="lg"></candor-stat>
+        <candor-stat value="1,284" label="Users" color="default" size="lg"></candor-stat>
+        <candor-stat value="512" label="API calls" color="info" size="lg"></candor-stat>
       </div>
     `,
   }),
