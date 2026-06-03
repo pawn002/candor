@@ -59,7 +59,7 @@ export class CandorMenu extends LitElement {
     }
     .menu-panel {
       position: absolute;
-      top: calc(100% + 0.375rem);
+      top: calc(100% + var(--spacing-2xs));
       left: 0;
       z-index: 200;
       min-width: 10rem;

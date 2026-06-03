@@ -18,11 +18,11 @@ export class CandorChatInput extends LitElement {
       overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
     }
     .chat-input__field {
-      display: flex; align-items: flex-end; gap: 0.625rem;
+      display: flex; align-items: flex-end; gap: var(--spacing-xs);
       background: var(--color-bg-elevated);
       border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--radius-md);
-      padding: 0.625rem 0.625rem 0.625rem 1rem;
+      padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) var(--spacing-sm);
       transition: border-color 0.15s ease;
     }
     .chat-input__field:focus-within {
