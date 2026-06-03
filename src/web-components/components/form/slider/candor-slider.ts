@@ -77,7 +77,7 @@ export class CandorSlider extends LitElement {
       margin-top: calc((1.375rem - 4px) / -2);
       border-radius: 50%;
       background: var(--color-bg-page);
-      border: 2px solid rgba(0, 0, 0, 0.18);
+      border: var(--border-width-medium) solid rgba(0, 0, 0, 0.18);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(0, 0, 0, 0.12);
       cursor: pointer;
       transition: transform 0.1s ease, box-shadow 0.1s ease;
@@ -91,7 +91,7 @@ export class CandorSlider extends LitElement {
       height: 1.375rem;
       border-radius: 50%;
       background: var(--color-bg-page);
-      border: 2px solid rgba(0, 0, 0, 0.18);
+      border: var(--border-width-medium) solid rgba(0, 0, 0, 0.18);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(0, 0, 0, 0.12);
       cursor: pointer;
       transition: transform 0.1s ease, box-shadow 0.1s ease;

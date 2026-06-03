@@ -29,7 +29,7 @@ export class CandorBreadcrumb extends LitElement {
     }
     .breadcrumb__item:not(:last-child)::after {
       content: '/' / '';
-      margin: 0 0.5rem;
+      margin: 0 var(--spacing-xs);
       color: var(--color-text-subtle);
       pointer-events: none;
     }

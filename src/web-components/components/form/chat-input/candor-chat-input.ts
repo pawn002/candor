@@ -12,7 +12,7 @@ export class CandorChatInput extends LitElement {
       position: absolute; width: 1px; height: 1px;
       overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
     }
-    .chat-input { display: flex; flex-direction: column; gap: 0.5rem; }
+    .chat-input { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .chat-input__label {
       position: absolute; width: 1px; height: 1px;
       overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
@@ -20,7 +20,7 @@ export class CandorChatInput extends LitElement {
     .chat-input__field {
       display: flex; align-items: flex-end; gap: 0.625rem;
       background: var(--color-bg-elevated);
-      border: 1px solid var(--color-border-control);
+      border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--radius-md);
       padding: 0.625rem 0.625rem 0.625rem 1rem;
       transition: border-color 0.15s ease;

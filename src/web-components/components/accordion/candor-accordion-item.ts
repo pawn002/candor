@@ -7,7 +7,7 @@ export class CandorAccordionItem extends LitElement {
   static override styles = css`
     :host { display: block; }
     :host(:last-child) .accordion-item { border-bottom: none; }
-    .accordion-item { border-bottom: 1px solid var(--color-border-strong); }
+    .accordion-item { border-bottom: var(--border-width-thin) solid var(--color-border-strong); }
     .accordion-item > summary { list-style: none; }
     .accordion-item > summary::-webkit-details-marker { display: none; }
     .accordion-item__summary {
@@ -16,7 +16,7 @@ export class CandorAccordionItem extends LitElement {
     }
     .accordion-item__summary:hover { color: var(--color-action-primary); }
     .accordion-item__summary:focus { outline: none; }
-    .accordion-item__summary:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: 2px; border-radius: var(--radius-sm); }
+    .accordion-item__summary:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); border-radius: var(--radius-sm); }
     .accordion-item__title { font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-bold); font-optical-sizing: auto; line-height: var(--line-height-tight); flex: 1; }
     .accordion-item__title--subtle { font-weight: var(--font-weight-regular); color: var(--color-text-subtle); }
     .accordion-item__title--quiet { font-weight: 500; font-size: var(--font-size-sm); color: var(--color-text-subtle); font-variation-settings: 'GRAD' -150; }

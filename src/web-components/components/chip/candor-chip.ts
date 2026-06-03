@@ -11,7 +11,7 @@ export class CandorChip extends LitElement {
     .chip {
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: var(--spacing-2xs);
       border-radius: var(--radius-full);
       border: var(--border-width-thin) solid var(--color-border-strong);
       background-color: var(--color-bg-surface);
@@ -53,7 +53,7 @@ export class CandorChip extends LitElement {
       justify-content: center;
       width: 1.25rem;
       height: 1.25rem;
-      margin-right: 0.25rem;
+      margin-right: var(--spacing-2xs);
       padding: 0;
       background: none;
       border: none;

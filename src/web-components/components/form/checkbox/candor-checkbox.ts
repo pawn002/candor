@@ -38,7 +38,7 @@ export class CandorCheckbox extends LitElement {
       width: 6px;
       height: 12px;
       border: solid var(--color-text-on-action);
-      border-width: 0 2px 2px 0;
+      border-width: 0 var(--border-width-medium) var(--border-width-medium) 0;
       transform: rotate(45deg);
     }
     .checkbox-input:disabled + .checkbox-box {

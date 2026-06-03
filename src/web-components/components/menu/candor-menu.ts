@@ -120,7 +120,7 @@ export class CandorMenu extends LitElement {
     .menu-separator {
       height: var(--border-width-thin);
       background-color: var(--color-border-default);
-      margin: 0.25rem 0.75rem;
+      margin: var(--spacing-2xs) 0.75rem;
     }
   `;
 

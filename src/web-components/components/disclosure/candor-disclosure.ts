@@ -16,7 +16,7 @@ export class CandorDisclosure extends LitElement {
       gap: var(--spacing-xs);
       padding: var(--spacing-sm) 0;
       border: none;
-      border-bottom: 1px solid var(--color-border-subtle);
+      border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
       background: transparent;
       color: var(--color-text-default);
       font-family: var(--font-family-base);

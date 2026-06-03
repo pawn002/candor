@@ -28,7 +28,7 @@ export class CandorDataGrid extends LitElement {
       border-collapse: separate;
       border-spacing: 0;
       font-family: var(--font-family-accessible);
-      border: 1px solid var(--color-border-strong);
+      border: var(--border-width-thin) solid var(--color-border-strong);
       border-radius: var(--radius-md);
       overflow: hidden;
     }
@@ -40,7 +40,7 @@ export class CandorDataGrid extends LitElement {
       color: var(--color-text-default);
       padding: var(--spacing-xs) var(--spacing-sm);
       letter-spacing: var(--letter-spacing-wide);
-      border-bottom: 1px solid var(--color-border-default);
+      border-bottom: var(--border-width-thin) solid var(--color-border-default);
       background: var(--color-bg-surface);
     }
     .data-grid__corner,
@@ -62,11 +62,11 @@ export class CandorDataGrid extends LitElement {
     }
     .data-grid__rowheader {
       text-align: right;
-      border-right: 1px solid var(--color-border-strong);
+      border-right: var(--border-width-thin) solid var(--color-border-strong);
     }
     .data-grid__corner {
       border-bottom: 1px solid var(--color-border-strong);
-      border-right: 1px solid var(--color-border-strong);
+      border-right: var(--border-width-thin) solid var(--color-border-strong);
     }
     .data-grid__cell {
       position: relative;
@@ -81,8 +81,8 @@ export class CandorDataGrid extends LitElement {
     }
     .data-grid__cell:focus { outline: none; }
     .data-grid__cell:focus-visible {
-      outline: 2px solid white;
-      outline-offset: -2px;
+      outline: var(--focus-ring-width) solid white;
+      outline-offset: calc(-1 * var(--focus-ring-offset));
       box-shadow:
         inset -1px 0 0 var(--color-border-default),
         inset 0 -1px 0 var(--color-border-default),
