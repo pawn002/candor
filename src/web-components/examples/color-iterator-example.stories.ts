@@ -102,7 +102,7 @@ export const ColorPairIterator: Story = {
           orientation="horizontal">
         </candor-navigation>
 
-        <div style="max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem;">
+        <main style="max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem;">
 
           <header style="margin-bottom: 2rem;">
             <h1 style="
@@ -222,16 +222,15 @@ export const ColorPairIterator: Story = {
               </candor-card>
 
               <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                <candor-button variant="tertiary" size="small">⇄ Swap</candor-button>
-                <candor-button variant="tertiary" size="small">≈ Harmonize</candor-button>
+                <candor-button variant="ghost" size="small">⇄ Swap</candor-button>
+                <candor-button variant="ghost" size="small">≈ Harmonize</candor-button>
                 <candor-button variant="ghost" size="small">↺ Reset</candor-button>
                 <candor-button variant="ghost" size="small">✦ Random</candor-button>
               </div>
 
               <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
                 <candor-accordion-item heading="Contrast algorithm" open>
-                  <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
-                    <legend style="display: none;">Contrast algorithm</legend>
+                  <fieldset aria-label="Contrast algorithm" style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
                     <candor-radio name="algorithm" label="WCAG 2.1" value="wcag21" checked></candor-radio>
                     <candor-radio name="algorithm" label="OKCA" value="okca"></candor-radio>
                     <candor-radio name="algorithm" label="Perceptual" value="perceptual"></candor-radio>
@@ -280,15 +279,15 @@ export const ColorPairIterator: Story = {
                   <p style="
                     color: #647a61;
                     font-family: var(--font-family-display);
-                    font-size: 1.375rem;
-                    font-weight: 700;
+                    font-size: var(--font-size-h3);
+                    font-weight: var(--font-weight-bold);
                     margin: 0;
                     line-height: var(--line-height-tight);
                   ">Heading text</p>
                   <p style="
                     color: #647a61;
                     font-family: var(--font-family-serif);
-                    font-size: 1rem;
+                    font-size: var(--font-size-base);
                     margin: 0;
                     line-height: var(--line-height-relaxed);
                   ">Body copy — the quick brown fox jumps over the lazy dog. Color, readability, and rhythm.</p>
@@ -309,7 +308,7 @@ export const ColorPairIterator: Story = {
 
             </div>
           </div>
-        </div>
+        </main>
       </div>
     `,
   }),
