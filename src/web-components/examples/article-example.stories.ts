@@ -48,7 +48,7 @@ export const BlogPost: Story = {
           orientation="horizontal">
         </candor-navigation>
 
-        <div style="max-width: 42rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(3rem, 8vw, 5rem);">
+        <main style="max-width: 42rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(3rem, 8vw, 5rem);">
 
           <header style="margin-bottom: 2.5rem;">
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
@@ -149,7 +149,7 @@ export const BlogPost: Story = {
             </nav>
           </footer>
 
-        </div>
+        </main>
       </div>
     `,
   }),
