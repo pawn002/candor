@@ -54,14 +54,37 @@ at a fixed hue. In-gamut cells render as selectable color buttons; out-of-sRGB-g
 | Tab | Move focus into / out of the grid |
 
 **ARIA roles:** \`role="grid"\` wraps \`role="radio"\` cells inside a \`role="group"\`. Each radio carries
-\`aria-setsize\` and \`aria-posinset\` based on the in-gamut count, so AT reads positional context that
-matches what sighted users see.
+\`aria-setsize\` and \`aria-posinset\` based on the in-gamut count, so assistive technology (AT) reads positional context that
+matches what sighted users see. Set \`aria-label\` on the host to name the grid — the value is forwarded to
+\`role="grid"\` and stripped from the host to prevent double-announcement. Use \`caption\` as a fallback when
+setting JS properties rather than HTML attributes; \`aria-label\` takes precedence if both are supplied.
 
-Pass \`rows\` and \`column-headers\` as JSON-encoded attributes (or set the \`rows\` / \`columnHeaders\` JS
-properties directly). Each cell has \`{ label, value: { l, c, h }, background?, foreground?, disabled? }\` —
+**AT cell labels:** Each cell's \`label\` field is what a screen reader announces on focus. When using
+\`buildGamutRows\` from \`@candor-design/web-components/tone-data\`, labels are computed automatically:
+the anchor cell is labelled \`anchor\`; other in-gamut cells carry a CIEDE2000 delta E distance from the
+anchor (\`ΔE N from anchor\`); disabled cells are \`out of gamut\`. The row and column headers supply L and C
+context, so labels omit those values. To see the label text beneath each swatch during development, add \`show-labels\`.
+
+**Passing data:** Pass \`rows\` and \`column-headers\` as JSON-encoded attributes (or set the \`rows\` /
+\`columnHeaders\` JS properties directly). Each cell: \`{ label, value?: { l, c, h }, background?, foreground?, disabled? }\` —
 \`disabled: true\` marks out-of-sRGB-gamut cells, which render as blank but stay in the DOM for grid semantics.
 
-Selection dispatches a \`color-select\` CustomEvent with \`{ value, row, col, l, c, h }\` in \`detail\` —
+For the four Candor brand hues, import the pre-built data directly:
+
+\`\`\`ts
+import { NAVY_GAMUT_ROWS, NAVY_GAMUT_HEADERS } from '@candor-design/web-components/tone-data';
+\`\`\`
+
+For custom hues, use \`buildGamutRows\` — it accepts the raw L × C grid and the anchor coordinates, and
+returns a \`ToneRow[]\` with CIEDE2000 labels computed at build time (culori is a peer dependency of the
+\`/tone-data\` entry point and is not bundled into it):
+
+\`\`\`ts
+import { buildGamutRows } from '@candor-design/web-components/tone-data';
+const rows = buildGamutRows(grid, anchorL, anchorC, anchorH);
+\`\`\`
+
+**Selection:** Dispatches a \`color-select\` CustomEvent with \`{ value, row, col, l, c, h }\` in \`detail\` —
 \`value\` is the formatted \`oklch(L C H)\` string. Pass \`selected-value\` to pre-select a cell by oklch
 string (matched on L and C, hue is implicit per grid).
         `.trim(),
