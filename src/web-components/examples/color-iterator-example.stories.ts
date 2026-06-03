@@ -52,12 +52,18 @@ const BG_ROWS = JSON.stringify(buildGamutRows(
 const BG_HEADERS = JSON.stringify(['C 0.020', 'C 0.054', 'C 0.090', 'C 0.130', 'C 0.170']);
 
 const MEAS_ROWS = JSON.stringify([
+  { cells: ['Criterion', 'Result'], isHeader: true },
+  { cells: ['AA text', 'Fail'], isHeader: false },
+  { cells: ['Large text', 'Pass'], isHeader: false },
+  { cells: ['Non-text', 'Pass'], isHeader: false },
+  { cells: ['Algorithm', 'Score'], isHeader: true },
   { cells: ['WCAG 2.1', '3.9'], isHeader: false },
   { cells: ['OKCA', '4.0'], isHeader: false },
   { cells: ['Perceptual', '60'], isHeader: false },
   { cells: ['Delta E', '48'], isHeader: false },
-  { cells: ['FG · L C H', '0.55 · 0.065 · 142°'], isHeader: false },
-  { cells: ['BG · L C H', '0.94 · 0.054 · 333°'], isHeader: false },
+  { cells: ['Color', 'L · C · H'], isHeader: true },
+  { cells: ['FG', '0.55 · 0.065 · 142°'], isHeader: false },
+  { cells: ['BG', '0.94 · 0.054 · 333°'], isHeader: false },
 ]);
 
 const meta: Meta = {
@@ -122,6 +128,21 @@ export const ColorPairIterator: Story = {
               line-height: var(--line-height-normal);
             ">Adjust lightness along an OKLCH axis while contrast ratios update in real time.</p>
           </header>
+
+          <candor-card variant="elevated" style="display: block; margin-bottom: 1.25rem;">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 0.5rem 0;">
+              <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning" size="lg">
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                  <candor-badge variant="error" size="sm">AA text ✗</candor-badge>
+                  <candor-badge variant="success" size="sm">Large text ✓</candor-badge>
+                  <candor-badge variant="success" size="sm">Non-text ✓</candor-badge>
+                </div>
+                <candor-accessible-text role_="annotation" color="secondary" style="text-align: center; display: block;">
+                  Needs 4.5:1 for AA · 7:1 for AAA
+                </candor-accessible-text>
+              </candor-stat>
+            </div>
+          </candor-card>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 1.25rem; align-items: start;">
 
@@ -221,12 +242,14 @@ export const ColorPairIterator: Story = {
                 </div>
               </candor-card>
 
-              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                <candor-button variant="ghost" size="small">⇄ Swap</candor-button>
-                <candor-button variant="ghost" size="small">≈ Harmonize</candor-button>
-                <candor-button variant="ghost" size="small">↺ Reset</candor-button>
-                <candor-button variant="ghost" size="small">✦ Random</candor-button>
-              </div>
+              <candor-card variant="default" style="display: block;">
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                  <candor-button variant="ghost" size="small">⇄ Swap</candor-button>
+                  <candor-button variant="ghost" size="small">≈ Harmonize</candor-button>
+                  <candor-button variant="ghost" size="small">↺ Reset</candor-button>
+                  <candor-button variant="ghost" size="small">✦ Random</candor-button>
+                </div>
+              </candor-card>
 
               <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
                 <candor-accordion-item heading="Contrast algorithm" open>
@@ -248,23 +271,6 @@ export const ColorPairIterator: Story = {
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 1rem;">
-
-              <candor-card variant="elevated" style="display: block;">
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 0.5rem 0;">
-
-                  <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning">
-                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
-                      <candor-badge variant="error" size="sm">AA text ✗</candor-badge>
-                      <candor-badge variant="success" size="sm">Large text ✓</candor-badge>
-                      <candor-badge variant="success" size="sm">Non-text ✓</candor-badge>
-                    </div>
-                    <candor-accessible-text role_="annotation" color="secondary" style="text-align: center; display: block;">
-                      Needs 4.5:1 for AA · 7:1 for AAA
-                    </candor-accessible-text>
-                  </candor-stat>
-
-                </div>
-              </candor-card>
 
               <candor-card variant="default" style="display: block;">
                 <candor-accessible-text role_="label" bold style="display: block; margin-bottom: 0.75rem;">Preview</candor-accessible-text>
