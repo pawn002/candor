@@ -35,6 +35,17 @@ function showToast(message, variant = 'info', autoDismissMs = 4000) {
 
 showToast('Your changes have been saved.', 'success');
 \`\`\`
+
+**Sizing:** Override width constraints per-instance via CSS custom properties:
+
+| Property | Default | Controls |
+|---|---|---|
+| \`--candor-toast-min-width\` | \`18rem\` | Minimum toast width |
+| \`--candor-toast-max-width\` | \`28rem\` | Maximum toast width |
+
+\`\`\`css
+candor-toast-container { --candor-toast-min-width: 24rem; }
+\`\`\`
         `.trim(),
       },
     },

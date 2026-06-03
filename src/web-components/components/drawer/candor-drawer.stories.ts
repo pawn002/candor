@@ -23,6 +23,18 @@ for syncing \`open="false"\` (or removing the open attribute) in response.
 
 Entry animation uses \`@starting-style\` (Chrome 117+, Firefox 129+); degrades gracefully
 to instant appearance on unsupported browsers. Honors \`prefers-reduced-motion\`.
+
+**Sizing:** The \`size\` attribute sets the default panel width (left/right) or height
+(bottom). Override per-instance using CSS custom properties:
+
+| Property | Default | Controls |
+|---|---|---|
+| \`--candor-drawer-size\` | \`480px\` (md) | Panel width — left/right positions |
+| \`--candor-drawer-height\` | \`50vh\` (md) | Panel height — bottom position |
+
+\`\`\`css
+candor-drawer#filters-panel { --candor-drawer-size: 400px; }
+\`\`\`
         `.trim(),
       },
     },

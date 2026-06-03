@@ -32,6 +32,17 @@ component cannot enforce this (slot content is consumer-owned), so every footer 
 explicitly.
 
 Emits a \`closed\` CustomEvent when dismissed. Backdrop uses \`backdrop-filter: blur(2px)\`.
+
+**Sizing:** The \`size\` attribute selects a preset max-width via \`--candor-modal-max-width\`.
+Override per-instance to use a non-preset width:
+
+| Property | Default | Controls |
+|---|---|---|
+| \`--candor-modal-max-width\` | \`560px\` (md) | Panel max-width |
+
+\`\`\`css
+candor-modal#detail-view { --candor-modal-max-width: 700px; }
+\`\`\`
         `.trim(),
       },
     },
@@ -43,7 +54,7 @@ Emits a \`closed\` CustomEvent when dismissed. Backdrop uses \`backdrop-filter: 
       control: 'select',
       options: ['sm', 'md', 'lg'],
       type: { name: 'string' },
-      description: 'Panel max-width (400 / 560 / 768px)',
+      description: 'Sets `--candor-modal-max-width` — sm: 400px, md: 560px, lg: 768px. Override with the CSS custom property for non-preset widths.',
     },
   },
   args: { open: false, heading: 'Confirm action', size: 'md' },
