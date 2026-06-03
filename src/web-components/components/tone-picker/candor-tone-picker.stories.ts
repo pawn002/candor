@@ -98,23 +98,23 @@ export const BrandGamuts: Story = {
   },
   render: () => ({
     template: `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-lg);">
-        <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);">
+        <candor-card>
           <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Navy H 245.34</p>
           <candor-tone-picker size="small" hide-headers hide-ui aria-label="Navy H 245.34" rows='${NAVY_ROWS}' column-headers='${NAVY_HEADERS}'></candor-tone-picker>
-        </div>
-        <div>
+        </candor-card>
+        <candor-card>
           <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Burgundy H 347.43</p>
           <candor-tone-picker size="small" hide-headers hide-ui aria-label="Burgundy H 347.43" rows='${BURGUNDY_ROWS}' column-headers='${BURGUNDY_HEADERS}'></candor-tone-picker>
-        </div>
-        <div>
+        </candor-card>
+        <candor-card>
           <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Azure H 250.80</p>
           <candor-tone-picker size="small" hide-headers hide-ui aria-label="Azure H 250.80" rows='${AZURE_ROWS}' column-headers='${AZURE_HEADERS}'></candor-tone-picker>
-        </div>
-        <div>
+        </candor-card>
+        <candor-card>
           <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Indigo H 278.14</p>
           <candor-tone-picker size="small" hide-headers hide-ui aria-label="Indigo H 278.14" rows='${INDIGO_ROWS}' column-headers='${INDIGO_HEADERS}'></candor-tone-picker>
-        </div>
+        </candor-card>
       </div>
     `,
   }),
