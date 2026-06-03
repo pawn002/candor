@@ -67,7 +67,7 @@ export class CandorTonePicker extends LitElement {
 
     .col-header,
     .row-header {
-      font-size: var(--font-size-xs);
+      font-size: var(--font-size-sm);
       font-weight: 400;
       color: var(--color-text-subtle);
       letter-spacing: 0.02em;
@@ -159,7 +159,7 @@ export class CandorTonePicker extends LitElement {
 
     .preview-code {
       font-family: var(--font-family-mono);
-      font-size: 0.8125rem;
+      font-size: var(--font-size-sm);
       color: var(--color-text-default);
       background: var(--color-bg-surface);
       padding: 0.2em 0.5em;
@@ -168,14 +168,14 @@ export class CandorTonePicker extends LitElement {
     }
 
     .preview-empty {
-      font-size: 0.8125rem;
+      font-size: var(--font-size-sm);
       color: var(--color-text-subtle);
       letter-spacing: 0.02em;
     }
 
     .hint {
       margin-top: 0.75rem;
-      font-size: var(--font-size-xs);
+      font-size: var(--font-size-sm);
       color: var(--color-text-subtle);
       letter-spacing: 0.02em;
     }

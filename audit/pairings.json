@@ -802,6 +802,51 @@
       "weight": "semibold",
       "min": 4.5,
       "note": "Navigation badge count (white on burgundy) — Tier 3 Supplementary; OKCA 9.3 validated"
+    },
+    {
+      "id": "tone-picker-col-header",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "C-axis column headers — Tier 3 Supplementary (color swatch is the redundant channel)"
+    },
+    {
+      "id": "tone-picker-row-header",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "L-axis row headers — Tier 3 Supplementary (color swatch is the redundant channel)"
+    },
+    {
+      "id": "tone-picker-preview-code",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "min": 6.5,
+      "note": "Selected oklch value display — Tier 2 Functional (sole channel for the precise selected value)"
+    },
+    {
+      "id": "tone-picker-preview-empty",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "No color selected placeholder — Tier 3 Supplementary (swatch absence is redundant channel)"
+    },
+    {
+      "id": "tone-picker-hint",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Keyboard navigation hint — Tier 3 Supplementary (behavior is redundant channel)"
     }
   ]
 }

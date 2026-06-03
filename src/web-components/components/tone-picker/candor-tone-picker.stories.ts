@@ -24,12 +24,15 @@ const meta: Meta = {
   title: 'Components/TonePicker',
   tags: ['autodocs'],
   argTypes: {
-    caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption' },
-    ariaLabel: { control: 'text', type: { name: 'string' }, description: 'aria-label for the grid element' },
+    'aria-label': { control: 'text', description: 'Required. Labels the grid for screen readers. Set on the host — forwarded to [role="grid"] internally.' },
+    caption: { control: 'text', type: { name: 'string' }, description: 'Fallback accessible label when no aria-label is set. Does not render a visible caption element.' },
+    rows: { control: 'object', description: 'Array of { rowHeader?, cells: ToneCell[] }. Each cell: { label, value?: { l, c, h }, background?, disabled? }.' },
+    columnHeaders: { control: 'object', description: 'Array of column header strings (C-axis labels). Attribute: column-headers.' },
     hideHeaders: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide row/column headers while keeping them in the DOM for AT' },
     hideUi: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide the preview swatch and hint text (live region stays in DOM for AT)' },
     size: { control: 'radio', options: ['normal', 'small'], type: { name: 'string' }, description: 'Button size — normal: 44px square, small: 22px square' },
     selectedValue: { control: 'text', type: { name: 'string' }, description: 'Pre-select a cell by oklch string (e.g. from a parent color state)' },
+    'color-select': { control: false, description: 'CustomEvent fired on cell activation. detail: { value: string, row, col, l, c, h }.' },
   },
   parameters: {
     layout: 'padded',
