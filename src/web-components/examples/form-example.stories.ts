@@ -179,8 +179,14 @@ export const RegistrationForm: Story = {
 
 export const FormWithValidationAlert: Story = {
   render: () => ({
+    styles: [`
+      .alert-actions { flex-direction: row; }
+      @media (max-width: 480px) {
+        .alert-actions { flex-direction: column; }
+      }
+    `],
     template: `
-      <main style="max-width: 500px; padding: var(--spacing-lg);">
+      <main style="max-width: 500px; padding: clamp(0.5rem, 4vw, 2rem);">
         <candor-heading level="h2" style="margin-bottom: var(--spacing-md);">Reset Password</candor-heading>
 
         <form style="display: flex; flex-direction: column; gap: 1.25rem;" novalidate>
@@ -205,7 +211,7 @@ export const FormWithValidationAlert: Story = {
             required>
           </candor-input>
 
-          <div style="display: flex; gap: var(--spacing-sm);">
+          <div class="alert-actions" style="display: flex; gap: var(--spacing-sm);">
             <candor-button variant="primary" size="medium">Update password</candor-button>
             <candor-button variant="ghost" size="medium">Cancel</candor-button>
           </div>
