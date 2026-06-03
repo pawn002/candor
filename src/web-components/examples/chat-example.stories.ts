@@ -14,7 +14,7 @@ const meta: Meta = {
       description: {
         component: `
 Full-page AI chat interface layout assembling \`<candor-navigation>\`, \`<candor-card>\`,
-\`<candor-accessible-text>\`, \`<candor-badge>\`, \`<candor-button>\`, and
+\`<candor-article>\`, \`<candor-accessible-text>\`, \`<candor-badge>\`, \`<candor-button>\`, and
 \`<candor-chat-input>\` into a conversation UI.
 
 Demonstrates the expected shell structure for an AI chat product: a fixed navigation bar,
@@ -22,8 +22,10 @@ a sidebar listing conversation history, and a main pane with message bubbles and
 ChatInput anchored to the bottom.
 
 The sidebar uses \`<aside aria-label="Conversation history">\` as a named landmark.
-Message bubbles carrying AI-generated content should include a badge or label identifying
-the source — screen readers need that context before reading the content.
+AI message bubbles use \`<candor-article font="serif" justify>\` — the full justification
+is the ambient transparency signal that distinguishes AI-generated prose from human
+input without relying on labels alone. The AI avatar carries \`aria-label="Candor AI"\`
+so screen readers receive source attribution before the content is announced.
         `.trim(),
       },
     },
@@ -56,7 +58,7 @@ export const AIChatInterface: Story = {
           orientation="horizontal">
         </candor-navigation>
 
-        <div style="flex: 1; display: flex; min-height: 0;">
+        <main style="flex: 1; display: flex; min-height: 0;">
 
           <aside
             class="chat-sidebar"
@@ -129,7 +131,7 @@ export const AIChatInterface: Story = {
 
           <div style="flex: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0;">
 
-            <header style="
+            <div style="
               padding: 0.875rem 1.5rem;
               border-bottom: 1px solid var(--color-border-default);
               display: flex;
@@ -144,7 +146,7 @@ export const AIChatInterface: Story = {
                 color: var(--color-text-default);
               ">Candor AI</span>
               <candor-badge variant="success" size="sm">Online</candor-badge>
-            </header>
+            </div>
 
             <div
               role="log"
@@ -162,12 +164,13 @@ export const AIChatInterface: Story = {
 
               <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 0.625rem;">
                 <div style="
-                  max-width: 68%;
+                  flex: 1;
+                  min-width: 0;
                   background: var(--color-action-primary);
                   color: var(--color-text-on-action);
                   border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
                   padding: 0.75rem 1rem;
-                  font-family: var(--font-family-serif);
+                  font-family: var(--font-family-base);
                   font-size: var(--font-size-md);
                   line-height: var(--line-height-normal);
                 ">
@@ -197,7 +200,8 @@ export const AIChatInterface: Story = {
 
               <div style="display: flex; gap: 0.625rem; align-items: flex-start;">
                 <div
-                  aria-hidden="true"
+                  role="img"
+                  aria-label="Candor AI"
                   style="
                     width: 2rem;
                     height: 2rem;
@@ -217,50 +221,32 @@ export const AIChatInterface: Story = {
                 </div>
                 <div style="flex: 1; min-width: 0;">
                   <candor-card variant="default" style="display: block;">
-                    <div style="
-                      font-family: var(--font-family-serif);
-                      font-size: var(--font-size-md);
-                      line-height: var(--line-height-relaxed);
-                      color: var(--color-text-default);
-                      display: flex;
-                      flex-direction: column;
-                      gap: 0.875rem;
-                    ">
-                      <p style="margin: 0;">
+                    <candor-article font="serif" justify lang="en">
+                      <p>
                         For WCAG AA (4.5:1 against white), you need <strong>L&nbsp;≤&nbsp;0.55</strong>. Below that threshold, any reasonably saturated hue gives you the headroom you need — the exact cutoff shifts slightly with chroma, but 0.55 is a safe working ceiling.
                       </p>
-                      <p style="margin: 0;">A practical navy starting point:</p>
-                      <pre style="
-                        background: var(--color-bg-code);
-                        color: var(--color-text-code);
-                        padding: 1rem;
-                        border-radius: var(--radius-sm);
-                        font-family: var(--font-family-mono);
-                        font-size: var(--font-size-sm);
-                        line-height: 1.6;
-                        overflow-x: auto;
-                        margin: 0;
-                        border: 1px solid var(--color-border-code);
-                      " tabindex="0"><code>// WCAG AA on white — L ≤ 0.55
+                      <p>A practical navy starting point:</p>
+                      <pre tabindex="0"><code>// WCAG AA on white — L ≤ 0.55
 --color-brand:        oklch(0.45 0.20 250);  // 7.1:1 ✅
 --color-brand-hover:  oklch(0.38 0.20 250);  // 9.8:1 ✅
 --color-brand-active: oklch(0.32 0.20 250);  // 13.2:1 ✅</code></pre>
-                      <p style="margin: 0;">
+                      <p>
                         Holding C and H constant means every interactive state is a pure lightness shift — the color stays recognizably itself across rest, hover, and active.
                       </p>
-                    </div>
+                    </candor-article>
                   </candor-card>
                 </div>
               </div>
 
               <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 0.625rem;">
                 <div style="
-                  max-width: 68%;
+                  flex: 1;
+                  min-width: 0;
                   background: var(--color-action-primary);
                   color: var(--color-text-on-action);
                   border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
                   padding: 0.75rem 1rem;
-                  font-family: var(--font-family-serif);
+                  font-family: var(--font-family-base);
                   font-size: var(--font-size-md);
                   line-height: var(--line-height-normal);
                 ">
@@ -290,7 +276,8 @@ export const AIChatInterface: Story = {
 
               <div style="display: flex; gap: 0.625rem; align-items: flex-start;">
                 <div
-                  aria-hidden="true"
+                  role="img"
+                  aria-label="Candor AI"
                   style="
                     width: 2rem;
                     height: 2rem;
@@ -310,38 +297,19 @@ export const AIChatInterface: Story = {
                 </div>
                 <div style="flex: 1; min-width: 0;">
                   <candor-card variant="default" style="display: block;">
-                    <div style="
-                      font-family: var(--font-family-serif);
-                      font-size: var(--font-size-md);
-                      line-height: var(--line-height-relaxed);
-                      color: var(--color-text-default);
-                      display: flex;
-                      flex-direction: column;
-                      gap: 0.875rem;
-                    ">
-                      <p style="margin: 0;">
-                        Dark mode inverts the contrast direction — now you need enough lightness <em>above</em> the dark background. On Candor's page color (<code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); padding: 0.1em 0.35em; border-radius: var(--radius-sm); color: var(--color-highlight);">oklch(0.16 0.02 249)</code>), you need <strong>L&nbsp;≥&nbsp;0.60</strong> for 4.5:1.
+                    <candor-article font="serif" justify lang="en">
+                      <p>
+                        Dark mode inverts the contrast direction — now you need enough lightness <em>above</em> the dark background. On Candor's page color (<code>oklch(0.16 0.02 249)</code>), you need <strong>L&nbsp;≥&nbsp;0.60</strong> for 4.5:1.
                       </p>
-                      <p style="margin: 0;">Keep the hue; step L up significantly, and ease off chroma slightly — high C at high L reads electric on a dark surface:</p>
-                      <pre style="
-                        background: var(--color-bg-code);
-                        color: var(--color-text-code);
-                        padding: 1rem;
-                        border-radius: var(--radius-sm);
-                        font-family: var(--font-family-mono);
-                        font-size: var(--font-size-sm);
-                        line-height: 1.6;
-                        overflow-x: auto;
-                        margin: 0;
-                        border: 1px solid var(--color-border-code);
-                      " tabindex="0"><code>// Same hue, inverted lightness, reduced chroma
+                      <p>Keep the hue; step L up significantly, and ease off chroma slightly — high C at high L reads electric on a dark surface:</p>
+                      <pre tabindex="0"><code>// Same hue, inverted lightness, reduced chroma
 --color-brand-dark:        oklch(0.72 0.18 250);  // 5.1:1 on dark page ✅
 --color-brand-dark-hover:  oklch(0.80 0.16 250);  // 7.4:1 ✅
 --color-brand-dark-active: oklch(0.85 0.14 250);  // 10.2:1 ✅</code></pre>
-                      <p style="margin: 0;">
+                      <p>
                         The chroma taper (0.18 → 0.14) is the same principle as the dark mode status colors — prevent the neon quality that high C at high L produces against a very dark background.
                       </p>
-                    </div>
+                    </candor-article>
                   </candor-card>
                 </div>
               </div>
@@ -361,7 +329,7 @@ export const AIChatInterface: Story = {
             </div>
 
           </div>
-        </div>
+        </main>
       </div>
     `,
   }),
