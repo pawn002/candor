@@ -72,6 +72,18 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+  render: () => ({
+    template: `
+      <candor-tone-picker
+        aria-label="Navy H 245.34 — sRGB gamut"
+        rows='${NAVY_ROWS}'
+        column-headers='${NAVY_HEADERS}'>
+      </candor-tone-picker>
+    `,
+  }),
+};
+
+export const Navy: Story = {
   name: 'Navy H 245.34',
   parameters: {
     docs: {
