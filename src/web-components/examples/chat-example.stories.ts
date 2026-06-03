@@ -84,7 +84,7 @@ export const AIChatInterface: Story = {
               padding: 1rem 0.75rem;
             ">
 
-            <candor-button variant="tertiary" size="small">+ New conversation</candor-button>
+            <candor-button variant="primary" size="small" style="width: 100%;">+ New conversation</candor-button>
 
             <nav aria-label="Recent conversations">
               <candor-accessible-text
