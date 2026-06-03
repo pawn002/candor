@@ -17,13 +17,12 @@ const meta: Meta = {
         component: `
 Composition examples showing how Candor primitives combine into card-shaped UI patterns.
 
-Cards are not a single component — they are a layout convention built from:
-\`<candor-heading>\` (title), \`<candor-text>\` (body copy and metadata),
-\`<candor-button>\` (primary and secondary actions), \`<candor-chip>\` (selectable attributes),
-\`<candor-menu>\` (overflow actions), and \`<candor-tooltip>\` (inline help text).
+Each example uses \`<candor-card>\` as the shell (border, radius, background, overflow clip)
+and fills it with \`<candor-heading>\`, \`<candor-text>\`, \`<candor-button>\`, \`<candor-badge>\`,
+\`<candor-stat>\`, \`<candor-menu>\`, and \`<candor-tooltip>\` for content and actions.
 
-These examples demonstrate the expected spacing, typographic hierarchy, and action placement
-for product cards and content cards. Use them as a reference when composing custom card layouts.
+For image-topped cards, use \`padding="none"\` on \`<candor-card>\` and add a padded wrapper
+div inside the slot — the card's \`overflow: hidden\` clips the image corners automatically.
         `.trim(),
       },
     },
@@ -36,10 +35,10 @@ type Story = StoryObj;
 export const ProductCard: Story = {
   render: () => ({
     template: `
-      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 350px; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
+      <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 350px;">
         <div style="width: 100%; height: 200px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
 
-        <div style="padding: 1.5rem;">
+        <div style="padding: var(--spacing-card-padding);">
           <candor-heading level="h3" style="margin-bottom: 0.5rem;">
             Premium Wireless Headphones
           </candor-heading>
@@ -72,7 +71,7 @@ export const ProductCard: Story = {
             <candor-menu label="More" entries='${MENU_ENTRIES}'></candor-menu>
           </div>
         </div>
-      </div></div>
+      </candor-card></div>
     `,
   }),
 };
@@ -80,10 +79,10 @@ export const ProductCard: Story = {
 export const ArticleCard: Story = {
   render: () => ({
     template: `
-      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 400px; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
+      <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 400px;">
         <div style="width: 100%; height: 180px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
 
-        <div style="padding: 1.5rem;">
+        <div style="padding: var(--spacing-card-padding);">
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
             <candor-badge variant="default">Design</candor-badge>
             <candor-badge variant="default">Accessibility</candor-badge>
@@ -113,7 +112,7 @@ export const ArticleCard: Story = {
             </candor-tooltip>
           </div>
         </div>
-      </div></div>
+      </candor-card></div>
     `,
   }),
 };
@@ -121,7 +120,7 @@ export const ArticleCard: Story = {
 export const ProfileCard: Story = {
   render: () => ({
     template: `
-      <div style="padding: 1rem; max-width: 100%;"><div style="max-width: 300px; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); text-align: center; padding: 2rem;">
+      <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="lg" style="max-width: 300px; text-align: center;">
         <div style="width: 100px; height: 100px; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
 
         <candor-heading level="h3" style="margin-bottom: 0.25rem;">
@@ -150,7 +149,7 @@ export const ProfileCard: Story = {
             Message
           </candor-button>
         </div>
-      </div></div>
+      </candor-card></div>
     `,
   }),
 };
@@ -164,9 +163,9 @@ export const CardGrid: Story = {
         </candor-heading>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-card-gap);">
-          <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
+          <candor-card variant="outlined" padding="none">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
-            <div style="padding: 1rem;">
+            <div style="padding: var(--spacing-card-padding);">
               <candor-heading level="h4" style="margin-bottom: 0.5rem;">
                 Product Name
               </candor-heading>
@@ -177,11 +176,11 @@ export const CardGrid: Story = {
                 View Details
               </candor-button>
             </div>
-          </div>
+          </candor-card>
 
-          <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
+          <candor-card variant="outlined" padding="none">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
-            <div style="padding: 1rem;">
+            <div style="padding: var(--spacing-card-padding);">
               <candor-heading level="h4" style="margin-bottom: 0.5rem;">
                 Another Product
               </candor-heading>
@@ -192,11 +191,11 @@ export const CardGrid: Story = {
                 View Details
               </candor-button>
             </div>
-          </div>
+          </candor-card>
 
-          <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden;">
+          <candor-card variant="outlined" padding="none">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
-            <div style="padding: 1rem;">
+            <div style="padding: var(--spacing-card-padding);">
               <candor-heading level="h4" style="margin-bottom: 0.5rem;">
                 Third Item
               </candor-heading>
@@ -207,7 +206,7 @@ export const CardGrid: Story = {
                 View Details
               </candor-button>
             </div>
-          </div>
+          </candor-card>
         </div>
       </div>
     `,
