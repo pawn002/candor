@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import './candor-tone-picker';
+import '../card/candor-card';
 import {
   NAVY_GAMUT_ROWS,
   NAVY_GAMUT_HEADERS,
@@ -83,43 +84,6 @@ export const Default: Story = {
   }),
 };
 
-export const BrandGamuts: Story = {
-  name: 'Brand gamuts',
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          'All four Candor brand hues at `size="small"`. The in-sRGB-gamut region (the filled cells) ' +
-          'varies meaningfully per hue — Indigo has the widest mid-range gamut, Burgundy the narrowest. ' +
-          'Supply your own gamut data to the component for non-brand hues.',
-      },
-    },
-  },
-  render: () => ({
-    template: `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);">
-        <candor-card>
-          <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Navy H 245.34</p>
-          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Navy H 245.34" rows='${NAVY_ROWS}' column-headers='${NAVY_HEADERS}'></candor-tone-picker>
-        </candor-card>
-        <candor-card>
-          <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Burgundy H 347.43</p>
-          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Burgundy H 347.43" rows='${BURGUNDY_ROWS}' column-headers='${BURGUNDY_HEADERS}'></candor-tone-picker>
-        </candor-card>
-        <candor-card>
-          <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Azure H 250.80</p>
-          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Azure H 250.80" rows='${AZURE_ROWS}' column-headers='${AZURE_HEADERS}'></candor-tone-picker>
-        </candor-card>
-        <candor-card>
-          <p style="margin:0 0 var(--spacing-xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Indigo H 278.14</p>
-          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Indigo H 278.14" rows='${INDIGO_ROWS}' column-headers='${INDIGO_HEADERS}'></candor-tone-picker>
-        </candor-card>
-      </div>
-    `,
-  }),
-};
-
 export const PreSelected: Story = {
   name: 'Pre-selected value',
   parameters: {
@@ -163,6 +127,47 @@ export const SmallSize: Story = {
         rows='${INDIGO_ROWS}'
         column-headers='${INDIGO_HEADERS}'>
       </candor-tone-picker>
+    `,
+  }),
+};
+
+export const BrandGamuts: Story = {
+  name: 'Brand gamuts',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'All four Candor brand hues at `size="small"`. The in-sRGB-gamut region (the filled cells) ' +
+          'varies meaningfully per hue — Indigo has the widest mid-range gamut, Burgundy the narrowest. ' +
+          'Supply your own gamut data to the component for non-brand hues.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);">
+        <candor-card>
+          <span slot="header">Navy</span>
+          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Navy" selected-value="oklch(0.27 0.060 245.34)" rows='${NAVY_ROWS}' column-headers='${NAVY_HEADERS}'></candor-tone-picker>
+          <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.27 0.060 245.34)</span>
+        </candor-card>
+        <candor-card>
+          <span slot="header">Burgundy</span>
+          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Burgundy" selected-value="oklch(0.37 0.080 347.43)" rows='${BURGUNDY_ROWS}' column-headers='${BURGUNDY_HEADERS}'></candor-tone-picker>
+          <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.37 0.080 347.43)</span>
+        </candor-card>
+        <candor-card>
+          <span slot="header">Azure</span>
+          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Azure" selected-value="oklch(0.65 0.180 250.80)" rows='${AZURE_ROWS}' column-headers='${AZURE_HEADERS}'></candor-tone-picker>
+          <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.65 0.180 250.80)</span>
+        </candor-card>
+        <candor-card>
+          <span slot="header">Indigo</span>
+          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Indigo" selected-value="oklch(0.60 0.210 278.14)" rows='${INDIGO_ROWS}' column-headers='${INDIGO_HEADERS}'></candor-tone-picker>
+          <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.60 0.210 278.14)</span>
+        </candor-card>
+      </div>
     `,
   }),
 };

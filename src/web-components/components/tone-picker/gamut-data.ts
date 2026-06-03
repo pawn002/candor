@@ -1,21 +1,32 @@
 import type { ToneCell, ToneRow } from './candor-tone-picker';
 
+// OKLab Euclidean distance × 100 — perceptual difference on a human-readable scale.
+// Scaled so that ~5 = just noticeable, ~11+ = clearly different (aligns with klar deltaE).
+function oklabDeltaE(l1: number, c1: number, h1: number, l2: number, c2: number, h2: number): number {
+  const rad = Math.PI / 180;
+  const a1 = c1 * Math.cos(h1 * rad), b1 = c1 * Math.sin(h1 * rad);
+  const a2 = c2 * Math.cos(h2 * rad), b2 = c2 * Math.sin(h2 * rad);
+  return Math.round(Math.sqrt((l1 - l2) ** 2 + (a1 - a2) ** 2 + (b1 - b2) ** 2) * 100);
+}
+
 // Transforms klar `variants` output into ToneRow[] for <candor-tone-picker>.
 // Each cell carries full OKLCH metadata; disabled=true marks out-of-sRGB-gamut cells.
 export function buildGamutRows(
   grid: Array<Array<{ l: number; c: number; h: number; ig: boolean }>>,
   anchorL: number,
   anchorC: number,
+  anchorH: number,
 ): ToneRow[] {
   return grid.map((row) => ({
     rowHeader: `L ${row[0].l.toFixed(2)}`,
     cells: row.map(({ l, c, h, ig }): ToneCell => {
       const isAnchor = Math.abs(l - anchorL) < 0.001 && Math.abs(c - anchorC) < 0.001;
+      const de = ig && !isAnchor ? oklabDeltaE(l, c, h, anchorL, anchorC, anchorH) : 0;
       return {
         label: ig
           ? isAnchor
             ? `L=${l.toFixed(2)} C=${c.toFixed(3)} — anchor`
-            : `L=${l.toFixed(2)} C=${c.toFixed(3)}`
+            : `L=${l.toFixed(2)} C=${c.toFixed(3)} · ΔE ${de} from anchor`
           : `L=${l.toFixed(2)} C=${c.toFixed(3)} — out of gamut`,
         value: ig ? { l, c, h } : undefined,
         background: ig ? `oklch(${l} ${c} ${h})` : undefined,
@@ -46,7 +57,7 @@ export const NAVY_GAMUT_ROWS = buildGamutRows(
     ];
     return L.map((l, ri) => C.map((c, ci) => ({ l, c, h: 245.34, ig: !!IG[ri][ci] })));
   })(),
-  0.27, 0.06,
+  0.27, 0.06, 245.34,
 );
 export const NAVY_GAMUT_HEADERS = ['C 0.013', 'C 0.060', 'C 0.107', 'C 0.154', 'C 0.201', 'C 0.249', 'C 0.296'];
 
@@ -69,7 +80,7 @@ export const BURGUNDY_GAMUT_ROWS = buildGamutRows(
     ];
     return L.map((l, ri) => C.map((c, ci) => ({ l, c, h: 347.43, ig: !!IG[ri][ci] })));
   })(),
-  0.37, 0.08,
+  0.37, 0.08, 347.43,
 );
 export const BURGUNDY_GAMUT_HEADERS = ['C 0.033', 'C 0.080', 'C 0.127', 'C 0.174', 'C 0.221', 'C 0.269', 'C 0.316'];
 
@@ -92,7 +103,7 @@ export const AZURE_GAMUT_ROWS = buildGamutRows(
     ];
     return L.map((l, ri) => C.map((c, ci) => ({ l, c, h: 250.80, ig: !!IG[ri][ci] })));
   })(),
-  0.65, 0.18,
+  0.65, 0.18, 250.80,
 );
 export const AZURE_GAMUT_HEADERS = ['C 0.039', 'C 0.086', 'C 0.133', 'C 0.180', 'C 0.227', 'C 0.274', 'C 0.321'];
 
@@ -115,6 +126,6 @@ export const INDIGO_GAMUT_ROWS = buildGamutRows(
     ];
     return L.map((l, ri) => C.map((c, ci) => ({ l, c, h: 278.14, ig: !!IG[ri][ci] })));
   })(),
-  0.60, 0.21,
+  0.60, 0.21, 278.14,
 );
 export const INDIGO_GAMUT_HEADERS = ['C 0.021', 'C 0.069', 'C 0.116', 'C 0.163', 'C 0.210', 'C 0.257', 'C 0.304'];

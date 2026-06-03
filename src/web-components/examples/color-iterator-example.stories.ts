@@ -25,7 +25,7 @@ const FG_ROWS = JSON.stringify(buildGamutRows(
     ];
     return L.map((l, ri) => C.map((c, ci) => ({ l, c, h: 142, ig: !!IG[ri][ci] })));
   })(),
-  0.55, 0.065,
+  0.55, 0.065, 142,
 ));
 const FG_HEADERS = JSON.stringify(['C 0.020', 'C 0.065', 'C 0.110', 'C 0.155', 'C 0.200']);
 
@@ -47,7 +47,7 @@ const BG_ROWS = JSON.stringify(buildGamutRows(
     ];
     return L.map((l, ri) => C.map((c, ci) => ({ l, c, h: 333, ig: !!IG[ri][ci] })));
   })(),
-  0.94, 0.054,
+  0.94, 0.054, 333,
 ));
 const BG_HEADERS = JSON.stringify(['C 0.020', 'C 0.054', 'C 0.090', 'C 0.130', 'C 0.170']);
 
