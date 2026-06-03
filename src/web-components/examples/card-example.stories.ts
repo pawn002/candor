@@ -142,10 +142,10 @@ export const ProfileCard: Story = {
         </div>
 
         <div style="display: flex; gap: 0.5rem;">
-          <candor-button variant="primary" size="medium" style="flex: 1;">
+          <candor-button variant="primary" size="medium" style="flex: 1; min-width: 0;">
             Follow
           </candor-button>
-          <candor-button variant="secondary" size="medium" style="flex: 1;">
+          <candor-button variant="secondary" size="medium" style="flex: 1; min-width: 0;">
             Message
           </candor-button>
         </div>
