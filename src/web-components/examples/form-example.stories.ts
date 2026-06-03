@@ -86,7 +86,7 @@ export const ContactForm: Story = {
 export const LoginForm: Story = {
   render: () => ({
     template: `
-      <main style="padding: var(--spacing-lg);">
+      <main style="padding: clamp(0.5rem, 4vw, 2rem);">
         <div style="max-width: 400px; margin: 0 auto; padding: var(--spacing-lg); border: 1px solid var(--color-border-default); border-radius: var(--radius-md);">
           <candor-heading level="h2" style="text-align: center; margin-bottom: var(--spacing-xs);">
             Sign In
@@ -99,9 +99,9 @@ export const LoginForm: Story = {
             <candor-input label="Email" type="email" placeholder="you@example.com" required></candor-input>
             <candor-input label="Password" type="password" placeholder="Enter your password" required></candor-input>
 
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-xs);">
               <candor-checkbox label="Remember me"></candor-checkbox>
-              <a href="#" style="color: var(--color-action-primary); text-decoration: none; font-size: var(--font-size-sm);">
+              <a href="#" style="color: var(--color-action-primary); text-decoration: none; font-size: var(--font-size-sm); white-space: nowrap;">
                 Forgot password?
               </a>
             </div>
