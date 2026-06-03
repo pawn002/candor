@@ -62,8 +62,8 @@ const MEAS_ROWS = JSON.stringify([
   { cells: ['Perceptual', '60'], isHeader: false },
   { cells: ['Delta E', '48'], isHeader: false },
   { cells: ['Color', 'L · C · H'], isHeader: true },
-  { cells: ['FG', '0.55 · 0.065 · 142°'], isHeader: false },
-  { cells: ['BG', '0.94 · 0.054 · 333°'], isHeader: false },
+  { cells: ['FG', '0.55·0.065·142°'], isHeader: false },
+  { cells: ['BG', '0.94·0.054·333°'], isHeader: false },
 ]);
 
 const meta: Meta = {
@@ -243,7 +243,7 @@ export const ColorPairIterator: Story = {
               </candor-card>
 
               <candor-card variant="default" style="display: block;">
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; justify-items: center;">
                   <candor-button variant="ghost" size="small">⇄ Swap</candor-button>
                   <candor-button variant="ghost" size="small">≈ Harmonize</candor-button>
                   <candor-button variant="ghost" size="small">↺ Reset</candor-button>
