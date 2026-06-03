@@ -55,65 +55,30 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
-export const Bottom: Story = {
+export const TriggerTypes: Story = {
+  name: 'Trigger types',
   parameters: {
     controls: { disable: true },
     docs: {
       description: {
         story:
-          'Bottom placement — suits triggers where upward space is constrained. ' +
-          'The trigger\'s accessible name ("External link") is the primary information channel; the tooltip adds supplementary context for pointer users.',
+          'Tooltips work on any focusable element. Three common trigger types: ' +
+          'a link (tooltip adds context the visible label omits), ' +
+          'a destructive button (tooltip reinforces irreversibility), ' +
+          'and a text button (tooltip surfaces a keyboard shortcut — ideal tooltip content, since shortcuts do not belong in the accessible name).',
       },
     },
   },
   render: () => ({
     template: `
-      <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
+      <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-lg);justify-content:center;align-items:center;flex-wrap:wrap;">
         <candor-tooltip text="Opens in a new tab" position="bottom">
           <a href="#" style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-link);">External link</a>
         </candor-tooltip>
-      </div>
-    `,
-  }),
-};
-
-export const Left: Story = {
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          'Left-side placement for controls near the right edge of the viewport. ' +
-          'The trigger has a self-describing label ("Delete"); the tooltip reinforces the irreversibility of the action.',
-      },
-    },
-  },
-  render: () => ({
-    template: `
-      <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
-        <candor-tooltip text="Cannot undo this action" position="left">
+        <candor-tooltip text="Cannot undo this action" position="top">
           <candor-button variant="destructive">Delete</candor-button>
         </candor-tooltip>
-      </div>
-    `,
-  }),
-};
-
-export const Right: Story = {
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          'Right-side placement for controls near the left edge of the viewport. ' +
-          'Keyboard shortcuts and accelerators are ideal tooltip content — useful context that does not belong in the accessible name.',
-      },
-    },
-  },
-  render: () => ({
-    template: `
-      <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
-        <candor-tooltip text="Keyboard shortcut: ⌘K" position="right">
+        <candor-tooltip text="Keyboard shortcut: ⌘K" position="top">
           <candor-button variant="secondary">Search</candor-button>
         </candor-tooltip>
       </div>
