@@ -74,13 +74,13 @@ export class CandorTonePicker extends LitElement {
     }
 
     .col-header {
-      padding: 0.25rem 0.5rem;
+      padding: var(--spacing-2xs) var(--spacing-xs);
       text-align: center;
       white-space: nowrap;
     }
 
     .row-header {
-      padding: 0.25rem 0.75rem 0.25rem 0;
+      padding: var(--spacing-2xs) 0.75rem var(--spacing-2xs) 0;
       text-align: right;
       white-space: nowrap;
     }
@@ -100,21 +100,21 @@ export class CandorTonePicker extends LitElement {
       display: block;
       width: 100%;
       height: 100%;
-      border: 2px solid transparent;
+      border: var(--border-width-medium) solid transparent;
       border-radius: var(--radius-sm, 4px);
       cursor: pointer;
       padding: 0;
     }
 
     .cell-btn:focus-visible {
-      outline: 2px solid var(--color-focus, oklch(0.65 0.18 251));
-      outline-offset: 2px;
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
     }
 
     .cell-btn[aria-checked='true'] {
-      border-color: var(--color-focus, oklch(0.65 0.18 251));
-      outline: 2px solid var(--color-focus, oklch(0.65 0.18 251));
-      outline-offset: 2px;
+      border-color: var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: var(--focus-ring-offset);
     }
 
     /* Hidden-headers variant: keep semantics, remove visible chrome */
@@ -145,22 +145,22 @@ export class CandorTonePicker extends LitElement {
       align-items: center;
       gap: 0.75rem;
       margin-top: 1.25rem;
-      min-height: 2rem;
+      min-height: var(--spacing-lg);
     }
 
     .preview-swatch {
       display: inline-block;
-      width: 2rem;
-      height: 2rem;
+      width: var(--spacing-lg);
+      height: var(--spacing-lg);
       border-radius: var(--radius-sm, 4px);
       flex-shrink: 0;
-      border: 1px solid oklch(0.85 0 0);
+      border: var(--border-width-thin) solid var(--color-border-default);
     }
 
     .preview-code {
       font-family: var(--font-family-mono);
       font-size: 0.8125rem;
-      color: var(--color-text-primary);
+      color: var(--color-text-default);
       background: var(--color-bg-surface);
       padding: 0.2em 0.5em;
       border-radius: 3px;
