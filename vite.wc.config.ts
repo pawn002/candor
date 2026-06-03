@@ -13,12 +13,18 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: 'src/web-components/index.ts',
-      name: 'CandorWebComponents',
-      fileName: (format) => `candor-web-components.${format === 'es' ? 'js' : 'umd.cjs'}`,
+      entry: {
+        'candor-web-components': 'src/web-components/index.ts',
+        'tone-data': 'src/web-components/tone-data.ts',
+      },
       formats: ['es', 'umd'],
+      fileName: (format, entryName) =>
+        `${entryName}.${format === 'es' ? 'js' : 'umd.cjs'}`,
     },
     outDir: 'web-components/dist',
     emptyOutDir: true,
+    rollupOptions: {
+      external: ['culori'],
+    },
   },
 });

@@ -31,6 +31,7 @@ const meta: Meta = {
     columnHeaders: { control: 'object', description: 'Array of column header strings (C-axis labels). Attribute: column-headers.' },
     hideHeaders: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide row/column headers while keeping them in the DOM for AT' },
     hideUi: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide the preview swatch and hint text (live region stays in DOM for AT)' },
+    showLabels: { control: 'boolean', type: { name: 'boolean' }, description: 'Show aria-label text beneath each cell — developer aid for validating AT labels on custom gamut data.' },
     size: { control: 'radio', options: ['normal', 'small'], type: { name: 'string' }, description: 'Button size — normal: 44px square, small: 22px square' },
     selectedValue: { control: 'text', type: { name: 'string' }, description: 'Pre-select a cell by oklch string (e.g. from a parent color state)' },
     'color-select': { control: false, description: 'CustomEvent fired on cell activation. detail: { value: string, row, col, l, c, h }.' },
@@ -126,6 +127,31 @@ export const SmallSize: Story = {
         hide-ui
         rows='${INDIGO_ROWS}'
         column-headers='${INDIGO_HEADERS}'>
+      </candor-tone-picker>
+    `,
+  }),
+};
+
+export const AtLabels: Story = {
+  name: 'AT labels',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Shows the `aria-label` value beneath each swatch via `show-labels`. ' +
+          'Use this when validating that custom gamut data produces meaningful AT labels — ' +
+          'the text each cell announces is exactly what a screen reader user hears.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <candor-tone-picker
+        aria-label="Navy H 245.34 — AT label audit"
+        show-labels
+        rows='${NAVY_ROWS}'
+        column-headers='${NAVY_HEADERS}'>
       </candor-tone-picker>
     `,
   }),

@@ -1,13 +1,7 @@
+import { differenceCiede2000 } from 'culori';
 import type { ToneCell, ToneRow } from './candor-tone-picker';
 
-// OKLab Euclidean distance × 100 — perceptual difference on a human-readable scale.
-// Scaled so that ~5 = just noticeable, ~11+ = clearly different (aligns with klar deltaE).
-function oklabDeltaE(l1: number, c1: number, h1: number, l2: number, c2: number, h2: number): number {
-  const rad = Math.PI / 180;
-  const a1 = c1 * Math.cos(h1 * rad), b1 = c1 * Math.sin(h1 * rad);
-  const a2 = c2 * Math.cos(h2 * rad), b2 = c2 * Math.sin(h2 * rad);
-  return Math.round(Math.sqrt((l1 - l2) ** 2 + (a1 - a2) ** 2 + (b1 - b2) ** 2) * 100);
-}
+const cie2000 = differenceCiede2000();
 
 // Transforms klar `variants` output into ToneRow[] for <candor-tone-picker>.
 // Each cell carries full OKLCH metadata; disabled=true marks out-of-sRGB-gamut cells.
@@ -21,13 +15,15 @@ export function buildGamutRows(
     rowHeader: `L ${row[0].l.toFixed(2)}`,
     cells: row.map(({ l, c, h, ig }): ToneCell => {
       const isAnchor = Math.abs(l - anchorL) < 0.001 && Math.abs(c - anchorC) < 0.001;
-      const de = ig && !isAnchor ? oklabDeltaE(l, c, h, anchorL, anchorC, anchorH) : 0;
+      const de = ig && !isAnchor
+        ? Math.round(cie2000({ mode: 'oklch', l, c, h }, { mode: 'oklch', l: anchorL, c: anchorC, h: anchorH }))
+        : 0;
       return {
         label: ig
           ? isAnchor
-            ? `L=${l.toFixed(2)} C=${c.toFixed(3)} — anchor`
-            : `L=${l.toFixed(2)} C=${c.toFixed(3)} · ΔE ${de} from anchor`
-          : `L=${l.toFixed(2)} C=${c.toFixed(3)} — out of gamut`,
+            ? `anchor`
+            : `ΔE ${de} from anchor`
+          : `out of gamut`,
         value: ig ? { l, c, h } : undefined,
         background: ig ? `oklch(${l} ${c} ${h})` : undefined,
         foreground: ig ? (l > 0.5 ? `oklch(0.2 0.04 ${h})` : `oklch(0.95 0.01 ${h})`) : undefined,

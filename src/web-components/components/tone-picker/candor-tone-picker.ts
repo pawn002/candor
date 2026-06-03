@@ -179,6 +179,48 @@ export class CandorTonePicker extends LitElement {
       color: var(--color-text-subtle);
       letter-spacing: 0.02em;
     }
+
+    /* Developer aid: show aria-label text beneath each swatch */
+    .cell-inner {
+      display: contents;
+    }
+
+    .cell-label {
+      display: none;
+    }
+
+    :host([show-labels]) .cell {
+      width: auto;
+      height: auto;
+      vertical-align: top;
+    }
+
+    :host([show-labels]) .cell-inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2xs);
+    }
+
+    :host([show-labels]) .cell-btn {
+      width: 3.125rem;
+      height: 3.125rem;
+      flex-shrink: 0;
+    }
+
+    :host([show-labels]) .size-small .cell-btn {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    :host([show-labels]) .cell-label {
+      display: block;
+      width: 9rem;
+      font-family: var(--font-family-mono);
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-relaxed);
+      color: var(--color-text-subtle);
+      word-break: break-word;
+    }
   `;
 
   @property({ type: Array }) rows: ToneRow[] = [];
@@ -186,6 +228,7 @@ export class CandorTonePicker extends LitElement {
   @property() caption = '';
   @property({ type: Boolean, reflect: true, attribute: 'hide-headers' }) hideHeaders = false;
   @property({ type: Boolean, reflect: true, attribute: 'hide-ui' }) hideUi = false;
+  @property({ type: Boolean, reflect: true, attribute: 'show-labels' }) showLabels = false;
   @property({ reflect: true }) size: 'small' | 'normal' = 'normal';
   @property({ attribute: 'selected-value' }) selectedValue: string | null = null;
 
@@ -420,20 +463,23 @@ export class CandorTonePicker extends LitElement {
                     !cell.disabled
                       ? html`
                           <td role="gridcell" class="cell">
-                            <button
-                              type="button"
-                              role="radio"
-                              class="cell-btn"
-                              data-row="${ri}"
-                              data-col="${ci}"
-                              tabindex="${ri === this._focusedRow && ci === this._focusedCol ? '0' : '-1'}"
-                              style="${cell.background ? `background:${cell.background};` : ''}"
-                              aria-label="${cell.label}"
-                              aria-checked="${ri === this._selectedRow && ci === this._selectedCol ? 'true' : 'false'}"
-                              aria-setsize="${setsize}"
-                              aria-posinset="${map.get(`${ri}-${ci}`) ?? 0}"
-                              @click="${() => this._activate(ri, ci, cell)}"
-                            ></button>
+                            <div class="cell-inner">
+                              <button
+                                type="button"
+                                role="radio"
+                                class="cell-btn"
+                                data-row="${ri}"
+                                data-col="${ci}"
+                                tabindex="${ri === this._focusedRow && ci === this._focusedCol ? '0' : '-1'}"
+                                style="${cell.background ? `background:${cell.background};` : ''}"
+                                aria-label="${cell.label}"
+                                aria-checked="${ri === this._selectedRow && ci === this._selectedCol ? 'true' : 'false'}"
+                                aria-setsize="${setsize}"
+                                aria-posinset="${map.get(`${ri}-${ci}`) ?? 0}"
+                                @click="${() => this._activate(ri, ci, cell)}"
+                              ></button>
+                              <span class="cell-label" aria-hidden="true">${cell.label}</span>
+                            </div>
                           </td>
                         `
                       : html`<td role="gridcell" class="cell"></td>`,
