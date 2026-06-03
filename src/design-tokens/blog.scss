@@ -255,9 +255,9 @@
     text-transform: uppercase;
     color: var(--color-text-subtle);
 
-    & + .post-card__tag::before {
+    &:not(:last-child)::after {
         content: "·";
-        margin-right: var(--spacing-2xs);
+        margin-left: var(--spacing-2xs);
         font-weight: var(--font-weight-normal);
     }
     line-height: 1;
