@@ -176,8 +176,9 @@ export const AIChatInterface: Story = {
                 <div style="
                   flex: 1;
                   min-width: 0;
-                  background: var(--color-action-primary);
-                  color: var(--color-text-on-action);
+                  background: var(--color-bg-elevated);
+                  color: var(--color-text-default);
+                  border: 1px solid var(--color-border-default);
                   border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
                   padding: 0.75rem 1rem;
                   font-family: var(--font-family-serif);
@@ -252,8 +253,9 @@ export const AIChatInterface: Story = {
                 <div style="
                   flex: 1;
                   min-width: 0;
-                  background: var(--color-action-primary);
-                  color: var(--color-text-on-action);
+                  background: var(--color-bg-elevated);
+                  color: var(--color-text-default);
+                  border: 1px solid var(--color-border-default);
                   border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
                   padding: 0.75rem 1rem;
                   font-family: var(--font-family-serif);
