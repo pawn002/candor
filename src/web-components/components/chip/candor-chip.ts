@@ -31,7 +31,7 @@ export class CandorChip extends LitElement {
     .chip--selected .chip__dismiss { color: var(--color-text-on-action); }
     .chip--disabled  { opacity: 0.5; cursor: not-allowed; }
     .chip__body {
-      padding: 0.25rem 0.625rem;
+      padding: 0.25em 0.7em;
       color: var(--color-text-default);
       font-weight: var(--font-weight-bold);
       line-height: var(--line-height-tight);

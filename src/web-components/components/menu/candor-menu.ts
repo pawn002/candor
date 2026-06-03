@@ -18,7 +18,7 @@ export class CandorMenu extends LitElement {
     .menu-trigger {
       display: inline-flex;
       align-items: center;
-      gap: 0.375rem;
+      gap: var(--spacing-2xs);
       padding: var(--spacing-xs) var(--spacing-sm);
       font-family: var(--font-family-base);
       font-size: var(--font-size-md);
@@ -80,7 +80,7 @@ export class CandorMenu extends LitElement {
       align-items: center;
       gap: var(--spacing-xs);
       width: 100%;
-      padding: 0.5rem 0.75rem;
+      padding: var(--spacing-xs) 0.75em;
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
       letter-spacing: var(--letter-spacing-italic);
@@ -120,7 +120,7 @@ export class CandorMenu extends LitElement {
     .menu-separator {
       height: var(--border-width-thin);
       background-color: var(--color-border-default);
-      margin: var(--spacing-2xs) 0.75rem;
+      margin: var(--spacing-2xs) var(--spacing-xs);
     }
   `;
 
