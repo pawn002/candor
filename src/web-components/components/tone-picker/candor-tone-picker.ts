@@ -13,7 +13,6 @@ export interface ToneCell {
   value?: ToneCellValue;
   background?: string;
   foreground?: string;
-  selected?: boolean;
   disabled?: boolean;
 }
 

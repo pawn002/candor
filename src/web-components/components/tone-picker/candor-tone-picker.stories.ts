@@ -85,6 +85,31 @@ export const Default: Story = {
   }),
 };
 
+export const Caption: Story = {
+  name: 'Caption (no aria-label)',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Demonstrates `caption` as the accessible grid label when no `aria-label` attribute is set on the host. ' +
+          'Use `caption` when constructing the component programmatically (setting JS properties rather than HTML attributes), ' +
+          'or as a static fallback label when the right `aria-label` value is not known at render time. ' +
+          'Both reach the same `aria-label` on the inner `role="grid"` — `aria-label` takes precedence if both are supplied.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <candor-tone-picker
+        caption="Navy H 245.34 — sRGB gamut"
+        rows='${NAVY_ROWS}'
+        column-headers='${NAVY_HEADERS}'>
+      </candor-tone-picker>
+    `,
+  }),
+};
+
 export const PreSelected: Story = {
   name: 'Pre-selected value',
   parameters: {

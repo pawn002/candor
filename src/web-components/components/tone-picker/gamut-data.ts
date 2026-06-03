@@ -27,7 +27,6 @@ export function buildGamutRows(
         value: ig ? { l, c, h } : undefined,
         background: ig ? `oklch(${l} ${c} ${h})` : undefined,
         foreground: ig ? (l > 0.5 ? `oklch(0.2 0.04 ${h})` : `oklch(0.95 0.01 ${h})`) : undefined,
-        selected: isAnchor,
         disabled: !ig,
       };
     }),
