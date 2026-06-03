@@ -22,9 +22,10 @@ a sidebar listing conversation history, and a main pane with message bubbles and
 ChatInput anchored to the bottom.
 
 The sidebar uses \`<aside aria-label="Conversation history">\` as a named landmark.
-AI message bubbles use \`<candor-article font="serif" justify>\` — the full justification
-is the ambient transparency signal that distinguishes AI-generated prose from human
-input without relying on labels alone. The AI avatar carries \`aria-label="Candor AI"\`
+Both sides of the conversation use Noto Serif — the serif register signals a considered,
+human-quality exchange on both ends. AI message bubbles use \`<candor-article font="serif" justify>\`;
+the full justification is the sole ambient signal distinguishing AI output from human input,
+without relying on labels alone. The AI avatar carries \`aria-label="Candor AI"\`
 so screen readers receive source attribution before the content is announced.
         `.trim(),
       },
@@ -170,7 +171,7 @@ export const AIChatInterface: Story = {
                   color: var(--color-text-on-action);
                   border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
                   padding: 0.75rem 1rem;
-                  font-family: var(--font-family-base);
+                  font-family: var(--font-family-serif);
                   font-size: var(--font-size-md);
                   line-height: var(--line-height-normal);
                 ">
@@ -246,7 +247,7 @@ export const AIChatInterface: Story = {
                   color: var(--color-text-on-action);
                   border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
                   padding: 0.75rem 1rem;
-                  font-family: var(--font-family-base);
+                  font-family: var(--font-family-serif);
                   font-size: var(--font-size-md);
                   line-height: var(--line-height-normal);
                 ">
