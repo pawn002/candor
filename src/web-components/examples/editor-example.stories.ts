@@ -32,7 +32,7 @@ type Story = StoryObj;
 export const DocumentEditor: Story = {
   render: () => ({
     template: `
-      <div style="max-width: 760px; padding: 2rem;">
+      <main style="max-width: 760px; padding: 2rem;">
 
         <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap;">
           <div>
@@ -42,7 +42,7 @@ export const DocumentEditor: Story = {
               <candor-badge variant="warning">Draft</candor-badge>
             </div>
           </div>
-          <div style="display: flex; gap: 0.75rem; padding-top: 4px;">
+          <div style="display: flex; gap: 0.75rem; padding-top: var(--spacing-2xs);">
             <candor-button variant="ghost" size="small">Discard</candor-button>
             <candor-button variant="primary" size="small">
               <i class="ph ph-cloud-arrow-up" aria-hidden="true" style="margin-right: 0.35em;"></i>
@@ -147,7 +147,7 @@ export const DocumentEditor: Story = {
               <li>Dark mode parity achieved across the full component set</li>
             </ul>
 
-            <p style="font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-subtle); margin: 0; line-height: var(--line-height-normal); border-left: 3px solid var(--color-border-default); padding-left: 1rem; font-style: italic;">
+            <p style="font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-subtle); margin: 0; line-height: var(--line-height-normal); border-left: var(--border-width-thick) solid var(--color-border-default); padding-left: 1rem; font-style: italic;">
               "The bar for 'done' is: any engineer on the team could pick up a component, read the story, and use it correctly without asking anyone."
             </p>
 
@@ -161,7 +161,7 @@ export const DocumentEditor: Story = {
           style="display: block; margin-top: 1.5rem;">
         </candor-toast>
 
-      </div>
+      </main>
     `,
   }),
 };
@@ -169,14 +169,14 @@ export const DocumentEditor: Story = {
 export const ImageEditor: Story = {
   render: () => ({
     template: `
-      <div style="padding: 2rem;">
+      <main style="padding: 2rem;">
 
         <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; max-width: 640px;">
           <div>
             <candor-heading level="h1" style="margin-bottom: 0.25rem;">hero-banner.png</candor-heading>
             <candor-text variant="body" style="color: var(--color-text-subtle);">1440 × 480 px · PNG</candor-text>
           </div>
-          <div style="display: flex; gap: 0.75rem; padding-top: 4px;">
+          <div style="display: flex; gap: 0.75rem; padding-top: var(--spacing-2xs);">
             <candor-button variant="secondary" size="small">Export</candor-button>
             <candor-button variant="primary" size="small">Save</candor-button>
           </div>
@@ -250,7 +250,7 @@ export const ImageEditor: Story = {
 
           </div>
         </div>
-      </div>
+      </main>
     `,
   }),
 };
