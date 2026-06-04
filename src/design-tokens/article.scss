@@ -1,3 +1,13 @@
+// Candor Design System — article prose styles (framework-agnostic source)
+//
+// Compiled to tokens/candor-article.css + .min.css by `npm run build:tokens`.
+// Uses only CSS custom properties (var(--...)) — no SCSS variable dependencies —
+// so it compiles as a standalone stylesheet that works in any framework.
+//
+// The candor-article web component (src/web-components/components/typography/article/)
+// carries an equivalent copy of these rules in its Lit `static styles`; keep the two
+// in sync when editing prose styling.
+
 .article {
     display: block;
     max-width: 65ch;

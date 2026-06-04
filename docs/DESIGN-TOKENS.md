@@ -273,7 +273,7 @@ $spacing-3xl: 6rem;    // 96px
 
 ### Spacing Scale Visualization
 
-The **Spacing Showcase** component (`src/app/components/spacing/spacing-showcase.component.ts`) visually displays the spacing scale in Storybook.
+The **Spacing Showcase** story (`src/web-components/design-tokens/spacing-showcase.stories.ts`) visually displays the spacing scale in Storybook.
 
 ---
 

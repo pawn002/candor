@@ -133,6 +133,16 @@ The conformance model distinguishes what the library guarantees from what the co
 
 ## Migration notes
 
+### v3.0.0
+
+#### Angular reference component library removed
+
+The Angular standalone-component library (`src/app/components/`) has been removed. `@candor-design/web-components` (Lit 3 custom elements) is now the sole, canonical component surface.
+
+**Consumer impact:** None. The Angular library was an internal feature-parity benchmark — it was **never published** as an npm package. Only `@candor-design/tokens` and `@candor-design/web-components` are distributed, and neither is affected. No `var(--...)` token, custom-element tag, attribute, or event changed.
+
+**Migration:** Teams on Angular consume Candor through `@candor-design/web-components` — the custom elements work in any framework, including Angular (add `CUSTOM_ELEMENTS_SCHEMA` to the consuming module/component). See the README for usage.
+
 ### v2.0.0 (Phase 1)
 
 #### `title` input renamed to `heading` on AccordionItem, Alert, Modal, Toast

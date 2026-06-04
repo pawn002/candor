@@ -4,13 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Candor is a design system distributed as three layers, all developed in a single Storybook so the same stories validate every layer:
+Candor is a design system distributed as two layers, both developed in a single Storybook so the same stories validate every layer:
 
 1. **`@candor-design/tokens`** — the CSS custom-property layer (OKLCH colors, spacing, typography). Everything else is built on top of this.
-2. **`@candor-design/web-components`** — the primary consumer-facing component library: 34 Lit 3 custom elements. Framework-agnostic; the WC stories under `Components/`, `Typography/`, `Design Tokens/`, and `Examples/` are the canonical surface.
-3. **Angular component library** (`src/app/`) — the same component API expressed as Angular standalone components, for teams already on Angular. Stories live under `Angular Components/` in the Storybook tree.
+2. **`@candor-design/web-components`** — the primary, canonical consumer-facing component library: 34 Lit 3 custom elements. Framework-agnostic; the WC stories under `Components/`, `Typography/`, `Design Tokens/`, and `Examples/` are the only component surface.
 
-The workflow targets AI-assisted design iteration with real-time accessibility validation: receive art-direction specs, implement them in design tokens, validate accessibility using the klar CLI for color contrast, and inspect visually with Playwright MCP. Token changes propagate to both component layers because both consume the same CSS custom properties.
+> An Angular standalone-component library (`src/app/`) previously mirrored this API as a feature-parity benchmark. It was **removed in 3.0.0** and was never published as a package. The Storybook toolchain still runs on `@storybook/angular` — it renders the web-component stories — so the Angular *build harness* (`angular.json`, `src/app/app.component.ts` bootstrap shell, `@storybook/angular`) remains; only the component library is gone.
+
+The workflow targets AI-assisted design iteration with real-time accessibility validation: receive art-direction specs, implement them in design tokens, validate accessibility using the klar CLI for color contrast, and inspect visually with Playwright MCP. Token changes propagate to the components because they consume the same CSS custom properties.
 
 ## Design Philosophy
 
@@ -28,8 +29,7 @@ Candor's typefaces and OKLCH color system model human vision and the humanist ty
 
 ### Development
 ```bash
-npm run storybook          # Start Storybook on http://localhost:6006
-npm start                  # Start Angular dev server on http://localhost:4200
+npm run storybook          # Start Storybook on http://localhost:6006 (primary dev environment)
 ```
 
 ### Testing
@@ -37,12 +37,12 @@ npm start                  # Start Angular dev server on http://localhost:4200
 npm run test:playwright    # Run all Playwright tests (auto-starts Storybook)
 npm run test:playwright:ui # Run Playwright in UI mode
 npx playwright show-report # View test results
-npm test                   # Run Angular unit tests (Karma)
 ```
 
 ### Building
 ```bash
-npm run build              # Build Angular app
+npm run build:tokens       # Build @candor-design/tokens → tokens/
+npm run build:wc           # Build @candor-design/web-components → web-components/dist/
 npm run build-storybook    # Build static Storybook
 ```
 
@@ -61,7 +61,7 @@ All visual styling flows from design tokens in `src/design-tokens/`:
 - **spacing.scss**: 8px grid system
 - **index.scss**: Aggregates and exports all tokens
 
-**Critical**: Always modify tokens first, never hard-code values in components. Components import tokens via `@use '../../../design-tokens'`.
+**Critical**: Always modify tokens first, never hard-code values in components. Component `static styles` reference tokens as CSS custom properties (`var(--color-...)`), which pierce the Shadow DOM automatically — never redeclare or hard-code token values inside a component.
 
 ### OKLCH Color Space
 
@@ -73,23 +73,13 @@ Colors use OKLCH format: `oklch(L C H)` where:
 
 ### Component Structure
 
-Two parallel component libraries share the token layer:
-
-**Web components** (`src/web-components/components/`, the primary surface):
+The component library is the Lit 3 web components in `src/web-components/components/`:
 - Each component has a `candor-{name}.ts` (Lit class) + `candor-{name}.stories.ts`. Styles live inside the class via `static styles = css\`...\``.
-- Stories use the same `@storybook/angular` Meta type but render via `template:` literal strings containing custom-element markup.
+- Stories use the `@storybook/angular` `Meta` type (the Storybook renderer is Angular-based) and render via `template:` literal strings containing custom-element markup.
 - Components register themselves on import via `@customElement('candor-{name}')` — pulling `src/web-components/index.ts` is enough to register all 34 tags.
 - Shadow DOM by default. CSS custom properties pierce shadow boundaries, so tokens reach inner styles without per-component injection.
 
-**Angular components** (`src/app/components/`):
-- Each component has: `.ts`, `.scss`, `.stories.ts` files
-- Stories demonstrate all variants and states
-- Components use `:host` selector for scoping
-- All components are standalone (no NgModule)
-
-When porting a new feature: implement it in both libraries unless explicitly scoped to one. The WC version is canonical for consumers; the Angular version exists for parity with the Angular library's history. Mirror the API names (props, events) across the two so docs stay valid for both.
-
-**Component categories** (same shape in both libraries):
+**Component categories**:
 - `typography/`: heading, text, accessible-text, article
 - `button/`: button with variants (primary, secondary, tertiary, ghost)
 - `form/`: input, checkbox, radio, switch, slider, select, listbox, combobox, chat-input
@@ -374,128 +364,47 @@ $color-primary: oklch(0.55 0.18 250); // Always use OKLCH format
 
 ### Creating New Components
 
-1. Use Angular CLI or manual creation in `src/app/components/`
-2. Create standalone component with SCSS
-3. Import design tokens: `@use '../../../design-tokens' as tokens;`
-4. Create `.stories.ts` file showcasing all variants
-5. Export stories using CSF3 format
-6. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value.
+1. Create a Lit element in `src/web-components/components/<category>/candor-<name>.ts` — extend `LitElement`, register with `@customElement('candor-<name>')`
+2. Put scoped CSS in `static styles = css\`...\``; reference tokens as `var(--...)` custom properties — never redeclare or hard-code token values
+3. Create `candor-<name>.stories.ts` showcasing all variants, including a `Default` story
+4. Re-export from `src/web-components/index.ts` so the `@customElement()` side effect registers the tag
+5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value.
+
+See "Web Components Authoring Conventions" below for the full conventions.
 
 ### Storybook Stories Format
 
-Use Component Story Format 3 (CSF3):
+Use Component Story Format 3 (CSF3). The Storybook renderer is `@storybook/angular`, so the `Meta` type comes from there, but WC stories render raw custom-element markup via `render: (args) => ({ template })` — there is no `component:` field:
 ```typescript
 import type { Meta, StoryObj } from '@storybook/angular';
 
-const meta: Meta<ComponentName> = {
-  title: 'Category/ComponentName',
-  component: ComponentName,
+const meta: Meta = {
+  title: 'Components/Badge',
   tags: ['autodocs'],
+  argTypes: {
+    variant: { control: 'select', options: ['default', 'primary', 'success'] },
+  },
+  args: { variant: 'primary' },
+  render: (args) => ({
+    template: `<candor-badge variant="${args['variant']}">Badge</candor-badge>`,
+  }),
 };
 
 export default meta;
-type Story = StoryObj<ComponentName>;
+type Story = StoryObj;
 
-export const Default: Story = {
-  args: {},
-};
+export const Default: Story = {};
 ```
 
-## Angular Configuration Notes
+## Toolchain Notes
 
-- Angular 21 (latest stable)
-- Standalone components by default (configured in angular.json schematics)
-- TypeScript 5.9
-- SCSS for styling
-- Component prefix: `app`
-- Storybook builders configured in angular.json architect section
-- **Zoneless mode enabled** - Zone.js is NOT included in polyfills (Angular 21+ zoneless change detection)
+The component library is web components (Lit 3) — see "Web Components Authoring Conventions" below for all authoring guidance. The Angular *build harness* remains in place purely to drive Storybook:
 
-### Angular Control Flow Syntax (Zoneless Compatibility)
+- Storybook runs on the `@storybook/angular` builder (`angular.json` → `storybook` / `build-storybook` architect targets), which renders the web-component stories. This is why story files import the `Meta` type from `@storybook/angular`.
+- `src/app/app.component.ts` is a minimal bootstrap shell that the `design-system-playground:build` target (referenced by the Storybook builder) needs to resolve. It is not a component surface — do not add components under `src/app/`.
+- TypeScript 5.9. Tokens are authored in SCSS under `src/design-tokens/` and compiled to CSS by `npm run build:tokens`.
 
-**CRITICAL**: This project uses Angular's modern built-in control flow syntax and runs in **zoneless mode**. You MUST use the following:
-
-- **`@if` / `@else`** - NEVER use `*ngIf` or `NgIf` directive (requires Zone.js)
-- **`@for`** - NEVER use `*ngFor` or `NgFor` directive (requires Zone.js)
-- **`@switch` / `@case`** - NEVER use `[ngSwitch]`, `*ngSwitchCase`, or NgSwitch directives (requires Zone.js)
-
-**Correct examples**:
-```typescript
-// ✓ CORRECT - Use @if
-@if (condition) {
-  <div>Content</div>
-}
-
-// ✓ CORRECT - Use @for
-@for (item of items; track item.id) {
-  <div>{{ item.name }}</div>
-}
-
-// ✓ CORRECT - Use @switch
-@switch (value) {
-  @case ('option1') {
-    <div>Option 1</div>
-  }
-  @case ('option2') {
-    <div>Option 2</div>
-  }
-}
-```
-
-
-### Angular Signal Types — Binding Behaviour
-
-| Signal type | Bindable from parent template? | Use when |
-|---|---|---|
-| `signal<T>(value)` | No — internal state only | Value is owned by this component, never set from outside |
-| `input<T>()` | Yes — one-way `[prop]="value"` | Read-only input from parent |
-| `model<T>()` | Yes — two-way `[(prop)]="value"` | Value can flow in and out (selected item, toggle state) |
-
-**The trap:** Using `signal()` where `model()` is needed silently breaks parent template bindings — no error is thrown and the binding is silently ignored. If a story or parent needs to set an initial value or react to changes, the component signal must be `model()`, not `signal()`.
-
-### Zoneless + setTimeout
-
-`setTimeout` callbacks do not trigger change detection in zoneless mode. If you mutate a signal inside `setTimeout`, call `cdr.markForCheck()` immediately after:
-
-```typescript
-private cdr = inject(ChangeDetectorRef);
-
-onSend() {
-  this.statusMessage.set('');
-  setTimeout(() => {
-    this.statusMessage.set('Message sent');
-    this.cdr.markForCheck(); // required — zoneless doesn't detect setTimeout mutations
-  }, 0);
-}
-```
-
-### View Encapsulation and Projected Content
-
-**NEVER use `::ng-deep`** — it is deprecated by the Angular team and will be removed.
-
-When a component needs to style projected content (i.e., elements passed via `<ng-content>` or as string literals in stories), use `ViewEncapsulation.None` instead:
-
-```typescript
-import { Component, ViewEncapsulation } from '@angular/core';
-
-@Component({
-  selector: 'app-article',
-  encapsulation: ViewEncapsulation.None,
-  // ...
-})
-```
-
-With `ViewEncapsulation.None`, Angular does not add scoping attributes, so descendant selectors in the component's SCSS reach projected elements. Scope the styles manually using the host element's class (set via the `host` binding) to prevent leakage:
-
-```scss
-// article.component.scss — scoped via host class, no ::ng-deep needed
-.article {
-  h1, h2, h3, h4 { ... }
-  p { ... }
-}
-```
-
-**Why `::ng-deep` fails for projected content**: Angular's emulated encapsulation adds a unique attribute (e.g. `_ngcontent-xxx`) to elements in the component's own template. Elements projected from outside (string literals in stories, or content from a parent template) receive the *parent's* scoping attribute, not the component's — so `:host h1 { }` never matches them. `ViewEncapsulation.None` sidesteps this entirely.
+> The Angular standalone-component library was removed in 3.0.0. Authoring patterns that were Angular-specific (built-in control flow, signals/`model()`, zoneless change detection, `ViewEncapsulation`) no longer apply. The web-component equivalents (Shadow DOM scoping, `.prop` bindings, the `aria-label` host-trap) are documented below.
 
 ## Web Components Authoring Conventions
 
@@ -564,7 +473,7 @@ Lit's `@property()` lowercases the property name when computing the default HTML
 
 ### Custom events
 
-Outputs are DOM `CustomEvent`s, not Angular `Output()`s. Always set `bubbles: true, composed: true` so the event crosses the shadow boundary; otherwise listeners on light-DOM ancestors never see it. Use kebab-case event names (`color-select`, `cell-activate`) to match HTML convention.
+Outputs are DOM `CustomEvent`s. Always set `bubbles: true, composed: true` so the event crosses the shadow boundary; otherwise listeners on light-DOM ancestors never see it. Use kebab-case event names (`color-select`, `cell-activate`) to match HTML convention.
 
 Add the event to the global event map if consumers need typed listeners — though most projects bind via `@event-name=...` in templates and don't need this.
 
@@ -601,7 +510,7 @@ render() {
 
 ### Storybook templates: data must flow via attributes, not `<script>`
 
-The Storybook stories use `@storybook/angular`'s renderer for both WC and Angular stories (single Storybook instance). The renderer **strips inline `<script>` tags** from `template:` strings, so this pattern silently leaves elements empty:
+The Storybook stories render through the `@storybook/angular` builder. The renderer **strips inline `<script>` tags** from `template:` strings, so this pattern silently leaves elements empty:
 
 ```html
 <!-- ✗ WRONG — script tag is stripped, element gets no rows -->
@@ -674,34 +583,23 @@ These patterns emerged from the 26-component A11Y audit. See `docs/A11Y-AUDIT.md
 
 ### Live region pre-establishment
 
-A live region must exist in the DOM **before** content arrives. The `@if` belongs inside the region, not wrapping it:
-
-```html
-<!-- ✓ Region always in DOM — empty when unused -->
-<div role="status" aria-live="polite" aria-atomic="true">
-  @if (condition) { {{ message }} }
-</div>
-
-<!-- ✗ Region removed from DOM — AT misses the change -->
-@if (condition) {
-  <div role="status" aria-live="polite">{{ message }}</div>
-}
-```
-
-### Host element ARIA trap (Angular-specific)
-
-`aria-label` placed on `<app-foo>` in a consumer template **does not propagate** to the inner `<input>` or other interactive element inside the component. The host element is a generic container.
-
-Fix: expose an `ariaLabel = input<string>()` on the component class and bind it to the inner element:
+A live region must exist in the DOM **before** content arrives. The conditional belongs *inside* the region, not wrapping it:
 
 ```typescript
-ariaLabel = input<string>(); // in component class
-```
-```html
-<input [attr.aria-label]="ariaLabel() || null" ...> <!-- in component template -->
-```
+// ✓ Region always in DOM — empty when unused
+html`
+  <div role="status" aria-live="polite" aria-atomic="true">
+    ${this.message ? this.message : nothing}
+  </div>
+`
 
-This convention is established on: Switch, Slider, Button.
+// ✗ Region removed from DOM — AT misses the change
+html`
+  ${this.message
+    ? html`<div role="status" aria-live="polite">${this.message}</div>`
+    : nothing}
+`
+```
 
 ### Landmark pollution in dialogs/panels
 
@@ -734,23 +632,18 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 4. **Don't create components without stories**: Every component needs a story
 5. **Don't modify node_modules**: This is obvious but worth stating
 6. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
-7. **Don't put `aria-label` on component host elements without forwarding it inward** (Angular **or** WC): It won't reach the inner interactive element, and if you simply mirror it inward without stripping, screen readers hear the name twice. In Angular, use the `ariaLabel` input pattern (see "Host element ARIA trap" above). In WC, use the `observeHostAriaLabel` helper from `src/web-components/utils/host-aria.ts` (see "aria-label host-trap" above).
+7. **Don't put `aria-label` on component host elements without forwarding it inward**: It won't reach the inner interactive element, and if you simply mirror it inward without stripping, screen readers hear the name twice. Use the `observeHostAriaLabel` helper from `src/web-components/utils/host-aria.ts` (see "aria-label host-trap" above).
 8. **Don't use `<header>`/`<footer>` inside dialogs or panels**: They inherit landmark roles (`banner`, `contentinfo`) in Chrome. Use `role="none"` or `<div>` (see "Landmark pollution" above)
-9. **Don't expose formatter logic for OKLCH axes**: Axes like chroma have dynamic min/max based on hue — auto-computed formatters will be wrong. Expose a `valueTextFn = input<(v: number) => string>()` and let the consumer supply the semantics
-
-### Angular-specific
-
-10. **Never use `::ng-deep`**: It is deprecated. Use `ViewEncapsulation.None` with a host class for scoping when styling projected content (see "View Encapsulation and Projected Content" above)
-11. **Don't use `signal()` where a parent template binds**: Bindings will silently break. Use `model()` for two-way or `input()` for one-way (see "Angular Signal Types — Binding Behaviour" above)
+9. **Don't expose formatter logic for OKLCH axes**: Axes like chroma have dynamic min/max based on hue — auto-computed formatters will be wrong. Expose a `valueTextFn` property and let the consumer supply the semantics
 
 ### Web-component-specific
 
-12. **Don't inject data via `<script>` tags in story templates**: Storybook's Angular renderer strips them. Pass data via JSON-encoded attributes (`rows='${JSON.stringify(...)}'`) instead — see "Storybook templates: data must flow via attributes, not <script>" above.
-13. **Don't rely on Lit's default attribute lowercasing for multi-word props**: `columnHeaders` becomes attribute `columnheaders` by default — unreadable in markup. Always set `attribute: 'column-headers'` explicitly on `@property()`.
-14. **Don't omit `composed: true` on dispatched events**: Without it, events stop at the shadow boundary and never reach light-DOM listeners. Always set both `bubbles: true` and `composed: true`.
-15. **Don't redeclare tokens inside `static styles`**: Design tokens pierce shadow DOM automatically via CSS custom properties. Hard-coding `oklch(...)` inside a component breaks dark mode and token-driven theming.
-16. **Don't use `?checked` / `?open` / `?selected` on native form controls**: After user interaction, the live IDL property (`input.checked`, `details.open`, `option.selected`) diverges from the HTML attribute, and `?attr` binding only writes the attribute. Use `.checked`, `.open`, `.selected` (property binding) so the host's state always wins. Also wire the corresponding change event (`change` / `toggle`) back to the host so user-driven changes don't silently desync — see "Stateful form-element bindings" above.
-17. **Don't rely on native browser radio grouping across `<candor-radio>` siblings**: Each radio is in its own shadow root, so the browser can't tie shared-`name` inputs into one mutually-exclusive group OR an arrow-navigable set. candor-radio implements both behaviors itself by querying sibling `<candor-radio name="…">` elements within the nearest `<fieldset>`. If you build another grouped form control (checkbox-group, etc.), expect to write the same shim.
+10. **Don't inject data via `<script>` tags in story templates**: Storybook's Angular renderer strips them. Pass data via JSON-encoded attributes (`rows='${JSON.stringify(...)}'`) instead — see "Storybook templates: data must flow via attributes, not <script>" above.
+11. **Don't rely on Lit's default attribute lowercasing for multi-word props**: `columnHeaders` becomes attribute `columnheaders` by default — unreadable in markup. Always set `attribute: 'column-headers'` explicitly on `@property()`.
+12. **Don't omit `composed: true` on dispatched events**: Without it, events stop at the shadow boundary and never reach light-DOM listeners. Always set both `bubbles: true` and `composed: true`.
+13. **Don't redeclare tokens inside `static styles`**: Design tokens pierce shadow DOM automatically via CSS custom properties. Hard-coding `oklch(...)` inside a component breaks dark mode and token-driven theming.
+14. **Don't use `?checked` / `?open` / `?selected` on native form controls**: After user interaction, the live IDL property (`input.checked`, `details.open`, `option.selected`) diverges from the HTML attribute, and `?attr` binding only writes the attribute. Use `.checked`, `.open`, `.selected` (property binding) so the host's state always wins. Also wire the corresponding change event (`change` / `toggle`) back to the host so user-driven changes don't silently desync — see "Stateful form-element bindings" above.
+15. **Don't rely on native browser radio grouping across `<candor-radio>` siblings**: Each radio is in its own shadow root, so the browser can't tie shared-`name` inputs into one mutually-exclusive group OR an arrow-navigable set. candor-radio implements both behaviors itself by querying sibling `<candor-radio name="…">` elements within the nearest `<fieldset>`. If you build another grouped form control (checkbox-group, etc.), expect to write the same shim.
 
 ## Test Files
 

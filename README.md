@@ -259,7 +259,7 @@ Candor is a **humanist** design system. Every decision — OKLCH colors, variabl
 
 ## Development
 
-This repository contains the full design system: the **`@candor-design/tokens`** CSS layer, the **`@candor-design/web-components`** Lit 3 custom-element library (the primary consumer-facing distribution), and an Angular standalone-component library that mirrors the same API for teams already on Angular. All three live in a single Storybook so the same stories validate every layer.
+This repository contains the full design system in two distributed layers: the **`@candor-design/tokens`** CSS layer and the **`@candor-design/web-components`** Lit 3 custom-element library (the primary consumer-facing distribution) built on top of it. Both live in a single Storybook so the same stories validate every layer.
 
 ### Prerequisites
 
@@ -308,7 +308,6 @@ Opens at http://localhost:6006
 
 ```bash
 npm run test:playwright   # Visual regression + a11y tests
-npm test                  # Angular unit tests
 ```
 
 ---

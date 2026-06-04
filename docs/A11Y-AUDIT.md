@@ -15,7 +15,7 @@
 4. For interactive components, exercise the most common interaction (focus, activation, expansion, selection) and verify the resulting AT announcement.
 5. Document findings; an issue is genuine if it would mislead, silence, or disorient a screen-reader user.
 
-**Historical context:** A pre-WC version of this audit covered the Angular component library (26 components, completed prior to the WC launch). Those findings are preserved in each component section under "Historical Angular audit" so that fixes applied at the Angular layer can be cross-checked at the WC layer. Many WC components are direct ports of the audited Angular components; convergent findings are expected.
+**Historical context:** A pre-WC version of this audit covered the Angular component library (26 components, completed prior to the WC launch). That reference library was **removed in 3.0.0**; its findings are preserved in each component section under "Historical Angular audit" as the validation record for the patterns the WC components carry forward. Many WC components are direct ports of the audited Angular components, so convergent findings are expected.
 
 Cross-reference: trend analysis and authoring conventions distilled from both the Angular-era and WC-era audits live in [`docs/archive/A11Y-ANALYSIS.md`](./archive/A11Y-ANALYSIS.md).
 

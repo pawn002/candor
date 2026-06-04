@@ -6,11 +6,6 @@
     "tokens"
   ],
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
     "storybook": "ng run design-system-playground:storybook",
     "test-storybook": "test-storybook",
     "build-storybook": "ng run design-system-playground:build-storybook",

@@ -135,6 +135,8 @@ WCAG contrast ratio is luminance-based and useful for text-on-background legibil
 
 ## Angular / Implementation
 
+> **Historical (3.0.0):** The Angular reference component library was removed in 3.0.0 — `@candor-design/web-components` is the canonical surface. The component-authoring lessons below (`ViewEncapsulation.None`, ID generation, `moduleMetadata`) are retained as institutional record but no longer apply to active authoring. The **exception** is the `withThemeByDataAttribute` lesson, which remains live: Storybook still runs on the `@storybook/angular` renderer (it renders the web-component stories too), so the custom theme decorator in `.storybook/preview.ts` is still load-bearing.
+
 ### ViewEncapsulation.None + host class for projected content styling
 
 Angular's emulated encapsulation only adds scoping attributes to a component's own template elements — not to content projected from outside (e.g., string literals in stories, or `<ng-content>` from a parent). Using `::ng-deep` is deprecated and will be removed. The correct pattern is `ViewEncapsulation.None` with the component's SCSS scoped under a host class set via the `host` binding.

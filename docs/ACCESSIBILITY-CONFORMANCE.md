@@ -4,7 +4,9 @@
 **Version:** 3.0.0
 **Date:** 2026-05-13
 **Standard:** Web Content Accessibility Guidelines (WCAG) 2.1, Level AA
-**Evaluation methodology:** Manual screen reader walkthrough (NVDA + Chrome) + Playwright accessibility tree snapshots across all 26 Angular components; web components carry the same patterns and guarantees by construction (see note below)
+**Evaluation methodology:** Manual screen reader walkthrough (NVDA + Chrome) + Playwright accessibility tree snapshots across the 26-component audit set; the `@candor-design/web-components` library carries the same patterns and guarantees by construction (see note below)
+
+> **3.0.0 note:** The original audit (2026-05-13) was conducted against the 26-component Angular reference library, which defined the minimum accessible feature set. That library has since been removed; `@candor-design/web-components` is now the sole, canonical component surface and carries the audited patterns forward. The audit findings below are retained as the validation record for those patterns.
 
 ---
 
@@ -16,9 +18,9 @@ Candor 3.0.0 aims to **conform to WCAG 2.1 Level AA** for all components within 
 
 ## Scope
 
-### Angular components (`@candor-design/tokens` + Angular library)
+### Audited component set
 
-This conformance statement covers the 26 components audited in `docs/A11Y-AUDIT.md`:
+This conformance statement covers the 26 components audited in `docs/A11Y-AUDIT.md`. These were audited on the original Angular reference implementations; `@candor-design/web-components` carries the same patterns forward (see the web components note below):
 
 **Phase 1 — Custom composite widgets**
 TonePicker, DataGrid, Modal, Tabs, Menu, Accordion
@@ -37,15 +39,15 @@ Badge, Stat, Table, Card, Heading, AccessibleText / Text / Article
 
 ### Web components (`@candor-design/web-components`)
 
-The 34 Lit custom elements in `@candor-design/web-components` implement the same ARIA patterns, keyboard contracts, live region approaches, and focus management as the Angular counterparts they mirror. They carry the same conformance targets by construction — not by separate audit.
+The 34 Lit custom elements in `@candor-design/web-components` are the canonical component surface. They implement the same ARIA patterns, keyboard contracts, live region approaches, and focus management that the 26-component audit validated, carrying those conformance targets forward by construction.
 
-A formal screen reader walkthrough of the web components package has not been conducted as of v3.0.0. The following differences from the Angular audit apply:
+A formal screen reader walkthrough of the web components package as a whole has not been conducted as of v3.0.0; the AT-snapshot audit of the Storybook example stories (see `docs/A11Y-AUDIT.md`) is the most recent WC-specific validation. The following implementation notes apply:
 
 - **Shadow DOM isolation:** ARIA relationships that cross shadow boundaries (e.g. `aria-labelledby` pointing to an element in light DOM) are not used; all ARIA relationships are contained within each component's shadow root or host element.
-- **Form participation:** Form controls use the `ElementInternals` API rather than Angular's `ControlValueAccessor`. The browser-native form integration means values appear in `FormData` and validation APIs without any Angular dependency.
-- **`candor-article` light DOM:** The article component renders in light DOM (`createRenderRoot()`) so projected prose content is reachable by AT without any Shadow DOM wrapping — equivalent to Angular's `ViewEncapsulation.None`.
+- **Form participation:** Form controls use the `ElementInternals` API, so values appear in `FormData` and the native validation APIs with no framework dependency.
+- **`candor-article` light DOM:** The article component renders in light DOM (`createRenderRoot()`) so projected prose content is reachable by AT without any Shadow DOM wrapping.
 
-Consumers who require a formal web components AT audit should conduct their own walkthrough using the Storybook `Web Components/` stories as the test surface.
+Consumers who require a formal web components AT audit should conduct their own walkthrough using the Storybook `Components/`, `Typography/`, `Form/`, and `Examples/` stories as the test surface.
 
 ---
 

@@ -19,9 +19,9 @@
 _Every PR must pass these before merge._
 
 - [ ] No hard-coded color values — tokens only (`oklch(...)` in `colors.scss`, then `var(--...)` in components)
-- [ ] No `::ng-deep` — use `ViewEncapsulation.None` with a host class for projected content
-- [ ] No `*ngIf` / `*ngFor` — use `@if` / `@for` (zoneless mode requirement)
-- [ ] Stories exist or are updated — all significant variants covered
+- [ ] No token values redeclared or hard-coded inside `static styles` — tokens pierce Shadow DOM via CSS custom properties
+- [ ] Dispatched `CustomEvent`s set both `bubbles: true` and `composed: true` so they cross the shadow boundary
+- [ ] Stories exist or are updated — all significant variants covered; story data flows via JSON-encoded attributes, not `<script>` tags
 - [ ] Every interactive element has an accessible name (label, `aria-label`, or `aria-labelledby`)
 
 ---
@@ -31,12 +31,13 @@ _Every PR must pass these before merge._
 _Complete this section if the PR adds or modifies a component._
 
 **Tokens**
-- [ ] Component imports tokens via `@use '../../../design-tokens'` — no raw values
+- [ ] Component styles reference tokens via `var(--...)` custom properties — no raw values, no redeclared tokens inside `static styles`
 - [ ] Any new tokens are added to the relevant token file and exported from `index.scss`
 
 **Inputs / API**
-- [ ] Component wrapping a native interactive element (`<input>`, `<button>`, etc.) exposes `ariaLabel = input<string>()` bound to the inner element — not the host
-- [ ] Any signal that a parent template needs to set or react to uses `model<T>()`, not `signal<T>()`
+- [ ] Multi-word properties set an explicit kebab-case `attribute:` so the HTML markup is readable (`columnHeaders` → `attribute: 'column-headers'`)
+- [ ] Component wrapping a native interactive element (`<input>`, `<button>`, etc.) forwards `aria-label` inward via the `observeHostAriaLabel` helper — mirrored to the inner element **and** stripped off the host
+- [ ] Native form controls use property bindings (`.checked`, `.value`, `.open`, `.selected`), not `?attr`, and wire the matching change event back to host state
 
 **Live regions**
 - [ ] If the component produces status feedback (errors, confirmations, activation results): the live region element is always in the DOM — `@if` is **inside** the region, not wrapping it
