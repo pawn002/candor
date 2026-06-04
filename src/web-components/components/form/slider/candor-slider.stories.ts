@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { setElementProps } from '../../../story-utils';
 
 const meta: Meta = {
   title: 'Components/Form/Slider',
@@ -91,6 +92,9 @@ export const Percentage: Story = {
   render: () => ({
     template: `<candor-slider label="Opacity" min="0" max="100" step="1" value="70"></candor-slider>`,
   }),
+  // valueTextFn is a function — it cannot pass through the template attribute, so
+  // set it after render. Without it the screen reader announces "70" not "70%".
+  play: setElementProps('candor-slider', { valueTextFn: (v: number) => `${v}%` }),
 };
 
 export const GradientTrack: Story = {
@@ -112,6 +116,9 @@ export const GradientTrack: Story = {
   render: () => ({
     template: `<candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.12 142))"></candor-slider>`,
   }),
+  // Gradient mode hides the numeric display; valueTextFn gives the screen reader the
+  // L value it otherwise couldn't infer from the raw decimal. Function → set in play.
+  play: setElementProps('candor-slider', { valueTextFn: (v: number) => `L=${v.toFixed(2)}` }),
 };
 
 export const AllVariants: Story = {
@@ -138,4 +145,7 @@ export const AllVariants: Story = {
       </div>
     `,
   }),
+  // Only the gradient (lightness) sliders need the L= announcement; the Opacity and
+  // Volume sliders are self-describing on their 0–100 scale.
+  play: setElementProps('candor-slider[gradient]', { valueTextFn: (v: number) => `L=${v.toFixed(2)}` }),
 };

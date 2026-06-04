@@ -481,7 +481,7 @@ export class CandorTonePicker extends LitElement {
                             </div>
                           </td>
                         `
-                      : html`<td role="gridcell" class="cell"></td>`,
+                      : html`<td role="gridcell" class="cell" aria-label="Out of gamut"></td>`,
                   )}
                 </tr>
               `,

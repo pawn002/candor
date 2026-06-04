@@ -201,11 +201,13 @@ const renderSwatchGrid = (categories: ColorCategory[]) => `
 
 const renderReferenceTable = (categories: ColorCategory[]) => `
   <div style="display: flex; flex-direction: column; gap: var(--spacing-xl);">
-    ${categories.map(cat => `
+    ${categories.map(cat => {
+      const headingId = `tokcat-${cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      return `
       <section>
-        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-2xs);">${cat.name}</p>
+        <h2 id="${headingId}" style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-2xs);">${cat.name}</h2>
         <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-sm);">${cat.description}</p>
-        <table style="
+        <table aria-labelledby="${headingId}" style="
           width: 100%;
           border-collapse: collapse;
           font-family: var(--font-family-accessible);
@@ -233,7 +235,8 @@ const renderReferenceTable = (categories: ColorCategory[]) => `
           </tbody>
         </table>
       </section>
-    `).join('')}
+      `;
+    }).join('')}
   </div>
 `;
 

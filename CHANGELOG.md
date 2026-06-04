@@ -33,6 +33,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **Tokens (WCAG 1.4.11 non-text contrast):** Light-mode status **icon** colors darkened so they meet the 3.0 non-text floor against their tinted `-bg`: `--color-status-success` `oklch(0.63…)` → `oklch(0.55 0.15 144.2)` (OKCA 2.0 → 3.0), `--color-status-warning` `oklch(0.66…)` → `oklch(0.54 0.16 53.54)` (OKCA 1.7 → 3.0), `--color-status-error` `oklch(0.55…)` → `oklch(0.54 0.22 25)` (OKCA 2.9 → 3.0). These are `usage: non-text` tokens (icon/border indicators, not text); the `-text` and `-bg` variants are unchanged, and dark mode is unaffected. The source/audit values were corrected previously but the compiled `tokens/candor-tokens.css` artifacts had not been regenerated — this release ships the corrected CSS.
 - **Blog styles (screen reader):** `candor-blog.css` post-card tag separator changed to `content: "·"/""` (decorative — empty AT alt text) so screen readers don't announce the "·" between tags. Source fix shipped in the compiled artifact.
+- **`candor-tone-picker` (screen reader):** Out-of-gamut grid cells, previously empty `<td role="gridcell">` that read as a confusing blank in a screen reader's browse mode, now carry `aria-label="Out of gamut"` — so navigating the gamut grid announces "L …, C …, Out of gamut" instead of silence.
 
 ---
 
