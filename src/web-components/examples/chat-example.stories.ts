@@ -232,8 +232,7 @@ export const AIChatInterface: Story = {
                 ">Candor AI</p>
                 <div style="display: flex; gap: 0.625rem; align-items: flex-start;">
                   <div
-                    role="img"
-                    aria-label="Candor AI"
+                    aria-hidden="true"
                     style="
                       width: 2rem;
                       height: 2rem;
@@ -332,8 +331,7 @@ export const AIChatInterface: Story = {
                 ">Candor AI</p>
                 <div style="display: flex; gap: 0.625rem; align-items: flex-start;">
                   <div
-                    role="img"
-                    aria-label="Candor AI"
+                    aria-hidden="true"
                     style="
                       width: 2rem;
                       height: 2rem;
