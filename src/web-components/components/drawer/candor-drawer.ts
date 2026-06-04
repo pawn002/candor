@@ -170,9 +170,11 @@ export class CandorDrawer extends LitElement {
   override updated(changed: Map<string, unknown>) {
     if (changed.has('open')) {
       if (this.open) {
+        this.removeAttribute('inert');
         this._dialog?.showModal();
       } else {
         this._dialog?.close();
+        this.setAttribute('inert', '');
       }
     }
   }

@@ -169,7 +169,7 @@ export const ColorPairIterator: Story = {
                   </div>
 
                   <candor-slider
-                    label="Lightness — hold C and H"
+                    label="Foreground lightness"
                     min="0" max="1" step="0.001" value="0.555"
                     gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))">
                   </candor-slider>
@@ -216,7 +216,7 @@ export const ColorPairIterator: Story = {
                   </div>
 
                   <candor-slider
-                    label="Lightness — hold C and H"
+                    label="Background lightness"
                     min="0" max="1" step="0.001" value="0.94"
                     gradient="linear-gradient(to right, oklch(0.05 0.054 333), oklch(0.94 0.054 333), oklch(0.97 0.054 333))">
                   </candor-slider>
@@ -244,10 +244,10 @@ export const ColorPairIterator: Story = {
 
               <candor-card variant="default" style="display: block;">
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; justify-items: center;">
-                  <candor-button variant="ghost" size="small">⇄ Swap</candor-button>
-                  <candor-button variant="ghost" size="small">≈ Harmonize</candor-button>
-                  <candor-button variant="ghost" size="small">↺ Reset</candor-button>
-                  <candor-button variant="ghost" size="small">✦ Random</candor-button>
+                  <candor-button variant="ghost" size="small" aria-label="Swap colors">⇄ Swap</candor-button>
+                  <candor-button variant="ghost" size="small" aria-label="Harmonize colors">≈ Harmonize</candor-button>
+                  <candor-button variant="ghost" size="small" aria-label="Reset colors">↺ Reset</candor-button>
+                  <candor-button variant="ghost" size="small" aria-label="Random colors">✦ Random</candor-button>
                 </div>
               </candor-card>
 
@@ -309,7 +309,7 @@ export const ColorPairIterator: Story = {
 
               <candor-card variant="default" style="display: block;">
                 <candor-accessible-text role_="label" bold style="display: block; margin-bottom: 0.75rem;">Measurements</candor-accessible-text>
-                <candor-table compact rows='${MEAS_ROWS}'></candor-table>
+                <candor-table compact caption="Contrast measurements" rows='${MEAS_ROWS}'></candor-table>
               </candor-card>
 
             </div>

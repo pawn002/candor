@@ -301,7 +301,7 @@ export const FileUpload: Story = {
         <div style="display: flex; align-items: center; gap: 0.75rem;">
           <candor-progress type="spinner" size="sm" label="Uploading"></candor-progress>
           <candor-text variant="body" style="color: var(--color-text-subtle);">Uploading presentation-slides.pptx...</candor-text>
-          <candor-button variant="ghost" size="small">Cancel</candor-button>
+          <candor-button variant="ghost" size="small" aria-label="Cancel upload">Cancel</candor-button>
         </div>
       </main>
     `,

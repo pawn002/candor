@@ -282,7 +282,7 @@ export const DeleteConfirmation: Story = {
           Delete account
         </candor-button>
 
-        <candor-modal heading="Delete account" size="sm" open>
+        <candor-modal heading="Delete account" size="sm" open alert>
           <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
             <candor-text variant="body">
               This will permanently delete your account and all associated data — projects, settings, billing history, and team memberships. This action cannot be undone.

@@ -111,6 +111,7 @@ export class CandorModal extends LitElement {
   `;
 
   @property({ type: Boolean }) open = false;
+  @property({ type: Boolean }) alert = false;
   @property() heading = '';
   @property({ reflect: true }) size: ModalSize = 'md';
 
@@ -148,6 +149,7 @@ export class CandorModal extends LitElement {
   override render() {
     return html`
       <dialog
+        role="${this.alert ? 'alertdialog' : nothing}"
         aria-labelledby="${this._titleId}"
         aria-modal="true"
         @click="${this._onBackdropClick}"

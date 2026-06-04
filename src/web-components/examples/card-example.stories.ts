@@ -39,7 +39,7 @@ export const ProductCard: Story = {
         <div style="width: 100%; height: 200px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
 
         <div style="padding: var(--spacing-card-padding);">
-          <candor-heading level="h3" style="margin-bottom: 0.5rem;">
+          <candor-heading level="h2" style="margin-bottom: 0.5rem;">
             Premium Wireless Headphones
           </candor-heading>
 
@@ -55,10 +55,10 @@ export const ProductCard: Story = {
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
             <div>
               <candor-text variant="caption" style="display: block; text-decoration: line-through; color: var(--color-text-subtle);">
-                $299.99
+                <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Was </span>$299.99
               </candor-text>
               <p style="font-family: var(--font-family-display); font-size: var(--font-size-h4); font-weight: var(--font-weight-bold); color: var(--color-status-success-text); line-height: var(--line-height-tight); margin: 0;">
-                $249.99
+                <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Now </span>$249.99
               </p>
             </div>
             <candor-badge variant="success">Save 17%</candor-badge>
@@ -88,12 +88,12 @@ export const ArticleCard: Story = {
             <candor-badge variant="default">Accessibility</candor-badge>
           </div>
 
-          <candor-heading level="h3" style="margin-bottom: 0.5rem;">
+          <candor-heading level="h2" style="margin-bottom: 0.5rem;">
             Building Accessible Design Systems
           </candor-heading>
 
           <candor-text variant="caption" style="display: block; margin-bottom: 1rem; color: var(--color-text-subtle);">
-            By Jane Smith • Dec 4, 2025 • 5 min read
+            By Jane Smith<span aria-hidden="true"> • </span>Dec 4, 2025<span aria-hidden="true"> • </span>5 min read
           </candor-text>
 
           <candor-text variant="body" style="display: block; margin-bottom: 1.5rem;">
@@ -133,7 +133,7 @@ export const ProfileCard: Story = {
       <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="lg" style="max-width: 300px; text-align: center;">
         <div style="width: 100px; height: 100px; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
 
-        <candor-heading level="h3" style="margin-bottom: 0.25rem;">
+        <candor-heading level="h2" style="margin-bottom: 0.25rem;">
           Sarah Johnson
         </candor-heading>
 
@@ -152,10 +152,10 @@ export const ProfileCard: Story = {
         </div>
 
         <div class="profile-card-actions" style="display: flex; gap: 0.5rem;">
-          <candor-button variant="primary" size="medium" style="flex: 1; min-width: 0;">
+          <candor-button variant="primary" size="medium" style="flex: 1; min-width: 0;" aria-label="Follow Sarah Johnson">
             Follow
           </candor-button>
-          <candor-button variant="secondary" size="medium" style="flex: 1; min-width: 0;">
+          <candor-button variant="secondary" size="medium" style="flex: 1; min-width: 0;" aria-label="Message Sarah Johnson">
             Message
           </candor-button>
         </div>
@@ -176,13 +176,13 @@ export const CardGrid: Story = {
           <candor-card variant="outlined" padding="none">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
             <div style="padding: var(--spacing-card-padding);">
-              <candor-heading level="h4" style="margin-bottom: 0.5rem;">
+              <candor-heading level="h3" style="margin-bottom: 0.5rem;">
                 Product Name
               </candor-heading>
               <candor-text variant="body" style="display: block; margin-bottom: 1rem;">
                 Short product description goes here.
               </candor-text>
-              <candor-button variant="primary" size="small" style="width: 100%;">
+              <candor-button variant="primary" size="small" style="width: 100%;" aria-label="View details about Product Name">
                 View Details
               </candor-button>
             </div>
@@ -191,13 +191,13 @@ export const CardGrid: Story = {
           <candor-card variant="outlined" padding="none">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
             <div style="padding: var(--spacing-card-padding);">
-              <candor-heading level="h4" style="margin-bottom: 0.5rem;">
+              <candor-heading level="h3" style="margin-bottom: 0.5rem;">
                 Another Product
               </candor-heading>
               <candor-text variant="body" style="display: block; margin-bottom: 1rem;">
                 Brief description of the product features.
               </candor-text>
-              <candor-button variant="primary" size="small" style="width: 100%;">
+              <candor-button variant="primary" size="small" style="width: 100%;" aria-label="View details about Another Product">
                 View Details
               </candor-button>
             </div>
@@ -206,13 +206,13 @@ export const CardGrid: Story = {
           <candor-card variant="outlined" padding="none">
             <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
             <div style="padding: var(--spacing-card-padding);">
-              <candor-heading level="h4" style="margin-bottom: 0.5rem;">
+              <candor-heading level="h3" style="margin-bottom: 0.5rem;">
                 Third Item
               </candor-heading>
               <candor-text variant="body" style="display: block; margin-bottom: 1rem;">
                 More details about this product here.
               </candor-text>
-              <candor-button variant="primary" size="small" style="width: 100%;">
+              <candor-button variant="primary" size="small" style="width: 100%;" aria-label="View details about Third Item">
                 View Details
               </candor-button>
             </div>

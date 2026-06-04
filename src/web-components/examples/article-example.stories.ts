@@ -193,7 +193,7 @@ Works in any framework; no Angular dependency. Load order:
           orientation="horizontal">
         </candor-navigation>
 
-        <div style="max-width: 48rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(3rem, 8vw, 5rem);">
+        <main style="max-width: 48rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(3rem, 8vw, 5rem);">
 
           <header style="margin-bottom: var(--spacing-xl);">
             <h1 style="
@@ -343,7 +343,7 @@ Works in any framework; no Angular dependency. Load order:
             </li>
 
           </ul>
-        </div>
+        </main>
       </div>
     `,
   }),
@@ -362,7 +362,7 @@ export const PostListingGrid: Story = {
   render: () => ({
     template: `
       <div style="min-height: 100vh; background: var(--color-bg-page);">
-        <div style="max-width: 64rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(3rem, 8vw, 5rem);">
+        <main style="max-width: 64rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(3rem, 8vw, 5rem);">
 
           <header style="margin-bottom: var(--spacing-xl);">
             <h1 style="
@@ -460,7 +460,7 @@ export const PostListingGrid: Story = {
             </li>
 
           </ul>
-        </div>
+        </main>
       </div>
     `,
   }),

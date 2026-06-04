@@ -232,7 +232,10 @@ export class CandorTabs extends LitElement {
 
   override updated() {
     this.querySelectorAll('candor-tab-panel').forEach((panel: Element) => {
-      (panel as CandorTabPanel).active = (panel as CandorTabPanel).panelId === this.activeId;
+      const p = panel as CandorTabPanel;
+      p.active = p.panelId === this.activeId;
+      const tab = this.tabs.find(t => t.id === p.panelId);
+      if (tab) p.tabLabel = tab.label;
     });
     this._updateScrollState();
   }
@@ -306,6 +309,7 @@ export class CandorTabPanel extends LitElement {
 
   @property({ attribute: 'panel-id', reflect: true }) panelId = '';
   @property({ type: Boolean, reflect: true }) active = false;
+  @property({ attribute: 'tab-label' }) tabLabel = '';
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -317,7 +321,7 @@ export class CandorTabPanel extends LitElement {
   }
 
   override render() {
-    return html`<div role="tabpanel" id="panel-${this.panelId}" aria-labelledby="tab-${this.panelId}" tabindex="0"><slot></slot></div>`;
+    return html`<div role="tabpanel" id="panel-${this.panelId}" aria-label="${this.tabLabel || nothing}" tabindex="0"><slot></slot></div>`;
   }
 }
 
