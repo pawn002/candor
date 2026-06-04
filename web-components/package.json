@@ -11,6 +11,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/candor-web-components.js",
       "require": "./dist/candor-web-components.umd.cjs"
+    },
+    "./tone-data": {
+      "types": "./dist/tone-data.d.ts",
+      "import": "./dist/tone-data.js"
     }
   },
   "files": ["dist", "README.md"],
