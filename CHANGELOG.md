@@ -29,6 +29,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Angular reference component library** (`src/app/components/`, `src/app/examples/` — the `Angular Components/` Storybook section) removed. It was an internal feature-parity benchmark that defined the minimum accessible feature set for the web components; with WC parity confirmed it has served its purpose. **No consumer impact** — the Angular library was never published as a package. `@candor-design/web-components` is now the sole, canonical component surface; teams on Angular consume the framework-agnostic custom elements (register `CUSTOM_ELEMENTS_SCHEMA`). The framework-agnostic article prose stylesheet source moved from the Angular component SCSS to `src/design-tokens/article.scss` — the published `candor-article.css` is unchanged. See `docs/BREAKING-CHANGES.md` → v3.0.0.
 - Dead Angular-app npm scripts (`ng`, `start`, `watch`, `build`, `test`) removed from `package.json`; the published build/test commands are `build:tokens`, `build:wc`, and `test:playwright`. The Storybook toolchain still runs on the `@storybook/angular` builder.
 
+### Fixed
+
+- **Tokens (WCAG 1.4.11 non-text contrast):** Light-mode status **icon** colors darkened so they meet the 3.0 non-text floor against their tinted `-bg`: `--color-status-success` `oklch(0.63…)` → `oklch(0.55 0.15 144.2)` (OKCA 2.0 → 3.0), `--color-status-warning` `oklch(0.66…)` → `oklch(0.54 0.16 53.54)` (OKCA 1.7 → 3.0), `--color-status-error` `oklch(0.55…)` → `oklch(0.54 0.22 25)` (OKCA 2.9 → 3.0). These are `usage: non-text` tokens (icon/border indicators, not text); the `-text` and `-bg` variants are unchanged, and dark mode is unaffected. The source/audit values were corrected previously but the compiled `tokens/candor-tokens.css` artifacts had not been regenerated — this release ships the corrected CSS.
+- **Blog styles (screen reader):** `candor-blog.css` post-card tag separator changed to `content: "·"/""` (decorative — empty AT alt text) so screen readers don't announce the "·" between tags. Source fix shipped in the compiled artifact.
+
 ---
 
 ## [3.0.0] - 2026-04-20

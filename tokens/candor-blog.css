@@ -171,9 +171,9 @@
   text-transform: uppercase;
   color: var(--color-text-subtle);
 }
-.post-card__tag + .post-card__tag::before {
-  content: "·";
-  margin-right: var(--spacing-2xs);
+.post-card__tag:not(:last-child)::after {
+  content: "·"/"";
+  margin-left: var(--spacing-2xs);
   font-weight: var(--font-weight-normal);
 }
 .post-card__tag {
