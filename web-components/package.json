@@ -44,6 +44,6 @@
     "provenance": true
   },
   "peerDependencies": {
-    "@candor-design/tokens": ">=3.0.0"
+    "@candor-design/tokens": ">=4.0.0"
   }
 }
