@@ -70,7 +70,7 @@
     "@storybook/addon-themes": "^10.3.1",
     "@storybook/angular": "^10.1.4",
     "@storybook/test-runner": "^0.24.2",
-    "chromatic": "^16.0.0",
+    "chromatic": "^17.2.0",
     "storybook": "^10.1.4",
     "vite": "^7.3.2",
     "vite-plugin-dts": "^5.0.0"
