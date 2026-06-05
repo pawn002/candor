@@ -35,7 +35,6 @@ jobs:
 
   chromatic:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v5
         with:
@@ -44,4 +43,9 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+      - name: Chromatic (PR — report diffs, don't block merge)
+        if: github.event_name == 'pull_request'
+        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes
+      - name: Chromatic (main — fail if unreviewed changes)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }}
