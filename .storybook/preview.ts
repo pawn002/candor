@@ -45,6 +45,7 @@ const preview: Preview = {
       },
     },
     backgrounds: { disable: true },
+    viewport: { defaultViewport: 'reset' },
   },
 
   initialGlobals: {
