@@ -1,0 +1,915 @@
+{
+  "version": "1.0.0",
+  "pairings": [
+    {
+      "id": "form-label",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "Field label across form components — 14px bold Atkinson, Tier 2 Functional"
+    },
+    {
+      "id": "form-required-asterisk",
+      "fg": "{color.status.error-text}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "Required marker (*) — inherits label size/weight; Tier 3 Supplementary (label text is the redundant channel)"
+    },
+    {
+      "id": "form-input-value",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Typed value inside input/combobox/select — 16px regular, Tier 1 Reading"
+    },
+    {
+      "id": "form-input-placeholder",
+      "fg": "{color.text.disabled}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Placeholder text — Tier 3 Supplementary; placeholder is never the sole channel for meaning"
+    },
+    {
+      "id": "form-input-disabled-value",
+      "fg": "{color.text.disabled}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Value text inside a disabled input — surface bg applied on disabled state, Tier 3"
+    },
+    {
+      "id": "form-error-message",
+      "fg": "{color.status.error-text}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Error message below field — 16px regular, Tier 1 Reading (user must read to correct)"
+    },
+    {
+      "id": "form-hint-text",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Hint/help text below field — 14px regular, Tier 3 Supplementary"
+    },
+    {
+      "id": "accessible-text-label-primary",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "candor-accessible-text role=label color=primary — Tier 2 Functional"
+    },
+    {
+      "id": "accessible-text-label-secondary",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "candor-accessible-text role=label color=secondary — Tier 2 Functional"
+    },
+    {
+      "id": "accessible-text-label-error",
+      "fg": "{color.status.error-text}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "candor-accessible-text role=label color=error — Tier 2 Functional"
+    },
+    {
+      "id": "accessible-text-message-primary",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "candor-accessible-text role=message color=primary — Tier 1 Reading"
+    },
+    {
+      "id": "accessible-text-message-secondary",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "candor-accessible-text role=message color=secondary — Tier 1 Reading"
+    },
+    {
+      "id": "accessible-text-message-error",
+      "fg": "{color.status.error-text}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "candor-accessible-text role=message color=error — Tier 1 Reading"
+    },
+    {
+      "id": "accessible-text-status-primary",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 9.5,
+      "note": "candor-accessible-text role=status color=primary — 14px regular Tier 1 Reading (form validation, status messages)"
+    },
+    {
+      "id": "accessible-text-status-error",
+      "fg": "{color.status.error-text}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 9.5,
+      "note": "candor-accessible-text role=status color=error — 14px regular Tier 1 Reading"
+    },
+    {
+      "id": "accessible-text-annotation-primary",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "candor-accessible-text role=annotation color=primary — Tier 3 Supplementary (italic, context-framing)"
+    },
+    {
+      "id": "accessible-text-annotation-secondary",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "candor-accessible-text role=annotation color=secondary — Tier 3 Supplementary"
+    },
+    {
+      "id": "stat-value-default",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 39,
+      "weight": "bold",
+      "min": 3.0,
+      "note": "candor-stat default color — 25–39px bold (sm/md/lg sizes), all large text, threshold 3.0"
+    },
+    {
+      "id": "stat-value-success",
+      "fg": "{color.status.success-text}",
+      "bg": "{color.bg.page}",
+      "size": 39,
+      "weight": "bold",
+      "min": 3.0,
+      "note": "candor-stat color=success — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
+    },
+    {
+      "id": "stat-value-warning",
+      "fg": "{color.status.warning-text}",
+      "bg": "{color.bg.page}",
+      "size": 39,
+      "weight": "bold",
+      "min": 3.0,
+      "note": "candor-stat color=warning — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
+    },
+    {
+      "id": "stat-value-error",
+      "fg": "{color.status.error-text}",
+      "bg": "{color.bg.page}",
+      "size": 39,
+      "weight": "bold",
+      "min": 3.0,
+      "note": "candor-stat color=error — 25–39px bold (sm/md/lg sizes), all large text"
+    },
+    {
+      "id": "stat-value-info",
+      "fg": "{color.link}",
+      "bg": "{color.bg.page}",
+      "size": 39,
+      "weight": "bold",
+      "min": 3.0,
+      "note": "candor-stat color=info uses --color-link as foreground — 25–39px bold (sm/md/lg sizes), all large text"
+    },
+    {
+      "id": "stat-unit",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 20,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "candor-stat unit suffix — 20px regular; 19-23px regular = 4.5 threshold"
+    },
+    {
+      "id": "stat-label",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "candor-stat label — designed for use on surface backgrounds, Tier 3 Supplementary"
+    },
+    {
+      "id": "data-grid-colheader",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Column header — Tier 3 Supplementary (position provides redundancy); fixed in audit from 12px + wrong token"
+    },
+    {
+      "id": "data-grid-rowheader",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Row header — Tier 3 Supplementary; fixed in audit from 12px + wrong token"
+    },
+    {
+      "id": "data-grid-caption",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "Grid caption (semibold, treated as bold for threshold) — Tier 2 Functional"
+    },
+    {
+      "id": "badge-default",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — badge shape always provides redundant coding"
+    },
+    {
+      "id": "badge-primary",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.primary}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5
+    },
+    {
+      "id": "badge-secondary",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.secondary}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5
+    },
+    {
+      "id": "badge-success",
+      "fg": "{color.status.success-text}",
+      "bg": "{color.status.success-bg}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5
+    },
+    {
+      "id": "badge-error",
+      "fg": "{color.status.error-text}",
+      "bg": "{color.status.error-bg}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5
+    },
+    {
+      "id": "badge-warning",
+      "fg": "{color.status.warning-text}",
+      "bg": "{color.status.warning-bg}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5
+    },
+    {
+      "id": "button-primary-medium",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.primary}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "font-weight-medium (500) treated as regular for threshold purposes"
+    },
+    {
+      "id": "button-primary-small",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.primary}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "Small button overrides to font-weight-bold (700)"
+    },
+    {
+      "id": "button-secondary",
+      "fg": "{color.action.primary}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Outlined button — transparent bg, effective background is bg-page"
+    },
+    {
+      "id": "button-tertiary",
+      "fg": "{color.action.tertiary-text}",
+      "bg": "{color.action.tertiary}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "button-ghost",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "button-destructive",
+      "fg": "{color.action.destructive-text}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Outlined button — transparent bg, effective background is bg-page"
+    },
+    {
+      "id": "alert-title-info",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Info variant title — font-weight-semibold (600) treated as regular"
+    },
+    {
+      "id": "alert-message-info",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Tier 1 Reading"
+    },
+    {
+      "id": "alert-title-success",
+      "fg": "{color.text.default}",
+      "bg": "{color.status.success-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "alert-message-success",
+      "fg": "{color.text.default}",
+      "bg": "{color.status.success-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "alert-title-warning",
+      "fg": "{color.text.default}",
+      "bg": "{color.status.warning-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "alert-message-warning",
+      "fg": "{color.text.default}",
+      "bg": "{color.status.warning-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "alert-title-error",
+      "fg": "{color.text.default}",
+      "bg": "{color.status.error-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "alert-message-error",
+      "fg": "{color.text.default}",
+      "bg": "{color.status.error-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "toast-message-info",
+      "fg": "{color.toast.message}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "color-toast-message resolves to color-text-default in light mode; plugin audits per mode"
+    },
+    {
+      "id": "toast-message-success",
+      "fg": "{color.toast.message}",
+      "bg": "{color.status.success-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "toast-message-warning",
+      "fg": "{color.toast.message}",
+      "bg": "{color.status.warning-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "toast-message-error",
+      "fg": "{color.toast.message}",
+      "bg": "{color.status.error-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "nav-brand",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 20,
+      "weight": "bold",
+      "min": 3.0,
+      "note": "20px bold — 19-23px bold threshold applies"
+    },
+    {
+      "id": "nav-link",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Inactive nav link — Tier 2 Functional"
+    },
+    {
+      "id": "nav-link-active",
+      "fg": "{color.action.primary}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Active nav link — font-weight-semibold (600) treated as regular"
+    },
+    {
+      "id": "nav-badge",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.secondary}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "Nav notification badge — 14px semibold on secondary action color"
+    },
+    {
+      "id": "nav-inverse-brand",
+      "fg": "{color.text.inverse}",
+      "bg": "{color.bg.inverse}",
+      "size": 20,
+      "weight": "bold",
+      "min": 3.0
+    },
+    {
+      "id": "nav-inverse-link",
+      "fg": "{color.text.subtle-on-inverse}",
+      "bg": "{color.bg.inverse}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Inactive link on inverse (dark navy) nav — Tier 2 Functional"
+    },
+    {
+      "id": "nav-inverse-link-active",
+      "fg": "{color.text.inverse}",
+      "bg": "{color.bg.inverse}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "font-weight-semibold (600) treated as regular"
+    },
+    {
+      "id": "heading-h1",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 39,
+      "weight": "bold",
+      "min": 3.0
+    },
+    {
+      "id": "heading-h2",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 31,
+      "weight": "bold",
+      "min": 3.0
+    },
+    {
+      "id": "heading-h3",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 25,
+      "weight": "bold",
+      "min": 3.0
+    },
+    {
+      "id": "heading-h4",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 20,
+      "weight": "bold",
+      "min": 3.0,
+      "note": "20px bold — 19-23px bold threshold applies"
+    },
+    {
+      "id": "heading-h5",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "bold",
+      "min": 4.5
+    },
+    {
+      "id": "heading-h6",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5
+    },
+    {
+      "id": "heading-secondary",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 25,
+      "weight": "bold",
+      "min": 3.0,
+      "note": "Secondary color heading — large text, min 3.0"
+    },
+    {
+      "id": "table-column-header",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "thead th — table sits on bg-page by default; subtle-on-surface on white exceeds its on-surface guarantee"
+    },
+    {
+      "id": "table-cell",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 6.5,
+      "note": "td — 14px regular Tier 2 Functional (table data is recognition, sole channel)"
+    },
+    {
+      "id": "table-cell-label",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "td.label — key/value row label; Tier 3 Supplementary (row position is the redundant channel)"
+    },
+    {
+      "id": "table-cell-zebra",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "min": 6.5,
+      "note": "td on even zebra row — same Tier 2 Functional threshold as on bg-page"
+    },
+    {
+      "id": "table-kv-row-header",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "th[scope=row] in key/value table — 14px bold Tier 2 Functional"
+    },
+    {
+      "id": "table-kv-row-header-zebra",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "th[scope=row] on even zebra row — same Tier 2 bold threshold"
+    },
+    {
+      "id": "table-caption",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Table caption — Tier 3 Supplementary (position is redundant channel); OKCA 4.6"
+    },
+    {
+      "id": "tabs-inactive",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Inactive tab — Tier 2 Functional"
+    },
+    {
+      "id": "tabs-active",
+      "fg": "{color.action.primary}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Active tab — font-weight-semibold (600) treated as regular"
+    },
+    {
+      "id": "tabs-inverse-inactive",
+      "fg": "{color.text.subtle-on-inverse}",
+      "bg": "{color.bg.inverse}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "tabs-inverse-active",
+      "fg": "{color.text.inverse}",
+      "bg": "{color.bg.inverse}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5
+    },
+    {
+      "id": "breadcrumb-link",
+      "fg": "{color.link}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "Tier 2 Functional"
+    },
+    {
+      "id": "breadcrumb-current",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5
+    },
+    {
+      "id": "breadcrumb-separator",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "/ separator — Tier 3 Supplementary (position is the redundant channel)"
+    },
+    {
+      "id": "pagination-page",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "Inactive page button — 14px bold Tier 2 Functional"
+    },
+    {
+      "id": "pagination-current",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.primary}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Current page — font-weight-medium (500) treated as regular"
+    },
+    {
+      "id": "pagination-ellipsis",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "ellipsis — Tier 3 Supplementary"
+    },
+    {
+      "id": "chip-default",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5,
+      "note": "Default/unselected chip body — Tier 2 Functional"
+    },
+    {
+      "id": "chip-selected",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.primary}",
+      "size": 14,
+      "weight": "bold",
+      "min": 4.5
+    },
+    {
+      "id": "modal-title",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.elevated}",
+      "size": 25,
+      "weight": "bold",
+      "min": 3.0,
+      "note": "Modal h2 title — 25px bold, large text threshold"
+    },
+    {
+      "id": "modal-body",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.elevated}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Modal prose — Tier 1 Reading"
+    },
+    {
+      "id": "card-footer",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Card footer metadata — 14px regular Tier 3 Supplementary"
+    },
+    {
+      "id": "article-body",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Noto Serif body prose — Tier 1 Reading"
+    },
+    {
+      "id": "article-inline-code",
+      "fg": "{color.highlight}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "min": 6.5,
+      "note": "Inline code burgundy on surface — Tier 2 functional UI at 14px regular (6.5 floor)"
+    },
+    {
+      "id": "article-code-block",
+      "fg": "{color.text.code}",
+      "bg": "{color.bg.code}",
+      "size": 14,
+      "weight": "regular",
+      "min": 6.5,
+      "note": "Code block text (white on navy) — 14px regular Tier 2 Functional"
+    },
+    {
+      "id": "article-blockquote",
+      "fg": "{color.blockquote.text}",
+      "bg": "{color.blockquote.bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Blockquote body (subtle-on-surface on surface bg) — Tier 1 Reading"
+    },
+    {
+      "id": "nav-badge-text",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.secondary}",
+      "size": 14,
+      "weight": "semibold",
+      "min": 4.5,
+      "note": "Navigation badge count (white on burgundy) — Tier 3 Supplementary; OKCA 9.3 validated"
+    },
+    {
+      "id": "tone-picker-col-header",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "C-axis column headers — Tier 3 Supplementary (color swatch is the redundant channel)"
+    },
+    {
+      "id": "tone-picker-row-header",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "L-axis row headers — Tier 3 Supplementary (color swatch is the redundant channel)"
+    },
+    {
+      "id": "tone-picker-preview-code",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "min": 6.5,
+      "note": "Selected oklch value display — Tier 2 Functional (sole channel for the precise selected value)"
+    },
+    {
+      "id": "tone-picker-preview-empty",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "No color selected placeholder — Tier 3 Supplementary (swatch absence is redundant channel)"
+    },
+    {
+      "id": "tone-picker-hint",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Keyboard navigation hint — Tier 3 Supplementary (behavior is redundant channel)"
+    },
+    {
+      "id": "article-link",
+      "fg": "{color.link}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 4.6 ✅ (tight — tightest use of this color)"
+    },
+    {
+      "id": "article-link-visited",
+      "fg": "{color.link.visited}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.4 ✅"
+    },
+    {
+      "id": "article-link-hover",
+      "fg": "{color.link.hover}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 5.7 ✅"
+    },
+    {
+      "id": "alert-icon-info",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Info icon in candor-alert and candor-toast (non-text currentColor SVG on surface bg) — OKCA 3.4 ✅ non-text 3:1"
+    },
+    {
+      "id": "status-icon-success",
+      "fg": "{color.status.success}",
+      "bg": "{color.status.success-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Success icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 4.4 dark ✅"
+    },
+    {
+      "id": "status-icon-warning",
+      "fg": "{color.status.warning}",
+      "bg": "{color.status.warning-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Warning icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 4.4 dark ✅"
+    },
+    {
+      "id": "status-icon-error",
+      "fg": "{color.status.error}",
+      "bg": "{color.status.error-bg}",
+      "size": 16,
+      "weight": "regular",
+      "min": 3.0,
+      "note": "Error icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 3.4 dark ✅"
+    }
+  ]
+}

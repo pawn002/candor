@@ -6,21 +6,19 @@
     "tokens"
   ],
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
     "storybook": "ng run design-system-playground:storybook",
     "test-storybook": "test-storybook",
     "build-storybook": "ng run design-system-playground:build-storybook",
     "test:playwright": "playwright test",
     "test:playwright:ui": "playwright test --ui",
     "build:tokens": "node scripts/build-tokens.js",
+    "build:wc": "vite build --config vite.wc.config.ts && vite build --config vite.tone-data.config.ts",
+    "version": "npm --prefix web-components version $npm_package_version --no-git-tag-version --allow-same-version && git add web-components/package.json",
     "release:patch": "npm version patch && git push origin main --follow-tags",
     "release:minor": "npm version minor && git push origin main --follow-tags",
     "release:major": "npm version major && git push origin main --follow-tags",
-    "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
+    "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
+    "audit:tokens": "node scripts/export-tokens-dtcg.js"
   },
   "repository": {
     "type": "git",
@@ -56,6 +54,8 @@
     "@fontsource-variable/roboto-mono": "^5.2.8",
     "@fontsource/atkinson-hyperlegible": "^5.2.8",
     "@standard-schema/spec": "^1.0.0",
+    "culori": "^4.0.2",
+    "lit": "^3.3.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.8.1",
     "typescript": "~5.9.3",
@@ -71,6 +71,8 @@
     "@storybook/angular": "^10.1.4",
     "@storybook/test-runner": "^0.24.2",
     "chromatic": "^16.0.0",
-    "storybook": "^10.1.4"
+    "storybook": "^10.1.4",
+    "vite": "^7.3.2",
+    "vite-plugin-dts": "^5.0.0"
   }
 }

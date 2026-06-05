@@ -48,19 +48,19 @@
     --azure-900: oklch(0.20 0.06 250.80);
 
     // Purple  (H=278.14  C=0.21)
-    // Anchor: purple-500 = #6969F7 (original brand color)
-    // ⚠️  purple-500 achieves only 4.0:1 with white — not AA.
-    //     purple-600 (4.6:1) is the accessible step for white text.
-    --purple-50:  oklch(0.97 0.02 278.14);
-    --purple-100: oklch(0.93 0.05 278.14);
-    --purple-200: oklch(0.86 0.10 278.14);
-    --purple-300: oklch(0.77 0.15 278.14);
-    --purple-400: oklch(0.68 0.18 278.14);
-    --purple-500: oklch(0.60 0.21 278.14); // #6969F7 — original anchor — decorative only
-    --purple-600: oklch(0.56 0.21 278.14); // #5f5dea — 4.6:1 with white ✅
-    --purple-700: oklch(0.47 0.20 278.14);
-    --purple-800: oklch(0.37 0.17 278.14);
-    --purple-900: oklch(0.27 0.13 278.14);
+    // Anchor: indigo-500 = #6969F7 (original brand color)
+    // ⚠️  indigo-500 achieves only 4.0:1 with white — not AA.
+    //     indigo-600 (4.6:1) is the accessible step for white text.
+    --indigo-50:  oklch(0.97 0.02 278.14);
+    --indigo-100: oklch(0.93 0.05 278.14);
+    --indigo-200: oklch(0.86 0.10 278.14);
+    --indigo-300: oklch(0.77 0.15 278.14);
+    --indigo-400: oklch(0.68 0.18 278.14);
+    --indigo-500: oklch(0.60 0.21 278.14); // #6969F7 — original anchor — decorative only
+    --indigo-600: oklch(0.56 0.21 278.14); // #5f5dea — 4.6:1 with white ✅
+    --indigo-700: oklch(0.47 0.20 278.14);
+    --indigo-800: oklch(0.37 0.17 278.14);
+    --indigo-900: oklch(0.27 0.13 278.14);
 
     // Gray  (neutral — brand anchors preserved)
     --gray-0:   oklch(1 0 0);             // #FFFFFF

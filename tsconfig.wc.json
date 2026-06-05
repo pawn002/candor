@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noImplicitOverride": false,
+    "declaration": true
+  },
+  "include": ["src/web-components/**/*.ts"],
+  "exclude": ["src/web-components/**/*.stories.ts"]
+}

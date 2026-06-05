@@ -1,4 +1,7 @@
 import type { Preview, StoryContext, StoryFn } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import '../src/web-components/index';
 
 // Applies data-theme to the iframe <html> element without wrapping the story,
 // which avoids the Angular rendering issues caused by withThemeByDataAttribute.
@@ -24,12 +27,15 @@ const preview: Preview = {
     },
   },
 
-  decorators: [withTheme],
+  decorators: [
+    moduleMetadata({ schemas: [CUSTOM_ELEMENTS_SCHEMA] }),
+    withTheme,
+  ],
 
   parameters: {
     options: {
       storySort: {
-        order: ['Introduction', 'Design Tokens', 'Typography', 'Button', 'Form', 'Components', 'Examples'],
+        order: ['Introduction', 'Design Tokens', 'Typography', 'Components', 'Examples'],
       },
     },
     controls: {
@@ -39,6 +45,7 @@ const preview: Preview = {
       },
     },
     backgrounds: { disable: true },
+    viewport: { defaultViewport: 'reset' },
   },
 
   initialGlobals: {

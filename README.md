@@ -6,9 +6,19 @@ A humanist design system built with OKLCH colors, variable-font typography, and 
 
 ## Install
 
+### Tokens (CSS custom properties)
+
 ```bash
 npm install @candor-design/tokens
 ```
+
+### Web components (framework-agnostic)
+
+```bash
+npm install @candor-design/web-components @candor-design/tokens
+```
+
+Includes all 34 Candor components as Lit 3 custom elements. No framework required — works in plain HTML, React, Vue, Svelte, or any other environment that supports web standards. Version is kept in sync with `@candor-design/tokens`.
 
 ### Fonts
 
@@ -50,6 +60,34 @@ Link the stylesheet and use the custom properties directly:
 @import url('@candor-design/tokens/tokens/candor-tokens.css');
 ```
 
+### Web components
+
+```html
+<link rel="stylesheet" href="node_modules/@candor-design/tokens/tokens/candor-tokens.css">
+<script type="module" src="node_modules/@candor-design/web-components/dist/candor-web-components.js"></script>
+
+<candor-button variant="primary">Save changes</candor-button>
+<candor-input label="Email" type="email" required></candor-input>
+<candor-badge variant="success">Active</candor-badge>
+```
+
+CSS custom properties pierce Shadow DOM boundaries automatically — loading `candor-tokens.css` once is all that's required. No per-component token injection needed.
+
+#### Bundler import
+
+```js
+import '@candor-design/web-components';
+// All 34 custom elements are now registered
+```
+
+Named exports are also available for direct class access (e.g. typed references, programmatic instantiation). Importing any class still triggers the package's side-effectful `customElements.define()` calls, so the corresponding tag is also registered:
+
+```js
+import { CandorButton, CandorBadge } from '@candor-design/web-components';
+```
+
+---
+
 ### Bundler (Vite / webpack / PostCSS)
 
 ```css
@@ -86,7 +124,7 @@ Five OKLCH color families, each with 10 tonal steps (50–900):
 | `--navy-*` | Primary action, headings, inverse surfaces |
 | `--burgundy-*` | Secondary action, accents |
 | `--azure-*` | Links, focus rings, interactive highlights |
-| `--purple-*` | Code highlights, visited links, decorative |
+| `--indigo-*` | Code highlights, visited links, decorative |
 | `--gray-*` | Text, borders, backgrounds |
 
 Semantic aliases map primitive ramps to roles:
@@ -221,7 +259,7 @@ Candor is a **humanist** design system. Every decision — OKLCH colors, variabl
 
 ## Development
 
-This repository contains the full design system, including the Angular + Storybook component library that the tokens power.
+This repository contains the full design system in two distributed layers: the **`@candor-design/tokens`** CSS layer and the **`@candor-design/web-components`** Lit 3 custom-element library (the primary consumer-facing distribution) built on top of it. Both live in a single Storybook so the same stories validate every layer.
 
 ### Prerequisites
 
@@ -247,6 +285,17 @@ Outputs to `tokens/`:
 - `candor-tokens.min.css` — minified for production
 - `candor-tokens.json` — structured JSON (`root` + `dark` keys)
 
+### Build web components
+
+```bash
+npm run build:wc
+```
+
+Outputs to `web-components/dist/`:
+- `candor-web-components.js` — ESM bundle (165 kB, 30 kB gzipped)
+- `candor-web-components.umd.cjs` — UMD for CDN / legacy environments
+- `index.d.ts` + per-component `.d.ts` — TypeScript declarations
+
 ### Storybook
 
 ```bash
@@ -259,7 +308,6 @@ Opens at http://localhost:6006
 
 ```bash
 npm run test:playwright   # Visual regression + a11y tests
-npm test                  # Angular unit tests
 ```
 
 ---

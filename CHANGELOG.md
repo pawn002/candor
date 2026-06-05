@@ -8,6 +8,58 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [4.0.0] - 2026-06-05
+
+### Breaking
+
+- **Tokens:** Primitive color ramp `--purple-*` renamed to `--indigo-*` across all ten steps (`--indigo-50` through `--indigo-900`). The hue (H=278.14) is perceptually indigo, not purple. Consumers who reference primitive tokens directly (against the two-tier architecture recommendation) must find-replace `--purple-` → `--indigo-`. Semantic tokens (`--color-highlight`, `--color-highlight-decorative`, `--color-link-visited`) are unchanged and require no consumer action.
+- **Tokens package:** `candor-article.css`, `candor-article.min.css`, `candor-blog.css`, `candor-blog.min.css`, `candor-syntax.css`, and `candor-syntax.min.css` removed from the `@candor-design/tokens` published package. These class-based stylesheets were outside the scope of a token package (CSS custom properties only); the `<candor-article>` web component is the canonical prose surface. No known consumers — if you were using these files, migrate to the equivalent `@candor-design/web-components` component or copy the source SCSS from `src/design-tokens/` in the repository.
+
+### Added
+
+- **`@candor-design/web-components` 4.0.0** — first published release of the Candor web components package. Ships 34 Lit 3 custom elements. Version aligned to `@candor-design/tokens` so a single version number describes the full design system. Separate npm package keeps Lit out of consumers who only need tokens.
+  - **Custom elements:** `candor-badge`, `candor-alert`, `candor-card`, `candor-stat`, `candor-progress`, `candor-heading`, `candor-text`, `candor-accessible-text`, `candor-article`, `candor-button`, `candor-chip`, `candor-breadcrumb`, `candor-pagination`, `candor-toolbar` + `candor-toolbar-separator`, `candor-navigation`, `candor-input`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-select`, `candor-slider`, `candor-listbox`, `candor-combobox`, `candor-chat-input`, `candor-tooltip`, `candor-modal`, `candor-drawer`, `candor-toast` + `candor-toast-container`, `candor-tabs` + `candor-tab-panel`, `candor-accordion-item`, `candor-disclosure`, `candor-menu`, `candor-table`, `candor-data-grid`
+  - Form controls use the `ElementInternals` API (`static formAssociated = true`) — values appear in `FormData`, constraint validation works, `:disabled` styling applies correctly
+  - CSS custom properties pierce Shadow DOM boundaries — `candor-tokens.css` loaded once at the document level resolves inside all shadow roots; no per-component injection required
+  - `candor-article` uses light DOM so prose styles reach projected content without the shadow boundary
+  - Build: `npm run build:wc` — Vite lib build producing ESM (165 kB) and UMD (151 kB) bundles with TypeScript declaration files; `./tone-data` subpath export for tree-shakeable tone-picker data
+- **`candor-article`:** `justify` attribute — enables full justification + hyphenation on `<p>` elements. Typographic transparency feature: the formal block-edge register marks AI-generated prose as a produced document without a label. Requires `lang` on the element or an ancestor for `hyphens: auto` to resolve hyphenation dictionaries.
+- **`candor-stat`:** `size` prop — `sm` (25px), `md` (31px, default), `lg` (39px). Allows stat heroes to scale with layout context without hand-rolling font sizes.
+- **`candor-input`:** `autocomplete` prop — forwards the `autocomplete` attribute to the inner `<input>`. `Password` story sets `current-password` by default.
+- **`candor-modal`:** `alert` boolean prop — sets `role="alertdialog"` on the inner `<dialog>` for destructive confirmation patterns where the dialog requires an immediate response.
+- **`candor-menu`:** `align` prop (`left` | `right`) — controls which edge of the panel aligns with the trigger. Icon-only trigger mode (no label, accessible via `aria-label`). Checked item support via `menuitemradio` for sort-by and single-select option groups.
+- **`candor-tabs`:** Scroll arrow buttons appear automatically when the tab row overflows its container. Arrows advance by one tab per click; focused tab auto-scrolls into view on arrow-key navigation. Reduces dependence on horizontal scroll gesture discovery.
+- **`candor-tone-picker`:** CIEDE2000 AT labels — each swatch announces its perceptual distance from the nearest named color in addition to its OKLCH coordinates. `show-labels` attribute renders the label text visibly beneath each swatch (developer/audit mode). `/tone-data` subpath export provides the underlying color-name dataset for consumers building custom pickers.
+- **`candor-slider`:** CSS custom properties `--candor-slider-track-height`, `--candor-slider-thumb-size`, and `--candor-slider-gradient-height` exposed for consumer overrides without subclassing.
+- **Tokens:** `--color-border-control-on-surface` — WCAG 1.4.11 compliant border color for form controls placed on `--color-bg-surface` backgrounds (the existing `--color-border-control` is validated against page background only).
+- **Tokens:** Component-level CSS custom properties for drawer (`--candor-drawer-width-*`), modal (`--candor-modal-width-*`), and toast (`--candor-toast-width`) exposed for consumer sizing overrides.
+
+### Removed
+
+- **Angular reference component library** (`src/app/components/`, `src/app/examples/`) removed. It was an internal feature-parity benchmark; with WC parity confirmed it has served its purpose. **No consumer impact** — the Angular library was never published. `@candor-design/web-components` is the sole canonical component surface; Angular consumers use the framework-agnostic custom elements with `CUSTOM_ELEMENTS_SCHEMA`.
+- **`@candor-design/tokens`:** `candor-article.css/.min.css`, `candor-blog.css/.min.css`, `candor-syntax.css/.min.css` removed from the published package (see Breaking above).
+
+### Fixed
+
+- **Tokens (WCAG 1.4.11 non-text contrast):** Light-mode status icon colors darkened to meet the 3.0 non-text floor against their tinted `-bg` backgrounds: `--color-status-success` → `oklch(0.55 0.15 144.2)` (OKCA 2.0 → 3.0), `--color-status-warning` → `oklch(0.54 0.16 53.54)` (OKCA 1.7 → 3.0), `--color-status-error` → `oklch(0.54 0.22 25)` (OKCA 2.9 → 3.0). The `-text` and `-bg` variants and dark mode are unaffected.
+- **Tokens:** Remaining off-grid raw values snapped to the nearest spacing token across 10 components. Component-level `px`/`rem` literals replaced with `var(--spacing-*)`, `var(--border-width-*)`, and `var(--letter-spacing-*)` references.
+- **Tokens:** Stale OKCA annotations corrected on dark-mode `--color-action-secondary-*` tokens.
+- **`candor-drawer` (screen reader):** Closed drawer now sets `inert` on the host element — slotted light-DOM controls no longer appear in the accessibility tree when the drawer is closed.
+- **`candor-tabs` / `candor-tab-panel` (screen reader):** Replaced cross-shadow-root `aria-labelledby` (which cannot cross shadow boundaries) with `aria-label` fed via a new `tabLabel` property. Tab panels now have accessible names.
+- **`candor-radio`:** Mutual exclusion and arrow-key navigation now work correctly across shadow-DOM siblings. Each `candor-radio` is in its own shadow root so the browser cannot group shared-`name` inputs into a mutually exclusive set; the component implements both behaviors itself by querying sibling `<candor-radio name="…">` elements within the nearest `<fieldset>`.
+- **`candor-progress`:** Host `aria-label` now forwarded to the inner `role="progressbar"` element via the `observeHostAriaLabel` helper, preventing a doubled accessible name.
+- **`candor-table`:** Becomes a horizontal scroll container when content overflows narrow viewports. Numeric column alignment prop added (`numeric-columns`) — right-aligns specified columns for tabular figures.
+- **`candor-badge`:** `md` size corrected to `--font-size-md` (16px) — was incorrectly using `--font-size-sm` (14px), which placed it below the readable floor for regular-weight text at that size.
+- **`candor-button`:** All sizes now render at bold weight (700) — optical sizing (`opsz` axis) handles the visual refinement per size, removing an artificial weight inconsistency between sizes. `white-space: nowrap` added to prevent label text wrapping in constrained layouts.
+- **`candor-input` / `candor-combobox` / `candor-listbox` / `candor-select`:** Hint text moved above the input following the GOV.UK Design System pattern — users encounter the hint before interacting with the field. Hint and error now coexist simultaneously (`aria-describedby` references both). `observeHostAriaLabel` wired on combobox, listbox, and select so `aria-label` on the host reaches the inner control without doubling.
+- **`candor-input` / `candor-combobox`:** `setValidity()` wired for required constraint validation — `:invalid` pseudo-class and form validation APIs work correctly.
+- **`candor-checkbox` / `candor-radio` / `candor-switch` / `candor-slider` / `candor-select` / `candor-combobox` / `candor-listbox`:** `setFormValue()` now called in `updated()` so initial and programmatic property changes register correctly in `FormData` without requiring a user interaction.
+- **`candor-accessible-text`:** `size` prop made optional — role defaults (14px) are no longer silently overridden when size is omitted. Styles moved to `:host` selectors for accurate DevTools inspection.
+- **`candor-accordion-item`:** Quiet variant now uses `font-optical-sizing: auto` + `GRAD -150` for visual weight differentiation, replacing the numeric `font-weight` step that felt engineered rather than designed.
+- **Build (`@candor-design/web-components`):** `npm run build:wc` failed under Vite 7 when UMD and ESM entry points were combined. The main library and `tone-data` entry are now built in two separate Vite passes. The `./tone-data` subpath in the `exports` map now resolves correctly for consumers.
+
+---
+
 ## [3.0.0] - 2026-04-20
 
 ### Breaking

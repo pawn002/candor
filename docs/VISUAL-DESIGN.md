@@ -133,13 +133,13 @@ Candor's palette is deliberately limited. The whole system resolves to a small s
 
 ### OKLCH as a reasoning tool
 
-OKLCH makes color decisions predictable. Because lightness is perceptually uniform, dropping L by 0.1 produces a predictable darkening regardless of hue. Because chroma is independent of lightness, a color can be muted without making it darker. This is why Candor uses OKLCH everywhere and why `cpqi` is the canonical tool for checking and adjusting values.
+OKLCH makes color decisions predictable. Because lightness is perceptually uniform, dropping L by 0.1 produces a predictable darkening regardless of hue. Because chroma is independent of lightness, a color can be muted without making it darker. This is why Candor uses OKLCH everywhere and why `klar` is the canonical tool for checking and adjusting values.
 
-**Always check gamut.** OKLCH describes a wider space than sRGB. A color that is out of the sRGB gamut will be silently clamped by the browser, and the result will not match the token. `cpqi meta` flags this.
+**Always check gamut.** OKLCH describes a wider space than sRGB. A color that is out of the sRGB gamut will be silently clamped by the browser, and the result will not match the token. `klar meta` flags this.
 
 ### Semantic tokens, not raw values
 
-The layering rule: raw OKLCH values belong in `semantics.scss`, where primitives are assigned semantic meaning. Component SCSS — everything in `src/app/components/` — should never contain a raw color value. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-status-error-text`, not a hand-picked red. `semantics.scss` is intentionally full of raw values; that is its job. Component code downstream of it should not be.
+The layering rule: raw OKLCH values belong in `semantics.scss`, where primitives are assigned semantic meaning. Component styles — the `static styles` of every Lit element in `src/web-components/components/` — should never contain a raw color value. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-status-error-text`, not a hand-picked red. `semantics.scss` is intentionally full of raw values; that is its job. Component code downstream of it should not be.
 
 This layering is what allows dark mode, theme variants, and future palette changes to work without touching component code.
 
@@ -165,7 +165,7 @@ Status base colors — used for icons, chip backgrounds, left-edge accents — a
 
 ### The link-color discipline
 
-Links must be hue-distinct from body text, not just contrast-compliant. A dark-blue link next to dark-gray body text at the same lightness is technically accessible and practically invisible. `--color-link` is azure (well-separated from the near-black body text hue) and visited links shift to purple via `--color-link-visited`. Underlines stay on for inline links in prose regardless.
+Links must be hue-distinct from body text, not just contrast-compliant. A dark-blue link next to dark-gray body text at the same lightness is technically accessible and practically invisible. `--color-link` is azure (well-separated from the near-black body text hue) and visited links shift to indigo via `--color-link-visited`. Underlines stay on for inline links in prose regardless.
 
 **Visited links use a double-underline cue, not just color.** Browser security restrictions mean `:visited` can only change color properties — `text-decoration-style: dotted` and similar are silently ignored. Candor's `Article` component works around this by pre-declaring a `border-bottom` on every link, colored transparent by default. On `:visited`, the border color is set to `--color-link-visited`, which makes it visible and produces a double underline (text-decoration + border) — a structural non-color cue that survives colorblindness. This pattern should be applied anywhere inline links appear in prose.
 
@@ -186,7 +186,7 @@ Dark mode is where clinical defaults are most tempting and most destructive.
 | Two AA-compliant colors, no separation | Link text and body text both pass contrast against white, but blend against each other | Links must differ by hue, not just lightness |
 | Pure white on pure black | `color: white; background: black;` or equivalent near-values | Use `--color-text-default` on `--color-bg-page` — both pre-tuned away from the extremes |
 | Dark surfaces that disappear into each other | Card on page with only a 0.03 L-step | Add `--color-border-default` or step L by ≥0.06 |
-| Out-of-gamut OKLCH | A chroma value the browser silently clamps | Run `cpqi meta` before committing new colors |
+| Out-of-gamut OKLCH | A chroma value the browser silently clamps | Run `klar meta` before committing new colors |
 
 ---
 
@@ -206,7 +206,7 @@ Images that serve none of these are filler, and filler signals that no one made 
 - **Icons are functional, not decorative.** The icon system is semantic: a checkmark means success, an exclamation means warning. Decorative icons (a sparkle next to a heading for "flair") dilute the semantics and should be removed.
 - **Iconography should pair with text wherever the icon's meaning is not universal.** An icon-only button without an accessible name fails both a11y and comprehension. A status indicator that uses only color (no icon, no text) does not qualify for Tier 3 — Tier 3 requires a redundant non-color channel. Without one, the indicator must meet the stricter Tier 2 threshold.
 - **Photography and illustration inherit the humanist frame.** A page of warm serif prose with a harsh, desaturated stock photo is incoherent. If photography is used in an Article or editorial surface, it should sit visually inside the system's palette — either through the image selection itself, or through treatment (warm overlay, border, container sized on the spatial grid).
-- **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`cpqi variants`).
+- **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`klar variants`).
 
 ### Traps
 
@@ -272,7 +272,7 @@ Likely causes, in order of frequency:
 
 - **Raw OKLCH values in components.** A developer picked a color directly instead of using a semantic token. Fix: replace with the correct semantic token; if none fits, the component's role is unclear.
 - **Status colors used decoratively.** A success-green used as a brand accent, or an error-red used for visual flair. Fix: decorative use breaks the semantics; pick a neutral or action token.
-- **Out-of-gamut OKLCH being clamped.** The rendered color does not match the token because it was out of sRGB. Fix: run `cpqi meta` and bring it in-gamut.
+- **Out-of-gamut OKLCH being clamped.** The rendered color does not match the token because it was out of sRGB. Fix: run `klar meta` and bring it in-gamut.
 
 ### Symptom: "I can't tell what's clickable"
 

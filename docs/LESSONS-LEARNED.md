@@ -129,11 +129,13 @@ At low L values (L < 0.30), large lightness steps produce negligible WCAG contra
 
 WCAG contrast ratio is luminance-based and useful for text-on-background legibility. For distinguishing two non-text backgrounds from each other, deltaE 2000 is more appropriate — it accounts for hue, chroma, and lightness interactions perceptually. The threshold of deltaE > 11 represents "clearly different" to a typical observer.
 
-`cpqi variants` uses deltaE 2000 internally with a default minimum of 11 — use this as the reference standard for background differentiation throughout the system.
+`klar variants` uses deltaE 2000 internally with a default minimum of 11 — use this as the reference standard for background differentiation throughout the system.
 
 ---
 
 ## Angular / Implementation
+
+> **Historical (3.0.0):** The Angular reference component library was removed in 3.0.0 — `@candor-design/web-components` is the canonical surface. The component-authoring lessons below (`ViewEncapsulation.None`, ID generation, `moduleMetadata`) are retained as institutional record but no longer apply to active authoring. The **exception** is the `withThemeByDataAttribute` lesson, which remains live: Storybook still runs on the `@storybook/angular` renderer (it renders the web-component stories too), so the custom theme decorator in `.storybook/preview.ts` is still load-bearing.
 
 ### ViewEncapsulation.None + host class for projected content styling
 
@@ -185,7 +187,7 @@ When a component always renders on a specific non-page background (e.g., blockqu
 
 OKLCH's gamut extends beyond sRGB, making it easy to author valid-looking colors that browsers clamp or shift unpredictably on sRGB displays. The warning status color (`oklch(0.66 0.16 53.54)`) was initially authored out of sRGB gamut — browsers silently shifted the hue.
 
-**Rule:** After authoring a new OKLCH color, run `cpqi meta <oklch>` or check `gamut: sRGB` in the output. If out of gamut, reduce chroma until it passes.
+**Rule:** After authoring a new OKLCH color, run `klar meta <oklch>` or check `gamut: sRGB` in the output. If out of gamut, reduce chroma until it passes.
 
 ---
 
@@ -247,11 +249,11 @@ Any token overridden in `@mixin dark-color-tokens` must also be explicitly set i
 
 ### OKLCH→sRGB rounding can silently miss the contrast threshold
 
-cpqi rounds OKLCH lightness to 2 decimal places, so two visually distinct hex values can report the same OKLCH L and the same contrast ratio. `oklch(0.57 0 0)` is documented as `#767676` (4.55:1 on white, passes AA) but browsers convert it to `#777777` (4.47:1 on white, fails). cpqi reports both as 4.5:1 — the discrepancy is invisible in the token file.
+klar rounds OKLCH lightness to 2 decimal places, so two visually distinct hex values can report the same OKLCH L and the same contrast ratio. `oklch(0.57 0 0)` is documented as `#767676` (4.55:1 on white, passes AA) but browsers convert it to `#777777` (4.47:1 on white, fails). klar reports both as 4.5:1 — the discrepancy is invisible in the token file.
 
-**The trap:** A token annotated `// 4.5:1 ✅` can still fail the axe accessibility scanner at runtime because the browser's OKLCH→sRGB conversion rounds differently than cpqi.
+**The trap:** A token annotated `// 4.5:1 ✅` can still fail the axe accessibility scanner at runtime because the browser's OKLCH→sRGB conversion rounds differently than klar.
 
-**Rule:** For any token sitting near a contrast threshold (4.5:1, 3:1), build in headroom — author at L=0.56 rather than L=0.57, or verify against the browser's reported hex via `getComputedStyle`. If the token is on the boundary and cpqi gives exactly 4.5, it may be 4.47 in practice.
+**Rule:** For any token sitting near a contrast threshold (4.5:1, 3:1), build in headroom — author at L=0.56 rather than L=0.57, or verify against the browser's reported hex via `getComputedStyle`. If the token is on the boundary and klar gives exactly 4.5, it may be 4.47 in practice.
 
 ---
 

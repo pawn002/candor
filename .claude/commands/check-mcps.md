@@ -4,17 +4,17 @@ Verify that required tools are available before starting design work.
 
 ## Required Tools
 
-1. **CPQI CLI** - Color accessibility validation
+1. **klar CLI** - Color accessibility validation
 2. **Playwright MCP** - Visual inspection and testing
 
 ## Your Task
 
 Perform availability checks by:
 
-1. **Test CPQI CLI**:
-   - Run `cpqi --version` in a bash shell
-   - If this succeeds, CPQI CLI is working
-   - If it fails with MODULE_NOT_FOUND, rebuild: `cd ~/path/to/cpqi-cli && npm run build && npm install -g . --force`
+1. **Test klar CLI**:
+   - Run `klar --version` in a bash shell
+   - If this succeeds, klar is working
+   - If unavailable: `npm install -g klar-cli`
 
 2. **Test Playwright MCP**:
    - Attempt `browser_close` to free any existing resource locks

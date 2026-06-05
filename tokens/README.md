@@ -6,7 +6,7 @@ See the [Candor Storybook](https://main--69c25e2492ad056c24329876.chromatic.com)
 
 ---
 
-Auto-generated distribution artifacts. Do not edit these files directly — run `npm run build:tokens` to regenerate from source (`src/design-tokens/`, `src/app/components/typography/article/`).
+Auto-generated distribution artifacts. Do not edit these files directly — run `npm run build:tokens` to regenerate from source (`src/design-tokens/`).
 
 ## Files
 
@@ -92,7 +92,7 @@ npm install @phosphor-icons/web
 
 ### Article prose styles (framework-agnostic)
 
-`candor-article.css` is a standalone prose stylesheet compiled from the same source as the Angular `<app-article>` component. It works in any framework — 11ty, Astro, Next.js, or plain HTML.
+`candor-article.css` is a standalone prose stylesheet compiled from `src/design-tokens/article.scss` — the same prose styling carried by the `<candor-article>` web component. It works in any framework — 11ty, Astro, Next.js, or plain HTML.
 
 ```html
 <link rel="stylesheet" href="path/to/candor-tokens.min.css">
@@ -247,7 +247,7 @@ Tokens include automatic dark mode support via two mechanisms:
 
 Raw values — color ramps, type scale, spacing scale. Prefixed by family:
 
-- `--navy-{50–900}`, `--burgundy-{50–900}`, `--azure-{50–900}`, `--purple-{50–900}`, `--gray-{0–900}`
+- `--navy-{50–900}`, `--burgundy-{50–900}`, `--azure-{50–900}`, `--indigo-{50–900}`, `--gray-{0–900}`
 - `--space-{1–12}`, `--text-{xs–3xl}`
 - `--font-{sans,accessible,mono,reading,serif}`, `--weight-{light–bold}`, `--leading-{tight–relaxed}`
 

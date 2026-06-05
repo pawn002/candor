@@ -7,9 +7,9 @@ Candor is a humanist design system. Every contribution — components, tokens, s
 ```bash
 npm install
 npm run storybook        # http://localhost:6006 — primary development environment (published: https://main--69c25e2492ad056c24329876.chromatic.com)
-npm start                # http://localhost:4200 — Angular dev server
+npm run build:wc         # Build @candor-design/web-components → web-components/dist/
+npm run build:tokens     # Build @candor-design/tokens → tokens/
 npm run test:playwright  # Playwright tests (auto-starts Storybook)
-npm test                 # Angular unit tests
 ```
 
 Node 20.16+, 22.19+, or 24+ is required (Storybook 10 ESM).
@@ -18,7 +18,7 @@ Node 20.16+, 22.19+, or 24+ is required (Storybook 10 ESM).
 
 Read `CLAUDE.md`. It covers:
 - Design token conventions (OKLCH format, no hard-coded values)
-- Angular patterns in use (zoneless mode, `@if`/`@for`, signal types, `ViewEncapsulation.None`)
+- Web component authoring conventions (Lit 3, attribute/property naming, custom events, `.prop` bindings for stateful form controls, the `aria-label` host-trap)
 - Accessibility authoring conventions (live regions, host element ARIA trap, landmark pollution)
 - Typography rules (Roboto Flex variable axes, Atkinson bold usage, tracking requirements)
 - Common pitfalls
@@ -43,11 +43,29 @@ Do not add a new semantic token without a corresponding usage in at least one co
 
 ## Component authoring
 
-1. Create the component in `src/app/components/<category>/`
-2. Each component needs: `.ts`, `.scss`, `.stories.ts`
-3. Import tokens: `@use '../../../design-tokens' as tokens;`
-4. Stories use CSF3 format — see existing stories for examples
-5. Stories must demonstrate correct consumer-level markup (see PR checklist — "Stories as AT documentation")
+Components are Lit 3 custom elements under `src/web-components/components/<category>/`. See the "Web Components Authoring Conventions" section of `CLAUDE.md` for the full conventions (attribute/property naming, custom events, `.prop` bindings, the `aria-label` host-trap).
+
+1. Create `candor-<name>.ts` — extend `LitElement`, register with `@customElement('candor-<name>')`, and put scoped CSS in a `static styles = css\`...\`` template literal (CSS custom properties pierce Shadow DOM, so all `var(--...)` tokens resolve automatically — never redeclare or hard-code token values inside a component)
+2. Create `candor-<name>.stories.ts` — use `title: 'Components/<Category>'` (or `Typography/`, `Form/`, `Examples/`) and the `render: (args) => ({ template: '...' })` pattern with raw HTML custom-element tags. Data flows in via JSON-encoded attributes, not `<script>` tags (the renderer strips them)
+3. Re-export from `src/web-components/index.ts` so the `@customElement()` side effect registers the tag
+4. Every component needs a `Default` story plus stories covering all significant variants and states
+5. Stories must demonstrate correct consumer-level markup the component cannot enforce (see PR checklist — "Stories as AT documentation")
+6. Run `npm run build:wc` to verify the build is clean
+
+**Form controls** use `ElementInternals` for native form participation:
+```typescript
+static formAssociated = true;
+private _internals = this.attachInternals();
+// On value change:
+this._internals.setFormValue(this.value);
+```
+
+**`candor-article`** uses light DOM to let prose styles reach projected content:
+```typescript
+override createRenderRoot() { return this; }
+```
+
+**Version:** keep `web-components/package.json` version in sync with `package.json`. Both are bumped together via the release scripts.
 
 ## Breaking changes
 

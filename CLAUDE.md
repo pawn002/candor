@@ -4,24 +4,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an Angular + Storybook design system playground built for AI-assisted design iteration with real-time accessibility validation. The primary workflow involves receiving art direction specs, implementing them in design tokens, and validating accessibility using the CPQI CLI for color contrast and Playwright MCP for visual inspection.
+Candor is a design system distributed as two layers, both developed in a single Storybook so the same stories validate every layer:
+
+1. **`@candor-design/tokens`** — the CSS custom-property layer (OKLCH colors, spacing, typography). Everything else is built on top of this.
+2. **`@candor-design/web-components`** — the primary, canonical consumer-facing component library: 34 Lit 3 custom elements. Framework-agnostic; the WC stories under `Components/`, `Typography/`, `Design Tokens/`, and `Examples/` are the only component surface.
+
+> An Angular standalone-component library (`src/app/`) previously mirrored this API as a feature-parity benchmark. It was **removed in 3.0.0** and was never published as a package. The Storybook toolchain still runs on `@storybook/angular` — it renders the web-component stories — so the Angular *build harness* (`angular.json`, `src/app/app.component.ts` bootstrap shell, `@storybook/angular`) remains; only the component library is gone.
+
+The workflow targets AI-assisted design iteration with real-time accessibility validation: receive art-direction specs, implement them in design tokens, validate accessibility using the klar CLI for color contrast, and inspect visually with Playwright MCP. Token changes propagate to the components because they consume the same CSS custom properties.
 
 ## Design Philosophy
 
 ### Candor is a humanist design system
 
-Candor's typefaces — Roboto Flex, Noto Serif, Atkinson Hyperlegible — are all drawn from the humanist tradition: letterforms shaped by the hand, designed for reading by people. The color system uses perceptual uniformity (OKLCH) precisely because it models human vision, not machine arithmetic. These are not incidental choices.
+Candor's typefaces and OKLCH color system model human vision and the humanist typographic tradition. Every element — including technical, data-heavy, or machine-generated content — should feel like a considered, human-authored artifact.
 
-**The principle:** Every element in Candor — including technical, data-heavy, or machine-generated content — should feel like it belongs to a considered, human-authored artifact. No component escapes this. Code blocks, data tables, monospace text, status indicators, and form chrome all exist within the humanist frame.
-
-**What this means in practice:**
-- Clinical harshness is not "appropriate for technical content" — it is a failure of the system's character. A code block in dark mode should not be a stark white rectangle interrupting a warm layout.
+- Clinical harshness is not "appropriate for technical content" — it is a failure of the system's character.
 - Maximum contrast is not automatically correct. 19.4:1 white-on-dark is a machine default, not a design decision.
-- When a component feels cold, flat, or mechanical, the question is not "is this the right aesthetic for this content type?" — it is "how do we bring this inside the system's character without losing its function?"
-
-**The tension to navigate:** Technical content has real legibility requirements — monospace, high contrast, clear delineation. The humanist position is not to ignore these. It is to meet them while preserving warmth, coherence, and the sense that a human made considered choices about every surface.
-
-**Flag this tension proactively.** When implementing any component where clinical defaults would be the easy choice — code blocks, tables, form inputs, data displays — name the humanist/legibility tension explicitly rather than silently resolving it one way or the other.
+- **Flag proactively:** when implementing components where clinical defaults would be easy (code blocks, tables, form inputs, data displays), name the humanist/legibility tension rather than silently resolving it.
 
 ---
 
@@ -29,8 +29,7 @@ Candor's typefaces — Roboto Flex, Noto Serif, Atkinson Hyperlegible — are al
 
 ### Development
 ```bash
-npm run storybook          # Start Storybook on http://localhost:6006
-npm start                  # Start Angular dev server on http://localhost:4200
+npm run storybook          # Start Storybook on http://localhost:6006 (primary dev environment)
 ```
 
 ### Testing
@@ -38,12 +37,12 @@ npm start                  # Start Angular dev server on http://localhost:4200
 npm run test:playwright    # Run all Playwright tests (auto-starts Storybook)
 npm run test:playwright:ui # Run Playwright in UI mode
 npx playwright show-report # View test results
-npm test                   # Run Angular unit tests (Karma)
 ```
 
 ### Building
 ```bash
-npm run build              # Build Angular app
+npm run build:tokens       # Build @candor-design/tokens → tokens/
+npm run build:wc           # Build @candor-design/web-components → web-components/dist/
 npm run build-storybook    # Build static Storybook
 ```
 
@@ -62,7 +61,7 @@ All visual styling flows from design tokens in `src/design-tokens/`:
 - **spacing.scss**: 8px grid system
 - **index.scss**: Aggregates and exports all tokens
 
-**Critical**: Always modify tokens first, never hard-code values in components. Components import tokens via `@use '../../../design-tokens'`.
+**Critical**: Always modify tokens first, never hard-code values in components. Component `static styles` reference tokens as CSS custom properties (`var(--color-...)`), which pierce the Shadow DOM automatically — never redeclare or hard-code token values inside a component.
 
 ### OKLCH Color Space
 
@@ -71,26 +70,22 @@ Colors use OKLCH format: `oklch(L C H)` where:
 - C = chroma/saturation
 - H = hue (degrees)
 
-**Why OKLCH**:
-- Perceptually uniform (unlike hex/RGB)
-- Predictable lightness manipulation
-- CPQI CLI works natively with OKLCH
-- Easier for AI to generate/manipulate programmatically
 
 ### Component Structure
 
-Angular standalone components in `src/app/components/`:
-- Each component has: `.ts`, `.scss`, `.stories.ts` files
-- Stories demonstrate all variants and states
-- Components use `:host` selector for scoping
-- All components are standalone (no NgModule)
+The component library is the Lit 3 web components in `src/web-components/components/`:
+- Each component has a `candor-{name}.ts` (Lit class) + `candor-{name}.stories.ts`. Styles live inside the class via `static styles = css\`...\``.
+- Stories use the `@storybook/angular` `Meta` type (the Storybook renderer is Angular-based) and render via `template:` literal strings containing custom-element markup.
+- Components register themselves on import via `@customElement('candor-{name}')` — pulling `src/web-components/index.ts` is enough to register all 34 tags.
+- Shadow DOM by default. CSS custom properties pierce shadow boundaries, so tokens reach inner styles without per-component injection.
 
 **Component categories**:
-- `typography/`: heading, text
+- `typography/`: heading, text, accessible-text, article
 - `button/`: button with variants (primary, secondary, tertiary, ghost)
-- `form/`: input, checkbox, radio
-- `spacing/`: spacing-showcase
-- `examples/`: composed component examples (card-example, form-example)
+- `form/`: input, checkbox, radio, switch, slider, select, listbox, combobox, chat-input
+- `data/`: table, data-grid, tone-picker
+- `overlays/`: modal, drawer, tooltip, toast
+- `examples/`: composed stories (color-iterator, settings, article, chat, editor, etc.)
 
 ### Storybook Configuration
 
@@ -112,24 +107,57 @@ Angular standalone components in `src/app/components/`:
 ### Typical Session Flow
 
 1. **Receive art direction**: Colors (hex), fonts, spacing requirements
-2. **Convert to OKLCH**: Run `cpqi meta <hex>` on each color to get exact OKLCH values
-3. **Update tokens**: Modify `src/design-tokens/colors.scss` and other token files
+2. **Convert to OKLCH**: Run `klar meta <hex>` on each color to get exact OKLCH values
+3. **Update tokens**: Modify `src/design-tokens/semantics.scss` (or `primitives.scss`). After any change, re-export the DTCG artifact: `npm run audit:tokens`
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
 5. **Mobile check**: Switch Storybook's viewport toolbar to **mobile1 (320 × 568)** and verify: no horizontal overflow, no clipped interactive elements, no layout broken by a fixed column count
-6. **Accessibility validation**: Run `cpqi contrast <fg> <bg> -q` to check contrast ratios
-7. **Iterate**: If violations found, run `cpqi find <bg> <color> --target 4.5 -q` for compliant alternatives
+6. **Accessibility validation**: Run `klar contrast <fg> <bg> -q` to check contrast ratios. For each token you changed, grep `audit/pairings.json` for its DTCG name (e.g. `color.text.subtle`) to find every pairing that references it — then validate each with klar. The `min` field in each pairing entry is the Candor-policy OKCA floor for that pairing.
+7. **Iterate**: If violations found, run `klar find <bg> <color> --target 4.5 -q` for compliant alternatives
 8. **Report**: Document original specs vs. final implementation, constraints identified
+
+### Audit Artifacts
+
+Two machine-readable files in `audit/` serve as the canonical inputs for contrast audits. Keep them current as tokens and components evolve.
+
+**`audit/tokens.dtcg.json`** — auto-generated, do not edit by hand.
+- Produced by `npm run audit:tokens` (runs `scripts/export-tokens-dtcg.js`).
+- Contains all `--color-*` tokens with resolved `oklch()` values in W3C DTCG format, split into `light` and `dark` mode objects.
+- Tokens annotated "icon/border use" in `semantics.scss` carry `$extensions.usage: "non-text"` — these are the tokens that must NOT be used as CSS `color:` values for text.
+- Re-run whenever `src/design-tokens/semantics.scss` or `src/design-tokens/primitives.scss` changes.
+
+**`audit/pairings.json`** — hand-authored, update alongside component changes.
+- 87 foreground/background pairings covering all 34 WC components.
+- Each entry: `{ id, fg, bg, size, weight, min }` using DTCG token references (`{color.status.error-text}`) and an explicit pixel size and weight.
+- `min` is the Candor-policy OKCA floor for that specific pairing — it encodes the tier table from the "OKCA Contrast Thresholds" section above. It is **not** a klar/OKCA standard; it belongs to this design system.
+- When you change a color token: grep `audit/pairings.json` for the token name → find every affected pairing → re-validate those pairs with `klar contrast`.
+- When you add a new component: add entries for every unique `color:` declaration in the component's CSS, following the tier classification rules above.
+- When you add a new semantic token or rename one: update both `tokens.dtcg.json` (re-run the script) and any pairings that reference the old token name.
 
 ### Integration Points
 
-**CPQI CLI** (`cpqi --version` to confirm availability):
+**klar CLI** (`klar --version` to confirm availability):
+All klar commands accept both `<hex>` and `oklch(L C H)` CSS color strings as inputs — pass OKLCH values directly without converting to hex first.
+
 ```bash
-cpqi meta <hex>                        # Convert hex → OKLCH + color metadata
-cpqi contrast <fg> <bg> -q             # Check contrast ratio (WCAG/APCA)
-cpqi find <bg> <color> --target 4.5 -q # Find lightness-adjusted compliant color
-cpqi variants <hex>                    # Generate a tonal palette
-cpqi match <hex>                       # Find nearest named/brand color
+klar meta <color>                                    # Inspect a color: OKLCH axes, saturation, gamut
+klar contrast <fg> <bg> -q                           # Check contrast ratio (OKCA, WCAG-compatible)
+klar contrast <fg> <bg> --type deltaE -q             # Perceptual drift between two colors
+klar contrast <fg> <bg> --type apca -q               # APCA Lc score
+klar find <bg> <color> --target 4.5 -q               # Find lightness-adjusted compliant color
+klar variants <color>                                # Generate a perceptually-spaced tonal grid
+klar match <color1> <color2>                         # Match chroma of two colors for palette harmony
+klar lightness <color>                               # Min/max lightness range for a color in sRGB gamut
+klar pair                                            # Random accessible color pair (seed for exploration)
+klar plugins list                                    # List installed contrast algorithm plugins
 ```
+
+**klar key rules:**
+- **OKCA is the default** — WCAG 2.x-compatible ratio on the 1–21 scale, no `--type` flag needed
+- **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Light-on-dark caps near 21; dark-on-light caps near 20; the same chromatic pair returns different numbers when swapped
+- **deltaE is the art director's metric** — answers "did it change much?"; < 3 imperceptible, 5–10 acceptable drift, 11+ clearly different
+- **Installed plugins** (available via `--type`): `apca` (APCA Lc), `bpca` (Bridge-PCA WCAG ratio), `min-dimension` (minimum px size for non-text UI elements)
+
+See `docs/KLAR-INTEGRATION.md` for full command reference (local file, not in repo).
 
 **When Playwright MCP is connected**:
 - Navigate to stories: `browser_navigate`
@@ -162,25 +190,60 @@ See `docs/LESSONS-LEARNED.md` for the full rationale.
 
 ### Atkinson Hyperlegible (`--font-family-accessible`)
 
-Atkinson is the designated typeface for **critical UI text** — form labels, error messages, status indicators, annotations, and badges. Its wider letterforms, open counters, and distinctive glyphs provide strong legibility at small sizes without needing weight support.
+Atkinson is the designated typeface for **instructional UI text** — text the user must read precisely to know what to do next.
 
-**Bold weight rules for Atkinson:**
-- **Use bold only for hierarchy/labeling** — form field labels, section headings, structural anchors where a clear visual break is needed
-- **Do NOT use bold for urgency or emphasis** — error messages, warnings, status text, and annotations should use regular weight (400). The typeface's inherent legibility and the semantic color (red for error, etc.) carry the urgency signal. Bold on top of Atkinson reads as double-emphasis and disrupts hierarchy
-- The `--bold` modifier on `AccessibleTextComponent` exists for intentional overrides but should rarely be needed outside of `role="label"` contexts
+#### Instruction vs. comprehension — the core authoring decision
 
-**Why this matters:** Atkinson performs so well at regular weight that bold becomes a hierarchy signal, not a legibility aid. Overusing bold flattens the hierarchy and makes everything feel heavy.
+The question is not "is this text important?" All text in a well-designed UI is important. The question is: **does the user need to read this precisely to know what to do next?**
 
-**Correct usage:**
+- **Use Atkinson (`candor-accessible-text`)** for instructional text: form field labels, validation errors, status changes, action-required hints. The user must read these correctly to take the right action.
+- **Use Roboto Flex (`--font-family-base`)** for comprehension text: data values, classification results, section headings that organise data, body prose. The user reads these to form a judgment, not to follow an instruction.
+
+**Examples of the distinction:**
 ```html
-<!-- ✓ Bold for label — structural anchor -->
-<app-accessible-text role="label" [bold]="true">National Insurance number</app-accessible-text>
+<!-- ✓ Instructional — user must read this to know what to fix -->
+<candor-accessible-text role_="status" color="error">Enter a valid National Insurance number.</candor-accessible-text>
 
+<!-- ✗ Not instructional — user reads this to understand data -->
+<candor-accessible-text role_="annotation">87% confidence</candor-accessible-text>
+<!-- ✓ Correct for comprehension data -->
+<span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">87%</span>
+```
+
+**Section headings that label data** (e.g. "Classification breakdown") are comprehension text — they organise data, they don't instruct. Use `<candor-text variant="label">` (Roboto Flex uppercase) not `<candor-accessible-text role_="label">`.
+
+#### The four roles
+
+| Role | Use case | Size | Weight | Style |
+|---|---|---|---|---|
+| `label` | Form field labels, structural anchors in instructional contexts | 14px | bold | uppercase |
+| `message` | System messages, body-length guidance the user must act on | 16px | regular | — |
+| `status` | Validation errors, live counters, state changes | 14px | regular | — |
+| `annotation` | Hints, constraints, legal small print that guide an action | 14px | regular | italic |
+
+#### Label casing
+
+Form field labels and structural UI anchors are both "labels" but follow different casing rules:
+
+| Context | Casing | Example |
+|---|---|---|
+| Form field label (`<label>` inside form components) | Sentence case | "Birth month", "Email address" |
+| Structural UI anchor (`candor-accessible-text role_="label"`) | Uppercase (via CSS) | "PAGE BACKGROUND", "SURFACE BACKGROUND" |
+
+**The test:** does the user fill it in? → sentence case. Does it label a region or column of the UI? → uppercase Atkinson anchor.
+
+#### Bold weight rules
+
+- **Use bold only for hierarchy/labeling** — `role_="label"` renders bold automatically
+- **Do NOT use bold for urgency** — error messages and status text use regular weight; the error color carries urgency. Bold on top of error color is double-emphasis and disrupts hierarchy
+- The `bold` attribute exists for intentional overrides but should rarely be needed outside of `role_="label"` contexts
+
+```html
 <!-- ✓ Regular for status — color carries urgency -->
-<app-accessible-text role="status" color="error">Enter a valid number.</app-accessible-text>
+<candor-accessible-text role_="status" color="error">Enter a valid number.</candor-accessible-text>
 
 <!-- ✗ Wrong — bold + error color is double-emphasis -->
-<app-accessible-text role="status" color="error" [bold]="true">Enter a valid number.</app-accessible-text>
+<candor-accessible-text role_="status" color="error" bold>Enter a valid number.</candor-accessible-text>
 ```
 
 ### Atkinson Tracking
@@ -189,11 +252,37 @@ Atkinson Hyperlegible requires positive letter-spacing to prevent glyph clusteri
 
 | Context | Value | Reason |
 |---|---|---|
-| Badges | `0.06em` | Small size (14px) needs more air |
-| Body roles (message, status, annotation) | `0.02em` | 16px has more natural spacing |
+| Badges, chips, breadcrumbs | `0.04em`–`0.06em` | UI signal — elevated tracking marks the element as a label or interactive UI unit |
+| Body roles (message, status, annotation) | `0.02em` | Prose-like — should blend with surrounding text, not read as a UI label |
 | Labels (uppercase) | `var(--letter-spacing-wide)` = `0.05em` | Uppercase already benefits from tracking |
 
+**The underlying principle:** tracking is a UI signal, not just a legibility fix. Elevated tracking (0.04em–0.06em) tells the reader "this is a UI element." Annotation prose (disclaimers, footnotes, hints) intentionally stays at `0.02em` even at 14px — it should feel like a paragraph, not a label. Applying badge-level tracking to a footnote would make it read as a structural element when it isn't.
+
 **Never use `letter-spacing: 0` or `--letter-spacing-normal` with Atkinson** — always apply positive tracking.
+
+### candor-article: font and justify attributes
+
+`<candor-article>` is the long-form prose component. Its two attributes:
+
+- **`font="serif"` (default)** — Noto Serif. For human-authored or AI-generated articles, reports, editorial content, and deliberation summaries. Same font for both human and AI prose — the serif register signals "produced artifact, read carefully."
+- **`font="sans"`** — Noto Sans. For UI paragraphs that require sentence-by-sentence reading but aren't authored content: help documentation, onboarding, release notes.
+- **`justify`** — Full justification + hyphenation for `<p>` elements. **Required for AI-generated prose.** See below.
+
+#### The `justify` attribute — AI transparency feature
+
+```html
+<candor-article font="serif" justify lang="en">
+  <p>AI-generated content here.</p>
+</candor-article>
+```
+
+Full justification creates clean block edges — a typographic register associated with formal produced documents. Human-authored prose has a natural ragged right edge. This visual distinction allows readers to identify AI output **immediately and without labels** in critical workflows.
+
+This is a **systems transparency feature**, not a stylistic preference. In high-stakes contexts (planning decisions, medical summaries, legal briefs), users must never have to read carefully to determine whether content was produced by a human or a model. The typographic register makes the distinction automatic and ambient. It also aligns with the spirit of EU AI Act Article 52 disclosure requirements — a persistent designed-in transparency mechanism rather than a pop-up checkbox.
+
+**The formal register does not make AI feel cold.** Content tone is a separate axis from typographic register. AI output can be written warmly; the justification signals origin, not personality.
+
+**Requirements:** Always set `lang="en"` (or the appropriate BCP 47 tag) on the element or an ancestor — `hyphens: auto` requires this to look up hyphenation dictionaries. Justification applies to `<p>` only; headings remain left-aligned.
 
 ### Text Size Floor
 
@@ -219,13 +308,14 @@ Contrast requirements have **two axes**: font size and use-case tier. **Never ap
 |---|---|---|---|---|
 | **1 — Reading** | Sequential decoding — must read to act | **9.5** | **6.5** | Alert body, toast message, modal prose, form error messages, article body |
 | **2 — Functional UI** | Recognition — sole channel for meaning | **6.5** | **4.5** | Pagination numbers, breadcrumb links, table cell data, chip labels, button labels |
-| **3 — Supplementary** | Pattern match — meaning redundantly coded | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata, breadcrumb separators, pagination ellipsis |
+| **3 — Supplementary** | Pattern match — meaning redundantly coded | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata, breadcrumb separators, pagination ellipsis, accordion quiet headings (wght 500 — structural nesting is the redundant channel) |
 
 **Key audit rules:**
 - `--color-text-subtle` (OKCA 4.6 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
-- Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight**, not a color change or size bump.
+- Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight (wght ≥ 700)**, not a color change or size bump.
 - Tier 1 failures at 14px are genuine and typically require bumping to 16px (e.g. alert body, toast).
 - Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position) — it is assigned by the system, not a consumer opt-in.
+- **Variable font weight axis**: "bold" means `wght ≥ 700`. Non-`wght` axes — `GRAD`, `opsz`, `wdth` — affect perceived stroke weight visually but do not change the compliance column. A component at `font-weight: 500` with `GRAD: -150` is regular for compliance purposes regardless of visual appearance.
 
 ## Responsive Layout Patterns
 
@@ -274,182 +364,242 @@ $color-primary: oklch(0.55 0.18 250); // Always use OKLCH format
 
 ### Creating New Components
 
-1. Use Angular CLI or manual creation in `src/app/components/`
-2. Create standalone component with SCSS
-3. Import design tokens: `@use '../../../design-tokens' as tokens;`
-4. Create `.stories.ts` file showcasing all variants
-5. Export stories using CSF3 format
+1. Create a Lit element in `src/web-components/components/<category>/candor-<name>.ts` — extend `LitElement`, register with `@customElement('candor-<name>')`
+2. Put scoped CSS in `static styles = css\`...\``; reference tokens as `var(--...)` custom properties — never redeclare or hard-code token values
+3. Create `candor-<name>.stories.ts` showcasing all variants, including a `Default` story
+4. Re-export from `src/web-components/index.ts` so the `@customElement()` side effect registers the tag
+5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value.
+
+See "Web Components Authoring Conventions" below for the full conventions.
 
 ### Storybook Stories Format
 
-Use Component Story Format 3 (CSF3):
+Use Component Story Format 3 (CSF3). The Storybook renderer is `@storybook/angular`, so the `Meta` type comes from there, but WC stories render raw custom-element markup via `render: (args) => ({ template })` — there is no `component:` field:
 ```typescript
 import type { Meta, StoryObj } from '@storybook/angular';
 
-const meta: Meta<ComponentName> = {
-  title: 'Category/ComponentName',
-  component: ComponentName,
+const meta: Meta = {
+  title: 'Components/Badge',
   tags: ['autodocs'],
+  argTypes: {
+    variant: { control: 'select', options: ['default', 'primary', 'success'] },
+  },
+  args: { variant: 'primary' },
+  render: (args) => ({
+    template: `<candor-badge variant="${args['variant']}">Badge</candor-badge>`,
+  }),
 };
 
 export default meta;
-type Story = StoryObj<ComponentName>;
+type Story = StoryObj;
 
-export const Default: Story = {
-  args: {},
-};
+export const Default: Story = {};
 ```
 
-## Angular Configuration Notes
+## Toolchain Notes
 
-- Angular 21 (latest stable)
-- Standalone components by default (configured in angular.json schematics)
-- TypeScript 5.9
-- SCSS for styling
-- Component prefix: `app`
-- Storybook builders configured in angular.json architect section
-- **Zoneless mode enabled** - Zone.js is NOT included in polyfills (Angular 21+ zoneless change detection)
+The component library is web components (Lit 3) — see "Web Components Authoring Conventions" below for all authoring guidance. The Angular *build harness* remains in place purely to drive Storybook:
 
-### Angular Control Flow Syntax (Zoneless Compatibility)
+- Storybook runs on the `@storybook/angular` builder (`angular.json` → `storybook` / `build-storybook` architect targets), which renders the web-component stories. This is why story files import the `Meta` type from `@storybook/angular`.
+- `src/app/app.component.ts` is a minimal bootstrap shell that the `design-system-playground:build` target (referenced by the Storybook builder) needs to resolve. It is not a component surface — do not add components under `src/app/`.
+- TypeScript 5.9. Tokens are authored in SCSS under `src/design-tokens/` and compiled to CSS by `npm run build:tokens`.
 
-**CRITICAL**: This project uses Angular's modern built-in control flow syntax and runs in **zoneless mode**. You MUST use the following:
+> The Angular standalone-component library was removed in 3.0.0. Authoring patterns that were Angular-specific (built-in control flow, signals/`model()`, zoneless change detection, `ViewEncapsulation`) no longer apply. The web-component equivalents (Shadow DOM scoping, `.prop` bindings, the `aria-label` host-trap) are documented below.
 
-- **`@if` / `@else`** - NEVER use `*ngIf` or `NgIf` directive (requires Zone.js)
-- **`@for`** - NEVER use `*ngFor` or `NgFor` directive (requires Zone.js)
-- **`@switch` / `@case`** - NEVER use `[ngSwitch]`, `*ngSwitchCase`, or NgSwitch directives (requires Zone.js)
+## Web Components Authoring Conventions
 
-**Why this matters**: Old directive-based syntax (`*ngIf`, `*ngFor`, `NgSwitch`) requires Zone.js for change detection. Built-in control flow (`@if`, `@for`, `@switch`) works perfectly in zoneless mode and is the future of Angular.
+The WC library is the primary consumer-facing distribution. It is built on **Lit 3**, ships as `@candor-design/web-components`, and runs in any framework (or none).
 
-**Correct examples**:
+### Component shape
+
 ```typescript
-// ✓ CORRECT - Use @if
-@if (condition) {
-  <div>Content</div>
+import { LitElement, css, html, nothing } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+
+@customElement('candor-foo')
+export class CandorFoo extends LitElement {
+  static override styles = css`
+    :host { display: block; }
+    /* shadow-DOM-scoped CSS — design tokens reach inside via custom properties */
+  `;
+
+  @property() label = '';                                            // string attribute
+  @property({ type: Boolean, reflect: true }) open = false;          // bool, reflected to DOM
+  @property({ type: Array, attribute: 'menu-items' }) items = [];    // JSON-parsed from attribute
+  // For aria-label: don't use @property — use observeHostAriaLabel (see "aria-label host-trap" below)
+  @state() private _internal = 0;                                    // reactive but not part of public API
+
+  override render() {
+    return html`<button @click=${this._onClick}>${this.label}</button>`;
+  }
+
+  private _onClick = () => {
+    this.dispatchEvent(new CustomEvent('foo-select', {
+      detail: { value: this.label },
+      bubbles: true,
+      composed: true,
+    }));
+  };
 }
 
-// ✓ CORRECT - Use @for
-@for (item of items; track item.id) {
-  <div>{{ item.name }}</div>
-}
-
-// ✓ CORRECT - Use @switch
-@switch (value) {
-  @case ('option1') {
-    <div>Option 1</div>
-  }
-  @case ('option2') {
-    <div>Option 2</div>
-  }
+declare global {
+  interface HTMLElementTagNameMap { 'candor-foo': CandorFoo; }
 }
 ```
 
-**Incorrect examples**:
+Register the component in `src/web-components/index.ts` via `export * from './components/foo/candor-foo';`. The `@customElement()` call runs at import time, so a bare side-effect import registers the tag.
+
+### Attribute / property naming
+
+Lit's `@property()` lowercases the property name when computing the default HTML attribute name. So `columnHeaders` → attribute `columnheaders`, but the **JS property remains camelCase**.
+
+**Always set an explicit kebab-case attribute on multi-word properties** so HTML markup is readable:
+
 ```typescript
-// ✗ WRONG - Don't use *ngIf
-<div *ngIf="condition">Content</div>
-
-// ✗ WRONG - Don't use *ngFor
-<div *ngFor="let item of items">{{ item.name }}</div>
-
-// ✗ WRONG - Don't use ngSwitch
-<div [ngSwitch]="value">
-  <div *ngSwitchCase="'option1'">Option 1</div>
-</div>
+@property({ type: Array, attribute: 'column-headers' }) columnHeaders: string[] = [];
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ — without this, attribute is "columnheaders"
 ```
 
-**Important notes**:
-- Built-in control flow does NOT require imports (no `NgIf`, `NgFor`, `NgSwitch` in component imports)
-- Built-in control flow works correctly with Zone.js enabled
-- When refactoring existing code, always convert old directives to built-in syntax
+**Pass JSON via attributes** (matches the data-grid story pattern):
 
-### Angular Signal Types — Binding Behaviour
+```html
+<candor-data-grid
+  rows='${JSON.stringify(rows)}'
+  column-headers='${JSON.stringify(headers)}'>
+</candor-data-grid>
+```
 
-| Signal type | Bindable from parent template? | Use when |
+`@property({ type: Array })` calls `JSON.parse()` on the attribute value automatically. JS-side setters use the camelCase name (`el.columnHeaders = [...]`), not the lowercased attribute name.
+
+### Custom events
+
+Outputs are DOM `CustomEvent`s. Always set `bubbles: true, composed: true` so the event crosses the shadow boundary; otherwise listeners on light-DOM ancestors never see it. Use kebab-case event names (`color-select`, `cell-activate`) to match HTML convention.
+
+Add the event to the global event map if consumers need typed listeners — though most projects bind via `@event-name=...` in templates and don't need this.
+
+### aria-label host-trap
+
+ARIA attributes on the custom element host (`<candor-input aria-label="Email">`) do **not** propagate to the inner `<input>` inside the shadow DOM — browsers treat the host as a generic container for ARIA purposes — AND if you simply mirror the attribute inward, the host also gets a named generic in the AT tree, so screen readers hear the name **twice**.
+
+The fix is two-step: mirror the value inward AND strip the attribute off the host. `role="none"` on the host is **not** sufficient — ARIA's presentational-role conflict resolution preserves the host's accessible name when `aria-label` is set. The attribute itself must be removed.
+
+Use the shared `observeHostAriaLabel` helper from `src/web-components/utils/host-aria.ts` — it installs a MutationObserver, mirrors the value into your state, and strips the attribute off the host:
+
+```typescript
+import { observeHostAriaLabel } from '../../utils/host-aria';
+
+@state() private _ariaLabel = '';
+private _stopObservingAriaLabel?: () => void;
+
+override connectedCallback() {
+  super.connectedCallback();
+  this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+}
+
+override disconnectedCallback() {
+  this._stopObservingAriaLabel?.();
+  super.disconnectedCallback();
+}
+
+render() {
+  return html`<input aria-label=${this._ariaLabel || nothing} />`;
+}
+```
+
+**Don't** use `@property({ attribute: 'aria-label' })` for this — Lit's attribute observer would re-clear your cached value the moment you strip the attribute, defeating the fix. Manual observation via the helper avoids the reflection loop.
+
+### Storybook templates: data must flow via attributes, not `<script>`
+
+The Storybook stories render through the `@storybook/angular` builder. The renderer **strips inline `<script>` tags** from `template:` strings, so this pattern silently leaves elements empty:
+
+```html
+<!-- ✗ WRONG — script tag is stripped, element gets no rows -->
+<candor-data-grid id="my-grid"></candor-data-grid>
+<script>document.getElementById('my-grid').rows = [...];</script>
+```
+
+Use attribute injection instead:
+
+```html
+<!-- ✓ CORRECT -->
+<candor-data-grid rows='${JSON.stringify(rows)}' column-headers='${JSON.stringify(headers)}'></candor-data-grid>
+```
+
+### Stateful form-element bindings: use `.prop`, not `?attr`
+
+Native form controls (`<input checked>`, `<input value>`, `<select value>`, `<option selected>`, `<details open>`, …) have a divergent state model: the HTML attribute (`checked`, `open`, …) seeds the *initial* state, but once the user interacts, the live **IDL property** (`input.checked`, `details.open`, …) is the source of truth. The attribute and the property drift apart.
+
+Lit's `?attr` binding writes the HTML attribute, which diverges from the live IDL property (`input.checked`, `details.open`) after user interaction. The bug is invisible on screen and only surfaces programmatically.
+
+**Use property binding for these cases** (Lit `.prop` syntax assigns the JS property each render, overriding the live state):
+
+```html
+<!-- ✗ WRONG — attribute binding, diverges from live state after user click -->
+<input type="checkbox" ?checked="${this.checked}" />
+
+<!-- ✓ CORRECT — property binding, always reflects host state -->
+<input type="checkbox" .checked="${this.checked}" />
+```
+
+Apply to: `<input>.checked`, `<input>.value`, `<select>.value`, `<option>.selected`, `<details>.open`, `<dialog>.open`. (Dialog also wants `showModal()` / `close()` methods rather than `open` set directly — see candor-modal.)
+
+**Mirror state back from user interactions.** Property binding only fixes the "host → DOM" direction. For the "DOM → host" direction (user clicks/types, host state needs to update), listen to the appropriate change event:
+
+| Element | Event | Property to sync back |
 |---|---|---|
-| `signal<T>(value)` | No — internal state only | Value is owned by this component, never set from outside |
-| `input<T>()` | Yes — one-way `[prop]="value"` | Read-only input from parent |
-| `model<T>()` | Yes — two-way `[(prop)]="value"` | Value can flow in and out (selected item, toggle state) |
+| `<input type="checkbox\|radio">` | `change` | `this.checked = e.target.checked` |
+| `<input type="text\|email\|…">` / `<textarea>` | `input` | `this.value = e.target.value` |
+| `<select>` | `change` | `this.value = e.target.value` |
+| `<details>` | `toggle` | `this.open = e.target.open` |
 
-**The trap:** Using `signal()` where `model()` is needed silently breaks parent template bindings — no error is thrown and the binding is silently ignored. If a story or parent needs to set an initial value or react to changes, the component signal must be `model()`, not `signal()`.
+Without the toggle listener on `<details>`, the host's `open` property silently desyncs whenever the user clicks the `<summary>`.
 
-### Zoneless + setTimeout
+### Shadow DOM scoping
 
-`setTimeout` callbacks do not trigger change detection in zoneless mode. If you mutate a signal inside `setTimeout`, call `cdr.markForCheck()` immediately after:
+All components use the default shadow DOM. Token CSS custom properties (`--color-…`, `--font-…`, `--spacing-…`) pierce shadow boundaries automatically — loading `candor-tokens.css` once in the consumer page is enough. Do **not** redeclare tokens inside `static styles` or hard-code OKLCH values.
 
-```typescript
-private cdr = inject(ChangeDetectorRef);
+For projected content (`<slot>`), use `::slotted()` selectors:
 
-onSend() {
-  this.statusMessage.set('');
-  setTimeout(() => {
-    this.statusMessage.set('Message sent');
-    this.cdr.markForCheck(); // required — zoneless doesn't detect setTimeout mutations
-  }, 0);
-}
+```css
+::slotted(svg) { width: 1em; height: 1em; }
 ```
 
-### View Encapsulation and Projected Content
+`::slotted()` only matches direct children of the slot, not descendants. For deeper styling, expose CSS custom properties consumers can set from outside.
 
-**NEVER use `::ng-deep`** — it is deprecated by the Angular team and will be removed.
+### Lit lifecycle quick reference
 
-When a component needs to style projected content (i.e., elements passed via `<ng-content>` or as string literals in stories), use `ViewEncapsulation.None` instead:
+| Hook | When | Use for |
+|---|---|---|
+| `connectedCallback()` | Element inserted into DOM | Subscribing to global events; remember to call `super.connectedCallback()` |
+| `willUpdate(changed)` | Before each render | React to property changes that should affect this render |
+| `updated(changed)` | After DOM is updated | Focus management, querying the shadow root |
+| `disconnectedCallback()` | Element removed | Cleanup; remember `super.disconnectedCallback()` |
 
-```typescript
-import { Component, ViewEncapsulation } from '@angular/core';
-
-@Component({
-  selector: 'app-article',
-  encapsulation: ViewEncapsulation.None,
-  // ...
-})
-```
-
-With `ViewEncapsulation.None`, Angular does not add scoping attributes, so descendant selectors in the component's SCSS reach projected elements. Scope the styles manually using the host element's class (set via the `host` binding) to prevent leakage:
-
-```scss
-// article.component.scss — scoped via host class, no ::ng-deep needed
-.article {
-  h1, h2, h3, h4 { ... }
-  p { ... }
-}
-```
-
-**Why `::ng-deep` fails for projected content**: Angular's emulated encapsulation adds a unique attribute (e.g. `_ngcontent-xxx`) to elements in the component's own template. Elements projected from outside (string literals in stories, or content from a parent template) receive the *parent's* scoping attribute, not the component's — so `:host h1 { }` never matches them. `ViewEncapsulation.None` sidesteps this entirely.
+`willUpdate` is the equivalent of Angular's `effect()` for reacting to input changes — check `changed.has('propName')` to gate the work.
 
 ## Accessibility Authoring Conventions
 
-These patterns emerged from the 26-component A11Y audit. See `docs/A11Y-AUDIT.md` for per-component findings and `docs/A11Y-ANALYSIS.md` for cross-cutting trend analysis.
+These patterns emerged from the 26-component A11Y audit. See `docs/A11Y-AUDIT.md` for per-component findings (currently transitioning to a WC-focused, screen-reader-persona scope; historical Angular findings preserved in the same file) and `docs/archive/A11Y-ANALYSIS.md` for cross-cutting trend analysis from the Angular-era audit.
 
 ### Live region pre-establishment
 
-A live region must exist in the DOM **before** content arrives. The `@if` belongs inside the region, not wrapping it:
-
-```html
-<!-- ✓ Region always in DOM — empty when unused -->
-<div role="status" aria-live="polite" aria-atomic="true">
-  @if (condition) { {{ message }} }
-</div>
-
-<!-- ✗ Region removed from DOM — AT misses the change -->
-@if (condition) {
-  <div role="status" aria-live="polite">{{ message }}</div>
-}
-```
-
-### Host element ARIA trap (Angular-specific)
-
-`aria-label` placed on `<app-foo>` in a consumer template **does not propagate** to the inner `<input>` or other interactive element inside the component. The host element is a generic container.
-
-Fix: expose an `ariaLabel = input<string>()` on the component class and bind it to the inner element:
+A live region must exist in the DOM **before** content arrives. The conditional belongs *inside* the region, not wrapping it:
 
 ```typescript
-ariaLabel = input<string>(); // in component class
-```
-```html
-<input [attr.aria-label]="ariaLabel() || null" ...> <!-- in component template -->
-```
+// ✓ Region always in DOM — empty when unused
+html`
+  <div role="status" aria-live="polite" aria-atomic="true">
+    ${this.message ? this.message : nothing}
+  </div>
+`
 
-This convention is established on: Switch, Slider, Button.
+// ✗ Region removed from DOM — AT misses the change
+html`
+  ${this.message
+    ? html`<div role="status" aria-live="polite">${this.message}</div>`
+    : nothing}
+`
+```
 
 ### Landmark pollution in dialogs/panels
 
@@ -469,51 +619,49 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 ## Common Pitfalls
 
+### Form authoring
+
+- **Disabled fields must have a hint.** A disabled control without explanation reads as broken. The hint is the only channel for telling the user whether the lock is a permission boundary, a system constraint, or a state they can change elsewhere. Apply to every form component (`candor-input`, `candor-select`, `candor-listbox`, `candor-combobox`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-slider`). The one exception: when the reason is unambiguously obvious from immediate visual context — e.g. a field grayed out directly beneath the off-toggle it depends on. Note: `candor-slider` has no built-in `hint` prop — the consumer supplies hint text via an adjacent `<candor-accessible-text role_="annotation">` element, which stays at full opacity (the slider's disabled state dims the host, which would also dim an internal hint).
+
+### Tokens and visual
+
 1. **Don't hard-code colors**: Always use design tokens
 2. **Don't use hex colors in tokens**: Use OKLCH format
 3. **Don't skip accessibility validation**: Check contrast before finalizing
+3a. **Don't use `--color-status-*` (or any `$extensions.usage: "non-text"` token) as a CSS `color:` value for text**: These tokens — `--color-status-error`, `--color-status-success`, `--color-status-warning`, and the base icon/border variants — are contrast-validated only for non-text use (icons, borders, indicators). Their OKCA against common backgrounds is below every text threshold. Always use the paired `-text` variant: `--color-status-error-text`, `--color-status-success-text`, `--color-status-warning-text`. Check `audit/tokens.dtcg.json` — any token with `"$extensions": { "usage": "non-text" }` must not appear in a `color:` rule.
 4. **Don't create components without stories**: Every component needs a story
 5. **Don't modify node_modules**: This is obvious but worth stating
-6. **Never use `::ng-deep`**: It is deprecated. Use `ViewEncapsulation.None` with a host class for scoping when styling projected content (see "View Encapsulation and Projected Content" above)
-7. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
-8. **Don't put `aria-label` on component host elements**: It won't reach the inner interactive element — use the `ariaLabel` input pattern instead (see "Host element ARIA trap" above)
-9. **Don't use `<header>`/`<footer>` inside dialogs or panels**: They inherit landmark roles (`banner`, `contentinfo`) in Chrome. Use `role="none"` or `<div>` (see "Landmark pollution" above)
-10. **Don't expose formatter logic for OKLCH axes**: Axes like chroma have dynamic min/max based on hue — auto-computed formatters will be wrong. Expose a `valueTextFn = input<(v: number) => string>()` and let the consumer supply the semantics
+6. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
+7. **Don't put `aria-label` on component host elements without forwarding it inward**: It won't reach the inner interactive element, and if you simply mirror it inward without stripping, screen readers hear the name twice. Use the `observeHostAriaLabel` helper from `src/web-components/utils/host-aria.ts` (see "aria-label host-trap" above).
+8. **Don't use `<header>`/`<footer>` inside dialogs or panels**: They inherit landmark roles (`banner`, `contentinfo`) in Chrome. Use `role="none"` or `<div>` (see "Landmark pollution" above)
+9. **Don't expose formatter logic for OKLCH axes**: Axes like chroma have dynamic min/max based on hue — auto-computed formatters will be wrong. Expose a `valueTextFn` property and let the consumer supply the semantics
 
-## Testing Strategy
+### Web-component-specific
 
-### Visual Regression
-Tests capture screenshots of component states for comparison across changes.
+10. **Don't inject data via `<script>` tags in story templates**: Storybook's Angular renderer strips them. Pass data via JSON-encoded attributes (`rows='${JSON.stringify(...)}'`) instead — see "Storybook templates: data must flow via attributes, not <script>" above.
+11. **Don't rely on Lit's default attribute lowercasing for multi-word props**: `columnHeaders` becomes attribute `columnheaders` by default — unreadable in markup. Always set `attribute: 'column-headers'` explicitly on `@property()`.
+12. **Don't omit `composed: true` on dispatched events**: Without it, events stop at the shadow boundary and never reach light-DOM listeners. Always set both `bubbles: true` and `composed: true`.
+13. **Don't redeclare tokens inside `static styles`**: Design tokens pierce shadow DOM automatically via CSS custom properties. Hard-coding `oklch(...)` inside a component breaks dark mode and token-driven theming.
+14. **Don't use `?checked` / `?open` / `?selected` on native form controls**: After user interaction, the live IDL property (`input.checked`, `details.open`, `option.selected`) diverges from the HTML attribute, and `?attr` binding only writes the attribute. Use `.checked`, `.open`, `.selected` (property binding) so the host's state always wins. Also wire the corresponding change event (`change` / `toggle`) back to the host so user-driven changes don't silently desync — see "Stateful form-element bindings" above.
+15. **Don't rely on native browser radio grouping across `<candor-radio>` siblings**: Each radio is in its own shadow root, so the browser can't tie shared-`name` inputs into one mutually-exclusive group OR an arrow-navigable set. candor-radio implements both behaviors itself by querying sibling `<candor-radio name="…">` elements within the nearest `<fieldset>`. If you build another grouped form control (checkbox-group, etc.), expect to write the same shim.
 
-### Accessibility Testing
-Tests verify:
-- Keyboard navigation works
-- Focus indicators are visible
-- ARIA attributes are correct
-- Color contrast meets standards
+## Test Files
 
-### Test Structure
-- `tests/visual-regression.spec.ts`: Screenshot-based tests
-- `tests/accessibility.spec.ts`: A11y interaction tests
-- `tests/storybook-snapshots.spec.ts`: Automated story screenshots
+- `tests/visual-regression.spec.ts` — screenshot comparisons
+- `tests/accessibility.spec.ts` — keyboard navigation, focus, ARIA
+- `tests/storybook-snapshots.spec.ts` — automated story screenshots
 
 ## Documentation Reference
 
 Detailed workflow documentation in `docs/`:
-- `WORKFLOW.md`: Complete workflow guide
 - `DESIGN-TOKENS.md`: Token modification guide
-- `CPQI-INTEGRATION.md`: CPQI CLI usage patterns and commands
-- `PLAYWRIGHT-WORKFLOW.md`: Playwright MCP usage patterns
-- `A11Y-AUDIT.md`: Per-component accessibility audit findings (all 26 components)
-- `A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the audit — authoring conventions, gotchas, and review priorities
-- `ACCESSIBILITY-CONFORMANCE.md`: WCAG 2.1 AA conformance statement — what the library guarantees, consumer responsibilities, known limitations
-- `BREAKING-CHANGES.md`: Breaking change policy — version classification taxonomy and migration note template
-
-## Git Information
-
-- Main branch: `main`
-- Recent focus: Angular v21 upgrade, Storybook v10 upgrade
-- Component prefix: `app`
+- `KLAR-INTEGRATION.md`: klar CLI full command reference
+- `A11Y-AUDIT.md`: Per-component accessibility audit (WC primary; NVDA + Chrome baseline)
+- `archive/A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the Angular-era audit
+- `archive/WORKFLOW.md`: Complete design iteration workflow guide
+- `archive/PLAYWRIGHT-WORKFLOW.md`: Playwright MCP usage patterns
+- `ACCESSIBILITY-CONFORMANCE.md`: WCAG 2.1 AA conformance statement
+- `BREAKING-CHANGES.md`: Breaking change policy and migration note template
 
 ## Node Version Requirements
 
