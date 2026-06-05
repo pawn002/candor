@@ -9,8 +9,7 @@ const meta: Meta = {
         component: `
 \`<candor-article>\` renders long-form prose with full semantic HTML support (headings,
 lists, blockquotes, code, tables, figures). Uses **light DOM** (\`createRenderRoot()\`
-returns \`this\`) so global prose styles reach projected children — equivalent to Angular's
-\`ViewEncapsulation.None\`.
+returns \`this\`) so global prose styles reach projected children without shadow DOM encapsulation.
 
 ## Three fonts, three reading contexts
 
@@ -151,12 +150,11 @@ export const SansSerif: Story = {
   render: () => ({
     template: `<candor-article font="sans">
       <h1>Getting started with Candor</h1>
-      <p>Candor is a design system built around three layers: design tokens, Web Components, and an Angular component library. All three consume the same CSS custom properties, so a single token change propagates everywhere.</p>
+      <p>Candor is a design system built around two layers: design tokens and Web Components. Both consume the same CSS custom properties, so a single token change propagates everywhere.</p>
       <h2>What's included</h2>
       <ul>
         <li><strong>Tokens</strong> — OKLCH colours, spacing scale, and typography in one CSS file.</li>
         <li><strong>Web Components</strong> — 34 custom elements that work in any framework.</li>
-        <li><strong>Angular components</strong> — Standalone components for teams already on Angular.</li>
       </ul>
       <h2>Where to start</h2>
       <p>If you're new to Candor, begin with the Introduction page. If you're integrating into an existing project, go straight to the token installation guide.</p>
