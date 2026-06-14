@@ -199,21 +199,21 @@ export const LinkStyles: Story = {
     <h1>Link implementation</h1>
     <p>Article links use a layered approach: <code>text-decoration: underline</code> for the primary underline, plus a transparent <code>border-bottom</code> that becomes visible on <code>:visited</code> to provide a non-colour distinguishing cue.</p>
     <pre><code>candor-article a &#123;
-color: var(--color-link);
-text-decoration: underline;
-text-underline-offset: 0.2em;
-border-bottom: var(--border-width-thin) solid transparent;
-padding-bottom: 0.15em;
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  border-bottom: var(--border-width-thin) solid transparent;
+  padding-bottom: 0.15em;
 &#125;
 candor-article a:visited &#123;
-color: var(--color-link-visited);
-border-bottom-color: var(--color-link-visited);
+  color: var(--color-link-visited);
+  border-bottom-color: var(--color-link-visited);
 &#125;
 candor-article a:hover  &#123; color: var(--color-link-hover); &#125;
 candor-article a:focus-visible &#123;
-outline: var(--focus-ring-width) solid var(--color-focus);
-outline-offset: var(--focus-ring-offset);
-border-radius: var(--radius-sm);
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
 &#125;</code></pre>
     <p>Note: the <code>:visited</code> double-underline cannot be demonstrated in Storybook — browsers do not apply <code>:visited</code> styles from DevTools force-state or in automated test contexts. See <a href="https://github.com/pawn002/candor/issues/137">issue #137</a> for details.</p>
   </candor-article>`,

@@ -236,8 +236,8 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
             Download
           </candor-button>
           <pre style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="primary"&gt;
-&lt;i class="ph-fill ph-download-simple" aria-hidden="true"&gt;&lt;/i&gt;
-Download
+  &lt;i class="ph-fill ph-download-simple" aria-hidden="true"&gt;&lt;/i&gt;
+  Download
 &lt;/candor-button&gt;</pre>
         </div>
       </candor-card>
@@ -253,7 +253,7 @@ Download
             <i class="ph-fill ph-bell" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
           </candor-button>
           <pre style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="ghost" aria-label="Notifications"&gt;
-&lt;i class="ph-fill ph-bell" aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;i class="ph-fill ph-bell" aria-hidden="true"&gt;&lt;/i&gt;
 &lt;/candor-button&gt;</pre>
         </div>
       </candor-card>
