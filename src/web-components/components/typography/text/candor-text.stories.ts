@@ -47,7 +47,7 @@ const meta: Meta = {
     },
   },
   args: { variant: 'body', size: 'md', color: 'primary', bold: false },
-  render: (args) => html`<candor-text variant="${args['variant']}" size="${args['size']}" color="${args['color']}" ${args['bold'] ? 'bold' : ''}>Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</candor-text>`,
+  render: (args) => html`<candor-text variant="${args['variant']}" size="${args['size']}" color="${args['color']}" ?bold=${args['bold']}>Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</candor-text>`,
 };
 
 export default meta;

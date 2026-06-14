@@ -64,7 +64,7 @@ candor-toast-container { --candor-toast-min-width: 24rem; }
     dismissed: { control: false, description: 'CustomEvent fired when the dismiss button is clicked. Consumer is responsible for removing the element from the DOM.' },
   },
   args: { variant: 'info', heading: '', message: 'Your changes have been saved.', dismissible: true },
-  render: (args) => html`<candor-toast variant="${args['variant']}" heading="${args['heading']}" message="${args['message']}" ${args['dismissible'] ? 'dismissible' : ''}></candor-toast>`,
+  render: (args) => html`<candor-toast variant="${args['variant']}" heading="${args['heading']}" message="${args['message']}" ?dismissible=${args['dismissible']}></candor-toast>`,
 };
 
 export default meta;

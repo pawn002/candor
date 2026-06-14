@@ -90,8 +90,8 @@ submission. Emits a \`change\` CustomEvent on selection.
   render: (args) => html`<candor-combobox
     label="${args['label']}"
     placeholder="${args['placeholder']}"
-    ${args['disabled'] ? 'disabled' : ''}
-    ${args['required'] ? 'required' : ''}
+    ?disabled=${args['disabled']}
+    ?required=${args['required']}
     error="${args['error'] || ''}"
     hint="${args['hint'] || ''}"
     options='${DEFAULT_OPTIONS_JSON}'

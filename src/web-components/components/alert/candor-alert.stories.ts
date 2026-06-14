@@ -38,7 +38,7 @@ readers announce error/warning content automatically when the element appears.
     dismissible: { control: 'boolean', type: { name: 'boolean' }, description: 'Show dismiss button (emits "dismissed" event)' },
   },
   args: { variant: 'info', heading: '', message: 'This is an informational message.', dismissible: false },
-  render: (args) => html`<candor-alert variant="${args['variant']}" heading="${args['heading']}" message="${args['message']}" ${args['dismissible'] ? 'dismissible' : ''}></candor-alert>`,
+  render: (args) => html`<candor-alert variant="${args['variant']}" heading="${args['heading']}" message="${args['message']}" ?dismissible=${args['dismissible']}></candor-alert>`,
 };
 
 export default meta;

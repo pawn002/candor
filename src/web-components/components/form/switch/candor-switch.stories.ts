@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Form/Switch',
@@ -36,7 +36,7 @@ Form-associated (\`ElementInternals\`): emits a \`change\` CustomEvent and appea
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
   args: { label: 'Enable notifications', checked: false, disabled: false },
-  render: (args) => html`<candor-switch label="${args['label']}" ${args['hint'] ? `hint="${args['hint']}"` : ''} ${args['checked'] ? 'checked' : ''} ${args['disabled'] ? 'disabled' : ''}></candor-switch>`,
+  render: (args) => html`<candor-switch label="${args['label']}" hint=${args['hint'] || nothing} ?checked=${args['checked']} ?disabled=${args['disabled']}></candor-switch>`,
 };
 
 export default meta;

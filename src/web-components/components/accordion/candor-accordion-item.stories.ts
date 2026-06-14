@@ -39,7 +39,7 @@ close another, use multiple \`<candor-disclosure>\` instances — not a group of
   render: (args) => html`
     <div style="max-width:480px;padding:1.5rem;">
       <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:0 1rem;">
-        <candor-accordion-item heading="${args['heading']}" ${args['open'] ? 'open' : ''} variant="${args['variant']}">
+        <candor-accordion-item heading="${args['heading']}" ?open=${args['open']} variant="${args['variant']}">
           OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
           Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
           making it ideal for programmatic color manipulation.

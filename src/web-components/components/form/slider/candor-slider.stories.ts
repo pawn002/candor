@@ -79,7 +79,7 @@ candor-slider#volume { --candor-slider-thumb-size: 1.75rem; }
     gradient: { control: 'text', type: { name: 'string' }, description: 'CSS linear-gradient() string for the track background' },
   },
   args: { min: 0, max: 100, value: 40, disabled: false },
-  render: (args) => html`<candor-slider label="Volume" min="${args['min']}" max="${args['max']}" value="${args['value']}" ${args['disabled'] ? 'disabled' : ''}></candor-slider>`,
+  render: (args) => html`<candor-slider label="Volume" min="${args['min']}" max="${args['max']}" value="${args['value']}" ?disabled=${args['disabled']}></candor-slider>`,
 };
 
 export default meta;

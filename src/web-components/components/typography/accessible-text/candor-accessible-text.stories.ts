@@ -95,7 +95,7 @@ The attribute is named \`role_\` (trailing underscore) because \`role\` is a res
     },
   },
   args: { role_: 'label', color: 'primary', bold: false },
-  render: (args) => html`<candor-accessible-text role_="${args['role_']}"${args['size'] ? ` size="${args['size']}"` : ''} color="${args['color']}" ${args['bold'] ? 'bold' : ''}>Accessible Text Playground</candor-accessible-text>`,
+  render: (args) => html`<candor-accessible-text role_="${args['role_']}"${args['size'] ? ` size="${args['size']}"` : ''} color="${args['color']}" ?bold=${args['bold']}>Accessible Text Playground</candor-accessible-text>`,
 };
 
 export default meta;

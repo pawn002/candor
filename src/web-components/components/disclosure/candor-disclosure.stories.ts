@@ -33,7 +33,7 @@ Emits a \`toggle\` CustomEvent with \`{ detail: open }\` on each transition.
     open: { control: 'boolean', type: { name: 'boolean' }, description: 'Open/closed state' },
   },
   args: { label: 'Advanced options', open: false },
-  render: (args) => html`<candor-disclosure label="${args['label']}" ${args['open'] ? 'open' : ''}>
+  render: (args) => html`<candor-disclosure label="${args['label']}" ?open=${args['open']}>
     <p style="margin:0;color:var(--color-text-default)">Hidden content revealed when expanded. Use for optional, secondary, or space-constrained information.</p>
   </candor-disclosure>`,
 };

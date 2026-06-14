@@ -37,7 +37,7 @@ Form-associated (\`ElementInternals\`): the selected value appears in \`FormData
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
   args: { label: 'Option A', value: 'a', checked: false, disabled: false },
-  render: (args) => html`<candor-radio label="${args['label']}" value="${args['value']}" ${args['checked'] ? 'checked' : ''} ${args['disabled'] ? 'disabled' : ''} name="demo"></candor-radio>`,
+  render: (args) => html`<candor-radio label="${args['label']}" value="${args['value']}" ?checked=${args['checked']} ?disabled=${args['disabled']} name="demo"></candor-radio>`,
 };
 
 export default meta;

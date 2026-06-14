@@ -39,7 +39,7 @@ conveys no information to assistive technology without it.
     },
   },
   args: { type: 'bar', value: 65, indeterminate: false, label: 'Loading data', size: 'md' },
-  render: (args) => html`<candor-progress type="${args['type']}" value="${args['value']}" label="${args['label']}" size="${args['size']}" ${args['indeterminate'] ? 'indeterminate' : ''}></candor-progress>`,
+  render: (args) => html`<candor-progress type="${args['type']}" value="${args['value']}" label="${args['label']}" size="${args['size']}" ?indeterminate=${args['indeterminate']}></candor-progress>`,
 };
 
 export default meta;

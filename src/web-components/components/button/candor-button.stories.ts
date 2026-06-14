@@ -18,7 +18,7 @@ const meta: Meta = {
     type: { control: 'select', options: ['button', 'submit', 'reset'] },
   },
   args: { variant: 'primary', size: 'medium', disabled: false, type: 'button' },
-  render: (args) => html`<candor-button variant="${args['variant']}" size="${args['size']}" type="${args['type']}" ${args['disabled'] ? 'disabled' : ''}>Save changes</candor-button>`,
+  render: (args) => html`<candor-button variant="${args['variant']}" size="${args['size']}" type="${args['type']}" ?disabled=${args['disabled']}>Save changes</candor-button>`,
 };
 
 export default meta;

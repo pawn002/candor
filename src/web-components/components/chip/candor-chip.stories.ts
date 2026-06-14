@@ -39,7 +39,7 @@ Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warn
     linkHref: { control: 'text', type: { name: 'string' }, description: 'href; when set, renders as <a> (mutually exclusive with selectable and dismissible)' },
   },
   args: { label: 'Tag', variant: 'default', selectable: false, dismissible: false, disabled: false, selected: false },
-  render: (args) => html`<candor-chip label="${args['label']}" variant="${args['variant']}" ${args['selectable'] ? 'selectable' : ''} ${args['dismissible'] ? 'dismissible' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['selected'] ? 'selected' : ''}></candor-chip>`,
+  render: (args) => html`<candor-chip label="${args['label']}" variant="${args['variant']}" ?selectable=${args['selectable']} ?dismissible=${args['dismissible']} ?disabled=${args['disabled']} ?selected=${args['selected']}></candor-chip>`,
 };
 
 export default meta;

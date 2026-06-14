@@ -71,8 +71,8 @@ Emits a \`change\` CustomEvent.
   render: (args) => html`<candor-listbox
     label="${args['label']}"
     placeholder="${args['placeholder']}"
-    ${args['disabled'] ? 'disabled' : ''}
-    ${args['required'] ? 'required' : ''}
+    ?disabled=${args['disabled']}
+    ?required=${args['required']}
     error="${args['error'] || ''}"
     hint="${args['hint'] || ''}"
     options='${LANGUAGES_JSON}'

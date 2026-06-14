@@ -40,7 +40,7 @@ Emits a \`send\` CustomEvent with \`{ detail: { value } }\` on submission.
     label="${args['label']}"
     placeholder="${args['placeholder']}"
     disclaimer="${args['disclaimer'] || ''}"
-    ${args['disabled'] ? 'disabled' : ''}
+    ?disabled=${args['disabled']}
   ></candor-chat-input>`,
 };
 

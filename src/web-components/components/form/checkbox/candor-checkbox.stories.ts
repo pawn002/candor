@@ -31,7 +31,7 @@ Form-associated (\`ElementInternals\`): the value appears in \`FormData\` when w
     required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required for form submission' },
   },
   args: { label: 'Accept terms and conditions', checked: false, disabled: false, required: false },
-  render: (args) => html`<candor-checkbox label="${args['label']}" ${args['checked'] ? 'checked' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['required'] ? 'required' : ''}></candor-checkbox>`,
+  render: (args) => html`<candor-checkbox label="${args['label']}" ?checked=${args['checked']} ?disabled=${args['disabled']} ?required=${args['required']}></candor-checkbox>`,
 };
 
 export default meta;
