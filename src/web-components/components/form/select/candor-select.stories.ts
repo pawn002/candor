@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const FREQUENCY_OPTIONS = JSON.stringify([
   { value: 'never', label: 'Never' },
@@ -58,21 +59,15 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  render: () => ({
-    template: `<candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." options='${FREQUENCY_OPTIONS}'></candor-select>`,
-  }),
+  render: () => html`<candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." options='${FREQUENCY_OPTIONS}'></candor-select>`,
 };
 
 export const WithError: Story = {
-  render: () => ({
-    template: `<candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." error="Please choose a frequency." options='${FREQUENCY_OPTIONS}'></candor-select>`,
-  }),
+  render: () => html`<candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." error="Please choose a frequency." options='${FREQUENCY_OPTIONS}'></candor-select>`,
 };
 
 export const Required: Story = {
-  render: () => ({
-    template: `<candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." required options='${FREQUENCY_OPTIONS}'></candor-select>`,
-  }),
+  render: () => html`<candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." required options='${FREQUENCY_OPTIONS}'></candor-select>`,
 };
 
 export const Disabled: Story = {
@@ -88,15 +83,11 @@ export const Disabled: Story = {
       },
     },
   },
-  render: () => ({
-    template: `<candor-select label="Email digest" value="weekly" hint="Managed by your organisation. Contact your administrator to change." disabled options='${FREQUENCY_OPTIONS}'></candor-select>`,
-  }),
+  render: () => html`<candor-select label="Email digest" value="weekly" hint="Managed by your organisation. Contact your administrator to change." disabled options='${FREQUENCY_OPTIONS}'></candor-select>`,
 };
 
 export const WithDisabledOption: Story = {
-  render: () => ({
-    template: `<candor-select label="Priority" placeholder="Select priority" hint="Critical is currently unavailable" options='[{"value":"low","label":"Low"},{"value":"medium","label":"Medium"},{"value":"high","label":"High"},{"value":"critical","label":"Critical","disabled":true}]'></candor-select>`,
-  }),
+  render: () => html`<candor-select label="Priority" placeholder="Select priority" hint="Critical is currently unavailable" options='[{"value":"low","label":"Low"},{"value":"medium","label":"Medium"},{"value":"high","label":"High"},{"value":"critical","label":"Critical","disabled":true}]'></candor-select>`,
 };
 
 export const NoLabel: Story = {
@@ -109,32 +100,28 @@ export const NoLabel: Story = {
       },
     },
   },
-  render: () => ({
-    template: `<candor-select aria-label="Email digest" placeholder="Choose frequency" options='${FREQUENCY_OPTIONS}'></candor-select>`,
-  }),
+  render: () => html`<candor-select aria-label="Email digest" placeholder="Choose frequency" options='${FREQUENCY_OPTIONS}'></candor-select>`,
 };
 
 export const AllStates: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;">
-        <candor-card>
-          <span slot="header">Default</span>
-          <candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." options='${FREQUENCY_OPTIONS}'></candor-select>
-        </candor-card>
-        <candor-card>
-          <span slot="header">With error</span>
-          <candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." error="Please choose a frequency." options='${FREQUENCY_OPTIONS}'></candor-select>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Required</span>
-          <candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." required options='${FREQUENCY_OPTIONS}'></candor-select>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Disabled</span>
-          <candor-select label="Email digest" value="weekly" hint="Managed by your organisation. Contact your administrator to change." disabled options='${FREQUENCY_OPTIONS}'></candor-select>
-        </candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;">
+      <candor-card>
+        <span slot="header">Default</span>
+        <candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." options='${FREQUENCY_OPTIONS}'></candor-select>
+      </candor-card>
+      <candor-card>
+        <span slot="header">With error</span>
+        <candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." error="Please choose a frequency." options='${FREQUENCY_OPTIONS}'></candor-select>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Required</span>
+        <candor-select label="Email digest" placeholder="Choose frequency" hint="Sent to the address on your account." required options='${FREQUENCY_OPTIONS}'></candor-select>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Disabled</span>
+        <candor-select label="Email digest" value="weekly" hint="Managed by your organisation. Contact your administrator to change." disabled options='${FREQUENCY_OPTIONS}'></candor-select>
+      </candor-card>
+    </div>
+  `,
 };

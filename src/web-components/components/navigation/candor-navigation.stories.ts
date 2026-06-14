@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const defaultItems = JSON.stringify([
   { label: 'Home', href: '#home', active: true },
@@ -58,9 +59,7 @@ required.
     label: { control: 'text', type: { name: 'string' }, description: 'Accessible name for the <nav> landmark. Use a unique value when multiple navigations appear on the same page.' },
   },
   args: { orientation: 'horizontal', theme: 'default', brand: 'Candor', label: 'Main navigation' },
-  render: (args) => ({
-    template: `<candor-navigation brand="${args['brand']}" orientation="${args['orientation']}" theme="${args['theme']}" label="${args['label']}" items='${defaultItems}'></candor-navigation>`,
-  }),
+  render: (args) => html`<candor-navigation brand="${args['brand']}" orientation="${args['orientation']}" theme="${args['theme']}" label="${args['label']}" items='${defaultItems}'></candor-navigation>`,
 };
 
 export default meta;
@@ -86,7 +85,5 @@ export const WithBadges: Story = {
       },
     },
   },
-  render: () => ({
-    template: `<candor-navigation brand="Candor" items='${badgeItems}'></candor-navigation>`,
-  }),
+  render: () => html`<candor-navigation brand="Candor" items='${badgeItems}'></candor-navigation>`,
 };

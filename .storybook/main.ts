@@ -1,4 +1,4 @@
-import type { StorybookConfig } from "@storybook/angular";
+import type { StorybookConfig } from "@storybook/web-components-vite";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
@@ -8,7 +8,7 @@ const config: StorybookConfig = {
     "@chromatic-com/storybook",
   ],
   framework: {
-    name: "@storybook/angular",
+    name: "@storybook/web-components-vite",
     options: {},
   },
   docs: {},

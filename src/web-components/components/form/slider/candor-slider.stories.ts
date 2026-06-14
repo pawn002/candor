@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 import { setElementProps } from '../../../story-utils';
 
 const meta: Meta = {
@@ -78,9 +79,7 @@ candor-slider#volume { --candor-slider-thumb-size: 1.75rem; }
     gradient: { control: 'text', type: { name: 'string' }, description: 'CSS linear-gradient() string for the track background' },
   },
   args: { min: 0, max: 100, value: 40, disabled: false },
-  render: (args) => ({
-    template: `<candor-slider label="Volume" min="${args['min']}" max="${args['max']}" value="${args['value']}" ${args['disabled'] ? 'disabled' : ''}></candor-slider>`,
-  }),
+  render: (args) => html`<candor-slider label="Volume" min="${args['min']}" max="${args['max']}" value="${args['value']}" ${args['disabled'] ? 'disabled' : ''}></candor-slider>`,
 };
 
 export default meta;
@@ -89,9 +88,7 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const Percentage: Story = {
-  render: () => ({
-    template: `<candor-slider label="Opacity" min="0" max="100" step="1" value="70"></candor-slider>`,
-  }),
+  render: () => html`<candor-slider label="Opacity" min="0" max="100" step="1" value="70"></candor-slider>`,
   // valueTextFn is a function — it cannot pass through the template attribute, so
   // set it after render. Without it the screen reader announces "70" not "70%".
   play: setElementProps('candor-slider', { valueTextFn: (v: number) => `${v}%` }),
@@ -113,38 +110,34 @@ export const GradientTrack: Story = {
       },
     },
   },
-  render: () => ({
-    template: `<candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.12 142))"></candor-slider>`,
-  }),
+  render: () => html`<candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.12 142))"></candor-slider>`,
   // Gradient mode hides the numeric display; valueTextFn gives the screen reader the
   // L value it otherwise couldn't infer from the raw decimal. Function → set in play.
   play: setElementProps('candor-slider', { valueTextFn: (v: number) => `L=${v.toFixed(2)}` }),
 };
 
 export const AllVariants: Story = {
-  render: () => ({
-    template: `
-      <div style="max-width:480px;display:flex;flex-direction:column;gap:var(--spacing-md);">
-        <candor-card>
-          <span slot="header">Default fill</span>
-          <candor-slider label="Opacity" min="0" max="100" step="1" value="40"></candor-slider>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Vivid green — C 0.12, gamut L 0.36–0.94</span>
-          <candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.12 142))"></candor-slider>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Muted rose — C 0.054, gamut L 0.12–0.93</span>
-          <candor-slider label="Lightness — hold C and H" min="0.12" max="0.93" step="0.001" value="0.53" gradient="linear-gradient(to right, oklch(0.12 0.054 333), oklch(0.53 0.054 333), oklch(0.93 0.054 333))"></candor-slider>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Disabled</span>
-          <candor-slider label="Volume" min="0" max="100" step="1" value="60" disabled></candor-slider>
-          <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">Volume is locked while recording is active.</candor-accessible-text>
-        </candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="max-width:480px;display:flex;flex-direction:column;gap:var(--spacing-md);">
+      <candor-card>
+        <span slot="header">Default fill</span>
+        <candor-slider label="Opacity" min="0" max="100" step="1" value="40"></candor-slider>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Vivid green — C 0.12, gamut L 0.36–0.94</span>
+        <candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.12 142))"></candor-slider>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Muted rose — C 0.054, gamut L 0.12–0.93</span>
+        <candor-slider label="Lightness — hold C and H" min="0.12" max="0.93" step="0.001" value="0.53" gradient="linear-gradient(to right, oklch(0.12 0.054 333), oklch(0.53 0.054 333), oklch(0.93 0.054 333))"></candor-slider>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Disabled</span>
+        <candor-slider label="Volume" min="0" max="100" step="1" value="60" disabled></candor-slider>
+        <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">Volume is locked while recording is active.</candor-accessible-text>
+      </candor-card>
+    </div>
+  `,
   // Only the gradient (lightness) sliders need the L= announcement; the Opacity and
   // Volume sliders are self-describing on their 0–100 scale.
   play: setElementProps('candor-slider[gradient]', { valueTextFn: (v: number) => `L=${v.toFixed(2)}` }),

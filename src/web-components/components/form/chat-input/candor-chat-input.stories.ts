@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Form/ChatInput',
@@ -35,14 +36,12 @@ Emits a \`send\` CustomEvent with \`{ detail: { value } }\` on submission.
     disclaimer: '',
     disabled: false,
   },
-  render: (args) => ({
-    template: `<candor-chat-input
-      label="${args['label']}"
-      placeholder="${args['placeholder']}"
-      disclaimer="${args['disclaimer'] || ''}"
-      ${args['disabled'] ? 'disabled' : ''}
-    ></candor-chat-input>`,
-  }),
+  render: (args) => html`<candor-chat-input
+    label="${args['label']}"
+    placeholder="${args['placeholder']}"
+    disclaimer="${args['disclaimer'] || ''}"
+    ${args['disabled'] ? 'disabled' : ''}
+  ></candor-chat-input>`,
 };
 
 export default meta;

@@ -1,10 +1,11 @@
 /**
  * Shared helpers for the Candor web-component Storybook stories.
  *
- * These run in the `@storybook/angular` renderer, where stories are authored as
- * `template:` HTML strings. Anything that cannot be expressed as an HTML
- * attribute — most importantly **function-valued properties** — must be applied
- * to the rendered custom element after the fact, in a Storybook `play` step.
+ * These run in the `@storybook/web-components-vite` renderer, where stories are
+ * authored as lit-html `html` templates. Anything that cannot be expressed as an
+ * HTML attribute — most importantly **function-valued properties** — must be
+ * applied to the rendered custom element after the fact, in a Storybook `play`
+ * step.
  */
 
 /**

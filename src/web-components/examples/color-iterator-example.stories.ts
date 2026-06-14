@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 import { buildGamutRows } from '../components/tone-picker/gamut-data';
 
 const NAV_ITEMS = JSON.stringify([
@@ -98,224 +99,222 @@ export default meta;
 type Story = StoryObj;
 
 export const ColorPairIterator: Story = {
-  render: () => ({
-    template: `
-      <div style="min-height: 100vh; background: var(--color-bg-page);">
+  render: () => html`
+    <div style="min-height: 100vh; background: var(--color-bg-page);">
 
-        <candor-navigation
-          brand="Candor"
-          items='${NAV_ITEMS}'
-          orientation="horizontal">
-        </candor-navigation>
+      <candor-navigation
+        brand="Candor"
+        items='${NAV_ITEMS}'
+        orientation="horizontal">
+      </candor-navigation>
 
-        <main style="max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem;">
+      <main style="max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem;">
 
-          <header style="margin-bottom: 2rem;">
-            <h1 style="
-              font-family: var(--font-family-display);
-              font-size: var(--font-size-h2);
-              font-weight: var(--font-weight-bold);
-              font-optical-sizing: auto;
-              color: var(--color-text-default);
-              line-height: var(--line-height-tight);
-              margin: 0 0 0.5rem;
-            ">Color Pair Iterator</h1>
-            <p style="
-              font-family: var(--font-family-base);
-              font-size: var(--font-size-md);
-              color: var(--color-text-subtle);
-              margin: 0;
-              line-height: var(--line-height-normal);
-            ">Adjust lightness along an OKLCH axis while contrast ratios update in real time.</p>
-          </header>
+        <header style="margin-bottom: 2rem;">
+          <h1 style="
+            font-family: var(--font-family-display);
+            font-size: var(--font-size-h2);
+            font-weight: var(--font-weight-bold);
+            font-optical-sizing: auto;
+            color: var(--color-text-default);
+            line-height: var(--line-height-tight);
+            margin: 0 0 0.5rem;
+          ">Color Pair Iterator</h1>
+          <p style="
+            font-family: var(--font-family-base);
+            font-size: var(--font-size-md);
+            color: var(--color-text-subtle);
+            margin: 0;
+            line-height: var(--line-height-normal);
+          ">Adjust lightness along an OKLCH axis while contrast ratios update in real time.</p>
+        </header>
 
-          <candor-card variant="elevated" style="display: block; margin-bottom: 1.25rem;">
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 0.5rem 0;">
-              <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning" size="lg">
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
-                  <candor-badge variant="error" size="sm">AA text ✗</candor-badge>
-                  <candor-badge variant="success" size="sm">Large text ✓</candor-badge>
-                  <candor-badge variant="success" size="sm">Non-text ✓</candor-badge>
-                </div>
-                <candor-accessible-text role_="annotation" color="secondary" style="text-align: center; display: block;">
-                  Needs 4.5:1 for AA · 7:1 for AAA
-                </candor-accessible-text>
-              </candor-stat>
-            </div>
-          </candor-card>
-
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 1.25rem; align-items: start;">
-
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-
-              <candor-card variant="default" style="display: block;">
-                <div style="display: flex; flex-direction: column; gap: 0.875rem;">
-
-                  <candor-accessible-text role_="label" bold>Foreground</candor-accessible-text>
-
-                  <div style="
-                    display: flex;
-                    align-items: center;
-                    gap: 0.625rem;
-                    background: var(--color-bg-page);
-                    border: 1px solid var(--color-border-default);
-                    border-radius: var(--radius-sm);
-                    padding: 0.375rem 0.625rem;
-                  ">
-                    <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #647a61; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
-                    <input type="text" value="#647a61" aria-label="Foreground hex color"
-                      style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: 0.02em;"
-                    />
-                  </div>
-
-                  <candor-slider
-                    label="Foreground lightness"
-                    min="0" max="1" step="0.001" value="0.555"
-                    gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))">
-                  </candor-slider>
-
-                  <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">
-                    <span><span style="color: var(--color-text-default);">L</span> 0.55</span>
-                    <span><span style="color: var(--color-text-default);">C</span> 0.065</span>
-                    <span><span style="color: var(--color-text-default);">H</span> 142°</span>
-                  </div>
-
-                  <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
-                    <candor-accordion-item heading="LCH Limits">
-                      <candor-tone-picker
-                        aria-label="Foreground tones — olive H 142"
-                        size="small"
-                        selected-value="oklch(0.55 0.065 142)"
-                        rows='${FG_ROWS}'
-                        column-headers='${FG_HEADERS}'>
-                      </candor-tone-picker>
-                    </candor-accordion-item>
-                  </div>
-
-                </div>
-              </candor-card>
-
-              <candor-card variant="default" style="display: block;">
-                <div style="display: flex; flex-direction: column; gap: 0.875rem;">
-
-                  <candor-accessible-text role_="label" bold>Background</candor-accessible-text>
-
-                  <div style="
-                    display: flex;
-                    align-items: center;
-                    gap: 0.625rem;
-                    background: var(--color-bg-page);
-                    border: 1px solid var(--color-border-default);
-                    border-radius: var(--radius-sm);
-                    padding: 0.375rem 0.625rem;
-                  ">
-                    <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #ffe1f9; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
-                    <input type="text" value="#ffe1f9" aria-label="Background hex color"
-                      style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: 0.02em;"
-                    />
-                  </div>
-
-                  <candor-slider
-                    label="Background lightness"
-                    min="0" max="1" step="0.001" value="0.94"
-                    gradient="linear-gradient(to right, oklch(0.05 0.054 333), oklch(0.94 0.054 333), oklch(0.97 0.054 333))">
-                  </candor-slider>
-
-                  <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">
-                    <span><span style="color: var(--color-text-default);">L</span> 0.94</span>
-                    <span><span style="color: var(--color-text-default);">C</span> 0.054</span>
-                    <span><span style="color: var(--color-text-default);">H</span> 333°</span>
-                  </div>
-
-                  <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
-                    <candor-accordion-item heading="LCH Limits">
-                      <candor-tone-picker
-                        aria-label="Background tones — pink H 333"
-                        size="small"
-                        selected-value="oklch(0.94 0.054 333)"
-                        rows='${BG_ROWS}'
-                        column-headers='${BG_HEADERS}'>
-                      </candor-tone-picker>
-                    </candor-accordion-item>
-                  </div>
-
-                </div>
-              </candor-card>
-
-              <candor-card variant="default" style="display: block;">
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; justify-items: center;">
-                  <candor-button variant="ghost" size="small" aria-label="Swap colors">⇄ Swap</candor-button>
-                  <candor-button variant="ghost" size="small" aria-label="Harmonize colors">≈ Harmonize</candor-button>
-                  <candor-button variant="ghost" size="small" aria-label="Reset colors">↺ Reset</candor-button>
-                  <candor-button variant="ghost" size="small" aria-label="Random colors">✦ Random</candor-button>
-                </div>
-              </candor-card>
-
-              <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
-                <candor-accordion-item heading="Contrast algorithm" open>
-                  <fieldset aria-label="Contrast algorithm" style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
-                    <candor-radio name="algorithm" label="WCAG 2.1" value="wcag21" checked></candor-radio>
-                    <candor-radio name="algorithm" label="OKCA" value="okca"></candor-radio>
-                    <candor-radio name="algorithm" label="Perceptual" value="perceptual"></candor-radio>
-                    <candor-radio name="algorithm" label="Delta E" value="deltae"></candor-radio>
-                  </fieldset>
-                </candor-accordion-item>
-                <candor-accordion-item heading="Display options">
-                  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <candor-checkbox label="Hold chroma constant" checked></candor-checkbox>
-                    <candor-checkbox label="Show gradient track" checked></candor-checkbox>
-                  </div>
-                </candor-accordion-item>
+        <candor-card variant="elevated" style="display: block; margin-bottom: 1.25rem;">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 0.5rem 0;">
+            <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning" size="lg">
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                <candor-badge variant="error" size="sm">AA text ✗</candor-badge>
+                <candor-badge variant="success" size="sm">Large text ✓</candor-badge>
+                <candor-badge variant="success" size="sm">Non-text ✓</candor-badge>
               </div>
-
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-
-              <candor-card variant="default" style="display: block;">
-                <candor-accessible-text role_="label" bold style="display: block; margin-bottom: 0.75rem;">Preview</candor-accessible-text>
-                <div style="
-                  background: #ffe1f9;
-                  border-radius: var(--radius-sm);
-                  padding: 1.25rem;
-                  display: flex;
-                  flex-direction: column;
-                  gap: 0.5rem;
-                ">
-                  <p style="
-                    color: #647a61;
-                    font-family: var(--font-family-display);
-                    font-size: var(--font-size-h3);
-                    font-weight: var(--font-weight-bold);
-                    margin: 0;
-                    line-height: var(--line-height-tight);
-                  ">Heading text</p>
-                  <p style="
-                    color: #647a61;
-                    font-family: var(--font-family-serif);
-                    font-size: var(--font-size-base);
-                    margin: 0;
-                    line-height: var(--line-height-relaxed);
-                  ">Body copy — the quick brown fox jumps over the lazy dog. Color, readability, and rhythm.</p>
-                  <p style="
-                    color: #647a61;
-                    font-family: var(--font-family-accessible);
-                    font-size: 0.875rem;
-                    margin: 0;
-                    letter-spacing: 0.02em;
-                  ">Label · Caption · Status text</p>
-                </div>
-              </candor-card>
-
-              <candor-card variant="default" style="display: block;">
-                <candor-accessible-text role_="label" bold style="display: block; margin-bottom: 0.75rem;">Measurements</candor-accessible-text>
-                <candor-table compact caption="Contrast measurements" rows='${MEAS_ROWS}'></candor-table>
-              </candor-card>
-
-            </div>
+              <candor-accessible-text role_="annotation" color="secondary" style="text-align: center; display: block;">
+                Needs 4.5:1 for AA · 7:1 for AAA
+              </candor-accessible-text>
+            </candor-stat>
           </div>
-        </main>
-      </div>
-    `,
-  }),
+        </candor-card>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 1.25rem; align-items: start;">
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+
+            <candor-card variant="default" style="display: block;">
+              <div style="display: flex; flex-direction: column; gap: 0.875rem;">
+
+                <candor-accessible-text role_="label" bold>Foreground</candor-accessible-text>
+
+                <div style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.625rem;
+                  background: var(--color-bg-page);
+                  border: 1px solid var(--color-border-default);
+                  border-radius: var(--radius-sm);
+                  padding: 0.375rem 0.625rem;
+                ">
+                  <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #647a61; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
+                  <input type="text" value="#647a61" aria-label="Foreground hex color"
+                    style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: 0.02em;"
+                  />
+                </div>
+
+                <candor-slider
+                  label="Foreground lightness"
+                  min="0" max="1" step="0.001" value="0.555"
+                  gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))">
+                </candor-slider>
+
+                <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">
+                  <span><span style="color: var(--color-text-default);">L</span> 0.55</span>
+                  <span><span style="color: var(--color-text-default);">C</span> 0.065</span>
+                  <span><span style="color: var(--color-text-default);">H</span> 142°</span>
+                </div>
+
+                <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
+                  <candor-accordion-item heading="LCH Limits">
+                    <candor-tone-picker
+                      aria-label="Foreground tones — olive H 142"
+                      size="small"
+                      selected-value="oklch(0.55 0.065 142)"
+                      rows='${FG_ROWS}'
+                      column-headers='${FG_HEADERS}'>
+                    </candor-tone-picker>
+                  </candor-accordion-item>
+                </div>
+
+              </div>
+            </candor-card>
+
+            <candor-card variant="default" style="display: block;">
+              <div style="display: flex; flex-direction: column; gap: 0.875rem;">
+
+                <candor-accessible-text role_="label" bold>Background</candor-accessible-text>
+
+                <div style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.625rem;
+                  background: var(--color-bg-page);
+                  border: 1px solid var(--color-border-default);
+                  border-radius: var(--radius-sm);
+                  padding: 0.375rem 0.625rem;
+                ">
+                  <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #ffe1f9; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
+                  <input type="text" value="#ffe1f9" aria-label="Background hex color"
+                    style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: 0.02em;"
+                  />
+                </div>
+
+                <candor-slider
+                  label="Background lightness"
+                  min="0" max="1" step="0.001" value="0.94"
+                  gradient="linear-gradient(to right, oklch(0.05 0.054 333), oklch(0.94 0.054 333), oklch(0.97 0.054 333))">
+                </candor-slider>
+
+                <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">
+                  <span><span style="color: var(--color-text-default);">L</span> 0.94</span>
+                  <span><span style="color: var(--color-text-default);">C</span> 0.054</span>
+                  <span><span style="color: var(--color-text-default);">H</span> 333°</span>
+                </div>
+
+                <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
+                  <candor-accordion-item heading="LCH Limits">
+                    <candor-tone-picker
+                      aria-label="Background tones — pink H 333"
+                      size="small"
+                      selected-value="oklch(0.94 0.054 333)"
+                      rows='${BG_ROWS}'
+                      column-headers='${BG_HEADERS}'>
+                    </candor-tone-picker>
+                  </candor-accordion-item>
+                </div>
+
+              </div>
+            </candor-card>
+
+            <candor-card variant="default" style="display: block;">
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; justify-items: center;">
+                <candor-button variant="ghost" size="small" aria-label="Swap colors">⇄ Swap</candor-button>
+                <candor-button variant="ghost" size="small" aria-label="Harmonize colors">≈ Harmonize</candor-button>
+                <candor-button variant="ghost" size="small" aria-label="Reset colors">↺ Reset</candor-button>
+                <candor-button variant="ghost" size="small" aria-label="Random colors">✦ Random</candor-button>
+              </div>
+            </candor-card>
+
+            <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
+              <candor-accordion-item heading="Contrast algorithm" open>
+                <fieldset aria-label="Contrast algorithm" style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <candor-radio name="algorithm" label="WCAG 2.1" value="wcag21" checked></candor-radio>
+                  <candor-radio name="algorithm" label="OKCA" value="okca"></candor-radio>
+                  <candor-radio name="algorithm" label="Perceptual" value="perceptual"></candor-radio>
+                  <candor-radio name="algorithm" label="Delta E" value="deltae"></candor-radio>
+                </fieldset>
+              </candor-accordion-item>
+              <candor-accordion-item heading="Display options">
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <candor-checkbox label="Hold chroma constant" checked></candor-checkbox>
+                  <candor-checkbox label="Show gradient track" checked></candor-checkbox>
+                </div>
+              </candor-accordion-item>
+            </div>
+
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+
+            <candor-card variant="default" style="display: block;">
+              <candor-accessible-text role_="label" bold style="display: block; margin-bottom: 0.75rem;">Preview</candor-accessible-text>
+              <div style="
+                background: #ffe1f9;
+                border-radius: var(--radius-sm);
+                padding: 1.25rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+              ">
+                <p style="
+                  color: #647a61;
+                  font-family: var(--font-family-display);
+                  font-size: var(--font-size-h3);
+                  font-weight: var(--font-weight-bold);
+                  margin: 0;
+                  line-height: var(--line-height-tight);
+                ">Heading text</p>
+                <p style="
+                  color: #647a61;
+                  font-family: var(--font-family-serif);
+                  font-size: var(--font-size-base);
+                  margin: 0;
+                  line-height: var(--line-height-relaxed);
+                ">Body copy — the quick brown fox jumps over the lazy dog. Color, readability, and rhythm.</p>
+                <p style="
+                  color: #647a61;
+                  font-family: var(--font-family-accessible);
+                  font-size: 0.875rem;
+                  margin: 0;
+                  letter-spacing: 0.02em;
+                ">Label · Caption · Status text</p>
+              </div>
+            </candor-card>
+
+            <candor-card variant="default" style="display: block;">
+              <candor-accessible-text role_="label" bold style="display: block; margin-bottom: 0.75rem;">Measurements</candor-accessible-text>
+              <candor-table compact caption="Contrast measurements" rows='${MEAS_ROWS}'></candor-table>
+            </candor-card>
+
+          </div>
+        </div>
+      </main>
+    </div>
+  `,
 };

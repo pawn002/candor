@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Typography/Heading',
@@ -62,9 +63,7 @@ The \`level\` attribute controls both the visual size and the ARIA heading level
     },
   },
   args: { level: 'h1', color: 'primary' },
-  render: (args) => ({
-    template: `<candor-heading level="${args['level']}" color="${args['color']}">The quick brown fox jumps over the lazy dog</candor-heading>`,
-  }),
+  render: (args) => html`<candor-heading level="${args['level']}" color="${args['color']}">The quick brown fox jumps over the lazy dog</candor-heading>`,
 };
 
 export default meta;
@@ -73,28 +72,24 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const AllHeadings: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);">
-        <candor-heading level="h1">The Case for Slower Reading</candor-heading>
-        <candor-heading level="h2">What Slow Reading Actually Means</candor-heading>
-        <candor-heading level="h3">The Neuroscience of Attention</candor-heading>
-        <candor-heading level="h4">A Note on Environment</candor-heading>
-        <candor-heading level="h5">Recommended conditions</candor-heading>
-        <candor-heading level="h6">On annotation tools</candor-heading>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);">
+      <candor-heading level="h1">The Case for Slower Reading</candor-heading>
+      <candor-heading level="h2">What Slow Reading Actually Means</candor-heading>
+      <candor-heading level="h3">The Neuroscience of Attention</candor-heading>
+      <candor-heading level="h4">A Note on Environment</candor-heading>
+      <candor-heading level="h5">Recommended conditions</candor-heading>
+      <candor-heading level="h6">On annotation tools</candor-heading>
+    </div>
+  `,
 };
 
 export const ColorVariants: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
-        <candor-heading level="h2" color="primary">Primary Color</candor-heading>
-        <candor-heading level="h2" color="secondary">Secondary Color</candor-heading>
-        <candor-heading level="h2" color="disabled">Disabled Color</candor-heading>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
+      <candor-heading level="h2" color="primary">Primary Color</candor-heading>
+      <candor-heading level="h2" color="secondary">Secondary Color</candor-heading>
+      <candor-heading level="h2" color="disabled">Disabled Color</candor-heading>
+    </div>
+  `,
 };

@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const DEMO_ENTRIES = JSON.stringify([
   { label: 'Edit' },
@@ -81,9 +82,7 @@ or as the JS \`entries\` property. Emits a \`selected\` CustomEvent with the cho
     label: { control: 'text', type: { name: 'string' }, description: 'Trigger button label. Omit for icon-only trigger (supply aria-label instead).' },
     align: { control: 'radio', options: ['left', 'right'], description: 'Panel alignment relative to trigger' },
   },
-  render: () => ({
-    template: `<candor-menu label="Actions" entries='${DEMO_ENTRIES}'></candor-menu>`,
-  }),
+  render: () => html`<candor-menu label="Actions" entries='${DEMO_ENTRIES}'></candor-menu>`,
 };
 
 export default meta;
@@ -103,14 +102,12 @@ export const MoreActions: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <div style="display:flex;align-items:center;gap:var(--spacing-md);font-family:var(--font-family-base);font-size:var(--font-size-md);">
-        <span style="color:var(--color-text-default);">Project Alpha</span>
-        <candor-menu aria-label="More actions for Project Alpha" entries='${ACTION_ENTRIES}'></candor-menu>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;align-items:center;gap:var(--spacing-md);font-family:var(--font-family-base);font-size:var(--font-size-md);">
+      <span style="color:var(--color-text-default);">Project Alpha</span>
+      <candor-menu aria-label="More actions for Project Alpha" entries='${ACTION_ENTRIES}'></candor-menu>
+    </div>
+  `,
 };
 
 export const ShortList: Story = {
@@ -125,15 +122,11 @@ export const ShortList: Story = {
       },
     },
   },
-  render: () => ({
-    template: `<candor-menu label="Sort by" entries='${SORT_ENTRIES}'></candor-menu>`,
-  }),
+  render: () => html`<candor-menu label="Sort by" entries='${SORT_ENTRIES}'></candor-menu>`,
 };
 
 export const WithDisabledItems: Story = {
-  render: () => ({
-    template: `<candor-menu label="File" entries='${FILE_ENTRIES_DISABLED}'></candor-menu>`,
-  }),
+  render: () => html`<candor-menu label="File" entries='${FILE_ENTRIES_DISABLED}'></candor-menu>`,
 };
 
 export const InToolbar: Story = {
@@ -146,13 +139,11 @@ export const InToolbar: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <div style="display:flex;align-items:center;gap:var(--spacing-sm);padding:var(--spacing-sm);background:var(--color-bg-surface);border-radius:var(--radius-md);border:var(--border-width-thin) solid var(--color-border-default);">
-        <candor-menu label="File" entries='${TOOLBAR_FILE}'></candor-menu>
-        <candor-menu label="Edit" entries='${TOOLBAR_EDIT}'></candor-menu>
-        <candor-menu label="View" align="right" entries='${TOOLBAR_VIEW}'></candor-menu>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;align-items:center;gap:var(--spacing-sm);padding:var(--spacing-sm);background:var(--color-bg-surface);border-radius:var(--radius-md);border:var(--border-width-thin) solid var(--color-border-default);">
+      <candor-menu label="File" entries='${TOOLBAR_FILE}'></candor-menu>
+      <candor-menu label="Edit" entries='${TOOLBAR_EDIT}'></candor-menu>
+      <candor-menu label="View" align="right" entries='${TOOLBAR_VIEW}'></candor-menu>
+    </div>
+  `,
 };

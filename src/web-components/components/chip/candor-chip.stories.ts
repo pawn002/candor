@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Chip',
@@ -38,9 +39,7 @@ Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warn
     linkHref: { control: 'text', type: { name: 'string' }, description: 'href; when set, renders as <a> (mutually exclusive with selectable and dismissible)' },
   },
   args: { label: 'Tag', variant: 'default', selectable: false, dismissible: false, disabled: false, selected: false },
-  render: (args) => ({
-    template: `<candor-chip label="${args['label']}" variant="${args['variant']}" ${args['selectable'] ? 'selectable' : ''} ${args['dismissible'] ? 'dismissible' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['selected'] ? 'selected' : ''}></candor-chip>`,
-  }),
+  render: (args) => html`<candor-chip label="${args['label']}" variant="${args['variant']}" ${args['selectable'] ? 'selectable' : ''} ${args['dismissible'] ? 'dismissible' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['selected'] ? 'selected' : ''}></candor-chip>`,
 };
 
 export default meta;
@@ -49,83 +48,71 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const Selectable: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-        <candor-chip label="React" selectable></candor-chip>
-        <candor-chip label="Angular" selectable selected></candor-chip>
-        <candor-chip label="Vue" selectable></candor-chip>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+      <candor-chip label="React" selectable></candor-chip>
+      <candor-chip label="Angular" selectable selected></candor-chip>
+      <candor-chip label="Vue" selectable></candor-chip>
+    </div>
+  `,
 };
 
 export const Dismissible: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-        <candor-chip label="JavaScript" dismissible></candor-chip>
-        <candor-chip label="TypeScript" dismissible></candor-chip>
-        <candor-chip label="Python" dismissible variant="success"></candor-chip>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+      <candor-chip label="JavaScript" dismissible></candor-chip>
+      <candor-chip label="TypeScript" dismissible></candor-chip>
+      <candor-chip label="Python" dismissible variant="success"></candor-chip>
+    </div>
+  `,
 };
 
 export const AllVariants: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-        <candor-chip label="Default"></candor-chip>
-        <candor-chip label="Primary" variant="primary"></candor-chip>
-        <candor-chip label="Secondary" variant="secondary"></candor-chip>
-        <candor-chip label="Success" variant="success"></candor-chip>
-        <candor-chip label="Warning" variant="warning"></candor-chip>
-        <candor-chip label="Error" variant="error"></candor-chip>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+      <candor-chip label="Default"></candor-chip>
+      <candor-chip label="Primary" variant="primary"></candor-chip>
+      <candor-chip label="Secondary" variant="secondary"></candor-chip>
+      <candor-chip label="Success" variant="success"></candor-chip>
+      <candor-chip label="Warning" variant="warning"></candor-chip>
+      <candor-chip label="Error" variant="error"></candor-chip>
+    </div>
+  `,
 };
 
 export const FilterGroup: Story = {
-  render: () => ({
-    template: `
-      <div role="group" aria-label="Filter by technology" style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-        <candor-chip label="Angular" variant="primary" selectable selected></candor-chip>
-        <candor-chip label="React" variant="primary" selectable></candor-chip>
-        <candor-chip label="Vue" variant="primary" selectable></candor-chip>
-        <candor-chip label="Svelte" variant="primary" selectable></candor-chip>
-        <candor-chip label="Solid" variant="primary" selectable disabled></candor-chip>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div role="group" aria-label="Filter by technology" style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+      <candor-chip label="Angular" variant="primary" selectable selected></candor-chip>
+      <candor-chip label="React" variant="primary" selectable></candor-chip>
+      <candor-chip label="Vue" variant="primary" selectable></candor-chip>
+      <candor-chip label="Svelte" variant="primary" selectable></candor-chip>
+      <candor-chip label="Solid" variant="primary" selectable disabled></candor-chip>
+    </div>
+  `,
 };
 
 export const TagList: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-        <candor-chip label="accessibility" variant="default" dismissible></candor-chip>
-        <candor-chip label="design-system" variant="primary" dismissible></candor-chip>
-        <candor-chip label="angular" variant="secondary" dismissible></candor-chip>
-        <candor-chip label="wcag" variant="success" dismissible></candor-chip>
-        <candor-chip label="oklch" variant="primary" dismissible></candor-chip>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+      <candor-chip label="accessibility" variant="default" dismissible></candor-chip>
+      <candor-chip label="design-system" variant="primary" dismissible></candor-chip>
+      <candor-chip label="angular" variant="secondary" dismissible></candor-chip>
+      <candor-chip label="wcag" variant="success" dismissible></candor-chip>
+      <candor-chip label="oklch" variant="primary" dismissible></candor-chip>
+    </div>
+  `,
 };
 
 export const TaxonomyLinks: Story = {
   name: 'Taxonomy Links',
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-        <candor-chip label="Accessibility" variant="default" link-href="/tags/accessibility/"></candor-chip>
-        <candor-chip label="Design Systems" variant="primary" link-href="/tags/design-systems/"></candor-chip>
-        <candor-chip label="Angular" variant="secondary" link-href="/tags/angular/"></candor-chip>
-        <candor-chip label="WCAG" variant="success" link-href="/tags/wcag/"></candor-chip>
-        <candor-chip label="OKLCH" variant="default" link-href="/tags/oklch/"></candor-chip>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+      <candor-chip label="Accessibility" variant="default" link-href="/tags/accessibility/"></candor-chip>
+      <candor-chip label="Design Systems" variant="primary" link-href="/tags/design-systems/"></candor-chip>
+      <candor-chip label="Angular" variant="secondary" link-href="/tags/angular/"></candor-chip>
+      <candor-chip label="WCAG" variant="success" link-href="/tags/wcag/"></candor-chip>
+      <candor-chip label="OKLCH" variant="default" link-href="/tags/oklch/"></candor-chip>
+    </div>
+  `,
 };

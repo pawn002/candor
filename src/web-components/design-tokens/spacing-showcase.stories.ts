@@ -1,6 +1,7 @@
 import React from 'react';
+import { html } from 'lit';
 import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 interface SpacingItem {
   name: string;
@@ -19,7 +20,7 @@ const SPACINGS: SpacingItem[] = [
   { name: '3xl', value: '6rem', pixels: '96px' },
 ];
 
-const renderShowcase = () => `
+const renderShowcase = () => html`
   <div style="
     display: flex;
     flex-direction: column;
@@ -27,7 +28,7 @@ const renderShowcase = () => `
     padding: var(--spacing-md);
     background-color: var(--color-bg-page);
   ">
-    ${SPACINGS.map(s => `
+    ${SPACINGS.map(s => html`
       <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
         <div style="display: flex; justify-content: space-between; align-items: baseline;">
           <span style="font-size: var(--font-size-md); font-weight: var(--font-weight-bold); color: var(--color-text-default); font-family: var(--font-family-mono);">${s.name}</span>
@@ -49,7 +50,7 @@ const renderShowcase = () => `
           <div style="height: 100%; background-color: var(--color-action-primary); opacity: 0.3; border-radius: var(--radius-sm); width: ${s.value};"></div>
         </div>
       </div>
-    `).join('')}
+    `)}
   </div>
 `;
 
@@ -106,7 +107,7 @@ export const SpacingScale: Story = {
       },
     },
   },
-  render: () => ({ template: renderShowcase() }),
+  render: () => renderShowcase(),
 };
 
 export const SpacingInComponents: Story = {
@@ -118,61 +119,59 @@ export const SpacingInComponents: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <div style="max-width: 600px; display: flex; flex-direction: column; gap: var(--spacing-xl);">
+  render: () => html`
+    <div style="max-width: 600px; display: flex; flex-direction: column; gap: var(--spacing-xl);">
 
-        <div>
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Tight — spacing-xs (8px)</p>
-          <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
-            <candor-chip label="Item 1"></candor-chip>
-            <candor-chip label="Item 2"></candor-chip>
-            <candor-chip label="Item 3"></candor-chip>
-          </div>
+      <div>
+        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Tight — spacing-xs (8px)</p>
+        <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+          <candor-chip label="Item 1"></candor-chip>
+          <candor-chip label="Item 2"></candor-chip>
+          <candor-chip label="Item 3"></candor-chip>
         </div>
-
-        <div>
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Compact — spacing-sm (16px)</p>
-          <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap;">
-            <candor-button variant="primary">Save changes</candor-button>
-            <candor-button variant="secondary">Preview</candor-button>
-            <candor-button variant="ghost">Cancel</candor-button>
-          </div>
-        </div>
-
-        <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0; border-left: var(--border-width-medium) solid var(--color-border-default); padding-left: var(--spacing-sm);">Above this line, tokens govern spacing <em>within</em> components — the gap between a chip and its neighbour, the distance between buttons in a toolbar. Below, they govern spacing <em>between</em> components at layout scale: card padding, card grids, and page margins. The same token system, two distinct domains.</p>
-
-        <div>
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Comfortable — spacing-md (24px)</p>
-          <div style="display: flex; gap: var(--spacing-md);">
-            <candor-card variant="default" padding="md" style="flex: 1;">
-              <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
-            </candor-card>
-            <candor-card variant="default" padding="md" style="flex: 1;">
-              <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
-            </candor-card>
-            <candor-card variant="default" padding="md" style="flex: 1;">
-              <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>
-            </candor-card>
-          </div>
-        </div>
-
-        <div>
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Loose — spacing-xl (48px)</p>
-          <div style="display: flex; gap: var(--spacing-xl);">
-            <candor-card variant="default" padding="lg" style="flex: 1;">
-              <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
-            </candor-card>
-            <candor-card variant="default" padding="lg" style="flex: 1;">
-              <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
-            </candor-card>
-            <candor-card variant="default" padding="lg" style="flex: 1;">
-              <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>
-            </candor-card>
-          </div>
-        </div>
-
       </div>
-    `,
-  }),
+
+      <div>
+        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Compact — spacing-sm (16px)</p>
+        <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap;">
+          <candor-button variant="primary">Save changes</candor-button>
+          <candor-button variant="secondary">Preview</candor-button>
+          <candor-button variant="ghost">Cancel</candor-button>
+        </div>
+      </div>
+
+      <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0; border-left: var(--border-width-medium) solid var(--color-border-default); padding-left: var(--spacing-sm);">Above this line, tokens govern spacing <em>within</em> components — the gap between a chip and its neighbour, the distance between buttons in a toolbar. Below, they govern spacing <em>between</em> components at layout scale: card padding, card grids, and page margins. The same token system, two distinct domains.</p>
+
+      <div>
+        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Comfortable — spacing-md (24px)</p>
+        <div style="display: flex; gap: var(--spacing-md);">
+          <candor-card variant="default" padding="md" style="flex: 1;">
+            <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
+          </candor-card>
+          <candor-card variant="default" padding="md" style="flex: 1;">
+            <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
+          </candor-card>
+          <candor-card variant="default" padding="md" style="flex: 1;">
+            <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>
+          </candor-card>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Loose — spacing-xl (48px)</p>
+        <div style="display: flex; gap: var(--spacing-xl);">
+          <candor-card variant="default" padding="lg" style="flex: 1;">
+            <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
+          </candor-card>
+          <candor-card variant="default" padding="lg" style="flex: 1;">
+            <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
+          </candor-card>
+          <candor-card variant="default" padding="lg" style="flex: 1;">
+            <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>
+          </candor-card>
+        </div>
+      </div>
+
+    </div>
+  `,
 };

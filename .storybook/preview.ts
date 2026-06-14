@@ -1,14 +1,12 @@
-import type { Preview, StoryContext, StoryFn } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import type { Preview, Decorator } from '@storybook/web-components-vite';
 import '../src/web-components/index';
 
 // Applies data-theme to the iframe <html> element without wrapping the story,
-// which avoids the Angular rendering issues caused by withThemeByDataAttribute.
-const withTheme = (story: StoryFn, context: StoryContext) => {
+// so the theme switch never disturbs the rendered markup.
+const withTheme: Decorator = (story, context) => {
   const theme = (context.globals['theme'] as string) ?? 'light';
   document.documentElement.setAttribute('data-theme', theme);
-  return story(context.args, context);
+  return story();
 };
 
 const preview: Preview = {
@@ -27,10 +25,7 @@ const preview: Preview = {
     },
   },
 
-  decorators: [
-    moduleMetadata({ schemas: [CUSTOM_ELEMENTS_SCHEMA] }),
-    withTheme,
-  ],
+  decorators: [withTheme],
 
   parameters: {
     options: {

@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const STATUS_OPTIONS = JSON.stringify([
   { value: 'all', label: 'All statuses' },
@@ -46,19 +47,17 @@ full table first.
 export default meta;
 type Story = StoryObj;
 
+const openDrawer = () => {
+  const drawer = document.querySelector('candor-drawer') as any;
+  if (drawer) drawer.open = true;
+};
+const closeDrawer = () => {
+  const drawer = document.querySelector('candor-drawer') as any;
+  if (drawer) drawer.open = false;
+};
+
 export const FilterableTable: Story = {
-  render: () => ({
-    props: {
-      openDrawer: () => {
-        const drawer = document.querySelector('candor-drawer') as any;
-        if (drawer) drawer.open = true;
-      },
-      closeDrawer: () => {
-        const drawer = document.querySelector('candor-drawer') as any;
-        if (drawer) drawer.open = false;
-      },
-    },
-    template: `
+  render: () => html`
       <main style="padding: clamp(1rem, 4vw, 2rem); max-width: 900px;">
 
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap;">
@@ -73,7 +72,7 @@ export const FilterableTable: Story = {
               style="flex: 1; min-width: 120px; max-width: 220px;">
             </candor-input>
             <div style="position: relative; display: inline-flex; align-items: center;">
-              <candor-button id="open-filters" variant="secondary" aria-describedby="filter-count" (click)="openDrawer()">
+              <candor-button id="open-filters" variant="secondary" aria-describedby="filter-count" @click=${openDrawer}>
                 Filters
               </candor-button>
               <candor-badge
@@ -201,13 +200,12 @@ export const FilterableTable: Story = {
           </div>
 
           <div slot="footer" style="display: flex; gap: 0.75rem;">
-            <candor-button id="apply-filters" variant="primary" style="flex: 1;" (click)="closeDrawer()">Apply filters</candor-button>
-            <candor-button id="clear-filters" variant="ghost" (click)="closeDrawer()">Clear all</candor-button>
+            <candor-button id="apply-filters" variant="primary" style="flex: 1;" @click=${closeDrawer}>Apply filters</candor-button>
+            <candor-button id="clear-filters" variant="ghost" @click=${closeDrawer}>Clear all</candor-button>
           </div>
 
         </candor-drawer>
 
       </main>
-    `,
-  }),
+  `,
 };

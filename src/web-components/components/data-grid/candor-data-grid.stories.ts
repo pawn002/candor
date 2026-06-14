@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const TOKEN_HEADERS = JSON.stringify(['Token A', 'Token B', 'Token C', 'Token D']);
 const TOKEN_ROWS = JSON.stringify([
@@ -93,27 +94,19 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  render: () => ({
-    template: `<candor-data-grid caption="Heat map" column-headers='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
-  }),
+  render: () => html`<candor-data-grid caption="Heat map" column-headers='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
 };
 
 export const ShowLabels: Story = {
-  render: () => ({
-    template: `<candor-data-grid caption="Heat map" show-labels column-headers='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
-  }),
+  render: () => html`<candor-data-grid caption="Heat map" show-labels column-headers='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
 };
 
 export const HideHeaders: Story = {
-  render: () => ({
-    template: `<candor-data-grid caption="Heat map" hide-headers column-headers='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
-  }),
+  render: () => html`<candor-data-grid caption="Heat map" hide-headers column-headers='${COL_HEADERS}' rows='${GRID_ROWS}'></candor-data-grid>`,
 };
 
 export const TokenSwatch: Story = {
   name: 'Token Swatch Grid',
   parameters: { controls: { disable: true } },
-  render: () => ({
-    template: `<candor-data-grid caption="Design token colors" show-labels column-headers='${TOKEN_HEADERS}' rows='${TOKEN_ROWS}'></candor-data-grid>`,
-  }),
+  render: () => html`<candor-data-grid caption="Design token colors" show-labels column-headers='${TOKEN_HEADERS}' rows='${TOKEN_ROWS}'></candor-data-grid>`,
 };

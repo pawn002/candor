@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Disclosure',
@@ -32,11 +33,9 @@ Emits a \`toggle\` CustomEvent with \`{ detail: open }\` on each transition.
     open: { control: 'boolean', type: { name: 'boolean' }, description: 'Open/closed state' },
   },
   args: { label: 'Advanced options', open: false },
-  render: (args) => ({
-    template: `<candor-disclosure label="${args['label']}" ${args['open'] ? 'open' : ''}>
-      <p style="margin:0;color:var(--color-text-default)">Hidden content revealed when expanded. Use for optional, secondary, or space-constrained information.</p>
-    </candor-disclosure>`,
-  }),
+  render: (args) => html`<candor-disclosure label="${args['label']}" ${args['open'] ? 'open' : ''}>
+    <p style="margin:0;color:var(--color-text-default)">Hidden content revealed when expanded. Use for optional, secondary, or space-constrained information.</p>
+  </candor-disclosure>`,
 };
 
 export default meta;
@@ -50,24 +49,22 @@ export const OpenByDefault: Story = {
 
 export const ExpandableFilter: Story = {
   name: 'Pattern: Expandable Filter Section',
-  render: () => ({
-    template: `
-      <div style="max-width:280px;">
-        <candor-disclosure label="Filter by status" open>
-          <div style="display:flex;flex-direction:column;gap:0.5rem;padding-bottom:0.25rem;">
-            <candor-checkbox label="Active" checked></candor-checkbox>
-            <candor-checkbox label="Inactive"></candor-checkbox>
-            <candor-checkbox label="Pending"></candor-checkbox>
-          </div>
-        </candor-disclosure>
-        <candor-disclosure label="Filter by role">
-          <div style="display:flex;flex-direction:column;gap:0.5rem;padding-bottom:0.25rem;">
-            <candor-checkbox label="Admin" checked></candor-checkbox>
-            <candor-checkbox label="Member" checked></candor-checkbox>
-            <candor-checkbox label="Viewer"></candor-checkbox>
-          </div>
-        </candor-disclosure>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="max-width:280px;">
+      <candor-disclosure label="Filter by status" open>
+        <div style="display:flex;flex-direction:column;gap:0.5rem;padding-bottom:0.25rem;">
+          <candor-checkbox label="Active" checked></candor-checkbox>
+          <candor-checkbox label="Inactive"></candor-checkbox>
+          <candor-checkbox label="Pending"></candor-checkbox>
+        </div>
+      </candor-disclosure>
+      <candor-disclosure label="Filter by role">
+        <div style="display:flex;flex-direction:column;gap:0.5rem;padding-bottom:0.25rem;">
+          <candor-checkbox label="Admin" checked></candor-checkbox>
+          <candor-checkbox label="Member" checked></candor-checkbox>
+          <candor-checkbox label="Viewer"></candor-checkbox>
+        </div>
+      </candor-disclosure>
+    </div>
+  `,
 };

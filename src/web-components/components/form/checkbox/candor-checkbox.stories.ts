@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Form/Checkbox',
@@ -30,9 +31,7 @@ Form-associated (\`ElementInternals\`): the value appears in \`FormData\` when w
     required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required for form submission' },
   },
   args: { label: 'Accept terms and conditions', checked: false, disabled: false, required: false },
-  render: (args) => ({
-    template: `<candor-checkbox label="${args['label']}" ${args['checked'] ? 'checked' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['required'] ? 'required' : ''}></candor-checkbox>`,
-  }),
+  render: (args) => html`<candor-checkbox label="${args['label']}" ${args['checked'] ? 'checked' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['required'] ? 'required' : ''}></candor-checkbox>`,
 };
 
 export default meta;
@@ -42,41 +41,35 @@ export const Default: Story = {};
 
 export const AllStates: Story = {
   parameters: { controls: { disable: true } },
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:1rem;">
-        <candor-checkbox label="Unchecked"></candor-checkbox>
-        <candor-checkbox label="Checked" checked></candor-checkbox>
-        <candor-checkbox label="Disabled unchecked" disabled></candor-checkbox>
-        <candor-checkbox label="Disabled checked" checked disabled></candor-checkbox>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <candor-checkbox label="Unchecked"></candor-checkbox>
+      <candor-checkbox label="Checked" checked></candor-checkbox>
+      <candor-checkbox label="Disabled unchecked" disabled></candor-checkbox>
+      <candor-checkbox label="Disabled checked" checked disabled></candor-checkbox>
+    </div>
+  `,
 };
 
 export const Multiple: Story = {
   parameters: { controls: { disable: true } },
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:1rem;">
-        <candor-checkbox label="Option 1" checked></candor-checkbox>
-        <candor-checkbox label="Option 2" checked></candor-checkbox>
-        <candor-checkbox label="Option 3"></candor-checkbox>
-        <candor-checkbox label="Disabled option" disabled></candor-checkbox>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <candor-checkbox label="Option 1" checked></candor-checkbox>
+      <candor-checkbox label="Option 2" checked></candor-checkbox>
+      <candor-checkbox label="Option 3"></candor-checkbox>
+      <candor-checkbox label="Disabled option" disabled></candor-checkbox>
+    </div>
+  `,
 };
 
 export const Group: Story = {
-  render: () => ({
-    template: `
-      <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
-        <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem;">Notifications</legend>
-        <candor-checkbox label="Email notifications" checked></candor-checkbox>
-        <candor-checkbox label="SMS notifications"></candor-checkbox>
-        <candor-checkbox label="Push notifications" disabled></candor-checkbox>
-      </fieldset>
-    `,
-  }),
+  render: () => html`
+    <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+      <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem;">Notifications</legend>
+      <candor-checkbox label="Email notifications" checked></candor-checkbox>
+      <candor-checkbox label="SMS notifications"></candor-checkbox>
+      <candor-checkbox label="Push notifications" disabled></candor-checkbox>
+    </fieldset>
+  `,
 };
