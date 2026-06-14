@@ -84,7 +84,7 @@ export class CandorAlert extends LitElement {
         <svg class="alert__icon" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${this._iconPath()}"/></svg>
         <div class="alert__content">
           ${this.heading ? html`<div class="alert__title">${this.heading}</div>` : ''}
-          <div class="alert__message"><slot>${this.message}</slot></div>
+          <div class="alert__message">${this.message ? this.message : html`<slot></slot>`}</div>
         </div>
         ${this.dismissible ? html`
           <button class="alert__dismiss" @click="${this._dismiss}" aria-label="Dismiss">
