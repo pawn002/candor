@@ -85,7 +85,7 @@ The formal register does not make AI output feel cold. The content can still be 
 export default meta;
 type Story = StoryObj;
 
-const fullArticleContent = `
+const fullArticleContent = html`
   <h1>The Case for Slower Reading</h1>
   <p>We live in an age of infinite scroll and push notifications, where the average piece of content is consumed in under ninety seconds. Yet some of the most important ideas in science, philosophy, and literature require something different — not skimming, but <em>dwelling</em>.</p>
   <p>Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</p>
@@ -113,7 +113,7 @@ const fullArticleContent = `
   <p><em>This article is part of an ongoing series on attention, craft, and the conditions that enable good thinking.</em></p>
 `;
 
-const codeArticleContent = `
+const codeArticleContent = html`
   <h1>Understanding CSS Custom Properties</h1>
   <p>CSS custom properties — often called <em>CSS variables</em> — are one of the most powerful features added to the language in recent years. They allow you to store values in named containers and reuse them throughout your stylesheet.</p>
   <h2>Declaring a Custom Property</h2>
