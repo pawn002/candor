@@ -1,4 +1,5 @@
 import type { Preview, Decorator } from '@storybook/web-components-vite';
+import '../src/styles.scss';
 import '../src/web-components/index';
 
 // Applies data-theme to the iframe <html> element without wrapping the story,
