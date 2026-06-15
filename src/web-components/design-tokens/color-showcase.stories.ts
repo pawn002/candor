@@ -226,7 +226,7 @@ const renderReferenceTable = (categories: ColorCategory[]) => html`
           </thead>
           <tbody>
             ${cat.colors.map((c, i) => html`
-              <tr style="${i % 2 === 1 ? 'background: oklch(0.85 0 0);' : ''}">
+              <tr style="${i % 2 === 1 ? 'background: var(--color-bg-surface);' : ''}">
                 <td style="padding: 0.25rem var(--spacing-sm); font-family: var(--font-family-mono);">${c.variable}</td>
                 <td style="padding: 0.25rem var(--spacing-sm); font-family: var(--font-family-mono);">${c.light ? html`<span style="display:inline-flex;align-items:center;gap:0.375em;"><span style="display:inline-block;width:0.875rem;height:0.875rem;border-radius:2px;background:${c.light};border:1px solid oklch(0 0 0 / 0.12);flex-shrink:0;"></span>${c.light}</span>` : '—'}</td>
                 <td style="padding: 0.25rem var(--spacing-sm); font-family: var(--font-family-mono);">${c.dark ? html`<span style="display:inline-flex;align-items:center;gap:0.375em;"><span style="display:inline-block;width:0.875rem;height:0.875rem;border-radius:2px;background:${c.dark};border:1px solid oklch(0 0 0 / 0.12);flex-shrink:0;"></span>${c.dark}</span>` : '—'}</td>
