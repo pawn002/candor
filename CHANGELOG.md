@@ -18,6 +18,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **`candor-alert`:** the `message` attribute now renders even when the element has whitespace between its tags (`<candor-alert message="…">\n</candor-alert>`). Previously `message` was the fallback content of an internal `<slot>`, which a whitespace-only child text node suppressed — rendering a blank alert body. `message`, when set, now renders directly; the slot is used only for projected content. (Surfaced by the #143 migration: Angular stripped insignificant whitespace text nodes, lit-html preserves them.)
 - **`candor-menu`:** the checked-item checkmark is no longer rendered upside-down (it read as an upward caret). The `phCheckBold` icon path was vertically flipped; corrected so the tick points down-right.
+- **`candor-data-grid` / `candor-tone-picker`:** the grid now scrolls horizontally within its own bounds on narrow viewports instead of overflowing the page.
+- **`candor-toast`:** no longer overflows narrow viewports — `box-sizing: border-box` plus `min(…, 100%)` width caps keep the toast within its container so its text wraps.
 - **`candor-slider`:** the thumb is now visible in dark theme. It previously filled with `--color-bg-page` and used a hard-coded black border/shadow, so in dark mode the handle became the page colour and disappeared. It now uses the themed `--color-slider-thumb` fill with a `--color-border-control` edge.
 
 ---

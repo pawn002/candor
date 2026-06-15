@@ -38,6 +38,8 @@ export class CandorTonePicker extends LitElement {
       font-family: var(--font-family-accessible);
     }
 
+    .gamut-scroll { overflow-x: auto; }
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -436,7 +438,7 @@ export class CandorTonePicker extends LitElement {
         Arrow keys navigate · Enter or Space activates · Blank cells are outside sRGB gamut
       </p>
 
-      <div role="group" @keydown="${this._onKeydown}">
+      <div role="group" class="gamut-scroll" @keydown="${this._onKeydown}">
         <table
           role="grid"
           class="gamut-grid ${this.hideHeaders ? 'hide-headers' : ''} ${this.size === 'small' ? 'size-small' : ''}"
