@@ -208,6 +208,7 @@ const renderReferenceTable = (categories: ColorCategory[]) => html`
       <section>
         <h2 id="${headingId}" style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-2xs);">${cat.name}</h2>
         <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-sm);">${cat.description}</p>
+        <div style="overflow-x: auto;">
         <table aria-labelledby="${headingId}" style="
           width: 100%;
           border-collapse: collapse;
@@ -235,6 +236,7 @@ const renderReferenceTable = (categories: ColorCategory[]) => html`
             `)}
           </tbody>
         </table>
+        </div>
       </section>
       `;
     })}
