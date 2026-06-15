@@ -120,4 +120,16 @@
     padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--color-border-strong, #e0e0e0);
   }
+
+  /* Markdown prose tables: match candor-table's zebra (even rows on surface)
+     so docs tables read consistently with the component. Token-driven, so it
+     adapts per theme; the ArgTypes table is excluded (themed by the container). */
+  .sbdocs-wrapper table:not(.docblock-argstable) tbody tr:nth-child(even) td,
+  .sbdocs-wrapper table:not(.docblock-argstable) tbody tr:nth-child(even) th {
+    background: var(--color-bg-surface) !important;
+  }
+  .sbdocs-wrapper table:not(.docblock-argstable) tbody tr:nth-child(odd) td,
+  .sbdocs-wrapper table:not(.docblock-argstable) tbody tr:nth-child(odd) th {
+    background: transparent !important;
+  }
 </style>
