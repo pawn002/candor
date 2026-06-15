@@ -269,14 +269,23 @@ export const TabbedSettings: Story = {
   `,
 };
 
+const openDeleteModal = () => {
+  const modal = document.querySelector('candor-modal') as any;
+  if (modal) modal.open = true;
+};
+const closeDeleteModal = () => {
+  const modal = document.querySelector('candor-modal') as any;
+  if (modal) modal.open = false;
+};
+
 export const DeleteConfirmation: Story = {
   render: () => html`
     <div style="padding: var(--spacing-lg);">
-      <candor-button variant="destructive" size="medium">
+      <candor-button variant="destructive" size="medium" @click=${openDeleteModal}>
         Delete account
       </candor-button>
 
-      <candor-modal heading="Delete account" size="sm" open alert>
+      <candor-modal heading="Delete account" size="sm" alert>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
           <candor-text variant="body">
             This will permanently delete your account and all associated data — projects, settings, billing history, and team memberships. This action cannot be undone.
@@ -288,8 +297,8 @@ export const DeleteConfirmation: Story = {
           </candor-alert>
         </div>
         <div slot="footer">
-          <candor-button variant="ghost" size="medium">Cancel</candor-button>
-          <candor-button variant="destructive" size="medium">Delete my account</candor-button>
+          <candor-button variant="ghost" size="medium" @click=${closeDeleteModal}>Cancel</candor-button>
+          <candor-button variant="destructive" size="medium" @click=${closeDeleteModal}>Delete my account</candor-button>
         </div>
       </candor-modal>
     </div>
