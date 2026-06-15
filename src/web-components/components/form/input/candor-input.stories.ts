@@ -117,7 +117,7 @@ export const OnSurface: Story = {
     },
   },
   render: () => html`
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);max-width:640px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr));gap:var(--spacing-md);max-width:640px;">
       <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
         <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Page background</div>
         <div style="background:var(--color-bg-page);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);">
