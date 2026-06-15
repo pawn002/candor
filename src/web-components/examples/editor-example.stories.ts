@@ -244,7 +244,7 @@ export const ImageEditor: Story = {
             </div>
           </div>
 
-          <div style="flex: 1; min-height: 300px; background: oklch(0.82 0 0); display: flex; align-items: center; justify-content: center; padding: 2rem;">
+          <div style="flex: 1; min-height: 300px; background: var(--color-bg-surface); display: flex; align-items: center; justify-content: center; padding: 2rem;">
             <div
               role="img"
               aria-label="Canvas: hero-banner.png, 1440 × 480"
