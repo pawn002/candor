@@ -1,6 +1,7 @@
 import type { Preview, Decorator } from '@storybook/web-components-vite';
 import '../src/styles.scss';
 import '../src/web-components/index';
+import { CandorDocsContainer } from './candor-docs';
 
 // Applies data-theme to the iframe <html> element without wrapping the story,
 // so the theme switch never disturbs the rendered markup.
@@ -29,6 +30,9 @@ const preview: Preview = {
   decorators: [withTheme],
 
   parameters: {
+    docs: {
+      container: CandorDocsContainer,
+    },
     options: {
       storySort: {
         order: ['Introduction', 'Design Tokens', 'Typography', 'Components', 'Examples'],

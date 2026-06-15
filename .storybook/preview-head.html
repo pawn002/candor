@@ -1,75 +1,17 @@
 <!-- Theme sync: applies data-theme to <html> for all pages including docs-only MDX.
      The withTheme decorator only fires when a story renders, so pure MDX pages
      (e.g. Introduction) need this channel listener to receive globals changes.
+     Required for the story canvas, MDX content, and CSS-custom-property
+     resolution.
 
-     Dark mode overrides are injected via JS (appended to <head> after Storybook's
-     emotion sheets) so they win the cascade without fighting specificity. -->
+     Docs *chrome* (page background, ArgTypes table, code blocks, PrismJS syntax,
+     story-preview canvas) is themed in one place by the CandorDocsContainer in
+     preview.ts — it hands Storybook a full light/dark theme that flips with this
+     same `theme` global. No per-element CSS overrides are needed here. -->
 <script>
   (function () {
-    var darkSheet = null;
-
-    function darkStyles() {
-      return [
-        /* Page background and default text */
-        '.sbdocs-wrapper { background: var(--color-bg-page) !important; color: var(--color-text-default) !important; }',
-
-        /* Headings */
-        '.sbdocs-wrapper h1, .sbdocs-wrapper h2, .sbdocs-wrapper h3,',
-        '.sbdocs-wrapper h4, .sbdocs-wrapper h5, .sbdocs-wrapper h6 {',
-        '  color: var(--color-text-default) !important;',
-        '}',
-
-        /* Body text */
-        '.sbdocs-wrapper p, .sbdocs-wrapper li, .sbdocs-wrapper strong {',
-        '  color: var(--color-text-default) !important;',
-        '}',
-
-        /* Dividers */
-        '.sbdocs-wrapper hr { border-color: var(--color-border-strong) !important; }',
-
-        /* Table — clear Storybook\'s built-in row stripe (rgb(246,249,252)) */
-        '.sbdocs-wrapper tbody tr { background: transparent !important; }',
-        '.sbdocs-wrapper table { color: var(--color-text-default) !important; }',
-        '.sbdocs-wrapper th {',
-        '  color: var(--color-text-subtle) !important;',
-        '  border-bottom-color: var(--color-border-strong) !important;',
-        '}',
-        '.sbdocs-wrapper td {',
-        '  color: var(--color-text-default) !important;',
-        '  border-bottom-color: var(--color-border-strong) !important;',
-        '}',
-
-        /* Inline code — surface bg, harmonious with dark palette */
-        '.sbdocs-wrapper code {',
-        '  background: var(--color-bg-surface) !important;',
-        '  color: var(--color-text-default) !important;',
-        '  border-radius: 3px !important;',
-        '  padding: 0.15em 0.4em !important;',
-        '}',
-
-        /* Code blocks */
-        '.sbdocs-wrapper pre {',
-        '  background: var(--color-bg-surface) !important;',
-        '  color: var(--color-text-default) !important;',
-        '}',
-        '.sbdocs-wrapper pre code { padding: 0 !important; border-radius: 0 !important; }',
-      ].join('\n');
-    }
-
     function applyTheme(theme) {
-      var isDark = theme === 'dark';
       document.documentElement.setAttribute('data-theme', theme || 'light');
-
-      if (isDark) {
-        if (!darkSheet) {
-          darkSheet = document.createElement('style');
-          darkSheet.id = 'candor-dark-docs';
-          document.head.appendChild(darkSheet);
-        }
-        darkSheet.textContent = darkStyles();
-      } else {
-        if (darkSheet) darkSheet.textContent = '';
-      }
     }
 
     function attachChannel() {
