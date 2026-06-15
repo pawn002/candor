@@ -61,7 +61,7 @@ export const AllBarStates: Story = {
 
 export const AllSpinnerSizes: Story = {
   render: () => html`
-    <div style="display:flex;gap:var(--spacing-sm);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 120px), 1fr));gap:var(--spacing-sm);">
       <candor-card style="flex:1;text-align:center;">
         <span slot="header">Small</span>
         <candor-progress type="spinner" size="sm" label="Loading"></candor-progress>

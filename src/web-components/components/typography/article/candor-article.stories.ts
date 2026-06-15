@@ -225,6 +225,7 @@ export const WithRichContent: Story = {
     <h1>Typography in Data-Rich Articles</h1>
     <p>Editorial layouts often combine prose with structured data — <abbr title="HyperText Markup Language">HTML</abbr> provides the semantic elements, but the design system must ensure they all coexist coherently.</p>
     <h2>Comparing Typeface Metrics</h2>
+    <div style="overflow-x: auto;">
     <table>
       <thead>
         <tr><th>Typeface</th><th>Role</th><th>Variable axes</th><th>Min size</th></tr>
@@ -237,6 +238,7 @@ export const WithRichContent: Story = {
         <tr><td>Roboto Mono</td><td>Code</td><td>—</td><td>14px</td></tr>
       </tbody>
     </table>
+    </div>
     <h2>Figures and Captions</h2>
     <p>Images within articles should be accompanied by a <code>figcaption</code> that provides context.</p>
     <figure>
@@ -251,6 +253,7 @@ export const WithNumericTable: Story = {
   render: () => html`<candor-article font="serif">
     <h1>Typographic Scale — Optical Metrics</h1>
     <p>The table below presents measured optical characteristics for each step in the Candor type scale. Values are derived from the Major Third ratio (1.25×) applied to a 16px base.</p>
+    <div style="overflow-x: auto;">
     <table>
       <thead>
         <tr>
@@ -270,12 +273,13 @@ export const WithNumericTable: Story = {
         <tr><td>sm</td><td><code>--font-size-sm</code></td><td class="numeric">14.00</td><td class="numeric">0.875</td><td class="numeric">1.40</td></tr>
       </tbody>
     </table>
+    </div>
   </candor-article>`,
 };
 
 export const FontComparison: Story = {
   render: () => html`
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr));gap:3rem;align-items:start;">
       <div>
         <p style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-sm);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);font-weight:var(--font-weight-semibold);">Noto Serif (serif)</p>
         <candor-article font="serif">${fullArticleContent}</candor-article>
