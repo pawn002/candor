@@ -112,6 +112,7 @@
     "--color-border-strong": "var(--gray-500)",
     "--color-border-on-inverse": "oklch(0.85 0 0)",
     "--color-border-control-on-surface": "oklch(0.60 0 0)",
+    "--color-slider-thumb": "var(--gray-100)",
     "--color-action-primary": "oklch(0.79 0.12 245)",
     "--color-action-primary-hover": "oklch(0.87 0.08 245)",
     "--color-action-primary-active": "oklch(0.87 0.08 245)",

@@ -29,6 +29,9 @@
     // --color-border-control-on-surface on any container that hosts form controls on a surface bg.
     --color-border-control:            var(--gray-500);
     --color-border-control-on-surface: oklch(0.50 0 0); // OKCA 3.4 on bg-surface ✅, 4.6 on page ✅
+    // Form-control knob fill (slider/switch thumb) — a light puck; pairs with
+    // --color-border-control (darker) for the edge. icon/border use (non-text UI).
+    --color-slider-thumb:              var(--gray-0); // white knob in light — icon/border use
 
     // ─── Colors: Action — Primary (navy) ───────────────────────────────────────
     --color-action-primary:        var(--navy-800); // OKCA 14.1 on white ✅
@@ -233,6 +236,9 @@
     --color-border-on-inverse: oklch(0.85 0 0); // subtle divider on white inverse surface
     // L=0.60: OKCA 3.8 on dark page ✅, OKCA 3.1 on dark bg-surface ✅
     --color-border-control-on-surface: oklch(0.60 0 0);
+    // Light puck on the dark track — fill stays light (border-control 0.56 is the
+    // darker edge). icon/border use (non-text UI).
+    --color-slider-thumb: var(--gray-100); // oklch(0.91) light knob in dark — icon/border use
 
     // ─── Action — Primary (navy) ───────────────────────────────────────────
     // Direct OKLCH values instead of navy-* scale refs — the navy palette is

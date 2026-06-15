@@ -81,9 +81,9 @@ export class CandorSlider extends LitElement {
       height: var(--candor-slider-thumb-size);
       margin-top: calc((var(--candor-slider-thumb-size) - var(--candor-slider-track-height)) / -2);
       border-radius: 50%;
-      background: var(--color-bg-page);
-      border: var(--border-width-medium) solid rgba(0, 0, 0, 0.18);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(0, 0, 0, 0.12);
+      background: var(--color-slider-thumb);
+      border: var(--border-width-medium) solid var(--color-border-control);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
       cursor: pointer;
       transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
@@ -95,9 +95,9 @@ export class CandorSlider extends LitElement {
       width: var(--candor-slider-thumb-size);
       height: var(--candor-slider-thumb-size);
       border-radius: 50%;
-      background: var(--color-bg-page);
-      border: var(--border-width-medium) solid rgba(0, 0, 0, 0.18);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(0, 0, 0, 0.12);
+      background: var(--color-slider-thumb);
+      border: var(--border-width-medium) solid var(--color-border-control);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
       cursor: pointer;
       transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
