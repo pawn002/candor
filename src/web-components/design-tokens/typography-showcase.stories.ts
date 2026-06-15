@@ -52,7 +52,7 @@ const renderShowcase = () => html`
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-lg);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-lg);">
         ${FONT_FAMILIES.map(f => {
           const isInterp = f.mode === 'Interpretation';
           const accentColor = isInterp ? 'var(--color-action-secondary)' : 'var(--color-action-primary)';
