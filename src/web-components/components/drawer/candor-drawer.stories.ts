@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Drawer',
@@ -61,14 +62,12 @@ candor-drawer#filters-panel { --candor-drawer-size: 400px; }
     },
   },
   args: { heading: 'Settings', position: 'right', size: 'md' },
-  render: (args) => ({
-    template: `
-      <candor-button onclick="document.getElementById('demo-drawer').open = true">Open drawer</candor-button>
-      <candor-drawer id="demo-drawer" heading="${args['heading']}" position="${args['position']}" size="${args['size']}">
-        <p style="margin:0">Drawer content goes here.</p>
-      </candor-drawer>
-    `,
-  }),
+  render: (args) => html`
+    <candor-button onclick="document.getElementById('demo-drawer').open = true">Open drawer</candor-button>
+    <candor-drawer id="demo-drawer" heading="${args['heading']}" position="${args['position']}" size="${args['size']}">
+      <p style="margin:0">Drawer content goes here.</p>
+    </candor-drawer>
+  `,
 };
 
 export default meta;
@@ -76,62 +75,69 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+// Open at snapshot time so Chromatic covers the slide-in panel. Excluded from
+// the docs page (tags: !autodocs) — a top-layer drawer would otherwise overlay it.
+export const Open: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`
+    <candor-drawer heading="Settings" position="right" size="md" open>
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
+        <p style="margin:0">Drawer content goes here — filters, inspector details, or a contextual panel.</p>
+        <candor-button variant="secondary">An action</candor-button>
+      </div>
+    </candor-drawer>
+  `,
+};
+
 export const BottomSheet: Story = {
   name: 'Position: Bottom',
-  render: () => ({
-    template: `
-      <candor-button onclick="document.getElementById('drawer-bottom').open = true">Open bottom sheet</candor-button>
-      <candor-drawer id="drawer-bottom" heading="Actions" position="bottom" size="sm">
-        <div style="display:flex;flex-direction:column;gap:0.75rem;">
-          <candor-button variant="secondary">Share</candor-button>
-          <candor-button variant="secondary">Duplicate</candor-button>
-          <candor-button variant="destructive">Delete</candor-button>
-        </div>
-      </candor-drawer>
-    `,
-  }),
+  render: () => html`
+    <candor-button onclick="document.getElementById('drawer-bottom').open = true">Open bottom sheet</candor-button>
+    <candor-drawer id="drawer-bottom" heading="Actions" position="bottom" size="sm">
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <candor-button variant="secondary">Share</candor-button>
+        <candor-button variant="secondary">Duplicate</candor-button>
+        <candor-button variant="destructive">Delete</candor-button>
+      </div>
+    </candor-drawer>
+  `,
 };
 
 export const WithFooter: Story = {
   name: 'With footer slot',
-  render: () => ({
-    template: `
-      <candor-button onclick="document.getElementById('drawer-footer').open = true">Open drawer</candor-button>
-      <candor-drawer id="drawer-footer" heading="Edit filter">
-        <div style="display:flex;flex-direction:column;gap:1rem;">
-          <candor-select label="Status" options='[{"value":"active","label":"Active"},{"value":"inactive","label":"Inactive"},{"value":"pending","label":"Pending"}]'></candor-select>
-          <candor-input label="Date range" placeholder="YYYY-MM-DD"></candor-input>
-        </div>
-        <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
-          <candor-button variant="ghost" onclick="document.getElementById('drawer-footer').open = false">Cancel</candor-button>
-          <candor-button onclick="document.getElementById('drawer-footer').open = false">Apply filters</candor-button>
-        </div>
-      </candor-drawer>
-    `,
-  }),
+  render: () => html`
+    <candor-button onclick="document.getElementById('drawer-footer').open = true">Open drawer</candor-button>
+    <candor-drawer id="drawer-footer" heading="Edit filter">
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <candor-select label="Status" options='[{"value":"active","label":"Active"},{"value":"inactive","label":"Inactive"},{"value":"pending","label":"Pending"}]'></candor-select>
+        <candor-input label="Date range" placeholder="YYYY-MM-DD"></candor-input>
+      </div>
+      <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
+        <candor-button variant="ghost" onclick="document.getElementById('drawer-footer').open = false">Cancel</candor-button>
+        <candor-button onclick="document.getElementById('drawer-footer').open = false">Apply filters</candor-button>
+      </div>
+    </candor-drawer>
+  `,
 };
 
 export const NoDismissOnBackdrop: Story = {
   name: 'dismiss-on-backdrop: false',
-  render: () => ({
-    template: `
-      <candor-button onclick="document.getElementById('drawer-nodismiss').open = true">Open drawer</candor-button>
-      <candor-drawer id="drawer-nodismiss" heading="Required action" dismiss-on-backdrop="false">
-        <p style="margin:0">Clicking outside this drawer does nothing. Use the close button or Escape to dismiss.</p>
-        <p style="margin-top:1rem;color:var(--color-text-subtle);font-size:var(--font-size-sm);">Use <code>dismiss-on-backdrop="false"</code> for flows where an accidental dismiss would lose unsaved work.</p>
-      </candor-drawer>
-    `,
-  }),
+  render: () => html`
+    <candor-button onclick="document.getElementById('drawer-nodismiss').open = true">Open drawer</candor-button>
+    <candor-drawer id="drawer-nodismiss" heading="Required action" dismiss-on-backdrop="false">
+      <p style="margin:0">Clicking outside this drawer does nothing. Use the close button or Escape to dismiss.</p>
+      <p style="margin-top:1rem;color:var(--color-text-subtle);font-size:var(--font-size-sm);">Use <code>dismiss-on-backdrop="false"</code> for flows where an accidental dismiss would lose unsaved work.</p>
+    </candor-drawer>
+  `,
 };
 
 export const LargeDrawer: Story = {
   name: 'Size: Large',
-  render: () => ({
-    template: `
-      <candor-button onclick="document.getElementById('drawer-lg').open = true">Open large drawer</candor-button>
-      <candor-drawer id="drawer-lg" heading="Document preview" size="lg">
-        <p style="margin:0">Large drawers (640px) are suited to document previews, detail views, or any panel that needs more horizontal reading space.</p>
-      </candor-drawer>
-    `,
-  }),
+  render: () => html`
+    <candor-button onclick="document.getElementById('drawer-lg').open = true">Open large drawer</candor-button>
+    <candor-drawer id="drawer-lg" heading="Document preview" size="lg">
+      <p style="margin:0">Large drawers (640px) are suited to document previews, detail views, or any panel that needs more horizontal reading space.</p>
+    </candor-drawer>
+  `,
 };

@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Card',
@@ -71,15 +72,13 @@ element's accessibility node.
     },
   },
   args: { variant: 'default', padding: 'md' },
-  render: (args) => ({
-    template: `
-      <candor-card variant="${args['variant']}" padding="${args['padding']}">
-        <span slot="header">Card Header</span>
-        <p style="margin:0">Card body content goes here.</p>
-        <span slot="footer">Card Footer</span>
-      </candor-card>
-    `,
-  }),
+  render: (args) => html`
+    <candor-card variant="${args['variant']}" padding="${args['padding']}">
+      <span slot="header">Card Header</span>
+      <p style="margin:0">Card body content goes here.</p>
+      <span slot="footer">Card Footer</span>
+    </candor-card>
+  `,
 };
 
 export default meta;
@@ -88,60 +87,54 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const WithHeaderAndFooter: Story = {
-  render: () => ({
-    template: `
-      <candor-card variant="outlined" padding="md">
-        <div slot="header">Card Header</div>
-        <p style="margin:0">Card body content goes here. This card has both a header and footer slot populated.</p>
-        <div slot="footer">Card Footer — Additional info or actions</div>
-      </candor-card>
-    `,
-  }),
+  render: () => html`
+    <candor-card variant="outlined" padding="md">
+      <div slot="header">Card Header</div>
+      <p style="margin:0">Card body content goes here. This card has both a header and footer slot populated.</p>
+      <div slot="footer">Card Footer — Additional info or actions</div>
+    </candor-card>
+  `,
 };
 
 export const AllVariants: Story = {
-  render: () => ({
-    template: `
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1rem;">
-        <candor-card variant="default">
-          <span slot="header">Default</span>
-          <p style="margin:0">Surface background with no shadow.</p>
-        </candor-card>
-        <candor-card variant="elevated">
-          <span slot="header">Elevated</span>
-          <p style="margin:0">White background with shadow elevation.</p>
-        </candor-card>
-        <candor-card variant="outlined">
-          <span slot="header">Outlined</span>
-          <p style="margin:0">Page background with explicit border.</p>
-        </candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1rem;">
+      <candor-card variant="default">
+        <span slot="header">Default</span>
+        <p style="margin:0">Surface background with no shadow.</p>
+      </candor-card>
+      <candor-card variant="elevated">
+        <span slot="header">Elevated</span>
+        <p style="margin:0">White background with shadow elevation.</p>
+      </candor-card>
+      <candor-card variant="outlined">
+        <span slot="header">Outlined</span>
+        <p style="margin:0">Page background with explicit border.</p>
+      </candor-card>
+    </div>
+  `,
 };
 
 export const CardGrid: Story = {
-  render: () => ({
-    template: `
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1.5rem;max-width:48rem;">
-        <candor-card variant="default" padding="md">
-          <div slot="header">Default</div>
-          <p style="margin:0">Surface background, no border, no shadow.</p>
-        </candor-card>
-        <candor-card variant="elevated" padding="md">
-          <div slot="header">Elevated</div>
-          <p style="margin:0">Lightness-elevated background with shadow.</p>
-        </candor-card>
-        <candor-card variant="outlined" padding="md">
-          <div slot="header">Outlined</div>
-          <p style="margin:0">Page background with a thin border.</p>
-        </candor-card>
-        <candor-card variant="elevated" padding="lg">
-          <div slot="header">Elevated — Large Padding</div>
-          <p style="margin:0">Same elevated style with larger internal spacing.</p>
-          <div slot="footer">Footer content</div>
-        </candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1.5rem;max-width:48rem;">
+      <candor-card variant="default" padding="md">
+        <div slot="header">Default</div>
+        <p style="margin:0">Surface background, no border, no shadow.</p>
+      </candor-card>
+      <candor-card variant="elevated" padding="md">
+        <div slot="header">Elevated</div>
+        <p style="margin:0">Lightness-elevated background with shadow.</p>
+      </candor-card>
+      <candor-card variant="outlined" padding="md">
+        <div slot="header">Outlined</div>
+        <p style="margin:0">Page background with a thin border.</p>
+      </candor-card>
+      <candor-card variant="elevated" padding="lg">
+        <div slot="header">Elevated — Large Padding</div>
+        <p style="margin:0">Same elevated style with larger internal spacing.</p>
+        <div slot="footer">Footer content</div>
+      </candor-card>
+    </div>
+  `,
 };

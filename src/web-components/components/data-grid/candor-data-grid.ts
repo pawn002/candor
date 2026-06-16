@@ -19,6 +19,7 @@ export interface GridRow {
 export class CandorDataGrid extends LitElement {
   static override styles = css`
     :host { display: block; }
+    .data-grid__scroll { overflow-x: auto; }
     .sr-only {
       position: absolute; width: 1px; height: 1px; padding: 0;
       overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%);
@@ -234,6 +235,7 @@ export class CandorDataGrid extends LitElement {
       <p id="${this._hintId}" class="sr-only">
         Arrow keys navigate · Ctrl+Home/End jumps to first/last cell · Enter or Space activates
       </p>
+      <div class="data-grid__scroll">
       <table
         role="grid"
         class="data-grid"
@@ -282,6 +284,7 @@ export class CandorDataGrid extends LitElement {
           `)}
         </tbody>
       </table>
+      </div>
       <div role="status" aria-live="polite" aria-atomic="true" class="sr-only">${this._announcement}</div>
     `;
   }

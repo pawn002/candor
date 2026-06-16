@@ -1,6 +1,7 @@
 import React from 'react';
+import { html } from 'lit';
 import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 interface ColorSwatch {
   name: string;
@@ -154,9 +155,9 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
 ];
 
-const renderSwatchGrid = (categories: ColorCategory[]) => `
+const renderSwatchGrid = (categories: ColorCategory[]) => html`
   <div style="display: block; font-family: var(--font-family-base); padding: var(--spacing-lg); background: var(--color-bg-page);">
-    ${categories.map(cat => `
+    ${categories.map(cat => html`
       <section style="margin-bottom: var(--spacing-lg);">
         <div style="margin-bottom: var(--spacing-sm);">
           <h2 style="
@@ -178,7 +179,7 @@ const renderSwatchGrid = (categories: ColorCategory[]) => `
           ">${cat.description}</p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--spacing-xs);">
-          ${cat.colors.map(c => `
+          ${cat.colors.map(c => html`
             <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); overflow: hidden; background: var(--color-bg-surface);">
               <div style="height: 56px; background: var(${c.variable});"></div>
               <div style="padding: var(--spacing-xs) var(--spacing-sm);">
@@ -192,21 +193,22 @@ const renderSwatchGrid = (categories: ColorCategory[]) => `
                 ">${c.variable}</code>
               </div>
             </div>
-          `).join('')}
+          `)}
         </div>
       </section>
-    `).join('')}
+    `)}
   </div>
 `;
 
-const renderReferenceTable = (categories: ColorCategory[]) => `
+const renderReferenceTable = (categories: ColorCategory[]) => html`
   <div style="display: flex; flex-direction: column; gap: var(--spacing-xl);">
     ${categories.map(cat => {
       const headingId = `tokcat-${cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
-      return `
+      return html`
       <section>
         <h2 id="${headingId}" style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-2xs);">${cat.name}</h2>
         <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-sm);">${cat.description}</p>
+        <div style="overflow-x: auto;">
         <table aria-labelledby="${headingId}" style="
           width: 100%;
           border-collapse: collapse;
@@ -224,19 +226,20 @@ const renderReferenceTable = (categories: ColorCategory[]) => `
             </tr>
           </thead>
           <tbody>
-            ${cat.colors.map((c, i) => `
-              <tr style="${i % 2 === 1 ? 'background: oklch(0.85 0 0);' : ''}">
+            ${cat.colors.map((c, i) => html`
+              <tr style="${i % 2 === 1 ? 'background: var(--color-bg-surface);' : ''}">
                 <td style="padding: 0.25rem var(--spacing-sm); font-family: var(--font-family-mono);">${c.variable}</td>
-                <td style="padding: 0.25rem var(--spacing-sm); font-family: var(--font-family-mono);">${c.light ? `<span style="display:inline-flex;align-items:center;gap:0.375em;"><span style="display:inline-block;width:0.875rem;height:0.875rem;border-radius:2px;background:${c.light};border:1px solid oklch(0 0 0 / 0.12);flex-shrink:0;"></span>${c.light}</span>` : '—'}</td>
-                <td style="padding: 0.25rem var(--spacing-sm); font-family: var(--font-family-mono);">${c.dark ? `<span style="display:inline-flex;align-items:center;gap:0.375em;"><span style="display:inline-block;width:0.875rem;height:0.875rem;border-radius:2px;background:${c.dark};border:1px solid oklch(0 0 0 / 0.12);flex-shrink:0;"></span>${c.dark}</span>` : '—'}</td>
+                <td style="padding: 0.25rem var(--spacing-sm); font-family: var(--font-family-mono);">${c.light ? html`<span style="display:inline-flex;align-items:center;gap:0.375em;"><span style="display:inline-block;width:0.875rem;height:0.875rem;border-radius:2px;background:${c.light};border:1px solid oklch(0 0 0 / 0.12);flex-shrink:0;"></span>${c.light}</span>` : '—'}</td>
+                <td style="padding: 0.25rem var(--spacing-sm); font-family: var(--font-family-mono);">${c.dark ? html`<span style="display:inline-flex;align-items:center;gap:0.375em;"><span style="display:inline-block;width:0.875rem;height:0.875rem;border-radius:2px;background:${c.dark};border:1px solid oklch(0 0 0 / 0.12);flex-shrink:0;"></span>${c.dark}</span>` : '—'}</td>
                 <td style="padding: 0.25rem var(--spacing-sm); color: var(--color-text-subtle-on-surface);">${c.description}</td>
               </tr>
-            `).join('')}
+            `)}
           </tbody>
         </table>
+        </div>
       </section>
       `;
-    }).join('')}
+    })}
   </div>
 `;
 
@@ -292,7 +295,7 @@ export const LightTheme: Story = {
       },
     },
   },
-  render: () => ({ template: renderSwatchGrid(COLOR_CATEGORIES) }),
+  render: () => renderSwatchGrid(COLOR_CATEGORIES),
 };
 
 export const DarkTheme: Story = {
@@ -305,7 +308,7 @@ export const DarkTheme: Story = {
       },
     },
   },
-  render: () => ({ template: renderSwatchGrid(COLOR_CATEGORIES) }),
+  render: () => renderSwatchGrid(COLOR_CATEGORIES),
 };
 
 export const TokenReference: Story = {
@@ -318,5 +321,5 @@ export const TokenReference: Story = {
       },
     },
   },
-  render: () => ({ template: renderReferenceTable(COLOR_CATEGORIES) }),
+  render: () => renderReferenceTable(COLOR_CATEGORIES),
 };

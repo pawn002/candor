@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const FINANCE_HEADERS = JSON.stringify(['Quarter', 'Revenue', 'Expenses', 'Net']);
 const FINANCE_ROWS = JSON.stringify([
@@ -70,25 +71,17 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  render: () => ({
-    template: `<candor-table caption="Team roster" headers='${TEAM_HEADERS}' rows='${TEAM_ROWS}'></candor-table>`,
-  }),
+  render: () => html`<candor-table caption="Team roster" headers='${TEAM_HEADERS}' rows='${TEAM_ROWS}'></candor-table>`,
 };
 
 export const Compact: Story = {
-  render: () => ({
-    template: `<candor-table caption="Team roster (compact)" compact headers='${TEAM_HEADERS}' rows='${TEAM_ROWS}'></candor-table>`,
-  }),
+  render: () => html`<candor-table caption="Team roster (compact)" compact headers='${TEAM_HEADERS}' rows='${TEAM_ROWS}'></candor-table>`,
 };
 
 export const KeyValue: Story = {
-  render: () => ({
-    template: `<candor-table caption="Package details" rows='${KV_ROWS}'></candor-table>`,
-  }),
+  render: () => html`<candor-table caption="Package details" rows='${KV_ROWS}'></candor-table>`,
 };
 
 export const Numeric: Story = {
-  render: () => ({
-    template: `<candor-table caption="Quarterly financial summary" headers='${FINANCE_HEADERS}' rows='${FINANCE_ROWS}' numeric-columns='${NUMERIC_COLS}'></candor-table>`,
-  }),
+  render: () => html`<candor-table caption="Quarterly financial summary" headers='${FINANCE_HEADERS}' rows='${FINANCE_ROWS}' numeric-columns='${NUMERIC_COLS}'></candor-table>`,
 };

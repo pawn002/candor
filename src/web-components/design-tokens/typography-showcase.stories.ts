@@ -1,6 +1,7 @@
 import React from 'react';
+import { html } from 'lit';
 import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 interface FontFamily {
   name: string;
@@ -38,7 +39,7 @@ const TYPE_SCALE: TypeStep[] = [
   { token: '--font-size-xs',  size: '0.75rem',   px: '12px', use: 'Decorative / non-text only', isDecorative: true },
 ];
 
-const renderShowcase = () => `
+const renderShowcase = () => html`
   <div style="padding: var(--spacing-lg); background: var(--color-bg-page); font-family: var(--font-family-base);">
 
     <section style="margin-bottom: var(--spacing-2xl);">
@@ -51,12 +52,12 @@ const renderShowcase = () => `
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-lg);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-lg);">
         ${FONT_FAMILIES.map(f => {
           const isInterp = f.mode === 'Interpretation';
           const accentColor = isInterp ? 'var(--color-action-secondary)' : 'var(--color-action-primary)';
           const chipVariant = isInterp ? 'secondary' : 'primary';
-          return `
+          return html`
             <candor-card variant="default" padding="none">
               <div style="height: var(--border-width-thick); background: ${accentColor};"></div>
               <div style="padding: var(--spacing-lg); font-family: var(${f.variable}); font-size: var(--font-size-lg); font-weight: var(--font-weight-regular); color: var(--color-text-default); line-height: var(--line-height-normal); white-space: pre-line; min-height: 112px; display: flex; align-items: center; border-bottom: var(--border-width-thin) solid var(--color-border-default);">${f.specimen}</div>
@@ -71,7 +72,7 @@ const renderShowcase = () => `
               </div>
             </candor-card>
           `;
-        }).join('')}
+        })}
       </div>
     </section>
 
@@ -91,7 +92,7 @@ const renderShowcase = () => `
           const floorStyle = s.isFloor ? `box-shadow: inset var(--border-width-thick) 0 0 var(--color-action-primary);` : '';
           const opacity = s.isDecorative ? '0.55' : '1';
           const isLast = i === TYPE_SCALE.length - 1;
-          return `
+          return html`
             <div style="display: grid; grid-template-columns: 5rem 1fr; align-items: center; padding: var(--spacing-sm) var(--spacing-md); ${isLast ? '' : 'border-bottom: var(--border-width-thin) solid var(--color-border-strong);'} gap: var(--spacing-md); ${floorStyle} opacity: ${opacity};">
               <div style="font-family: var(--font-family-base); font-weight: var(--font-weight-semibold); color: var(--color-text-default); line-height: 1; text-align: right; font-optical-sizing: auto; font-size: ${s.size};">Aa</div>
               <div style="display: flex; align-items: baseline; gap: var(--spacing-sm); flex-wrap: wrap;">
@@ -101,7 +102,7 @@ const renderShowcase = () => `
               </div>
             </div>
           `;
-        }).join('')}
+        })}
       </div>
     </section>
 
@@ -127,7 +128,7 @@ const tierRows = [
   { cells: ['3 — Supplementary', 'Pattern match — meaning redundantly coded', '4.5', '4.5', 'Badge text, hint text, breadcrumb separators, pagination ellipsis, stat labels, table metadata, accordion quiet headings (wght 500 — structural nesting is the redundant channel)'] },
 ];
 
-const renderContrastGuidance = () => `
+const renderContrastGuidance = () => html`
   <div style="max-width: 720px; display: flex; flex-direction: column; gap: var(--spacing-xl); padding-bottom: var(--spacing-xl);">
 
     <section>
@@ -199,7 +200,7 @@ export default meta;
 type Story = StoryObj;
 
 export const Showcase: Story = {
-  render: () => ({ template: renderShowcase() }),
+  render: () => renderShowcase(),
 };
 
 export const OKCAContrastGuidance: Story = {
@@ -226,5 +227,5 @@ differently from fluent prose. Three tiers adjust the 14px threshold accordingly
       },
     },
   },
-  render: () => ({ template: renderContrastGuidance() }),
+  render: () => renderContrastGuidance(),
 };

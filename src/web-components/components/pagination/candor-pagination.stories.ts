@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Pagination',
@@ -38,9 +39,7 @@ to give screen readers a unique landmark name (e.g. \`"Documents pagination"\`,
     },
   },
   args: { currentPage: 3, totalPages: 10 },
-  render: (args) => ({
-    template: `<candor-pagination current-page="${args['currentPage']}" total-pages="${args['totalPages']}"></candor-pagination>`,
-  }),
+  render: (args) => html`<candor-pagination current-page="${args['currentPage']}" total-pages="${args['totalPages']}"></candor-pagination>`,
 };
 
 export default meta;
@@ -58,9 +57,7 @@ export const LastPage: Story = {
 
 export const FewPages: Story = {
   name: 'Few Pages (no ellipsis)',
-  render: () => ({
-    template: `<candor-pagination current-page="3" total-pages="5"></candor-pagination>`,
-  }),
+  render: () => html`<candor-pagination current-page="3" total-pages="5"></candor-pagination>`,
 };
 
 export const ManyPages: Story = {
@@ -83,37 +80,33 @@ const tableRows = JSON.stringify([
 
 export const WithTable: Story = {
   name: 'Pattern: Below a Table',
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
-        <candor-table headers='${tableHeaders}' rows='${tableRows}'></candor-table>
-        <div style="display:flex;justify-content:flex-end;">
-          <candor-pagination current-page="3" total-pages="12"></candor-pagination>
-        </div>
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
+      <candor-table headers='${tableHeaders}' rows='${tableRows}'></candor-table>
+      <div style="display:flex;justify-content:flex-end;">
+        <candor-pagination current-page="3" total-pages="12"></candor-pagination>
       </div>
-    `,
-  }),
+    </div>
+  `,
 };
 
 export const MultiplePaginators: Story = {
   name: 'Pattern: Multiple Paginators',
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
-        <div>
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-xs);">When more than one paginator exists on a page, customize <code>aria-label</code> so screen reader users can distinguish them.</p>
-        </div>
-        <div>
-          <p style="font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-bottom:var(--spacing-xs);">Documents</p>
-          <candor-pagination current-page="2" total-pages="8" aria-label="Documents pagination"></candor-pagination>
-        </div>
-        <div>
-          <p style="font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-bottom:var(--spacing-xs);">Images</p>
-          <candor-pagination current-page="1" total-pages="4" aria-label="Images pagination"></candor-pagination>
-        </div>
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
+      <div>
+        <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin-bottom:var(--spacing-xs);">When more than one paginator exists on a page, customize <code>aria-label</code> so screen reader users can distinguish them.</p>
       </div>
-    `,
-  }),
+      <div>
+        <p style="font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-bottom:var(--spacing-xs);">Documents</p>
+        <candor-pagination current-page="2" total-pages="8" aria-label="Documents pagination"></candor-pagination>
+      </div>
+      <div>
+        <p style="font-size:var(--font-size-sm);font-weight:var(--font-weight-medium);margin-bottom:var(--spacing-xs);">Images</p>
+        <candor-pagination current-page="1" total-pages="4" aria-label="Images pagination"></candor-pagination>
+      </div>
+    </div>
+  `,
 };
 
 export const Controlled: Story = {

@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Stat',
@@ -41,9 +42,7 @@ Compose with \`<candor-badge>\` for trend indicators (↑ 12% vs. last month) an
     },
   },
   args: { value: '1,284', unit: '', label: 'Monthly active users', color: 'default', size: 'md' },
-  render: (args) => ({
-    template: `<candor-stat value="${args['value']}" unit="${args['unit']}" label="${args['label']}" color="${args['color']}" size="${args['size']}"></candor-stat>`,
-  }),
+  render: (args) => html`<candor-stat value="${args['value']}" unit="${args['unit']}" label="${args['label']}" color="${args['color']}" size="${args['size']}"></candor-stat>`,
 };
 
 export default meta;
@@ -53,61 +52,55 @@ export const Default: Story = {};
 
 export const AllSizes: Story = {
   parameters: { controls: { disable: true } },
-  render: () => ({
-    template: `
-      <div style="display:flex;gap:var(--spacing-xl);flex-wrap:wrap;align-items:flex-end;">
-        <div style="text-align:center;">
-          <candor-stat value="1,284" label="Users" size="sm"></candor-stat>
-          <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">size="sm"</candor-accessible-text>
-        </div>
-        <div style="text-align:center;">
-          <candor-stat value="1,284" label="Users" size="md"></candor-stat>
-          <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">size="md" (default)</candor-accessible-text>
-        </div>
-        <div style="text-align:center;">
-          <candor-stat value="1,284" label="Users" size="lg"></candor-stat>
-          <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">size="lg"</candor-accessible-text>
-        </div>
+  render: () => html`
+    <div style="display:flex;gap:var(--spacing-xl);flex-wrap:wrap;align-items:flex-end;">
+      <div style="text-align:center;">
+        <candor-stat value="1,284" label="Users" size="sm"></candor-stat>
+        <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">size="sm"</candor-accessible-text>
       </div>
-    `,
-  }),
+      <div style="text-align:center;">
+        <candor-stat value="1,284" label="Users" size="md"></candor-stat>
+        <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">size="md" (default)</candor-accessible-text>
+      </div>
+      <div style="text-align:center;">
+        <candor-stat value="1,284" label="Users" size="lg"></candor-stat>
+        <candor-accessible-text role_="annotation" style="display:block;margin-top:var(--spacing-xs);">size="lg"</candor-accessible-text>
+      </div>
+    </div>
+  `,
 };
 
 export const ContrastRatio: Story = {
   name: 'Contrast ratio — warning state',
   parameters: { controls: { disable: true } },
-  render: () => ({
-    template: `
-      <div style="max-width:320px;padding:var(--spacing-sm);">
-        <candor-card variant="elevated">
-          <div style="padding:var(--spacing-xs) 0;">
-            <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning">
-              <div style="display:flex;gap:var(--spacing-xs);flex-wrap:wrap;justify-content:center;">
-                <candor-badge variant="error" size="sm">AA text ✗</candor-badge>
-                <candor-badge variant="success" size="sm">Large text ✓</candor-badge>
-                <candor-badge variant="success" size="sm">Non-text ✓</candor-badge>
-              </div>
-              <candor-accessible-text role_="annotation" color="secondary" style="text-align:center;display:block;">
-                Needs 4.5:1 for AA · 7:1 for AAA
-              </candor-accessible-text>
-            </candor-stat>
-          </div>
-        </candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="max-width:320px;padding:var(--spacing-sm);">
+      <candor-card variant="elevated">
+        <div style="padding:var(--spacing-xs) 0;">
+          <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning">
+            <div style="display:flex;gap:var(--spacing-xs);flex-wrap:wrap;justify-content:center;">
+              <candor-badge variant="error" size="sm">AA text ✗</candor-badge>
+              <candor-badge variant="success" size="sm">Large text ✓</candor-badge>
+              <candor-badge variant="success" size="sm">Non-text ✓</candor-badge>
+            </div>
+            <candor-accessible-text role_="annotation" color="secondary" style="text-align:center;display:block;">
+              Needs 4.5:1 for AA · 7:1 for AAA
+            </candor-accessible-text>
+          </candor-stat>
+        </div>
+      </candor-card>
+    </div>
+  `,
 };
 
 export const AllColors: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;gap:var(--spacing-lg);flex-wrap:wrap;justify-content:center;">
-        <candor-stat value="98.7" unit="%" label="Uptime" color="success" size="lg"></candor-stat>
-        <candor-stat value="42" label="Pending" color="warning" size="lg"></candor-stat>
-        <candor-stat value="3" label="Failures" color="error" size="lg"></candor-stat>
-        <candor-stat value="1,284" label="Users" color="default" size="lg"></candor-stat>
-        <candor-stat value="512" label="API calls" color="info" size="lg"></candor-stat>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;gap:var(--spacing-lg);flex-wrap:wrap;justify-content:center;">
+      <candor-stat value="98.7" unit="%" label="Uptime" color="success" size="lg"></candor-stat>
+      <candor-stat value="42" label="Pending" color="warning" size="lg"></candor-stat>
+      <candor-stat value="3" label="Failures" color="error" size="lg"></candor-stat>
+      <candor-stat value="1,284" label="Users" color="default" size="lg"></candor-stat>
+      <candor-stat value="512" label="API calls" color="info" size="lg"></candor-stat>
+    </div>
+  `,
 };

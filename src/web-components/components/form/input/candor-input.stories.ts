@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html, nothing } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Form/Input',
@@ -51,9 +52,7 @@ Emits an \`input-change\` CustomEvent on each keystroke.
     },
   },
   args: { label: 'Email address', placeholder: 'you@example.com', type: 'email', required: false, disabled: false, multiline: false },
-  render: (args) => ({
-    template: `<candor-input label="${args['label']}" placeholder="${args['placeholder'] || ''}" type="${args['type']}" error="${args['error'] || ''}" hint="${args['hint'] || ''}" ${args['value'] ? `value="${args['value']}"` : ''} ${args['autocomplete'] ? `autocomplete="${args['autocomplete']}"` : ''} ${args['rows'] ? `rows="${args['rows']}"` : ''} ${args['resize'] ? `resize="${args['resize']}"` : ''} ${args['required'] ? 'required' : ''} ${args['disabled'] ? 'disabled' : ''} ${args['multiline'] ? 'multiline' : ''}></candor-input>`,
-  }),
+  render: (args) => html`<candor-input label="${args['label']}" placeholder="${args['placeholder'] || ''}" type="${args['type']}" error="${args['error'] || ''}" hint="${args['hint'] || ''}" value=${args['value'] || nothing} autocomplete=${args['autocomplete'] || nothing} rows=${args['rows'] || nothing} resize=${args['resize'] || nothing} ?required=${args['required']} ?disabled=${args['disabled']} ?multiline=${args['multiline']}></candor-input>`,
 };
 
 export default meta;
@@ -82,35 +81,27 @@ export const MultilineResizeNone: Story = {
 };
 
 export const AllStates: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;">
-        <candor-card><candor-input label="Default" placeholder="Enter text"></candor-input></candor-card>
-        <candor-card><candor-input label="With hint" hint="This is a helpful hint"></candor-input></candor-card>
-        <candor-card><candor-input label="Required field" required></candor-input></candor-card>
-        <candor-card><candor-input label="With error" error="This field is required"></candor-input></candor-card>
-        <candor-card><candor-input label="Disabled" value="Cannot edit" disabled></candor-input></candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;">
+      <candor-card><candor-input label="Default" placeholder="Enter text"></candor-input></candor-card>
+      <candor-card><candor-input label="With hint" hint="This is a helpful hint"></candor-input></candor-card>
+      <candor-card><candor-input label="Required field" required></candor-input></candor-card>
+      <candor-card><candor-input label="With error" error="This field is required"></candor-input></candor-card>
+      <candor-card><candor-input label="Disabled" value="Cannot edit" disabled></candor-input></candor-card>
+    </div>
+  `,
 };
 
 export const WithError: Story = {
-  render: () => ({
-    template: `<candor-input label="Email address" type="email" value="bad@" error="Enter a valid email address."></candor-input>`,
-  }),
+  render: () => html`<candor-input label="Email address" type="email" value="bad@" error="Enter a valid email address."></candor-input>`,
 };
 
 export const WithHint: Story = {
-  render: () => ({
-    template: `<candor-input label="Email address" type="email" placeholder="you@example.com" hint="We'll only use this to send your receipt."></candor-input>`,
-  }),
+  render: () => html`<candor-input label="Email address" type="email" placeholder="you@example.com" hint="We'll only use this to send your receipt."></candor-input>`,
 };
 
 export const Multiline: Story = {
-  render: () => ({
-    template: `<candor-input label="Message" multiline placeholder="Type your message…" rows="4"></candor-input>`,
-  }),
+  render: () => html`<candor-input label="Message" multiline placeholder="Type your message…" rows="4"></candor-input>`,
 };
 
 export const OnSurface: Story = {
@@ -125,28 +116,26 @@ export const OnSurface: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);max-width:640px;">
-        <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Page background</div>
-          <div style="background:var(--color-bg-page);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);">
-            <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
-            <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
-            <candor-input label="With error" error="This field is required"></candor-input>
-            <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Surface background</div>
-          <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);--color-border-control:var(--color-border-control-on-surface);">
-            <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
-            <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
-            <candor-input label="With error" error="This field is required"></candor-input>
-            <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
-          </div>
+  render: () => html`
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr));gap:var(--spacing-md);max-width:640px;">
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+        <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Page background</div>
+        <div style="background:var(--color-bg-page);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);">
+          <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
+          <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
+          <candor-input label="With error" error="This field is required"></candor-input>
+          <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
         </div>
       </div>
-    `,
-  }),
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+        <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Surface background</div>
+        <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);--color-border-control:var(--color-border-control-on-surface);">
+          <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
+          <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
+          <candor-input label="With error" error="This field is required"></candor-input>
+          <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
+        </div>
+      </div>
+    </div>
+  `,
 };

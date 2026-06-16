@@ -1,4 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
+import { clickInShadow } from '../../../story-utils';
 
 const LANGUAGES_JSON = JSON.stringify([
   { value: 'en', label: 'English' },
@@ -67,17 +69,15 @@ Emits a \`change\` CustomEvent.
     error: '',
     hint: 'Used for UI and documentation.',
   },
-  render: (args) => ({
-    template: `<candor-listbox
-      label="${args['label']}"
-      placeholder="${args['placeholder']}"
-      ${args['disabled'] ? 'disabled' : ''}
-      ${args['required'] ? 'required' : ''}
-      error="${args['error'] || ''}"
-      hint="${args['hint'] || ''}"
-      options='${LANGUAGES_JSON}'
-    ></candor-listbox>`,
-  }),
+  render: (args) => html`<candor-listbox
+    label="${args['label']}"
+    placeholder="${args['placeholder']}"
+    ?disabled=${args['disabled']}
+    ?required=${args['required']}
+    error="${args['error'] || ''}"
+    hint="${args['hint'] || ''}"
+    options='${LANGUAGES_JSON}'
+  ></candor-listbox>`,
 };
 
 export default meta;
@@ -85,35 +85,38 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+// Opened via a play function so Chromatic captures the options list.
+// Excluded from the docs page (tags: !autodocs).
+export const Open: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`<candor-listbox label="Language" placeholder="Select a language" options='${LANGUAGES_JSON}'></candor-listbox>`,
+  play: clickInShadow('candor-listbox', '.listbox__trigger'),
+};
+
 export const WithPreselectedValue: Story = {
-  render: () => ({
-    template: `<candor-listbox
-      label="Country"
-      options='${COUNTRIES_JSON}'
-      value="jp"
-    ></candor-listbox>`,
-  }),
+  render: () => html`<candor-listbox
+    label="Country"
+    options='${COUNTRIES_JSON}'
+    value="jp"
+  ></candor-listbox>`,
 };
 
 export const WithDisabledOptions: Story = {
-  render: () => ({
-    template: `<candor-listbox
-      label="Role"
-      hint="Owner role cannot be assigned after project creation."
-      options='${ROLES_JSON}'
-    ></candor-listbox>`,
-  }),
+  render: () => html`<candor-listbox
+    label="Role"
+    hint="Owner role cannot be assigned after project creation."
+    options='${ROLES_JSON}'
+  ></candor-listbox>`,
 };
 
 export const WithHint: Story = {
-  render: () => ({
-    template: `<candor-listbox
-      label="Country"
-      hint="Used to determine local content and date format."
-      placeholder="Select a country"
-      options='${COUNTRIES_JSON}'
-    ></candor-listbox>`,
-  }),
+  render: () => html`<candor-listbox
+    label="Country"
+    hint="Used to determine local content and date format."
+    placeholder="Select a country"
+    options='${COUNTRIES_JSON}'
+  ></candor-listbox>`,
 };
 
 export const LongList: Story = {
@@ -128,20 +131,18 @@ export const LongList: Story = {
       },
     },
   },
-  render: () => ({
-    template: `<div style="max-width:320px;"><candor-listbox
-      label="Birth month"
-      placeholder="Select a month"
-      options='${JSON.stringify([
-        { value: '01', label: 'January' }, { value: '02', label: 'February' },
-        { value: '03', label: 'March' }, { value: '04', label: 'April' },
-        { value: '05', label: 'May' }, { value: '06', label: 'June' },
-        { value: '07', label: 'July' }, { value: '08', label: 'August' },
-        { value: '09', label: 'September' }, { value: '10', label: 'October' },
-        { value: '11', label: 'November' }, { value: '12', label: 'December' },
-      ])}'
-    ></candor-listbox></div>`,
-  }),
+  render: () => html`<div style="max-width:320px;"><candor-listbox
+    label="Birth month"
+    placeholder="Select a month"
+    options='${JSON.stringify([
+      { value: '01', label: 'January' }, { value: '02', label: 'February' },
+      { value: '03', label: 'March' }, { value: '04', label: 'April' },
+      { value: '05', label: 'May' }, { value: '06', label: 'June' },
+      { value: '07', label: 'July' }, { value: '08', label: 'August' },
+      { value: '09', label: 'September' }, { value: '10', label: 'October' },
+      { value: '11', label: 'November' }, { value: '12', label: 'December' },
+    ])}'
+  ></candor-listbox></div>`,
 };
 
 export const NoLabel: Story = {
@@ -154,13 +155,11 @@ export const NoLabel: Story = {
       },
     },
   },
-  render: () => ({
-    template: `<candor-listbox
-      aria-label="Filter by role"
-      placeholder="Filter by role"
-      options='${ROLES_JSON}'
-    ></candor-listbox>`,
-  }),
+  render: () => html`<candor-listbox
+    aria-label="Filter by role"
+    placeholder="Filter by role"
+    options='${ROLES_JSON}'
+  ></candor-listbox>`,
 };
 
 export const WithError: Story = {

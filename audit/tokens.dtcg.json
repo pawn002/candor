@@ -96,6 +96,16 @@
           "$description": "OKCA 3.4 on bg-surface ✅, 4.6 on page ✅"
         }
       },
+      "slider": {
+        "thumb": {
+          "$type": "color",
+          "$value": "oklch(1 0 0)",
+          "$description": "white knob in light — icon/border use",
+          "$extensions": {
+            "usage": "non-text"
+          }
+        }
+      },
       "action": {
         "primary": {
           "$type": "color",
@@ -353,6 +363,16 @@
         "code": {
           "$type": "color",
           "$value": "oklch(0.56 0 0)"
+        }
+      },
+      "slider": {
+        "thumb": {
+          "$type": "color",
+          "$value": "oklch(0.91 0 0)",
+          "$description": "oklch(0.91) light knob in dark — icon/border use",
+          "$extensions": {
+            "usage": "non-text"
+          }
         }
       },
       "action": {

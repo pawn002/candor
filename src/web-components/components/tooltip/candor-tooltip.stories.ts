@@ -1,5 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 import './candor-tooltip';
+import { focusInShadow } from '../../story-utils';
 import '../button/candor-button';
 
 const meta: Meta = {
@@ -39,21 +41,35 @@ under-specified element names.
     },
   },
   args: { text: 'Helpful information', position: 'top' },
-  render: (args) => ({
-    template: `
-      <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
-        <candor-tooltip text="${args['text']}" position="${args['position']}">
-          <candor-button variant="secondary">Hover or focus me</candor-button>
-        </candor-tooltip>
-      </div>
-    `,
-  }),
+  render: (args) => html`
+    <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
+      <candor-tooltip text="${args['text']}" position="${args['position']}">
+        <candor-button variant="secondary">Hover or focus me</candor-button>
+      </candor-tooltip>
+    </div>
+  `,
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+// Tooltip shown via a play function (focuses the trigger; composed focusin
+// reveals the bubble) so Chromatic captures it. Excluded from the docs page
+// (tags: !autodocs).
+export const Visible: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`
+    <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
+      <candor-tooltip text="Helpful information" position="top">
+        <candor-button variant="secondary">Focus me</candor-button>
+      </candor-tooltip>
+    </div>
+  `,
+  play: focusInShadow('candor-button', 'button'),
+};
 
 export const TriggerTypes: Story = {
   name: 'Trigger types',
@@ -69,21 +85,19 @@ export const TriggerTypes: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-lg);justify-content:center;align-items:center;flex-wrap:wrap;">
-        <candor-tooltip text="Opens in a new tab" position="bottom">
-          <a href="#" style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-link);">External link</a>
-        </candor-tooltip>
-        <candor-tooltip text="Cannot undo this action" position="top">
-          <candor-button variant="destructive">Delete</candor-button>
-        </candor-tooltip>
-        <candor-tooltip text="Keyboard shortcut: ⌘K" position="top">
-          <candor-button variant="secondary">Search</candor-button>
-        </candor-tooltip>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-lg);justify-content:center;align-items:center;flex-wrap:wrap;">
+      <candor-tooltip text="Opens in a new tab" position="bottom">
+        <a href="#" style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-link);">External link</a>
+      </candor-tooltip>
+      <candor-tooltip text="Cannot undo this action" position="top">
+        <candor-button variant="destructive">Delete</candor-button>
+      </candor-tooltip>
+      <candor-tooltip text="Keyboard shortcut: ⌘K" position="top">
+        <candor-button variant="secondary">Search</candor-button>
+      </candor-tooltip>
+    </div>
+  `,
 };
 
 export const IconButton: Story = {
@@ -98,27 +112,25 @@ export const IconButton: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-sm);">
-        <candor-tooltip text="Edit item" position="top">
-          <candor-button variant="ghost" size="small" aria-label="Edit">
-            <i class="ph ph-pencil-simple" aria-hidden="true"></i>
-          </candor-button>
-        </candor-tooltip>
-        <candor-tooltip text="Duplicate" position="top">
-          <candor-button variant="ghost" size="small" aria-label="Duplicate">
-            <i class="ph ph-copy" aria-hidden="true"></i>
-          </candor-button>
-        </candor-tooltip>
-        <candor-tooltip text="Delete permanently" position="top">
-          <candor-button variant="destructive" size="small" aria-label="Delete permanently">
-            <i class="ph ph-trash" aria-hidden="true"></i>
-          </candor-button>
-        </candor-tooltip>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-sm);">
+      <candor-tooltip text="Edit item" position="top">
+        <candor-button variant="ghost" size="small" aria-label="Edit">
+          <i class="ph ph-pencil-simple" aria-hidden="true"></i>
+        </candor-button>
+      </candor-tooltip>
+      <candor-tooltip text="Duplicate" position="top">
+        <candor-button variant="ghost" size="small" aria-label="Duplicate">
+          <i class="ph ph-copy" aria-hidden="true"></i>
+        </candor-button>
+      </candor-tooltip>
+      <candor-tooltip text="Delete permanently" position="top">
+        <candor-button variant="destructive" size="small" aria-label="Delete permanently">
+          <i class="ph ph-trash" aria-hidden="true"></i>
+        </candor-button>
+      </candor-tooltip>
+    </div>
+  `,
 };
 
 export const AllPositions: Story = {
@@ -133,14 +145,12 @@ export const AllPositions: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-lg);justify-content:center;flex-wrap:wrap;">
-        <candor-tooltip text="Top tooltip" position="top"><candor-button variant="secondary">Top</candor-button></candor-tooltip>
-        <candor-tooltip text="Bottom tooltip" position="bottom"><candor-button variant="secondary">Bottom</candor-button></candor-tooltip>
-        <candor-tooltip text="Left tooltip" position="left"><candor-button variant="secondary">Left</candor-button></candor-tooltip>
-        <candor-tooltip text="Right tooltip" position="right"><candor-button variant="secondary">Right</candor-button></candor-tooltip>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-lg);justify-content:center;flex-wrap:wrap;">
+      <candor-tooltip text="Top tooltip" position="top"><candor-button variant="secondary">Top</candor-button></candor-tooltip>
+      <candor-tooltip text="Bottom tooltip" position="bottom"><candor-button variant="secondary">Bottom</candor-button></candor-tooltip>
+      <candor-tooltip text="Left tooltip" position="left"><candor-button variant="secondary">Left</candor-button></candor-tooltip>
+      <candor-tooltip text="Right tooltip" position="right"><candor-button variant="secondary">Right</candor-button></candor-tooltip>
+    </div>
+  `,
 };

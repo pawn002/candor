@@ -18,13 +18,14 @@ export class CandorToast extends LitElement {
       display: flex;
       align-items: flex-start;
       gap: var(--spacing-sm);
+      box-sizing: border-box;
       padding: var(--spacing-sm) var(--spacing-md);
       border-radius: var(--radius-md);
       border: var(--border-width-thin) solid;
       border-left-width: var(--border-width-thick);
       font-family: var(--font-family-base);
-      min-width: var(--candor-toast-min-width);
-      max-width: var(--candor-toast-max-width);
+      min-width: min(var(--candor-toast-min-width), 100%);
+      max-width: min(var(--candor-toast-max-width), 100%);
     }
     .toast--info    { background-color: var(--color-bg-surface); border-color: var(--color-border-default); }
     .toast--success { background-color: var(--color-status-success-bg); border-color: var(--color-status-success); }

@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 import './candor-tone-picker';
 import '../card/candor-card';
 import {
@@ -97,15 +98,13 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  render: () => ({
-    template: `
-      <candor-tone-picker
-        aria-label="Navy H 245.34 — sRGB gamut"
-        rows='${NAVY_ROWS}'
-        column-headers='${NAVY_HEADERS}'>
-      </candor-tone-picker>
-    `,
-  }),
+  render: () => html`
+    <candor-tone-picker
+      aria-label="Navy H 245.34 — sRGB gamut"
+      rows='${NAVY_ROWS}'
+      column-headers='${NAVY_HEADERS}'>
+    </candor-tone-picker>
+  `,
 };
 
 export const Caption: Story = {
@@ -122,15 +121,13 @@ export const Caption: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <candor-tone-picker
-        caption="Navy H 245.34 — sRGB gamut"
-        rows='${NAVY_ROWS}'
-        column-headers='${NAVY_HEADERS}'>
-      </candor-tone-picker>
-    `,
-  }),
+  render: () => html`
+    <candor-tone-picker
+      caption="Navy H 245.34 — sRGB gamut"
+      rows='${NAVY_ROWS}'
+      column-headers='${NAVY_HEADERS}'>
+    </candor-tone-picker>
+  `,
 };
 
 export const PreSelected: Story = {
@@ -144,16 +141,14 @@ export const PreSelected: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <candor-tone-picker
-        aria-label="Navy H 245.34 — sRGB gamut"
-        selected-value="oklch(0.27 0.060 245.34)"
-        rows='${NAVY_ROWS}'
-        column-headers='${NAVY_HEADERS}'>
-      </candor-tone-picker>
-    `,
-  }),
+  render: () => html`
+    <candor-tone-picker
+      aria-label="Navy H 245.34 — sRGB gamut"
+      selected-value="oklch(0.27 0.060 245.34)"
+      rows='${NAVY_ROWS}'
+      column-headers='${NAVY_HEADERS}'>
+    </candor-tone-picker>
+  `,
 };
 
 export const SmallSize: Story = {
@@ -166,18 +161,16 @@ export const SmallSize: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <candor-tone-picker
-        aria-label="Indigo H 278.14 — compact"
-        size="small"
-        hide-headers
-        hide-ui
-        rows='${INDIGO_ROWS}'
-        column-headers='${INDIGO_HEADERS}'>
-      </candor-tone-picker>
-    `,
-  }),
+  render: () => html`
+    <candor-tone-picker
+      aria-label="Indigo H 278.14 — compact"
+      size="small"
+      hide-headers
+      hide-ui
+      rows='${INDIGO_ROWS}'
+      column-headers='${INDIGO_HEADERS}'>
+    </candor-tone-picker>
+  `,
 };
 
 export const AtLabels: Story = {
@@ -193,16 +186,14 @@ export const AtLabels: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <candor-tone-picker
-        aria-label="Navy H 245.34 — AT label audit"
-        show-labels
-        rows='${NAVY_ROWS}'
-        column-headers='${NAVY_HEADERS}'>
-      </candor-tone-picker>
-    `,
-  }),
+  render: () => html`
+    <candor-tone-picker
+      aria-label="Navy H 245.34 — AT label audit"
+      show-labels
+      rows='${NAVY_ROWS}'
+      column-headers='${NAVY_HEADERS}'>
+    </candor-tone-picker>
+  `,
 };
 
 export const BrandGamuts: Story = {
@@ -218,30 +209,28 @@ export const BrandGamuts: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);">
-        <candor-card>
-          <span slot="header">Navy</span>
-          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Navy" selected-value="oklch(0.27 0.060 245.34)" rows='${NAVY_ROWS}' column-headers='${NAVY_HEADERS}'></candor-tone-picker>
-          <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.27 0.060 245.34)</span>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Burgundy</span>
-          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Burgundy" selected-value="oklch(0.37 0.080 347.43)" rows='${BURGUNDY_ROWS}' column-headers='${BURGUNDY_HEADERS}'></candor-tone-picker>
-          <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.37 0.080 347.43)</span>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Azure</span>
-          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Azure" selected-value="oklch(0.65 0.180 250.80)" rows='${AZURE_ROWS}' column-headers='${AZURE_HEADERS}'></candor-tone-picker>
-          <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.65 0.180 250.80)</span>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Indigo</span>
-          <candor-tone-picker size="small" hide-headers hide-ui aria-label="Indigo" selected-value="oklch(0.60 0.210 278.14)" rows='${INDIGO_ROWS}' column-headers='${INDIGO_HEADERS}'></candor-tone-picker>
-          <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.60 0.210 278.14)</span>
-        </candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 200px), 1fr));gap:var(--spacing-md);">
+      <candor-card>
+        <span slot="header">Navy</span>
+        <candor-tone-picker size="small" hide-headers hide-ui aria-label="Navy" selected-value="oklch(0.27 0.060 245.34)" rows='${NAVY_ROWS}' column-headers='${NAVY_HEADERS}'></candor-tone-picker>
+        <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.27 0.060 245.34)</span>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Burgundy</span>
+        <candor-tone-picker size="small" hide-headers hide-ui aria-label="Burgundy" selected-value="oklch(0.37 0.080 347.43)" rows='${BURGUNDY_ROWS}' column-headers='${BURGUNDY_HEADERS}'></candor-tone-picker>
+        <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.37 0.080 347.43)</span>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Azure</span>
+        <candor-tone-picker size="small" hide-headers hide-ui aria-label="Azure" selected-value="oklch(0.65 0.180 250.80)" rows='${AZURE_ROWS}' column-headers='${AZURE_HEADERS}'></candor-tone-picker>
+        <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.65 0.180 250.80)</span>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Indigo</span>
+        <candor-tone-picker size="small" hide-headers hide-ui aria-label="Indigo" selected-value="oklch(0.60 0.210 278.14)" rows='${INDIGO_ROWS}' column-headers='${INDIGO_HEADERS}'></candor-tone-picker>
+        <span slot="footer" style="font-family:var(--font-family-mono);">oklch(0.60 0.210 278.14)</span>
+      </candor-card>
+    </div>
+  `,
 };

@@ -1,4 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
+import { openCombobox } from '../../../story-utils';
 
 const DEFAULT_OPTIONS_JSON = JSON.stringify([
   { value: 'us', label: 'United States' },
@@ -86,17 +88,15 @@ submission. Emits a \`change\` CustomEvent on selection.
     error: '',
     hint: '',
   },
-  render: (args) => ({
-    template: `<candor-combobox
-      label="${args['label']}"
-      placeholder="${args['placeholder']}"
-      ${args['disabled'] ? 'disabled' : ''}
-      ${args['required'] ? 'required' : ''}
-      error="${args['error'] || ''}"
-      hint="${args['hint'] || ''}"
-      options='${DEFAULT_OPTIONS_JSON}'
-    ></candor-combobox>`,
-  }),
+  render: (args) => html`<candor-combobox
+    label="${args['label']}"
+    placeholder="${args['placeholder']}"
+    ?disabled=${args['disabled']}
+    ?required=${args['required']}
+    error="${args['error'] || ''}"
+    hint="${args['hint'] || ''}"
+    options='${DEFAULT_OPTIONS_JSON}'
+  ></candor-combobox>`,
 };
 
 export default meta;
@@ -104,49 +104,50 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+// Opened via a play function (focus input + ArrowDown) so Chromatic captures the
+// dropdown. Excluded from the docs page (tags: !autodocs).
+export const Open: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`<candor-combobox label="Country" placeholder="Search…" options='${DEFAULT_OPTIONS_JSON}'></candor-combobox>`,
+  play: openCombobox('candor-combobox'),
+};
+
 export const WithPreselectedValue: Story = {
-  render: () => ({
-    template: `<candor-combobox
-      label="Country"
-      options='${COUNTRIES_JSON}'
-      value="jp"
-    ></candor-combobox>`,
-  }),
+  render: () => html`<candor-combobox
+    label="Country"
+    options='${COUNTRIES_JSON}'
+    value="jp"
+  ></candor-combobox>`,
 };
 
 export const WithHint: Story = {
-  render: () => ({
-    template: `<candor-combobox
-      label="Timezone"
-      hint="Used for scheduling notifications and meeting times."
-      placeholder="Search timezones…"
-      options='${TIMEZONES_JSON}'
-    ></candor-combobox>`,
-  }),
+  render: () => html`<candor-combobox
+    label="Timezone"
+    hint="Used for scheduling notifications and meeting times."
+    placeholder="Search timezones…"
+    options='${TIMEZONES_JSON}'
+  ></candor-combobox>`,
 };
 
 export const LongLabels: Story = {
   name: 'Long labels (timezone search)',
-  render: () => ({
-    template: `<candor-combobox
-      label="Timezone"
-      placeholder="Search timezones…"
-      options='${TIMEZONES_JSON}'
-    ></candor-combobox>`,
-  }),
+  render: () => html`<candor-combobox
+    label="Timezone"
+    placeholder="Search timezones…"
+    options='${TIMEZONES_JSON}'
+  ></candor-combobox>`,
 };
 
 export const NoLabel: Story = {
   parameters: {
     docs: { description: { story: 'When no visible label is provided, supply `aria-label` on the host — the component forwards it to the inner input and strips it from the host to avoid double-naming in the AT tree.' } }
   },
-  render: () => ({
-    template: `<candor-combobox
-      aria-label="Country"
-      placeholder="Search countries…"
-      options='${COUNTRIES_JSON}'
-    ></candor-combobox>`,
-  }),
+  render: () => html`<candor-combobox
+    aria-label="Country"
+    placeholder="Search countries…"
+    options='${COUNTRIES_JSON}'
+  ></candor-combobox>`,
 };
 
 export const WithError: Story = {

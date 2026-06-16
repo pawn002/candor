@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html, nothing } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Form/Switch',
@@ -35,9 +36,7 @@ Form-associated (\`ElementInternals\`): emits a \`change\` CustomEvent and appea
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
   args: { label: 'Enable notifications', checked: false, disabled: false },
-  render: (args) => ({
-    template: `<candor-switch label="${args['label']}" ${args['hint'] ? `hint="${args['hint']}"` : ''} ${args['checked'] ? 'checked' : ''} ${args['disabled'] ? 'disabled' : ''}></candor-switch>`,
-  }),
+  render: (args) => html`<candor-switch label="${args['label']}" hint=${args['hint'] || nothing} ?checked=${args['checked']} ?disabled=${args['disabled']}></candor-switch>`,
 };
 
 export default meta;
@@ -69,7 +68,7 @@ export const NoLabel: Story = {
     },
   },
   args: {},
-  render: () => ({ template: `<candor-switch aria-label="Toggle feature"></candor-switch>` }),
+  render: () => html`<candor-switch aria-label="Toggle feature"></candor-switch>`,
 };
 
 export const FeatureTable: Story = {
@@ -83,73 +82,67 @@ export const FeatureTable: Story = {
       },
     },
   },
-  render: () => ({
-    template: `
-      <table style="border-collapse:collapse;width:100%;max-width:400px;font-family:var(--font-family-base);font-size:var(--font-size-md);">
-        <caption style="text-align:left;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-relaxed);text-transform:uppercase;color:var(--color-text-subtle);padding-bottom:var(--spacing-xs);">Feature flags</caption>
-        <tbody>
-          <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
-            <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Dark mode</td>
-            <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Dark mode"></candor-switch></td>
-          </tr>
-          <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
-            <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Beta features</td>
-            <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Beta features" checked></candor-switch></td>
-          </tr>
-          <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
-            <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Analytics tracking</td>
-            <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Analytics tracking" checked></candor-switch></td>
-          </tr>
-          <tr>
-            <td style="padding:var(--spacing-sm) 0;">
-              <div style="color:var(--color-text-default);">Marketing emails</div>
-              <candor-accessible-text role_="annotation">Unsubscribed at the account level.</candor-accessible-text>
-            </td>
-            <td style="padding:var(--spacing-sm) 0;text-align:right;vertical-align:top;"><candor-switch aria-label="Marketing emails" disabled></candor-switch></td>
-          </tr>
-        </tbody>
-      </table>
-    `,
-  }),
+  render: () => html`
+    <table style="border-collapse:collapse;width:100%;max-width:400px;font-family:var(--font-family-base);font-size:var(--font-size-md);">
+      <caption style="text-align:left;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-relaxed);text-transform:uppercase;color:var(--color-text-subtle);padding-bottom:var(--spacing-xs);">Feature flags</caption>
+      <tbody>
+        <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
+          <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Dark mode</td>
+          <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Dark mode"></candor-switch></td>
+        </tr>
+        <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
+          <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Beta features</td>
+          <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Beta features" checked></candor-switch></td>
+        </tr>
+        <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
+          <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Analytics tracking</td>
+          <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Analytics tracking" checked></candor-switch></td>
+        </tr>
+        <tr>
+          <td style="padding:var(--spacing-sm) 0;">
+            <div style="color:var(--color-text-default);">Marketing emails</div>
+            <candor-accessible-text role_="annotation">Unsubscribed at the account level.</candor-accessible-text>
+          </td>
+          <td style="padding:var(--spacing-sm) 0;text-align:right;vertical-align:top;"><candor-switch aria-label="Marketing emails" disabled></candor-switch></td>
+        </tr>
+      </tbody>
+    </table>
+  `,
 };
 
 export const FormGroup: Story = {
-  render: () => ({
-    template: `
-      <fieldset style="border:var(--border-width-thin) solid var(--color-border-default);border-radius:var(--radius-md);padding:var(--spacing-md);max-width:360px;">
-        <legend style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;color:var(--color-text-subtle);padding:0 var(--spacing-xs);">Notification preferences</legend>
-        <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);margin-top:var(--spacing-xs);">
-          <candor-switch label="Email notifications" checked></candor-switch>
-          <candor-switch label="Push notifications"></candor-switch>
-          <candor-switch label="Weekly digest" checked></candor-switch>
-          <candor-switch label="Marketing emails" disabled hint="Unsubscribed at the account level. Contact support to change."></candor-switch>
-        </div>
-      </fieldset>
-    `,
-  }),
+  render: () => html`
+    <fieldset style="border:var(--border-width-thin) solid var(--color-border-default);border-radius:var(--radius-md);padding:var(--spacing-md);max-width:360px;">
+      <legend style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;color:var(--color-text-subtle);padding:0 var(--spacing-xs);">Notification preferences</legend>
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);margin-top:var(--spacing-xs);">
+        <candor-switch label="Email notifications" checked></candor-switch>
+        <candor-switch label="Push notifications"></candor-switch>
+        <candor-switch label="Weekly digest" checked></candor-switch>
+        <candor-switch label="Marketing emails" disabled hint="Unsubscribed at the account level. Contact support to change."></candor-switch>
+      </div>
+    </fieldset>
+  `,
 };
 
 export const States: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:320px;">
-        <candor-card>
-          <span slot="header">Off (default)</span>
-          <candor-switch label="Enable notifications"></candor-switch>
-        </candor-card>
-        <candor-card>
-          <span slot="header">On</span>
-          <candor-switch label="Enable notifications" checked></candor-switch>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Disabled off</span>
-          <candor-switch label="Enable notifications" disabled hint="Not available on your current plan."></candor-switch>
-        </candor-card>
-        <candor-card>
-          <span slot="header">Disabled on</span>
-          <candor-switch label="Enable notifications" checked disabled hint="Managed by your administrator."></candor-switch>
-        </candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:320px;">
+      <candor-card>
+        <span slot="header">Off (default)</span>
+        <candor-switch label="Enable notifications"></candor-switch>
+      </candor-card>
+      <candor-card>
+        <span slot="header">On</span>
+        <candor-switch label="Enable notifications" checked></candor-switch>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Disabled off</span>
+        <candor-switch label="Enable notifications" disabled hint="Not available on your current plan."></candor-switch>
+      </candor-card>
+      <candor-card>
+        <span slot="header">Disabled on</span>
+        <candor-switch label="Enable notifications" checked disabled hint="Managed by your administrator."></candor-switch>
+      </candor-card>
+    </div>
+  `,
 };

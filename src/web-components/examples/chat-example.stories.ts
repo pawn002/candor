@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const NAV_ITEMS = JSON.stringify([
   { label: 'Chat', href: '#', active: true },
@@ -39,28 +40,26 @@ export const AIChatInterface: Story = {
   parameters: {
     layout: 'fullscreen',
   },
-  render: () => ({
-    styles: [`
-      :host { display: block; height: 100vh; overflow: hidden; }
-      .chat-sidebar a:hover {
-        background: var(--color-action-tertiary);
-        color: var(--color-text-default);
-      }
-      .chat-sidebar a:focus-visible {
-        outline: var(--focus-ring-width) solid var(--color-focus);
-        outline-offset: var(--focus-ring-offset);
-        border-radius: var(--radius-sm);
-      }
-      .code-block { position: relative; }
-      .code-block candor-button { position: absolute; top: var(--spacing-xs); right: var(--spacing-xs); }
-      @media (max-width: 600px) {
-        .chat-sidebar { display: none !important; }
-        candor-navigation { display: none !important; }
-        .chat-messages { padding: 1rem !important; }
-        .chat-input-area { padding: 0.75rem 1rem 1rem !important; }
-      }
-    `],
-    template: `
+  render: () => html`
+      <style>
+        .chat-sidebar a:hover {
+          background: var(--color-action-tertiary);
+          color: var(--color-text-default);
+        }
+        .chat-sidebar a:focus-visible {
+          outline: var(--focus-ring-width) solid var(--color-focus);
+          outline-offset: var(--focus-ring-offset);
+          border-radius: var(--radius-sm);
+        }
+        .code-block { position: relative; }
+        .code-block candor-button { position: absolute; top: var(--spacing-xs); right: var(--spacing-xs); }
+        @media (max-width: 600px) {
+          .chat-sidebar { display: none !important; }
+          candor-navigation { display: none !important; }
+          .chat-messages { padding: 1rem !important; }
+          .chat-input-area { padding: 0.75rem 1rem 1rem !important; }
+        }
+      </style>
       <div style="position: fixed; inset: 0; background: var(--color-bg-page); display: flex; flex-direction: column; overflow: hidden;">
 
         <candor-navigation
@@ -388,6 +387,5 @@ export const AIChatInterface: Story = {
           </div>
         </main>
       </div>
-    `,
-  }),
+  `,
 };

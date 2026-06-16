@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const DEPT_OPTIONS = JSON.stringify([
   { value: 'support', label: 'Customer support' },
@@ -51,83 +52,78 @@ export default meta;
 type Story = StoryObj;
 
 export const ContactForm: Story = {
-  render: () => ({
-    template: `
-      <main style="max-width: 500px; margin: 0 auto; padding: var(--spacing-lg);">
-        <candor-heading level="h2">Contact Us</candor-heading>
-        <candor-text variant="body" style="display: block; margin-bottom: var(--spacing-md);">
-          Fill out the form below and we'll get back to you soon.
-        </candor-text>
+  render: () => html`
+    <main style="max-width: 500px; margin: 0 auto; padding: var(--spacing-lg);">
+      <candor-heading level="h2">Contact Us</candor-heading>
+      <candor-text variant="body" style="display: block; margin-bottom: var(--spacing-md);">
+        Fill out the form below and we'll get back to you soon.
+      </candor-text>
 
-        <form style="display: flex; flex-direction: column; gap: var(--spacing-md);">
-          <candor-input label="Full Name" placeholder="Enter your full name" required></candor-input>
-          <candor-input label="Email Address" type="email" placeholder="you@example.com" required></candor-input>
-          <candor-input label="Phone Number" type="tel" placeholder="(555) 123-4567"></candor-input>
+      <form style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+        <candor-input label="Full Name" placeholder="Enter your full name" required></candor-input>
+        <candor-input label="Email Address" type="email" placeholder="you@example.com" required></candor-input>
+        <candor-input label="Phone Number" type="tel" placeholder="(555) 123-4567"></candor-input>
 
-          <candor-select label="Department" placeholder="Select a department" required options='${DEPT_OPTIONS}'></candor-select>
+        <candor-select label="Department" placeholder="Select a department" required options='${DEPT_OPTIONS}'></candor-select>
 
-          <candor-input label="Subject" placeholder="How can we help?" required></candor-input>
+        <candor-input label="Subject" placeholder="How can we help?" required></candor-input>
 
-          <candor-input label="Message" multiline rows="5" placeholder="Tell us more about your inquiry..."></candor-input>
+        <candor-input label="Message" multiline rows="5" placeholder="Tell us more about your inquiry..."></candor-input>
 
-          <candor-checkbox label="I agree to the terms and conditions" required></candor-checkbox>
-          <candor-checkbox label="Send me updates and newsletters"></candor-checkbox>
+        <candor-checkbox label="I agree to the terms and conditions" required></candor-checkbox>
+        <candor-checkbox label="Send me updates and newsletters"></candor-checkbox>
 
-          <div style="display: flex; gap: var(--spacing-sm);">
-            <candor-button variant="primary" size="medium">Submit</candor-button>
-            <candor-button variant="ghost" size="medium">Cancel</candor-button>
-          </div>
-        </form>
-      </main>
-    `,
-  }),
+        <div style="display: flex; gap: var(--spacing-sm);">
+          <candor-button variant="primary" size="medium">Submit</candor-button>
+          <candor-button variant="ghost" size="medium">Cancel</candor-button>
+        </div>
+      </form>
+    </main>
+  `,
 };
 
 export const LoginForm: Story = {
-  render: () => ({
-    template: `
-      <main style="padding: clamp(0.5rem, 4vw, 2rem);">
-        <div style="max-width: 400px; margin: 0 auto; padding: var(--spacing-lg); border: 1px solid var(--color-border-default); border-radius: var(--radius-md);">
-          <candor-heading level="h2" style="text-align: center; margin-bottom: var(--spacing-xs);">
-            Sign In
-          </candor-heading>
-          <candor-text variant="body" style="display: block; text-align: center; margin-bottom: var(--spacing-lg); color: var(--color-text-subtle);">
-            Enter your credentials to access your account
+  render: () => html`
+    <main style="padding: clamp(0.5rem, 4vw, 2rem);">
+      <div style="max-width: 400px; margin: 0 auto; padding: var(--spacing-lg); border: 1px solid var(--color-border-default); border-radius: var(--radius-md);">
+        <candor-heading level="h2" style="text-align: center; margin-bottom: var(--spacing-xs);">
+          Sign In
+        </candor-heading>
+        <candor-text variant="body" style="display: block; text-align: center; margin-bottom: var(--spacing-lg); color: var(--color-text-subtle);">
+          Enter your credentials to access your account
+        </candor-text>
+
+        <form style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+          <candor-input label="Email" type="email" placeholder="you@example.com" required></candor-input>
+          <candor-input label="Password" type="password" placeholder="Enter your password" required></candor-input>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-xs);">
+            <candor-checkbox label="Remember me"></candor-checkbox>
+            <a href="#" style="color: var(--color-action-primary); text-decoration: none; font-size: var(--font-size-sm); white-space: nowrap;">
+              Forgot password?
+            </a>
+          </div>
+
+          <candor-button variant="primary" size="medium" style="width: 100%;">Sign In</candor-button>
+
+          <candor-text variant="body" style="text-align: center;">
+            Don't have an account?
+            <a href="#" style="color: var(--color-link);">Sign up</a>
           </candor-text>
-
-          <form style="display: flex; flex-direction: column; gap: var(--spacing-md);">
-            <candor-input label="Email" type="email" placeholder="you@example.com" required></candor-input>
-            <candor-input label="Password" type="password" placeholder="Enter your password" required></candor-input>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-xs);">
-              <candor-checkbox label="Remember me"></candor-checkbox>
-              <a href="#" style="color: var(--color-action-primary); text-decoration: none; font-size: var(--font-size-sm); white-space: nowrap;">
-                Forgot password?
-              </a>
-            </div>
-
-            <candor-button variant="primary" size="medium" style="width: 100%;">Sign In</candor-button>
-
-            <candor-text variant="body" style="text-align: center;">
-              Don't have an account?
-              <a href="#" style="color: var(--color-link);">Sign up</a>
-            </candor-text>
-          </form>
-        </div>
-      </main>
-    `,
-  }),
+        </form>
+      </div>
+    </main>
+  `,
 };
 
 export const RegistrationForm: Story = {
-  render: () => ({
-    styles: [`
-      .reg-actions { flex-direction: row; }
-      @media (max-width: 480px) {
-        .reg-actions { flex-direction: column; }
-      }
-    `],
-    template: `
+  render: () => html`
+      <style>
+        .reg-actions { flex-direction: row; }
+        @media (max-width: 480px) {
+          .reg-actions { flex-direction: column; }
+        }
+      </style>
       <main style="max-width: 600px; margin: 0 auto; padding: clamp(0.5rem, 4vw, 2rem);">
         <candor-heading level="h1" style="margin-bottom: var(--spacing-xs);">
           Create Account
@@ -173,19 +169,17 @@ export const RegistrationForm: Story = {
           </candor-text>
         </form>
       </main>
-    `,
-  }),
+  `,
 };
 
 export const FormWithValidationAlert: Story = {
-  render: () => ({
-    styles: [`
-      .alert-actions { flex-direction: row; }
-      @media (max-width: 480px) {
-        .alert-actions { flex-direction: column; }
-      }
-    `],
-    template: `
+  render: () => html`
+      <style>
+        .alert-actions { flex-direction: row; }
+        @media (max-width: 480px) {
+          .alert-actions { flex-direction: column; }
+        }
+      </style>
       <main style="max-width: 500px; padding: clamp(0.5rem, 4vw, 2rem);">
         <candor-heading level="h2" style="margin-bottom: var(--spacing-md);">Reset Password</candor-heading>
 
@@ -217,93 +211,88 @@ export const FormWithValidationAlert: Story = {
           </div>
         </form>
       </main>
-    `,
-  }),
+  `,
 };
 
 export const NotificationPreferences: Story = {
-  render: () => ({
-    template: `
-      <main style="max-width: 480px; padding: var(--spacing-lg);">
-        <candor-heading level="h2" style="margin-bottom: var(--spacing-xs);">Notification preferences</candor-heading>
-        <candor-text variant="body" style="display: block; margin-bottom: var(--spacing-lg); color: var(--color-text-subtle);">
-          Choose how and when we contact you.
-        </candor-text>
+  render: () => html`
+    <main style="max-width: 480px; padding: var(--spacing-lg);">
+      <candor-heading level="h2" style="margin-bottom: var(--spacing-xs);">Notification preferences</candor-heading>
+      <candor-text variant="body" style="display: block; margin-bottom: var(--spacing-lg); color: var(--color-text-subtle);">
+        Choose how and when we contact you.
+      </candor-text>
 
-        <candor-alert
-          variant="success"
-          message="Your preferences have been saved."
-          style="display: block; margin-bottom: var(--spacing-md);">
-        </candor-alert>
+      <candor-alert
+        variant="success"
+        message="Your preferences have been saved."
+        style="display: block; margin-bottom: var(--spacing-md);">
+      </candor-alert>
 
-        <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); margin-bottom: var(--spacing-md);">
-          <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Email</legend>
-          <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
-            <candor-switch label="Security alerts" checked></candor-switch>
-            <candor-switch label="Account activity" checked></candor-switch>
-            <candor-switch label="Product updates"></candor-switch>
-            <candor-switch label="Marketing and promotions"></candor-switch>
-          </div>
-        </fieldset>
+      <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); margin-bottom: var(--spacing-md);">
+        <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Email</legend>
+        <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
+          <candor-switch label="Security alerts" checked></candor-switch>
+          <candor-switch label="Account activity" checked></candor-switch>
+          <candor-switch label="Product updates"></candor-switch>
+          <candor-switch label="Marketing and promotions"></candor-switch>
+        </div>
+      </fieldset>
 
-        <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); margin-bottom: var(--spacing-md);">
-          <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Push notifications</legend>
-          <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
-            <candor-switch label="New messages" checked></candor-switch>
-            <candor-switch label="Mentions" checked></candor-switch>
-            <candor-switch label="Reminders" disabled hint="Requires push to be enabled on your device"></candor-switch>
-          </div>
-        </fieldset>
+      <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); margin-bottom: var(--spacing-md);">
+        <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Push notifications</legend>
+        <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
+          <candor-switch label="New messages" checked></candor-switch>
+          <candor-switch label="Mentions" checked></candor-switch>
+          <candor-switch label="Reminders" disabled hint="Requires push to be enabled on your device"></candor-switch>
+        </div>
+      </fieldset>
 
-        <candor-button variant="primary" size="medium">Save preferences</candor-button>
-      </main>
-    `,
-  }),
+      <candor-button variant="primary" size="medium">Save preferences</candor-button>
+    </main>
+  `,
 };
 
 export const FileUpload: Story = {
-  render: () => ({
-    template: `
-      <main style="max-width: 500px; padding: var(--spacing-lg);">
-        <candor-heading level="h2" style="margin-bottom: var(--spacing-xs);">Upload files</candor-heading>
-        <candor-text variant="body" style="display: block; margin-bottom: var(--spacing-lg); color: var(--color-text-subtle);">
-          3 files queued — uploading 1 of 3.
-        </candor-text>
+  render: () => html`
+    <main style="max-width: 500px; padding: var(--spacing-lg);">
+      <candor-heading level="h2" style="margin-bottom: var(--spacing-xs);">Upload files</candor-heading>
+      <candor-text variant="body" style="display: block; margin-bottom: var(--spacing-lg); color: var(--color-text-subtle);">
+        3 files queued — uploading 1 of 3.
+      </candor-text>
 
-        <div style="display: flex; flex-direction: column; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+      <div style="display: flex; flex-direction: column; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
 
-          <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <candor-text variant="caption">quarterly-report.pdf</candor-text>
-              <candor-text variant="caption" style="color: var(--color-status-success-text); font-weight: var(--font-weight-semibold);">Done</candor-text>
-            </div>
-            <candor-progress type="bar" value="100" aria-label="quarterly-report.pdf"></candor-progress>
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <candor-text variant="caption">quarterly-report.pdf</candor-text>
+            <candor-text variant="caption" style="color: var(--color-status-success-text); font-weight: var(--font-weight-semibold);">Done</candor-text>
           </div>
-
-          <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <candor-text variant="caption">presentation-slides.pptx</candor-text>
-              <candor-text variant="caption" style="color: var(--color-text-subtle);">65%</candor-text>
-            </div>
-            <candor-progress type="bar" value="65" aria-label="presentation-slides.pptx"></candor-progress>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <candor-text variant="caption">data-export.csv</candor-text>
-              <candor-text variant="caption" style="color: var(--color-text-subtle);">Waiting...</candor-text>
-            </div>
-            <candor-progress type="bar" value="0" aria-label="data-export.csv"></candor-progress>
-          </div>
-
+          <candor-progress type="bar" value="100" aria-label="quarterly-report.pdf"></candor-progress>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <candor-progress type="spinner" size="sm" label="Uploading"></candor-progress>
-          <candor-text variant="body" style="color: var(--color-text-subtle);">Uploading presentation-slides.pptx...</candor-text>
-          <candor-button variant="ghost" size="small" aria-label="Cancel upload">Cancel</candor-button>
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <candor-text variant="caption">presentation-slides.pptx</candor-text>
+            <candor-text variant="caption" style="color: var(--color-text-subtle);">65%</candor-text>
+          </div>
+          <candor-progress type="bar" value="65" aria-label="presentation-slides.pptx"></candor-progress>
         </div>
-      </main>
-    `,
-  }),
+
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <candor-text variant="caption">data-export.csv</candor-text>
+            <candor-text variant="caption" style="color: var(--color-text-subtle);">Waiting...</candor-text>
+          </div>
+          <candor-progress type="bar" value="0" aria-label="data-export.csv"></candor-progress>
+        </div>
+
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <candor-progress type="spinner" size="sm" label="Uploading"></candor-progress>
+        <candor-text variant="body" style="color: var(--color-text-subtle);">Uploading presentation-slides.pptx...</candor-text>
+        <candor-button variant="ghost" size="small" aria-label="Cancel upload">Cancel</candor-button>
+      </div>
+    </main>
+  `,
 };

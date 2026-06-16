@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Progress',
@@ -38,9 +39,7 @@ conveys no information to assistive technology without it.
     },
   },
   args: { type: 'bar', value: 65, indeterminate: false, label: 'Loading data', size: 'md' },
-  render: (args) => ({
-    template: `<candor-progress type="${args['type']}" value="${args['value']}" label="${args['label']}" size="${args['size']}" ${args['indeterminate'] ? 'indeterminate' : ''}></candor-progress>`,
-  }),
+  render: (args) => html`<candor-progress type="${args['type']}" value="${args['value']}" label="${args['label']}" size="${args['size']}" ?indeterminate=${args['indeterminate']}></candor-progress>`,
 };
 
 export default meta;
@@ -49,36 +48,32 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const AllBarStates: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:500px;">
-        <candor-card><span slot="header">0% · Not started</span><candor-progress value="0" label="Not started"></candor-progress></candor-card>
-        <candor-card><span slot="header">33% · In progress</span><candor-progress value="33" label="In progress"></candor-progress></candor-card>
-        <candor-card><span slot="header">65% · Nearly there</span><candor-progress value="65" label="Nearly there"></candor-progress></candor-card>
-        <candor-card><span slot="header">100% · Complete</span><candor-progress value="100" label="Complete"></candor-progress></candor-card>
-        <candor-card><span slot="header">Indeterminate · Loading</span><candor-progress indeterminate label="Loading"></candor-progress></candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:500px;">
+      <candor-card><span slot="header">0% · Not started</span><candor-progress value="0" label="Not started"></candor-progress></candor-card>
+      <candor-card><span slot="header">33% · In progress</span><candor-progress value="33" label="In progress"></candor-progress></candor-card>
+      <candor-card><span slot="header">65% · Nearly there</span><candor-progress value="65" label="Nearly there"></candor-progress></candor-card>
+      <candor-card><span slot="header">100% · Complete</span><candor-progress value="100" label="Complete"></candor-progress></candor-card>
+      <candor-card><span slot="header">Indeterminate · Loading</span><candor-progress indeterminate label="Loading"></candor-progress></candor-card>
+    </div>
+  `,
 };
 
 export const AllSpinnerSizes: Story = {
-  render: () => ({
-    template: `
-      <div style="display:flex;gap:var(--spacing-sm);">
-        <candor-card style="flex:1;text-align:center;">
-          <span slot="header">Small</span>
-          <candor-progress type="spinner" size="sm" label="Loading"></candor-progress>
-        </candor-card>
-        <candor-card style="flex:1;text-align:center;">
-          <span slot="header">Medium</span>
-          <candor-progress type="spinner" size="md" label="Loading"></candor-progress>
-        </candor-card>
-        <candor-card style="flex:1;text-align:center;">
-          <span slot="header">Large</span>
-          <candor-progress type="spinner" size="lg" label="Loading"></candor-progress>
-        </candor-card>
-      </div>
-    `,
-  }),
+  render: () => html`
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 120px), 1fr));gap:var(--spacing-sm);">
+      <candor-card style="flex:1;text-align:center;">
+        <span slot="header">Small</span>
+        <candor-progress type="spinner" size="sm" label="Loading"></candor-progress>
+      </candor-card>
+      <candor-card style="flex:1;text-align:center;">
+        <span slot="header">Medium</span>
+        <candor-progress type="spinner" size="md" label="Loading"></candor-progress>
+      </candor-card>
+      <candor-card style="flex:1;text-align:center;">
+        <span slot="header">Large</span>
+        <candor-progress type="spinner" size="lg" label="Loading"></candor-progress>
+      </candor-card>
+    </div>
+  `,
 };
