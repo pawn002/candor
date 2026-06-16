@@ -33,6 +33,19 @@ jobs:
       - run: npm ci
       - run: npm run build:wc
 
+  accessibility:
+    # Keyboard / focus / ARIA behaviour the visual gate (Chromatic) can't see.
+    # Playwright's webServer config auto-starts Storybook on :6006.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:playwright
+
   chromatic:
     runs-on: ubuntu-latest
     steps:

@@ -648,9 +648,9 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 ## Test Files
 
-- `tests/visual-regression.spec.ts` — screenshot comparisons
-- `tests/accessibility.spec.ts` — keyboard navigation, focus, ARIA
-- `tests/storybook-snapshots.spec.ts` — automated story screenshots
+- `tests/accessibility.spec.ts` — keyboard/focus/ARIA behaviour the visual gate can't see (focus reachability, Tab order, radio arrow-key grouping, checkbox space-toggle, `aria-invalid`). Targets the story iframe directly (`iframe.html?id=…&viewMode=story`); Playwright's CSS engine pierces the open shadow roots, so `candor-button button` reaches the inner control.
+
+Visual coverage is Chromatic's job (run on every PR), not Playwright — the old screenshot-only specs (`visual-regression.spec.ts`, `storybook-snapshots.spec.ts`) were removed in #148 as redundant. `test:playwright` runs in CI via the `accessibility` job in `.github/workflows/ci.yml` (Playwright's `webServer` config auto-starts Storybook); run it locally the same way with `npm run test:playwright`.
 
 ## Documentation Reference
 
