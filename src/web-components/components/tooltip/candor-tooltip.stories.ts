@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import './candor-tooltip';
+import { focusInShadow } from '../../story-utils';
 import '../button/candor-button';
 
 const meta: Meta = {
@@ -53,6 +54,22 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+// Tooltip shown via a play function (focuses the trigger; composed focusin
+// reveals the bubble) so Chromatic captures it. Excluded from the docs page
+// (tags: !autodocs).
+export const Visible: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`
+    <div style="padding:var(--spacing-2xl);display:flex;justify-content:center;">
+      <candor-tooltip text="Helpful information" position="top">
+        <candor-button variant="secondary">Focus me</candor-button>
+      </candor-tooltip>
+    </div>
+  `,
+  play: focusInShadow('candor-button', 'button'),
+};
 
 export const TriggerTypes: Story = {
   name: 'Trigger types',

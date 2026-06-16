@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import { clickInShadow } from '../../../story-utils';
 
 const LANGUAGES_JSON = JSON.stringify([
   { value: 'en', label: 'English' },
@@ -83,6 +84,15 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+// Opened via a play function so Chromatic captures the options list.
+// Excluded from the docs page (tags: !autodocs).
+export const Open: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`<candor-listbox label="Language" placeholder="Select a language" options='${LANGUAGES_JSON}'></candor-listbox>`,
+  play: clickInShadow('candor-listbox', '.listbox__trigger'),
+};
 
 export const WithPreselectedValue: Story = {
   render: () => html`<candor-listbox

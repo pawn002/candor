@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import { clickInShadow } from '../../story-utils';
 
 const DEMO_ENTRIES = JSON.stringify([
   { label: 'Edit' },
@@ -89,6 +90,15 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+// Opened via a play function (clicks the trigger) so Chromatic captures the
+// dropdown panel. Excluded from the docs page (tags: !autodocs).
+export const Open: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`<candor-menu label="Actions" entries='${DEMO_ENTRIES}'></candor-menu>`,
+  play: clickInShadow('candor-menu', '.menu-trigger'),
+};
 
 export const MoreActions: Story = {
   name: 'Icon trigger (More actions)',

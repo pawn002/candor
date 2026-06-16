@@ -75,6 +75,21 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+// Open at snapshot time so Chromatic covers the slide-in panel. Excluded from
+// the docs page (tags: !autodocs) — a top-layer drawer would otherwise overlay it.
+export const Open: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`
+    <candor-drawer heading="Settings" position="right" size="md" open>
+      <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
+        <p style="margin:0">Drawer content goes here — filters, inspector details, or a contextual panel.</p>
+        <candor-button variant="secondary">An action</candor-button>
+      </div>
+    </candor-drawer>
+  `,
+};
+
 export const BottomSheet: Story = {
   name: 'Position: Bottom',
   render: () => html`

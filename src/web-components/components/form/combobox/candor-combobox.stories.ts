@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import { openCombobox } from '../../../story-utils';
 
 const DEFAULT_OPTIONS_JSON = JSON.stringify([
   { value: 'us', label: 'United States' },
@@ -102,6 +103,15 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {};
+
+// Opened via a play function (focus input + ArrowDown) so Chromatic captures the
+// dropdown. Excluded from the docs page (tags: !autodocs).
+export const Open: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`<candor-combobox label="Country" placeholder="Search…" options='${DEFAULT_OPTIONS_JSON}'></candor-combobox>`,
+  play: openCombobox('candor-combobox'),
+};
 
 export const WithPreselectedValue: Story = {
   render: () => html`<candor-combobox

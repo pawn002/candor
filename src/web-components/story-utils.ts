@@ -21,7 +21,7 @@
  *
  * @example
  *   export const Percentage: Story = {
- *     render: () => ({ template: `<candor-slider ...></candor-slider>` }),
+ *     render: () => html`<candor-slider ...></candor-slider>`,
  *     play: setElementProps('candor-slider', {
  *       valueTextFn: (v: number) => `${v}%`,
  *     }),
@@ -33,4 +33,56 @@ export const setElementProps =
     canvasElement.querySelectorAll(selector).forEach((el) => {
       Object.assign(el, props);
     });
+  };
+
+// ── Open-state play helpers ──────────────────────────────────────────────────
+// Trigger-based overlays (menu, listbox, combobox, tooltip) keep their open
+// state in private `@state()`, so it cannot be set via an attribute. These play
+// functions drive the real trigger so Chromatic captures the open state. Pair
+// the story with `tags: ['!autodocs']` to keep the open overlay off the docs page.
+// (Modal/drawer expose a public `open` property — use the `open` attribute
+// directly instead of a play function.)
+
+/**
+ * Click an element inside the shadow root of the host matching `hostSelector`.
+ * Use to open shadow-DOM-triggered overlays, e.g. `candor-menu` (`.menu-trigger`)
+ * or `candor-listbox` (`.listbox__trigger`).
+ */
+export const clickInShadow =
+  (hostSelector: string, innerSelector: string) =>
+  ({ canvasElement }: { canvasElement: HTMLElement }): void => {
+    const host = canvasElement.querySelector(hostSelector);
+    const target = host?.shadowRoot?.querySelector(innerSelector);
+    (target as HTMLElement | null)?.click();
+  };
+
+/**
+ * Focus an element inside the shadow root of the host matching `hostSelector`.
+ * Composed `focusin` crosses the shadow boundary, so focusing e.g. a
+ * `candor-button`'s inner `button` reveals an ancestor `candor-tooltip`.
+ */
+export const focusInShadow =
+  (hostSelector: string, innerSelector: string) =>
+  ({ canvasElement }: { canvasElement: HTMLElement }): void => {
+    const host = canvasElement.querySelector(hostSelector);
+    const target = host?.shadowRoot?.querySelector(innerSelector);
+    (target as HTMLElement | null)?.focus();
+  };
+
+/**
+ * Open a `candor-combobox` dropdown: focus its input and press ArrowDown, which
+ * expands the full (unfiltered) option list.
+ */
+export const openCombobox =
+  (hostSelector: string) =>
+  ({ canvasElement }: { canvasElement: HTMLElement }): void => {
+    const host = canvasElement.querySelector(hostSelector);
+    const input = host?.shadowRoot?.querySelector('.combobox__input') as
+      | HTMLInputElement
+      | null;
+    if (!input) return;
+    input.focus();
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+    );
   };

@@ -76,6 +76,23 @@ type Story = StoryObj;
 
 export const Default: Story = {};
 
+// Open at snapshot time so Chromatic covers the dialog's rendered state.
+// Excluded from the docs page (tags: !autodocs) — a top-layer dialog would
+// otherwise cover the whole autodocs page.
+export const Open: Story = {
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  render: () => html`
+    <candor-modal heading="Confirm action" size="md" open>
+      <p style="margin:0">Are you sure you want to proceed? This action cannot be undone.</p>
+      <div slot="footer" style="display:flex;gap:0.75rem;justify-content:flex-end;">
+        <candor-button variant="secondary" size="small">Cancel</candor-button>
+        <candor-button size="small">Confirm</candor-button>
+      </div>
+    </candor-modal>
+  `,
+};
+
 export const Small: Story = {
   args: { heading: 'Delete item', size: 'sm' },
   render: (args) => html`
