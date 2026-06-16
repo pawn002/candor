@@ -112,7 +112,7 @@ The component library is the Lit 3 web components in `src/web-components/compone
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
 5. **Mobile check**: Switch Storybook's viewport toolbar to **mobile1 (320 × 568)** and verify: no horizontal overflow, no clipped interactive elements, no layout broken by a fixed column count
 6. **Accessibility validation**: Run `klar contrast <fg> <bg> -q` to check contrast ratios. For each token you changed, grep `audit/pairings.json` for its DTCG name (e.g. `color.text.subtle`) to find every pairing that references it — then validate each with klar. The `min` field in each pairing entry is the Candor-policy OKCA floor for that pairing.
-7. **Iterate**: If violations found, run `klar find <bg> <color> --target 4.5 -q` for compliant alternatives
+7. **Iterate**: If violations found, run `klar find <bg> <color> --target 4.5 -q` for compliant alternatives — **gate the capture on the exit code** (`if ADJUSTED=$(klar find …); then … fi`). Exit `1` means no color meets the target on that background, and `$ADJUSTED` then holds the closest *non-compliant* color — an unchecked `$(…)` capture would silently apply a failing value
 8. **Report**: Document original specs vs. final implementation, constraints identified
 
 ### Audit Artifacts
@@ -143,7 +143,7 @@ klar meta <color>                                    # Inspect a color: OKLCH ax
 klar contrast <fg> <bg> -q                           # Check contrast ratio (OKCA, WCAG-compatible)
 klar contrast <fg> <bg> --type deltaE -q             # Perceptual drift between two colors
 klar contrast <fg> <bg> --type apca -q               # APCA Lc score
-klar find <bg> <color> --target 4.5 -q               # Find lightness-adjusted compliant color
+klar find <bg> <color> --target 4.5 -q               # Lightness-adjusted compliant color (exit 1 = unachievable; still prints closest)
 klar variants <color>                                # Generate a perceptually-spaced tonal grid
 klar match <color1> <color2>                         # Match chroma of two colors for palette harmony
 klar lightness <color>                               # Min/max lightness range for a color in sRGB gamut
@@ -156,8 +156,9 @@ klar plugins list                                    # List installed contrast a
 - **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Light-on-dark caps near 21; dark-on-light caps near 20; the same chromatic pair returns different numbers when swapped
 - **deltaE is the art director's metric** — answers "did it change much?"; < 3 imperceptible, 5–10 acceptable drift, 11+ clearly different
 - **Installed plugins** (available via `--type`): `apca` (APCA Lc), `bpca` (Bridge-PCA WCAG ratio), `min-dimension` (minimum px size for non-text UI elements)
+- **Gate `find`/`match` captures on the exit code** — grep-style contract: `0` success, `1` soft failure (`find` target unachievable / `match` infeasible — the closest value is *still printed to stdout*), `2` usage error. An unchecked `ADJUSTED=$(klar find …)` silently assigns a non-compliant color on exit `1`. Use `if ADJUSTED=$(klar find <bg> <color> --target 4.5 -q); then …; else handle_no_compliant_color; fi`
 
-See `docs/KLAR-INTEGRATION.md` for full command reference (local file, not in repo).
+See `docs/KLAR-INTEGRATION.md` for the full command reference and exit-code contract (local file, not tracked in this repo).
 
 **When Playwright MCP is connected**:
 - Navigate to stories: `browser_navigate`
