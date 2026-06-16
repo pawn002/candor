@@ -296,7 +296,7 @@ export const DeleteConfirmation: Story = {
             style="display: block;">
           </candor-alert>
         </div>
-        <div slot="footer">
+        <div slot="footer" style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: flex-end;">
           <candor-button variant="ghost" size="medium" @click=${closeDeleteModal}>Cancel</candor-button>
           <candor-button variant="destructive" size="medium" @click=${closeDeleteModal}>Delete my account</candor-button>
         </div>
