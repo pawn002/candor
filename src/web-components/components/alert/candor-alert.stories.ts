@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+// Full-width rule separating showcase scenarios (replaces grouping cards,
+// which crowded content at mobile widths).
+const divider = html`<hr style="border: none; border-top: var(--border-width-thin) solid var(--color-border-default); margin: 0; width: 100%;" />`;
+
 const meta: Meta = {
   title: 'Components/Alert',
   tags: ['autodocs'],
@@ -57,6 +61,7 @@ export const AllVariants: Story = {
           <candor-alert variant="info" heading="Scheduled maintenance" message="The system will be unavailable on Sunday from 02:00–04:00 UTC."></candor-alert>
         </div>
       </div>
+      ${divider}
       <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Success</p>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
@@ -64,6 +69,7 @@ export const AllVariants: Story = {
           <candor-alert variant="success" heading="Payment received" message="Your invoice has been paid and a receipt has been sent."></candor-alert>
         </div>
       </div>
+      ${divider}
       <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Warning</p>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
@@ -71,6 +77,7 @@ export const AllVariants: Story = {
           <candor-alert variant="warning" heading="Storage limit approaching" message="You have used 90% of your allocated storage quota."></candor-alert>
         </div>
       </div>
+      ${divider}
       <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Error</p>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
@@ -90,10 +97,12 @@ export const Dismissible: Story = {
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Info</p>
         <candor-alert variant="info" heading="New feature available" message="You can now export your data as CSV from the settings page." dismissible></candor-alert>
       </div>
+      ${divider}
       <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Warning</p>
         <candor-alert variant="warning" heading="Unsaved changes" message="You have unsaved changes that will be lost if you navigate away." dismissible></candor-alert>
       </div>
+      ${divider}
       <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Error</p>
         <candor-alert variant="error" heading="Subscription expired" message="Your plan has expired. Renew to restore access to all features." dismissible></candor-alert>
