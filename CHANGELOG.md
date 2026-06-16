@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [4.1.0] - 2026-06-16
+
 ### Added
 
 - **`candor-pagination` `compact` attribute** — opt-in compact layout (`‹ Prev · Page X of Y · Next ›`) that drops the numbered page buttons and ellipses for narrow viewports. Set it from a media/container query in a responsive app; defaults to `false` (the full numbered layout is unchanged). The "Page X of Y" position text is a polite live region, so screen readers announce the new page after Prev/Next. Prev/Next keep their existing disabled logic and `page-change` events (#152).
