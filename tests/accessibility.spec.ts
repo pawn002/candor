@@ -1,85 +1,101 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Accessibility Tests', () => {
-  test('button should have proper focus state', async ({ page }) => {
-    await page.goto('/?path=/story/components-button--primary');
+/**
+ * Accessibility behaviour tests for the Candor web components.
+ *
+ * These target the rendered **story iframe** directly (`iframe.html?id=…`), not
+ * the Storybook manager — so the locators run in the same document as the
+ * component, and Playwright's CSS engine pierces the open shadow roots
+ * (`candor-button button` reaches the inner native control).
+ *
+ * Scope is keyboard / focus / ARIA behaviour that Chromatic (the visual gate)
+ * can't see: focus reachability, Tab order, arrow-key radio grouping, the
+ * checkbox space-toggle, and `aria-invalid` wiring. Story IDs follow
+ * `{kebab-title-path}--{kebab-export}` per the AT workflow in CLAUDE.md.
+ */
 
-    const button = page.locator('app-button button');
+/** Navigate straight to a story's canvas, bypassing the Storybook manager. */
+const gotoStory = (id: string) => `/iframe.html?id=${id}&viewMode=story`;
+
+test.describe('candor-button', () => {
+  test('inner control is focusable', async ({ page }) => {
+    await page.goto(gotoStory('components-button--default'));
+
+    const button = page.locator('candor-button button');
     await button.focus();
-
-    // Check that focus is visible
     await expect(button).toBeFocused();
-
-    // Take screenshot of focused state
-    await page.screenshot({
-      path: 'screenshots/button-focus.png'
-    });
   });
 
-  test('button should be keyboard navigable', async ({ page }) => {
-    await page.goto('/?path=/story/components-button--all-variants');
+  test('buttons are sequentially Tab-navigable', async ({ page }) => {
+    await page.goto(gotoStory('components-button--all-variants'));
 
-    // Tab through buttons
-    await page.keyboard.press('Tab');
-    const firstButton = page.locator('app-button button').first();
-    await expect(firstButton).toBeFocused();
+    const buttons = page.locator('candor-button button');
+    // First the primary, then Tab advances to the secondary — proves the
+    // shadow-DOM-wrapped controls participate in the document tab order.
+    await buttons.first().focus();
+    await expect(buttons.first()).toBeFocused();
 
     await page.keyboard.press('Tab');
-    const secondButton = page.locator('app-button button').nth(1);
-    await expect(secondButton).toBeFocused();
+    await expect(buttons.nth(1)).toBeFocused();
   });
+});
 
-  test('form input should have proper labels', async ({ page }) => {
-    await page.goto('/?path=/story/components-form-input--default');
+test.describe('candor-input', () => {
+  test('has an associated label and is not invalid by default', async ({ page }) => {
+    await page.goto(gotoStory('components-form-input--default'));
 
-    const input = page.locator('app-input input');
-    const label = page.locator('app-input label');
+    const label = page.locator('candor-input label');
+    const input = page.locator('candor-input input');
 
-    // Check label exists
     await expect(label).toBeVisible();
+    // `for`/`id` association: the label points at the rendered input.
+    const forAttr = await label.getAttribute('for');
+    expect(forAttr).toBeTruthy();
+    await expect(input).toHaveAttribute('id', forAttr!);
 
-    // Check aria attributes
-    const ariaInvalid = await input.getAttribute('aria-invalid');
-    expect(ariaInvalid).toBeNull(); // Should not be invalid by default
+    // No error → aria-invalid is absent, not "false".
+    expect(await input.getAttribute('aria-invalid')).toBeNull();
   });
 
-  test('form input with error should have aria-invalid', async ({ page }) => {
-    await page.goto('/?path=/story/components-form-input--with-error');
+  test('error state sets aria-invalid', async ({ page }) => {
+    await page.goto(gotoStory('components-form-input--with-error'));
 
-    const input = page.locator('app-input input');
-    const ariaInvalid = await input.getAttribute('aria-invalid');
-
-    expect(ariaInvalid).toBe('true');
+    const input = page.locator('candor-input input');
+    await expect(input).toHaveAttribute('aria-invalid', 'true');
   });
+});
 
-  test('checkbox should be keyboard accessible', async ({ page }) => {
-    await page.goto('/?path=/story/components-form-checkbox--default');
+test.describe('candor-checkbox', () => {
+  test('toggles with the space key', async ({ page }) => {
+    await page.goto(gotoStory('components-form-checkbox--default'));
 
-    const checkbox = page.locator('app-checkbox input[type="checkbox"]');
-
-    // Focus checkbox
+    const checkbox = page.locator('candor-checkbox input[type="checkbox"]');
     await checkbox.focus();
     await expect(checkbox).toBeFocused();
+    await expect(checkbox).not.toBeChecked();
 
-    // Toggle with spacebar
     await page.keyboard.press('Space');
     await expect(checkbox).toBeChecked();
 
     await page.keyboard.press('Space');
     await expect(checkbox).not.toBeChecked();
   });
+});
 
-  test('radio buttons should be keyboard navigable', async ({ page }) => {
-    await page.goto('/?path=/story/components-form-radio--radio-group');
+test.describe('candor-radio', () => {
+  test('arrow keys move focus and selection across the group', async ({ page }) => {
+    await page.goto(gotoStory('components-form-radio--group'));
 
-    const radios = page.locator('app-radio input[type="radio"]');
-
-    // Focus first radio
+    // Group: Email (checked) · Phone · Post (disabled). candor-radio implements
+    // its own arrow-key grouping across sibling shadow roots, skipping disabled
+    // members and moving focus + selection together (native radio grouping does
+    // not cross the shadow boundary — see candor-radio.ts).
+    const radios = page.locator('candor-radio input[type="radio"]');
     await radios.first().focus();
     await expect(radios.first()).toBeFocused();
 
-    // Navigate with arrow keys
     await page.keyboard.press('ArrowDown');
     await expect(radios.nth(1)).toBeFocused();
+    await expect(radios.nth(1)).toBeChecked();
   });
 });

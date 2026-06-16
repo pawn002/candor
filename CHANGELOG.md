@@ -12,6 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- **Tests (no consumer impact):** Rewrote `tests/accessibility.spec.ts` to target the web components — it now loads each story's canvas directly (`iframe.html?id=…&viewMode=story`) and uses shadow-piercing `candor-*` selectors instead of the dead Angular `app-*` locators on the Storybook manager page. Removed the two screenshot-only specs (`visual-regression.spec.ts`, `storybook-snapshots.spec.ts`) as redundant with Chromatic, the visual gate on every PR (#148).
 - **Tooling (no consumer impact):** Migrated the Storybook build harness from `@storybook/angular` to `@storybook/web-components-vite` and retired the Angular toolchain entirely (#143). Candor has shipped no Angular components since 3.0.0 — Angular survived only as the Storybook renderer for the framework-agnostic web-component stories. The 47 story files now render via lit-html (`render: (args) => html\`…\``) instead of Angular `template:` strings. Removed `angular.json`, the Angular bootstrap shell (`src/app/`, `src/main.ts`), the Angular tsconfigs, and the `@angular/*`, `@angular-devkit/build-angular`, `zone.js`, and `rxjs` dependencies. This dissolves the TypeScript 5 / Angular &lt; 22 version ceiling that blocked #141 and removes the bulk of the dev-time `npm audit` advisories (all of which traced through the Angular/webpack toolchain). The published `@candor-design/tokens` and `@candor-design/web-components` packages are unaffected.
 
 ### Fixed
