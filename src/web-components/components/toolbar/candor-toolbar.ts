@@ -28,12 +28,22 @@ export class CandorToolbar extends LitElement {
       background: var(--color-bg-surface);
       border: var(--border-width-thin) solid var(--color-border-default);
       border-radius: var(--radius-md);
+      /* On narrow viewports a full toolbar scrolls in a single row instead of
+         overflowing the page. Roving-tabindex nav already scrolls focus into
+         view, so keyboard users follow the row as they arrow through it. */
+      max-width: 100%;
+      overflow-x: auto;
     }
+    /* Keep each item at its natural size so the row scrolls rather than the
+       items squashing (flex children shrink by default). */
+    ::slotted(*) { flex-shrink: 0; }
     .toolbar--vertical {
       display: flex;
       flex-direction: column;
       align-items: stretch;
       width: fit-content;
+      max-width: 100%;
+      overflow-x: visible;
     }
   `;
 

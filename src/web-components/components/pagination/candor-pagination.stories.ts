@@ -37,9 +37,13 @@ to give screen readers a unique landmark name (e.g. \`"Documents pagination"\`,
       control: { type: 'number', min: 1 },
       description: 'Total number of pages',
     },
+    compact: {
+      control: 'boolean',
+      description: 'Compact layout: ‹ Prev · Page X of Y · Next › — drops the numbered buttons. Opt-in for narrow viewports.',
+    },
   },
-  args: { currentPage: 3, totalPages: 10 },
-  render: (args) => html`<candor-pagination current-page="${args['currentPage']}" total-pages="${args['totalPages']}"></candor-pagination>`,
+  args: { currentPage: 3, totalPages: 10, compact: false },
+  render: (args) => html`<candor-pagination current-page="${args['currentPage']}" total-pages="${args['totalPages']}" ?compact="${args['compact']}"></candor-pagination>`,
 };
 
 export default meta;
@@ -67,6 +71,21 @@ export const ManyPages: Story = {
 
 export const SinglePage: Story = {
   args: { currentPage: 1, totalPages: 1 },
+};
+
+export const Compact: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Compact layout for narrow viewports — Prev/Next flank a plain-text "Page X of Y" position ' +
+          'indicator instead of numbered buttons. Set `compact` from a media/container query in a ' +
+          'responsive app. The position text is a polite live region, so screen readers announce the ' +
+          'new page after Prev/Next (focus stays on the button).',
+      },
+    },
+  },
+  args: { currentPage: 3, totalPages: 10, compact: true },
 };
 
 const tableHeaders = JSON.stringify(['Name', 'Role', 'Status']);
