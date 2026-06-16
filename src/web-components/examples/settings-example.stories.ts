@@ -145,7 +145,7 @@ export const AccountSettings: Story = {
         </fieldset>
       </section>
 
-      <div style="display: flex; gap: var(--spacing-sm);">
+      <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm);">
         <candor-button variant="primary" size="medium">Save changes</candor-button>
         <candor-button variant="ghost" size="medium">Discard</candor-button>
       </div>
@@ -215,7 +215,7 @@ export const TabbedSettings: Story = {
             <candor-input label="Email address" type="email" value="j.smith@example.com" required hint="Changing your email requires re-verification."></candor-input>
             <candor-select label="Language" value="en" options='${LANGUAGE_OPTIONS}'></candor-select>
             <candor-combobox label="Timezone" value="utc+00" hint="Used for scheduling and notifications." options='${TIMEZONE_OPTIONS}'></candor-combobox>
-            <div style="display: flex; gap: var(--spacing-sm); padding-top: var(--spacing-xs);">
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm); padding-top: var(--spacing-xs);">
               <candor-button variant="primary" size="medium">Save changes</candor-button>
               <candor-button variant="ghost" size="medium">Discard</candor-button>
             </div>
