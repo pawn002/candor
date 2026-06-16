@@ -189,7 +189,7 @@ export const DangerZone: Story = {
         </fieldset>
       </section>
 
-      <div style="display: flex; gap: var(--spacing-sm);">
+      <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm);">
         <candor-button variant="primary">Save</candor-button>
         <candor-button variant="destructive">Delete account</candor-button>
       </div>
