@@ -123,7 +123,7 @@ export const StatusMessages: Story = {
 
 export const FontComparison: Story = {
   render: () => html`
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr));gap:2rem;">
       <div style="display:flex;flex-direction:column;gap:0.75rem;font-family:var(--font-family-base);">
         <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Roboto Flex</p>
         <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;line-height:var(--line-height-tight);">FORM LABEL</span>

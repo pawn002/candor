@@ -210,7 +210,7 @@ export const BrandGamuts: Story = {
     },
   },
   render: () => html`
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-md);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 200px), 1fr));gap:var(--spacing-md);">
       <candor-card>
         <span slot="header">Navy</span>
         <candor-tone-picker size="small" hide-headers hide-ui aria-label="Navy" selected-value="oklch(0.27 0.060 245.34)" rows='${NAVY_ROWS}' column-headers='${NAVY_HEADERS}'></candor-tone-picker>
