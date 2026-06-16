@@ -64,22 +64,22 @@ export const DestructiveInContext: Story = {
   parameters: { controls: { disable: true } },
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:560px;padding:var(--spacing-md);">
-      <candor-card variant="outlined">
+      <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Paired with primary</p>
         <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
           <candor-button variant="primary">Save changes</candor-button>
           <candor-button variant="ghost">Cancel</candor-button>
           <candor-button variant="destructive">Delete</candor-button>
         </div>
-      </candor-card>
-      <candor-card variant="outlined">
+      </div>
+      <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">With error state nearby</p>
         <p style="color:var(--color-status-error-text);font-family:var(--font-family-accessible);font-size:var(--font-size-sm);margin:0 0 var(--spacing-sm);">⚠ This action cannot be undone. 3 records will be permanently deleted.</p>
         <div style="display:flex;gap:1rem;flex-wrap:wrap;">
           <candor-button variant="ghost">Cancel</candor-button>
           <candor-button variant="destructive">Delete permanently</candor-button>
         </div>
-      </candor-card>
+      </div>
     </div>
   `,
 };
