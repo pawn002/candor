@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+// Full-width rule separating showcase scenarios (consistent with the other
+// component showcases — dividers, not grouping cards).
+const divider = html`<hr style="border: none; border-top: var(--border-width-thin) solid var(--color-border-default); margin: 0; width: 100%;" />`;
+
 const meta: Meta = {
   title: 'Components/Badge',
   tags: ['autodocs'],
@@ -80,15 +84,17 @@ export const OrdinalSeverity: Story = {
         <p style="margin:0;">Use the existing status token triplets to express ordered severity scales. The label is read as a semantic term — Atkinson bold ensures it is legible at small sizes.</p>
         <p style="margin:0;"><strong style="color:var(--color-text-default);font-weight:var(--font-weight-semibold);">Mapping rule:</strong> low/minor/suggestion → success (green) · medium/moderate/recommendation → warning (amber) · high/critical/fundamental → error (red)</p>
       </div>
-      <candor-card variant="outlined">
+      ${divider}
+      <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Disagreement severity</p>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
           <candor-badge variant="success">Minor</candor-badge>
           <candor-badge variant="warning">Moderate</candor-badge>
           <candor-badge variant="error">Fundamental</candor-badge>
         </div>
-      </candor-card>
-      <candor-card variant="outlined">
+      </div>
+      ${divider}
+      <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Security finding severity</p>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
           <candor-badge variant="success">Low</candor-badge>
@@ -96,15 +102,16 @@ export const OrdinalSeverity: Story = {
           <candor-badge variant="error">High</candor-badge>
           <candor-badge variant="error">Critical</candor-badge>
         </div>
-      </candor-card>
-      <candor-card variant="outlined">
+      </div>
+      ${divider}
+      <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Audit finding type</p>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
           <candor-badge variant="success">Suggestion</candor-badge>
           <candor-badge variant="warning">Recommendation</candor-badge>
           <candor-badge variant="error">Requirement</candor-badge>
         </div>
-      </candor-card>
+      </div>
     </div>
   `,
 };
