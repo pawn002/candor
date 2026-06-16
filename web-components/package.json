@@ -1,6 +1,6 @@
 {
   "name": "@candor-design/web-components",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Candor design system — Lit 3 custom elements. Framework-agnostic web components paired with @candor-design/tokens.",
   "type": "module",
   "main": "./dist/candor-web-components.umd.cjs",
@@ -17,7 +17,10 @@
       "import": "./dist/tone-data.js"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "sideEffects": true,
   "keywords": [
     "web-components",
