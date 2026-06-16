@@ -209,3 +209,13 @@ export const FilterableTable: Story = {
       </main>
   `,
 };
+
+// Open variant for Chromatic — reuses the render and opens the filter drawer via
+// its trigger handler. Tagged !autodocs so the open drawer stays off the docs page.
+export const FilterDrawerOpen: Story = {
+  ...FilterableTable,
+  name: 'Filter Drawer (open)',
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  play: openDrawer,
+};

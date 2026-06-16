@@ -304,3 +304,13 @@ export const DeleteConfirmation: Story = {
     </div>
   `,
 };
+
+// Open variant for Chromatic — reuses the render and opens the modal via its
+// trigger handler. Tagged !autodocs so the open dialog stays off the docs page.
+export const DeleteConfirmationOpen: Story = {
+  ...DeleteConfirmation,
+  name: 'Delete Confirmation (open)',
+  tags: ['!autodocs'],
+  parameters: { controls: { disable: true }, chromatic: { pauseAnimationAtEnd: true } },
+  play: openDeleteModal,
+};
