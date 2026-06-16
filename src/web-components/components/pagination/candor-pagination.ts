@@ -67,10 +67,25 @@ export class CandorPagination extends LitElement {
       letter-spacing: var(--letter-spacing-italic);
       user-select: none;
     }
+    .pagination__status {
+      display: inline-flex;
+      align-items: center;
+      height: var(--spacing-lg);
+      padding: 0 var(--spacing-xs);
+      color: var(--color-text-default);
+      font-family: var(--font-family-accessible);
+      font-size: var(--font-size-sm);
+      letter-spacing: var(--letter-spacing-italic);
+      line-height: 1;
+      white-space: nowrap;
+    }
   `;
 
   @property({ type: Number, attribute: 'current-page' }) currentPage = 1;
   @property({ type: Number, attribute: 'total-pages' }) totalPages = 1;
+  // Compact mode: ‹ Prev · Page X of Y · Next › — drops the numbered buttons
+  // and ellipses. Opt-in (e.g. a responsive app sets it from a media query).
+  @property({ type: Boolean, reflect: true }) compact = false;
 
   // aria-label observed manually so the attribute is stripped off the host
   // (avoids host/inner double-naming — see utils/host-aria.ts).
@@ -109,13 +124,38 @@ export class CandorPagination extends LitElement {
     this.requestUpdate();
   }
 
+  private _renderPrev() {
+    return html`
+      <button class="pagination__btn pagination__prev" ?disabled="${this.currentPage <= 1}" aria-label="Previous page" @click="${() => this._goTo(this.currentPage - 1)}">
+        <svg class="pagination__icon pagination__icon--prev" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
+      </button>
+    `;
+  }
+
+  private _renderNext() {
+    return html`
+      <button class="pagination__btn pagination__next" ?disabled="${this.currentPage >= this.totalPages}" aria-label="Next page" @click="${() => this._goTo(this.currentPage + 1)}">
+        <svg class="pagination__icon pagination__icon--next" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
+      </button>
+    `;
+  }
+
   override render() {
+    if (this.compact) {
+      // Page position is the sole on-screen indicator here, so announce it
+      // politely when Prev/Next changes the page (focus stays on the button).
+      return html`
+        <nav aria-label="${this._ariaLabel}" class="pagination pagination--compact">
+          ${this._renderPrev()}
+          <span class="pagination__status" aria-live="polite" aria-atomic="true">Page ${this.currentPage} of ${this.totalPages}</span>
+          ${this._renderNext()}
+        </nav>
+      `;
+    }
     return html`
       <nav aria-label="${this._ariaLabel}" class="pagination">
-        <button class="pagination__btn pagination__prev" ?disabled="${this.currentPage <= 1}" aria-label="Previous page" @click="${() => this._goTo(this.currentPage - 1)}">
-          <svg class="pagination__icon pagination__icon--prev" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
-        </button>
-        ${this._pages.map((item, i) =>
+        ${this._renderPrev()}
+        ${this._pages.map((item) =>
           item === 'ellipsis'
             ? html`<span class="pagination__ellipsis" aria-hidden="true">…</span>`
             : html`<button
@@ -125,9 +165,7 @@ export class CandorPagination extends LitElement {
                 @click="${() => this._goTo(item as number)}"
               >${item}</button>`
         )}
-        <button class="pagination__btn pagination__next" ?disabled="${this.currentPage >= this.totalPages}" aria-label="Next page" @click="${() => this._goTo(this.currentPage + 1)}">
-          <svg class="pagination__icon pagination__icon--next" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
-        </button>
+        ${this._renderNext()}
       </nav>
     `;
   }

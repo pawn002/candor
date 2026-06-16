@@ -715,6 +715,15 @@
       "note": "ellipsis — Tier 3 Supplementary"
     },
     {
+      "id": "pagination-compact-status",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 9.5,
+      "note": "compact-mode 'Page X of Y' — sole position indicator, so Tier 1 Reading floor; text-default clears it (OKCA 11 light / 12.5 dark)"
+    },
+    {
       "id": "chip-default",
       "fg": "{color.text.default}",
       "bg": "{color.bg.surface}",
