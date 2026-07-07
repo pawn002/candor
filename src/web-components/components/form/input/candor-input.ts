@@ -70,8 +70,11 @@ export class CandorInput extends LitElement {
   private _onInput(e: Event) {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
     this.value = target.value;
+    // The inner control's native `input` is composed and would escape the shadow
+    // root on its own — stop it so consumers don't get it *and* our typed event.
+    e.stopPropagation();
     // Live value stream — fires on every keystroke, mirroring the native
-    // `input` event (see events.ts / #164).
+    // `input` event but carrying the value as `detail` (see events.ts / #164).
     this.dispatchEvent(new CustomEvent('input', { detail: this.value, bubbles: true, composed: true }));
     // Deprecated alias — same live semantics; remove in the next major (#164).
     this.dispatchEvent(new CustomEvent('input-change', { detail: this.value, bubbles: true, composed: true }));

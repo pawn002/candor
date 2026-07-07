@@ -16,7 +16,10 @@
 //   • `input` — the LIVE, mid-edit value, fired continuously. Only controls with
 //     a real editing phase emit it: candor-input (per keystroke), candor-slider
 //     (per drag tick / arrow step), and candor-combobox (per filter-text
-//     keystroke). Mirrors native `<input>` / `<input type="range">`.
+//     keystroke). Mirrors native `<input>` / `<input type="range">`. The inner
+//     control's native `input` (which is composed) is stopped at the shadow
+//     boundary, so a consumer receives exactly one `input` — ours, with `detail`
+//     set to the value — not the native one as well.
 //
 // Semantic, non-value events keep distinct names: `send`, `dismissed`, `closed`,
 // `selected`, `toggle`, `clicked`, `page-change`, `tab-change`, `color-select`,
