@@ -49,3 +49,6 @@ export * from './components/menu/candor-menu';
 export * from './components/table/candor-table';
 export * from './components/data-grid/candor-data-grid';
 export * from './components/tone-picker/candor-tone-picker';
+
+// Event names + detail types (see events.ts for the naming convention)
+export * from './events';
