@@ -29,10 +29,10 @@ export class CandorDrawer extends LitElement {
 
     /* Non-modal mode: the dialog is still a full-viewport layer (for edge-anchored
        positioning), but it must not intercept pointer events across the page — only
-       the panel itself should be clickable. A reflected boolean defaults to modal=true,
-       so the "modal" attribute is present when modal and absent when non-modal. */
-    :host(:not([modal])) dialog[open] { pointer-events: none; }
-    :host(:not([modal])) .drawer__panel { pointer-events: auto; }
+       the panel itself should be clickable. The modal property reflects as the string
+       "true"/"false" (see the custom converter below), so non-modal is modal="false". */
+    :host([modal='false']) dialog[open] { pointer-events: none; }
+    :host([modal='false']) .drawer__panel { pointer-events: auto; }
 
     /* Position layout */
     .drawer--right  dialog[open] { justify-content: flex-end; align-items: stretch; }
@@ -167,11 +167,23 @@ export class CandorDrawer extends LitElement {
   @property({ reflect: true }) position: DrawerPosition = 'right';
   @property({ reflect: true }) size: DrawerSize = 'md';
   @property({ type: Boolean, attribute: 'dismiss-on-backdrop' }) dismissOnBackdrop = true;
-  /** Default true preserves current (modal) behavior. Set false for a non-modal side
-   * panel — e.g. a persistent assistant, inspector, or filter panel the user works
-   * alongside — that doesn't trap focus or dim the page. Reflected so CSS can target
-   * the non-modal state (see `:host(:not([modal]))` rules above). */
-  @property({ type: Boolean, reflect: true }) modal = true;
+  /** Default true preserves current (modal) behavior. Set `modal="false"` for a
+   * non-modal side panel — e.g. a persistent assistant, inspector, or filter panel
+   * the user works alongside — that doesn't trap focus or dim the page.
+   *
+   * A custom converter (not `type: Boolean`) is required so `modal="false"` parses
+   * to `false`: Lit's boolean converter treats *any* present attribute — including
+   * the string "false" — as `true`, which would make `modal="false"` silently modal.
+   * Reflected as "true"/"false" so CSS can target the non-modal state via
+   * `:host([modal='false'])`. */
+  @property({
+    reflect: true,
+    converter: {
+      fromAttribute: (value: string | null) => value !== 'false',
+      toAttribute: (value: unknown) => (value ? 'true' : 'false'),
+    },
+  })
+  modal = true;
 
   @query('dialog') private _dialog!: HTMLDialogElement;
 
