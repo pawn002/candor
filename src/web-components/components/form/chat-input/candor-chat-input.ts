@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
 import { phPaperPlaneTiltFill } from '../../../icons';
+import type { CandorChatInputSendDetail } from '../../../events';
 
 let _nextId = 0;
 
@@ -95,7 +96,7 @@ export class CandorChatInput extends LitElement {
 
   private _send() {
     if (!this._value.trim() || this.disabled) return;
-    this.dispatchEvent(new CustomEvent('send', {
+    this.dispatchEvent(new CustomEvent<CandorChatInputSendDetail>('send', {
       detail: { value: this._value },
       bubbles: true,
       composed: true,
