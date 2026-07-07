@@ -78,8 +78,8 @@ Components communicate outward through DOM `CustomEvent`s. Every Candor event is
 
 **The naming follows the DOM's own two-event rule**, applied uniformly so there's nothing component-specific to memorise:
 
-- **`change`** — the *committed* value. Every value control emits it: input, select, radio, checkbox, switch, slider, listbox, combobox, and chip. This is the predictable event to reach for. Discrete controls (checkbox, radio, select, switch) commit in a single action, so `change` is the only value event they emit — exactly like their native counterparts.
-- **`input`** — the *live, mid-edit* value, fired continuously. Only controls with a real editing phase emit it: `candor-input` (per keystroke), `candor-slider` (per drag tick / arrow step), and `candor-combobox` (per filter-text keystroke) — mirroring native `<input>` and `<input type="range">`.
+- **`change`** — the *committed* value. Every value control emits it: input, autocomplete, select, radio, checkbox, switch, slider, listbox, combobox, and chip. This is the predictable event to reach for. Discrete controls (checkbox, radio, select, switch) commit in a single action, so `change` is the only value event they emit — exactly like their native counterparts.
+- **`input`** — the *live, mid-edit* value, fired continuously. Only controls with a real editing phase emit it: `candor-input` (per keystroke), `candor-autocomplete` (per free-text keystroke), `candor-slider` (per drag tick / arrow step), and `candor-combobox` (per filter-text keystroke) — mirroring native `<input>` and `<input type="range">`.
 
 Semantic, non-value events keep distinct names: `send`, `dismissed`, `closed`, `selected`, `toggle`, `clicked`, `page-change`, `tab-change`, `color-select`, `cell-activate`.
 
@@ -115,7 +115,7 @@ Use the sidebar to explore components by category:
 - **Design Tokens** — Color palette (light/dark), spacing scale, typography system, icon set
 - **Typography** — Heading hierarchy, body text, accessible text, article layout
 - **Components** — 34 Lit 3 custom elements: accordions, alerts, badges, breadcrumbs, buttons, cards, chips, data grids, drawers, menus, modals, navigation, pagination, progress, stats, tables, tabs, toasts, tone picker, toolbars, tooltips
-- **Form** — Chat input, checkbox, combobox, input, listbox, radio, select, slider, switch
+- **Form** — Autocomplete, chat input, checkbox, combobox, input, listbox, radio, select, slider, switch
 - **Examples** — Composed stories: login, registration, settings, data table with filtering, document and image editors
 
 Every component story includes controls for all inputs and demonstrates all variants.

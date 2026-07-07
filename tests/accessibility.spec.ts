@@ -65,6 +65,47 @@ test.describe('candor-input', () => {
   });
 });
 
+test.describe('candor-autocomplete', () => {
+  test('has an associated label and combobox ARIA wiring', async ({ page }) => {
+    await page.goto(gotoStory('components-form-autocomplete--default'));
+
+    const label = page.locator('candor-autocomplete label');
+    const input = page.locator('candor-autocomplete input');
+
+    await expect(label).toBeVisible();
+    const forAttr = await label.getAttribute('for');
+    expect(forAttr).toBeTruthy();
+    await expect(input).toHaveAttribute('id', forAttr!);
+
+    // Free-text combobox semantics: role + list autocomplete, collapsed at rest.
+    await expect(input).toHaveAttribute('role', 'combobox');
+    await expect(input).toHaveAttribute('aria-autocomplete', 'list');
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+    expect(await input.getAttribute('aria-invalid')).toBeNull();
+  });
+
+  test('opening the list and highlighting sets aria-expanded and aria-activedescendant', async ({ page }) => {
+    await page.goto(gotoStory('components-form-autocomplete--default'));
+    const input = page.locator('candor-autocomplete input');
+
+    await input.focus();
+    await input.pressSequentially('gpt');
+    await page.keyboard.press('ArrowDown');
+
+    await expect(input).toHaveAttribute('aria-expanded', 'true');
+    const active = await input.getAttribute('aria-activedescendant');
+    expect(active).toBeTruthy();
+    // The referenced option actually exists in the listbox.
+    await expect(page.locator(`#${active}`)).toHaveAttribute('role', 'option');
+  });
+
+  test('error state sets aria-invalid', async ({ page }) => {
+    await page.goto(gotoStory('components-form-autocomplete--with-error'));
+    const input = page.locator('candor-autocomplete input');
+    await expect(input).toHaveAttribute('aria-invalid', 'true');
+  });
+});
+
 test.describe('candor-checkbox', () => {
   test('toggles with the space key', async ({ page }) => {
     await page.goto(gotoStory('components-form-checkbox--default'));

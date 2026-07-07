@@ -138,3 +138,46 @@ test.describe('candor-combobox — input (filter text) vs change (selection)', (
     expect(t.lastChange).toMatchObject({ value: expect.any(String), label: expect.any(String) });
   });
 });
+
+test.describe('candor-autocomplete — free text with non-binding suggestions', () => {
+  test('an unlisted value is accepted; input streams, change commits it as a string', async ({ page }) => {
+    await page.goto(gotoStory('components-form-autocomplete--default'));
+    const field: Locator = page.locator('candor-autocomplete input');
+    await field.waitFor();
+    await tally(page, 'candor-autocomplete');
+
+    // Type a value that matches NO suggestion — the list simply hides, the value
+    // is fully valid. (A combobox would reject this; autocomplete never does.)
+    await field.focus();
+    await field.pressSequentially('zzz');
+    let t = await readTally(page);
+    expect(t.input).toBe(3);          // one live input per keystroke, de-duped
+    expect(t.change).toBe(0);         // nothing committed yet
+    expect(t.lastInput).toBe('zzz');  // detail is the raw free text
+
+    // Commit on blur → one `change`, detail is the plain string the user typed
+    // (NOT an option object, unlike combobox).
+    await field.blur();
+    t = await readTally(page);
+    expect(t.change).toBe(1);
+    expect(t.lastChange).toBe('zzz');
+  });
+
+  test('picking a suggestion commits it as a string', async ({ page }) => {
+    await page.goto(gotoStory('components-form-autocomplete--default'));
+    const field: Locator = page.locator('candor-autocomplete input');
+    await field.waitFor();
+    await tally(page, 'candor-autocomplete');
+
+    await field.focus();
+    await field.pressSequentially('gpt'); // filters to gpt-4o / gpt-4o-mini / gpt-4-turbo
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+
+    const t = await readTally(page);
+    expect(t.change).toBe(1);
+    // Committed value is a plain string — the chosen suggestion, filled into the field.
+    expect(typeof t.lastChange).toBe('string');
+    expect(t.lastChange).toBe('gpt-4o');
+  });
+});

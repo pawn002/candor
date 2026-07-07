@@ -15,8 +15,9 @@
 //
 //   • `input` — the LIVE, mid-edit value, fired continuously. Only controls with
 //     a real editing phase emit it: candor-input (per keystroke), candor-slider
-//     (per drag tick / arrow step), and candor-combobox (per filter-text
-//     keystroke). Mirrors native `<input>` / `<input type="range">`. The inner
+//     (per drag tick / arrow step), candor-combobox (per filter-text keystroke),
+//     and candor-autocomplete (per free-text keystroke). Mirrors native
+//     `<input>` / `<input type="range">`. The inner
 //     control's native `input` (which is composed) is stopped at the shadow
 //     boundary, so a consumer receives exactly one `input` — ours, with `detail`
 //     set to the value — not the native one as well.
@@ -72,6 +73,11 @@ export type CandorListboxChangeDetail = ListboxOption;
 export type CandorComboboxChangeDetail = ComboboxOption | null;
 /** candor-combobox `input`: the live filter text as the user types. */
 export type CandorComboboxInputDetail = string;
+/** candor-autocomplete `change` (committed) and `input` (live): the free-text value.
+ * Always a plain string — the value is never constrained to the suggestion set. */
+export type CandorAutocompleteChangeDetail = string;
+/** candor-autocomplete `input`: the live free-text value on each keystroke. */
+export type CandorAutocompleteInputDetail = string;
 /** candor-chip `change` — and deprecated `selected-change`: the new selected state. */
 export type CandorChipChangeDetail = boolean;
 
@@ -139,6 +145,12 @@ export interface CandorComboboxEventMap {
   change: CustomEvent<CandorComboboxChangeDetail>;
   /** Live filter text — fires as the user types. */
   input: CustomEvent<CandorComboboxInputDetail>;
+}
+export interface CandorAutocompleteEventMap {
+  /** Committed free text — fires on blur, on Enter, and when a suggestion is chosen. */
+  change: CustomEvent<CandorAutocompleteChangeDetail>;
+  /** Live free text — fires on every keystroke. */
+  input: CustomEvent<CandorAutocompleteInputDetail>;
 }
 export interface CandorChipEventMap {
   change: CustomEvent<CandorChipChangeDetail>;
