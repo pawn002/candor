@@ -20,11 +20,25 @@ export class CandorTooltip extends LitElement {
       border-radius: var(--radius-sm);
       white-space: nowrap;
       pointer-events: none;
+      /* display:none takes the bubble out of layout entirely while hidden, so
+         it cannot contribute to the host's scrollWidth (#107). Combined with
+         @starting-style + transition-behavior:allow-discrete below, the
+         display:none <-> display:block flip still fades — same technique
+         candor-drawer uses for its dialog[open] transitions. */
+      display: none;
       opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.15s ease, visibility 0.15s ease;
+      transition: opacity 0.15s ease, display 0.15s ease allow-discrete;
     }
-    .tooltip__bubble--visible { opacity: 1; visibility: visible; }
+    .tooltip__bubble--visible {
+      display: block;
+      opacity: 1;
+    }
+    @starting-style {
+      .tooltip__bubble--visible { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tooltip__bubble { transition: none; }
+    }
 
     .tooltip__bubble--top {
       bottom: calc(100% + var(--spacing-xs));
