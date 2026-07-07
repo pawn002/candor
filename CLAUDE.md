@@ -9,7 +9,7 @@ Candor is a design system distributed as two layers, both developed in a single 
 1. **`@candor-design/tokens`** — the CSS custom-property layer (OKLCH colors, spacing, typography). Everything else is built on top of this.
 2. **`@candor-design/web-components`** — the primary, canonical consumer-facing component library: 34 Lit 3 custom elements. Framework-agnostic; the WC stories under `Components/`, `Typography/`, `Design Tokens/`, and `Examples/` are the only component surface.
 
-> An Angular standalone-component library (`src/app/`) previously mirrored this API as a feature-parity benchmark. It was **removed in 3.0.0** and was never published as a package. The Storybook toolchain still runs on `@storybook/angular` — it renders the web-component stories — so the Angular *build harness* (`angular.json`, `src/app/app.component.ts` bootstrap shell, `@storybook/angular`) remains; only the component library is gone.
+> An Angular standalone-component library (`src/app/`) previously mirrored this API as a feature-parity benchmark. It was **removed in 3.0.0** and was never published as a package. The Storybook toolchain itself ran on `@storybook/angular` (rendering the framework-agnostic web-component stories) until **4.1.0**, when #143 migrated it to `@storybook/web-components-vite` and retired the Angular build harness entirely — `angular.json`, the `src/app/` bootstrap shell, `src/main.ts`, and the `@angular/*`, `zone.js`, and `rxjs` dependencies are all gone. Both the components and the harness are now Angular-free.
 
 The workflow targets AI-assisted design iteration with real-time accessibility validation: receive art-direction specs, implement them in design tokens, validate accessibility using the klar CLI for color contrast, and inspect visually with Playwright MCP. Token changes propagate to the components because they consume the same CSS custom properties.
 
@@ -75,7 +75,7 @@ Colors use OKLCH format: `oklch(L C H)` where:
 
 The component library is the Lit 3 web components in `src/web-components/components/`:
 - Each component has a `candor-{name}.ts` (Lit class) + `candor-{name}.stories.ts`. Styles live inside the class via `static styles = css\`...\``.
-- Stories use the `@storybook/angular` `Meta` type (the Storybook renderer is Angular-based) and render via `template:` literal strings containing custom-element markup.
+- Stories use the `@storybook/web-components-vite` `Meta` type and render via lit-html — `render: (args) => html\`…\`` returning custom-element markup (no `template:` strings, no `component:` field).
 - Components register themselves on import via `@customElement('candor-{name}')` — pulling `src/web-components/index.ts` is enough to register all 34 tags.
 - Shadow DOM by default. CSS custom properties pierce shadow boundaries, so tokens reach inner styles without per-component injection.
 
@@ -375,9 +375,10 @@ See "Web Components Authoring Conventions" below for the full conventions.
 
 ### Storybook Stories Format
 
-Use Component Story Format 3 (CSF3). The Storybook renderer is `@storybook/angular`, so the `Meta` type comes from there, but WC stories render raw custom-element markup via `render: (args) => ({ template })` — there is no `component:` field:
+Use Component Story Format 3 (CSF3). The Storybook renderer is `@storybook/web-components-vite`, so the `Meta`/`StoryObj` types come from there, and WC stories render custom-element markup via lit-html — `render: (args) => html\`…\``. There is no `component:` field:
 ```typescript
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Badge',
@@ -386,9 +387,7 @@ const meta: Meta = {
     variant: { control: 'select', options: ['default', 'primary', 'success'] },
   },
   args: { variant: 'primary' },
-  render: (args) => ({
-    template: `<candor-badge variant="${args['variant']}">Badge</candor-badge>`,
-  }),
+  render: (args) => html`<candor-badge variant="${args['variant']}">Badge</candor-badge>`,
 };
 
 export default meta;
@@ -399,13 +398,13 @@ export const Default: Story = {};
 
 ## Toolchain Notes
 
-The component library is web components (Lit 3) — see "Web Components Authoring Conventions" below for all authoring guidance. The Angular *build harness* remains in place purely to drive Storybook:
+The component library is web components (Lit 3) — see "Web Components Authoring Conventions" below for all authoring guidance. Storybook runs on the `@storybook/web-components-vite` framework (configured in `.storybook/main.ts`), rendering stories via lit-html:
 
-- Storybook runs on the `@storybook/angular` builder (`angular.json` → `storybook` / `build-storybook` architect targets), which renders the web-component stories. This is why story files import the `Meta` type from `@storybook/angular`.
-- `src/app/app.component.ts` is a minimal bootstrap shell that the `design-system-playground:build` target (referenced by the Storybook builder) needs to resolve. It is not a component surface — do not add components under `src/app/`.
-- TypeScript 5.9. Tokens are authored in SCSS under `src/design-tokens/` and compiled to CSS by `npm run build:tokens`.
+- Story files import `Meta`/`StoryObj` from `@storybook/web-components-vite` and render with `render: (args) => html\`…\`` (lit-html) — not Angular `template:` strings.
+- As of **4.1.0** (#143) the Angular build harness is fully retired: `angular.json`, the `src/app/` bootstrap shell, `src/main.ts`, the Angular tsconfigs, and the `@angular/*`, `zone.js`, and `rxjs` dependencies were all removed. There is no `src/app/` — do not add anything there.
+- TypeScript ~5.9. Tokens are authored in SCSS under `src/design-tokens/` and compiled to CSS by `npm run build:tokens`. (The #143 migration lifted the old TypeScript 5 / Angular < 22 version ceiling that had blocked #141.)
 
-> The Angular standalone-component library was removed in 3.0.0. Authoring patterns that were Angular-specific (built-in control flow, signals/`model()`, zoneless change detection, `ViewEncapsulation`) no longer apply. The web-component equivalents (Shadow DOM scoping, `.prop` bindings, the `aria-label` host-trap) are documented below.
+> The Angular standalone-component library was removed in 3.0.0, and the Angular toolchain in 4.1.0. Authoring patterns that were Angular-specific (built-in control flow, signals/`model()`, zoneless change detection, `ViewEncapsulation`) do not apply. The web-component equivalents (Shadow DOM scoping, `.prop` bindings, the `aria-label` host-trap) are documented below.
 
 ## Web Components Authoring Conventions
 
@@ -511,10 +510,10 @@ render() {
 
 ### Storybook templates: data must flow via attributes, not `<script>`
 
-The Storybook stories render through the `@storybook/angular` builder. The renderer **strips inline `<script>` tags** from `template:` strings, so this pattern silently leaves elements empty:
+The Storybook stories render through `@storybook/web-components-vite` (lit-html). A `<script>` tag written inside a lit `html\`…\`` template is **inert** — lit-html instantiates markup from a `<template>` element, and scripts cloned from a template never execute — so this pattern silently leaves elements empty:
 
 ```html
-<!-- ✗ WRONG — script tag is stripped, element gets no rows -->
+<!-- ✗ WRONG — script never runs, element gets no rows -->
 <candor-data-grid id="my-grid"></candor-data-grid>
 <script>document.getElementById('my-grid').rows = [...];</script>
 ```
@@ -639,7 +638,7 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 ### Web-component-specific
 
-10. **Don't inject data via `<script>` tags in story templates**: Storybook's Angular renderer strips them. Pass data via JSON-encoded attributes (`rows='${JSON.stringify(...)}'`) instead — see "Storybook templates: data must flow via attributes, not <script>" above.
+10. **Don't inject data via `<script>` tags in story templates**: a `<script>` inside a lit-html story template is inert and never executes. Pass data via JSON-encoded attributes (`rows='${JSON.stringify(...)}'`) instead — see "Storybook templates: data must flow via attributes, not <script>" above.
 11. **Don't rely on Lit's default attribute lowercasing for multi-word props**: `columnHeaders` becomes attribute `columnheaders` by default — unreadable in markup. Always set `attribute: 'column-headers'` explicitly on `@property()`.
 12. **Don't omit `composed: true` on dispatched events**: Without it, events stop at the shadow boundary and never reach light-DOM listeners. Always set both `bubbles: true` and `composed: true`.
 13. **Don't redeclare tokens inside `static styles`**: Design tokens pierce shadow DOM automatically via CSS custom properties. Hard-coding `oklch(...)` inside a component breaks dark mode and token-driven theming.
