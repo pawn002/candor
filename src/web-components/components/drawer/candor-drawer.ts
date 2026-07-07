@@ -27,6 +27,13 @@ export class CandorDrawer extends LitElement {
     }
     dialog::backdrop { background-color: var(--color-overlay); }
 
+    /* Non-modal mode: the dialog is still a full-viewport layer (for edge-anchored
+       positioning), but it must not intercept pointer events across the page — only
+       the panel itself should be clickable. A reflected boolean defaults to modal=true,
+       so the "modal" attribute is present when modal and absent when non-modal. */
+    :host(:not([modal])) dialog[open] { pointer-events: none; }
+    :host(:not([modal])) .drawer__panel { pointer-events: auto; }
+
     /* Position layout */
     .drawer--right  dialog[open] { justify-content: flex-end; align-items: stretch; }
     .drawer--left   dialog[open] { justify-content: flex-start; align-items: stretch; }
@@ -160,6 +167,11 @@ export class CandorDrawer extends LitElement {
   @property({ reflect: true }) position: DrawerPosition = 'right';
   @property({ reflect: true }) size: DrawerSize = 'md';
   @property({ type: Boolean, attribute: 'dismiss-on-backdrop' }) dismissOnBackdrop = true;
+  /** Default true preserves current (modal) behavior. Set false for a non-modal side
+   * panel — e.g. a persistent assistant, inspector, or filter panel the user works
+   * alongside — that doesn't trap focus or dim the page. Reflected so CSS can target
+   * the non-modal state (see `:host(:not([modal]))` rules above). */
+  @property({ type: Boolean, reflect: true }) modal = true;
 
   @query('dialog') private _dialog!: HTMLDialogElement;
 
@@ -171,7 +183,14 @@ export class CandorDrawer extends LitElement {
     if (changed.has('open')) {
       if (this.open) {
         this.removeAttribute('inert');
-        this._dialog?.showModal();
+        // Non-modal panels deliberately don't steal focus — showModal() auto-focuses
+        // the dialog, but show() doesn't, so the user keeps working wherever focus
+        // already was in the page. Do not add autofocus for the non-modal path.
+        if (this.modal) {
+          this._dialog?.showModal();
+        } else {
+          this._dialog?.show();
+        }
       } else {
         this._dialog?.close();
         this.setAttribute('inert', '');
@@ -186,6 +205,10 @@ export class CandorDrawer extends LitElement {
   }
 
   private _onBackdropClick(e: MouseEvent) {
+    // In non-modal mode the dialog has no backdrop and is `pointer-events: none`
+    // outside the panel, so this click handler simply never fires there — a
+    // non-modal panel relies on the close button or consumer control to dismiss,
+    // not an outside click. No guard needed.
     if (this.dismissOnBackdrop && e.target === this._dialog) this._close();
   }
 
