@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **`@candor-design/tokens` package entry points:** added `main`, `module`, `style`, and an `exports` map to the root `package.json` (the manifest published as `@candor-design/tokens`) so consumers can `@import "@candor-design/tokens/candor-tokens.css"` instead of the internal filesystem path `@candor-design/tokens/tokens/candor-tokens.css`. Previously `main`/`module`/`exports` were all `null`. Maps `.`, `./candor-tokens.css`, `./candor-tokens.min.css`, and `./candor-tokens.json` to their emitted paths under `tokens/` (#168).
+
 ### Fixed
 
 - **`candor-checkbox`:** fixed unresponsive taps/clicks on mobile (iOS/Android). The visually-hidden native `<input type="checkbox">` used `width: 0; height: 0`, which some mobile browsers exclude from hit-testing entirely — tapping the label or visible box silently did nothing. Switched to the standard 1px/clip-rect visually-hidden pattern (`width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap`), which keeps the input a real, laid-out (if imperceptible) element so it remains tappable while staying visually hidden (#110).
