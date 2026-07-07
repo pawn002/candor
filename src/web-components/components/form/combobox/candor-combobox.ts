@@ -140,6 +140,10 @@ export class CandorCombobox extends LitElement {
       this._filtering = false;
       this._internals.setFormValue('');
     }
+    // Live filter-text stream — fires while the user types, mirroring the
+    // native `input` event. `change` (below) fires on commit with the selected
+    // option; `input` carries the raw text (see events.ts / #164).
+    this.dispatchEvent(new CustomEvent('input', { detail: this._inputValue, bubbles: true, composed: true }));
   }
 
   private _select(opt: ComboboxOption) {

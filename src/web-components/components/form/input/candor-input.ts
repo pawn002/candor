@@ -70,7 +70,17 @@ export class CandorInput extends LitElement {
   private _onInput(e: Event) {
     const target = e.target as HTMLInputElement | HTMLTextAreaElement;
     this.value = target.value;
+    // Live value stream — fires on every keystroke, mirroring the native
+    // `input` event (see events.ts / #164).
+    this.dispatchEvent(new CustomEvent('input', { detail: this.value, bubbles: true, composed: true }));
+    // Deprecated alias — same live semantics; remove in the next major (#164).
     this.dispatchEvent(new CustomEvent('input-change', { detail: this.value, bubbles: true, composed: true }));
+  }
+
+  private _onChange() {
+    // Committed value — fires on blur/Enter, mirroring the native `change`
+    // event (see events.ts / #164).
+    this.dispatchEvent(new CustomEvent('change', { detail: this.value, bubbles: true, composed: true }));
   }
 
   override render() {
@@ -100,6 +110,7 @@ export class CandorInput extends LitElement {
               name="${this.name || nothing}"
               autocomplete="${this.autocomplete || nothing}"
               @input="${this._onInput}"
+              @change="${this._onChange}"
             ></textarea>`
           : html`<input
               id="${this._id}"
@@ -114,6 +125,7 @@ export class CandorInput extends LitElement {
               name="${this.name || nothing}"
               autocomplete="${this.autocomplete || nothing}"
               @input="${this._onInput}"
+              @change="${this._onChange}"
             />`}
         <div id="${this._errorId}" class="input-error-live" role="alert" aria-live="polite" aria-atomic="true">
           ${this.error ? html`<span class="input-error-message">${this.error}</span>` : nothing}

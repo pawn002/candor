@@ -168,7 +168,17 @@ export class CandorSlider extends LitElement {
   private _onInput(e: Event) {
     this.value = parseFloat((e.target as HTMLInputElement).value);
     this._internals.setFormValue(String(this.value));
+    // Live value stream — fires on every drag tick / arrow-key step, mirroring
+    // the native `input` event (see events.ts / #164).
+    this.dispatchEvent(new CustomEvent('input', { detail: this.value, bubbles: true, composed: true }));
+    // Deprecated alias — same live semantics; remove in the next major (#164).
     this.dispatchEvent(new CustomEvent('value-change', { detail: this.value, bubbles: true, composed: true }));
+  }
+
+  private _onChange() {
+    // Committed value — fires once on pointer release / keyboard commit,
+    // mirroring the native `change` event (see events.ts / #164).
+    this.dispatchEvent(new CustomEvent('change', { detail: this.value, bubbles: true, composed: true }));
   }
 
   override render() {
@@ -193,6 +203,7 @@ export class CandorSlider extends LitElement {
             aria-label="${this._ariaLabel || nothing}"
             aria-valuetext="${this._valueText}"
             @input="${this._onInput}"
+            @change="${this._onChange}"
           />
         </div>
         ${!hasGradient ? html`<span class="slider__value" aria-hidden="true">${this._valueText}</span>` : nothing}

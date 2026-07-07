@@ -72,6 +72,42 @@ Regulatory exposure, outcome validation, and research comparison are different q
 
 ---
 
+## Component Events
+
+Components communicate outward through DOM `CustomEvent`s. Every Candor event is dispatched with `bubbles: true, composed: true`, so it crosses the shadow boundary and reaches listeners on light-DOM ancestors.
+
+**The naming follows the DOM's own two-event rule**, applied uniformly so there's nothing component-specific to memorise:
+
+- **`change`** — the *committed* value. Every value control emits it: input, select, radio, checkbox, switch, slider, listbox, combobox, and chip. This is the predictable event to reach for. Discrete controls (checkbox, radio, select, switch) commit in a single action, so `change` is the only value event they emit — exactly like their native counterparts.
+- **`input`** — the *live, mid-edit* value, fired continuously. Only controls with a real editing phase emit it: `candor-input` (per keystroke), `candor-slider` (per drag tick / arrow step), and `candor-combobox` (per filter-text keystroke) — mirroring native `<input>` and `<input type="range">`.
+
+Semantic, non-value events keep distinct names: `send`, `dismissed`, `closed`, `selected`, `toggle`, `clicked`, `page-change`, `tab-change`, `color-select`, `cell-activate`.
+
+Event names and their `detail` types are published in the `@candor-design/web-components` TypeScript declarations — import a `*Detail` type or a per-component `*EventMap` interface instead of hand-annotating:
+
+```ts
+import type { CandorSelectChangeDetail } from '@candor-design/web-components';
+
+el.addEventListener('change', (e) => {
+  const value = (e as CustomEvent<CandorSelectChangeDetail>).detail; // string
+});
+```
+
+**Deprecated aliases.** Three controls previously used bespoke value-changed names. Each legacy name is still emitted with its original semantics so existing listeners keep working, and maps to whichever new event shares those semantics. The aliases are deprecated and will be removed in the next major.
+
+<table>
+  <thead>
+    <tr><th>Component</th><th>Deprecated event</th><th>Semantics</th><th>Use instead</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>candor-input</td><td><code>input-change</code></td><td>live</td><td><code>input</code></td></tr>
+    <tr><td>candor-slider</td><td><code>value-change</code></td><td>live</td><td><code>input</code></td></tr>
+    <tr><td>candor-chip</td><td><code>selected-change</code></td><td>commit</td><td><code>change</code></td></tr>
+  </tbody>
+</table>
+
+---
+
 ## What's Here
 
 Use the sidebar to explore components by category:

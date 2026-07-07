@@ -78,6 +78,9 @@ export class CandorChip extends LitElement {
   private _onToggle() {
     if (this.disabled) return;
     this.selected = !this.selected;
+    // Canonical value-changed event (see events.ts / #164). detail = the new selected state.
+    this.dispatchEvent(new CustomEvent('change', { detail: this.selected, bubbles: true, composed: true }));
+    // Deprecated alias — remove in the next major (#164).
     this.dispatchEvent(new CustomEvent('selected-change', { detail: this.selected, bubbles: true, composed: true }));
   }
 
