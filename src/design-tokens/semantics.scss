@@ -100,6 +100,11 @@
     --color-blockquote-border: var(--color-action-secondary);
     --color-blockquote-text:   var(--color-text-subtle-on-surface); // inherits OKCA 4.6 on bg-surface ✅
 
+    // ─── Colors: Callout (article tip/note) ────────────────────────────────────
+    // Indigo wash + decorative indigo left border, tying back to the #6969F7 anchor.
+    --color-callout-bg:           var(--indigo-50);  // light indigo wash — text-default OKCA 9.9 ✅
+    --color-highlight-decorative: var(--indigo-500); // icon/border use — decorative accent below every text threshold; never a color: value (#132)
+
     // ─── Elevation / Shadow ────────────────────────────────────────────────────
     // Lives in the light mixin (not just :root) so [data-theme="light"] correctly
     // resets shadows on dark-OS systems where the dark mixin's white shadows applied first.
@@ -308,6 +313,10 @@
     --color-bg-code:     oklch(0.20 0.04 248); // text inherits --color-text-default (OKCA 12.5 on page) ✅
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
+
+    // ─── Callout (article tip/note) ────────────────────────────────────────────
+    --color-callout-bg:           oklch(0.26 0.04 278); // dark indigo wash — text-default OKCA 9.6 ✅
+    --color-highlight-decorative: var(--indigo-400);    // icon/border use — decorative accent; never a color: value (#132)
 }
 
 @media (prefers-color-scheme: dark) {

@@ -190,7 +190,15 @@
       "highlight": {
         "$type": "color",
         "$value": "oklch(0.37 0.08 347.43)",
-        "$description": "OKCA 6.5 on bg-surface ✅"
+        "$description": "OKCA 6.5 on bg-surface ✅",
+        "decorative": {
+          "$type": "color",
+          "$value": "oklch(0.60 0.21 278.14)",
+          "$description": "icon/border use — decorative accent below every text threshold; never a color: value (#132)",
+          "$extensions": {
+            "usage": "non-text"
+          }
+        }
       },
       "focus": {
         "$type": "color",
@@ -263,6 +271,13 @@
           "$type": "color",
           "$value": "oklch(0.44 0 0)",
           "$description": "inherits OKCA 4.6 on bg-surface ✅"
+        }
+      },
+      "callout": {
+        "bg": {
+          "$type": "color",
+          "$value": "oklch(0.97 0.02 278.14)",
+          "$description": "light indigo wash — text-default OKCA 9.9 ✅"
         }
       }
     }
@@ -465,7 +480,15 @@
       "highlight": {
         "$type": "color",
         "$value": "oklch(0.86 0.05 347.43)",
-        "$description": "OKCA 9.3 on bg-surface ✅"
+        "$description": "OKCA 9.3 on bg-surface ✅",
+        "decorative": {
+          "$type": "color",
+          "$value": "oklch(0.68 0.18 278.14)",
+          "$description": "icon/border use — decorative accent; never a color: value (#132)",
+          "$extensions": {
+            "usage": "non-text"
+          }
+        }
       },
       "focus": {
         "$type": "color",
@@ -526,6 +549,13 @@
           "$type": "color",
           "$value": "oklch(0.82 0.16 53.54)",
           "$description": "OKCA 5.8 on warning-bg ✅"
+        }
+      },
+      "callout": {
+        "bg": {
+          "$type": "color",
+          "$value": "oklch(0.26 0.04 278)",
+          "$description": "dark indigo wash — text-default OKCA 9.6 ✅"
         }
       }
     }

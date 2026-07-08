@@ -324,3 +324,22 @@ export const AIGeneratedProse: Story = {
     </div>
   `,
 };
+
+export const Callout: Story = {
+  name: 'Tip / note callout',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "A `.callout` element inside article prose renders a tip/note panel — an indigo wash with a decorative indigo left border (`--color-callout-bg` + `--color-highlight-decorative`, the reintroduced #6969F7 anchor). Distinct from `<blockquote>` (which is a burgundy-bordered, italic pull-quote): the callout is upright, default-colour body text for guidance the reader should act on, not a quotation. Author the label in the content — the border colour is decorative, never the sole signal.",
+      },
+    },
+  },
+  render: () => html`<candor-article font="serif" lang="en">
+    <p>Colours in Candor are authored in OKLCH, not hex — the axes are perceptual, so equal numeric steps look like equal visual steps.</p>
+    <div class="callout">
+      <p><strong>Tip.</strong> Run <candor-code>klar meta &lt;hex&gt;</candor-code> to convert a brand colour to its exact OKLCH axes before dropping it into a token.</p>
+    </div>
+    <p>Because the lightness axis is independent of hue and chroma, you can restyle for dark mode by moving a single value rather than re-picking the colour.</p>
+  </candor-article>`,
+};

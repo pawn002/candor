@@ -144,6 +144,8 @@
     "--color-status-warning-text": "oklch(0.82 0.16 53.54)",
     "--color-bg-code": "oklch(0.20 0.04 248)",
     "--color-text-code": "var(--color-text-default)",
-    "--color-border-code": "var(--color-border-strong)"
+    "--color-border-code": "var(--color-border-strong)",
+    "--color-callout-bg": "oklch(0.26 0.04 278)",
+    "--color-highlight-decorative": "var(--indigo-400)"
   }
 }
