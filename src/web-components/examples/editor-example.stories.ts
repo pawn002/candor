@@ -18,6 +18,11 @@ controls inside it. Toolbar buttons use native \`<button>\` elements, not
 \`<candor-button>\`, because roving tabindex requires direct focus management on the
 element itself.
 
+> **The \`btn btn-ghost btn-sm\` classes on these buttons are Storybook-only** — they
+> exist in the Storybook harness but are not shipped in \`@candor-design/tokens\`. Don't
+> copy them into an app; style your own \`<button>\`s instead. See the Toolbar story for
+> the full note.
+
 Separators (\`<candor-toolbar-separator>\`) divide the toolbar into logical groups (text style
 vs. alignment vs. insert). The Badge on the document title communicates draft/published
 status at a glance without requiring the user to open a settings panel.
