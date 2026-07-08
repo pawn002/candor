@@ -928,6 +928,15 @@
       "weight": "regular",
       "min": 4.5,
       "note": "candor-autocomplete suggestion item in the popup list — 16px regular on elevated surface, Tier 1 Reading (user reads it to decide whether to accept). Value/placeholder/label/hint/error reuse the shared form-* pairings."
+    },
+    {
+      "id": "code-inline",
+      "fg": "{color.text.code}",
+      "bg": "{color.bg.code}",
+      "size": 14,
+      "weight": "regular",
+      "min": 6.5,
+      "note": "candor-code inline code — text-code on bg-code; Tier 2 Functional (character position load-bearing). Light: white on navy-800 (OKCA 15.2) ✅ / Dark: off-white text-default on deep navy (OKCA 11.5) ✅"
     }
   ]
 }
