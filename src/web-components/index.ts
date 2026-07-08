@@ -6,6 +6,7 @@ export * from './components/typography/heading/candor-heading';
 export * from './components/typography/text/candor-text';
 export * from './components/typography/accessible-text/candor-accessible-text';
 export * from './components/typography/article/candor-article';
+export * from './components/code/candor-code';
 
 // Display
 export * from './components/badge/candor-badge';

@@ -29,6 +29,24 @@ test.describe('candor-button style hooks', () => {
   });
 });
 
+test.describe('candor-code', () => {
+  test('renders the bg/text token pair together (part="code", visible fill)', async ({ page }) => {
+    await page.goto(gotoStory('components-code--default'));
+    const code = page.locator('candor-code').first();
+    await code.waitFor();
+    // part exposed for restyle
+    await expect(code.locator('code')).toHaveAttribute('part', 'code');
+    // The whole point of #170: the background is actually painted (not the
+    // transparent default a raw <code> with only --color-bg-code would show).
+    const bg = await code.evaluate((el) => {
+      const inner = (el as HTMLElement).shadowRoot!.querySelector('code')!;
+      return getComputedStyle(inner).backgroundColor;
+    });
+    expect(bg).not.toBe('rgba(0, 0, 0, 0)');
+    expect(bg).not.toBe('transparent');
+  });
+});
+
 test.describe('candor-input style hooks', () => {
   test('exposes parts on the meaningful internals', async ({ page }) => {
     await page.goto(gotoStory('components-form-input--default'));
