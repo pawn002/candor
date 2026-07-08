@@ -101,6 +101,7 @@
 :root {
   --color-bg-page: var(--gray-0);
   --color-bg-surface: var(--gray-100);
+  --color-bg-subtle: var(--gray-200);
   --color-bg-elevated: var(--gray-0);
   --color-bg-inverse: var(--navy-800);
   --color-text-default: var(--gray-700);
@@ -224,6 +225,7 @@
   :root {
     --color-bg-page: var(--gray-900);
     --color-bg-surface: var(--gray-800);
+    --color-bg-subtle: var(--gray-700);
     --color-bg-elevated: oklch(0.30 0.02 248);
     --color-bg-inverse: var(--gray-0);
     --shadow-sm: 0 1px 3px rgba(255, 255, 255, 0.04), 0 1px 2px rgba(255, 255, 255, 0.03);
@@ -279,6 +281,7 @@
 [data-theme=dark] {
   --color-bg-page: var(--gray-900);
   --color-bg-surface: var(--gray-800);
+  --color-bg-subtle: var(--gray-700);
   --color-bg-elevated: oklch(0.30 0.02 248);
   --color-bg-inverse: var(--gray-0);
   --shadow-sm: 0 1px 3px rgba(255, 255, 255, 0.04), 0 1px 2px rgba(255, 255, 255, 0.03);
@@ -334,6 +337,7 @@
 [data-theme=light] {
   --color-bg-page: var(--gray-0);
   --color-bg-surface: var(--gray-100);
+  --color-bg-subtle: var(--gray-200);
   --color-bg-elevated: var(--gray-0);
   --color-bg-inverse: var(--navy-800);
   --color-text-default: var(--gray-700);

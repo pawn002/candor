@@ -10,6 +10,11 @@
           "$type": "color",
           "$value": "oklch(0.91 0 0)"
         },
+        "subtle": {
+          "$type": "color",
+          "$value": "oklch(0.88 0.005 17.2)",
+          "$description": "subtle interactive fill — one step darker than surface (hover rows, selection, hover chips); mirrors --color-text-subtle (#174)"
+        },
         "elevated": {
           "$type": "color",
           "$value": "oklch(1 0 0)",
@@ -274,6 +279,11 @@
           "$type": "color",
           "$value": "oklch(0.24 0.03 248.99)",
           "$description": "oklch(0.24 0.03 248.99) — cards/panels"
+        },
+        "subtle": {
+          "$type": "color",
+          "$value": "oklch(0.32 0 0)",
+          "$description": "subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174)"
         },
         "elevated": {
           "$type": "color",
