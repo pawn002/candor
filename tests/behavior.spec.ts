@@ -30,15 +30,17 @@ test.describe('candor-accordion-item — toggle event (#172)', () => {
     });
     const read = () => page.evaluate(() => (window as unknown as { __t: { n: number; last: unknown } }).__t);
 
+    // The native <details> `toggle` fires asynchronously (queued after the open
+    // state flips), so the component's re-dispatched composed event may not have
+    // landed by the time a bare read() runs — a race that shows up on slow CI.
+    // Poll until it propagates rather than reading immediately.
     await summary.click();
-    let t = await read();
-    expect(t.n).toBe(1);
-    expect(t.last).toBe(true); // detail carries the new open state
+    await expect.poll(async () => (await read()).n).toBe(1);
+    expect((await read()).last).toBe(true); // detail carries the new open state
 
     await summary.click();
-    t = await read();
-    expect(t.n).toBe(2);
-    expect(t.last).toBe(false);
+    await expect.poll(async () => (await read()).n).toBe(2);
+    expect((await read()).last).toBe(false);
   });
 });
 
