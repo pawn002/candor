@@ -15,6 +15,7 @@ Auto-generated distribution artifacts. Do not edit these files directly — run 
 | `candor-tokens.css` | Full expanded CSS — readable, for dev / CDN use |
 | `candor-tokens.min.css` | Minified CSS — for production `<link>` |
 | `candor-tokens.json` | Structured JSON — for Figma plugins / tooling |
+| `candor-fonts.css` | Optional font convenience imports — pulls the five Fontsource faces so text doesn't fall back silently (bundler required) |
 | `candor-article.css` | Article prose styles — framework-agnostic, readable |
 | `candor-article.min.css` | Minified article prose styles — for production `<link>` |
 | `candor-syntax.css` | Prism.js syntax highlighting theme — readable |
@@ -49,16 +50,32 @@ All tokens are then available as CSS custom properties:
 
 ### Peer dependencies — fonts and icons
 
-The tokens reference several font families that must be installed separately. Candor uses
-[Fontsource](https://fontsource.org/) self-hosted packages — no Google Fonts CDN link needed:
+`candor-tokens.css` *names* the font families but does not load them — a consumer who
+forgets to import the faces gets a silent fallback to Georgia / system-ui with no error.
+Candor uses [Fontsource](https://fontsource.org/) self-hosted packages (no Google Fonts CDN
+link needed), which ship as runtime dependencies of this package.
+
+**Recommended — the convenience stylesheet.** `candor-fonts.css` does the five Fontsource
+`@import`s for you. Import it once, before the tokens, and you're done:
+
+```css
+@import "@candor-design/tokens/candor-fonts.css";
+@import "@candor-design/tokens/candor-tokens.css";
+```
+
+This requires a bundler that resolves bare `node_modules` specifiers in CSS `@import`
+(Vite, webpack, etc.) — the Fontsource packages are installed automatically as deps of this
+package, so there's nothing extra to add. It loads exactly the faces the design system was
+validated against.
+
+**Manual alternative.** If you'd rather control the imports yourself (e.g. to subset
+weights or add italics), install the packages and import them directly:
 
 ```bash
 npm install @fontsource-variable/roboto-flex @fontsource-variable/roboto-mono \
             @fontsource-variable/noto-sans @fontsource-variable/noto-serif \
             @fontsource/atkinson-hyperlegible
 ```
-
-Then import the font CSS in your global stylesheet (once, at the root level):
 
 ```css
 @import '@fontsource-variable/roboto-flex';
@@ -80,6 +97,13 @@ npm install @phosphor-icons/web
 @import '@phosphor-icons/web/fill/style.css';
 @import '@phosphor-icons/web/regular/style.css';
 ```
+
+> **Shadow-DOM caveat:** the Phosphor font classes are global CSS and do not cross shadow
+> boundaries. They work for icons in the main document (including content you slot into a
+> Candor component from the document), but **not** for icons you author inside your own web
+> component's shadow root — there the `<i>` renders blank. If you build your own components,
+> render icons as inline `<svg>` with `fill="currentColor"` instead. See Storybook →
+> Design Tokens → Icons ("Using icons inside shadow DOM") for the full pattern.
 
 > **Font name note:** The Fontsource variable packages register fonts with a "Variable" suffix in their
 > internal `font-family` name (e.g. `'Roboto Flex Variable'`). Candor's tokens handle this for Roboto

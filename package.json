@@ -10,6 +10,7 @@
     "./candor-tokens.css": "./tokens/candor-tokens.css",
     "./candor-tokens.min.css": "./tokens/candor-tokens.min.css",
     "./candor-tokens.json": "./tokens/candor-tokens.json",
+    "./candor-fonts.css": "./tokens/candor-fonts.css",
     "./package.json": "./package.json"
   },
   "files": [
