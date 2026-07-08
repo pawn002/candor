@@ -13,10 +13,10 @@ export class CandorInput extends LitElement {
     .input-required { margin-left: 0.25em; color: var(--color-status-error-text); }
     .input {
       font-family: var(--font-family-base);
-      font-size: var(--font-size-md);
-      padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
+      font-size: var(--candor-input-font-size, var(--font-size-md));
+      padding: var(--candor-input-padding-y, var(--spacing-input-padding-y)) var(--candor-input-padding-x, var(--spacing-input-padding-x));
       border: var(--border-width-thin) solid var(--color-border-control);
-      border-radius: var(--radius-md);
+      border-radius: var(--candor-input-border-radius, var(--radius-md));
       background-color: var(--color-bg-page);
       color: var(--color-text-default);
       transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -92,14 +92,15 @@ export class CandorInput extends LitElement {
     return html`
       <div class="input-wrapper">
         ${this.label ? html`
-          <label class="input-label" for="${this._id}">
+          <label part="label" class="input-label" for="${this._id}">
             ${this.label}
             ${this.required ? html`<span class="input-required" aria-hidden="true">*</span>` : nothing}
           </label>
         ` : nothing}
-        ${this.hint ? html`<span id="${this._hintId}" class="input-hint">${this.hint}</span>` : nothing}
+        ${this.hint ? html`<span part="hint" id="${this._hintId}" class="input-hint">${this.hint}</span>` : nothing}
         ${this.multiline
           ? html`<textarea
+              part="input"
               id="${this._id}"
               class="${inputCls}"
               .rows="${this.rows}"
@@ -116,6 +117,7 @@ export class CandorInput extends LitElement {
               @change="${this._onChange}"
             ></textarea>`
           : html`<input
+              part="input"
               id="${this._id}"
               class="${inputCls}"
               type="${this.type}"
@@ -131,7 +133,7 @@ export class CandorInput extends LitElement {
               @change="${this._onChange}"
             />`}
         <div id="${this._errorId}" class="input-error-live" role="alert" aria-live="polite" aria-atomic="true">
-          ${this.error ? html`<span class="input-error-message">${this.error}</span>` : nothing}
+          ${this.error ? html`<span part="error-message" class="input-error-message">${this.error}</span>` : nothing}
         </div>
       </div>
     `;

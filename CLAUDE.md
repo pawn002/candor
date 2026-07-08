@@ -370,6 +370,7 @@ $color-primary: oklch(0.55 0.18 250); // Always use OKLCH format
 3. Create `candor-<name>.stories.ts` showcasing all variants, including a `Default` story
 4. Re-export from `src/web-components/index.ts` so the `@customElement()` side effect registers the tag
 5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value.
+6. Expose consumer style hooks per the "Consumer style hooks (`::part` + custom properties)" convention below — a `part` on each meaningful internal, and `--candor-<name>-<knob>` custom properties (token-defaulted) for the bounded density/shape knobs. Document them in the component's story and the Introduction "Styling & overriding" table.
 
 See "Web Components Authoring Conventions" below for the full conventions.
 
@@ -565,6 +566,26 @@ For projected content (`<slot>`), use `::slotted()` selectors:
 ```
 
 `::slotted()` only matches direct children of the slot, not descendants. For deeper styling, expose CSS custom properties consumers can set from outside.
+
+### Consumer style hooks (`::part` + custom properties)
+
+Tokens re-theme the whole system but can't reach *one* component's internals. Every component exposes two opt-in hooks so consumers can override without forking (#165). Both must leave default rendering identical — set nothing, nothing changes.
+
+**1. Custom properties — the blessed density/shape knobs.** Name them `--candor-<component>-<knob>` and default each to the existing token so the override is purely additive:
+
+```css
+/* thread the knob through the declaration, token as the fallback */
+min-height: var(--candor-button-min-height, var(--hit-target-aaa));
+padding: var(--candor-button-padding-y, var(--spacing-button-padding-y)) var(--candor-button-padding-x, var(--spacing-button-padding-x));
+```
+
+Expose these for the bounded knobs consumers most often nudge: padding, font-size, min-height, radius, gap. When a component has per-size declarations (button), thread the *same* knob through every size with that size's token as the fallback — so one override wins regardless of `size`, which is what lets a consumer go denser than the smallest size (the #165 case) without a new size rung.
+
+**2. `::part` — the escape hatch.** Put a `part="<role>"` on each meaningful internal (`part="button"`, `part="input"`, `part="label"`, `part="trigger"`, `part="icon"`, `part="error-message"`, `part="panel"`). Parts cover the arbitrary restyle a custom property can't express — e.g. asymmetric padding (`::part(trigger){padding-top:0}`), text-transform, letter-spacing. One part per internal a consumer might reasonably target.
+
+**Rule of thumb:** custom property when the intent is bounded (density, radius); part when the consumer might do anything.
+
+**Governance.** Part names and custom-property names are **public API** — adding is a minor release, renaming/removing is major (note it in `BREAKING-CHANGES.md`). Document every component's hooks in its story and in the Introduction "Styling & overriding" table. Precedent to match: `candor-drawer` (`--candor-drawer-size`/`-height`), `candor-button`, `candor-input`, `candor-disclosure`.
 
 ### Lit lifecycle quick reference
 

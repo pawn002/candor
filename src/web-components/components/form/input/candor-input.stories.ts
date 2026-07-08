@@ -23,6 +23,11 @@ their input.
 
 Form-associated (\`ElementInternals\`): the value appears in \`FormData\` keyed by \`name\`.
 Emits an \`input-change\` CustomEvent on each keystroke.
+
+**Styling hooks.** Override density without forking via custom properties —
+\`--candor-input-{padding-x,padding-y,font-size,border-radius}\`, each defaulting to its token.
+For arbitrary restyle, the internals expose \`::part(input)\`, \`::part(label)\`, \`::part(hint)\`,
+and \`::part(error-message)\`. See the Introduction → "Styling & overriding" section.
         `.trim(),
       },
     },
