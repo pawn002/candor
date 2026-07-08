@@ -166,7 +166,22 @@ export class CandorDrawer extends LitElement {
   @property() heading = '';
   @property({ reflect: true }) position: DrawerPosition = 'right';
   @property({ reflect: true }) size: DrawerSize = 'md';
-  @property({ type: Boolean, attribute: 'dismiss-on-backdrop' }) dismissOnBackdrop = true;
+  /** Whether clicking the backdrop dismisses the drawer. Default true. Set
+   * `dismiss-on-backdrop="false"` to require an explicit close (data-loss guard
+   * for flows where an accidental outside-click would discard unsaved work).
+   *
+   * A custom converter (not `type: Boolean`) is required so
+   * `dismiss-on-backdrop="false"` parses to `false`: Lit's boolean converter
+   * treats *any* present attribute — including the string "false" — as `true`,
+   * which would silently keep backdrop-dismiss on. Same trap as `modal` below. */
+  @property({
+    attribute: 'dismiss-on-backdrop',
+    converter: {
+      fromAttribute: (value: string | null) => value !== 'false',
+      toAttribute: (value: unknown) => (value ? 'true' : 'false'),
+    },
+  })
+  dismissOnBackdrop = true;
   /** Default true preserves current (modal) behavior. Set `modal="false"` for a
    * non-modal side panel — e.g. a persistent assistant, inspector, or filter panel
    * the user works alongside — that doesn't trap focus or dim the page.

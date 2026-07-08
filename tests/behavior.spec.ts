@@ -30,15 +30,17 @@ test.describe('candor-accordion-item — toggle event (#172)', () => {
     });
     const read = () => page.evaluate(() => (window as unknown as { __t: { n: number; last: unknown } }).__t);
 
+    // The native <details> `toggle` fires asynchronously (queued after the open
+    // state flips), so the component's re-dispatched composed event may not have
+    // landed by the time a bare read() runs — a race that shows up on slow CI.
+    // Poll until it propagates rather than reading immediately.
     await summary.click();
-    let t = await read();
-    expect(t.n).toBe(1);
-    expect(t.last).toBe(true); // detail carries the new open state
+    await expect.poll(async () => (await read()).n).toBe(1);
+    expect((await read()).last).toBe(true); // detail carries the new open state
 
     await summary.click();
-    t = await read();
-    expect(t.n).toBe(2);
-    expect(t.last).toBe(false);
+    await expect.poll(async () => (await read()).n).toBe(2);
+    expect((await read()).last).toBe(false);
   });
 });
 
@@ -80,5 +82,35 @@ test.describe('candor-drawer — non-modal mode (#166)', () => {
     await expect(dialog).toHaveJSProperty('open', true);
     const isModal = await dialog.evaluate((d: HTMLDialogElement) => d.matches(':modal'));
     expect(isModal).toBe(true);
+  });
+});
+
+test.describe('candor-drawer — dismiss-on-backdrop (#181)', () => {
+  test('dismiss-on-backdrop="false" parses to false and a backdrop click keeps it open', async ({ page }) => {
+    await page.goto(gotoStory('components-drawer--no-dismiss-on-backdrop'));
+    await page.locator('candor-button button').click();
+
+    const host = page.locator('candor-drawer');
+    const dialog = page.locator('candor-drawer dialog');
+    await expect(dialog).toHaveJSProperty('open', true);
+
+    // The converter fix: the "false" attribute string must parse to the boolean
+    // false. With the default type:Boolean converter this was `true` (any present
+    // attribute reads as true), silently keeping backdrop-dismiss on.
+    await expect(host).toHaveJSProperty('dismissOnBackdrop', false);
+
+    // Click the backdrop region (far left; the sm panel is anchored right) — the
+    // click target is the dialog itself, but the guard must suppress the close.
+    await dialog.click({ position: { x: 8, y: 200 } });
+    await expect(dialog).toHaveJSProperty('open', true);
+  });
+
+  test('by default a backdrop click dismisses the drawer (positive control)', async ({ page }) => {
+    await page.goto(gotoStory('components-drawer--open'));
+    const dialog = page.locator('candor-drawer dialog');
+    await expect(dialog).toHaveJSProperty('open', true);
+
+    await dialog.click({ position: { x: 8, y: 200 } });
+    await expect(dialog).toHaveJSProperty('open', false);
   });
 });
