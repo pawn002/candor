@@ -98,6 +98,13 @@ npm install @phosphor-icons/web
 @import '@phosphor-icons/web/regular/style.css';
 ```
 
+> **Shadow-DOM caveat:** the Phosphor font classes are global CSS and do not cross shadow
+> boundaries. They work for icons in the main document (including content you slot into a
+> Candor component from the document), but **not** for icons you author inside your own web
+> component's shadow root — there the `<i>` renders blank. If you build your own components,
+> render icons as inline `<svg>` with `fill="currentColor"` instead. See Storybook →
+> Design Tokens → Icons ("Using icons inside shadow DOM") for the full pattern.
+
 > **Font name note:** The Fontsource variable packages register fonts with a "Variable" suffix in their
 > internal `font-family` name (e.g. `'Roboto Flex Variable'`). Candor's tokens handle this for Roboto
 > Flex by listing both names in the stack — `'Roboto Flex Variable', 'Roboto Flex'`.
