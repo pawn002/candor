@@ -68,3 +68,31 @@ export const ExpandableFilter: Story = {
     </div>
   `,
 };
+
+export const OverridingTriggerPadding: Story = {
+  name: 'Overriding trigger padding (#173)',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          "When a disclosure is the first child of a padded container, the trigger's symmetric top padding stacks on the container padding and reads as dead space. The padding is reachable two ways: `--candor-disclosure-trigger-padding-y` for uniform density, or `candor-disclosure::part(trigger) { padding-top: 0 }` for the asymmetric fix shown on the right (only the top inset is removed; the bottom rule stays).",
+      },
+    },
+  },
+  render: () => html`
+    <style>
+      .flush::part(trigger) { padding-top: 0; }
+    </style>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1rem;">
+      <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:1rem;">
+        <p style="margin:0 0 0.5rem;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Default — top inset stacks on the card padding</p>
+        <candor-disclosure label="Details"><candor-text>Panel content.</candor-text></candor-disclosure>
+      </div>
+      <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:1rem;">
+        <p style="margin:0 0 0.5rem;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);">::part(trigger) &#123; padding-top: 0 &#125;</p>
+        <candor-disclosure class="flush" label="Details"><candor-text>Panel content.</candor-text></candor-disclosure>
+      </div>
+    </div>
+  `,
+};

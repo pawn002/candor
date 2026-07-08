@@ -34,6 +34,8 @@ As a result, the bar for "breaking" is higher and less obvious than for a pure c
 | Keyboard navigation model changed | Arrow keys now wrap; previously they stopped at edges |
 | Focus management changed | Focus no longer moves into dialog on open |
 | Host element selector renamed | `app-switch` → `app-toggle` |
+| `::part` name renamed or removed | `part="button"` renamed or dropped |
+| Style custom property renamed or removed | `--candor-button-min-height` renamed or dropped |
 
 ### Minor (additive) — no consumer action required
 
@@ -44,6 +46,8 @@ As a result, the bar for "breaking" is higher and less obvious than for a pure c
 | New component input added (with a default) | `[size]` input added, defaults to `'md'` |
 | New component output added | `(opened)` output added to Modal |
 | New ARIA attribute exposed (additive) | `ariaDescribedBy` input added |
+| New `::part` exposed on an internal | `part="icon"` added |
+| New style custom property exposed (token-defaulted) | `--candor-input-font-size` added |
 | Token value adjusted within tolerance | Lightness nudged 2% for contrast headroom |
 | Visual refinement without contract change | Border radius adjusted, shadow softened |
 | Story added or updated | New `Compact` story variant |

@@ -136,3 +136,30 @@ export const FullMatrix: Story = {
     </div>
   `,
 };
+
+export const Overriding: Story = {
+  name: 'Overriding styles (parts + custom properties)',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Two opt-in hooks restyle a button without forking. **Custom properties** (`--candor-button-{padding-x,padding-y,font-size,min-height,radius}`) are the blessed density knobs, each defaulting to the size token — here one button is made denser than `size="small"`. **`::part(button)`** is the escape hatch for arbitrary CSS the knobs do not cover (letter-spacing, text-transform).',
+      },
+    },
+  },
+  render: () => html`
+    <style>
+      .cta::part(button) { text-transform: uppercase; letter-spacing: 0.06em; }
+    </style>
+    <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+      <candor-button size="small">Default small</candor-button>
+      <candor-button
+        size="small"
+        style="--candor-button-min-height:1.75rem;--candor-button-padding-y:0.25rem;--candor-button-padding-x:0.6rem;"
+        >Denser via custom props</candor-button
+      >
+      <candor-button class="cta">::part restyle</candor-button>
+    </div>
+  `,
+};

@@ -14,7 +14,7 @@ export class CandorButton extends LitElement {
       font-weight: var(--font-weight-bold);
       font-optical-sizing: auto;
       border: none;
-      border-radius: var(--radius-md);
+      border-radius: var(--candor-button-radius, var(--radius-md));
       cursor: pointer;
       transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
       display: inline-flex;
@@ -25,22 +25,25 @@ export class CandorButton extends LitElement {
     }
     .button:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
     .button:disabled { cursor: not-allowed; opacity: 0.5; }
+    /* Density knobs — each defaults to the per-size token, so a consumer can
+       override padding/font-size/min-height (e.g. to go denser than 'small',
+       #165) without forking: candor-button { --candor-button-min-height: 1.75rem; } */
     .button--small {
-      font-size: var(--font-size-sm);
+      font-size: var(--candor-button-font-size, var(--font-size-sm));
       font-weight: var(--font-weight-bold);
       letter-spacing: 0.01em;
-      padding: var(--spacing-button-padding-y-sm) var(--spacing-button-padding-x-sm);
-      min-height: 2rem;
+      padding: var(--candor-button-padding-y, var(--spacing-button-padding-y-sm)) var(--candor-button-padding-x, var(--spacing-button-padding-x-sm));
+      min-height: var(--candor-button-min-height, 2rem);
     }
     .button--medium {
-      font-size: var(--font-size-md);
-      padding: var(--spacing-button-padding-y) var(--spacing-button-padding-x);
-      min-height: var(--hit-target-aaa);
+      font-size: var(--candor-button-font-size, var(--font-size-md));
+      padding: var(--candor-button-padding-y, var(--spacing-button-padding-y)) var(--candor-button-padding-x, var(--spacing-button-padding-x));
+      min-height: var(--candor-button-min-height, var(--hit-target-aaa));
     }
     .button--large {
-      font-size: var(--font-size-lg);
-      padding: var(--spacing-button-padding-y-lg) var(--spacing-button-padding-x-lg);
-      min-height: 3rem;
+      font-size: var(--candor-button-font-size, var(--font-size-lg));
+      padding: var(--candor-button-padding-y, var(--spacing-button-padding-y-lg)) var(--candor-button-padding-x, var(--spacing-button-padding-x-lg));
+      min-height: var(--candor-button-min-height, 3rem);
     }
     .button--primary { background-color: var(--color-action-primary); color: var(--color-text-on-action); }
     .button--primary:hover:not(:disabled) { background-color: var(--color-action-primary-hover); }
@@ -82,6 +85,7 @@ export class CandorButton extends LitElement {
   override render() {
     return html`
       <button
+        part="button"
         class="button button--${this.variant} button--${this.size}"
         ?disabled="${this.disabled}"
         type="${this.type}"

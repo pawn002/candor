@@ -108,6 +108,48 @@ el.addEventListener('change', (e) => {
 
 ---
 
+## Styling & overriding
+
+Design tokens (`--color-*`, `--font-*`, `--spacing-*`) pierce the shadow boundary automatically, so re-theming the whole system is just a matter of setting token values. But tokens are global — they can't reach *one* component's internals. For that, Candor exposes two per-component hooks. Both are **opt-in**: set nothing and the component renders from its tokens exactly as before.
+
+**1. Custom properties — the blessed density/shape knobs.** Named `--candor-<component>-<knob>`, each defaults to the existing token, so overriding one nudges a single dimension without forking. Reach for these first — they're a supported, stable API and don't depend on internal structure.
+
+```css
+/* Go denser than size="small" without re-implementing the button */
+candor-button { --candor-button-min-height: 1.75rem; --candor-button-padding-y: 0.25rem; }
+
+/* Match an input's corner radius to a tighter surrounding form */
+candor-input { --candor-input-border-radius: var(--radius-sm); }
+```
+
+**2. `::part` — the escape hatch for arbitrary restyle.** Meaningful internals carry a `part` name, so any CSS property is reachable from the light DOM when there's no custom property for it.
+
+```css
+candor-button::part(button) { letter-spacing: 0.03em; text-transform: uppercase; }
+
+/* The classic "disclosure is the first child of a padded box" fix (#173):
+   kill just the top padding, which no single density knob can express. */
+candor-disclosure::part(trigger) { padding-top: 0; }
+```
+
+**Rule of thumb:** a custom property when there's a bounded design intent (density, radius); a part when you might do anything. Part names and custom-property names are **public API** — additions are minor releases, renames/removals are major.
+
+<table>
+  <thead>
+    <tr><th>Component</th><th><code>::part</code></th><th>Custom properties</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>candor-button</td><td><code>button</code></td><td><code>--candor-button-{padding-x,padding-y,font-size,min-height,radius}</code></td></tr>
+    <tr><td>candor-input</td><td><code>input</code>, <code>label</code>, <code>hint</code>, <code>error-message</code></td><td><code>--candor-input-{padding-x,padding-y,font-size,border-radius}</code></td></tr>
+    <tr><td>candor-disclosure</td><td><code>trigger</code>, <code>label</code>, <code>icon</code>, <code>panel</code></td><td><code>--candor-disclosure-trigger-{padding-y,padding-x}</code></td></tr>
+    <tr><td>candor-drawer</td><td>—</td><td><code>--candor-drawer-size</code>, <code>--candor-drawer-height</code></td></tr>
+  </tbody>
+</table>
+
+More components gain these hooks as consumer demand surfaces; the convention above is what every new component follows.
+
+---
+
 ## What's Here
 
 Use the sidebar to explore components by category:
