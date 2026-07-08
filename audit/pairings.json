@@ -919,6 +919,15 @@
       "weight": "regular",
       "min": 3.0,
       "note": "Error icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 3.4 dark ✅"
+    },
+    {
+      "id": "autocomplete-suggestion",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.elevated}",
+      "size": 16,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "candor-autocomplete suggestion item in the popup list — 16px regular on elevated surface, Tier 1 Reading (user reads it to decide whether to accept). Value/placeholder/label/hint/error reuse the shared form-* pairings."
     }
   ]
 }

@@ -31,6 +31,7 @@ export * from './components/form/select/candor-select';
 export * from './components/form/slider/candor-slider';
 export * from './components/form/listbox/candor-listbox';
 export * from './components/form/combobox/candor-combobox';
+export * from './components/form/autocomplete/candor-autocomplete';
 export * from './components/form/chat-input/candor-chat-input';
 
 // Overlays
