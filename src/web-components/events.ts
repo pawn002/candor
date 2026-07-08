@@ -91,6 +91,8 @@ export type CandorPaginationPageChangeDetail = number;
 export type CandorTabsTabChangeDetail = string;
 /** candor-disclosure `toggle`: the new open state. */
 export type CandorDisclosureToggleDetail = boolean;
+/** candor-accordion-item `toggle`: the new open state. */
+export type CandorAccordionItemToggleDetail = boolean;
 /** candor-chat-input `send`: the submitted message text. */
 export interface CandorChatInputSendDetail {
   value: string;
@@ -172,6 +174,9 @@ export interface CandorTabsEventMap {
 }
 export interface CandorDisclosureEventMap {
   toggle: CustomEvent<CandorDisclosureToggleDetail>;
+}
+export interface CandorAccordionItemEventMap {
+  toggle: CustomEvent<CandorAccordionItemToggleDetail>;
 }
 export interface CandorChatInputEventMap {
   send: CustomEvent<CandorChatInputSendDetail>;
