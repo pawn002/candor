@@ -46,6 +46,14 @@ export class CandorTable extends LitElement {
       text-align: right;
       letter-spacing: var(--letter-spacing-normal);
     }
+    /* Mono, but read left-to-right as text (version strings, timestamps, IDs,
+       coordinates) — character position is load-bearing, but the value is not a
+       magnitude to scan by, so it keeps natural (left) alignment. */
+    th.mono, td.mono {
+      font-family: var(--font-family-mono);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: var(--letter-spacing-normal);
+    }
     tbody tr:nth-child(even) td,
     tbody tr:nth-child(even) th {
       background: var(--color-bg-surface);
@@ -73,6 +81,16 @@ export class CandorTable extends LitElement {
   @property({ type: Array }) rows: TableRow[] = [];
   @property({ type: Boolean, reflect: true }) compact = false;
   @property({ type: Array, attribute: 'numeric-columns' }) numericColumns: number[] = [];
+  @property({ type: Array, attribute: 'mono-columns' }) monoColumns: number[] = [];
+
+  // A column is at most one of numeric (mono + right-aligned, for magnitudes) or
+  // mono (mono + left-aligned, for codes read as text). numeric wins if a column
+  // is listed in both.
+  private _cellClass(i: number): string | typeof nothing {
+    if (this.numericColumns.includes(i)) return 'numeric';
+    if (this.monoColumns.includes(i)) return 'mono';
+    return nothing;
+  }
 
   override render() {
     return html`
@@ -80,17 +98,16 @@ export class CandorTable extends LitElement {
         ${this.caption ? html`<caption>${this.caption}</caption>` : nothing}
         ${this.headers.length ? html`
           <thead>
-            <tr>${this.headers.map((h, i) => html`<th scope="col" class=${this.numericColumns.includes(i) ? 'numeric' : nothing}>${h}</th>`)}</tr>
+            <tr>${this.headers.map((h, i) => html`<th scope="col" class=${this._cellClass(i)}>${h}</th>`)}</tr>
           </thead>
         ` : nothing}
         <tbody>
           ${this.rows.map(row => html`
             <tr>
               ${row.cells.map((cell, i) => {
-                const isNumeric = this.numericColumns.includes(i);
                 return i === 0 && (row.isHeader || !this.headers.length)
-                  ? html`<th scope="row" class=${isNumeric ? 'numeric' : nothing}>${cell}</th>`
-                  : html`<td class=${isNumeric ? 'numeric' : nothing}>${cell}</td>`;
+                  ? html`<th scope="row" class=${this._cellClass(i)}>${cell}</th>`
+                  : html`<td class=${this._cellClass(i)}>${cell}</td>`;
               })}
             </tr>
           `)}
