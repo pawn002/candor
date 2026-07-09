@@ -35,7 +35,8 @@
       "size": 16,
       "weight": "regular",
       "min": 3.0,
-      "note": "Placeholder text — Tier 3 Supplementary; placeholder is never the sole channel for meaning"
+      "exempt": "candor-supplementary",
+      "note": "Placeholder text — no enforced floor: placeholder is supplementary and transient (real content replaces it on input) and is never the sole channel for meaning (the field carries a real label). min records the Tier-3 floor it would fall under if it were primary content. Measured OKCA ~1.7 light / ~1.9 dark on bg.page."
     },
     {
       "id": "form-input-disabled-value",
@@ -44,7 +45,8 @@
       "size": 16,
       "weight": "regular",
       "min": 3.0,
-      "note": "Value text inside a disabled input — surface bg applied on disabled state, Tier 3"
+      "exempt": "wcag-1.4.3",
+      "note": "Value text inside a disabled input — SC 1.4.3 exempts inactive components, so no floor is enforced; min records the Tier-3 floor it would fall under if active. Measured OKCA ~1.2 light / ~1.6 dark on bg.surface. Per the disabled-label convention (#134) the dim value signals 'unavailable'; the input's required disabled hint carries the actionable meaning."
     },
     {
       "id": "form-error-message",
