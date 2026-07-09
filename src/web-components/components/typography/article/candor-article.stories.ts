@@ -215,7 +215,7 @@ candor-article a:focus-visible &#123;
   outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-sm);
 &#125;</code></pre>
-    <p>Note: the <code>:visited</code> double-underline cannot be demonstrated in Storybook — browsers do not apply <code>:visited</code> styles from DevTools force-state or in automated test contexts. See <a href="https://github.com/pawn002/candor/issues/137">issue #137</a> for details.</p>
+    <p>Note: the <code>:visited</code> treatment is <strong>best-effort</strong> and may not render even in a real browser. Chrome's partitioned-visited-links privacy model suppresses <code>:visited</code> styling in most contexts — verified against a <em>guaranteed-visited self-link</em> in a standalone top-level page, so this is not a Storybook-iframe or automation limitation. The rule is kept because it costs nothing and is honoured where the browser permits (e.g. Firefox). Because <code>getComputedStyle()</code> reports the unvisited colour by design, the state cannot be asserted in Playwright or forced via DevTools either. See <a href="https://github.com/pawn002/candor/issues/137">issue #137</a> for the investigation.</p>
   </candor-article>`,
 };
 
