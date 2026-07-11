@@ -18,6 +18,16 @@ const TEAM_ROWS = JSON.stringify([
   { cells: ['David Chen', 'Engineering Manager', 'Platform', '2019-11-22'] },
   { cells: ['Emeka Nwosu', 'Data Analyst', 'Analytics', '2023-05-08'] },
 ]);
+const RELEASE_HEADERS = JSON.stringify(['Package', 'Version', 'Released', 'Size (kB)']);
+const RELEASE_ROWS = JSON.stringify([
+  { cells: ['@candor-design/tokens', '1.0.0', '2026-04-15', '16.9'] },
+  { cells: ['@candor-design/web-components', '4.1.0', '2026-06-16', '124.3'] },
+  { cells: ['@candor-design/tokens', '4.1.0', '2026-06-16', '17.1'] },
+]);
+// Version + Released read left-to-right as codes (mono, left) — Size is a magnitude (mono, right).
+const RELEASE_MONO_COLS = JSON.stringify([1, 2]);
+const RELEASE_NUMERIC_COLS = JSON.stringify([3]);
+
 const KV_ROWS = JSON.stringify([
   { cells: ['Package', '@candor-design/tokens'], isHeader: true },
   { cells: ['Version', '1.0.0'], isHeader: true },
@@ -45,8 +55,17 @@ Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: string[], isHeader?:
 via JS properties (or JSON-encoded as attributes). Set \`isHeader: true\` on a row for
 key/value tables where the first cell of each row is a row-header.
 
-Pass \`numeric-columns\` as a JSON array of column indices (zero-based) to apply
-monospace typography and right-alignment to value-heavy columns.
+**Monospace columns.** Two column-index props (zero-based JSON arrays) apply Candor's
+mono face where *character position is load-bearing* — never for flavour or to signal
+"technical content" generically (see VISUAL-DESIGN.md §2):
+
+- \`numeric-columns\` — mono + \`tabular-nums\` + **right-aligned**, for magnitudes you scan
+  and compare down the column: revenue, scores, counts, measurements.
+- \`mono-columns\` — mono + \`tabular-nums\` + **left-aligned**, for codes you read
+  left-to-right as text: version strings, timestamps/dates, IDs, commit hashes, coordinates.
+  These are position-sensitive but aren't quantities, so right-aligning them would be wrong.
+
+A column listed in both resolves to \`numeric\` (right-aligned wins).
 
 Zebra striping uses \`--color-bg-surface\` for even rows, visible on
 any light background without requiring a surface container.
@@ -63,7 +82,8 @@ in a container with \`overflow-x: auto\` to expose a horizontal scrollbar.
     headers: { control: 'object', description: 'Column header labels rendered in <thead>' },
     rows: { control: 'object', description: 'Array of { cells: string[], isHeader?: boolean }. Set isHeader: true for key/value rows where the first cell is a row-header.' },
     compact: { control: 'boolean', type: { name: 'boolean' }, description: 'Tighter row padding; inverts zebra pattern so odd rows receive the surface background' },
-    numericColumns: { control: 'object', description: 'Zero-based column indices to render with monospace font, right-aligned' },
+    numericColumns: { control: 'object', description: 'Zero-based column indices for magnitudes: monospace, tabular-nums, right-aligned' },
+    monoColumns: { control: 'object', description: 'Zero-based column indices for codes read as text (versions, dates, IDs): monospace, tabular-nums, left-aligned' },
   },
 };
 
@@ -84,4 +104,21 @@ export const KeyValue: Story = {
 
 export const Numeric: Story = {
   render: () => html`<candor-table caption="Quarterly financial summary" headers='${FINANCE_HEADERS}' rows='${FINANCE_ROWS}' numeric-columns='${NUMERIC_COLS}'></candor-table>`,
+};
+
+export const MonoColumns: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Both mono props on one table. **Version** and **Released** use `mono-columns` — ' +
+          'codes read left-to-right, so they stay left-aligned; `tabular-nums` still lines the ' +
+          'digits up column-to-column. **Size (kB)** uses `numeric-columns` — a magnitude, so it ' +
+          'is right-aligned for down-column comparison. The **Package** column is prose, left in ' +
+          "the base sans face. This is the distinction to copy: mono marks character-position, " +
+          'alignment marks whether the value is a code or a quantity.',
+      },
+    },
+  },
+  render: () => html`<candor-table caption="Recent releases" headers='${RELEASE_HEADERS}' rows='${RELEASE_ROWS}' mono-columns='${RELEASE_MONO_COLS}' numeric-columns='${RELEASE_NUMERIC_COLS}'></candor-table>`,
 };
