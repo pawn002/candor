@@ -208,11 +208,28 @@ Images that serve none of these are filler, and filler signals that no one made 
 - **Photography and illustration inherit the humanist frame.** A page of warm serif prose with a harsh, desaturated stock photo is incoherent. If photography is used in an Article or editorial surface, it should sit visually inside the system's palette — either through the image selection itself, or through treatment (warm overlay, border, container sized on the spatial grid).
 - **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`klar variants`).
 
+### Icon weight semantics
+
+Candor's icon system is **Phosphor Icons** — a humanist family (rounded, even strokes, no sharp corners) that matches the typefaces. Phosphor ships three weights, and the weight is not a stylistic choice: it encodes the icon's *role*. Reaching for the wrong weight is the same class of error as setting a form label in Noto Serif.
+
+| Weight | Base class | When to use | Why |
+|---|---|---|---|
+| **Fill** | `ph-fill` | Action icons — close, dismiss, add, search, download | Solid forms read as "tappable objects" — the fill signals intent to act |
+| **Bold** | `ph-bold` | Directional affordances — carets, chevrons, arrows | A bold outline is enough for a directional cue; fill would over-weight a subtle hint |
+| **Regular** | `ph` | Informational / status — alerts, badges, metadata, decoration | The lighter weight recedes; the adjacent text or color carries the meaning |
+
+**Bold is reserved for directional affordances only** — carets, chevrons, arrows. It is not an emphasis weight. Using `ph-bold` for a dismiss control, an action button, or any icon that isn't pointing somewhere is the most common misuse (a dismiss "✕" is an action → `ph-fill`, not `ph-bold`). Bold's single job is "this points in a direction."
+
+There is no `ph-regular` class — the regular weight's base class is simply `ph`. Never put two weight classes on one element; each weight sets `font-family: !important` and the last-imported one silently wins.
+
+See the Storybook **Design Tokens → Icons** page for the full reference — installation, per-weight live examples, sizing, the shadow-DOM caveat, and the accessible-name patterns for decorative vs. icon-only buttons.
+
 ### Traps
 
 | Trap | What it looks like | Fix |
 |---|---|---|
 | Decorative icons on headings | A trophy icon next to "Results" | Remove it; the heading level is the signal |
+| Wrong icon weight for the role | A dismiss "✕" set in `ph-bold` | Actions are `ph-fill`; `ph-bold` is for directional cues only |
 | Color-only status dots | A red circle with no label, no icon | Add a label or shape; color cannot be the sole channel |
 | Stock imagery disconnected from palette | Cool-tone hero photo on a warm-neutral page | Recolor, overlay, or replace |
 | Chart palette drift | Bar chart uses `#e74c3c` for "error" | Use `--color-status-error` or OKLCH-derived chart tokens |

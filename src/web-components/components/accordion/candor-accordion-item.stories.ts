@@ -89,6 +89,42 @@ export const MultipleItems: Story = {
   `,
 };
 
+export const SingleOpen: Story = {
+  name: 'Single-open (consumer-coordinated)',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story: '`candor-accordion-item` instances are independent by construction — each lives in its own shadow root, so there is no native way for one item to close its siblings. Single-open behavior is coordinated at the consumer level: listen for the composed `toggle` event on a wrapping element and, when `event.detail` is `true`, set `open = false` on the sibling items.',
+      },
+    },
+  },
+  render: () => html`
+    <div style="max-width:480px;padding:1.5rem;">
+      <div
+        style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:0 1rem;"
+        @toggle=${(e: CustomEvent<boolean>) => {
+          if (!e.detail) return;
+          const wrapper = e.currentTarget as HTMLElement;
+          wrapper.querySelectorAll('candor-accordion-item').forEach((item) => {
+            if (item !== e.target) (item as HTMLElement & { open: boolean }).open = false;
+          });
+        }}
+      >
+        <candor-accordion-item heading="Section one" open>
+          <candor-text>Content for section one.</candor-text>
+        </candor-accordion-item>
+        <candor-accordion-item heading="Section two">
+          <candor-text>Content for section two.</candor-text>
+        </candor-accordion-item>
+        <candor-accordion-item heading="Section three">
+          <candor-text>Content for section three.</candor-text>
+        </candor-accordion-item>
+      </div>
+    </div>
+  `,
+};
+
 export const HierarchyVariants: Story = {
   name: 'Hierarchy variants (default / subtle / quiet)',
   parameters: { controls: { disable: true } },

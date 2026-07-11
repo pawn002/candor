@@ -20,10 +20,11 @@ interface ColorCategory {
 const COLOR_CATEGORIES: ColorCategory[] = [
   {
     name: 'Backgrounds',
-    description: 'Surface hierarchy — page floor, card surface, elevated (shadow-lifted), and inverse',
+    description: 'Surface hierarchy — page floor, card surface, subtle interactive fill, elevated (shadow-lifted), and inverse',
     colors: [
       { name: 'Page', variable: '--color-bg-page', description: 'Page floor', light: 'oklch(1 0 0)', dark: 'oklch(0.16 0.02 248.99)' },
       { name: 'Surface', variable: '--color-bg-surface', description: 'Cards and panels', light: 'oklch(0.91 0 0)', dark: 'oklch(0.24 0.03 248.99)' },
+      { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill — hover rows, selection, hover chips. One step beyond surface; direction flips per theme', light: 'oklch(0.88 0.005 17.2)', dark: 'oklch(0.32 0 0)' },
       { name: 'Elevated', variable: '--color-bg-elevated', description: 'Shadow-lifted surface', light: 'oklch(1 0 0)', dark: 'oklch(0.30 0.02 248)' },
       { name: 'Inverse', variable: '--color-bg-inverse', description: 'Dark inverse surface — flips in dark mode', light: 'oklch(0.27 0.06 245.34)', dark: 'oklch(1 0 0)' },
     ],

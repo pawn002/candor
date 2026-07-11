@@ -215,7 +215,7 @@ candor-article a:focus-visible &#123;
   outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-sm);
 &#125;</code></pre>
-    <p>Note: the <code>:visited</code> double-underline cannot be demonstrated in Storybook — browsers do not apply <code>:visited</code> styles from DevTools force-state or in automated test contexts. See <a href="https://github.com/pawn002/candor/issues/137">issue #137</a> for details.</p>
+    <p>Note: the <code>:visited</code> treatment is <strong>best-effort</strong> and may not render even in a real browser. Chrome's partitioned-visited-links privacy model suppresses <code>:visited</code> styling in most contexts — verified against a <em>guaranteed-visited self-link</em> in a standalone top-level page, so this is not a Storybook-iframe or automation limitation. The rule is kept because it costs nothing and is honoured where the browser permits (e.g. Firefox). Because <code>getComputedStyle()</code> reports the unvisited colour by design, the state cannot be asserted in Playwright or forced via DevTools either. See <a href="https://github.com/pawn002/candor/issues/137">issue #137</a> for the investigation.</p>
   </candor-article>`,
 };
 
@@ -323,4 +323,23 @@ export const AIGeneratedProse: Story = {
       </div>
     </div>
   `,
+};
+
+export const Callout: Story = {
+  name: 'Tip / note callout',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "A `.callout` element inside article prose renders a tip/note panel — an indigo wash with a decorative indigo left border (`--color-callout-bg` + `--color-highlight-decorative`, the reintroduced #6969F7 anchor). Distinct from `<blockquote>` (which is a burgundy-bordered, italic pull-quote): the callout is upright, default-colour body text for guidance the reader should act on, not a quotation. Author the label in the content — the border colour is decorative, never the sole signal.",
+      },
+    },
+  },
+  render: () => html`<candor-article font="serif" lang="en">
+    <p>Colours in Candor are authored in OKLCH, not hex — the axes are perceptual, so equal numeric steps look like equal visual steps.</p>
+    <div class="callout">
+      <p><strong>Tip.</strong> Run <candor-code>klar meta &lt;hex&gt;</candor-code> to convert a brand colour to its exact OKLCH axes before dropping it into a token.</p>
+    </div>
+    <p>Because the lightness axis is independent of hue and chroma, you can restyle for dark mode by moving a single value rather than re-picking the colour.</p>
+  </candor-article>`,
 };

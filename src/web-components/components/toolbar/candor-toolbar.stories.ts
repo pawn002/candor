@@ -30,6 +30,15 @@ responsibility.
 **Separator:** Use \`<candor-toolbar-separator>\` between logical groups. In a horizontal
 toolbar use the default \`orientation="vertical"\`; in a vertical toolbar set
 \`orientation="horizontal"\`.
+
+> **Story authoring note — the \`btn btn-ghost btn-sm\` classes are Storybook-only.**
+> These stories style their toolbar buttons with utility classes that exist in the
+> Storybook harness but are **not** shipped in \`@candor-design/tokens\`. Don't copy them
+> into an app — they'll render as unstyled browser buttons. The toolbar is a generic
+> container: it supplies structure, ARIA, and roving focus for whatever \`<button>\`s you
+> put inside. For plain controls use \`<candor-button variant="ghost" size="small">\`; for
+> **toggle** controls (Bold/Italic with \`aria-pressed\`) supply your own \`<button>\` and
+> style it — \`candor-button\` has no pressed state.
         `.trim(),
       },
     },

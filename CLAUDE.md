@@ -9,7 +9,7 @@ Candor is a design system distributed as two layers, both developed in a single 
 1. **`@candor-design/tokens`** — the CSS custom-property layer (OKLCH colors, spacing, typography). Everything else is built on top of this.
 2. **`@candor-design/web-components`** — the primary, canonical consumer-facing component library: 34 Lit 3 custom elements. Framework-agnostic; the WC stories under `Components/`, `Typography/`, `Design Tokens/`, and `Examples/` are the only component surface.
 
-> An Angular standalone-component library (`src/app/`) previously mirrored this API as a feature-parity benchmark. It was **removed in 3.0.0** and was never published as a package. The Storybook toolchain still runs on `@storybook/angular` — it renders the web-component stories — so the Angular *build harness* (`angular.json`, `src/app/app.component.ts` bootstrap shell, `@storybook/angular`) remains; only the component library is gone.
+> An Angular standalone-component library (`src/app/`) previously mirrored this API as a feature-parity benchmark. It was **removed in 3.0.0** and was never published as a package. The Storybook toolchain itself ran on `@storybook/angular` (rendering the framework-agnostic web-component stories) until **4.1.0**, when #143 migrated it to `@storybook/web-components-vite` and retired the Angular build harness entirely — `angular.json`, the `src/app/` bootstrap shell, `src/main.ts`, and the `@angular/*`, `zone.js`, and `rxjs` dependencies are all gone. Both the components and the harness are now Angular-free.
 
 The workflow targets AI-assisted design iteration with real-time accessibility validation: receive art-direction specs, implement them in design tokens, validate accessibility using the klar CLI for color contrast, and inspect visually with Playwright MCP. Token changes propagate to the components because they consume the same CSS custom properties.
 
@@ -75,7 +75,7 @@ Colors use OKLCH format: `oklch(L C H)` where:
 
 The component library is the Lit 3 web components in `src/web-components/components/`:
 - Each component has a `candor-{name}.ts` (Lit class) + `candor-{name}.stories.ts`. Styles live inside the class via `static styles = css\`...\``.
-- Stories use the `@storybook/angular` `Meta` type (the Storybook renderer is Angular-based) and render via `template:` literal strings containing custom-element markup.
+- Stories use the `@storybook/web-components-vite` `Meta` type and render via lit-html — `render: (args) => html\`…\`` returning custom-element markup (no `template:` strings, no `component:` field).
 - Components register themselves on import via `@customElement('candor-{name}')` — pulling `src/web-components/index.ts` is enough to register all 34 tags.
 - Shadow DOM by default. CSS custom properties pierce shadow boundaries, so tokens reach inner styles without per-component injection.
 
@@ -127,8 +127,9 @@ Two machine-readable files in `audit/` serve as the canonical inputs for contras
 
 **`audit/pairings.json`** — hand-authored, update alongside component changes.
 - 87 foreground/background pairings covering all 34 WC components.
-- Each entry: `{ id, fg, bg, size, weight, min }` using DTCG token references (`{color.status.error-text}`) and an explicit pixel size and weight.
+- Each entry: `{ id, fg, bg, size, weight, min }` using DTCG token references (`{color.status.error-text}`) and an explicit pixel size and weight. An optional `exempt` field (see below) marks pairings that carry no enforced floor.
 - `min` is the Candor-policy OKCA floor for that specific pairing — it encodes the tier table from the "OKCA Contrast Thresholds" section above. It is **not** a klar/OKCA standard; it belongs to this design system.
+- **`exempt`** (optional string) — present only on pairings that are deliberately **not** held to their `min`. The value names *why*: `wcag-1.4.3` for text inside inactive/disabled components (SC 1.4.3 exempts them from contrast), `candor-supplementary` for transient/redundant text that is never the sole channel for meaning (e.g. input placeholders). When `exempt` is present, **skip the klar-vs-`min` check** — `min` then documents only the tier the pairing *would* fall under if it were active/primary content. Exempting text is legitimate only when the meaning survives elsewhere (a disabled control's required hint, a field's real label); see the disabled-label convention under "Common Pitfalls → Form authoring."
 - When you change a color token: grep `audit/pairings.json` for the token name → find every affected pairing → re-validate those pairs with `klar contrast`.
 - When you add a new component: add entries for every unique `color:` declaration in the component's CSS, following the tier classification rules above.
 - When you add a new semantic token or rename one: update both `tokens.dtcg.json` (re-run the script) and any pairings that reference the old token name.
@@ -370,14 +371,16 @@ $color-primary: oklch(0.55 0.18 250); // Always use OKLCH format
 3. Create `candor-<name>.stories.ts` showcasing all variants, including a `Default` story
 4. Re-export from `src/web-components/index.ts` so the `@customElement()` side effect registers the tag
 5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value.
+6. Expose consumer style hooks per the "Consumer style hooks (`::part` + custom properties)" convention below — a `part` on each meaningful internal, and `--candor-<name>-<knob>` custom properties (token-defaulted) for the bounded density/shape knobs. Document them in the component's story and the Introduction "Styling & overriding" table.
 
 See "Web Components Authoring Conventions" below for the full conventions.
 
 ### Storybook Stories Format
 
-Use Component Story Format 3 (CSF3). The Storybook renderer is `@storybook/angular`, so the `Meta` type comes from there, but WC stories render raw custom-element markup via `render: (args) => ({ template })` — there is no `component:` field:
+Use Component Story Format 3 (CSF3). The Storybook renderer is `@storybook/web-components-vite`, so the `Meta`/`StoryObj` types come from there, and WC stories render custom-element markup via lit-html — `render: (args) => html\`…\``. There is no `component:` field:
 ```typescript
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { html } from 'lit';
 
 const meta: Meta = {
   title: 'Components/Badge',
@@ -386,9 +389,7 @@ const meta: Meta = {
     variant: { control: 'select', options: ['default', 'primary', 'success'] },
   },
   args: { variant: 'primary' },
-  render: (args) => ({
-    template: `<candor-badge variant="${args['variant']}">Badge</candor-badge>`,
-  }),
+  render: (args) => html`<candor-badge variant="${args['variant']}">Badge</candor-badge>`,
 };
 
 export default meta;
@@ -399,13 +400,13 @@ export const Default: Story = {};
 
 ## Toolchain Notes
 
-The component library is web components (Lit 3) — see "Web Components Authoring Conventions" below for all authoring guidance. The Angular *build harness* remains in place purely to drive Storybook:
+The component library is web components (Lit 3) — see "Web Components Authoring Conventions" below for all authoring guidance. Storybook runs on the `@storybook/web-components-vite` framework (configured in `.storybook/main.ts`), rendering stories via lit-html:
 
-- Storybook runs on the `@storybook/angular` builder (`angular.json` → `storybook` / `build-storybook` architect targets), which renders the web-component stories. This is why story files import the `Meta` type from `@storybook/angular`.
-- `src/app/app.component.ts` is a minimal bootstrap shell that the `design-system-playground:build` target (referenced by the Storybook builder) needs to resolve. It is not a component surface — do not add components under `src/app/`.
-- TypeScript 5.9. Tokens are authored in SCSS under `src/design-tokens/` and compiled to CSS by `npm run build:tokens`.
+- Story files import `Meta`/`StoryObj` from `@storybook/web-components-vite` and render with `render: (args) => html\`…\`` (lit-html) — not Angular `template:` strings.
+- As of **4.1.0** (#143) the Angular build harness is fully retired: `angular.json`, the `src/app/` bootstrap shell, `src/main.ts`, the Angular tsconfigs, and the `@angular/*`, `zone.js`, and `rxjs` dependencies were all removed. There is no `src/app/` — do not add anything there.
+- TypeScript ~5.9. Tokens are authored in SCSS under `src/design-tokens/` and compiled to CSS by `npm run build:tokens`. (The #143 migration lifted the old TypeScript 5 / Angular < 22 version ceiling that had blocked #141.)
 
-> The Angular standalone-component library was removed in 3.0.0. Authoring patterns that were Angular-specific (built-in control flow, signals/`model()`, zoneless change detection, `ViewEncapsulation`) no longer apply. The web-component equivalents (Shadow DOM scoping, `.prop` bindings, the `aria-label` host-trap) are documented below.
+> The Angular standalone-component library was removed in 3.0.0, and the Angular toolchain in 4.1.0. Authoring patterns that were Angular-specific (built-in control flow, signals/`model()`, zoneless change detection, `ViewEncapsulation`) do not apply. The web-component equivalents (Shadow DOM scoping, `.prop` bindings, the `aria-label` host-trap) are documented below.
 
 ## Web Components Authoring Conventions
 
@@ -511,10 +512,10 @@ render() {
 
 ### Storybook templates: data must flow via attributes, not `<script>`
 
-The Storybook stories render through the `@storybook/angular` builder. The renderer **strips inline `<script>` tags** from `template:` strings, so this pattern silently leaves elements empty:
+The Storybook stories render through `@storybook/web-components-vite` (lit-html). A `<script>` tag written inside a lit `html\`…\`` template is **inert** — lit-html instantiates markup from a `<template>` element, and scripts cloned from a template never execute — so this pattern silently leaves elements empty:
 
 ```html
-<!-- ✗ WRONG — script tag is stripped, element gets no rows -->
+<!-- ✗ WRONG — script never runs, element gets no rows -->
 <candor-data-grid id="my-grid"></candor-data-grid>
 <script>document.getElementById('my-grid').rows = [...];</script>
 ```
@@ -566,6 +567,26 @@ For projected content (`<slot>`), use `::slotted()` selectors:
 ```
 
 `::slotted()` only matches direct children of the slot, not descendants. For deeper styling, expose CSS custom properties consumers can set from outside.
+
+### Consumer style hooks (`::part` + custom properties)
+
+Tokens re-theme the whole system but can't reach *one* component's internals. Every component exposes two opt-in hooks so consumers can override without forking (#165). Both must leave default rendering identical — set nothing, nothing changes.
+
+**1. Custom properties — the blessed density/shape knobs.** Name them `--candor-<component>-<knob>` and default each to the existing token so the override is purely additive:
+
+```css
+/* thread the knob through the declaration, token as the fallback */
+min-height: var(--candor-button-min-height, var(--hit-target-aaa));
+padding: var(--candor-button-padding-y, var(--spacing-button-padding-y)) var(--candor-button-padding-x, var(--spacing-button-padding-x));
+```
+
+Expose these for the bounded knobs consumers most often nudge: padding, font-size, min-height, radius, gap. When a component has per-size declarations (button), thread the *same* knob through every size with that size's token as the fallback — so one override wins regardless of `size`, which is what lets a consumer go denser than the smallest size (the #165 case) without a new size rung.
+
+**2. `::part` — the escape hatch.** Put a `part="<role>"` on each meaningful internal (`part="button"`, `part="input"`, `part="label"`, `part="trigger"`, `part="icon"`, `part="error-message"`, `part="panel"`). Parts cover the arbitrary restyle a custom property can't express — e.g. asymmetric padding (`::part(trigger){padding-top:0}`), text-transform, letter-spacing. One part per internal a consumer might reasonably target.
+
+**Rule of thumb:** custom property when the intent is bounded (density, radius); part when the consumer might do anything.
+
+**Governance.** Part names and custom-property names are **public API** — adding is a minor release, renaming/removing is major (note it in `BREAKING-CHANGES.md`). Document every component's hooks in its story and in the Introduction "Styling & overriding" table. Precedent to match: `candor-drawer` (`--candor-drawer-size`/`-height`), `candor-button`, `candor-input`, `candor-disclosure`.
 
 ### Lit lifecycle quick reference
 
@@ -624,6 +645,8 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 - **Disabled fields must have a hint.** A disabled control without explanation reads as broken. The hint is the only channel for telling the user whether the lock is a permission boundary, a system constraint, or a state they can change elsewhere. Apply to every form component (`candor-input`, `candor-select`, `candor-listbox`, `candor-combobox`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-slider`). The one exception: when the reason is unambiguously obvious from immediate visual context — e.g. a field grayed out directly beneath the off-toggle it depends on. Note: `candor-slider` has no built-in `hint` prop — the consumer supplies hint text via an adjacent `<candor-accessible-text role_="annotation">` element, which stays at full opacity (the slider's disabled state dims the host, which would also dim an internal hint).
 
+- **A disabled label's *meaning* must survive — including on buttons (the #134 resolution).** The equity rule extends past form fields to any disabled control whose *label* is the sole cue to the unavailable action — a disabled `candor-button` reading "Delete", a disabled menu item, a disabled tab. WCAG 1.4.3 exempts the dimmed label from contrast requirements, and that dimming legitimately signals "unavailable" (state recognition) — but a low-vision user still needs the *actionable* meaning ("why / what unlocks it"), which the dim label can no longer carry. Supply it as a **readable, enabled-contrast explanation adjacent to the control**, exactly as the slider does with `<candor-accessible-text role_="annotation">`. **Do not** attach the reason via a tooltip: native `disabled` buttons are removed from the tab order, so a focus- or hover-gated tooltip is unreachable for keyboard and screen-reader users; adjacent text sits in document order and everyone encounters it. `candor-button` has no `hint` prop — the consumer supplies the adjacent element (see the button story's *Disabled with reason* example). This is deliberately a **convention, not a contrast bump**: raising `--color-text-disabled` to a readable floor (~OKCA 3) collides with the enabled `text-subtle` colour, so the disabled token stays intentionally below the floor (1.4.3-exempt) and meaning survival is carried by the adjacent hint instead.
+
 ### Tokens and visual
 
 1. **Don't hard-code colors**: Always use design tokens
@@ -639,7 +662,7 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 ### Web-component-specific
 
-10. **Don't inject data via `<script>` tags in story templates**: Storybook's Angular renderer strips them. Pass data via JSON-encoded attributes (`rows='${JSON.stringify(...)}'`) instead — see "Storybook templates: data must flow via attributes, not <script>" above.
+10. **Don't inject data via `<script>` tags in story templates**: a `<script>` inside a lit-html story template is inert and never executes. Pass data via JSON-encoded attributes (`rows='${JSON.stringify(...)}'`) instead — see "Storybook templates: data must flow via attributes, not <script>" above.
 11. **Don't rely on Lit's default attribute lowercasing for multi-word props**: `columnHeaders` becomes attribute `columnheaders` by default — unreadable in markup. Always set `attribute: 'column-headers'` explicitly on `@property()`.
 12. **Don't omit `composed: true` on dispatched events**: Without it, events stop at the shadow boundary and never reach light-DOM listeners. Always set both `bubbles: true` and `composed: true`.
 13. **Don't redeclare tokens inside `static styles`**: Design tokens pierce shadow DOM automatically via CSS custom properties. Hard-coding `oklch(...)` inside a component breaks dark mode and token-driven theming.

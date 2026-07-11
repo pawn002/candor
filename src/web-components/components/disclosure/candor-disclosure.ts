@@ -14,7 +14,11 @@ export class CandorDisclosure extends LitElement {
       justify-content: space-between;
       width: 100%;
       gap: var(--spacing-xs);
-      padding: var(--spacing-sm) 0;
+      /* Trigger padding is reachable two ways (#173): uniform density via these
+         custom props, or the asymmetric case (kill just the top when the
+         disclosure is the first child of a padded box) via
+         candor-disclosure::part(trigger) { padding-top: 0; } */
+      padding: var(--candor-disclosure-trigger-padding-y, var(--spacing-sm)) var(--candor-disclosure-trigger-padding-x, 0);
       border: none;
       border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
       background: transparent;
@@ -68,16 +72,17 @@ export class CandorDisclosure extends LitElement {
     return html`
       <div class="disclosure">
         <button
+          part="trigger"
           class="disclosure__trigger"
           id="${this._triggerId}"
           aria-expanded="${this.open}"
           aria-controls="${this._panelId}"
           @click="${this._toggle}"
         >
-          <span class="disclosure__label">${this.label}</span>
-          <svg class="disclosure__icon ${this.open ? 'disclosure__icon--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
+          <span part="label" class="disclosure__label">${this.label}</span>
+          <svg part="icon" class="disclosure__icon ${this.open ? 'disclosure__icon--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phCaretDownBold}"/></svg>
         </button>
-        <div class="disclosure__panel" id="${this._panelId}" ?hidden="${!this.open}">
+        <div part="panel" class="disclosure__panel" id="${this._panelId}" ?hidden="${!this.open}">
           <div class="disclosure__content"><slot></slot></div>
         </div>
       </div>

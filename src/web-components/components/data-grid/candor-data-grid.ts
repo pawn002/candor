@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { observeHostAriaLabel } from '../../utils/host-aria';
+import type { CandorCellActivateDetail } from '../../events';
 
 export interface GridCell {
   label: string;
@@ -182,7 +183,7 @@ export class CandorDataGrid extends LitElement {
     if (!cell || cell.disabled) return;
     this._activeRow = row;
     this._activeCol = col;
-    this.dispatchEvent(new CustomEvent('cell-activate', {
+    this.dispatchEvent(new CustomEvent<CandorCellActivateDetail>('cell-activate', {
       detail: { row, col, cell },
       bubbles: true,
       composed: true,

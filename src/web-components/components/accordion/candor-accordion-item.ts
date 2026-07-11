@@ -32,10 +32,15 @@ export class CandorAccordionItem extends LitElement {
 
   // Sync host.open with user-driven changes to <details>.open. Without this,
   // clicking <summary> updates details.open but not this.open, so consumers
-  // reading el.open get stale state.
+  // reading el.open get stale state. The native <details> `toggle` event is
+  // bubbles:false, composed:false, so we re-dispatch a composed `toggle` —
+  // parity with candor-disclosure — so consumers outside the shadow root hear it.
   private _onToggle = (e: Event) => {
     const next = (e.target as HTMLDetailsElement).open;
-    if (this.open !== next) this.open = next;
+    if (this.open !== next) {
+      this.open = next;
+      this.dispatchEvent(new CustomEvent('toggle', { detail: this.open, bubbles: true, composed: true }));
+    }
   };
 
   override render() {
