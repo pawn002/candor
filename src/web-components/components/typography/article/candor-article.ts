@@ -53,6 +53,16 @@ const articleStyles = `
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
 
+  candor-article .callout {
+    border-left: var(--border-width-thick) solid var(--color-highlight-decorative);
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--color-text-default);
+    background-color: var(--color-callout-bg);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  candor-article .callout > :last-child { margin-bottom: 0; }
+
   candor-article code {
     font-family: var(--font-family-mono);
     font-size: 0.875em;

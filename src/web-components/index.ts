@@ -6,6 +6,7 @@ export * from './components/typography/heading/candor-heading';
 export * from './components/typography/text/candor-text';
 export * from './components/typography/accessible-text/candor-accessible-text';
 export * from './components/typography/article/candor-article';
+export * from './components/code/candor-code';
 
 // Display
 export * from './components/badge/candor-badge';
@@ -31,6 +32,7 @@ export * from './components/form/select/candor-select';
 export * from './components/form/slider/candor-slider';
 export * from './components/form/listbox/candor-listbox';
 export * from './components/form/combobox/candor-combobox';
+export * from './components/form/autocomplete/candor-autocomplete';
 export * from './components/form/chat-input/candor-chat-input';
 
 // Overlays
@@ -49,3 +51,6 @@ export * from './components/menu/candor-menu';
 export * from './components/table/candor-table';
 export * from './components/data-grid/candor-data-grid';
 export * from './components/tone-picker/candor-tone-picker';
+
+// Event names + detail types (see events.ts for the naming convention)
+export * from './events';

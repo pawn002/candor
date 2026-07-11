@@ -76,14 +76,46 @@ with \`line-height: 1\` to prevent baseline shift:
 <i class="ph-fill ph-x" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
 \`\`\`
 
+## Using icons inside shadow DOM
+
+The Phosphor font classes (\`ph-fill\`, \`ph-bold\`, \`ph\`) are **global CSS rules**, and
+global CSS does not cross shadow boundaries. Where your \`<i>\` lives decides whether they
+apply:
+
+| Where the \`<i class="ph-…">\` is authored | Font classes work? |
+|---|---|
+| Main document (light DOM) | ✅ Yes |
+| Slotted into a Candor component **from the main document** | ✅ Yes — slotted content stays in the document's light DOM, so global rules reach it |
+| Inside **your own** web component's shadow root (incl. slotting into a Candor component from *within* your component) | ❌ No — global \`.ph-*\` rules never enter a shadow root |
+
+So if you are building your own web components (Candor's own model), the font-class path
+**silently fails** — the \`@font-face\` is global so the font loads, but the \`.ph-*\` class
+rules that set \`font-family\` / \`::before { content }\` don't reach into your shadow root, and
+the \`<i>\` renders nothing.
+
+**Fix — inline the SVG path.** Render the glyph as an inline \`<svg>\` with \`currentColor\`,
+which lives in your shadow DOM and needs no external stylesheet — exactly what Candor's own
+components do:
+
+\`\`\`html
+<svg aria-hidden="true" viewBox="0 0 1024 1024" width="1em" height="1em" fill="currentColor">
+  <path d="…phosphor path data…" />
+</svg>
+\`\`\`
+
+Copy the path \`d\` from \`@phosphor-icons/core\` (the SVG source, not the web font), or from
+Candor's bundled set for the handful it uses internally (below).
+
 ## Bundled Phosphor SVG paths
 
 The WC components that need icons internally — \`candor-accordion-item\`, \`candor-menu\`,
 \`candor-select\`, \`candor-pagination\`, \`candor-listbox\`, \`candor-combobox\`,
 \`candor-alert\`, \`candor-toast\`, \`candor-drawer\`, \`candor-modal\`, \`candor-chip\`,
 \`candor-chat-input\` — ship the SVG path data inline (see \`src/web-components/icons.ts\`)
-so they don't depend on the \`@phosphor-icons/web\` stylesheet being loaded. Consumers only
-need the Phosphor stylesheet for icons they author themselves in slotted content.
+so they don't depend on the \`@phosphor-icons/web\` stylesheet being loaded. This is the
+same inline-SVG approach shadow-DOM consumers should use for their own icons (see above).
+\`src/web-components/icons.ts\` exports only the ~9 glyphs the components use — it is not a
+general icon library; for anything else, take the path from \`@phosphor-icons/core\`.
 
 ## Full icon reference
 

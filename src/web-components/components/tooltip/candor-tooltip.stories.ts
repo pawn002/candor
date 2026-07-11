@@ -3,6 +3,7 @@ import { html } from 'lit';
 import './candor-tooltip';
 import { focusInShadow } from '../../story-utils';
 import '../button/candor-button';
+import '../toolbar/candor-toolbar';
 
 const meta: Meta = {
   title: 'Components/Tooltip',
@@ -151,6 +152,56 @@ export const AllPositions: Story = {
       <candor-tooltip text="Bottom tooltip" position="bottom"><candor-button variant="secondary">Bottom</candor-button></candor-tooltip>
       <candor-tooltip text="Left tooltip" position="left"><candor-button variant="secondary">Left</candor-button></candor-tooltip>
       <candor-tooltip text="Right tooltip" position="right"><candor-button variant="secondary">Right</candor-button></candor-tooltip>
+    </div>
+  `,
+};
+
+// Regression coverage for #107 / #175. A hidden tooltip bubble must contribute
+// nothing to layout, or its intrinsic (nowrap) width leaks into the host's
+// scrollWidth and — inside candor-toolbar's overflow-x:auto row — produces stray
+// scrollbars. The toolbar sits in a deliberately tight 320px column so any leak
+// would surface as a scrollbar here. The `pauseAnimationAtEnd` Chromatic hint
+// keeps the hidden-state snapshot stable.
+export const InToolbar: Story = {
+  name: 'In a toolbar (no layout leak)',
+  parameters: {
+    controls: { disable: true },
+    chromatic: { pauseAnimationAtEnd: true },
+    docs: {
+      description: {
+        story:
+          'Wrapping toolbar controls in tooltips must not inflate the toolbar. When hidden, the ' +
+          'tooltip bubble is `display:none`, so it adds nothing to the toolbar’s content width and ' +
+          'never trips its `overflow-x:auto` scrollbar. This story pins the toolbar in a 320px ' +
+          'container — before the #107/#175 fix, the hidden bubbles’ leaked width produced stray ' +
+          'horizontal and vertical scrollbars on the toolbar here.',
+      },
+    },
+  },
+  render: () => html`
+    <div style="max-width:320px;padding:var(--spacing-md);">
+      <candor-toolbar aria-label="Document actions">
+        <candor-tooltip text="View documents" position="bottom">
+          <candor-button variant="ghost" size="small" aria-label="Documents">
+            <i class="ph ph-files" aria-hidden="true"></i>
+          </candor-button>
+        </candor-tooltip>
+        <candor-tooltip text="Open settings" position="bottom">
+          <candor-button variant="ghost" size="small" aria-label="Settings">
+            <i class="ph ph-gear" aria-hidden="true"></i>
+          </candor-button>
+        </candor-tooltip>
+        <candor-tooltip text="Share with your team" position="bottom">
+          <candor-button variant="ghost" size="small" aria-label="Share">
+            <i class="ph ph-share-network" aria-hidden="true"></i>
+          </candor-button>
+        </candor-tooltip>
+        <candor-tooltip text="Notification preferences" position="bottom">
+          <candor-button variant="ghost" size="small" aria-label="Notifications">
+            <i class="ph ph-bell" aria-hidden="true"></i>
+          </candor-button>
+        </candor-tooltip>
+      </candor-toolbar>
     </div>
   `,
 };

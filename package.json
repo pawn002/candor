@@ -2,6 +2,17 @@
   "name": "@candor-design/tokens",
   "version": "4.1.0",
   "description": "Candor design tokens — CSS custom properties for a humanist design system built with OKLCH.",
+  "main": "./tokens/candor-tokens.css",
+  "module": "./tokens/candor-tokens.css",
+  "style": "./tokens/candor-tokens.css",
+  "exports": {
+    ".": "./tokens/candor-tokens.css",
+    "./candor-tokens.css": "./tokens/candor-tokens.css",
+    "./candor-tokens.min.css": "./tokens/candor-tokens.min.css",
+    "./candor-tokens.json": "./tokens/candor-tokens.json",
+    "./candor-fonts.css": "./tokens/candor-fonts.css",
+    "./package.json": "./package.json"
+  },
   "files": [
     "tokens"
   ],
@@ -13,7 +24,7 @@
     "test:playwright:ui": "playwright test --ui",
     "build:tokens": "node scripts/build-tokens.js",
     "build:wc": "vite build --config vite.wc.config.ts && vite build --config vite.tone-data.config.ts",
-    "version": "npm --prefix web-components version $npm_package_version --no-git-tag-version --allow-same-version && git add web-components/package.json",
+    "version": "node scripts/sync-wc-version.js && git add web-components/package.json",
     "release:patch": "npm version patch && git push origin main --follow-tags",
     "release:minor": "npm version minor && git push origin main --follow-tags",
     "release:major": "npm version major && git push origin main --follow-tags",
