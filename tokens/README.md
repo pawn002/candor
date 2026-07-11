@@ -2,7 +2,67 @@
 
 **This package ships design tokens only — CSS custom properties, a JSON map, and nothing else.**
 It does not include component markup, component JavaScript, icon assets, or font files.
-See the [Candor Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) for component documentation and usage examples.
+See the [Candor Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) for the live token
+reference (color ramps, semantic swatches, spacing, type scale) and component examples.
+
+## Quickstart
+
+```bash
+npm install @candor-design/tokens
+```
+
+Import the fonts, then the tokens, once at your app's entry (a bundler such as Vite or webpack
+is assumed — it resolves the bare specifiers):
+
+```css
+@import "@candor-design/tokens/candor-fonts.css";   /* optional but recommended — else fonts fall back silently */
+@import "@candor-design/tokens/candor-tokens.css";
+```
+
+Every token is now a CSS custom property, in scope everywhere — including inside any shadow root:
+
+```css
+.card {
+  color: var(--color-text-default);
+  background: var(--color-bg-surface);
+  font-family: var(--font-family-base);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+}
+```
+
+Dark mode is built in — it follows the OS preference automatically, or force it with
+`data-theme="dark"` / `data-theme="light"` on `<html>`. No extra stylesheet, no JS.
+
+That's the whole setup. The sections below are reference; the **"Using the tokens correctly"**
+rules just under here are worth two minutes before you start.
+
+## Using the tokens correctly
+
+This package is the *only* thing that travels to a tokens-only consumer — the design rationale
+in the repo's `docs/` doesn't. These five rules are the ones that keep output on-system; the
+[Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) is the visual companion.
+
+1. **Reach for semantic roles, not primitives.** Use `--color-text-default`, not `--navy-800`;
+   `--spacing-md`, not `--space-3`. The semantic layer (`--color-*`, `--spacing-*`, `--font-*`,
+   `--radius-*`) carries meaning *and* dark-mode behaviour. The primitives (`--navy-*`, `--gray-*`,
+   `--space-*`, `--text-*`) are raw values with no mode-awareness — a component built on them
+   breaks in dark mode.
+2. **14px is the readable-text floor.** Don't set readable text below `--font-size-sm` (14px).
+   `--font-size-xs` / `--text-xs` (12px) is for decorative, non-text chrome only (badge frames,
+   icon sizing) — never body, labels, or values.
+3. **Don't use non-text color tokens as text colour.** `--color-status-error`,
+   `--color-status-success`, `--color-status-warning`, and `--color-highlight-decorative` are
+   contrast-validated for icons/borders only; their contrast is below every text threshold. For
+   coloured text use the paired `-text` variants — `--color-status-error-text`, etc. (In the JSON,
+   these carry `"$extensions": { "usage": "non-text" }`.)
+4. **The values are already tuned — don't drag them back to extremes.** Colours sit deliberately
+   off the raw extremes: text is a deep near-black, not `#000`; dark mode is deep navy, not pure
+   black; primaries aren't at max chroma. Overriding a token to a raw extreme undoes the contrast
+   and humanist tuning baked in. If a value looks "not contrasty enough," it was measured — trust it.
+5. **Monospace is for content where character position is load-bearing** — code, IDs, version
+   strings, timestamps, coordinates — not a flavour to signal "technical". `--font-family-mono`
+   with `font-variant-numeric: tabular-nums`.
 
 ---
 
