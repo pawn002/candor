@@ -214,7 +214,7 @@
     // ─── Backgrounds ───────────────────────────────────────────────────────
     --color-bg-page:     var(--gray-900);           // oklch(0.16 0.02 248.99) — deepest surface
     --color-bg-surface:  var(--gray-800);           // oklch(0.24 0.03 248.99) — cards/panels
-    --color-bg-subtle:   var(--gray-700);           // subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174)
+    --color-bg-subtle:   oklch(0.32 0.03 249);      // subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled off gray-700's pure neutral with a navy undertone so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.
     --color-bg-elevated: oklch(0.30 0.02 248);      // one step above surface — matches cool undertone
     --color-bg-inverse:  var(--gray-0);             // white — flipped from dark navy
 
@@ -273,11 +273,14 @@
     --color-action-destructive-border: oklch(0.74 0.15 347);         // matches text
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
-    // ⚠️  gray-700 bg is only 1.5:1 against page — intentionally subtle in dark mode.
-    // Text (gray-0) on tertiary bg remains readable. Revisit if buttons need more
-    // prominence in dark contexts.
-    --color-action-tertiary:       var(--gray-700);
-    --color-action-tertiary-hover: var(--gray-600);
+    // ⚠️  fill is only ~1.5:1 against page — intentionally subtle in dark mode.
+    // Text (gray-0) on tertiary bg remains readable. Cooled off the pure-neutral
+    // gray-700/gray-600 with a navy undertone (matching bg-subtle) so tertiary
+    // recedes on the cool-navy surfaces instead of advancing and competing with
+    // the primary button (warm advances / cool recedes); L preserved, so white
+    // text is still OKCA 11.6. Revisit if buttons need more prominence in dark.
+    --color-action-tertiary:       oklch(0.32 0.03 249); // was gray-700
+    --color-action-tertiary-hover: oklch(0.46 0.03 249); // was gray-600
     --color-action-tertiary-text:  var(--gray-0);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────
