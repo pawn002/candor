@@ -297,8 +297,8 @@
         },
         "subtle": {
           "$type": "color",
-          "$value": "oklch(0.32 0.03 249)",
-          "$description": "subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled off gray-700's pure neutral with a navy undertone so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved."
+          "$value": "oklch(0.32 0.03 248.99)",
+          "$description": "subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved."
         },
         "elevated": {
           "$type": "color",
@@ -451,13 +451,13 @@
         },
         "tertiary": {
           "$type": "color",
-          "$value": "oklch(0.32 0.03 249)",
-          "$description": "was gray-700"
+          "$value": "oklch(0.32 0.03 248.99)",
+          "$description": "cooled counterpart of gray-700"
         },
         "tertiary-hover": {
           "$type": "color",
-          "$value": "oklch(0.46 0.03 249)",
-          "$description": "was gray-600"
+          "$value": "oklch(0.46 0.03 248.99)",
+          "$description": "cooled counterpart of gray-600"
         },
         "tertiary-text": {
           "$type": "color",

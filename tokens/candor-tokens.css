@@ -59,6 +59,8 @@
   --gray-700: oklch(0.32 0 0);
   --gray-800: oklch(0.24 0.03 248.99);
   --gray-900: oklch(0.16 0.02 248.99);
+  --gray-cool-600: oklch(0.46 0.03 248.99);
+  --gray-cool-700: oklch(0.32 0.03 248.99);
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
@@ -227,7 +229,7 @@
   :root {
     --color-bg-page: var(--gray-900);
     --color-bg-surface: var(--gray-800);
-    --color-bg-subtle: oklch(0.32 0.03 249);
+    --color-bg-subtle: var(--gray-cool-700);
     --color-bg-elevated: oklch(0.30 0.02 248);
     --color-bg-inverse: var(--gray-0);
     --shadow-sm: 0 1px 3px rgba(255, 255, 255, 0.04), 0 1px 2px rgba(255, 255, 255, 0.03);
@@ -258,8 +260,8 @@
     --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22);
     --color-action-destructive-text: oklch(0.74 0.15 347);
     --color-action-destructive-border: oklch(0.74 0.15 347);
-    --color-action-tertiary: oklch(0.32 0.03 249);
-    --color-action-tertiary-hover: oklch(0.46 0.03 249);
+    --color-action-tertiary: var(--gray-cool-700);
+    --color-action-tertiary-hover: var(--gray-cool-600);
     --color-action-tertiary-text: var(--gray-0);
     --color-link: var(--azure-300);
     --color-link-hover: var(--azure-200);
@@ -285,7 +287,7 @@
 [data-theme=dark] {
   --color-bg-page: var(--gray-900);
   --color-bg-surface: var(--gray-800);
-  --color-bg-subtle: oklch(0.32 0.03 249);
+  --color-bg-subtle: var(--gray-cool-700);
   --color-bg-elevated: oklch(0.30 0.02 248);
   --color-bg-inverse: var(--gray-0);
   --shadow-sm: 0 1px 3px rgba(255, 255, 255, 0.04), 0 1px 2px rgba(255, 255, 255, 0.03);
@@ -316,8 +318,8 @@
   --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22);
   --color-action-destructive-text: oklch(0.74 0.15 347);
   --color-action-destructive-border: oklch(0.74 0.15 347);
-  --color-action-tertiary: oklch(0.32 0.03 249);
-  --color-action-tertiary-hover: oklch(0.46 0.03 249);
+  --color-action-tertiary: var(--gray-cool-700);
+  --color-action-tertiary-hover: var(--gray-cool-600);
   --color-action-tertiary-text: var(--gray-0);
   --color-link: var(--azure-300);
   --color-link-hover: var(--azure-200);
