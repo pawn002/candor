@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 120" role="img" aria-label="Candor">
+  <!-- Candor wordmark lockup — the Phosphor "eye" (fill) mark + "Candor" set in
+       Noto Sans Display 600, Candor's display/heading face. Monochrome: the mark
+       and word share one colour, action-primary (navy) on light, its dark-mode
+       counterpart (sky-blue) on dark, tracking the browser colour-scheme. The
+       standalone eye is the app-icon / favicon form; this is the full lockup.
+       The word is live text so it stays crisp at any size where the Candor font
+       is available; embed inline (not via <img>) to guarantee the display face. -->
+  <style>
+    .ink { fill: #072942; }
+    .word {
+      font-family: 'Noto Sans Display', 'Noto Sans', system-ui, -apple-system, sans-serif;
+      font-weight: 600;
+      font-size: 88px;
+      letter-spacing: -1px;
+    }
+    @media (prefers-color-scheme: dark) { .ink { fill: #74c2ff; } }
+  </style>
+  <!-- eye: nested viewBox crops the glyph to its visible bounds; the inner group
+       flips font-space (y-up, ascent 960) into SVG space. -->
+  <svg class="mark" x="0" y="22.6" width="110.4" height="74.8" viewBox="16 176 992 672" preserveAspectRatio="xMidYMid meet">
+    <g transform="translate(0 960) scale(1 -1)">
+      <path class="ink" d="M989.24 460.96c-1.4 3.16-35.28 78.32-110.6 153.64-100.36 100.36-227.12 153.4-366.64 153.4s-266.28-53.040-366.64-153.4c-75.32-75.32-109.36-150.6-110.6-153.64-1.743-3.824-2.76-8.293-2.76-13s1.016-9.176 2.841-13.201l-0.082 0.201c1.4-3.16 35.28-78.28 110.6-153.6 100.36-100.32 227.12-153.36 366.64-153.36s266.28 53.040 366.64 153.36c75.32 75.32 109.2 150.44 110.6 153.6 1.743 3.824 2.76 8.293 2.76 13s-1.016 9.176-2.841 13.201l0.082-0.201zM512 288c-88.366 0-160 71.634-160 160s71.634 160 160 160c88.366 0 160-71.634 160-160v0c0-88.366-71.634-160-160-160v0z"/>
+    </g>
+  </svg>
+  <text class="word ink" x="137" y="90">Candor</text>
+</svg>
