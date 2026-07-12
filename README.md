@@ -18,7 +18,7 @@ npm install @candor-design/tokens
 npm install @candor-design/web-components @candor-design/tokens
 ```
 
-Includes all 34 Candor components as Lit 3 custom elements. No framework required — works in plain HTML, React, Vue, Svelte, or any other environment that supports web standards. Version is kept in sync with `@candor-design/tokens`.
+Includes all 37 Candor components as Lit 3 custom elements. No framework required — works in plain HTML, React, Vue, Svelte, or any other environment that supports web standards. Version is kept in sync with `@candor-design/tokens`.
 
 ### Fonts
 
@@ -77,7 +77,7 @@ CSS custom properties pierce Shadow DOM boundaries automatically — loading `ca
 
 ```js
 import '@candor-design/web-components';
-// All 34 custom elements are now registered
+// All 37 custom elements are now registered
 ```
 
 Named exports are also available for direct class access (e.g. typed references, programmatic instantiation). Importing any class still triggers the package's side-effectful `customElements.define()` calls, so the corresponding tag is also registered:

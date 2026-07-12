@@ -76,7 +76,7 @@ Colors use OKLCH format: `oklch(L C H)` where:
 The component library is the Lit 3 web components in `src/web-components/components/`:
 - Each component has a `candor-{name}.ts` (Lit class) + `candor-{name}.stories.ts`. Styles live inside the class via `static styles = css\`...\``.
 - Stories use the `@storybook/web-components-vite` `Meta` type and render via lit-html — `render: (args) => html\`…\`` returning custom-element markup (no `template:` strings, no `component:` field).
-- Components register themselves on import via `@customElement('candor-{name}')` — pulling `src/web-components/index.ts` is enough to register all 34 tags.
+- Components register themselves on import via `@customElement('candor-{name}')` — pulling `src/web-components/index.ts` is enough to register all 37 tags.
 - Shadow DOM by default. CSS custom properties pierce shadow boundaries, so tokens reach inner styles without per-component injection.
 
 **Component categories**:

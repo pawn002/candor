@@ -29,7 +29,7 @@ Load the tokens stylesheet once at the document level and import the components 
 
 ```js
 import '@candor-design/web-components';
-// All 34 custom elements are now registered
+// All 37 custom elements are now registered
 ```
 
 Named exports give you typed access to the element classes — useful for programmatic instantiation or TypeScript references. Importing a class still triggers `customElements.define()`, so the tag is registered as a side effect:
@@ -40,17 +40,17 @@ import { CandorButton, CandorInput } from '@candor-design/web-components';
 
 ## What's included
 
-34 custom elements covering typography, display, navigation, forms, overlays, and data:
+37 custom elements covering typography, display, navigation, forms, overlays, and data:
 
 | Category | Tags |
 |---|---|
-| Typography | `candor-heading`, `candor-text`, `candor-accessible-text`, `candor-article` |
+| Typography | `candor-heading`, `candor-text`, `candor-accessible-text`, `candor-article`, `candor-code` |
 | Display | `candor-badge`, `candor-alert`, `candor-card`, `candor-stat`, `candor-progress` |
 | Navigation | `candor-button`, `candor-chip`, `candor-breadcrumb`, `candor-pagination`, `candor-toolbar` (+ `candor-toolbar-separator`), `candor-navigation` |
-| Form | `candor-input`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-select`, `candor-slider`, `candor-listbox`, `candor-combobox`, `candor-chat-input` |
+| Form | `candor-input`, `candor-autocomplete`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-select`, `candor-slider`, `candor-listbox`, `candor-combobox`, `candor-chat-input` |
 | Overlays | `candor-tooltip`, `candor-modal`, `candor-drawer`, `candor-toast` (+ `candor-toast-container`) |
 | Compound | `candor-tabs` (+ `candor-tab-panel`), `candor-accordion-item`, `candor-disclosure`, `candor-menu` |
-| Data | `candor-table`, `candor-data-grid` |
+| Data | `candor-table`, `candor-data-grid`, `candor-tone-picker` |
 
 ## Form participation
 
