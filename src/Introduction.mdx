@@ -66,7 +66,7 @@ Regulatory exposure, outcome validation, and research comparison are different q
     <tr><td>OKCA</td><td>Primary validation method; WCAG-compatible, zero false-pass guarantee</td></tr>
     <tr><td>APCA</td><td>Perceived lightness contrast (Lc); spatial-frequency aware</td></tr>
     <tr><td>BPCA</td><td>APCA math, WCAG 2-style ratio output; compliance bridge</td></tr>
-    <tr><td>DeltaE</td><td>Perceptual color difference (≠ contrast); the Creative Director's eye</td></tr>
+    <tr><td>DeltaE</td><td>Perceptual color difference (≠ contrast); the art director's eye</td></tr>
   </tbody>
 </table>
 
@@ -119,7 +119,7 @@ Design tokens (`--color-*`, `--font-*`, `--spacing-*`) pierce the shadow boundar
 candor-button { --candor-button-min-height: 1.75rem; --candor-button-padding-y: 0.25rem; }
 
 /* Match an input's corner radius to a tighter surrounding form */
-candor-input { --candor-input-border-radius: var(--radius-sm); }
+candor-input { --candor-input-radius: var(--radius-sm); }
 ```
 
 **2. `::part` — the escape hatch for arbitrary restyle.** Meaningful internals carry a `part` name, so any CSS property is reachable from the light DOM when there's no custom property for it.
@@ -139,9 +139,10 @@ candor-disclosure::part(trigger) { padding-top: 0; }
     <tr><th>Component</th><th><code>::part</code></th><th>Custom properties</th></tr>
   </thead>
   <tbody>
-    <tr><td>candor-button</td><td><code>button</code></td><td><code>--candor-button-{padding-x,padding-y,font-size,min-height,radius}</code></td></tr>
-    <tr><td>candor-input</td><td><code>input</code>, <code>label</code>, <code>hint</code>, <code>error-message</code></td><td><code>--candor-input-{padding-x,padding-y,font-size,border-radius}</code></td></tr>
-    <tr><td>candor-disclosure</td><td><code>trigger</code>, <code>label</code>, <code>icon</code>, <code>panel</code></td><td><code>--candor-disclosure-trigger-{padding-y,padding-x}</code></td></tr>
+    <tr><td>candor-button</td><td><code>button</code></td><td><code>--candor-button-&#123;padding-x,padding-y,font-size,min-height,radius&#125;</code></td></tr>
+    <tr><td>candor-input</td><td><code>input</code>, <code>label</code>, <code>hint</code>, <code>error-message</code></td><td><code>--candor-input-&#123;padding-x,padding-y,font-size,radius&#125;</code></td></tr>
+    <tr><td>candor-autocomplete</td><td><code>input</code>, <code>label</code>, <code>hint</code>, <code>error-message</code></td><td><code>--candor-autocomplete-&#123;padding-x,padding-y,font-size,radius&#125;</code></td></tr>
+    <tr><td>candor-disclosure</td><td><code>trigger</code>, <code>label</code>, <code>icon</code>, <code>panel</code></td><td><code>--candor-disclosure-trigger-&#123;padding-y,padding-x&#125;</code></td></tr>
     <tr><td>candor-drawer</td><td>—</td><td><code>--candor-drawer-size</code>, <code>--candor-drawer-height</code></td></tr>
   </tbody>
 </table>
@@ -156,7 +157,7 @@ Use the sidebar to explore components by category:
 
 - **Design Tokens** — Color palette (light/dark), spacing scale, typography system, icon set
 - **Typography** — Heading hierarchy, body text, accessible text, article layout
-- **Components** — 34 Lit 3 custom elements: accordions, alerts, badges, breadcrumbs, buttons, cards, chips, data grids, drawers, menus, modals, navigation, pagination, progress, stats, tables, tabs, toasts, tone picker, toolbars, tooltips
+- **Components** — 37 Lit 3 custom elements: accordions, alerts, badges, breadcrumbs, buttons, cards, chips, code, data grids, drawers, menus, modals, navigation, pagination, progress, stats, tables, tabs, toasts, tone picker, toolbars, tooltips
 - **Form** — Autocomplete, chat input, checkbox, combobox, input, listbox, radio, select, slider, switch
 - **Examples** — Composed stories: login, registration, settings, data table with filtering, document and image editors
 

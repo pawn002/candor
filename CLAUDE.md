@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Candor is a design system distributed as two layers, both developed in a single Storybook so the same stories validate every layer:
 
 1. **`@candor-design/tokens`** — the CSS custom-property layer (OKLCH colors, spacing, typography). Everything else is built on top of this.
-2. **`@candor-design/web-components`** — the primary, canonical consumer-facing component library: 34 Lit 3 custom elements. Framework-agnostic; the WC stories under `Components/`, `Typography/`, `Design Tokens/`, and `Examples/` are the only component surface.
+2. **`@candor-design/web-components`** — the primary, canonical consumer-facing component library: 37 Lit 3 custom elements. Framework-agnostic; the WC stories under `Components/`, `Typography/`, `Design Tokens/`, and `Examples/` are the only component surface.
 
 > An Angular standalone-component library (`src/app/`) previously mirrored this API as a feature-parity benchmark. It was **removed in 3.0.0** and was never published as a package. The Storybook toolchain itself ran on `@storybook/angular` (rendering the framework-agnostic web-component stories) until **4.1.0**, when #143 migrated it to `@storybook/web-components-vite` and retired the Angular build harness entirely — `angular.json`, the `src/app/` bootstrap shell, `src/main.ts`, and the `@angular/*`, `zone.js`, and `rxjs` dependencies are all gone. Both the components and the harness are now Angular-free.
 
