@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [4.2.0] - 2026-07-12
+
 ### Added
 
 - **`candor-table` `mono-columns` — monospace for codes read as text.** The table already had `numeric-columns` (mono + `tabular-nums` + right-aligned) for magnitudes, but no formalized way to set mono on the *other* character-position-load-bearing content the issue calls out — version strings, timestamps/dates, IDs, commit hashes, coordinates — which read left-to-right as codes and shouldn't be right-aligned. New `mono-columns` prop (zero-based column indices, JSON array) applies mono + `tabular-nums` at natural (left) alignment; a column listed in both resolves to `numeric`. Documents the governing rule on the Table story — mono is for *character position being load-bearing*, never flavour or a generic "technical content" signal (VISUAL-DESIGN.md §2) — and adds a "Mono columns" story using both props together so the code-vs-quantity distinction is copyable. No contrast change: mono cells keep `--color-text-default` on the same backgrounds, already covered by the `table-cell`/`table-cell-zebra` pairings (#116).
