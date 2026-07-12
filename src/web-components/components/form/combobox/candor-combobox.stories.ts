@@ -155,5 +155,5 @@ export const WithError: Story = {
 };
 
 export const Disabled: Story = {
-  args: { disabled: true },
+  args: { disabled: true, hint: 'Country follows your billing address. Update it in Billing → Address.' },
 };

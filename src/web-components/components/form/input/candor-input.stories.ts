@@ -70,7 +70,7 @@ export const Required: Story = {
 };
 
 export const Disabled: Story = {
-  args: { label: 'Username', type: 'text', value: 'Cannot edit', disabled: true },
+  args: { label: 'Username', type: 'text', value: 'j.rivera', disabled: true, hint: 'Your username was set at signup and cannot be changed.' },
 };
 
 export const Password: Story = {
