@@ -75,6 +75,15 @@
     --gray-800: oklch(0.24 0.03 248.99);  // #15202B — dark bg (slight blue)
     --gray-900: oklch(0.16 0.02 248.99);
 
+    // Gray — cool (neutral with a navy undertone — H=248.99, C=0.03)
+    // The plain --gray ramp is pure-neutral through its mid-tones, which read
+    // warm (advancing) against the cool-navy dark surfaces. These are the cooled
+    // counterparts at the same lightness, for quiet fills that must recede on
+    // dark (warm advances / cool recedes). Note --gray-800/900 already carry this
+    // same undertone — they are effectively the dark end of this ramp.
+    --gray-cool-600: oklch(0.46 0.03 248.99);  // cooled counterpart of --gray-600
+    --gray-cool-700: oklch(0.32 0.03 248.99);  // cooled counterpart of --gray-700
+
     // ─── Spacing Scale (8px base) ──────────────────────────────────────────────
     --space-1:  0.5rem;   //  8px
     --space-2:  1rem;     // 16px
