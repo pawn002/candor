@@ -25,7 +25,7 @@ Form-associated (\`ElementInternals\`): the value appears in \`FormData\` keyed 
 Emits an \`input-change\` CustomEvent on each keystroke.
 
 **Styling hooks.** Override density without forking via custom properties —
-\`--candor-input-{padding-x,padding-y,font-size,border-radius}\`, each defaulting to its token.
+\`--candor-input-{padding-x,padding-y,font-size,radius}\`, each defaulting to its token.
 For arbitrary restyle, the internals expose \`::part(input)\`, \`::part(label)\`, \`::part(hint)\`,
 and \`::part(error-message)\`. See the Introduction → "Styling & overriding" section.
         `.trim(),
@@ -70,7 +70,7 @@ export const Required: Story = {
 };
 
 export const Disabled: Story = {
-  args: { label: 'Username', type: 'text', value: 'Cannot edit', disabled: true },
+  args: { label: 'Username', type: 'text', value: 'j.rivera', disabled: true, hint: 'Your username was set at signup and cannot be changed.' },
 };
 
 export const Password: Story = {
@@ -141,6 +141,30 @@ export const OnSurface: Story = {
           <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
         </div>
       </div>
+    </div>
+  `,
+};
+
+export const Overriding: Story = {
+  name: 'Overriding styles (parts + custom properties)',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Two opt-in hooks restyle an input without forking. **Custom properties** (`--candor-input-{padding-x,padding-y,font-size,radius}`) are the blessed density/shape knobs, each defaulting to its token — here one field is made denser and squared-off. **`::part(input)`**, `::part(label)`, `::part(hint)`, and `::part(error-message)` are the escape hatch for arbitrary CSS the knobs do not cover (here the label is upper-cased and tracked).',
+      },
+    },
+  },
+  render: () => html`
+    <style>
+      .compact { --candor-input-padding-y: 0.25rem; --candor-input-padding-x: 0.5rem; --candor-input-radius: var(--radius-sm); }
+      .tracked::part(label) { text-transform: uppercase; letter-spacing: 0.06em; }
+    </style>
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;">
+      <candor-input label="Default" placeholder="you@example.com" type="email"></candor-input>
+      <candor-input class="compact" label="Denser via custom props" placeholder="Tighter padding, square corners"></candor-input>
+      <candor-input class="tracked" label="::part restyle" placeholder="Label upper-cased via ::part(label)"></candor-input>
     </div>
   `,
 };

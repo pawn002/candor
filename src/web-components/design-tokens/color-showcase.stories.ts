@@ -24,7 +24,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     colors: [
       { name: 'Page', variable: '--color-bg-page', description: 'Page floor', light: 'oklch(1 0 0)', dark: 'oklch(0.16 0.02 248.99)' },
       { name: 'Surface', variable: '--color-bg-surface', description: 'Cards and panels', light: 'oklch(0.91 0 0)', dark: 'oklch(0.24 0.03 248.99)' },
-      { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill — hover rows, selection, hover chips. One step beyond surface; direction flips per theme', light: 'oklch(0.88 0.005 17.2)', dark: 'oklch(0.32 0 0)' },
+      { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill — hover rows, selection, hover chips. One step beyond surface; direction flips per theme', light: 'oklch(0.88 0.005 17.2)', dark: 'oklch(0.32 0.03 249)' },
       { name: 'Elevated', variable: '--color-bg-elevated', description: 'Shadow-lifted surface', light: 'oklch(1 0 0)', dark: 'oklch(0.30 0.02 248)' },
       { name: 'Inverse', variable: '--color-bg-inverse', description: 'Dark inverse surface — flips in dark mode', light: 'oklch(0.27 0.06 245.34)', dark: 'oklch(1 0 0)' },
     ],
@@ -77,8 +77,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     name: 'Action — Tertiary',
     description: 'Neutral fill — no border, low-hierarchy action',
     colors: [
-      { name: 'Tertiary', variable: '--color-action-tertiary', description: 'Tertiary button fill', light: 'oklch(0.88 0.005 17.2)', dark: 'oklch(0.32 0 0)' },
-      { name: 'Tertiary Hover', variable: '--color-action-tertiary-hover', description: 'Hover state', light: 'oklch(0.81 0 0)', dark: 'oklch(0.46 0 0)' },
+      { name: 'Tertiary', variable: '--color-action-tertiary', description: 'Tertiary button fill', light: 'oklch(0.88 0.005 17.2)', dark: 'oklch(0.32 0.03 249)' },
+      { name: 'Tertiary Hover', variable: '--color-action-tertiary-hover', description: 'Hover state', light: 'oklch(0.81 0 0)', dark: 'oklch(0.46 0.03 249)' },
       { name: 'Tertiary Text', variable: '--color-action-tertiary-text', description: 'Text / icon on tertiary bg', light: 'oklch(0.27 0.06 245.34)', dark: 'oklch(1 0 0)' },
     ],
   },
@@ -152,6 +152,14 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Blockquote Background', variable: '--color-blockquote-bg', description: 'Blockquote surface — inherits bg-surface', light: 'oklch(0.91 0 0)', dark: 'oklch(0.24 0.03 248.99)' },
       { name: 'Blockquote Border', variable: '--color-blockquote-border', description: 'Left accent border — burgundy (action-secondary)', light: 'oklch(0.37 0.08 347.43)', dark: 'oklch(0.76 0.06 347.43)' },
       { name: 'Blockquote Text', variable: '--color-blockquote-text', description: 'Blockquote prose — inherits text-subtle-on-surface', light: 'oklch(0.44 0 0)', dark: 'oklch(0.71 0 0)' },
+    ],
+  },
+  {
+    name: 'Callout',
+    description: 'Tip / note panel — indigo wash with a decorative indigo left border. The action-oriented sibling of blockquote (a burgundy pull-quote): the callout is upright, default-colour guidance the reader should act on.',
+    colors: [
+      { name: 'Callout Background', variable: '--color-callout-bg', description: 'Callout surface — indigo wash, theme-aware', light: 'oklch(0.97 0.02 278.14)', dark: 'oklch(0.26 0.04 278)' },
+      { name: 'Highlight Decorative', variable: '--color-highlight-decorative', description: 'Left accent border — indigo #6969F7 anchor; decorative (non-text) use only, never a text colour', light: 'oklch(0.60 0.21 278.14)', dark: 'oklch(0.68 0.18 278.14)' },
     ],
   },
 ];

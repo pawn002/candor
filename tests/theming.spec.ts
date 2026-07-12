@@ -56,7 +56,24 @@ test.describe('candor-input style hooks', () => {
 
     const radius = await page.evaluate(() => {
       const el = document.querySelector('candor-input') as HTMLElement;
-      el.style.setProperty('--candor-input-border-radius', '3px');
+      el.style.setProperty('--candor-input-radius', '3px');
+      const field = el.shadowRoot!.querySelector('input')!;
+      return getComputedStyle(field).borderTopLeftRadius;
+    });
+    expect(radius).toBe('3px');
+  });
+});
+
+test.describe('candor-autocomplete style hooks', () => {
+  test('exposes parts on the meaningful internals and honors the radius knob', async ({ page }) => {
+    await page.goto(gotoStory('components-form-autocomplete--default'));
+    await page.locator('candor-autocomplete input').waitFor();
+    await expect(page.locator('candor-autocomplete input')).toHaveAttribute('part', 'input');
+    await expect(page.locator('candor-autocomplete label')).toHaveAttribute('part', 'label');
+
+    const radius = await page.evaluate(() => {
+      const el = document.querySelector('candor-autocomplete') as HTMLElement;
+      el.style.setProperty('--candor-autocomplete-radius', '3px');
       const field = el.shadowRoot!.querySelector('input')!;
       return getComputedStyle(field).borderTopLeftRadius;
     });

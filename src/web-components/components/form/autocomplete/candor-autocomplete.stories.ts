@@ -36,6 +36,12 @@ combobox — a combobox would reject or silently drop their input.
 live text on every keystroke; \`change\` fires the committed text on blur, on Enter, and when
 a suggestion is chosen. Both carry a plain \`string\` — the same shape as \`candor-input\` —
 because the value is always free text (unlike \`candor-combobox\`, whose \`change\` carries an option object).
+
+**Styling hooks.** Override density without forking via custom properties —
+\`--candor-autocomplete-{padding-x,padding-y,font-size,radius}\`, each defaulting to its token.
+For arbitrary restyle, the internals expose \`::part(input)\`, \`::part(label)\`, \`::part(hint)\`,
+and \`::part(error-message)\` — the same surface as \`candor-input\`. See the Introduction →
+"Styling & overriding" section.
         `.trim(),
       },
     },
@@ -132,4 +138,28 @@ export const Disabled: Story = {
     disabled: true,
     hint: 'Locked to the workspace default. Change the endpoint in Settings → Providers to edit.',
   },
+};
+
+export const Overriding: Story = {
+  name: 'Overriding styles (parts + custom properties)',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'The same two opt-in hooks as `candor-input`. **Custom properties** (`--candor-autocomplete-{padding-x,padding-y,font-size,radius}`) are the blessed density/shape knobs, each defaulting to its token — here one field is made denser and squared-off. **`::part(input)`**, `::part(label)`, `::part(hint)`, and `::part(error-message)` are the escape hatch for arbitrary CSS the knobs do not cover (here the label is upper-cased and tracked).',
+      },
+    },
+  },
+  render: () => html`
+    <style>
+      .compact { --candor-autocomplete-padding-y: 0.25rem; --candor-autocomplete-padding-x: 0.5rem; --candor-autocomplete-radius: var(--radius-sm); }
+      .tracked::part(label) { text-transform: uppercase; letter-spacing: 0.06em; }
+    </style>
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;padding:1.5rem;">
+      <candor-autocomplete label="Default" placeholder="e.g. gpt-4o" .suggestions="${MODELS}"></candor-autocomplete>
+      <candor-autocomplete class="compact" label="Denser via custom props" placeholder="Tighter padding, square corners" .suggestions="${MODELS}"></candor-autocomplete>
+      <candor-autocomplete class="tracked" label="::part restyle" placeholder="Label upper-cased via ::part(label)" .suggestions="${MODELS}"></candor-autocomplete>
+    </div>
+  `,
 };

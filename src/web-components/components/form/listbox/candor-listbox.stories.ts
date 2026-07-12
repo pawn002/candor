@@ -167,5 +167,5 @@ export const WithError: Story = {
 };
 
 export const Disabled: Story = {
-  args: { disabled: true, hint: '' },
+  args: { disabled: true, hint: 'Language is managed by your organisation — contact an administrator to change it.' },
 };
