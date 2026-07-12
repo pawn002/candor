@@ -40,11 +40,11 @@ export class CandorAutocomplete extends LitElement {
     .autocomplete__control { position: relative; display: flex; align-items: center; }
     .autocomplete__input {
       width: 100%; min-height: var(--hit-target-aaa);
-      padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
-      font-family: var(--font-family-base); font-size: var(--font-size-md);
+      padding: var(--candor-autocomplete-padding-y, var(--spacing-input-padding-y)) var(--candor-autocomplete-padding-x, var(--spacing-input-padding-x));
+      font-family: var(--font-family-base); font-size: var(--candor-autocomplete-font-size, var(--font-size-md));
       color: var(--color-text-default); background-color: var(--color-bg-page);
       border: var(--border-width-thin) solid var(--color-border-control);
-      border-radius: var(--radius-md); box-sizing: border-box;
+      border-radius: var(--candor-autocomplete-radius, var(--radius-md)); box-sizing: border-box;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .autocomplete__input::placeholder { color: var(--color-text-subtle); }
@@ -230,15 +230,16 @@ export class CandorAutocomplete extends LitElement {
     return html`
       <div class="autocomplete-wrapper ${this.disabled ? 'autocomplete-wrapper--disabled' : ''}">
         ${this.label ? html`
-          <label for="${this._inputId}" class="autocomplete__label">
+          <label part="label" for="${this._inputId}" class="autocomplete__label">
             ${this.label}
             ${this.required ? html`<span class="autocomplete__required" aria-hidden="true">*</span>` : nothing}
           </label>
         ` : nothing}
-        ${this.hint ? html`<span id="${this._hintId}" class="autocomplete__hint">${this.hint}</span>` : nothing}
+        ${this.hint ? html`<span part="hint" id="${this._hintId}" class="autocomplete__hint">${this.hint}</span>` : nothing}
         <div style="position:relative">
           <div class="autocomplete__control ${this.error ? 'autocomplete__control--error' : ''}">
             <input
+              part="input"
               id="${this._inputId}"
               class="autocomplete__input"
               type="text"
@@ -279,7 +280,7 @@ export class CandorAutocomplete extends LitElement {
             </ul>
           ` : nothing}
         </div>
-        <span id="${this._errId}" class="autocomplete__description autocomplete__error" role="alert">${this.error}</span>
+        <span part="error-message" id="${this._errId}" class="autocomplete__description autocomplete__error" role="alert">${this.error}</span>
       </div>
     `;
   }

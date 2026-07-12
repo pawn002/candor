@@ -16,7 +16,7 @@ export class CandorInput extends LitElement {
       font-size: var(--candor-input-font-size, var(--font-size-md));
       padding: var(--candor-input-padding-y, var(--spacing-input-padding-y)) var(--candor-input-padding-x, var(--spacing-input-padding-x));
       border: var(--border-width-thin) solid var(--color-border-control);
-      border-radius: var(--candor-input-border-radius, var(--radius-md));
+      border-radius: var(--candor-input-radius, var(--radius-md));
       background-color: var(--color-bg-page);
       color: var(--color-text-default);
       transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
