@@ -71,9 +71,16 @@ All interactive components are fully keyboard-operable:
 
 ### Contrast
 
-All color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components). Contrast was validated using CPQI CLI against WCAG 2.1, OKCA, and APCA algorithms. OKLCH color space is used throughout to ensure perceptually accurate lightness calculations.
+Color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components), with the two exceptions recorded below. Contrast is validated with the [klar CLI](https://github.com/pawn002/klar) 2.x against its OKCA and WCAG 2.x algorithms; OKLCH color space is used throughout to ensure perceptually accurate lightness calculations. Every pairing is enumerated in `audit/pairings.json` and re-measured by `npm run audit:contrast`.
 
-Text at 14px and below is additionally validated against a three-tier use-case contrast system (see `docs/CONTRAST-TIERS.md`). Tier 1 (reading text) requires OKCA 9.5 regular / 6.5 bold; Tier 2 (functional UI) requires 6.5 / 4.5; Tier 3 (supplementary, meaning redundantly coded) requires 4.5 / 4.5. Passing OKCA also passes WCAG — zero false-pass guarantee.
+Text at 14px and below is additionally validated against a three-tier use-case contrast system (see `docs/archive/CONTRAST-TIERS.md` for the original proposal and `CLAUDE.md` → "OKCA Contrast Thresholds" for the thresholds in force). Tier 1 (reading text) requires OKCA 9.5 regular / 6.5 bold; Tier 2 (functional UI) requires 6.5 / 4.5; Tier 3 (supplementary, meaning redundantly coded) requires 4.5 / 4.5. Across all 216 audited pairings, the OKCA score is at or below the WCAG 2.x figure for the same pair — so OKCA is the binding constraint and a pair that passes it also passes WCAG.
+
+**Known exceptions**, both surfaced by the klar 2.0 re-measurement and tracked for a fix:
+
+| Pairing | Measured | Required | Tracked |
+|---|---|---|---|
+| `candor-accessible-text` `role_="status"` in error color, 14px | OKCA 6.0 light / 6.1 dark | 9.5 (Tier 1) | [#208](https://github.com/pawn002/candor/issues/208) |
+| `candor-button` destructive variant, dark mode | OKCA 4.4 | 4.5 (Tier 2 bold) | [#209](https://github.com/pawn002/candor/issues/209) |
 
 ### Live regions
 

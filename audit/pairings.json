@@ -34,9 +34,9 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
-      "min": 3.0,
+      "min": 3,
       "exempt": "candor-supplementary",
-      "note": "Placeholder text — no enforced floor: placeholder is supplementary and transient (real content replaces it on input) and is never the sole channel for meaning (the field carries a real label). min records the Tier-3 floor it would fall under if it were primary content. Measured OKCA ~1.7 light / ~1.9 dark on bg.page."
+      "note": "Placeholder text — no enforced floor: placeholder is supplementary and transient (real content replaces it on input) and is never the sole channel for meaning (the field carries a real label). min records the Tier-3 floor it would fall under if it were primary content. Measured OKCA 2.0 light / 2.2 dark on bg.page."
     },
     {
       "id": "form-input-disabled-value",
@@ -44,9 +44,9 @@
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
-      "min": 3.0,
+      "min": 3,
       "exempt": "wcag-1.4.3",
-      "note": "Value text inside a disabled input — SC 1.4.3 exempts inactive components, so no floor is enforced; min records the Tier-3 floor it would fall under if active. Measured OKCA ~1.2 light / ~1.6 dark on bg.surface. Per the disabled-label convention (#134) the dim value signals 'unavailable'; the input's required disabled hint carries the actionable meaning."
+      "note": "Value text inside a disabled input — SC 1.4.3 exempts inactive components, so no floor is enforced; min records the Tier-3 floor it would fall under if active. Measured OKCA 1.5 light / 1.9 dark on bg.surface. Per the disabled-label convention (#134) the dim value signals 'unavailable'; the input's required disabled hint carries the actionable meaning."
     },
     {
       "id": "form-error-message",
@@ -162,7 +162,7 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
-      "min": 3.0,
+      "min": 3,
       "note": "candor-stat default color — 25–39px bold (sm/md/lg sizes), all large text, threshold 3.0"
     },
     {
@@ -171,7 +171,7 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
-      "min": 3.0,
+      "min": 3,
       "note": "candor-stat color=success — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
     },
     {
@@ -180,7 +180,7 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
-      "min": 3.0,
+      "min": 3,
       "note": "candor-stat color=warning — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
     },
     {
@@ -189,7 +189,7 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
-      "min": 3.0,
+      "min": 3,
       "note": "candor-stat color=error — 25–39px bold (sm/md/lg sizes), all large text"
     },
     {
@@ -198,7 +198,7 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
-      "min": 3.0,
+      "min": 3,
       "note": "candor-stat color=info uses --color-link as foreground — 25–39px bold (sm/md/lg sizes), all large text"
     },
     {
@@ -452,7 +452,7 @@
       "bg": "{color.bg.surface}",
       "size": 20,
       "weight": "bold",
-      "min": 3.0,
+      "min": 3,
       "note": "20px bold — 19-23px bold threshold applies"
     },
     {
@@ -488,7 +488,7 @@
       "bg": "{color.bg.inverse}",
       "size": 20,
       "weight": "bold",
-      "min": 3.0
+      "min": 3
     },
     {
       "id": "nav-inverse-link",
@@ -514,7 +514,7 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
-      "min": 3.0
+      "min": 3
     },
     {
       "id": "heading-h2",
@@ -522,7 +522,7 @@
       "bg": "{color.bg.page}",
       "size": 31,
       "weight": "bold",
-      "min": 3.0
+      "min": 3
     },
     {
       "id": "heading-h3",
@@ -530,7 +530,7 @@
       "bg": "{color.bg.page}",
       "size": 25,
       "weight": "bold",
-      "min": 3.0
+      "min": 3
     },
     {
       "id": "heading-h4",
@@ -538,7 +538,7 @@
       "bg": "{color.bg.page}",
       "size": 20,
       "weight": "bold",
-      "min": 3.0,
+      "min": 3,
       "note": "20px bold — 19-23px bold threshold applies"
     },
     {
@@ -563,7 +563,7 @@
       "bg": "{color.bg.page}",
       "size": 25,
       "weight": "bold",
-      "min": 3.0,
+      "min": 3,
       "note": "Secondary color heading — large text, min 3.0"
     },
     {
@@ -627,7 +627,7 @@
       "size": 14,
       "weight": "regular",
       "min": 4.5,
-      "note": "Table caption — Tier 3 Supplementary (position is redundant channel); OKCA 4.6"
+      "note": "Table caption — Tier 3 Supplementary (position is redundant channel); OKCA 5.0 light / 6.7 dark"
     },
     {
       "id": "tabs-inactive",
@@ -723,7 +723,7 @@
       "size": 14,
       "weight": "regular",
       "min": 9.5,
-      "note": "compact-mode 'Page X of Y' — sole position indicator, so Tier 1 Reading floor; text-default clears it (OKCA 11 light / 12.5 dark)"
+      "note": "compact-mode 'Page X of Y' — sole position indicator, so Tier 1 Reading floor; text-default clears it (OKCA 11.4 light / 12.8 dark)"
     },
     {
       "id": "chip-default",
@@ -748,7 +748,7 @@
       "bg": "{color.bg.elevated}",
       "size": 25,
       "weight": "bold",
-      "min": 3.0,
+      "min": 3,
       "note": "Modal h2 title — 25px bold, large text threshold"
     },
     {
@@ -812,7 +812,7 @@
       "size": 14,
       "weight": "semibold",
       "min": 4.5,
-      "note": "Navigation badge count (white on burgundy) — Tier 3 Supplementary; OKCA 9.3 validated"
+      "note": "Navigation badge count (white on burgundy) — Tier 3 Supplementary; OKCA 9.7 light / 7.3 dark"
     },
     {
       "id": "tone-picker-col-header",
@@ -866,7 +866,7 @@
       "size": 16,
       "weight": "regular",
       "min": 4.5,
-      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 4.6 ✅ (tight — tightest use of this color)"
+      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 5.1 light / 5.7 dark ✅ (tight — tightest use of this color)"
     },
     {
       "id": "article-link-visited",
@@ -875,7 +875,7 @@
       "size": 16,
       "weight": "regular",
       "min": 4.5,
-      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.4 ✅"
+      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.8 light / 6.0 dark ✅"
     },
     {
       "id": "article-link-hover",
@@ -884,7 +884,7 @@
       "size": 16,
       "weight": "regular",
       "min": 4.5,
-      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 5.7 ✅"
+      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 6.1 light / 10.8 dark ✅"
     },
     {
       "id": "alert-icon-info",
@@ -892,8 +892,8 @@
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
-      "min": 3.0,
-      "note": "Info icon in candor-alert and candor-toast (non-text currentColor SVG on surface bg) — OKCA 3.4 ✅ non-text 3:1"
+      "min": 3,
+      "note": "Info icon in candor-alert and candor-toast (non-text currentColor SVG on surface bg) — OKCA 3.8 light / 5.6 dark ✅ non-text 3:1"
     },
     {
       "id": "status-icon-success",
@@ -901,8 +901,8 @@
       "bg": "{color.status.success-bg}",
       "size": 16,
       "weight": "regular",
-      "min": 3.0,
-      "note": "Success icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 4.4 dark ✅"
+      "min": 3,
+      "note": "Success icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.4 light / 4.7 dark ✅"
     },
     {
       "id": "status-icon-warning",
@@ -910,8 +910,8 @@
       "bg": "{color.status.warning-bg}",
       "size": 16,
       "weight": "regular",
-      "min": 3.0,
-      "note": "Warning icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 4.4 dark ✅"
+      "min": 3,
+      "note": "Warning icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.4 light / 4.6 dark ✅"
     },
     {
       "id": "status-icon-error",
@@ -919,8 +919,8 @@
       "bg": "{color.status.error-bg}",
       "size": 16,
       "weight": "regular",
-      "min": 3.0,
-      "note": "Error icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.0 light ✅ / 3.4 dark ✅"
+      "min": 3,
+      "note": "Error icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.4 light / 3.5 dark ✅"
     },
     {
       "id": "autocomplete-suggestion",
@@ -938,7 +938,7 @@
       "size": 14,
       "weight": "regular",
       "min": 6.5,
-      "note": "candor-code inline code — text-code on bg-code; Tier 2 Functional (character position load-bearing). Light: white on navy-800 (OKCA 15.2) ✅ / Dark: off-white text-default on deep navy (OKCA 11.5) ✅"
+      "note": "candor-code inline code — text-code on bg-code; Tier 2 Functional (character position load-bearing). Light: white on navy-800 (OKCA 14.4) ✅ / Dark: off-white text-default on deep navy (OKCA 11.9) ✅"
     },
     {
       "id": "callout-body",
@@ -947,7 +947,7 @@
       "size": 16,
       "weight": "regular",
       "min": 4.5,
-      "note": "candor-article .callout body — text-default on the indigo wash; Tier 1 Reading. Light: gray-700 on indigo-50 (OKCA 9.9) ✅ / Dark: off-white on dark indigo tint (OKCA 9.6) ✅. The --color-highlight-decorative left border is decorative only (meaning carried by the wash + authored label), not gated at 3:1."
+      "note": "candor-article .callout body — text-default on the indigo wash; Tier 1 Reading. Light: gray-700 on indigo-50 (OKCA 10.3) ✅ / Dark: off-white on dark indigo tint (OKCA 10.1) ✅. The --color-highlight-decorative left border is decorative only (meaning carried by the wash + authored label), not gated at 3:1."
     }
   ]
 }

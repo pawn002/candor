@@ -1,6 +1,15 @@
 # Contrast Tiers — Draft
 
 > **Status:** Draft v2 — open questions resolved; pending Storybook documentation pass
+>
+> **Archived — figures are historical.** Every OKCA score below was measured under
+> klar 1.x and against the Angular-era component names (`app-input`, `app-badge`).
+> klar 2.0.0 recalibrated OKCA, lifting scores in the 3–7 band by roughly +0.4:
+> `--color-text-subtle` now measures 5.0, `--color-link` 5.1. The numbers have been
+> left as originally recorded because this document is the record of a decision made
+> on them — the tier **thresholds** it proposes are unchanged and remain in force
+> (see `CLAUDE.md` → "OKCA Contrast Thresholds"). For current figures, run
+> `npm run audit:contrast` (#211).
 
 Candor's OKCA Contrast Guidance story specifies one threshold per size/weight cell. This document proposes a second axis: **use-case tiers** that adjust the 14px threshold based on the perceptual task the text serves.
 

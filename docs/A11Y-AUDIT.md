@@ -709,7 +709,7 @@ No issues found. The component uses native `<details>`/`<summary>` elements, whi
 - Enter/Space activation, toggle state announcement, and keyboard navigation all handled natively
 - SVG chevron `aria-hidden="true"` correctly suppressed from NVDA (Playwright snapshot shows the SVG node but NVDA's AT APIs honour `aria-hidden`)
 
-**Phase 5 update:** The `--quiet` variant heading was changed from regular to bold weight to meet Tier 2 contrast requirements (OKCA 4.5 bold at 14px — `--color-text-subtle` at 4.6 passes bold but not the 9.5 regular threshold). No ARIA or structural change. See `docs/CONTRAST-TIERS.md`.
+**Phase 5 update:** The `--quiet` variant heading was changed from regular to bold weight to meet Tier 2 contrast requirements (OKCA 4.5 bold at 14px — `--color-text-subtle` at 5.0 passes bold but not the 9.5 regular threshold). No ARIA or structural change. See `docs/CONTRAST-TIERS.md`.
 
 ---
 

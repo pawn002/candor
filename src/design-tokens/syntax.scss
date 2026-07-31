@@ -21,14 +21,14 @@
 
 :root {
     // OKCA against light-mode code bg (navy-800 = oklch(0.27 0.06 245.34)):
-    --syntax-comment:   oklch(0.72 0.04 248);     // OKCA 4.7 ✅ — muted cool gray-blue; italic
-    --syntax-keyword:   oklch(0.79 0.15 250.80);  // OKCA 5.0 ✅ — azure; language control flow
+    --syntax-comment:   oklch(0.72 0.04 248);     // OKCA 5.1 ✅ — muted cool gray-blue; italic
+    --syntax-keyword:   oklch(0.79 0.15 250.80);  // OKCA 5.2 ✅ — azure; language control flow
     --syntax-string:    oklch(0.85 0.14 78);      // OKCA 6.6 ✅ — warm amber; string literals
-    --syntax-number:    oklch(0.80 0.14 278);     // OKCA 5.5 ✅ — purple; numerics, booleans
-    --syntax-function:  oklch(0.90 0.06 250);     // OKCA 9.7 ✅ — near-white azure; callsites
-    --syntax-property:  oklch(0.83 0.10 347);     // OKCA 6.7 ✅ — rose; CSS props, attr names
-    --syntax-operator:  oklch(0.75 0.03 248);     // OKCA 5.4 ✅ — muted cool; operators, punctuation
-    --syntax-deleted:   oklch(0.79 0.22 25);      // OKCA 4.5 ✅ — error red; diff removed
+    --syntax-number:    oklch(0.80 0.14 278);     // OKCA 5.7 ✅ — purple; numerics, booleans
+    --syntax-function:  oklch(0.90 0.06 250);     // OKCA 10.1 ✅ — near-white azure; callsites
+    --syntax-property:  oklch(0.83 0.10 347);     // OKCA 6.9 ✅ — rose; CSS props, attr names
+    --syntax-operator:  oklch(0.75 0.03 248);     // OKCA 5.9 ✅ — muted cool; operators, punctuation
+    --syntax-deleted:   oklch(0.79 0.22 25);      // OKCA 4.6 ✅ — error red; diff removed
     --syntax-inserted:  oklch(0.80 0.15 144.2);   // OKCA 4.8 ✅ — success green; diff added
     --syntax-regex:     oklch(0.82 0.15 53.54);   // OKCA 5.4 ✅ — amber; regex, template literals
 }

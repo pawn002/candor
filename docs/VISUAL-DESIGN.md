@@ -100,7 +100,7 @@ Roboto Flex is a variable font. The `opsz` (optical size) axis is the single mos
 
 Atkinson Hyperlegible carries critical UI text because its glyph differentiation survives at 14px where other typefaces begin to blur.
 
-- **Bold has two distinct jobs in Atkinson contexts — hierarchy and contrast — and they must not be confused.** As a hierarchy signal, bold marks structural anchors: form field labels, section headings. As a contrast call, bold is applied at 14px when the OKCA Tier 2 threshold requires it — bold drops the required score from 6.5 to 4.5, which `--color-text-subtle` (4.6) clears. Error messages are a specific case: they are Tier 1 reading text and must either use `--color-text-default` or be bumped to 16px — not bolded as a workaround. Bold on a red error message reads as double-emphasis and does not substitute for a genuine contrast fix.
+- **Bold has two distinct jobs in Atkinson contexts — hierarchy and contrast — and they must not be confused.** As a hierarchy signal, bold marks structural anchors: form field labels, section headings. As a contrast call, bold is applied at 14px when the OKCA Tier 2 threshold requires it — bold drops the required score from 6.5 to 4.5, which `--color-text-subtle` (5.0) clears. Error messages are a specific case: they are Tier 1 reading text and must either use `--color-text-default` or be bumped to 16px — not bolded as a workaround. Bold on a red error message reads as double-emphasis and does not substitute for a genuine contrast fix.
 - **Positive letter-spacing is mandatory.** Without it, adjacent glyphs like "rr" cluster into "m." Use `0.06em` for 14px badges, `0.02em` for 16px body roles, `var(--letter-spacing-wide)` for uppercase labels. Never zero.
 
 ### The 14px floor and the tier system
@@ -113,7 +113,7 @@ No readable text in Candor falls below 14px. 12px (`--font-size-xs`) is for deco
 | 2 — Functional UI | Recognition — text is the sole channel for meaning | **6.5** | **4.5** | Pagination numbers, breadcrumb links, table cell data, chip labels, button labels |
 | 3 — Supplementary | Pattern match — meaning redundantly coded by shape, icon, or position | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata |
 
-The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 4.6 — it fails Tier 1 and Tier 2 regular, but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change. The fix for a Tier 1 failure is bumping to 16px.
+The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 5.0 — it fails Tier 1 and Tier 2 regular, but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change. The fix for a Tier 1 failure is bumping to 16px.
 
 ### Traps
 
