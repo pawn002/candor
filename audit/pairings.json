@@ -870,7 +870,7 @@
     },
     {
       "id": "article-link-visited",
-      "fg": "{color.link.visited}",
+      "fg": "{color.link-visited}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
@@ -879,7 +879,7 @@
     },
     {
       "id": "article-link-hover",
-      "fg": "{color.link.hover}",
+      "fg": "{color.link-hover}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",

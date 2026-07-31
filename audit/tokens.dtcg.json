@@ -99,6 +99,10 @@
           "$type": "color",
           "$value": "oklch(0.50 0 0)",
           "$description": "OKCA 3.4 on bg-surface ✅, 4.6 on page ✅"
+        },
+        "code": {
+          "$type": "color",
+          "$value": "transparent"
         }
       },
       "slider": {
@@ -138,6 +142,10 @@
           "$type": "color",
           "$value": "oklch(0.20 0.05 347.43)"
         },
+        "destructive": {
+          "$type": "color",
+          "$value": "transparent"
+        },
         "destructive-hover": {
           "$type": "color",
           "$value": "oklch(0.37 0.15 347 / 0.08)",
@@ -175,30 +183,22 @@
       "link": {
         "$type": "color",
         "$value": "oklch(0.49 0.18 250.80)",
-        "$description": "OKCA 4.6 on white ✅ — azure-500 (L=0.53) was OKCA 3.8; stepped to L=0.49 for OKCA compliance (#14)",
-        "hover": {
-          "$type": "color",
-          "$value": "oklch(0.45 0.17 250.80)",
-          "$description": "OKCA 5.7 on white ✅"
-        },
-        "visited": {
-          "$type": "color",
-          "$value": "oklch(0.47 0.20 278.14)",
-          "$description": "OKCA 5.4 on white ✅ — honors universal :visited convention"
-        }
+        "$description": "OKCA 4.6 on white ✅ — azure-500 (L=0.53) was OKCA 3.8; stepped to L=0.49 for OKCA compliance (#14)"
+      },
+      "link-hover": {
+        "$type": "color",
+        "$value": "oklch(0.45 0.17 250.80)",
+        "$description": "OKCA 5.7 on white ✅"
+      },
+      "link-visited": {
+        "$type": "color",
+        "$value": "oklch(0.47 0.20 278.14)",
+        "$description": "OKCA 5.4 on white ✅ — honors universal :visited convention"
       },
       "highlight": {
         "$type": "color",
         "$value": "oklch(0.37 0.08 347.43)",
-        "$description": "OKCA 6.5 on bg-surface ✅",
-        "decorative": {
-          "$type": "color",
-          "$value": "oklch(0.60 0.21 278.14)",
-          "$description": "icon/border use — decorative accent below every text threshold; never a color: value (#132)",
-          "$extensions": {
-            "usage": "non-text"
-          }
-        }
+        "$description": "OKCA 6.5 on bg-surface ✅"
       },
       "focus": {
         "$type": "color",
@@ -278,6 +278,14 @@
           "$type": "color",
           "$value": "oklch(0.97 0.02 278.14)",
           "$description": "light indigo wash — text-default OKCA 9.9 ✅"
+        }
+      },
+      "highlight-decorative": {
+        "$type": "color",
+        "$value": "oklch(0.60 0.21 278.14)",
+        "$description": "icon/border use — decorative accent below every text threshold; never a color: value (#132)",
+        "$extensions": {
+          "usage": "non-text"
         }
       }
     }
@@ -381,6 +389,10 @@
           "$value": "oklch(0.85 0 0)",
           "$description": "subtle divider on white inverse surface"
         },
+        "control": {
+          "$type": "color",
+          "$value": "oklch(0.56 0 0)"
+        },
         "control-on-surface": {
           "$type": "color",
           "$value": "oklch(0.60 0 0)"
@@ -429,6 +441,10 @@
           "$type": "color",
           "$value": "oklch(0.86 0.05 347.43)"
         },
+        "destructive": {
+          "$type": "color",
+          "$value": "transparent"
+        },
         "destructive-hover": {
           "$type": "color",
           "$value": "oklch(0.72 0.15 347 / 0.12)",
@@ -467,30 +483,22 @@
       "link": {
         "$type": "color",
         "$value": "oklch(0.77 0.15 250.80)",
-        "$description": "OKCA 5.8 on bg-page ✅",
-        "hover": {
-          "$type": "color",
-          "$value": "oklch(0.86 0.10 250.80)",
-          "$description": "OKCA 10.6 on bg-page ✅"
-        },
-        "visited": {
-          "$type": "color",
-          "$value": "oklch(0.77 0.15 278.14)",
-          "$description": "OKCA 6.0 on bg-page ✅"
-        }
+        "$description": "OKCA 5.8 on bg-page ✅"
+      },
+      "link-hover": {
+        "$type": "color",
+        "$value": "oklch(0.86 0.10 250.80)",
+        "$description": "OKCA 10.6 on bg-page ✅"
+      },
+      "link-visited": {
+        "$type": "color",
+        "$value": "oklch(0.77 0.15 278.14)",
+        "$description": "OKCA 6.0 on bg-page ✅"
       },
       "highlight": {
         "$type": "color",
         "$value": "oklch(0.86 0.05 347.43)",
-        "$description": "OKCA 9.3 on bg-surface ✅",
-        "decorative": {
-          "$type": "color",
-          "$value": "oklch(0.68 0.18 278.14)",
-          "$description": "icon/border use — decorative accent; never a color: value (#132)",
-          "$extensions": {
-            "usage": "non-text"
-          }
-        }
+        "$description": "OKCA 9.3 on bg-surface ✅"
       },
       "focus": {
         "$type": "color",
@@ -553,11 +561,34 @@
           "$description": "OKCA 5.8 on warning-bg ✅"
         }
       },
+      "blockquote": {
+        "bg": {
+          "$type": "color",
+          "$value": "oklch(0.24 0.03 248.99)"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "oklch(0.76 0.06 347.43)"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "oklch(0.71 0 0)",
+          "$description": "inherits OKCA 4.6 on bg-surface ✅"
+        }
+      },
       "callout": {
         "bg": {
           "$type": "color",
           "$value": "oklch(0.26 0.04 278)",
           "$description": "dark indigo wash — text-default OKCA 9.6 ✅"
+        }
+      },
+      "highlight-decorative": {
+        "$type": "color",
+        "$value": "oklch(0.68 0.18 278.14)",
+        "$description": "icon/border use — decorative accent; never a color: value (#132)",
+        "$extensions": {
+          "usage": "non-text"
         }
       }
     }

@@ -71,10 +71,23 @@ function resolveAll(tokens, primitives) {
  * --color-status-error-text → ['color', 'status', 'error-text']
  * --color-bg-page           → ['color', 'bg', 'page']
  * --color-link              → ['color', 'link']
+ * --color-link-hover        → ['color', 'link-hover']   (see collision note)
+ *
+ * `declared` is the set of every declared custom-property name across both
+ * modes, used to avoid emitting a token inside a token.
  */
-function toDtcgPath(cssVar) {
+function toDtcgPath(cssVar, declared) {
   const parts = cssVar.replace(/^--/, '').split('-');
   if (parts.length <= 2) return parts;
+  // Collision guard: when the two-part prefix is itself a declared token
+  // (--color-link exists alongside --color-link-hover), the default split
+  // would nest a token *inside* a token — invalid DTCG, since a node is
+  // either a token or a group and never both. Keep the remainder joined to
+  // the second segment instead, mirroring the custom-property name:
+  // --color-link-hover → color.link-hover.
+  if (declared.has(`--${parts[0]}-${parts[1]}`)) {
+    return [parts[0], parts.slice(1).join('-')];
+  }
   // parts[0] = 'color', parts[1] = category, parts[2+] = remainder (rejoined)
   return [parts[0], parts[1], parts.slice(2).join('-')];
 }
@@ -117,27 +130,44 @@ for (const [k, { raw }] of Object.entries(primitiveDecls)) {
 
 // 2. Parse light + dark token mixins
 const lightRaw = parseDeclarations(extractMixin(semanticsScss, 'light-color-tokens'));
-const darkRaw  = parseDeclarations(extractMixin(semanticsScss, 'dark-color-tokens'));
+// Dark is an *override* layer, not a standalone set: at runtime the light
+// mixin lands on :root and dark redeclares only what changes, so a token
+// declared once in light still renders in dark (resolving through whatever
+// mode-aware token it aliases). Building the dark tree from darkRaw alone
+// made the export disagree with the cascade and left light-only tokens
+// missing from the dark half of the artifact (#210).
+const darkRaw  = { ...lightRaw, ...parseDeclarations(extractMixin(semanticsScss, 'dark-color-tokens')) };
 
 // 3. Resolve all var() references
 const lightTokens = resolveAll(lightRaw, primitives);
 const darkTokens  = resolveAll(darkRaw,  primitives);
 
-// 4. Build DTCG output — only --color-* tokens with resolved oklch values
+// Every declared name across both modes — feeds the toDtcgPath collision guard
+// so light and dark map to identical paths.
+const declared = new Set([...Object.keys(lightRaw), ...Object.keys(darkRaw)]);
+
+/** Values we can emit as a DTCG color. `transparent` is a real CSS color and a
+ *  meaningful token value ("no fill / no border"); dropping it silently made
+ *  --color-border-code look dark-only and hid --color-action-destructive from
+ *  both modes. Anything else surfaces in the skip report rather than vanishing. */
+const isEmittableColor = (v) => v.startsWith('oklch(') || v === 'transparent';
+
+// 4. Build DTCG output — --color-* tokens with an emittable resolved value
 const output = { light: {}, dark: {} };
+const skipped = { light: [], dark: [] };
 let lightCount = 0, darkCount = 0;
 
 for (const [name, { value, comment }] of Object.entries(lightTokens)) {
   if (!name.startsWith('--color-')) continue;
-  if (!value.startsWith('oklch('))  continue;
-  setPath(output.light, toDtcgPath(name), dtcgEntry(value, comment));
+  if (!isEmittableColor(value)) { skipped.light.push(`${name} → ${value}`); continue; }
+  setPath(output.light, toDtcgPath(name, declared), dtcgEntry(value, comment));
   lightCount++;
 }
 
 for (const [name, { value, comment }] of Object.entries(darkTokens)) {
   if (!name.startsWith('--color-')) continue;
-  if (!value.startsWith('oklch('))  continue;
-  setPath(output.dark, toDtcgPath(name), dtcgEntry(value, comment));
+  if (!isEmittableColor(value)) { skipped.dark.push(`${name} → ${value}`); continue; }
+  setPath(output.dark, toDtcgPath(name, declared), dtcgEntry(value, comment));
   darkCount++;
 }
 
@@ -150,3 +180,13 @@ fs.writeFileSync(outFile, JSON.stringify(output, null, 2) + '\n');
 console.log(`✓  audit/tokens.dtcg.json`);
 console.log(`   light: ${lightCount} color tokens`);
 console.log(`   dark:  ${darkCount} color tokens`);
+
+if (lightCount !== darkCount) {
+  console.warn(`⚠  mode asymmetry: light and dark should carry the same token set`);
+}
+for (const mode of ['light', 'dark']) {
+  if (skipped[mode].length) {
+    console.warn(`⚠  ${mode}: ${skipped[mode].length} token(s) skipped — value is not an emittable color`);
+    for (const s of skipped[mode]) console.warn(`     ${s}`);
+  }
+}
