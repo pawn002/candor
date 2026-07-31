@@ -51,7 +51,12 @@ directly encodes the L value. The numeric display is hidden in gradient mode; se
 \`valueTextFn\` via JS to give the screen reader a meaningful announcement (e.g. \`"L=0.55"\`).
 
 Form-associated (\`ElementInternals\`): the current value participates in form submission.
-Emits a \`value-change\` CustomEvent on input.
+
+**Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
+live value on every drag tick and arrow-key step; \`change\` fires once on pointer release or
+keyboard commit. Both carry the value as a \`number\` in \`detail\`. The legacy \`value-change\`
+is still emitted with the same live semantics as \`input\` — deprecated, removed in the next
+major (#201).
 
 **Sizing:** Override track and thumb geometry per-instance via CSS custom properties.
 The thumb centering calc updates automatically when either var changes.

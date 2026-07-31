@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Value-control stories now document their real events.** The two-event rule shipped in 4.2.0 (#164) was never carried into the component docs, so the pages consumers actually copy from were teaching the wrong API: `candor-input`, `candor-slider`, and `candor-chip` documented *only* their deprecated alias (`input-change`, `value-change`, `selected-change`) and never named the event that replaced it; `candor-combobox` documented `change` but omitted the `input` it fires for filter text; `candor-checkbox` and `candor-radio` documented no events at all. `Introduction.mdx` had the mapping right, but that isn't where anyone looks before wiring a handler — so every consumer onboarded since 4.2.0 learned the deprecated name from the docs rather than from legacy code, growing the migration burden #201 exists to retire. All six now carry an `**Events**` paragraph naming the event, its trigger, and its `detail` type, following the pattern `candor-autocomplete` already used; the three deprecated aliases are noted as deprecated in place, so the pages stay accurate while both events still fire. Docs only — no component behaviour changed (#215).
+
 ## [4.2.0] - 2026-07-12
 
 ### Added
