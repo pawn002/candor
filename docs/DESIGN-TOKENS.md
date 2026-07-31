@@ -141,6 +141,6 @@ New semantic tokens should earn their place: a token with no previewable consume
 
 - **Live token reference:** Storybook → *Design Tokens* (color ramps, semantic swatches, spacing, type scale)
 - **Source of truth:** `src/design-tokens/primitives.scss`, `src/design-tokens/semantics.scss`
-- **Contrast workflow:** `docs/KLAR-INTEGRATION.md`, `CLAUDE.md` → "OKCA Contrast Thresholds"
+- **Contrast workflow:** `CLAUDE.md` → "OKCA Contrast Thresholds"; klar [README](https://github.com/pawn002/klar/blob/main/README.md) for the command reference
 - **Typography roles:** `CLAUDE.md` → "Typography Usage Rules"; `docs/LESSONS-LEARNED.md`
 - **External:** [OKLCH Color Picker](https://oklch.com/), [Type Scale Calculator](https://typescale.com/)

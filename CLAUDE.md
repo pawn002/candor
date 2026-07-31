@@ -136,14 +136,14 @@ Two machine-readable files in `audit/` serve as the canonical inputs for contras
 
 ### Integration Points
 
-**klar CLI** (`klar --version` to confirm availability):
+**klar CLI** — requires **2.x** (`klar --version`). klar 2.0.0 recalibrated OKCA; every contrast figure recorded in this repo assumes it. On 1.x the numbers in `audit/` and the tier tables are wrong.
 All klar commands accept both `<hex>` and `oklch(L C H)` CSS color strings as inputs — pass OKLCH values directly without converting to hex first.
 
 ```bash
 klar meta <color>                                    # Inspect a color: OKLCH axes, saturation, gamut
 klar contrast <fg> <bg> -q                           # Check contrast ratio (OKCA, WCAG-compatible)
 klar contrast <fg> <bg> --type deltaE -q             # Perceptual drift between two colors
-klar contrast <fg> <bg> --type apca -q               # APCA Lc score
+klar contrast <fg> <bg> --type wcag2 -q              # WCAG 2.x ratio (cross-check against the legacy algorithm)
 klar find <bg> <color> --target 4.5 -q               # Lightness-adjusted compliant color (exit 1 = unachievable; still prints closest)
 klar variants <color>                                # Generate a perceptually-spaced tonal grid
 klar match <color1> <color2>                         # Match chroma of two colors for palette harmony
@@ -156,10 +156,10 @@ klar plugins list                                    # List installed contrast a
 - **OKCA is the default** — WCAG 2.x-compatible ratio on the 1–21 scale, no `--type` flag needed
 - **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Light-on-dark caps near 21; dark-on-light caps near 20; the same chromatic pair returns different numbers when swapped
 - **deltaE is the art director's metric** — answers "did it change much?"; < 3 imperceptible, 5–10 acceptable drift, 11+ clearly different
-- **Installed plugins** (available via `--type`): `apca` (APCA Lc), `bpca` (Bridge-PCA WCAG ratio), `min-dimension` (minimum px size for non-text UI elements)
+- **Built-in `--type` values**: `okca` (default), `wcag2`, `deltaE`. Any other `--type` comes from a plugin installed in the environment — plugins are independent of klar-cli and not guaranteed present. Run `klar plugins list` to see what's registered.
 - **Gate `find`/`match` captures on the exit code** — grep-style contract: `0` success, `1` soft failure (`find` target unachievable / `match` infeasible — the closest value is *still printed to stdout*), `2` usage error. An unchecked `ADJUSTED=$(klar find …)` silently assigns a non-compliant color on exit `1`. Use `if ADJUSTED=$(klar find <bg> <color> --target 4.5 -q); then …; else handle_no_compliant_color; fi`
 
-See `docs/KLAR-INTEGRATION.md` for the full command reference and exit-code contract (local file, not tracked in this repo).
+See the klar [README](https://github.com/pawn002/klar/blob/main/README.md) for the full [command reference](https://github.com/pawn002/klar/blob/main/README.md#command-reference) and [exit-code contract](https://github.com/pawn002/klar/blob/main/README.md#exit-codes). [`AGENT_PLAYBOOK.md`](https://github.com/pawn002/klar/blob/main/AGENT_PLAYBOOK.md) in the same repo has worked examples of the palette-building and audit workflows.
 
 **When Playwright MCP is connected**:
 - Navigate to stories: `browser_navigate`
@@ -679,7 +679,6 @@ Visual coverage is Chromatic's job (run on every PR), not Playwright — the old
 
 Detailed workflow documentation in `docs/`:
 - `DESIGN-TOKENS.md`: Token modification guide
-- `KLAR-INTEGRATION.md`: klar CLI full command reference
 - `A11Y-AUDIT.md`: Per-component accessibility audit (WC primary; NVDA + Chrome baseline)
 - `archive/A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the Angular-era audit
 - `archive/WORKFLOW.md`: Complete design iteration workflow guide
