@@ -46,7 +46,7 @@ src/design-tokens/
 
 Raw, context-free values under `:root`. Color **ramps** (each family is a perceptually-spaced 50–900 scale at constant hue/chroma), the spacing scale (`--space-1` … `--space-12`, 8px base), the type scale (`--text-xs` … `--text-3xl`, Major Third 1.25 ratio), font stacks, weights, line heights, tracking, and border/radius primitives.
 
-Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), and a neutral **gray** ramp. Each ramp step is annotated with its contrast behaviour — e.g. `azure-400` is the original brand blue but only 3.2:1 on white, so `azure-500`/`600` are the accessible steps.
+Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), and a neutral **gray** ramp. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside — e.g. `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-link` steps to `L=0.49` rather than aliasing a ramp step.
 
 > **Components must never reference a primitive directly.** `var(--navy-800)` in a component is a bug — it bypasses the semantic layer and breaks dark mode. Always go through a `--color-*` role.
 
@@ -64,7 +64,7 @@ Named **roles** that map primitives (or direct OKLCH values, where a role needs 
 - **Shape / interaction** — `--radius-*`, `--border-width-*`, `--focus-ring-*`, `--hit-target-aaa`/`-aa`
 - **Elevation** — `--shadow-sm` … `--shadow-modal`
 
-Many semantic tokens carry an inline OKCA contrast note (e.g. `// OKCA 11 on page ✅`). Those notes are load-bearing — they record *why* a value is what it is. Preserve them when editing.
+Many semantic tokens carry an inline OKCA contrast note (e.g. `// OKCA 11.4 on page ✅`). Those notes are load-bearing — they record *why* a value is what it is. Preserve them when editing, and keep them in the form `[<fg>] OKCA <n> on <bg>` so `npm run audit:contrast` can re-measure them; a figure written any other way is reported as `UNCHECKED`. Prefix a superseded figure with `was` (`// … gray-500 was OKCA 3.8`) to mark it historical.
 
 ---
 
@@ -122,7 +122,7 @@ Spacing, typography, and shape tokens are **mode-invariant** — they are define
 1. **Edit the right layer.** Adjusting a role (e.g. making the primary button darker on hover) → `semantics.scss`. Adding or reshaping a raw ramp → `primitives.scss`. Never hard-code a value in a component.
 2. **Keep it OKLCH.** Convert any incoming hex with `klar meta`.
 3. **Re-export the DTCG artifact.** Run `npm run audit:tokens` after any change to `primitives.scss`/`semantics.scss` — it regenerates `audit/tokens.dtcg.json` (the canonical input for contrast audits).
-4. **Validate contrast.** For each changed color token, grep `audit/pairings.json` for its DTCG name to find every pairing that references it, then check each with `klar contrast <fg> <bg> -q` against the pairing's `min` floor. See the "OKCA Contrast Thresholds" section in `CLAUDE.md` for the two-axis (size × use-case tier) threshold table.
+4. **Validate contrast.** Run `npm run audit:contrast` — it re-measures every pairing in `audit/pairings.json` in both modes against that pairing's `min` floor, and re-measures every OKCA figure recorded in a token comment against the current value. Anything its claim parser can't interpret is printed as `UNCHECKED` rather than passed silently. See the "OKCA Contrast Thresholds" section in `CLAUDE.md` for the two-axis (size × use-case tier) threshold table.
 5. **Preview in Storybook.** The "Design Tokens" stories render the ramps, semantic swatches, spacing, and type scale live — the best visual check. Every component picks up the change automatically because they all consume the same custom properties.
 
 New semantic tokens should earn their place: a token with no previewable consumer in Storybook is hard to justify.
@@ -141,6 +141,6 @@ New semantic tokens should earn their place: a token with no previewable consume
 
 - **Live token reference:** Storybook → *Design Tokens* (color ramps, semantic swatches, spacing, type scale)
 - **Source of truth:** `src/design-tokens/primitives.scss`, `src/design-tokens/semantics.scss`
-- **Contrast workflow:** `docs/KLAR-INTEGRATION.md`, `CLAUDE.md` → "OKCA Contrast Thresholds"
+- **Contrast workflow:** `npm run audit:contrast`; `CLAUDE.md` → "OKCA Contrast Thresholds"; klar [README](https://github.com/pawn002/klar/blob/main/README.md) for the command reference
 - **Typography roles:** `CLAUDE.md` → "Typography Usage Rules"; `docs/LESSONS-LEARNED.md`
 - **External:** [OKLCH Color Picker](https://oklch.com/), [Type Scale Calculator](https://typescale.com/)

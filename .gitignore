@@ -150,7 +150,3 @@ temp/
 nul
 .playwright-mcp/
 
-# Local-only: klar CLI internal documentation (playbook-derived, not for the repo)
-docs/KLAR-INTEGRATION.md
-docs/archive/CPQI-INTEGRATION.md
-docs/archive/cpqi-workflow.md

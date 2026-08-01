@@ -19,7 +19,12 @@ interaction modes:
 they respond to clicks and can be removed. If the element has no interaction, use a Badge.
 
 Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warning\`,
-\`error\`. Emits \`selected-change\` and \`dismissed\` CustomEvents.
+\`error\`.
+
+**Events.** \`change\` fires on select/deselect, carrying the new selected state as a
+\`boolean\` in \`detail\`; \`dismissed\` fires when the remove button is activated, with no
+payload. The legacy \`selected-change\` is still emitted with the same semantics as
+\`change\` — deprecated, removed in the next major (#201).
         `.trim(),
       },
     },

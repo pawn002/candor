@@ -67,7 +67,11 @@ the dropdown (second Escape clears the value); Tab closes the dropdown.
 | \`candor-combobox\` | Long lists, user knows part of the name, search/autocomplete UX |
 
 Form-associated (\`ElementInternals\`): the selected option's value participates in form
-submission. Emits a \`change\` CustomEvent on selection.
+submission.
+
+**Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
+live filter text as the user types; \`change\` fires on selection, carrying the chosen
+\`ComboboxOption\` — or \`null\` when the selection is cleared.
         `.trim(),
       },
     },

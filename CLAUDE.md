@@ -41,6 +41,8 @@ npx playwright show-report # View test results
 
 ### Building
 ```bash
+npm run audit:tokens       # Re-export audit/tokens.dtcg.json from the SCSS
+npm run audit:contrast     # Re-measure every pairing + every recorded OKCA figure (needs klar 2.x)
 npm run build:tokens       # Build @candor-design/tokens → tokens/
 npm run build:wc           # Build @candor-design/web-components → web-components/dist/
 npm run build-storybook    # Build static Storybook
@@ -111,13 +113,15 @@ The component library is the Lit 3 web components in `src/web-components/compone
 3. **Update tokens**: Modify `src/design-tokens/semantics.scss` (or `primitives.scss`). After any change, re-export the DTCG artifact: `npm run audit:tokens`
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
 5. **Mobile check**: Switch Storybook's viewport toolbar to **mobile1 (320 × 568)** and verify: no horizontal overflow, no clipped interactive elements, no layout broken by a fixed column count
-6. **Accessibility validation**: Run `klar contrast <fg> <bg> -q` to check contrast ratios. For each token you changed, grep `audit/pairings.json` for its DTCG name (e.g. `color.text.subtle`) to find every pairing that references it — then validate each with klar. The `min` field in each pairing entry is the Candor-policy OKCA floor for that pairing.
+6. **Accessibility validation**: Run `npm run audit:contrast`. It re-measures every pairing in `audit/pairings.json` in both modes against that pairing's `min` (the Candor-policy OKCA floor), and re-measures every OKCA figure recorded in a token comment against the token's current value. For one-off checks outside the audit set, `klar contrast <fg> <bg> -q` still applies.
 7. **Iterate**: If violations found, run `klar find <bg> <color> --target 4.5 -q` for compliant alternatives — **gate the capture on the exit code** (`if ADJUSTED=$(klar find …); then … fi`). Exit `1` means no color meets the target on that background, and `$ADJUSTED` then holds the closest *non-compliant* color — an unchecked `$(…)` capture would silently apply a failing value
 8. **Report**: Document original specs vs. final implementation, constraints identified
 
 ### Audit Artifacts
 
-Two machine-readable files in `audit/` serve as the canonical inputs for contrast audits. Keep them current as tokens and components evolve.
+Two machine-readable files in `audit/` serve as the canonical inputs for contrast audits. Keep them current as tokens and components evolve. `npm run audit:contrast` (`scripts/check-contrast.js`) is what reads them — it re-measures every pairing against its `min` and every OKCA figure recorded in a token comment against the token's current value, and prints `UNCHECKED` for anything it can't interpret rather than passing it silently. It exits non-zero on any enforced failure, so it currently fails on the two known exceptions tracked in #208 and #209; it is deliberately **not** wired into CI until those land.
+
+Recorded figures are re-baselined to klar 2.0 as of #211. Any figure you add must be measured with klar 2.x — the 2.0.0 recalibration moved scores in the 3–7 band by roughly +0.4, so a number carried over from an older tool or an older note will be wrong.
 
 **`audit/tokens.dtcg.json`** — auto-generated, do not edit by hand.
 - Produced by `npm run audit:tokens` (runs `scripts/export-tokens-dtcg.js`).
@@ -126,24 +130,24 @@ Two machine-readable files in `audit/` serve as the canonical inputs for contras
 - Re-run whenever `src/design-tokens/semantics.scss` or `src/design-tokens/primitives.scss` changes.
 
 **`audit/pairings.json`** — hand-authored, update alongside component changes.
-- 87 foreground/background pairings covering all 34 WC components.
+- 108 foreground/background pairings, each measured in both modes (216 measurements). Per-component coverage is not derivable from the entry ids — form controls share `form-*` prefixes — so treat "every component is covered" as unverified until #197 settles how coverage is counted.
 - Each entry: `{ id, fg, bg, size, weight, min }` using DTCG token references (`{color.status.error-text}`) and an explicit pixel size and weight. An optional `exempt` field (see below) marks pairings that carry no enforced floor.
 - `min` is the Candor-policy OKCA floor for that specific pairing — it encodes the tier table from the "OKCA Contrast Thresholds" section above. It is **not** a klar/OKCA standard; it belongs to this design system.
 - **`exempt`** (optional string) — present only on pairings that are deliberately **not** held to their `min`. The value names *why*: `wcag-1.4.3` for text inside inactive/disabled components (SC 1.4.3 exempts them from contrast), `candor-supplementary` for transient/redundant text that is never the sole channel for meaning (e.g. input placeholders). When `exempt` is present, **skip the klar-vs-`min` check** — `min` then documents only the tier the pairing *would* fall under if it were active/primary content. Exempting text is legitimate only when the meaning survives elsewhere (a disabled control's required hint, a field's real label); see the disabled-label convention under "Common Pitfalls → Form authoring."
-- When you change a color token: grep `audit/pairings.json` for the token name → find every affected pairing → re-validate those pairs with `klar contrast`.
+- When you change a color token: run `npm run audit:contrast` — it re-validates every affected pairing without you having to find them.
 - When you add a new component: add entries for every unique `color:` declaration in the component's CSS, following the tier classification rules above.
 - When you add a new semantic token or rename one: update both `tokens.dtcg.json` (re-run the script) and any pairings that reference the old token name.
 
 ### Integration Points
 
-**klar CLI** (`klar --version` to confirm availability):
+**klar CLI** — requires **2.x** (`klar --version`). klar 2.0.0 recalibrated OKCA; every contrast figure recorded in this repo assumes it. On 1.x the numbers in `audit/` and the tier tables are wrong.
 All klar commands accept both `<hex>` and `oklch(L C H)` CSS color strings as inputs — pass OKLCH values directly without converting to hex first.
 
 ```bash
 klar meta <color>                                    # Inspect a color: OKLCH axes, saturation, gamut
 klar contrast <fg> <bg> -q                           # Check contrast ratio (OKCA, WCAG-compatible)
 klar contrast <fg> <bg> --type deltaE -q             # Perceptual drift between two colors
-klar contrast <fg> <bg> --type apca -q               # APCA Lc score
+klar contrast <fg> <bg> --type wcag2 -q              # WCAG 2.x ratio (cross-check against the legacy algorithm)
 klar find <bg> <color> --target 4.5 -q               # Lightness-adjusted compliant color (exit 1 = unachievable; still prints closest)
 klar variants <color>                                # Generate a perceptually-spaced tonal grid
 klar match <color1> <color2>                         # Match chroma of two colors for palette harmony
@@ -156,10 +160,10 @@ klar plugins list                                    # List installed contrast a
 - **OKCA is the default** — WCAG 2.x-compatible ratio on the 1–21 scale, no `--type` flag needed
 - **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Light-on-dark caps near 21; dark-on-light caps near 20; the same chromatic pair returns different numbers when swapped
 - **deltaE is the art director's metric** — answers "did it change much?"; < 3 imperceptible, 5–10 acceptable drift, 11+ clearly different
-- **Installed plugins** (available via `--type`): `apca` (APCA Lc), `bpca` (Bridge-PCA WCAG ratio), `min-dimension` (minimum px size for non-text UI elements)
+- **Built-in `--type` values**: `okca` (default), `wcag2`, `deltaE`. Any other `--type` comes from a plugin installed in the environment — plugins are independent of klar-cli and not guaranteed present. Run `klar plugins list` to see what's registered.
 - **Gate `find`/`match` captures on the exit code** — grep-style contract: `0` success, `1` soft failure (`find` target unachievable / `match` infeasible — the closest value is *still printed to stdout*), `2` usage error. An unchecked `ADJUSTED=$(klar find …)` silently assigns a non-compliant color on exit `1`. Use `if ADJUSTED=$(klar find <bg> <color> --target 4.5 -q); then …; else handle_no_compliant_color; fi`
 
-See `docs/KLAR-INTEGRATION.md` for the full command reference and exit-code contract (local file, not tracked in this repo).
+See the klar [README](https://github.com/pawn002/klar/blob/main/README.md) for the full [command reference](https://github.com/pawn002/klar/blob/main/README.md#command-reference) and [exit-code contract](https://github.com/pawn002/klar/blob/main/README.md#exit-codes). [`AGENT_PLAYBOOK.md`](https://github.com/pawn002/klar/blob/main/AGENT_PLAYBOOK.md) in the same repo has worked examples of the palette-building and audit workflows.
 
 **When Playwright MCP is connected**:
 - Navigate to stories: `browser_navigate`
@@ -313,7 +317,7 @@ Contrast requirements have **two axes**: font size and use-case tier. **Never ap
 | **3 — Supplementary** | Pattern match — meaning redundantly coded | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata, breadcrumb separators, pagination ellipsis, accordion quiet headings (wght 500 — structural nesting is the redundant channel) |
 
 **Key audit rules:**
-- `--color-text-subtle` (OKCA 4.6 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
+- `--color-text-subtle` (OKCA 5.0 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
 - Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight (wght ≥ 700)**, not a color change or size bump.
 - Tier 1 failures at 14px are genuine and typically require bumping to 16px (e.g. alert body, toast).
 - Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position) — it is assigned by the system, not a consumer opt-in.
@@ -679,7 +683,6 @@ Visual coverage is Chromatic's job (run on every PR), not Playwright — the old
 
 Detailed workflow documentation in `docs/`:
 - `DESIGN-TOKENS.md`: Token modification guide
-- `KLAR-INTEGRATION.md`: klar CLI full command reference
 - `A11Y-AUDIT.md`: Per-component accessibility audit (WC primary; NVDA + Chrome baseline)
 - `archive/A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the Angular-era audit
 - `archive/WORKFLOW.md`: Complete design iteration workflow guide

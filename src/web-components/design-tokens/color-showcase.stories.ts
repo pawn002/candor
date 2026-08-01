@@ -277,14 +277,18 @@ single \`candor-tokens.css\` load at the document level reaches into every web c
 internals.
 
 ## Brand palette
-- **Navy** \`#082840\` — primary action (15.2:1 with white)
-- **Burgundy** \`#5F2B48\` — secondary action (10.4:1 with white)
-- **Azure** \`#1493FB\` — accent / link (decorative on white; accessible step at azure-500)
-- **Indigo** \`#6969F7\` — visited link color; accessible step at indigo-600, 4.6:1
+Figures are OKCA on white — the algorithm Candor's thresholds are written against.
+
+- **Navy** \`#082840\` — primary action (OKCA 13.8)
+- **Burgundy** \`#5F2B48\` — secondary action (OKCA 9.3)
+- **Azure** \`#1493FB\` — accent / link (OKCA 2.5 — decorative on white; \`--color-link\` steps to \`L=0.49\` for OKCA 5.1)
+- **Indigo** \`#6969F7\` — visited link anchor (OKCA 3.2 — decorative; \`--color-link-visited\` uses indigo-700 at OKCA 5.8)
 
 ## Accessibility
-All action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components).
-Validated with \`klar contrast\`.
+Action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components) and the
+stricter Candor OKCA tier floors, with two tracked exceptions — see
+\`docs/ACCESSIBILITY-CONFORMANCE.md\`. Validated with \`klar contrast\` 2.x;
+re-measure with \`npm run audit:contrast\`.
         `,
       },
     },

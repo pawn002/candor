@@ -20,6 +20,9 @@ legend as the group label for each individual checkbox.
 
 Form-associated (\`ElementInternals\`): the value appears in \`FormData\` when wrapped in a
 \`<form>\`, validation works, and \`:disabled\` styling applies natively.
+
+**Events.** \`change\` fires on toggle, carrying the new checked state as a \`boolean\` in
+\`detail\`. There is no live \`input\` event — a checkbox has no mid-edit phase.
         `.trim(),
       },
     },

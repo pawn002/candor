@@ -22,7 +22,11 @@ remains visible when an error is shown, giving the user the context they need to
 their input.
 
 Form-associated (\`ElementInternals\`): the value appears in \`FormData\` keyed by \`name\`.
-Emits an \`input-change\` CustomEvent on each keystroke.
+
+**Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
+live value on every keystroke; \`change\` fires the committed value on blur and on Enter. Both
+carry the value as a plain \`string\` in \`detail\`. The legacy \`input-change\` is still emitted
+with the same live semantics as \`input\` — deprecated, removed in the next major (#201).
 
 **Styling hooks.** Override density without forking via custom properties —
 \`--candor-input-{padding-x,padding-y,font-size,radius}\`, each defaulting to its token.
@@ -116,7 +120,7 @@ export const OnSurface: Story = {
         story: 'Side-by-side comparison of input borders on page background vs surface background. ' +
           'The surface container overrides `--color-border-control` to `var(--color-border-control-on-surface)`, ' +
           'which all child form controls inherit automatically. ' +
-          'Without the override, border-control (gray-500) achieves only OKCA 2.5 on bg-surface — ' +
+          'Without the override, border-control (gray-500) achieves only OKCA 2.9 on bg-surface — ' +
           'below the 3.0 non-text contrast threshold.',
       },
     },

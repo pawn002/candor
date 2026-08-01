@@ -25,6 +25,9 @@ hears "Yes" with no frame of reference for what the question was.
 
 Form-associated (\`ElementInternals\`): the selected value appears in \`FormData\` keyed by
 \`name\` when wrapped in a \`<form>\`.
+
+**Events.** \`change\` fires on the newly selected radio, carrying its \`value\` as a
+\`string\` in \`detail\`. There is no live \`input\` event — a radio has no mid-edit phase.
         `.trim(),
       },
     },

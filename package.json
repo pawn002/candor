@@ -29,7 +29,8 @@
     "release:minor": "npm version minor && git push origin main --follow-tags",
     "release:major": "npm version major && git push origin main --follow-tags",
     "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
-    "audit:tokens": "node scripts/export-tokens-dtcg.js"
+    "audit:tokens": "node scripts/export-tokens-dtcg.js",
+    "audit:contrast": "node scripts/check-contrast.js"
   },
   "repository": {
     "type": "git",
