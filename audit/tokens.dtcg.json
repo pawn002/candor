@@ -457,12 +457,12 @@
         },
         "destructive-text": {
           "$type": "color",
-          "$value": "oklch(0.74 0.15 347)",
-          "$description": "OKCA 4.4 on bg-page ❌ — Tier 2 bold threshold is 4.5; was recorded 4.6 under klar 1.x and now misses by 0.1. Tracked in #209 (colour change, not a re-baseline)"
+          "$value": "oklch(0.75 0.15 347)",
+          "$description": "OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). In gamut, so specified and painted agree. Still OKCA 3.9 on bg-surface ❌ — see #224"
         },
         "destructive-border": {
           "$type": "color",
-          "$value": "oklch(0.74 0.15 347)",
+          "$value": "oklch(0.75 0.15 347)",
           "$description": "matches text"
         },
         "tertiary": {

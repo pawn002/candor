@@ -89,8 +89,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Destructive', variable: '--color-action-destructive', description: 'Button fill — transparent (outlined variant)', light: 'transparent', dark: 'transparent' },
       { name: 'Destructive Hover', variable: '--color-action-destructive-hover', description: 'Subtle crimson tint on hover', light: 'oklch(0.37 0.15 347 / 0.08)', dark: 'oklch(0.72 0.15 347 / 0.12)' },
       { name: 'Destructive Active', variable: '--color-action-destructive-active', description: 'Stronger crimson tint on press', light: 'oklch(0.37 0.15 347 / 0.15)', dark: 'oklch(0.72 0.15 347 / 0.22)' },
-      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label — OKCA 8.8 on white', light: 'oklch(0.37 0.15 347)', dark: 'oklch(0.74 0.15 347)' },
-      { name: 'Destructive Border', variable: '--color-action-destructive-border', description: 'Outline — matches destructive text', light: 'oklch(0.37 0.15 347)', dark: 'oklch(0.74 0.15 347)' },
+      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label — OKCA 9.3 on white', light: 'oklch(0.37 0.15 347)', dark: 'oklch(0.75 0.15 347)' },
+      { name: 'Destructive Border', variable: '--color-action-destructive-border', description: 'Outline — matches destructive text', light: 'oklch(0.37 0.15 347)', dark: 'oklch(0.75 0.15 347)' },
     ],
   },
   {
