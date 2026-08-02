@@ -35,10 +35,14 @@
  * script deliberately does NOT pass --allow-out-of-gamut: klar exits 1 on such
  * input, and that failure is surfaced rather than suppressed.
  *
- * --gamut-map is therefore a formality here. It is pinned only because klar
- * requires a mapping to be named for OKCA and defaults to one implicitly;
- * with the invariant holding, `clip` and `css` return identical values on all
- * 216 measurements, so the choice cannot affect a result.
+ * --gamut-map is pinned for reproducibility, not policy. klar honours a
+ * KLAR_GAMUT_MAP environment variable that changes the mapping process-wide,
+ * so an unpinned command would give different figures on a machine that has
+ * it set; an explicit flag overrides the variable, which is what keeps this
+ * audit environment-independent. (The variable does not waive the exit-1
+ * failure, so it cannot be used to sneak an out-of-gamut colour through.)
+ * Which value is pinned cannot matter for Candor colours: with the invariant
+ * holding, `clip` and `css` return identical values on all 216 measurements.
  */
 
 'use strict';
