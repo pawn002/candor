@@ -103,9 +103,30 @@ function assertKlar3() {
   if (!/^3\./.test(v)) {
     console.error(
       `✗  klar ${v} found, but every figure in this repo assumes 3.x.\n` +
-        '   2.x scored through an 8-bit hex round-trip, so its figures are off by up to\n' +
-        '   0.1 — and it silently substituted a different colour for out-of-gamut input\n' +
-        '   instead of refusing, which is how #222 stayed hidden.'
+        '\n' +
+        '   This guard is deliberately a hard stop rather than a warning, because it is\n' +
+        '   the only thing in the repo that forces klar\'s docs to be re-read. A linked\n' +
+        '   reference gets skipped; a failing build does not.\n' +
+        '\n' +
+        '   BEFORE widening this check, read BOTH:\n' +
+        '     https://github.com/pawn002/klar/blob/main/README.md          (command reference)\n' +
+        '     https://github.com/pawn002/klar/blob/main/AGENT_PLAYBOOK.md  (worked examples)\n' +
+        '   and verify the claims against the installed CLI — on the 2.x→3.x bump the\n' +
+        '   release notes and the issue-resolution comment disagreed about the shipped\n' +
+        '   default, and only testing the binary settled it.\n' +
+        '\n' +
+        '   Then check each of these, which is what actually changed last time:\n' +
+        '     1. Did the default algorithm recalibrate? (2.0.0 moved OKCA +0.4 in the 3-7\n' +
+        '        band.) If so EVERY recorded figure is stale, not just the failing ones.\n' +
+        '     2. Did scoring precision change? (3.0.0 went full-precision; 102 of 216\n' +
+        '        pairings moved by 0.1.)\n' +
+        '     3. Do flags this script relies on still mean the same thing? It pins\n' +
+        '        --gamut-map (KLAR_GAMUT_MAP can otherwise change results per-machine)\n' +
+        '        and deliberately omits --allow-out-of-gamut so exit 1 stays fatal.\n' +
+        '     4. Did the exit-code contract change? 0/1/2 is load-bearing here.\n' +
+        '\n' +
+        '   Re-baseline with `npm run audit:contrast` and update CLAUDE.md -> Integration\n' +
+        '   Points in the same commit. Do not widen the range and move on.'
     );
     process.exit(2);
   }

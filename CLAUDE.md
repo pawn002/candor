@@ -142,6 +142,10 @@ Two machine-readable files in `audit/` serve as the canonical inputs for contras
 
 The two audits split by what they own: **`audit:tokens` owns gamut, `audit:contrast` owns contrast.** Gamut is a property of a token, so it is gated at export where every declaration is visible; contrast is a property of a pairing, so it is checked against `pairings.json`, which only ever contains colours someone remembered to add. Run `audit:tokens` first — it is the precondition that makes `audit:contrast`'s numbers mean anything.
 
+**`audit:tokens` runs in CI** (the `gamut` job), so the sRGB invariant is enforced on every PR rather than depending on someone remembering. That job also re-exports the artifact and fails if it differs from the committed one, catching a token change that was never re-exported. `audit:contrast` is not in CI yet for the reason above.
+
+**What is and is not guaranteed.** Only executable gates guarantee anything; prose and linked references do not. Currently gated: sRGB gamut (CI), stale figures in `semantics.scss` comments, pairings below their floor, and klar's major version — that last one is a deliberate hard stop, since it is the only mechanism that forces klar's docs to be re-read on an upgrade. **Not** gated, and therefore only as reliable as the reader: OKCA figures in `primitives.scss` comments (primitives are absent from the DTCG artifact, so nothing checks them), figures written into story prose (#223), and every judgment-level rule in this file. Treat an ungated convention as a convention.
+
 Recorded figures are re-baselined to klar 3.0. Any figure you add must be measured with klar 3.x — prefer `npm run audit:contrast` over a bare `klar contrast`, since it measures exactly as the audit does. A number carried over from an older tool or an older note will be wrong twice over: 2.0.0 recalibrated OKCA (+0.4 in the 3–7 band), and 3.0.0 both scored at full precision (±0.1) and stopped silently substituting a different colour for out-of-gamut input.
 
 **`audit/tokens.dtcg.json`** — auto-generated, do not edit by hand.

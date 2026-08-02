@@ -197,7 +197,11 @@ function checkGamut(sources) {
   try {
     const v = execSync('klar --version', { encoding: 'utf8' }).trim();
     if (!/^3\./.test(v)) {
-      console.error(`✗  klar ${v} found — the gamut gate needs 3.x (see CLAUDE.md → Integration Points).`);
+      console.error(
+        `✗  klar ${v} found — the gamut gate needs 3.x.\n` +
+          '   Run `npm run audit:contrast`: its version guard carries the full checklist\n' +
+          '   for what to verify in klar\'s docs before widening either range.'
+      );
       process.exit(2);
     }
   } catch {

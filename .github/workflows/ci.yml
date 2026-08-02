@@ -20,6 +20,33 @@ jobs:
       - run: npm ci
       - run: npm run build:tokens
 
+  # The sRGB gamut invariant (#225). Runs on every PR so the guarantee is a
+  # gate rather than a convention someone has to remember to run — the audit
+  # is only as good as the odds it gets invoked.
+  #
+  # This is audit:tokens only, NOT audit:contrast: the latter still exits
+  # non-zero on the two #208 pairings, so wiring it now would mean a job
+  # that is red for a known reason, which trains people to ignore it. Add it
+  # here the moment #208 lands.
+  gamut:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npm ci
+      # Pinned to the major the repo's version guards require. A klar 4
+      # release must not reach CI silently — see the checklist in
+      # scripts/check-contrast.js.
+      - run: npm i -g klar-cli@3
+      - run: npm run audit:tokens
+      # audit:tokens regenerates the DTCG artifact. If that produces a diff,
+      # the committed artifact was stale — someone changed a token and did not
+      # re-export, so every downstream figure was measured against the old set.
+      - name: audit/tokens.dtcg.json is up to date
+        run: git diff --exit-code -- audit/tokens.dtcg.json
+
   build-web-components:
     runs-on: ubuntu-latest
     strategy:
