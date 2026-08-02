@@ -42,7 +42,7 @@ npx playwright show-report # View test results
 ### Building
 ```bash
 npm run audit:tokens       # Re-export audit/tokens.dtcg.json from the SCSS
-npm run audit:contrast     # Re-measure every pairing + every recorded OKCA figure (needs klar 2.x)
+npm run audit:contrast     # Re-measure every pairing + every recorded OKCA figure (needs klar 3.x)
 npm run build:tokens       # Build @candor-design/tokens → tokens/
 npm run build:wc           # Build @candor-design/web-components → web-components/dist/
 npm run build-storybook    # Build static Storybook
@@ -121,7 +121,7 @@ The component library is the Lit 3 web components in `src/web-components/compone
 
 Two machine-readable files in `audit/` serve as the canonical inputs for contrast audits. Keep them current as tokens and components evolve. `npm run audit:contrast` (`scripts/check-contrast.js`) is what reads them — it re-measures every pairing against its `min` and every OKCA figure recorded in a token comment against the token's current value, and prints `UNCHECKED` for anything it can't interpret rather than passing it silently. It exits non-zero on any enforced failure, so it currently fails on the two known exceptions tracked in #208 and #209; it is deliberately **not** wired into CI until those land.
 
-Recorded figures are re-baselined to klar 2.0 as of #211. Any figure you add must be measured with klar 2.x — the 2.0.0 recalibration moved scores in the 3–7 band by roughly +0.4, so a number carried over from an older tool or an older note will be wrong.
+Recorded figures are re-baselined to klar 3.0. Any figure you add must be measured with klar 3.x, **and with `--gamut-map clip`** — `npm run audit:contrast` does this for you, so prefer it over a bare `klar contrast` when adding a figure. A number carried over from an older tool or an older note will be wrong twice over: 2.0.0 recalibrated OKCA (+0.4 in the 3–7 band), and 3.0.0 both scored at full precision (±0.1) and stopped silently gamut-mapping.
 
 **`audit/tokens.dtcg.json`** — auto-generated, do not edit by hand.
 - Produced by `npm run audit:tokens` (runs `scripts/export-tokens-dtcg.js`).
@@ -140,14 +140,15 @@ Recorded figures are re-baselined to klar 2.0 as of #211. Any figure you add mus
 
 ### Integration Points
 
-**klar CLI** — requires **2.x** (`klar --version`). klar 2.0.0 recalibrated OKCA; every contrast figure recorded in this repo assumes it. On 1.x the numbers in `audit/` and the tier tables are wrong.
+**klar CLI** — requires **3.x** (`klar --version`). Every contrast figure recorded in this repo assumes it. On 2.x the numbers in `audit/` and the tier tables are wrong: 2.x scored through an 8-bit hex round-trip *and* silently applied CSS Color 4 gamut mapping, so for any out-of-gamut color it reported a value that was neither the authored color nor the painted one.
 All klar commands accept both `<hex>` and `oklch(L C H)` CSS color strings as inputs — pass OKLCH values directly without converting to hex first.
 
 ```bash
 klar meta <color>                                    # Inspect a color: OKLCH axes, saturation, gamut
-klar contrast <fg> <bg> -q                           # Check contrast ratio (OKCA, WCAG-compatible)
+klar contrast <fg> <bg> --gamut-map clip -q          # Check contrast ratio (OKCA, WCAG-compatible)
 klar contrast <fg> <bg> --type deltaE -q             # Perceptual drift between two colors
 klar contrast <fg> <bg> --type wcag2 -q              # WCAG 2.x ratio (cross-check against the legacy algorithm)
+klar contrast <c> "#000" --allow-out-of-gamut --json # Is this color renderable in sRGB? → .gamut.outOfGamut
 klar find <bg> <color> --target 4.5 -q               # Lightness-adjusted compliant color (exit 1 = unachievable; still prints closest)
 klar variants <color>                                # Generate a perceptually-spaced tonal grid
 klar match <color1> <color2>                         # Match chroma of two colors for palette harmony
@@ -162,6 +163,9 @@ klar plugins list                                    # List installed contrast a
 - **deltaE is the art director's metric** — answers "did it change much?"; < 3 imperceptible, 5–10 acceptable drift, 11+ clearly different
 - **Built-in `--type` values**: `okca` (default), `wcag2`, `deltaE`. Any other `--type` comes from a plugin installed in the environment — plugins are independent of klar-cli and not guaranteed present. Run `klar plugins list` to see what's registered.
 - **Gate `find`/`match` captures on the exit code** — grep-style contract: `0` success, `1` soft failure (`find` target unachievable / `match` infeasible — the closest value is *still printed to stdout*), `2` usage error. An unchecked `ADJUSTED=$(klar find …)` silently assigns a non-compliant color on exit `1`. Use `if ADJUSTED=$(klar find <bg> <color> --target 4.5 -q); then …; else handle_no_compliant_color; fi`
+- **`contrast` exits 1 on out-of-gamut input**, printing the value anyway. Same gating discipline applies, and note `execSync` in Node *throws* — the value is stranded in `err.stdout`. Pass `--allow-out-of-gamut` when you have already decided to accept it.
+- **Pass `--gamut-map clip` when measuring a Candor token.** klar defaults to `css` (CSS Color 4 chroma reduction); `clip` is the per-channel clamp browsers actually perform, and it is never the optimistic one. This only matters for colors outside sRGB, which Candor tokens must not be (#225) — so treat a figure that changes between the two as a gamut bug, not a measurement choice.
+- **Never use culori for gamut work** despite it being a dependency: `clampChroma`/`toGamut` implement spec chroma-reduction and matched rendered output on only 4 of 11 sampled colors.
 
 See the klar [README](https://github.com/pawn002/klar/blob/main/README.md) for the full [command reference](https://github.com/pawn002/klar/blob/main/README.md#command-reference) and [exit-code contract](https://github.com/pawn002/klar/blob/main/README.md#exit-codes). [`AGENT_PLAYBOOK.md`](https://github.com/pawn002/klar/blob/main/AGENT_PLAYBOOK.md) in the same repo has worked examples of the palette-building and audit workflows.
 
