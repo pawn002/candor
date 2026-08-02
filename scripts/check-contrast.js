@@ -22,14 +22,23 @@
  * Usage: node scripts/check-contrast.js [--verbose]
  * Requires klar 3.x on PATH.
  *
- * GAMUT: measurements pass --gamut-map clip, which resolves an out-of-gamut
- * OKLCH value the way browsers actually paint it (per-channel clamp) rather
- * than the CSS Color 4 chroma reduction klar defaults to. The two disagree
- * only for colours outside sRGB, and clip is never the optimistic one — it was
- * the lower value on 22 of 22 divergences — so it is the safe floor whichever
- * mapping an engine implements. Once #225 lands, no token should be out of
- * gamut at all and this flag becomes a backstop that never fires; it stays
- * because it is what makes the audit fail loudly if one ever drifts back out.
+ * GAMUT: this script measures the colour Candor specifies, full stop. It does
+ * not model, predict, or track what any engine does with a colour outside
+ * sRGB — that would be an arms race, and Candor does not enter it. Instead
+ * every authored value is inside sRGB by invariant (#225, gated by
+ * `npm run audit:tokens`), so there is nothing for an engine to resolve and
+ * the specified colour and the delivered colour are the same colour.
+ *
+ * That is also what makes these numbers *defined*. OKCA is established across
+ * the sRGB gamut; a colour outside it is outside the algorithm's domain, so a
+ * score for one is not a permissive figure, it is a meaningless one. So this
+ * script deliberately does NOT pass --allow-out-of-gamut: klar exits 1 on such
+ * input, and that failure is surfaced rather than suppressed.
+ *
+ * --gamut-map is therefore a formality here. It is pinned only because klar
+ * requires a mapping to be named for OKCA and defaults to one implicitly;
+ * with the invariant holding, `clip` and `css` return identical values on all
+ * 216 measurements, so the choice cannot affect a result.
  */
 
 'use strict';
@@ -49,16 +58,31 @@ const pairings = JSON.parse(fs.readFileSync(path.join(ROOT, 'audit/pairings.json
 /**
  * OKCA is polarity-aware: contrast(fg, bg) !== contrast(bg, fg). Order matters.
  *
- * --allow-out-of-gamut keeps klar on exit 0 for colours outside sRGB. Without
- * it klar exits 1 and execSync *throws*, so an out-of-gamut token would abort
- * the run rather than report a number — losing every result after it. Gamut is
- * enforced at the token layer instead (#225), where it belongs: it is a
- * property of a token, not of a pairing, and this script only ever sees
- * colours someone remembered to add to pairings.json.
+ * An out-of-gamut input is treated as a broken audit, not a measurement. klar
+ * exits 1 for one (execSync throws), and we let that stop the run with a
+ * pointer to the gate rather than reporting a number: OKCA is defined across
+ * the sRGB gamut, so a score for a colour outside it is undefined rather than
+ * merely optimistic, and continuing would put a meaningless figure in a report
+ * whose whole job is to be trustworthy.
+ *
+ * This should be unreachable — `npm run audit:tokens` fails long before a
+ * value gets here — but the two checks are independent on purpose, and this
+ * one refuses to paper over the other one having been skipped.
  */
 function okca(fg, bg) {
-  const cmd = `klar contrast "${fg}" "${bg}" --gamut-map clip --allow-out-of-gamut -q`;
-  const out = execSync(cmd, { encoding: 'utf8' }).trim();
+  const cmd = `klar contrast "${fg}" "${bg}" --gamut-map clip -q`;
+  let out;
+  try {
+    out = execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  } catch (err) {
+    console.error(
+      `\n✗  klar could not measure ${fg} on ${bg}.\n` +
+        `   If either colour is outside sRGB, that is the defect — OKCA is not\n` +
+        `   defined there. Run 'npm run audit:tokens' for the offending declaration.\n` +
+        `   klar said: ${String(err.stderr || '').trim() || `exit ${err.status}`}`
+    );
+    process.exit(2);
+  }
   const n = Number(out);
   if (!Number.isFinite(n)) throw new Error(`klar returned "${out}" for ${fg} on ${bg}`);
   return n;
@@ -75,8 +99,9 @@ function assertKlar3() {
   if (!/^3\./.test(v)) {
     console.error(
       `✗  klar ${v} found, but every figure in this repo assumes 3.x.\n` +
-        '   2.x scored through an 8-bit hex round-trip and silently applied CSS Color 4\n' +
-        '   gamut mapping, so it reported a colour that was neither authored nor painted.'
+        '   2.x scored through an 8-bit hex round-trip, so its figures are off by up to\n' +
+        '   0.1 — and it silently substituted a different colour for out-of-gamut input\n' +
+        '   instead of refusing, which is how #222 stayed hidden.'
     );
     process.exit(2);
   }

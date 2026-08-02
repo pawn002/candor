@@ -7,13 +7,19 @@
  *
  * Also enforces the sRGB gamut invariant (#225): every authored colour must be
  * renderable in sRGB. An out-of-gamut OKLCH value is not a specification — it
- * is a request the engine resolves however it likes (Chrome clips per channel,
- * the CSS Color 4 spec reduces chroma), so the value in the SCSS appears on no
- * screen anywhere and every contrast figure recorded against it describes a
- * colour nobody has seen. The gate lives here rather than in check-contrast.js
- * because gamut is a property of a *token*, not of a pairing: this script sees
- * every declaration, while the contrast audit only ever sees colours someone
- * remembered to add to pairings.json.
+ * delegates the final colour to whatever consumes it, so the token stops being
+ * one colour, and every contrast figure recorded against it is undefined
+ * rather than merely optimistic (OKCA is established across the sRGB gamut).
+ *
+ * Candor does not model or track how such values get resolved downstream —
+ * that is an arms race this project does not enter. The invariant makes the
+ * question moot: keep every value inside the gamut and there is nothing left
+ * for anyone to resolve.
+ *
+ * The gate lives here rather than in check-contrast.js because gamut is a
+ * property of a *token*, not of a pairing: this script sees every declaration,
+ * while the contrast audit only ever sees colours someone remembered to add to
+ * pairings.json.
  *
  * Usage: node scripts/export-tokens-dtcg.js [--skip-gamut]
  * The gamut gate runs by default and needs klar 3.x on PATH; --skip-gamut
@@ -124,8 +130,9 @@ function setPath(obj, pathArr, value) {
  * verdict from the JSON instead of the exit code.
  *
  * Do NOT reach for culori's clampChroma/toGamut here despite culori being a
- * dependency: they implement the CSS Color 4 chroma reduction, which matched
- * what browsers actually paint on only 4 of 11 sampled colours.
+ * dependency. They answer "what should this colour be replaced with", which is
+ * a question Candor deliberately has no opinion on; the only question here is
+ * the boolean "is this value renderable at all".
  */
 function isInGamut(color) {
   const out = execSync(
@@ -221,8 +228,9 @@ function checkGamut(sources) {
 
   console.error(`\n✗  ${violations.length} of ${checked} authored colours fall outside sRGB.`);
   console.error(
-    '   An out-of-gamut OKLCH value is not a specification — the browser picks a\n' +
-    '   different colour and every contrast figure recorded against it is fiction.\n' +
+    '   An out-of-gamut OKLCH value is not a specification — it delegates the\n' +
+    '   colour to whatever consumes it, and OKCA is not defined there, so every\n' +
+    '   contrast figure recorded against it is undefined too.\n' +
     '   Hold the authored L and H and pull chroma to the boundary (#225):\n'
   );
   for (const v of violations) {

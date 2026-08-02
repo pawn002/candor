@@ -221,7 +221,7 @@
         "error-text": {
           "$type": "color",
           "$value": "oklch(0.45 0.18 25)",
-          "$description": "OKCA 5.4 on error-bg ✅ — C=0.22 was outside sRGB and painted #b00000, so the recorded 4.6 described a colour the file did not specify; re-authored to the sRGB boundary at the same L and H (#225)"
+          "$description": "OKCA 5.4 on error-bg ✅ — C=0.22 exceeded what sRGB holds at this L and H, so the token specified no single colour and its recorded 4.6 was undefined; re-authored to the boundary, same L and H (#225)"
         },
         "success": {
           "$type": "color",
@@ -255,7 +255,7 @@
         "warning-text": {
           "$type": "color",
           "$value": "oklch(0.40 0.10 53.54)",
-          "$description": "OKCA 6.9 on warning-bg ✅ — C=0.16 was outside sRGB and painted #841f00, a dark red at hue 35 rather than the authored amber at 53.54 (deltaE 11, the worst clip in the system); re-authored to the sRGB boundary (#225)"
+          "$description": "OKCA 6.9 on warning-bg ✅ — C=0.16 was the furthest outside sRGB of any Candor colour (deltaE 11 from the nearest in-gamut form, and off-hue with it — amber becoming dark red); re-authored to the boundary, same L and H (#225)"
         }
       },
       "blockquote": {
@@ -458,7 +458,7 @@
         "destructive-text": {
           "$type": "color",
           "$value": "oklch(0.75 0.15 347)",
-          "$description": "OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). In gamut, so specified and painted agree. Still OKCA 3.9 on bg-surface ❌ — see #224"
+          "$description": "OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). Still OKCA 3.9 on bg-surface ❌ — see #224"
         },
         "destructive-border": {
           "$type": "color",
@@ -522,7 +522,7 @@
         "error-text": {
           "$type": "color",
           "$value": "oklch(0.79 0.12 25)",
-          "$description": "OKCA 6.0 on error-bg ✅ — C=0.22 was far outside sRGB and painted #ff746f (red pinned at 255), which was OKCA 3.4 — failing the 4.5 badge floor invisibly (#222). Re-authored to the sRGB boundary at the same L and H (#225). L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value, kept because it still holds against the renderable one"
+          "$description": "OKCA 6.0 on error-bg ✅ — C=0.22 was far outside sRGB, so the token named no single colour and every figure recorded for it was undefined; its nearest in-gamut form was OKCA 3.4, which is how five failures sat inside a passing audit (#222). Re-authored to the boundary, same L and H (#225). L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value, kept because it still holds for the renderable one"
         },
         "success": {
           "$type": "color",
@@ -558,7 +558,7 @@
         "warning-text": {
           "$type": "color",
           "$value": "oklch(0.82 0.11 53.54)",
-          "$description": "OKCA 6.8 on warning-bg ✅ — C=0.16 was outside sRGB and painted #ffa456; re-authored to the sRGB boundary at the same L and H (#225)"
+          "$description": "OKCA 6.8 on warning-bg ✅ — C=0.16 exceeded what sRGB holds at this L and H; re-authored to the boundary, same L and H (#225)"
         }
       },
       "blockquote": {

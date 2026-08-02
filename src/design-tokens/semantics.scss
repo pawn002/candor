@@ -90,13 +90,13 @@
     // For text on light status-bg, use --color-status-*-text (contrast-validated below).
     --color-status-error:         oklch(0.54 0.21 25);    // icon/border use — OKCA 3.6 on error-bg ✅ (WCAG 1.4.11)
     --color-status-error-bg:      oklch(0.95 0.02 25);
-    --color-status-error-text:    oklch(0.45 0.18 25);    // OKCA 5.4 on error-bg ✅ — C=0.22 was outside sRGB and painted #b00000, so the recorded 4.6 described a colour the file did not specify; re-authored to the sRGB boundary at the same L and H (#225)
+    --color-status-error-text:    oklch(0.45 0.18 25);    // OKCA 5.4 on error-bg ✅ — C=0.22 exceeded what sRGB holds at this L and H, so the token specified no single colour and its recorded 4.6 was undefined; re-authored to the boundary, same L and H (#225)
     --color-status-success:       oklch(0.55 0.15 144.2); // icon/border use — OKCA 3.4 on success-bg ✅ (WCAG 1.4.11)
     --color-status-success-bg:    oklch(0.95 0.05 145);
     --color-status-success-text:  oklch(0.46 0.14 144.2); // OKCA 5.1 on success-bg ✅ — L=0.50 was OKCA 4.2; stepped to L=0.46 (#14)
     --color-status-warning:       oklch(0.54 0.13 53.54); // icon/border use — OKCA 3.6 on warning-bg ✅ (WCAG 1.4.11)
     --color-status-warning-bg:    oklch(0.95 0.02 53);
-    --color-status-warning-text:  oklch(0.40 0.10 53.54); // OKCA 6.9 on warning-bg ✅ — C=0.16 was outside sRGB and painted #841f00, a dark red at hue 35 rather than the authored amber at 53.54 (deltaE 11, the worst clip in the system); re-authored to the sRGB boundary (#225)
+    --color-status-warning-text:  oklch(0.40 0.10 53.54); // OKCA 6.9 on warning-bg ✅ — C=0.16 was the furthest outside sRGB of any Candor colour (deltaE 11 from the nearest in-gamut form, and off-hue with it — amber becoming dark red); re-authored to the boundary, same L and H (#225)
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────
     --color-blockquote-bg:     var(--color-bg-surface);
@@ -273,7 +273,7 @@
     --color-action-destructive:        transparent;
     --color-action-destructive-hover:  oklch(0.72 0.15 347 / 0.12); // subtle rose tint on hover
     --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22); // stronger tint on active
-    --color-action-destructive-text:   oklch(0.75 0.15 347);         // OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). In gamut, so specified and painted agree. Still OKCA 3.9 on bg-surface ❌ — see #224
+    --color-action-destructive-text:   oklch(0.75 0.15 347);         // OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). Still OKCA 3.9 on bg-surface ❌ — see #224
     --color-action-destructive-border: oklch(0.75 0.15 347);         // matches text
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
@@ -306,13 +306,13 @@
     // competing with vivid borders and creating a "glowing" effect.
     --color-status-error:         oklch(0.68 0.11 25);     // icon/border use — not required to pass text contrast
     --color-status-error-bg:      oklch(0.23 0.02 18);     // near-neutral dark — barely rosy tint
-    --color-status-error-text:    oklch(0.79 0.12 25);     // OKCA 6.0 on error-bg ✅ — C=0.22 was far outside sRGB and painted #ff746f (red pinned at 255), which was OKCA 3.4 — failing the 4.5 badge floor invisibly (#222). Re-authored to the sRGB boundary at the same L and H (#225). L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value, kept because it still holds against the renderable one
+    --color-status-error-text:    oklch(0.79 0.12 25);     // OKCA 6.0 on error-bg ✅ — C=0.22 was far outside sRGB, so the token named no single colour and every figure recorded for it was undefined; its nearest in-gamut form was OKCA 3.4, which is how five failures sat inside a passing audit (#222). Re-authored to the boundary, same L and H (#225). L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value, kept because it still holds for the renderable one
     --color-status-success:       oklch(0.70 0.08 144.2);  // icon/border use — not required to pass text contrast
     --color-status-success-bg:    oklch(0.23 0.02 144);    // near-neutral dark — barely green tint
     --color-status-success-text:  oklch(0.80 0.15 144.2);  // OKCA 5.4 on success-bg ✅
     --color-status-warning:       oklch(0.72 0.09 53.54);  // icon/border use — not required to pass text contrast
     --color-status-warning-bg:    oklch(0.25 0.02 68);     // near-neutral dark — barely warm tint
-    --color-status-warning-text:  oklch(0.82 0.11 53.54);  // OKCA 6.8 on warning-bg ✅ — C=0.16 was outside sRGB and painted #ffa456; re-authored to the sRGB boundary at the same L and H (#225)
+    --color-status-warning-text:  oklch(0.82 0.11 53.54);  // OKCA 6.8 on warning-bg ✅ — C=0.16 exceeded what sRGB holds at this L and H; re-authored to the boundary, same L and H (#225)
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
     // Deep navy tint — hue-distinct from gray-900 page but not light-inverted.
