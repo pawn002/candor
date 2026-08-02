@@ -34,7 +34,7 @@
         "default": {
           "$type": "color",
           "$value": "oklch(0.32 0 0)",
-          "$description": "OKCA 11.4 on page ✅"
+          "$description": "OKCA 11.5 on page ✅"
         },
         "subtle": {
           "$type": "color",
@@ -119,7 +119,7 @@
         "primary": {
           "$type": "color",
           "$value": "oklch(0.27 0.06 245.34)",
-          "$description": "OKCA 13.8 on white ✅"
+          "$description": "OKCA 13.9 on white ✅"
         },
         "primary-hover": {
           "$type": "color",
@@ -221,7 +221,7 @@
         "error-text": {
           "$type": "color",
           "$value": "oklch(0.45 0.22 25)",
-          "$description": "OKCA 4.9 on error-bg ✅"
+          "$description": "OKCA 4.6 on error-bg ✅ — outside sRGB; paints #b00000. Margin over the 4.5 floor is 0.1. Re-authored in gamut by #225"
         },
         "success": {
           "$type": "color",
@@ -277,7 +277,7 @@
         "bg": {
           "$type": "color",
           "$value": "oklch(0.97 0.02 278.14)",
-          "$description": "light indigo wash — text-default OKCA 10.3 on this bg ✅"
+          "$description": "light indigo wash — text-default OKCA 10.4 on this bg ✅"
         }
       },
       "highlight-decorative": {
@@ -328,12 +328,12 @@
         "default": {
           "$type": "color",
           "$value": "oklch(0.88 0.01 248)",
-          "$description": "OKCA 12.8 on bg-page ✅ — off-white with cool undertone; white OKCA 19.1 on bg-page is harsh"
+          "$description": "OKCA 12.9 on bg-page ✅ — off-white with cool undertone; white OKCA 19.2 on bg-page is harsh"
         },
         "subtle": {
           "$type": "color",
           "$value": "oklch(0.71 0 0)",
-          "$description": "OKCA 6.7 on bg-page ✅"
+          "$description": "OKCA 6.8 on bg-page ✅"
         },
         "subtle-on-surface": {
           "$type": "color",
@@ -421,7 +421,7 @@
         "primary-hover": {
           "$type": "color",
           "$value": "oklch(0.87 0.08 245)",
-          "$description": "OKCA 11.6 on bg-page ✅"
+          "$description": "OKCA 11.5 on bg-page ✅"
         },
         "primary-active": {
           "$type": "color",
@@ -457,12 +457,12 @@
         },
         "destructive-text": {
           "$type": "color",
-          "$value": "oklch(0.74 0.15 347)",
-          "$description": "OKCA 4.4 on bg-page ❌ — Tier 2 bold threshold is 4.5; was recorded 4.6 under klar 1.x and now misses by 0.1. Tracked in #209 (colour change, not a re-baseline)"
+          "$value": "oklch(0.75 0.15 347)",
+          "$description": "OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). In gamut, so specified and painted agree. Still OKCA 3.9 on bg-surface ❌ — see #224"
         },
         "destructive-border": {
           "$type": "color",
-          "$value": "oklch(0.74 0.15 347)",
+          "$value": "oklch(0.75 0.15 347)",
           "$description": "matches text"
         },
         "tertiary": {
@@ -483,17 +483,17 @@
       "link": {
         "$type": "color",
         "$value": "oklch(0.77 0.15 250.80)",
-        "$description": "OKCA 5.7 on bg-page ✅"
+        "$description": "OKCA 5.6 on bg-page ✅"
       },
       "link-hover": {
         "$type": "color",
         "$value": "oklch(0.86 0.10 250.80)",
-        "$description": "OKCA 10.8 on bg-page ✅"
+        "$description": "OKCA 10.7 on bg-page ✅"
       },
       "link-visited": {
         "$type": "color",
         "$value": "oklch(0.77 0.15 278.14)",
-        "$description": "OKCA 6.0 on bg-page ✅"
+        "$description": "OKCA 5.8 on bg-page ✅"
       },
       "highlight": {
         "$type": "color",
@@ -503,7 +503,7 @@
       "focus": {
         "$type": "color",
         "$value": "oklch(0.77 0.15 250.80)",
-        "$description": "OKCA 5.7 on bg-page ✅"
+        "$description": "OKCA 5.6 on bg-page ✅"
       },
       "status": {
         "error": {
@@ -522,7 +522,7 @@
         "error-text": {
           "$type": "color",
           "$value": "oklch(0.79 0.22 25)",
-          "$description": "OKCA 5.2 on error-bg ✅ — L=0.77 was OKCA 4.2; stepped to L=0.79 (#14)"
+          "$description": "OKCA 3.4 on error-bg ❌ — far outside sRGB; paints #ff746f (red pinned at 255). The recorded 5.2 was measured on a colour no browser renders. Fails the 4.5 badge floor. L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value. Re-authored in gamut by #225; see #222"
         },
         "success": {
           "$type": "color",
@@ -540,7 +540,7 @@
         "success-text": {
           "$type": "color",
           "$value": "oklch(0.80 0.15 144.2)",
-          "$description": "OKCA 5.5 on success-bg ✅"
+          "$description": "OKCA 5.4 on success-bg ✅"
         },
         "warning": {
           "$type": "color",
@@ -558,7 +558,7 @@
         "warning-text": {
           "$type": "color",
           "$value": "oklch(0.82 0.16 53.54)",
-          "$description": "OKCA 5.8 on warning-bg ✅"
+          "$description": "OKCA 5.2 on warning-bg ✅ — outside sRGB; paints #ffa456. Re-authored in gamut by #225"
         }
       },
       "blockquote": {

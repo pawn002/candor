@@ -20,7 +20,16 @@
  * guard, because absence of failure reads as validation (#218).
  *
  * Usage: node scripts/check-contrast.js [--verbose]
- * Requires klar 2.x on PATH.
+ * Requires klar 3.x on PATH.
+ *
+ * GAMUT: measurements pass --gamut-map clip, which resolves an out-of-gamut
+ * OKLCH value the way browsers actually paint it (per-channel clamp) rather
+ * than the CSS Color 4 chroma reduction klar defaults to. The two disagree
+ * only for colours outside sRGB, and clip is never the optimistic one — it was
+ * the lower value on 22 of 22 divergences — so it is the safe floor whichever
+ * mapping an engine implements. Once #225 lands, no token should be out of
+ * gamut at all and this flag becomes a backstop that never fires; it stays
+ * because it is what makes the audit fail loudly if one ever drifts back out.
  */
 
 'use strict';
@@ -37,24 +46,38 @@ const pairings = JSON.parse(fs.readFileSync(path.join(ROOT, 'audit/pairings.json
 
 // ── klar ─────────────────────────────────────────────────────────────────────
 
-/** OKCA is polarity-aware: contrast(fg, bg) !== contrast(bg, fg). Order matters. */
+/**
+ * OKCA is polarity-aware: contrast(fg, bg) !== contrast(bg, fg). Order matters.
+ *
+ * --allow-out-of-gamut keeps klar on exit 0 for colours outside sRGB. Without
+ * it klar exits 1 and execSync *throws*, so an out-of-gamut token would abort
+ * the run rather than report a number — losing every result after it. Gamut is
+ * enforced at the token layer instead (#225), where it belongs: it is a
+ * property of a token, not of a pairing, and this script only ever sees
+ * colours someone remembered to add to pairings.json.
+ */
 function okca(fg, bg) {
-  const out = execSync(`klar contrast "${fg}" "${bg}" -q`, { encoding: 'utf8' }).trim();
+  const cmd = `klar contrast "${fg}" "${bg}" --gamut-map clip --allow-out-of-gamut -q`;
+  const out = execSync(cmd, { encoding: 'utf8' }).trim();
   const n = Number(out);
   if (!Number.isFinite(n)) throw new Error(`klar returned "${out}" for ${fg} on ${bg}`);
   return n;
 }
 
-function assertKlar2() {
+function assertKlar3() {
   let v;
   try {
     v = execSync('klar --version', { encoding: 'utf8' }).trim();
   } catch {
-    console.error('✗  klar is not on PATH. Install klar 2.x — see CLAUDE.md → Integration Points.');
+    console.error('✗  klar is not on PATH. Install klar 3.x — see CLAUDE.md → Integration Points.');
     process.exit(2);
   }
-  if (!/^2\./.test(v)) {
-    console.error(`✗  klar ${v} found, but every figure in this repo assumes 2.x (2.0.0 recalibrated OKCA).`);
+  if (!/^3\./.test(v)) {
+    console.error(
+      `✗  klar ${v} found, but every figure in this repo assumes 3.x.\n` +
+        '   2.x scored through an 8-bit hex round-trip and silently applied CSS Color 4\n' +
+        '   gamut mapping, so it reported a colour that was neither authored nor painted.'
+    );
     process.exit(2);
   }
 }
@@ -247,7 +270,7 @@ function checkRecordedFigures() {
 
 // ── main ─────────────────────────────────────────────────────────────────────
 
-assertKlar2();
+assertKlar3();
 
 console.log('Pairings (audit/pairings.json)');
 const P = checkPairings();

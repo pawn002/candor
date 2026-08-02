@@ -71,16 +71,25 @@ All interactive components are fully keyboard-operable:
 
 ### Contrast
 
-Color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components), with the two exceptions recorded below. Contrast is validated with the [klar CLI](https://github.com/pawn002/klar) 2.x against its OKCA and WCAG 2.x algorithms; OKLCH color space is used throughout to ensure perceptually accurate lightness calculations. Every pairing is enumerated in `audit/pairings.json` and re-measured by `npm run audit:contrast`.
+Color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components), with the exceptions recorded below. Contrast is validated with the [klar CLI](https://github.com/pawn002/klar) 3.x against its OKCA and WCAG 2.x algorithms; OKLCH color space is used throughout to ensure perceptually accurate lightness calculations. Every pairing is enumerated in `audit/pairings.json` and re-measured by `npm run audit:contrast`.
+
+Figures are measured on the color a browser **renders**, not the color the token specifies. These differ when a token falls outside the sRGB gamut, and the difference is always in the permissive direction. klar 2.x reported the mapped value silently; 3.x does not, which is what surfaced the additional exceptions below. Bringing every token inside sRGB — so that the specified and rendered colors are the same — is tracked in [#225](https://github.com/pawn002/candor/issues/225).
 
 Text at 14px and below is additionally validated against a three-tier use-case contrast system (see `docs/archive/CONTRAST-TIERS.md` for the original proposal and `CLAUDE.md` → "OKCA Contrast Thresholds" for the thresholds in force). Tier 1 (reading text) requires OKCA 9.5 regular / 6.5 bold; Tier 2 (functional UI) requires 6.5 / 4.5; Tier 3 (supplementary, meaning redundantly coded) requires 4.5 / 4.5. Across all 216 audited pairings, the OKCA score is at or below the WCAG 2.x figure for the same pair — so OKCA is the binding constraint and a pair that passes it also passes WCAG.
 
-**Known exceptions**, both surfaced by the klar 2.0 re-measurement and tracked for a fix:
+**Known exceptions**, all tracked for a fix. Eight of the 212 enforced pairing measurements currently fall below their floor:
 
 | Pairing | Measured | Required | Tracked |
 |---|---|---|---|
-| `candor-accessible-text` `role_="status"` in error color, 14px | OKCA 6.0 light / 6.1 dark | 9.5 (Tier 1) | [#208](https://github.com/pawn002/candor/issues/208) |
+| `candor-accessible-text` `role_="status"` in error color, 14px | OKCA 5.7 light / 4.0 dark | 9.5 (Tier 1) | [#208](https://github.com/pawn002/candor/issues/208) |
 | `candor-button` destructive variant, dark mode | OKCA 4.4 | 4.5 (Tier 2 bold) | [#209](https://github.com/pawn002/candor/issues/209) |
+| Form required asterisk, dark mode | OKCA 4.0 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
+| Form error message, dark mode | OKCA 4.0 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
+| `candor-accessible-text` `role_="label"` in error color, dark mode | OKCA 4.0 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
+| `candor-accessible-text` `role_="message"` in error color, dark mode | OKCA 4.0 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
+| `candor-badge` error variant, dark mode | OKCA 3.4 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
+
+The five #222 rows share a single cause — `--color-status-error-text` in dark mode is specified outside the sRGB gamut, so browsers render a less saturated color than the token names. They were previously recorded as passing because the measurement was taken on the specified color rather than the rendered one. All five are resolved by the token re-authoring in [#225](https://github.com/pawn002/candor/issues/225).
 
 ### Live regions
 

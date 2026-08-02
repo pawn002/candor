@@ -50,7 +50,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Subtle on Surface', variable: '--color-text-subtle-on-surface', description: 'Secondary text on bg-surface', light: 'oklch(0.44 0 0)', dark: 'oklch(0.71 0 0)' },
       { name: 'Disabled', variable: '--color-text-disabled', description: 'Disabled state — intentionally below AA', light: 'oklch(0.71 0 0)', dark: 'oklch(0.46 0 0)' },
       { name: 'Inverse', variable: '--color-text-inverse', description: 'Text on inverse surface — white in light mode, near-black in dark mode', light: 'oklch(1 0 0)', dark: 'oklch(0.24 0.03 248.99)' },
-      { name: 'Subtle on Inverse', variable: '--color-text-subtle-on-inverse', description: 'Muted text on inverse surface — OKCA 5.5 on bg-inverse', light: 'oklch(0.75 0.02 245)', dark: 'oklch(0.40 0 0)' },
+      { name: 'Subtle on Inverse', variable: '--color-text-subtle-on-inverse', description: 'Muted text on inverse surface — OKCA 6.0 on bg-inverse', light: 'oklch(0.75 0.02 245)', dark: 'oklch(0.40 0 0)' },
       { name: 'On Action', variable: '--color-text-on-action', description: 'Text on primary/secondary button fills', light: 'oklch(1 0 0)', dark: 'oklch(0.16 0.02 248.99)' },
       { name: 'Toast Message', variable: '--color-toast-message', description: 'Toast body text — text-default in light, text-subtle in dark', light: 'oklch(0.32 0 0)', dark: 'oklch(0.71 0 0)' },
     ],
@@ -89,8 +89,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Destructive', variable: '--color-action-destructive', description: 'Button fill — transparent (outlined variant)', light: 'transparent', dark: 'transparent' },
       { name: 'Destructive Hover', variable: '--color-action-destructive-hover', description: 'Subtle crimson tint on hover', light: 'oklch(0.37 0.15 347 / 0.08)', dark: 'oklch(0.72 0.15 347 / 0.12)' },
       { name: 'Destructive Active', variable: '--color-action-destructive-active', description: 'Stronger crimson tint on press', light: 'oklch(0.37 0.15 347 / 0.15)', dark: 'oklch(0.72 0.15 347 / 0.22)' },
-      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label — OKCA 8.8 on white', light: 'oklch(0.37 0.15 347)', dark: 'oklch(0.74 0.15 347)' },
-      { name: 'Destructive Border', variable: '--color-action-destructive-border', description: 'Outline — matches destructive text', light: 'oklch(0.37 0.15 347)', dark: 'oklch(0.74 0.15 347)' },
+      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label — OKCA 9.3 on white', light: 'oklch(0.37 0.15 347)', dark: 'oklch(0.75 0.15 347)' },
+      { name: 'Destructive Border', variable: '--color-action-destructive-border', description: 'Outline — matches destructive text', light: 'oklch(0.37 0.15 347)', dark: 'oklch(0.75 0.15 347)' },
     ],
   },
   {
@@ -279,7 +279,7 @@ internals.
 ## Brand palette
 Figures are OKCA on white — the algorithm Candor's thresholds are written against.
 
-- **Navy** \`#082840\` — primary action (OKCA 13.8)
+- **Navy** \`#082840\` — primary action (OKCA 14.0)
 - **Burgundy** \`#5F2B48\` — secondary action (OKCA 9.3)
 - **Azure** \`#1493FB\` — accent / link (OKCA 2.5 — decorative on white; \`--color-link\` steps to \`L=0.49\` for OKCA 5.1)
 - **Indigo** \`#6969F7\` — visited link anchor (OKCA 3.2 — decorative; \`--color-link-visited\` uses indigo-700 at OKCA 5.8)
