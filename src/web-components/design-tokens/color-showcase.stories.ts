@@ -24,7 +24,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     colors: [
       { name: 'Page', variable: '--color-bg-page', description: 'Page floor', light: 'oklch(1 0 0)', dark: 'oklch(0.16 0.02 248.99)' },
       { name: 'Surface', variable: '--color-bg-surface', description: 'Cards and panels', light: 'oklch(0.91 0 0)', dark: 'oklch(0.24 0.03 248.99)' },
-      { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill — hover rows, selection, hover chips. One step beyond surface; direction flips per theme', light: 'oklch(0.88 0.005 17.2)', dark: 'oklch(0.32 0.03 249)' },
+      { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill — hover rows, selection, hover chips. One step beyond surface; direction flips per theme', light: 'oklch(0.88 0.005 17.2)', dark: 'oklch(0.32 0.03 248.99)' },
       { name: 'Elevated', variable: '--color-bg-elevated', description: 'Shadow-lifted surface', light: 'oklch(1 0 0)', dark: 'oklch(0.30 0.02 248)' },
       { name: 'Inverse', variable: '--color-bg-inverse', description: 'Dark inverse surface — flips in dark mode', light: 'oklch(0.27 0.06 245.34)', dark: 'oklch(1 0 0)' },
     ],
@@ -38,7 +38,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Control', variable: '--color-border-control', description: 'Form control outlines — 3:1 non-text contrast', light: 'oklch(0.56 0 0)', dark: 'oklch(0.56 0 0)' },
       { name: 'Control on Surface', variable: '--color-border-control-on-surface', description: 'Form control outline on bg-surface — higher L for sufficient contrast', light: 'oklch(0.50 0 0)', dark: 'oklch(0.60 0 0)' },
       { name: 'On Inverse', variable: '--color-border-on-inverse', description: 'Divider on inverse (navy) surface', light: 'oklch(0.40 0.05 245)', dark: 'oklch(0.85 0 0)' },
-      { name: 'Focus', variable: '--color-focus', description: 'Focus ring — high-visibility azure', light: 'oklch(0.65 0.18 250.80)', dark: 'oklch(0.77 0.15 250.80)' },
+      { name: 'Focus', variable: '--color-focus', description: 'Focus ring — high-visibility azure', light: 'oklch(0.65 0.18 250.80)', dark: 'oklch(0.77 0.12 250.80)' },
     ],
   },
   {
@@ -59,9 +59,9 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     name: 'Action — Primary',
     description: 'Navy — main interactive color',
     colors: [
-      { name: 'Primary', variable: '--color-action-primary', description: 'Primary button and action fill', light: 'oklch(0.27 0.06 245.34)', dark: 'oklch(0.79 0.12 245)' },
-      { name: 'Primary Hover', variable: '--color-action-primary-hover', description: 'Hover state', light: 'oklch(0.19 0.05 245.34)', dark: 'oklch(0.87 0.08 245)' },
-      { name: 'Primary Active', variable: '--color-action-primary-active', description: 'Pressed state', light: 'oklch(0.19 0.05 245.34)', dark: 'oklch(0.87 0.08 245)' },
+      { name: 'Primary', variable: '--color-action-primary', description: 'Primary button and action fill', light: 'oklch(0.27 0.06 245.34)', dark: 'oklch(0.79 0.11 245)' },
+      { name: 'Primary Hover', variable: '--color-action-primary-hover', description: 'Hover state', light: 'oklch(0.19 0.04 245.34)', dark: 'oklch(0.87 0.06 245)' },
+      { name: 'Primary Active', variable: '--color-action-primary-active', description: 'Pressed state', light: 'oklch(0.19 0.04 245.34)', dark: 'oklch(0.87 0.06 245)' },
     ],
   },
   {
@@ -77,8 +77,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     name: 'Action — Tertiary',
     description: 'Neutral fill — no border, low-hierarchy action',
     colors: [
-      { name: 'Tertiary', variable: '--color-action-tertiary', description: 'Tertiary button fill', light: 'oklch(0.88 0.005 17.2)', dark: 'oklch(0.32 0.03 249)' },
-      { name: 'Tertiary Hover', variable: '--color-action-tertiary-hover', description: 'Hover state', light: 'oklch(0.81 0 0)', dark: 'oklch(0.46 0.03 249)' },
+      { name: 'Tertiary', variable: '--color-action-tertiary', description: 'Tertiary button fill', light: 'oklch(0.88 0.005 17.2)', dark: 'oklch(0.32 0.03 248.99)' },
+      { name: 'Tertiary Hover', variable: '--color-action-tertiary-hover', description: 'Hover state', light: 'oklch(0.81 0 0)', dark: 'oklch(0.46 0.03 248.99)' },
       { name: 'Tertiary Text', variable: '--color-action-tertiary-text', description: 'Text / icon on tertiary bg', light: 'oklch(0.27 0.06 245.34)', dark: 'oklch(1 0 0)' },
     ],
   },
@@ -97,9 +97,9 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     name: 'Links',
     description: 'Azure — #1493FB brand anchor. Accessible steps lighten in dark mode.',
     colors: [
-      { name: 'Link', variable: '--color-link', description: 'Body link color', light: 'oklch(0.49 0.18 250.80)', dark: 'oklch(0.77 0.15 250.80)' },
-      { name: 'Link Hover', variable: '--color-link-hover', description: 'Link hover state', light: 'oklch(0.45 0.17 250.80)', dark: 'oklch(0.86 0.10 250.80)' },
-      { name: 'Link Visited', variable: '--color-link-visited', description: 'Visited link — purple, universal convention', light: 'oklch(0.47 0.20 278.14)', dark: 'oklch(0.77 0.15 278.14)' },
+      { name: 'Link', variable: '--color-link', description: 'Body link color', light: 'oklch(0.49 0.14 250.80)', dark: 'oklch(0.77 0.12 250.80)' },
+      { name: 'Link Hover', variable: '--color-link-hover', description: 'Link hover state', light: 'oklch(0.45 0.13 250.80)', dark: 'oklch(0.86 0.07 250.80)' },
+      { name: 'Link Visited', variable: '--color-link-visited', description: 'Visited link — purple, universal convention', light: 'oklch(0.47 0.20 278.14)', dark: 'oklch(0.77 0.11 278.14)' },
     ],
   },
   {
@@ -113,27 +113,27 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     name: 'Status — Error',
     description: 'Orange-red (hue=25) — failure states and validation errors',
     colors: [
-      { name: 'Error', variable: '--color-status-error', description: 'Icon / border use', light: 'oklch(0.55 0.22 25)', dark: 'oklch(0.68 0.11 25)' },
-      { name: 'Error Background', variable: '--color-status-error-bg', description: 'Toast and alert fill', light: 'oklch(0.95 0.05 25)', dark: 'oklch(0.23 0.02 18)' },
-      { name: 'Error Text', variable: '--color-status-error-text', description: 'Text on error-bg', light: 'oklch(0.45 0.22 25)', dark: 'oklch(0.79 0.22 25)' },
+      { name: 'Error', variable: '--color-status-error', description: 'Icon / border use', light: 'oklch(0.54 0.21 25)', dark: 'oklch(0.68 0.11 25)' },
+      { name: 'Error Background', variable: '--color-status-error-bg', description: 'Toast and alert fill', light: 'oklch(0.95 0.02 25)', dark: 'oklch(0.23 0.02 18)' },
+      { name: 'Error Text', variable: '--color-status-error-text', description: 'Text on error-bg', light: 'oklch(0.45 0.18 25)', dark: 'oklch(0.79 0.12 25)' },
     ],
   },
   {
     name: 'Status — Success',
     description: 'Green (hue=144) — confirmation and completion',
     colors: [
-      { name: 'Success', variable: '--color-status-success', description: 'Icon / border use', light: 'oklch(0.63 0.15 144.2)', dark: 'oklch(0.70 0.08 144.2)' },
+      { name: 'Success', variable: '--color-status-success', description: 'Icon / border use', light: 'oklch(0.55 0.15 144.2)', dark: 'oklch(0.70 0.08 144.2)' },
       { name: 'Success Background', variable: '--color-status-success-bg', description: 'Toast and alert fill', light: 'oklch(0.95 0.05 145)', dark: 'oklch(0.23 0.02 144)' },
-      { name: 'Success Text', variable: '--color-status-success-text', description: 'Text on success-bg', light: 'oklch(0.46 0.15 144.2)', dark: 'oklch(0.80 0.15 144.2)' },
+      { name: 'Success Text', variable: '--color-status-success-text', description: 'Text on success-bg', light: 'oklch(0.46 0.14 144.2)', dark: 'oklch(0.80 0.15 144.2)' },
     ],
   },
   {
     name: 'Status — Warning',
     description: 'Amber (hue=53) — caution and non-blocking issues',
     colors: [
-      { name: 'Warning', variable: '--color-status-warning', description: 'Icon / border use', light: 'oklch(0.66 0.16 53.54)', dark: 'oklch(0.72 0.09 53.54)' },
-      { name: 'Warning Background', variable: '--color-status-warning-bg', description: 'Toast and alert fill', light: 'oklch(0.95 0.05 53)', dark: 'oklch(0.25 0.02 68)' },
-      { name: 'Warning Text', variable: '--color-status-warning-text', description: 'Text on warning-bg', light: 'oklch(0.40 0.16 53.54)', dark: 'oklch(0.82 0.16 53.54)' },
+      { name: 'Warning', variable: '--color-status-warning', description: 'Icon / border use', light: 'oklch(0.54 0.13 53.54)', dark: 'oklch(0.72 0.09 53.54)' },
+      { name: 'Warning Background', variable: '--color-status-warning-bg', description: 'Toast and alert fill', light: 'oklch(0.95 0.02 53)', dark: 'oklch(0.25 0.02 68)' },
+      { name: 'Warning Text', variable: '--color-status-warning-text', description: 'Text on warning-bg', light: 'oklch(0.40 0.10 53.54)', dark: 'oklch(0.82 0.11 53.54)' },
     ],
   },
   {
@@ -158,8 +158,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     name: 'Callout',
     description: 'Tip / note panel — indigo wash with a decorative indigo left border. The action-oriented sibling of blockquote (a burgundy pull-quote): the callout is upright, default-colour guidance the reader should act on.',
     colors: [
-      { name: 'Callout Background', variable: '--color-callout-bg', description: 'Callout surface — indigo wash, theme-aware', light: 'oklch(0.97 0.02 278.14)', dark: 'oklch(0.26 0.04 278)' },
-      { name: 'Highlight Decorative', variable: '--color-highlight-decorative', description: 'Left accent border — indigo #6969F7 anchor; decorative (non-text) use only, never a text colour', light: 'oklch(0.60 0.21 278.14)', dark: 'oklch(0.68 0.18 278.14)' },
+      { name: 'Callout Background', variable: '--color-callout-bg', description: 'Callout surface — indigo wash, theme-aware', light: 'oklch(0.97 0.01 278.14)', dark: 'oklch(0.26 0.04 278)' },
+      { name: 'Highlight Decorative', variable: '--color-highlight-decorative', description: 'Left accent border — indigo #6969F7 anchor; decorative (non-text) use only, never a text colour', light: 'oklch(0.60 0.21 278.14)', dark: 'oklch(0.68 0.17 278.14)' },
     ],
   },
 ];
@@ -279,16 +279,17 @@ internals.
 ## Brand palette
 Figures are OKCA on white — the algorithm Candor's thresholds are written against.
 
-- **Navy** \`#082840\` — primary action (OKCA 14.0)
+- **Navy** \`#082840\` — primary action (OKCA 13.9)
 - **Burgundy** \`#5F2B48\` — secondary action (OKCA 9.3)
-- **Azure** \`#1493FB\` — accent / link (OKCA 2.5 — decorative on white; \`--color-link\` steps to \`L=0.49\` for OKCA 5.1)
+- **Azure** \`#1493FB\` — accent / link (OKCA 2.6 — decorative on white; \`--color-link\` steps to \`L=0.49\` for OKCA 5.3)
 - **Indigo** \`#6969F7\` — visited link anchor (OKCA 3.2 — decorative; \`--color-link-visited\` uses indigo-700 at OKCA 5.8)
 
 ## Accessibility
 Action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components) and the
-stricter Candor OKCA tier floors, with two tracked exceptions — see
-\`docs/ACCESSIBILITY-CONFORMANCE.md\`. Validated with \`klar contrast\` 2.x;
-re-measure with \`npm run audit:contrast\`.
+stricter Candor OKCA tier floors, with the tracked exceptions listed in
+\`docs/ACCESSIBILITY-CONFORMANCE.md\`. Every authored colour is renderable in sRGB —
+\`npm run audit:tokens\` fails the build if one is not. Validated with
+\`klar contrast\` 3.x; re-measure with \`npm run audit:contrast\`.
         `,
       },
     },

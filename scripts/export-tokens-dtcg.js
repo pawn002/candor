@@ -5,15 +5,29 @@
  * Generates audit/tokens.dtcg.json from the Candor design token SCSS files.
  * Resolves all var() references and annotates non-text tokens via $extensions.
  *
- * Usage: node scripts/export-tokens-dtcg.js
+ * Also enforces the sRGB gamut invariant (#225): every authored colour must be
+ * renderable in sRGB. An out-of-gamut OKLCH value is not a specification — it
+ * is a request the engine resolves however it likes (Chrome clips per channel,
+ * the CSS Color 4 spec reduces chroma), so the value in the SCSS appears on no
+ * screen anywhere and every contrast figure recorded against it describes a
+ * colour nobody has seen. The gate lives here rather than in check-contrast.js
+ * because gamut is a property of a *token*, not of a pairing: this script sees
+ * every declaration, while the contrast audit only ever sees colours someone
+ * remembered to add to pairings.json.
+ *
+ * Usage: node scripts/export-tokens-dtcg.js [--skip-gamut]
+ * The gamut gate runs by default and needs klar 3.x on PATH; --skip-gamut
+ * exports without it. Nothing in the repo passes that flag.
  */
 
 'use strict';
 
 const fs   = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
+const SKIP_GAMUT = process.argv.includes('--skip-gamut');
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -102,6 +116,124 @@ function setPath(obj, pathArr, value) {
   cur[pathArr[pathArr.length - 1]] = value;
 }
 
+// ── sRGB gamut gate (#225) ───────────────────────────────────────────────────
+
+/**
+ * Is this colour renderable in sRGB? klar exits 1 on out-of-gamut input and
+ * still prints, so --allow-out-of-gamut keeps it on exit 0 and we read the
+ * verdict from the JSON instead of the exit code.
+ *
+ * Do NOT reach for culori's clampChroma/toGamut here despite culori being a
+ * dependency: they implement the CSS Color 4 chroma reduction, which matched
+ * what browsers actually paint on only 4 of 11 sampled colours.
+ */
+function isInGamut(color) {
+  const out = execSync(
+    `klar contrast "${color}" "#000" --allow-out-of-gamut --json`,
+    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }
+  );
+  return !JSON.parse(out).gamut.outOfGamut;
+}
+
+/**
+ * The largest chroma that renders at this colour's authored L and H.
+ *
+ * Steps *down* in 0.01 and never rounds to nearest: the in-gamut maximum sits
+ * exactly on the sRGB boundary, so nearest-rounding at 2dp pushes roughly half
+ * of these values straight back out. Inward is the only safe direction.
+ */
+function suggestInGamut(color) {
+  const m = /oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)/.exec(color);
+  if (!m) return null;
+  const [, L, C, H] = m;
+  for (let c = Number(C); c > 0; c -= 0.01) {
+    const candidate = `oklch(${L} ${c.toFixed(2)} ${H})`;
+    if (isInGamut(candidate)) return candidate;
+  }
+  return null;
+}
+
+/**
+ * Every oklch() literal in a stylesheet, with the line it sits on.
+ *
+ * Scans raw text rather than the parsed token map for two reasons. Parsing
+ * semantics.scss as one map would collide light and dark on the same token
+ * name and silently drop one of the two values. And an oklch() that is *not* a
+ * custom-property declaration — a hard-coded fill in a rule body — is exactly
+ * as unrenderable as one that is, so the gate should see it.
+ */
+function scanOklch(file) {
+  const text = fs.readFileSync(file, 'utf8');
+  const found = [];
+  text.split(/\r?\n/).forEach((line, i) => {
+    const code = line.replace(/\/\/.*$/, ''); // figures in comments are prose, not colours
+    for (const m of code.matchAll(/oklch\([^)]*\)/g)) {
+      const decl = /(--[\w-]+)\s*:/.exec(code.slice(0, m.index));
+      found.push({ name: decl ? decl[1] : '(inline)', raw: m[0], line: i + 1 });
+    }
+  });
+  return found;
+}
+
+/**
+ * Fail the export if any authored colour falls outside sRGB.
+ *
+ * Checks *authored* literals rather than resolved semantic values: a semantic
+ * that aliases a primitive is the same colour, so scanning literals covers
+ * every distinct colour exactly once and reports the declaration a contributor
+ * actually has to edit. Covers every stylesheet in src/design-tokens/, not
+ * just the two this script exports from — syntax.scss is not in the DTCG
+ * artifact but its colours are still authored Candor colours, and six of them
+ * were outside sRGB when the gate was written.
+ */
+function checkGamut(sources) {
+  try {
+    const v = execSync('klar --version', { encoding: 'utf8' }).trim();
+    if (!/^3\./.test(v)) {
+      console.error(`✗  klar ${v} found — the gamut gate needs 3.x (see CLAUDE.md → Integration Points).`);
+      process.exit(2);
+    }
+  } catch {
+    console.error('✗  klar is not on PATH. Install klar 3.x, or re-run with --skip-gamut.');
+    process.exit(2);
+  }
+
+  const violations = [];
+  const seen = new Map(); // value → verdict, so a repeated colour costs one klar call
+  let checked = 0;
+  for (const file of sources) {
+    for (const { name, raw, line } of scanOklch(path.join(ROOT, 'src/design-tokens', file))) {
+      // Alpha does not affect whether the base colour is renderable; measure
+      // the opaque form so a translucent token is still held to the invariant.
+      const opaque = raw.replace(/\s*\/\s*[^)]+\)/, ')');
+      checked++;
+      if (!seen.has(opaque)) seen.set(opaque, isInGamut(opaque));
+      if (!seen.get(opaque)) {
+        violations.push({ file, name, line, raw, suggested: suggestInGamut(opaque) });
+      }
+    }
+  }
+
+  if (!violations.length) {
+    console.log(`✓  sRGB gamut: ${checked} authored colours (${seen.size} distinct), all renderable`);
+    return;
+  }
+
+  console.error(`\n✗  ${violations.length} of ${checked} authored colours fall outside sRGB.`);
+  console.error(
+    '   An out-of-gamut OKLCH value is not a specification — the browser picks a\n' +
+    '   different colour and every contrast figure recorded against it is fiction.\n' +
+    '   Hold the authored L and H and pull chroma to the boundary (#225):\n'
+  );
+  for (const v of violations) {
+    console.error(`   ${v.file}:${v.line}  ${v.name}`);
+    console.error(`     authored  ${v.raw}`);
+    console.error(`     in gamut  ${v.suggested ?? '(no chroma at this L and H renders — reconsider L)'}`);
+  }
+  console.error('\n   Re-measure every OKCA figure in the changed declarations before committing.');
+  process.exit(1);
+}
+
 /** Build a DTCG token entry. Adds $extensions.usage for non-text tokens. */
 function dtcgEntry(value, comment) {
   const entry = { $type: 'color', $value: value };
@@ -136,7 +268,20 @@ const lightRaw = parseDeclarations(extractMixin(semanticsScss, 'light-color-toke
 // mode-aware token it aliases). Building the dark tree from darkRaw alone
 // made the export disagree with the cascade and left light-only tokens
 // missing from the dark half of the artifact (#210).
-const darkRaw  = { ...lightRaw, ...parseDeclarations(extractMixin(semanticsScss, 'dark-color-tokens')) };
+const darkOwnRaw = parseDeclarations(extractMixin(semanticsScss, 'dark-color-tokens'));
+const darkRaw  = { ...lightRaw, ...darkOwnRaw };
+
+// 2a. Gamut gate — before anything is emitted, so a colour sRGB cannot render
+// never reaches the artifact, a component, or a contrast figure. Discovered by
+// listing the directory rather than named here, so a new token stylesheet is
+// covered the day it lands instead of the day someone remembers this list.
+if (!SKIP_GAMUT) {
+  checkGamut(
+    fs.readdirSync(path.join(ROOT, 'src/design-tokens'))
+      .filter((f) => f.endsWith('.scss'))
+      .sort()
+  );
+}
 
 // 3. Resolve all var() references
 const lightTokens = resolveAll(lightRaw, primitives);

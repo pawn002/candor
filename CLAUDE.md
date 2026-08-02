@@ -69,8 +69,26 @@ All visual styling flows from design tokens in `src/design-tokens/`:
 
 Colors use OKLCH format: `oklch(L C H)` where:
 - L = lightness (0-1)
-- C = chroma/saturation
+- C = chroma/saturation — **bounded by the sRGB gamut, and the bound moves with L and H**
 - H = hue (degrees)
+
+#### The sRGB gamut is an invariant
+
+**Every authored Candor colour must be renderable in sRGB.** sRGB is the baseline gamut for digital products, and Candor is practical accessibility — a colour the delivery target cannot render is not a specification.
+
+OKLCH's chroma axis is unbounded in notation but bounded in reality, and it accepts an out-of-gamut value silently. When one reaches the browser, the engine substitutes something else: Chrome clips per channel, the CSS Color 4 spec reduces chroma, and the two disagree. Three consequences, in increasing order of severity:
+
+1. The value in the SCSS appears on no screen anywhere.
+2. The same token is a **different colour in different browsers**.
+3. **Every contrast figure measured against it is fiction** — it describes a colour no user has seen. This is how five real contrast failures hid in the audit for months (#222).
+
+Clipping distorts **hue**, not only saturation. Light `--color-status-warning-text` was authored at hue 53.54 and painted at 35.39 — designed as amber, rendered as dark red, at deltaE 11.
+
+**Authoring rule.** When a colour needs more saturation than sRGB allows at that lightness, hold L and H and pull chroma down to the boundary — never trade lightness for chroma, because lightness is what carries contrast. **Round chroma inward, never to nearest**: the in-gamut maximum sits exactly *on* the boundary, so 2dp nearest-rounding pushes roughly half of these values straight back out.
+
+**The gate.** `npm run audit:tokens` fails if any `oklch()` literal in `src/design-tokens/*.scss` is out of gamut, and prints the in-gamut value to use. It covers every stylesheet in that directory, including ones absent from the DTCG artifact. Check a single colour with `klar contrast <c> "#000" --allow-out-of-gamut --json` → `.gamut.outOfGamut`. **Never use culori's `clampChroma`/`toGamut`** for this — they implement spec chroma-reduction and matched rendered output on only 4 of 11 sampled colours.
+
+**In-gamut is not a ban on wide gamut.** The clean form is sRGB as the authored base value, with any P3 treatment layered additively behind `@media (color-gamut: p3)` — never as the base.
 
 
 ### Component Structure
@@ -110,7 +128,7 @@ The component library is the Lit 3 web components in `src/web-components/compone
 
 1. **Receive art direction**: Colors (hex), fonts, spacing requirements
 2. **Convert to OKLCH**: Run `klar meta <hex>` on each color to get exact OKLCH values
-3. **Update tokens**: Modify `src/design-tokens/semantics.scss` (or `primitives.scss`). After any change, re-export the DTCG artifact: `npm run audit:tokens`
+3. **Update tokens**: Modify `src/design-tokens/semantics.scss` (or `primitives.scss`). After any change, run `npm run audit:tokens` — it gates the sRGB gamut invariant and re-exports the DTCG artifact. If a colour is out of gamut it fails and prints the in-gamut value; take that value before measuring anything, since a figure measured on an unrenderable colour describes a colour nobody sees
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
 5. **Mobile check**: Switch Storybook's viewport toolbar to **mobile1 (320 × 568)** and verify: no horizontal overflow, no clipped interactive elements, no layout broken by a fixed column count
 6. **Accessibility validation**: Run `npm run audit:contrast`. It re-measures every pairing in `audit/pairings.json` in both modes against that pairing's `min` (the Candor-policy OKCA floor), and re-measures every OKCA figure recorded in a token comment against the token's current value. For one-off checks outside the audit set, `klar contrast <fg> <bg> -q` still applies.
@@ -119,7 +137,9 @@ The component library is the Lit 3 web components in `src/web-components/compone
 
 ### Audit Artifacts
 
-Two machine-readable files in `audit/` serve as the canonical inputs for contrast audits. Keep them current as tokens and components evolve. `npm run audit:contrast` (`scripts/check-contrast.js`) is what reads them — it re-measures every pairing against its `min` and every OKCA figure recorded in a token comment against the token's current value, and prints `UNCHECKED` for anything it can't interpret rather than passing it silently. It exits non-zero on any enforced failure, so it currently fails on the two known exceptions tracked in #208 and #209; it is deliberately **not** wired into CI until those land.
+Two machine-readable files in `audit/` serve as the canonical inputs for contrast audits. Keep them current as tokens and components evolve. `npm run audit:contrast` (`scripts/check-contrast.js`) is what reads them — it re-measures every pairing against its `min` and every OKCA figure recorded in a token comment against the token's current value, and prints `UNCHECKED` for anything it can't interpret rather than passing it silently. It exits non-zero on any enforced failure, so it currently fails on the one remaining exception tracked in #208; it is deliberately **not** wired into CI until that lands.
+
+The two audits split by what they own: **`audit:tokens` owns gamut, `audit:contrast` owns contrast.** Gamut is a property of a token, so it is gated at export where every declaration is visible; contrast is a property of a pairing, so it is checked against `pairings.json`, which only ever contains colours someone remembered to add. Run `audit:tokens` first — it is the precondition that makes `audit:contrast`'s numbers mean anything.
 
 Recorded figures are re-baselined to klar 3.0. Any figure you add must be measured with klar 3.x, **and with `--gamut-map clip`** — `npm run audit:contrast` does this for you, so prefer it over a bare `klar contrast` when adding a figure. A number carried over from an older tool or an older note will be wrong twice over: 2.0.0 recalibrated OKCA (+0.4 in the 3–7 band), and 3.0.0 both scored at full precision (±0.1) and stopped silently gamut-mapping.
 
@@ -127,7 +147,8 @@ Recorded figures are re-baselined to klar 3.0. Any figure you add must be measur
 - Produced by `npm run audit:tokens` (runs `scripts/export-tokens-dtcg.js`).
 - Contains all `--color-*` tokens with resolved `oklch()` values in W3C DTCG format, split into `light` and `dark` mode objects.
 - Tokens annotated "icon/border use" in `semantics.scss` carry `$extensions.usage: "non-text"` — these are the tokens that must NOT be used as CSS `color:` values for text.
-- Re-run whenever `src/design-tokens/semantics.scss` or `src/design-tokens/primitives.scss` changes.
+- Re-run whenever any file in `src/design-tokens/` changes.
+- **The same command enforces the sRGB gamut invariant** and exits 1 with the in-gamut value to use. It scans every `.scss` in `src/design-tokens/` — a wider set than it exports from, so `syntax.scss` is covered even though its tokens are not in the artifact. `--skip-gamut` bypasses it (klar not installed); nothing in the repo passes that flag.
 
 **`audit/pairings.json`** — hand-authored, update alongside component changes.
 - 108 foreground/background pairings, each measured in both modes (216 measurements). Per-component coverage is not derivable from the entry ids — form controls share `form-*` prefixes — so treat "every component is covered" as unverified until #197 settles how coverage is counted.
@@ -360,8 +381,10 @@ Apply whenever a flex child holds user-supplied content that may include long un
 
 **colors.scss**:
 ```scss
-$color-primary: oklch(0.55 0.18 250); // Always use OKLCH format
+$color-primary: oklch(0.55 0.18 250); // Always use OKLCH format — and always in sRGB gamut
 ```
+
+After changing any colour, run `npm run audit:tokens` (gamut gate + DTCG re-export) then `npm run audit:contrast` (re-measures every affected pairing and every recorded figure). The gamut gate runs first for a reason: a contrast figure measured on an out-of-gamut colour is meaningless, so gamut must be settled before contrast is worth checking.
 
 **typography.scss**:
 - Base size: `$font-size-md: 1rem` (16px)
@@ -378,7 +401,7 @@ $color-primary: oklch(0.55 0.18 250); // Always use OKLCH format
 2. Put scoped CSS in `static styles = css\`...\``; reference tokens as `var(--...)` custom properties — never redeclare or hard-code token values
 3. Create `candor-<name>.stories.ts` showcasing all variants, including a `Default` story
 4. Re-export from `src/web-components/index.ts` so the `@customElement()` side effect registers the tag
-5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value.
+5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value. If the component needs a colour the system doesn't have, add it as a **token** rather than a literal in `static styles` — a literal in a component is invisible to both the gamut gate and the contrast audit.
 6. Expose consumer style hooks per the "Consumer style hooks (`::part` + custom properties)" convention below — a `part` on each meaningful internal, and `--candor-<name>-<knob>` custom properties (token-defaulted) for the bounded density/shape knobs. Document them in the component's story and the Introduction "Styling & overriding" table.
 
 See "Web Components Authoring Conventions" below for the full conventions.
@@ -659,6 +682,7 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 1. **Don't hard-code colors**: Always use design tokens
 2. **Don't use hex colors in tokens**: Use OKLCH format
+2a. **Don't author a colour sRGB can't render**: OKLCH accepts more chroma than the gamut allows and says nothing. The browser then substitutes a colour of its own choosing, so the file specifies nothing and every contrast figure measured against it is fiction. Hold L and H, pull chroma to the boundary, and round **inward**. `npm run audit:tokens` gates this and prints the value to use — see "The sRGB gamut is an invariant" above
 3. **Don't skip accessibility validation**: Check contrast before finalizing
 3a. **Don't use `--color-status-*` (or any `$extensions.usage: "non-text"` token) as a CSS `color:` value for text**: These tokens — `--color-status-error`, `--color-status-success`, `--color-status-warning`, and the base icon/border variants — are contrast-validated only for non-text use (icons, borders, indicators). Their OKCA against common backgrounds is below every text threshold. Always use the paired `-text` variant: `--color-status-error-text`, `--color-status-success-text`, `--color-status-warning-text`. Check `audit/tokens.dtcg.json` — any token with `"$extensions": { "usage": "non-text" }` must not appear in a `color:` rule.
 4. **Don't create components without stories**: Every component needs a story
