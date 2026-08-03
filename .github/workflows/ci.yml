@@ -86,9 +86,23 @@ jobs:
       # Official Chromatic action. TurboSnap (onlyChanged) snapshots only the
       # stories affected by the diff — full builds still run on main and when
       # Chromatic detects a dependency/config change that invalidates the graph.
-      # PRs report diffs without blocking; main fails on unreviewed changes.
+      #
+      # The PR build is the review gate: it reports diffs without blocking, and
+      # accepting them there is what approves them. The main build only records
+      # that approval as the new baseline, so it auto-accepts.
+      #
+      # main cannot re-check the diffs itself. Candor merges squash-only, so the
+      # branch commits are not ancestors of the commit that lands on main, and
+      # Chromatic — which finds a baseline by walking git ancestry — cannot reach
+      # the accepted PR build. It falls back to main's previous build and reports
+      # every already-approved diff as new. Failing main on that does not catch
+      # unreviewed changes; it re-asks a question answered one commit earlier and
+      # fails because nobody answers it twice. That left main red from Aug 1 to
+      # Aug 3, which is worse than ungated: a real breakage on main was
+      # indistinguishable from the standing failure (#232).
       - uses: chromaui/action@v18
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
           exitZeroOnChanges: ${{ github.event_name == 'pull_request' }}
+          autoAcceptChanges: ${{ github.ref == 'refs/heads/main' }}
