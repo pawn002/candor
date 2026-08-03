@@ -106,6 +106,57 @@ test.describe('candor-slider — input floods, change fires once on release', ()
   });
 });
 
+test.describe('candor-modal / candor-drawer — close fires exactly once', () => {
+  // Regression guard for #234. Both wire the inner native <dialog>'s own `close`
+  // event to the same handler that calls `dialog.close()`, so a single user close
+  // re-enters it. Before the fix this counted 2, on every close path. The bug is
+  // invisible on screen — the dialog closes correctly — so only a count catches it.
+  for (const [label, storyId, sel] of [
+    ['modal', 'components-modal--open', 'candor-modal'],
+    ['drawer', 'components-drawer--open', 'candor-drawer'],
+  ] as const) {
+    test(`${label}: one close event per close`, async ({ page }) => {
+      await page.goto(gotoStory(storyId));
+      await page.locator(sel).waitFor();
+      await page.evaluate((sel) => {
+        const host = document.querySelector(sel)!;
+        const w = window as unknown as { __closes: number };
+        w.__closes = 0;
+        host.addEventListener('close', () => w.__closes++);
+      }, sel);
+
+      // Close through the component's own close button.
+      await page.evaluate((sel) => {
+        const host = document.querySelector(sel)!;
+        host.shadowRoot!.querySelector('button')?.click();
+      }, sel);
+
+      const closes = await page.evaluate(
+        () => (window as unknown as { __closes: number }).__closes,
+      );
+      expect(closes).toBe(1);
+    });
+  }
+});
+
+test.describe('candor-button — no bespoke event, the native click suffices', () => {
+  // `clicked` was removed in #201 because the inner button's native click already
+  // retargets to the host. This asserts the property that made removal safe.
+  test('a click reaches a host listener, and disabled suppresses it', async ({ page }) => {
+    await page.goto(gotoStory('components-button--default'));
+    const btn = page.locator('candor-button button').first();
+    await btn.waitFor();
+    await page.evaluate(() => {
+      const host = document.querySelector('candor-button')!;
+      const w = window as unknown as { __clicks: number };
+      w.__clicks = 0;
+      host.addEventListener('click', () => w.__clicks++);
+    });
+    await btn.click();
+    expect(await page.evaluate(() => (window as unknown as { __clicks: number }).__clicks)).toBe(1);
+  });
+});
+
 test.describe('candor-combobox — input (filter text) vs change (selection)', () => {
   test('typing streams input; selecting commits a single change', async ({ page }) => {
     await page.goto(gotoStory('components-form-combobox--default'));

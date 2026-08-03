@@ -32,7 +32,8 @@ panel without fully leaving the current page.
 component cannot enforce this (slot content is consumer-owned), so every footer should set it
 explicitly.
 
-Emits a \`closed\` CustomEvent when dismissed. Backdrop uses \`backdrop-filter: blur(2px)\`.
+Emits a \`close\` CustomEvent when dismissed — exactly once per close, whichever
+path closed it (button, backdrop, or Escape). Backdrop uses \`backdrop-filter: blur(2px)\`.
 
 **Sizing:** The \`size\` attribute selects a preset max-width via \`--candor-modal-max-width\`.
 Override per-instance to use a non-preset width:

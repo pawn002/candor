@@ -22,14 +22,31 @@
 //     boundary, so a consumer receives exactly one `input` — ours, with `detail`
 //     set to the value — not the native one as well.
 //
-// Semantic, non-value events keep distinct names: `send`, `dismissed`, `closed`,
-// `selected`, `toggle`, `clicked`, `page-change`, `tab-change`, `color-select`,
-// `cell-activate`. Every event is `bubbles: true, composed: true` so it crosses
-// the shadow boundary.
+// A selection that commits is a value change, so `change` also covers
+// candor-tabs (the newly-active tab id) and candor-pagination (the new page
+// number). Neither contains a native control that fires `change`, so nothing
+// collides at the host.
 //
-// Three controls once used bespoke value-changed names — `input-change`,
-// `value-change`, `selected-change`. They were deprecated in 4.2.0 (#164) and
-// removed in 5.0.0 (#201); `input` and `change` above are the replacements.
+// Semantic, non-value events keep distinct names: `send`, `dismiss`, `close`,
+// `select`, `toggle`, `color-select`, `cell-activate`. Every event is
+// `bubbles: true, composed: true` so it crosses the shadow boundary.
+//
+// ── Two rules the names follow ───────────────────────────────────────────────
+// 1. PRESENT TENSE, matching the DOM's own vocabulary — `close`, not `closed`;
+//    `dismiss`, not `dismissed`; `select`, not `selected`. Past tense read as a
+//    separate category of event when it was only ever a separate spelling.
+// 2. NO CUSTOM EVENT WHERE A NATIVE ONE ALREADY ARRIVES. candor-button used to
+//    emit `clicked` alongside the native `click`, which already retargets to the
+//    host and reaches the consumer unaided (verified: one click delivered one of
+//    each). A duplicate that must be kept in sync is worse than no event.
+//
+// `close` is safe to use despite the inner <dialog> having a native `close`:
+// that event is neither bubbling nor composed, so it does not escape the shadow
+// root (verified).
+//
+// Removed in 5.0.0 (#201): the bespoke value-changed names `input-change`,
+// `value-change` and `selected-change` (deprecated in 4.2.0 by #164), plus the
+// renames and the `clicked` removal described above.
 //
 // Note on `HTMLElementEventMap`: we deliberately do NOT globally augment it.
 // `change`, `input`, and `toggle` already exist there as plain `Event`, and
@@ -76,14 +93,12 @@ export type CandorAutocompleteInputDetail = string;
 /** candor-chip `change`: the new selected state. */
 export type CandorChipChangeDetail = boolean;
 
-/** candor-button `clicked`: the underlying pointer/keyboard activation event. */
-export type CandorButtonClickedDetail = MouseEvent;
-/** candor-menu `selected`: the chosen menu item (never a separator). */
-export type CandorMenuSelectedDetail = MenuItem;
-/** candor-pagination `page-change`: the new 1-based page number. */
-export type CandorPaginationPageChangeDetail = number;
-/** candor-tabs `tab-change`: the newly-active tab id. */
-export type CandorTabsTabChangeDetail = string;
+/** candor-menu `select`: the chosen menu item (never a separator). */
+export type CandorMenuSelectDetail = MenuItem;
+/** candor-pagination `change`: the new 1-based page number. */
+export type CandorPaginationChangeDetail = number;
+/** candor-tabs `change`: the newly-active tab id. */
+export type CandorTabsChangeDetail = string;
 /** candor-disclosure `toggle`: the new open state. */
 export type CandorDisclosureToggleDetail = boolean;
 /** candor-accordion-item `toggle`: the new open state. */
@@ -147,19 +162,16 @@ export interface CandorAutocompleteEventMap {
 }
 export interface CandorChipEventMap {
   change: CustomEvent<CandorChipChangeDetail>;
-  dismissed: CustomEvent<undefined>;
-}
-export interface CandorButtonEventMap {
-  clicked: CustomEvent<CandorButtonClickedDetail>;
+  dismiss: CustomEvent<undefined>;
 }
 export interface CandorMenuEventMap {
-  selected: CustomEvent<CandorMenuSelectedDetail>;
+  select: CustomEvent<CandorMenuSelectDetail>;
 }
 export interface CandorPaginationEventMap {
-  'page-change': CustomEvent<CandorPaginationPageChangeDetail>;
+  change: CustomEvent<CandorPaginationChangeDetail>;
 }
 export interface CandorTabsEventMap {
-  'tab-change': CustomEvent<CandorTabsTabChangeDetail>;
+  change: CustomEvent<CandorTabsChangeDetail>;
 }
 export interface CandorDisclosureEventMap {
   toggle: CustomEvent<CandorDisclosureToggleDetail>;
@@ -177,14 +189,14 @@ export interface CandorTonePickerEventMap {
   'color-select': CustomEvent<CandorToneColorSelectDetail>;
 }
 export interface CandorModalEventMap {
-  closed: CustomEvent<undefined>;
+  close: CustomEvent<undefined>;
 }
 export interface CandorDrawerEventMap {
-  closed: CustomEvent<undefined>;
+  close: CustomEvent<undefined>;
 }
 export interface CandorAlertEventMap {
-  dismissed: CustomEvent<undefined>;
+  dismiss: CustomEvent<undefined>;
 }
 export interface CandorToastEventMap {
-  dismissed: CustomEvent<undefined>;
+  dismiss: CustomEvent<undefined>;
 }

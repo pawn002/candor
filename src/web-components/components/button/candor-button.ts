@@ -90,15 +90,8 @@ export class CandorButton extends LitElement {
         ?disabled="${this.disabled}"
         type="${this.type}"
         aria-label="${this._ariaLabel ?? nothing}"
-        @click="${this._onClick}"
       ><slot></slot></button>
     `;
-  }
-
-  private _onClick(e: Event) {
-    if (!this.disabled) {
-      this.dispatchEvent(new CustomEvent('clicked', { detail: e, bubbles: true, composed: true }));
-    }
   }
 }
 

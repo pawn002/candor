@@ -36,6 +36,52 @@ chip.addEventListener('change', (e) => setActive(e.detail));
 
 **This one is silent.** A listener bound to a removed event name is still valid TypeScript and still valid DOM — `addEventListener` accepts any string. It simply never fires again, so the symptom is a control that appears inert rather than a build error. Grep your codebase for the three names; there is no compile-time signal.
 
+#### Remaining event names converged: `closed`/`dismissed`/`selected`/`tab-change`/`page-change` renamed, `clicked` removed
+
+**Before:**
+```js
+button.addEventListener('clicked', onActivate);
+modal.addEventListener('closed', onClose);
+alert.addEventListener('dismissed', onDismiss);
+menu.addEventListener('selected', onPick);
+tabs.addEventListener('tab-change', onTab);
+pager.addEventListener('page-change', onPage);
+```
+
+**After:**
+```js
+button.addEventListener('click', onActivate);   // the native event — always was
+modal.addEventListener('close', onClose);
+alert.addEventListener('dismiss', onDismiss);
+menu.addEventListener('select', onPick);
+tabs.addEventListener('change', onTab);
+pager.addEventListener('change', onPage);
+```
+
+**Why:** #164 converged the *value* events on the DOM two-event rule but left seven others in three different styles — past tense (`clicked`, `closed`, `dismissed`, `selected`) alongside present (`change`, `input`, `toggle`) alongside a `-change` suffix (`tab-change`, `page-change`). 5.0.0 is already a breaking release, so this is the window to finish the job rather than spend a second major on event names later.
+
+Two rules now govern the names:
+
+1. **Present tense, matching the DOM's own vocabulary.** Past tense read as a different *category* of event when it was only ever a different spelling.
+2. **No Candor event where a native one already arrives.** `candor-button`'s `clicked` duplicated the native `click`, which retargets from the inner button to the host and reaches consumers unaided — verified: one click delivered one `click` *and* one `clicked`. A duplicate that has to be kept in sync is worse than no event, so it is removed rather than renamed.
+
+A selection that commits is a value change, which is why `tab-change` and `page-change` both become plain `change` rather than `select`. Neither component contains a native control that fires `change`, so nothing collides at the host (verified).
+
+**Migration:** Rename the listener; every payload is unchanged. For `candor-button`, listen for `click` — you may already be, in which case delete the `clicked` handler rather than renaming it, or it will fire twice. A `disabled` button suppresses `click` natively, so the old `if (!disabled)` guard is not needed on your side either.
+
+| Component | Before | After |
+|---|---|---|
+| `candor-button` | `clicked` | `click` *(native — remove your handler if duplicated)* |
+| `candor-modal`, `candor-drawer` | `closed` | `close` |
+| `candor-alert`, `candor-toast`, `candor-chip` | `dismissed` | `dismiss` |
+| `candor-menu` | `selected` | `select` |
+| `candor-tabs` | `tab-change` | `change` |
+| `candor-pagination` | `page-change` | `change` |
+
+Exported `detail` types renamed to match: `CandorMenuSelectedDetail` → `CandorMenuSelectDetail`, `CandorPaginationPageChangeDetail` → `CandorPaginationChangeDetail`, `CandorTabsTabChangeDetail` → `CandorTabsChangeDetail`. `CandorButtonClickedDetail` is removed. **These are the one part of this change TypeScript will catch.**
+
+**Silent, like the alias removal above** — see the note there. `candor-button` is the sharpest case: a consumer whose only handler is on `clicked` gets a button that looks and focuses correctly and does nothing.
+
 #### 28 color values re-authored so that every Candor color is renderable in sRGB
 
 **Before:**
@@ -87,6 +133,7 @@ Full per-token table in [#225](https://github.com/pawn002/candor/issues/225).
 
 ### Fixed
 
+- **`candor-modal` and `candor-drawer` dispatched their close event twice per close (#234).** Both wire the inner native `<dialog>`'s own `close` event to the same handler that calls `dialog.close()`, so a single user close re-entered it and fired twice — on every path (close button, backdrop click, Escape). Invisible on screen, since the dialog closes correctly; the symptom only surfaces in a consumer handler that is not idempotent, which double-counts. `_close()` now guards on `open` and clears it *before* closing the dialog — ordering that is load-bearing, because the re-entrant call otherwise arrives while `open` is still `true`. Found while verifying that renaming `closed` → `close` would not collide with the native dialog event; it does not, as that event is neither bubbling nor composed. `tests/events.spec.ts` now asserts exactly one event per close for both components.
 - **The Design Tokens color showcase now mirrors the tokens exactly.** Its swatch table carries hand-written `light:`/`dark:` literals that nothing kept in sync with `semantics.scss`, and three had drifted independently of the gamut work: `--color-status-warning` was documented as `oklch(0.66 0.16 53.54)` against an actual `oklch(0.54 0.13 53.54)`, `--color-status-success` as `0.63` against `0.55`, `--color-status-error` as `0.55` against `0.54`. The swatch a reader saw was a color the system does not contain, and the documented value was one they would have copied. All 55 rows are now regenerated from `audit/tokens.dtcg.json`. That repaired the instance; the structural fix that stops it recurring landed with #223, below (#225).
 - **`--color-link`'s recorded brand figure corrected to 5.3 on white**, which moved with the gamut re-authoring (#225). The Navy and Azure figures in the same prose block are *not* corrected, and an earlier draft of this branch was wrong to touch them: those lines document the brand **hex** (`#082840`, `#1493FB`), not the token derived from it, and hex → OKLCH conversion rounds — Navy's hex is OKCA 14.0 on white while `--color-action-primary` is 13.9. Both numbers are right about their own colour. The block now says so, so the next reader does not "reconcile" them again (#225, #223).
 - **Two hardcoded diff-highlight fills in `syntax.scss` now derive from their tokens.** `.token.deleted` and `.token.inserted` set their background tint as a literal `oklch(… / 0.15)` duplicating the adjacent `--syntax-deleted` / `--syntax-inserted` values — so the deleted tint carried the same out-of-gamut value as its token, and the pair could silently desync. Both are now `color-mix(in oklch, var(--syntax-…) 15%, transparent)` (#225).

@@ -113,6 +113,32 @@ color: var(--color-brand-primary);
 
 ---
 
+## Deprecation policy
+
+Some breaking changes can ship their replacement *first*, so consumers migrate on a working system instead of a broken one. Renaming an event or an input is the common case: both names can coexist for a while.
+
+**The rule: a deprecated API must remain emitted, and documented as deprecated, for at least one full MINOR release before a MAJOR may remove it.**
+
+That is a floor, not a target. Three conditions all have to hold before removal:
+
+1. **The replacement shipped in a released MINOR**, not merely on `main`. A consumer cannot migrate to something they cannot install.
+2. **Both names are documented together** — in the component's own story, not only in the Introduction. The component page is where a consumer looks before wiring anything up, so a deprecation documented only centrally has not really been announced. (This was the gap #215 fixed: the aliases were deprecated in 4.2.0 while all three component stories still taught the old name and never mentioned the new one, which grew the migration burden the deprecation existed to shrink.)
+3. **A MAJOR is being cut for other reasons.** Removing deprecated API is not on its own a good reason to break consumers — see the opening section on why the bar here is higher than in a pure code library. Deprecations wait for a major that has its own justification.
+
+### Why a floor rather than a fixed duration
+
+A calendar duration would be arbitrary at this maturity, and would either block a release or wave one through on the strength of the date alone. The three conditions are the things that actually determine whether a consumer *could* have migrated.
+
+### Prefer a compile-time signal
+
+`addEventListener` accepts any string, so a listener bound to a removed event stays valid TypeScript and valid DOM — it just never fires. The break is silent, and the symptom is an inert control rather than a build error. Where a rename can also be expressed in the published types (a renamed exported `*Detail` type, a changed `*EventMap` member), do that too: it is the only part of the change a consumer's compiler will catch for them. Say so explicitly in the migration note, and say which parts it will *not* catch.
+
+### Precedent
+
+`input-change`, `value-change` and `selected-change` were deprecated in **4.2.0** (2026-07-12) and removed in **5.0.0** — one minor release, alongside a major cut primarily for the sRGB gamut invariant. The 5.0.0 event-name convergence that accompanied it (`closed` → `close`, `clicked` removed, and so on) had **no** deprecation period, which is the exception this policy allows only because those names had never been announced as changing and the alternative was a second major dedicated to event names.
+
+---
+
 ## Special cases
 
 ### ARIA changes

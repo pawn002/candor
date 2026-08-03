@@ -132,9 +132,15 @@ export class CandorModal extends LitElement {
   }
 
   private _close() {
-    this._dialog?.close();
+    // The native <dialog> `close` event is wired to this same handler, and the
+    // `close()` below fires it synchronously — so a single user close re-enters
+    // here. Guard on `open`, and clear it *before* closing the dialog, or the
+    // re-entrant call still sees `open === true` and dispatches a second time
+    // (#234).
+    if (!this.open) return;
     this.open = false;
-    this.dispatchEvent(new CustomEvent('closed', { bubbles: true, composed: true }));
+    this._dialog?.close();
+    this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true }));
   }
 
   private _onBackdropClick(e: MouseEvent) {

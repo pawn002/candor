@@ -84,7 +84,7 @@ export class CandorChip extends LitElement {
 
   private _onDismiss() {
     if (this.disabled) return;
-    this.dispatchEvent(new CustomEvent('dismissed', { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('dismiss', { bubbles: true, composed: true }));
   }
 
   override render() {

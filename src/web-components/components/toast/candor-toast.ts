@@ -94,7 +94,7 @@ export class CandorToast extends LitElement {
   }
 
   private _dismiss() {
-    this.dispatchEvent(new CustomEvent('dismissed', { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('dismiss', { bubbles: true, composed: true }));
   }
 }
 

@@ -12,11 +12,11 @@ const meta: Meta = {
 adjacent pages, first/last anchors, and an ellipsis when the page count is large.
 Previous/Next buttons always present.
 
-Listen for the \`page-change\` CustomEvent to trigger data fetches:
+Listen for the \`change\` CustomEvent to trigger data fetches:
 
 \`\`\`javascript
 document.querySelector('candor-pagination')
-  .addEventListener('page-change', (e) => loadPage(e.detail));
+  .addEventListener('change', (e) => loadPage(e.detail));
 \`\`\`
 
 Pair with \`<candor-table>\` for a complete paged data view.
@@ -133,11 +133,11 @@ export const Controlled: Story = {
     docs: {
       description: {
         story:
-          'Click any page — a `page-change` CustomEvent fires with the new page number as `event.detail`. ' +
+          'Click any page — a `change` CustomEvent fires with the new page number as `event.detail`. ' +
           'Wire it to your data layer:\n\n' +
           '```js\n' +
           "const pager = document.querySelector('candor-pagination');\n" +
-          "pager.addEventListener('page-change', (e) => {\n" +
+          "pager.addEventListener('change', (e) => {\n" +
           '  loadPage(e.detail);          // fetch the new page of data\n' +
           '  pager.currentPage = e.detail; // sync back if you control it externally\n' +
           '});\n' +

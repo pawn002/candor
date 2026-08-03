@@ -26,7 +26,7 @@ are slotted in document order.
 
 Set \`aria-label\` on the host element to label the tab list for screen readers — always
 required. Two themes: \`default\` and \`inverse\`. Two orientations: \`horizontal\` (tabs above
-panels) and \`vertical\` (tabs left, panels right). Emits a \`tab-change\` CustomEvent.
+panels) and \`vertical\` (tabs left, panels right). Emits a \`change\` CustomEvent.
 
 When the horizontal tab row overflows, chevron scroll buttons appear at the edges —
 clicking scrolls the list by 200px. A fade gradient behind each button reinforces
@@ -53,7 +53,7 @@ tab in view automatically.
       type: { name: 'string' },
       description: 'horizontal: tabs above panels (default). vertical: tabs left, panels right.',
     },
-    'tab-change': { control: false, description: 'CustomEvent fired on tab selection. event.detail is the id of the newly active tab.' },
+    'change': { control: false, description: 'CustomEvent fired on tab selection. event.detail is the id of the newly active tab.' },
   },
   render: () => html`<candor-tabs
     active-id="overview"
@@ -189,11 +189,11 @@ export const Controlled: Story = {
     docs: {
       description: {
         story:
-          'Select a tab — a `tab-change` CustomEvent fires with the new tab id as `event.detail`. ' +
+          'Select a tab — a `change` CustomEvent fires with the new tab id as `event.detail`. ' +
           'Wire it to your data layer or router:\n\n' +
           '```js\n' +
           "const tabs = document.querySelector('candor-tabs');\n" +
-          "tabs.addEventListener('tab-change', (e) => {\n" +
+          "tabs.addEventListener('change', (e) => {\n" +
           '  router.navigate(e.detail);   // e.g. update URL\n' +
           '  tabs.activeId = e.detail;    // sync back if managing state externally\n' +
           '});\n' +
@@ -207,7 +207,7 @@ export const Controlled: Story = {
     aria-label="Product details"
     tabs='[{"id":"overview","label":"Overview"},{"id":"specs","label":"Specifications"},{"id":"reviews","label":"Reviews"}]'>
     <candor-tab-panel panel-id="overview" active>
-      <p style="margin:0">Overview content. Open the browser console and select a tab to see the <code>tab-change</code> event fire.</p>
+      <p style="margin:0">Overview content. Open the browser console and select a tab to see the <code>change</code> event fire.</p>
     </candor-tab-panel>
     <candor-tab-panel panel-id="specs">
       <p style="margin:0">Specifications content.</p>

@@ -29,7 +29,7 @@ drawer blocks the rest of the page.
 In non-modal mode the drawer relies on its close button or a consumer-supplied
 control to dismiss — clicking outside does not close it (there's no backdrop to click).
 
-**Dismissal:** The drawer emits a \`closed\` CustomEvent on Escape, backdrop click (when
+**Dismissal:** The drawer emits a \`close\` CustomEvent on Escape, backdrop click (when
 \`dismissOnBackdrop\` is true, modal mode only), and the built-in close button. The parent
 is responsible for syncing \`open="false"\` (or removing the open attribute) in response.
 

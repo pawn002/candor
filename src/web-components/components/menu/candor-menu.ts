@@ -164,7 +164,7 @@ export class CandorMenu extends LitElement {
 
   private _select(entry: MenuItem) {
     if (entry.disabled) return;
-    this.dispatchEvent(new CustomEvent('selected', { detail: entry, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('select', { detail: entry, bubbles: true, composed: true }));
     this._close();
   }
 
