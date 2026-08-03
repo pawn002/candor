@@ -25,8 +25,8 @@ Form-associated (\`ElementInternals\`): the value appears in \`FormData\` keyed 
 
 **Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
 live value on every keystroke; \`change\` fires the committed value on blur and on Enter. Both
-carry the value as a plain \`string\` in \`detail\`. The legacy \`input-change\` is still emitted
-with the same live semantics as \`input\` — deprecated, removed in the next major (#201).
+carry the value as a plain \`string\` in \`detail\`. The legacy \`input-change\` was removed in
+5.0.0 (#201) — use \`input\`, which has the same live semantics and the same payload.
 
 **Styling hooks.** Override density without forking via custom properties —
 \`--candor-input-{padding-x,padding-y,font-size,radius}\`, each defaulting to its token.

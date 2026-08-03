@@ -55,8 +55,8 @@ Form-associated (\`ElementInternals\`): the current value participates in form s
 **Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
 live value on every drag tick and arrow-key step; \`change\` fires once on pointer release or
 keyboard commit. Both carry the value as a \`number\` in \`detail\`. The legacy \`value-change\`
-is still emitted with the same live semantics as \`input\` — deprecated, removed in the next
-major (#201).
+was removed in 5.0.0 (#201) — use \`input\`, which has the same live semantics and the same
+payload.
 
 **Sizing:** Override track and thumb geometry per-instance via CSS custom properties.
 The thumb centering calc updates automatically when either var changes.

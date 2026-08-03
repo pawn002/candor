@@ -8,6 +8,34 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Breaking changes
 
+#### Deprecated value-changed events removed: `input-change`, `value-change`, `selected-change`
+
+**Before:**
+```js
+input.addEventListener('input-change', (e) => setDraft(e.detail));
+slider.addEventListener('value-change', (e) => setLightness(e.detail));
+chip.addEventListener('selected-change', (e) => setActive(e.detail));
+```
+
+**After:**
+```js
+input.addEventListener('input', (e) => setDraft(e.detail));
+slider.addEventListener('input', (e) => setLightness(e.detail));
+chip.addEventListener('change', (e) => setActive(e.detail));
+```
+
+**Why:** #164 converged Candor's value controls on the DOM two-event rule — `input` streams the live value mid-edit, `change` fires once on commit — and shipped the new names alongside these three bespoke ones so nothing broke at 4.2.0. Carrying both indefinitely means every consumer reading the component docs has two correct answers to choose between, and the wrong one keeps compiling.
+
+**Migration:** Rename the listener. Each replacement has the **same semantics and the same `detail` payload** as the alias it replaces, so nothing else changes:
+
+| Component | Removed | Use instead | Semantics |
+|---|---|---|---|
+| `candor-input` | `input-change` | `input` | live |
+| `candor-slider` | `value-change` | `input` | live |
+| `candor-chip` | `selected-change` | `change` | commit |
+
+**This one is silent.** A listener bound to a removed event name is still valid TypeScript and still valid DOM — `addEventListener` accepts any string. It simply never fires again, so the symptom is a control that appears inert rather than a build error. Grep your codebase for the three names; there is no compile-time signal.
+
 #### 28 color values re-authored so that every Candor color is renderable in sRGB
 
 **Before:**

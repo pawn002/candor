@@ -102,11 +102,11 @@ el.addEventListener('change', (e) => {
 });
 ```
 
-**Deprecated aliases.** Three controls previously used bespoke value-changed names. Each legacy name is still emitted with its original semantics so existing listeners keep working, and maps to whichever new event shares those semantics. The aliases are deprecated and will be removed in the next major.
+**Removed in 5.0.0.** Three controls once used bespoke value-changed names. They were deprecated in 4.2.0 and are now gone — listeners must move to the replacement, which carries the same `detail` payload and the same semantics.
 
 <table>
   <thead>
-    <tr><th>Component</th><th>Deprecated event</th><th>Semantics</th><th>Use instead</th></tr>
+    <tr><th>Component</th><th>Removed event</th><th>Semantics</th><th>Use instead</th></tr>
   </thead>
   <tbody>
     <tr><td>candor-input</td><td><code>input-change</code></td><td>live</td><td><code>input</code></td></tr>

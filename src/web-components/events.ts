@@ -27,14 +27,9 @@
 // `cell-activate`. Every event is `bubbles: true, composed: true` so it crosses
 // the shadow boundary.
 //
-// ── Deprecated aliases ───────────────────────────────────────────────────────
-// Three controls historically used bespoke value-changed names. Each legacy
-// alias is still emitted with its ORIGINAL semantics, so existing listeners keep
-// working; it maps to whichever new event shares those semantics. The aliases
-// are deprecated and will be removed in the next major (#164):
-//   • candor-input   `input-change`    (live)     → use `input`
-//   • candor-slider  `value-change`    (live)     → use `input`
-//   • candor-chip    `selected-change` (discrete) → use `change`
+// Three controls once used bespoke value-changed names — `input-change`,
+// `value-change`, `selected-change`. They were deprecated in 4.2.0 (#164) and
+// removed in 5.0.0 (#201); `input` and `change` above are the replacements.
 //
 // Note on `HTMLElementEventMap`: we deliberately do NOT globally augment it.
 // `change`, `input`, and `toggle` already exist there as plain `Event`, and
@@ -51,7 +46,7 @@ import type { ToneColorSelectDetail } from './components/tone-picker/candor-tone
 
 // ── `detail` payload types ───────────────────────────────────────────────────
 
-/** candor-input `change` (committed) and `input` (live) — and deprecated `input-change`: the field's text value. */
+/** candor-input `change` (committed): the field's text value. */
 export type CandorInputChangeDetail = string;
 /** candor-input `input`: the live text value on each keystroke. */
 export type CandorInputInputDetail = string;
@@ -63,7 +58,7 @@ export type CandorRadioChangeDetail = string;
 export type CandorCheckboxChangeDetail = boolean;
 /** candor-switch `change`: the new on/off state. */
 export type CandorSwitchChangeDetail = boolean;
-/** candor-slider `change` (committed) — and deprecated `value-change`: the numeric value. */
+/** candor-slider `change` (committed): the numeric value. */
 export type CandorSliderChangeDetail = number;
 /** candor-slider `input`: the live numeric value on each drag tick / arrow step. */
 export type CandorSliderInputDetail = number;
@@ -78,7 +73,7 @@ export type CandorComboboxInputDetail = string;
 export type CandorAutocompleteChangeDetail = string;
 /** candor-autocomplete `input`: the live free-text value on each keystroke. */
 export type CandorAutocompleteInputDetail = string;
-/** candor-chip `change` — and deprecated `selected-change`: the new selected state. */
+/** candor-chip `change`: the new selected state. */
 export type CandorChipChangeDetail = boolean;
 
 /** candor-button `clicked`: the underlying pointer/keyboard activation event. */
@@ -116,8 +111,6 @@ export interface CandorInputEventMap {
   change: CustomEvent<CandorInputChangeDetail>;
   /** Live value — fires on every keystroke. */
   input: CustomEvent<CandorInputInputDetail>;
-  /** @deprecated live value; use `input` — removed in the next major (#164). */
-  'input-change': CustomEvent<CandorInputInputDetail>;
 }
 export interface CandorSelectEventMap {
   change: CustomEvent<CandorSelectChangeDetail>;
@@ -136,8 +129,6 @@ export interface CandorSliderEventMap {
   change: CustomEvent<CandorSliderChangeDetail>;
   /** Live value — fires on every drag tick / arrow step. */
   input: CustomEvent<CandorSliderInputDetail>;
-  /** @deprecated live value; use `input` — removed in the next major (#164). */
-  'value-change': CustomEvent<CandorSliderInputDetail>;
 }
 export interface CandorListboxEventMap {
   change: CustomEvent<CandorListboxChangeDetail>;
@@ -156,8 +147,6 @@ export interface CandorAutocompleteEventMap {
 }
 export interface CandorChipEventMap {
   change: CustomEvent<CandorChipChangeDetail>;
-  /** @deprecated use `change` — removed in the next major (#164). */
-  'selected-change': CustomEvent<CandorChipChangeDetail>;
   dismissed: CustomEvent<undefined>;
 }
 export interface CandorButtonEventMap {
