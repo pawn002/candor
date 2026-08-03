@@ -37,13 +37,44 @@ const SKIP_GAMUT = process.argv.includes('--skip-gamut');
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Parse all --name: value; declarations from a block of SCSS text. */
+/**
+ * Parse all --name: value; declarations from a block of SCSS text.
+ *
+ * A token's annotation may sit *above* its declaration rather than trailing
+ * it — several of the longest and most load-bearing ones do, because they run
+ * to three lines. Capturing only the trailing comment dropped 21 of 55 light
+ * tokens' descriptions entirely, including every form-control border, which is
+ * why `--color-border-control`'s dark behaviour read as an unexplained
+ * oversight from the artifact alone (#218, #217).
+ *
+ * Leading capture walks up from the declaration and stops at a blank line, a
+ * box-drawing section divider, or another declaration — so a section header
+ * never gets attributed to whichever token happens to be listed first under
+ * it. A trailing comment still wins when both are present.
+ */
+const DIVIDER_RE = /^\s*\/\/\s*[─—-]{3,}/;
+
+function leadingComment(lines, declIndex) {
+  const out = [];
+  for (let j = declIndex - 1; j >= 0; j--) {
+    const line = lines[j];
+    if (!/^\s*\/\//.test(line)) break;      // blank line or code — stop
+    if (DIVIDER_RE.test(line)) break;       // section divider — not this token's
+    out.unshift(line.replace(/^\s*\/\/\s?/, '').trim());
+  }
+  return out.join(' ').trim();
+}
+
 function parseDeclarations(scss) {
   const result = {};
-  const re = /^\s*(--[\w-]+)\s*:\s*([^;]+?)\s*;[ \t]*(?:\/\/[ \t]*(.*))?$/gm;
-  for (const m of scss.matchAll(re)) {
-    result[m[1]] = { raw: m[2].trim(), comment: (m[3] || '').trim() };
-  }
+  const lines = scss.split(/\r?\n/);
+  const declRe = /^\s*(--[\w-]+)\s*:\s*([^;]+?)\s*;[ \t]*(?:\/\/[ \t]*(.*))?$/;
+  lines.forEach((line, i) => {
+    const m = declRe.exec(line);
+    if (!m) return;
+    const trailing = (m[3] || '').trim();
+    result[m[1]] = { raw: m[2].trim(), comment: trailing || leadingComment(lines, i) };
+  });
   return result;
 }
 
@@ -110,6 +141,14 @@ function toDtcgPath(cssVar, declared) {
   }
   // parts[0] = 'color', parts[1] = category, parts[2+] = remainder (rejoined)
   return [parts[0], parts[1], parts.slice(2).join('-')];
+}
+
+/** Visit every emitted token node in a built DTCG tree. */
+function walkTokens(obj, visit) {
+  for (const v of Object.values(obj)) {
+    if (v && typeof v === 'object' && '$value' in v) visit(v);
+    else if (v && typeof v === 'object') walkTokens(v, visit);
+  }
 }
 
 /** Set a value at a nested path within an object, creating nodes as needed. */
@@ -246,14 +285,70 @@ function checkGamut(sources) {
   process.exit(1);
 }
 
+// ── non-text usage flag (#218) ───────────────────────────────────────────────
+
+/**
+ * Is this token unsafe as a CSS `color:` value for text?
+ *
+ * Derived from what the token *is*, not from whether someone wrote a sentence
+ * about it. The previous rule regex-matched the literal phrase "icon/border
+ * use" in a comment, which flagged 5 of 55 tokens and — the actual bug — not a
+ * single border, the archetypal non-text category. CLAUDE.md's pitfall 3a
+ * tells contributors to consult this field before using a token as `color:`,
+ * so an incomplete field is worse than none: it returns a confident false
+ * negative for the whole category it exists to protect.
+ *
+ * Two structural rules plus a small explicit list:
+ *
+ *   1. The name contains `border`. A border is non-text by construction —
+ *      --color-border-*, --color-blockquote-border, --color-action-
+ *      destructive-border.
+ *   2. A sibling `<name>-text` exists. The system having minted a -text
+ *      variant *is* the statement that the base is not for text; this is what
+ *      catches --color-status-{error,success,warning}.
+ *   3. Tokens whose role is non-text but whose name cannot say so.
+ *
+ * `declared` is every declared custom-property name across both modes, which
+ * is what makes rule 2 checkable.
+ */
+const NON_TEXT_BY_ROLE = new Set([
+  '--color-focus',                 // focus ring — a UI indicator, never text
+  '--color-slider-thumb',          // control knob fill
+  '--color-highlight-decorative',  // decorative accent; below every text floor (#132)
+]);
+
+function isNonText(cssVar, declared) {
+  if (/(^|-)border(-|$)/.test(cssVar)) return true;
+  if (declared.has(`${cssVar}-text`)) return true;
+  return NON_TEXT_BY_ROLE.has(cssVar);
+}
+
 /** Build a DTCG token entry. Adds $extensions.usage for non-text tokens. */
-function dtcgEntry(value, comment) {
+function dtcgEntry(cssVar, value, comment, declared) {
   const entry = { $type: 'color', $value: value };
   if (comment) entry.$description = comment;
-  if (/icon\/border use/i.test(comment)) {
+  if (isNonText(cssVar, declared)) {
     entry.$extensions = { usage: 'non-text' };
   }
   return entry;
+}
+
+/**
+ * Fail if a comment claims non-text use for a token no rule catches.
+ *
+ * The prose is no longer the source of truth, but it is still a second opinion
+ * — and a disagreement means either a token needs adding to NON_TEXT_BY_ROLE
+ * or a comment is wrong. Silently trusting the rules would reintroduce exactly
+ * the failure mode this replaced: a guard that looks populated and isn't.
+ */
+function checkNonTextAgreement(tokens, declared) {
+  const missed = [];
+  for (const [name, { comment }] of Object.entries(tokens)) {
+    if (!name.startsWith('--color-')) continue;
+    const saysNonText = /icon\/border use|non-text/i.test(comment || '');
+    if (saysNonText && !isNonText(name, declared)) missed.push(name);
+  }
+  return missed;
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────────
@@ -317,14 +412,14 @@ let lightCount = 0, darkCount = 0;
 for (const [name, { value, comment }] of Object.entries(lightTokens)) {
   if (!name.startsWith('--color-')) continue;
   if (!isEmittableColor(value)) { skipped.light.push(`${name} → ${value}`); continue; }
-  setPath(output.light, toDtcgPath(name, declared), dtcgEntry(value, comment));
+  setPath(output.light, toDtcgPath(name, declared), dtcgEntry(name, value, comment, declared));
   lightCount++;
 }
 
 for (const [name, { value, comment }] of Object.entries(darkTokens)) {
   if (!name.startsWith('--color-')) continue;
   if (!isEmittableColor(value)) { skipped.dark.push(`${name} → ${value}`); continue; }
-  setPath(output.dark, toDtcgPath(name, declared), dtcgEntry(value, comment));
+  setPath(output.dark, toDtcgPath(name, declared), dtcgEntry(name, value, comment, declared));
   darkCount++;
 }
 
@@ -334,9 +429,31 @@ const outFile = path.join(outDir, 'tokens.dtcg.json');
 fs.mkdirSync(outDir, { recursive: true });
 fs.writeFileSync(outFile, JSON.stringify(output, null, 2) + '\n');
 
+// 5a. Report on the non-text guard, and fail if prose and rules disagree.
+let nonTextCount = 0, noDesc = 0;
+for (const [name] of Object.entries(lightTokens)) {
+  if (!name.startsWith('--color-')) continue;
+  if (isNonText(name, declared)) nonTextCount++;
+}
+walkTokens(output.light, (tok) => { if (!tok.$description) noDesc++; });
+
 console.log(`✓  audit/tokens.dtcg.json`);
 console.log(`   light: ${lightCount} color tokens`);
 console.log(`   dark:  ${darkCount} color tokens`);
+console.log(`   non-text: ${nonTextCount} flagged (structural — border / has a -text sibling / named role)`);
+if (noDesc) console.log(`   ${noDesc} light token(s) still carry no $description`);
+
+const missedNonText = checkNonTextAgreement(lightTokens, declared);
+if (missedNonText.length) {
+  console.error(
+    `\n✗  ${missedNonText.length} token(s) are annotated as non-text but no structural rule catches them.\n` +
+      '   Either the comment is wrong, or the token needs adding to NON_TEXT_BY_ROLE\n' +
+      '   in this script. Do not leave them disagreeing — CLAUDE.md pitfall 3a tells\n' +
+      '   contributors to trust this field (#218):\n'
+  );
+  for (const n of missedNonText) console.error(`   ${n}`);
+  process.exit(1);
+}
 
 if (lightCount !== darkCount) {
   console.warn(`⚠  mode asymmetry: light and dark should carry the same token set`);

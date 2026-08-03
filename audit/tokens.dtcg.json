@@ -80,29 +80,48 @@
       "border": {
         "default": {
           "$type": "color",
-          "$value": "oklch(0.88 0.005 17.2)"
+          "$value": "oklch(0.88 0.005 17.2)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "strong": {
           "$type": "color",
-          "$value": "oklch(0.81 0 0)"
+          "$value": "oklch(0.81 0 0)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "on-inverse": {
           "$type": "color",
           "$value": "oklch(0.40 0.05 245)",
-          "$description": "subtle divider on navy-800 inverse surface"
+          "$description": "subtle divider on navy-800 inverse surface",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "control": {
           "$type": "color",
-          "$value": "oklch(0.56 0 0)"
+          "$value": "oklch(0.56 0 0)",
+          "$description": "Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA). gray-500: OKCA 3.8 on page ✅, OKCA 2.8 on bg-surface ❌ — use --color-border-control-on-surface on any container that hosts form controls on a surface bg. Declared light-only and aliasing the primitive, so dark inherits the same L=0.56 grey: OKCA 3.5 on dark page ✅, OKCA 2.9 on dark bg-surface ❌ — the same split as light, which is why only the -on-surface sibling needs a dark value (#217).",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "control-on-surface": {
           "$type": "color",
           "$value": "oklch(0.50 0 0)",
-          "$description": "OKCA 3.8 on bg-surface ✅, 5.0 on page ✅"
+          "$description": "OKCA 3.8 on bg-surface ✅, 5.0 on page ✅",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "code": {
           "$type": "color",
-          "$value": "transparent"
+          "$value": "transparent",
+          "$extensions": {
+            "usage": "non-text"
+          }
         }
       },
       "slider": {
@@ -144,7 +163,11 @@
         },
         "destructive": {
           "$type": "color",
-          "$value": "transparent"
+          "$value": "transparent",
+          "$description": "Boosted chroma from the existing burgundy hue — signals irreversibility. Distinct from error (H=25 orange-red): destructive = a chosen action, not a failure state. Both modes: outlined — transparent bg, crimson border+text. Hierarchy mirrors dark mode.",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "destructive-hover": {
           "$type": "color",
@@ -164,12 +187,18 @@
         "destructive-border": {
           "$type": "color",
           "$value": "oklch(0.37 0.15 347)",
-          "$description": "matches text"
+          "$description": "matches text",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "tertiary": {
           "$type": "color",
           "$value": "oklch(0.88 0.005 17.2)",
-          "$description": "was gray-100; bumped for visibility without border"
+          "$description": "was gray-100; bumped for visibility without border",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "tertiary-hover": {
           "$type": "color",
@@ -203,7 +232,10 @@
       "focus": {
         "$type": "color",
         "$value": "oklch(0.65 0.18 250.80)",
-        "$description": "high-visibility ring on dark/white backgrounds"
+        "$description": "high-visibility ring on dark/white backgrounds",
+        "$extensions": {
+          "usage": "non-text"
+        }
       },
       "status": {
         "error": {
@@ -265,7 +297,10 @@
         },
         "border": {
           "$type": "color",
-          "$value": "oklch(0.37 0.08 347.43)"
+          "$value": "oklch(0.37 0.08 347.43)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "text": {
           "$type": "color",
@@ -377,29 +412,49 @@
         "default": {
           "$type": "color",
           "$value": "oklch(0.46 0 0)",
-          "$description": "subtle separator — non-text, decorative"
+          "$description": "subtle separator — non-text, decorative",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "strong": {
           "$type": "color",
           "$value": "oklch(0.56 0 0)",
-          "$description": "OKCA 3.5 on bg-page ✅ — non-text (WCAG 1.4.11 3:1)"
+          "$description": "OKCA 3.5 on bg-page ✅ — non-text (WCAG 1.4.11 3:1)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "on-inverse": {
           "$type": "color",
           "$value": "oklch(0.85 0 0)",
-          "$description": "subtle divider on white inverse surface"
+          "$description": "subtle divider on white inverse surface",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "control": {
           "$type": "color",
-          "$value": "oklch(0.56 0 0)"
+          "$value": "oklch(0.56 0 0)",
+          "$description": "Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA). gray-500: OKCA 3.8 on page ✅, OKCA 2.8 on bg-surface ❌ — use --color-border-control-on-surface on any container that hosts form controls on a surface bg. Declared light-only and aliasing the primitive, so dark inherits the same L=0.56 grey: OKCA 3.5 on dark page ✅, OKCA 2.9 on dark bg-surface ❌ — the same split as light, which is why only the -on-surface sibling needs a dark value (#217).",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "control-on-surface": {
           "$type": "color",
-          "$value": "oklch(0.60 0 0)"
+          "$value": "oklch(0.60 0 0)",
+          "$description": "L=0.60: OKCA 4.2 on dark page ✅, OKCA 3.5 on dark bg-surface ✅",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.56 0 0)"
+          "$value": "oklch(0.56 0 0)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         }
       },
       "slider": {
@@ -443,7 +498,11 @@
         },
         "destructive": {
           "$type": "color",
-          "$value": "transparent"
+          "$value": "transparent",
+          "$description": "Outlined — same pattern as light mode, lighter crimson-rose for dark bg. H=347 at high lightness reads as pink filled; outlined avoids the fill entirely.",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "destructive-hover": {
           "$type": "color",
@@ -463,12 +522,18 @@
         "destructive-border": {
           "$type": "color",
           "$value": "oklch(0.75 0.15 347)",
-          "$description": "matches text"
+          "$description": "matches text",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "tertiary": {
           "$type": "color",
           "$value": "oklch(0.32 0.03 248.99)",
-          "$description": "cooled counterpart of gray-700"
+          "$description": "cooled counterpart of gray-700",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "tertiary-hover": {
           "$type": "color",
@@ -503,7 +568,10 @@
       "focus": {
         "$type": "color",
         "$value": "oklch(0.77 0.12 250.80)",
-        "$description": "OKCA 6.3 on bg-page ✅"
+        "$description": "OKCA 6.3 on bg-page ✅",
+        "$extensions": {
+          "usage": "non-text"
+        }
       },
       "status": {
         "error": {
@@ -568,7 +636,10 @@
         },
         "border": {
           "$type": "color",
-          "$value": "oklch(0.76 0.06 347.43)"
+          "$value": "oklch(0.76 0.06 347.43)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "text": {
           "$type": "color",

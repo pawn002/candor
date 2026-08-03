@@ -251,29 +251,38 @@ const BG_ALIASES = {
  */
 // The fg-name group must not swallow the "was" marker, or every historical
 // figure would be re-measured against the current value and always "drift".
+// A target may name a mode explicitly ("OKCA 3.5 on dark page"). That is not
+// redundancy: a token declared only in the light mixin is *inherited* by dark,
+// so its single comment is the only place its dark behaviour can be recorded —
+// and without this, that figure is unverifiable where it necessarily lives
+// (#217, #218). Absent a prefix, the claim is about the mode being walked.
 const CLAIM_RE =
-  /(?:(?!was\s)([a-z0-9-]+)\s+)?(was\s+)?OKCA\s+(\d+(?:\.\d+)?)(?:\s+on\s+(this bg|[a-z-]+))?/gi;
+  /(?:(?!was\s)([a-z0-9-]+)\s+)?(was\s+)?OKCA\s+(\d+(?:\.\d+)?)(?:\s+on\s+(this bg|(?:dark|light)\s+[a-z-]+|[a-z-]+))?/gi;
 
 function claimsFor(mode, dotted, description) {
   const out = [];
   for (const m of description.matchAll(CLAIM_RE)) {
     const [, fgName, historical, num, target] = m;
     if (historical) { out.push({ kind: 'historical' }); continue; }
-    const key = target?.toLowerCase();
+    let key = target?.toLowerCase();
+    // An explicit "dark …" / "light …" prefix overrides the mode being walked.
+    let claimMode = mode;
+    const modePrefix = key && /^(dark|light)\s+(.+)$/.exec(key);
+    if (modePrefix) { claimMode = modePrefix[1]; key = modePrefix[2]; }
     if (!key || !(key in BG_ALIASES)) { out.push({ kind: 'unchecked', text: m[0].trim() }); continue; }
 
     const bgPath = BG_ALIASES[key];
     const bg = bgPath === null ? 'oklch(1 0 0)'
-      : bgPath === 'SELF' ? value(mode, dotted)
-      : value(mode, bgPath);
+      : bgPath === 'SELF' ? value(claimMode, dotted)
+      : value(claimMode, bgPath);
 
     const fgAlias = fgName && FG_ALIASES[fgName.toLowerCase()];
     const fg = fgAlias
-      ? (fgAlias.startsWith('oklch(') ? fgAlias : value(mode, fgAlias))
-      : value(mode, dotted);
+      ? (fgAlias.startsWith('oklch(') ? fgAlias : value(claimMode, fgAlias))
+      : value(claimMode, dotted);
 
     if (!fg || !bg) { out.push({ kind: 'unchecked', text: m[0].trim() }); continue; }
-    out.push({ kind: 'checkable', claimed: Number(num), fg, bg, target: key });
+    out.push({ kind: 'checkable', claimed: Number(num), fg, bg, target: modePrefix ? `${claimMode} ${key}` : key });
   }
   return out;
 }

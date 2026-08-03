@@ -26,11 +26,11 @@
     --color-border-strong:     var(--gray-300);
     --color-border-on-inverse: oklch(0.40 0.05 245); // subtle divider on navy-800 inverse surface
     // Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA).
-    // gray-500: OKCA 3.8 on page ✅. Fails on bg-surface (OKCA 2.9) — use
+    // gray-500: OKCA 3.8 on page ✅, OKCA 2.8 on bg-surface ❌ — use
     // --color-border-control-on-surface on any container that hosts form controls on a surface bg.
     // Declared light-only and aliasing the primitive, so dark inherits the same
-    // L=0.56 grey: OKCA 3.5 on dark page ✅, 2.9 on dark bg-surface ❌ — the same
-    // split as light, which is why only the -on-surface sibling needs a dark value (#217).
+    // L=0.56 grey: OKCA 3.5 on dark page ✅, OKCA 2.9 on dark bg-surface ❌ — the
+    // same split as light, which is why only the -on-surface sibling needs a dark value (#217).
     --color-border-control:            var(--gray-500);
     --color-border-control-on-surface: oklch(0.50 0 0); // OKCA 3.8 on bg-surface ✅, 5.0 on page ✅
     // Form-control knob fill (slider/switch thumb) — a light puck; pairs with
