@@ -1,25 +1,38 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import { requireTokenValue } from '../../design-tokens/token-values';
+
+// Backgrounds are read from audit/tokens.dtcg.json, never copied. These cells
+// are labelled with the token name, so a copied value turns the demo into a
+// lie the moment the token moves — which is what happened: this table painted
+// `oklch(0.63 0.15 144)` as `--color-status-success` long after the token had
+// moved to L=0.55 (#223). `foreground` is not a token: it is the label colour
+// chosen for legibility on that swatch, so it stays declared here.
+const swatch = (variable: string, foreground: string) => ({
+  label: variable,
+  background: requireTokenValue('light', variable),
+  foreground,
+});
 
 const TOKEN_HEADERS = JSON.stringify(['Token A', 'Token B', 'Token C', 'Token D']);
 const TOKEN_ROWS = JSON.stringify([
   { rowHeader: 'Backgrounds', cells: [
-    { label: '--color-bg-page',     background: 'oklch(1 0 0)',        foreground: '#333' },
-    { label: '--color-bg-surface',  background: 'oklch(0.91 0 0)',     foreground: '#333' },
-    { label: '--color-bg-elevated', background: 'oklch(1 0 0)',        foreground: '#333' },
-    { label: '--color-bg-inverse',  background: 'oklch(0.27 0.06 245)', foreground: '#fff' },
+    swatch('--color-bg-page', '#333'),
+    swatch('--color-bg-surface', '#333'),
+    swatch('--color-bg-elevated', '#333'),
+    swatch('--color-bg-inverse', '#fff'),
   ]},
   { rowHeader: 'Action', cells: [
-    { label: '--color-action-primary',          background: 'oklch(0.27 0.06 245)', foreground: '#fff' },
-    { label: '--color-action-secondary',        background: 'oklch(0.37 0.08 347)', foreground: '#fff' },
-    { label: '--color-action-tertiary',         background: 'oklch(0.88 0.005 17)', foreground: '#333' },
-    { label: '--color-action-destructive-text', background: 'oklch(0.37 0.15 347)', foreground: '#fff' },
+    swatch('--color-action-primary', '#fff'),
+    swatch('--color-action-secondary', '#fff'),
+    swatch('--color-action-tertiary', '#333'),
+    swatch('--color-action-destructive-text', '#fff'),
   ]},
   { rowHeader: 'Status', cells: [
-    { label: '--color-status-error',   background: 'oklch(0.55 0.22 25)',  foreground: '#fff' },
-    { label: '--color-status-success', background: 'oklch(0.63 0.15 144)', foreground: '#fff' },
-    { label: '--color-status-warning', background: 'oklch(0.66 0.16 54)',  foreground: '#333' },
-    { label: '--color-focus',          background: 'oklch(0.65 0.18 251)', foreground: '#fff' },
+    swatch('--color-status-error', '#fff'),
+    swatch('--color-status-success', '#fff'),
+    swatch('--color-status-warning', '#fff'),
+    swatch('--color-focus', '#fff'),
   ]},
 ]);
 

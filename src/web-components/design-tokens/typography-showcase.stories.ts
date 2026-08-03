@@ -148,7 +148,7 @@ const renderContrastGuidance = () => html`
 
     <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
       <candor-alert variant="warning" heading="Tier 2 authoring constraint" style="display: block;"
-        message="--color-text-subtle (OKCA 5.0) fails the 6.5 regular threshold. Functional 14px text using this token must be bold (wght ≥ 700) — bold OKCA 5.0 passes the 4.5 bold floor.">
+        message="--color-text-subtle (OKCA 5.0 on page) fails the 6.5 regular threshold. Functional 14px text using this token must be bold (wght ≥ 700) — the same score clears the 4.5 bold floor.">
       </candor-alert>
       <candor-alert variant="info" heading="Tier 3 condition" style="display: block;"
         message="Redundancy must be verified per component. Color-alone does not qualify — the redundant channel must be shape, icon, or spatial context so it holds under colorblindness. This tier is assigned by the system; it is not a consumer opt-in.">

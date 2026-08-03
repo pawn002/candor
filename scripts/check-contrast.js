@@ -14,6 +14,18 @@
  *      contributor reads when deciding whether a colour can move, so a stale
  *      number is a real defect — that is what #211 was filed for, after a
  *      recorded 15.2 survived years of drift from a measured 14.1.
+ *   3. STORY FIGURES — the same numbers written into story prose. Check 2 was
+ *      scoped to token comments while the convention it enforces ("every
+ *      recorded figure must be re-measurable") was never so limited, so this
+ *      third surface drifted freely (#223). It is the surface developers copy
+ *      from, and it is where the tier rules are taught by worked example — a
+ *      story that argues from a stale number teaches the wrong threshold.
+ *
+ *      Values are a different problem from figures and get a different fix: a
+ *      story that *displays* a token's colour reads it from the artifact via
+ *      src/web-components/design-tokens/token-values.ts, so there is no copy to
+ *      go stale. Only prose — where the number is part of an argument and
+ *      cannot be derived — is guarded here.
  *
  * Anything the claim parser cannot interpret is listed as UNCHECKED rather than
  * passed over in silence: a guard that quietly covers a subset is worse than no
@@ -327,6 +339,126 @@ function checkRecordedFigures() {
   return { drift, unchecked, checked, historical, inherited };
 }
 
+// ── 3. recorded figures in story prose ───────────────────────────────────────
+
+/**
+ * A token comment has a free anchor: the declaration it sits on says which
+ * colour the figure is about. Story prose has none — that is the gap #223
+ * identified — so the anchor must be written into the sentence. Two forms
+ * count, both of which a reader needs anyway for the sentence to mean
+ * anything:
+ *
+ *   a custom property   "--color-text-subtle (OKCA 5.0 on page) fails …"
+ *   a hex literal       "**Navy** `#082840` — primary action (OKCA 13.9 on white)"
+ *
+ * The anchor is the nearest one to the LEFT of the figure, which is what lets a
+ * single line carry two claims about two colours ("decorative at OKCA 2.6 on
+ * white; `--color-link` steps to L=0.49 for OKCA 5.3 on white").
+ *
+ * Unanchored figures are UNCHECKED, never guessed. Guessing is how a guard
+ * ends up reporting a number about the wrong colour, which is worse than
+ * reporting nothing.
+ */
+const STORY_GLOB_DIRS = ['src'];
+const STORY_FILE_RE = /\.stories\.ts$/;
+
+const ANCHOR_RE = /--[a-z][a-z0-9-]*|#[0-9a-fA-F]{6}\b/g;
+const STORY_CLAIM_RE = /OKCA\s+(\d+(?:\.\d+)?)(?:\s+on\s+((?:dark|light)\s+[a-z-]+|[a-z-]+))?/gi;
+
+// "OKCA 4.5 bold threshold" states the floor a component must clear; it is not
+// a claim about any colour, so measuring it would invent a failure. The tier
+// tables are the source for these, and they are prose by nature.
+const THRESHOLD_RE = /^\s*(?:\S+\s+)?(?:threshold|floor|minimum)\b/i;
+
+/** cssVar → dotted DTCG path, built by walking the artifact (names do not decompose naively). */
+function cssVarIndex() {
+  const index = new Map();
+  walk('light', dtcg.light, '', (dotted) => index.set('--' + dotted.split('.').join('-'), dotted));
+  return index;
+}
+
+function storyFiles() {
+  const out = [];
+  const visit = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) visit(full);
+      else if (STORY_FILE_RE.test(entry.name)) out.push(full);
+    }
+  };
+  for (const d of STORY_GLOB_DIRS) visit(path.join(ROOT, d));
+  return out.sort();
+}
+
+function checkStoryFigures() {
+  const drift = [];
+  const unchecked = [];
+  let checked = 0;
+  let thresholds = 0;
+
+  const byCssVar = cssVarIndex();
+
+  for (const file of storyFiles()) {
+    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/);
+
+    lines.forEach((line, i) => {
+      const where = `${rel}:${i + 1}`;
+      for (const m of line.matchAll(STORY_CLAIM_RE)) {
+        const rest = line.slice(m.index + m[0].length);
+        if (THRESHOLD_RE.test(rest)) { thresholds++; continue; }
+
+        let key = m[2]?.toLowerCase();
+        let mode = 'light';
+        const modePrefix = key && /^(dark|light)\s+(.+)$/.exec(key);
+        if (modePrefix) { mode = modePrefix[1]; key = modePrefix[2]; }
+
+        if (!key || !(key in BG_ALIASES)) {
+          unchecked.push(`${where} — "${m[0].trim()}" names no background the audit knows`);
+          continue;
+        }
+
+        // Nearest anchor to the left of the figure.
+        const before = line.slice(0, m.index);
+        const anchors = [...before.matchAll(ANCHOR_RE)];
+        const anchor = anchors.length ? anchors[anchors.length - 1][0] : null;
+        if (!anchor) {
+          unchecked.push(`${where} — "${m[0].trim()}" has no token or hex anchor to its left`);
+          continue;
+        }
+
+        const fg = anchor.startsWith('#')
+          ? anchor
+          : byCssVar.has(anchor)
+            ? value(mode, byCssVar.get(anchor))
+            : null;
+        if (!fg) {
+          unchecked.push(`${where} — anchor ${anchor} does not resolve to a token value`);
+          continue;
+        }
+
+        const bgPath = BG_ALIASES[key];
+        const bg = bgPath === null ? 'oklch(1 0 0)' : bgPath === 'SELF' ? null : value(mode, bgPath);
+        if (!bg) {
+          unchecked.push(`${where} — "${m[0].trim()}" resolves no background ("this bg" needs a declaring token)`);
+          continue;
+        }
+
+        checked++;
+        const claimed = Number(m[1]);
+        const measured = okca(fg, bg);
+        if (measured !== claimed) {
+          drift.push(`${where} — ${anchor} on ${modePrefix ? `${mode} ${key}` : key}: recorded ${claimed}, measured ${measured}`);
+        } else if (VERBOSE) {
+          console.log(`  ok      ${where} ${anchor} on ${key} ${measured}`);
+        }
+      }
+    });
+  }
+
+  return { drift, unchecked, checked, thresholds };
+}
+
 // ── main ─────────────────────────────────────────────────────────────────────
 
 assertKlar3();
@@ -345,6 +477,12 @@ console.log(
 for (const d of R.drift) console.log(`  ✗  ${d}`);
 for (const u of R.unchecked) console.log(`  ?  UNCHECKED ${u}`);
 
-const failed = P.failures.length + R.drift.length;
+console.log('\nStory figures (prose in *.stories.ts)');
+const S = checkStoryFigures();
+console.log(`  ${S.checked} re-measured, ${S.thresholds} threshold statement(s) (not claims), ${S.drift.length} drifted`);
+for (const d of S.drift) console.log(`  ✗  ${d}`);
+for (const u of S.unchecked) console.log(`  ?  UNCHECKED ${u}`);
+
+const failed = P.failures.length + R.drift.length + S.drift.length;
 console.log(failed ? `\n✗  ${failed} problem(s)` : '\n✓  no drift');
 process.exit(failed ? 1 : 0);

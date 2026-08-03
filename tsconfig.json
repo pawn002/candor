@@ -10,6 +10,9 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    // Documentation stories read audit/tokens.dtcg.json so displayed token
+    // values are derived from the gated artifact rather than copied (#223).
+    "resolveJsonModule": true,
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
