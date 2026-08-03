@@ -120,7 +120,7 @@ export const OnSurface: Story = {
         story: 'Side-by-side comparison of input borders on page background vs surface background. ' +
           'The surface container overrides `--color-border-control` to `var(--color-border-control-on-surface)`, ' +
           'which all child form controls inherit automatically. ' +
-          'Without the override, border-control (gray-500) achieves only OKCA 2.9 on bg-surface — ' +
+          'Without the override, --color-border-control (gray-500) achieves only OKCA 2.8 on bg-surface — ' +
           'below the 3.0 non-text contrast threshold.',
       },
     },

@@ -80,29 +80,48 @@
       "border": {
         "default": {
           "$type": "color",
-          "$value": "oklch(0.88 0.005 17.2)"
+          "$value": "oklch(0.88 0.005 17.2)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "strong": {
           "$type": "color",
-          "$value": "oklch(0.81 0 0)"
+          "$value": "oklch(0.81 0 0)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "on-inverse": {
           "$type": "color",
           "$value": "oklch(0.40 0.05 245)",
-          "$description": "subtle divider on navy-800 inverse surface"
+          "$description": "subtle divider on navy-800 inverse surface",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "control": {
           "$type": "color",
-          "$value": "oklch(0.56 0 0)"
+          "$value": "oklch(0.56 0 0)",
+          "$description": "Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA). gray-500: OKCA 3.8 on page ✅, OKCA 2.8 on bg-surface ❌ — use --color-border-control-on-surface on any container that hosts form controls on a surface bg. Declared light-only and aliasing the primitive, so dark inherits the same L=0.56 grey: OKCA 3.5 on dark page ✅, OKCA 2.9 on dark bg-surface ❌ — the same split as light, which is why only the -on-surface sibling needs a dark value (#217).",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "control-on-surface": {
           "$type": "color",
           "$value": "oklch(0.50 0 0)",
-          "$description": "OKCA 3.8 on bg-surface ✅, 5.0 on page ✅"
+          "$description": "OKCA 3.8 on bg-surface ✅, 5.0 on page ✅",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "code": {
           "$type": "color",
-          "$value": "transparent"
+          "$value": "transparent",
+          "$extensions": {
+            "usage": "non-text"
+          }
         }
       },
       "slider": {
@@ -123,11 +142,11 @@
         },
         "primary-hover": {
           "$type": "color",
-          "$value": "oklch(0.19 0.05 245.34)"
+          "$value": "oklch(0.19 0.04 245.34)"
         },
         "primary-active": {
           "$type": "color",
-          "$value": "oklch(0.19 0.05 245.34)"
+          "$value": "oklch(0.19 0.04 245.34)"
         },
         "secondary": {
           "$type": "color",
@@ -144,7 +163,11 @@
         },
         "destructive": {
           "$type": "color",
-          "$value": "transparent"
+          "$value": "transparent",
+          "$description": "Boosted chroma from the existing burgundy hue — signals irreversibility. Distinct from error (H=25 orange-red): destructive = a chosen action, not a failure state. Both modes: outlined — transparent bg, crimson border+text. Hierarchy mirrors dark mode.",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "destructive-hover": {
           "$type": "color",
@@ -164,12 +187,18 @@
         "destructive-border": {
           "$type": "color",
           "$value": "oklch(0.37 0.15 347)",
-          "$description": "matches text"
+          "$description": "matches text",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "tertiary": {
           "$type": "color",
           "$value": "oklch(0.88 0.005 17.2)",
-          "$description": "was gray-100; bumped for visibility without border"
+          "$description": "was gray-100; bumped for visibility without border",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "tertiary-hover": {
           "$type": "color",
@@ -182,13 +211,13 @@
       },
       "link": {
         "$type": "color",
-        "$value": "oklch(0.49 0.18 250.80)",
-        "$description": "OKCA 5.1 on white ✅ — azure-500 (L=0.53) was OKCA 4.2; stepped to L=0.49 for OKCA compliance (#14)"
+        "$value": "oklch(0.49 0.14 250.80)",
+        "$description": "OKCA 5.3 on white ✅ — azure-500 (L=0.53) was OKCA 4.4; stepped to L=0.49 for OKCA compliance (#14)"
       },
       "link-hover": {
         "$type": "color",
-        "$value": "oklch(0.45 0.17 250.80)",
-        "$description": "OKCA 6.1 on white ✅"
+        "$value": "oklch(0.45 0.13 250.80)",
+        "$description": "OKCA 6.4 on white ✅"
       },
       "link-visited": {
         "$type": "color",
@@ -203,25 +232,28 @@
       "focus": {
         "$type": "color",
         "$value": "oklch(0.65 0.18 250.80)",
-        "$description": "high-visibility ring on dark/white backgrounds"
+        "$description": "high-visibility ring on dark/white backgrounds",
+        "$extensions": {
+          "usage": "non-text"
+        }
       },
       "status": {
         "error": {
           "$type": "color",
-          "$value": "oklch(0.54 0.22 25)",
-          "$description": "icon/border use — OKCA 3.4 on error-bg ✅ (WCAG 1.4.11)",
+          "$value": "oklch(0.54 0.21 25)",
+          "$description": "icon/border use — OKCA 3.6 on error-bg ✅ (WCAG 1.4.11)",
           "$extensions": {
             "usage": "non-text"
           }
         },
         "error-bg": {
           "$type": "color",
-          "$value": "oklch(0.95 0.05 25)"
+          "$value": "oklch(0.95 0.02 25)"
         },
         "error-text": {
           "$type": "color",
-          "$value": "oklch(0.45 0.22 25)",
-          "$description": "OKCA 4.6 on error-bg ✅ — outside sRGB; paints #b00000. Margin over the 4.5 floor is 0.1. Re-authored in gamut by #225"
+          "$value": "oklch(0.45 0.18 25)",
+          "$description": "OKCA 5.4 on error-bg ✅ — C=0.22 exceeded what sRGB holds at this L and H, so the token specified no single colour and its recorded 4.6 was undefined; re-authored to the boundary, same L and H (#225)"
         },
         "success": {
           "$type": "color",
@@ -237,25 +269,25 @@
         },
         "success-text": {
           "$type": "color",
-          "$value": "oklch(0.46 0.15 144.2)",
+          "$value": "oklch(0.46 0.14 144.2)",
           "$description": "OKCA 5.1 on success-bg ✅ — L=0.50 was OKCA 4.2; stepped to L=0.46 (#14)"
         },
         "warning": {
           "$type": "color",
-          "$value": "oklch(0.54 0.16 53.54)",
-          "$description": "icon/border use — OKCA 3.4 on warning-bg ✅ (WCAG 1.4.11)",
+          "$value": "oklch(0.54 0.13 53.54)",
+          "$description": "icon/border use — OKCA 3.6 on warning-bg ✅ (WCAG 1.4.11)",
           "$extensions": {
             "usage": "non-text"
           }
         },
         "warning-bg": {
           "$type": "color",
-          "$value": "oklch(0.95 0.05 53)"
+          "$value": "oklch(0.95 0.02 53)"
         },
         "warning-text": {
           "$type": "color",
-          "$value": "oklch(0.40 0.16 53.54)",
-          "$description": "OKCA 6.5 on warning-bg ✅"
+          "$value": "oklch(0.40 0.10 53.54)",
+          "$description": "OKCA 6.9 on warning-bg ✅ — C=0.16 was the furthest outside sRGB of any Candor colour (deltaE 11 from the nearest in-gamut form, and off-hue with it — amber becoming dark red); re-authored to the boundary, same L and H (#225)"
         }
       },
       "blockquote": {
@@ -265,7 +297,10 @@
         },
         "border": {
           "$type": "color",
-          "$value": "oklch(0.37 0.08 347.43)"
+          "$value": "oklch(0.37 0.08 347.43)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "text": {
           "$type": "color",
@@ -276,7 +311,7 @@
       "callout": {
         "bg": {
           "$type": "color",
-          "$value": "oklch(0.97 0.02 278.14)",
+          "$value": "oklch(0.97 0.01 278.14)",
           "$description": "light indigo wash — text-default OKCA 10.4 on this bg ✅"
         }
       },
@@ -358,7 +393,7 @@
         "on-action": {
           "$type": "color",
           "$value": "oklch(0.16 0.02 248.99)",
-          "$description": "OKCA 6.7 on action-primary ✅ — same as bg-page; gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5"
+          "$description": "OKCA 7.0 on action-primary ✅ — same as bg-page; gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5"
         },
         "code": {
           "$type": "color",
@@ -377,29 +412,49 @@
         "default": {
           "$type": "color",
           "$value": "oklch(0.46 0 0)",
-          "$description": "subtle separator — non-text, decorative"
+          "$description": "subtle separator — non-text, decorative",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "strong": {
           "$type": "color",
           "$value": "oklch(0.56 0 0)",
-          "$description": "OKCA 3.5 on bg-page ✅ — non-text (WCAG 1.4.11 3:1)"
+          "$description": "OKCA 3.5 on bg-page ✅ — non-text (WCAG 1.4.11 3:1)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "on-inverse": {
           "$type": "color",
           "$value": "oklch(0.85 0 0)",
-          "$description": "subtle divider on white inverse surface"
+          "$description": "subtle divider on white inverse surface",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "control": {
           "$type": "color",
-          "$value": "oklch(0.56 0 0)"
+          "$value": "oklch(0.56 0 0)",
+          "$description": "Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA). gray-500: OKCA 3.8 on page ✅, OKCA 2.8 on bg-surface ❌ — use --color-border-control-on-surface on any container that hosts form controls on a surface bg. Declared light-only and aliasing the primitive, so dark inherits the same L=0.56 grey: OKCA 3.5 on dark page ✅, OKCA 2.9 on dark bg-surface ❌ — the same split as light, which is why only the -on-surface sibling needs a dark value (#217).",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "control-on-surface": {
           "$type": "color",
-          "$value": "oklch(0.60 0 0)"
+          "$value": "oklch(0.60 0 0)",
+          "$description": "L=0.60: OKCA 4.2 on dark page ✅, OKCA 3.5 on dark bg-surface ✅",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.56 0 0)"
+          "$value": "oklch(0.56 0 0)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         }
       },
       "slider": {
@@ -415,17 +470,17 @@
       "action": {
         "primary": {
           "$type": "color",
-          "$value": "oklch(0.79 0.12 245)",
-          "$description": "OKCA 7.0 on bg-page ✅"
+          "$value": "oklch(0.79 0.11 245)",
+          "$description": "OKCA 7.3 on bg-page ✅"
         },
         "primary-hover": {
           "$type": "color",
-          "$value": "oklch(0.87 0.08 245)",
-          "$description": "OKCA 11.5 on bg-page ✅"
+          "$value": "oklch(0.87 0.06 245)",
+          "$description": "OKCA 11.9 on bg-page ✅"
         },
         "primary-active": {
           "$type": "color",
-          "$value": "oklch(0.87 0.08 245)"
+          "$value": "oklch(0.87 0.06 245)"
         },
         "secondary": {
           "$type": "color",
@@ -443,7 +498,11 @@
         },
         "destructive": {
           "$type": "color",
-          "$value": "transparent"
+          "$value": "transparent",
+          "$description": "Outlined — same pattern as light mode, lighter crimson-rose for dark bg. H=347 at high lightness reads as pink filled; outlined avoids the fill entirely.",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "destructive-hover": {
           "$type": "color",
@@ -458,17 +517,23 @@
         "destructive-text": {
           "$type": "color",
           "$value": "oklch(0.75 0.15 347)",
-          "$description": "OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). In gamut, so specified and painted agree. Still OKCA 3.9 on bg-surface ❌ — see #224"
+          "$description": "OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). Still OKCA 3.9 on bg-surface ❌ — see #224"
         },
         "destructive-border": {
           "$type": "color",
           "$value": "oklch(0.75 0.15 347)",
-          "$description": "matches text"
+          "$description": "matches text",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "tertiary": {
           "$type": "color",
           "$value": "oklch(0.32 0.03 248.99)",
-          "$description": "cooled counterpart of gray-700"
+          "$description": "cooled counterpart of gray-700",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "tertiary-hover": {
           "$type": "color",
@@ -482,18 +547,18 @@
       },
       "link": {
         "$type": "color",
-        "$value": "oklch(0.77 0.15 250.80)",
-        "$description": "OKCA 5.6 on bg-page ✅"
+        "$value": "oklch(0.77 0.12 250.80)",
+        "$description": "OKCA 6.3 on bg-page ✅"
       },
       "link-hover": {
         "$type": "color",
-        "$value": "oklch(0.86 0.10 250.80)",
-        "$description": "OKCA 10.7 on bg-page ✅"
+        "$value": "oklch(0.86 0.07 250.80)",
+        "$description": "OKCA 11.2 on bg-page ✅"
       },
       "link-visited": {
         "$type": "color",
-        "$value": "oklch(0.77 0.15 278.14)",
-        "$description": "OKCA 5.8 on bg-page ✅"
+        "$value": "oklch(0.77 0.11 278.14)",
+        "$description": "OKCA 6.6 on bg-page ✅"
       },
       "highlight": {
         "$type": "color",
@@ -502,8 +567,11 @@
       },
       "focus": {
         "$type": "color",
-        "$value": "oklch(0.77 0.15 250.80)",
-        "$description": "OKCA 5.6 on bg-page ✅"
+        "$value": "oklch(0.77 0.12 250.80)",
+        "$description": "OKCA 6.3 on bg-page ✅",
+        "$extensions": {
+          "usage": "non-text"
+        }
       },
       "status": {
         "error": {
@@ -521,8 +589,8 @@
         },
         "error-text": {
           "$type": "color",
-          "$value": "oklch(0.79 0.22 25)",
-          "$description": "OKCA 3.4 on error-bg ❌ — far outside sRGB; paints #ff746f (red pinned at 255). The recorded 5.2 was measured on a colour no browser renders. Fails the 4.5 badge floor. L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value. Re-authored in gamut by #225; see #222"
+          "$value": "oklch(0.79 0.12 25)",
+          "$description": "OKCA 6.0 on error-bg ✅ — C=0.22 was far outside sRGB, so the token named no single colour and every figure recorded for it was undefined; its nearest in-gamut form was OKCA 3.4, which is how five failures sat inside a passing audit (#222). Re-authored to the boundary, same L and H (#225). L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value, kept because it still holds for the renderable one"
         },
         "success": {
           "$type": "color",
@@ -557,8 +625,8 @@
         },
         "warning-text": {
           "$type": "color",
-          "$value": "oklch(0.82 0.16 53.54)",
-          "$description": "OKCA 5.2 on warning-bg ✅ — outside sRGB; paints #ffa456. Re-authored in gamut by #225"
+          "$value": "oklch(0.82 0.11 53.54)",
+          "$description": "OKCA 6.8 on warning-bg ✅ — C=0.16 exceeded what sRGB holds at this L and H; re-authored to the boundary, same L and H (#225)"
         }
       },
       "blockquote": {
@@ -568,7 +636,10 @@
         },
         "border": {
           "$type": "color",
-          "$value": "oklch(0.76 0.06 347.43)"
+          "$value": "oklch(0.76 0.06 347.43)",
+          "$extensions": {
+            "usage": "non-text"
+          }
         },
         "text": {
           "$type": "color",
@@ -585,7 +656,7 @@
       },
       "highlight-decorative": {
         "$type": "color",
-        "$value": "oklch(0.68 0.18 278.14)",
+        "$value": "oklch(0.68 0.17 278.14)",
         "$description": "icon/border use — decorative accent; never a color: value (#132)",
         "$extensions": {
           "usage": "non-text"

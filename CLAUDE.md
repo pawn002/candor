@@ -69,8 +69,27 @@ All visual styling flows from design tokens in `src/design-tokens/`:
 
 Colors use OKLCH format: `oklch(L C H)` where:
 - L = lightness (0-1)
-- C = chroma/saturation
+- C = chroma/saturation — **bounded by the sRGB gamut, and the bound moves with L and H**
 - H = hue (degrees)
+
+#### The sRGB gamut is an invariant
+
+**Every authored Candor colour must be renderable in sRGB.** sRGB is the baseline gamut for digital products, and Candor is practical accessibility — a colour the delivery target cannot render is not a specification.
+
+OKLCH's chroma axis is unbounded in notation but bounded in reality, and it accepts an out-of-gamut value silently. Such a value is not a specification — it is a request that some other party will resolve. Two consequences:
+
+1. **Candor stops controlling its own colours.** The authored value delegates the final decision to whatever consumes it, and different consumers decide differently. The token is then not one colour but a family of them.
+2. **Every contrast figure recorded against it is undefined.** OKCA is established across the sRGB gamut; a colour outside that gamut is outside the algorithm's domain, so a score for it is not a permissive number — it is a meaningless one. This is how five real contrast failures sat inside a passing audit for months (#222).
+
+**Candor does not model, predict, or track how out-of-gamut colours get resolved.** That is an arms race across engines and versions, and it is not one this project enters. The invariant is what makes the question moot: when every authored value is inside sRGB, nothing is left to resolve, and the colour Candor specifies is the colour Candor delivers. Any documentation or tooling here that reasons about substitution behaviour is a bug — the correct response to "what happens when it's out of gamut" is "it isn't."
+
+**Authoring rule.** When a colour needs more saturation than sRGB allows at that lightness, hold L and H and pull chroma down to the boundary — never trade lightness for chroma, because lightness is what carries contrast. **Round chroma inward, never to nearest**: the in-gamut maximum sits exactly *on* the boundary, so 2dp nearest-rounding pushes roughly half of these values straight back out.
+
+Note that the bound moves with **both** L and H: `--azure-400` holds C=0.18 at L=0.65, while the same hue at L=0.53 tops out at 0.15 and at L=0.77 at 0.12. A ramp at constant chroma will leave the gamut at its ends even though its middle is fine.
+
+**The gate.** `npm run audit:tokens` fails if any `oklch()` literal in `src/design-tokens/*.scss` is out of gamut, and prints the in-gamut value to use. It covers every stylesheet in that directory, including ones absent from the DTCG artifact. Check a single colour with `klar contrast <c> "#000" --allow-out-of-gamut --json` → `.gamut.outOfGamut`. **Never use culori's `clampChroma`/`toGamut`** for this — they answer a different question (what to substitute) rather than the only one Candor asks (is this value renderable at all).
+
+**In-gamut is not a ban on wide gamut.** The clean form is sRGB as the authored base value, with any P3 treatment layered additively behind `@media (color-gamut: p3)` — never as the base.
 
 
 ### Component Structure
@@ -110,7 +129,7 @@ The component library is the Lit 3 web components in `src/web-components/compone
 
 1. **Receive art direction**: Colors (hex), fonts, spacing requirements
 2. **Convert to OKLCH**: Run `klar meta <hex>` on each color to get exact OKLCH values
-3. **Update tokens**: Modify `src/design-tokens/semantics.scss` (or `primitives.scss`). After any change, re-export the DTCG artifact: `npm run audit:tokens`
+3. **Update tokens**: Modify `src/design-tokens/semantics.scss` (or `primitives.scss`). After any change, run `npm run audit:tokens` — it gates the sRGB gamut invariant and re-exports the DTCG artifact. If a colour is out of gamut it fails and prints the in-gamut value; take that value before measuring anything, since a figure measured on an unrenderable colour describes a colour nobody sees
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
 5. **Mobile check**: Switch Storybook's viewport toolbar to **mobile1 (320 × 568)** and verify: no horizontal overflow, no clipped interactive elements, no layout broken by a fixed column count
 6. **Accessibility validation**: Run `npm run audit:contrast`. It re-measures every pairing in `audit/pairings.json` in both modes against that pairing's `min` (the Candor-policy OKCA floor), and re-measures every OKCA figure recorded in a token comment against the token's current value. For one-off checks outside the audit set, `klar contrast <fg> <bg> -q` still applies.
@@ -119,15 +138,29 @@ The component library is the Lit 3 web components in `src/web-components/compone
 
 ### Audit Artifacts
 
-Two machine-readable files in `audit/` serve as the canonical inputs for contrast audits. Keep them current as tokens and components evolve. `npm run audit:contrast` (`scripts/check-contrast.js`) is what reads them — it re-measures every pairing against its `min` and every OKCA figure recorded in a token comment against the token's current value, and prints `UNCHECKED` for anything it can't interpret rather than passing it silently. It exits non-zero on any enforced failure, so it currently fails on the two known exceptions tracked in #208 and #209; it is deliberately **not** wired into CI until those land.
+Two machine-readable files in `audit/` serve as the canonical inputs for contrast audits. Keep them current as tokens and components evolve. `npm run audit:contrast` (`scripts/check-contrast.js`) is what reads them — it re-measures every pairing against its `min`, every OKCA figure recorded in a token comment, and every OKCA figure recorded in story prose, each against the current token values, and prints `UNCHECKED` for anything it can't interpret rather than passing it silently. It exits non-zero on any enforced failure, so it currently fails on the one remaining exception tracked in #208; it is deliberately **not** wired into CI until that lands.
 
-Recorded figures are re-baselined to klar 3.0. Any figure you add must be measured with klar 3.x, **and with `--gamut-map clip`** — `npm run audit:contrast` does this for you, so prefer it over a bare `klar contrast` when adding a figure. A number carried over from an older tool or an older note will be wrong twice over: 2.0.0 recalibrated OKCA (+0.4 in the 3–7 band), and 3.0.0 both scored at full precision (±0.1) and stopped silently gamut-mapping.
+The two audits split by what they own: **`audit:tokens` owns gamut, `audit:contrast` owns contrast.** Gamut is a property of a token, so it is gated at export where every declaration is visible; contrast is a property of a pairing, so it is checked against `pairings.json`, which only ever contains colours someone remembered to add. Run `audit:tokens` first — it is the precondition that makes `audit:contrast`'s numbers mean anything.
+
+**`audit:tokens` runs in CI** (the `gamut` job), so the sRGB invariant is enforced on every PR rather than depending on someone remembering. That job also re-exports the artifact and fails if it differs from the committed one, catching a token change that was never re-exported. `audit:contrast` is not in CI yet for the reason above.
+
+**What is and is not guaranteed.** Only executable gates guarantee anything; prose and linked references do not. Currently gated: sRGB gamut (CI), stale figures in `semantics.scss` comments, stale figures in story prose, pairings below their floor, and klar's major version — that last one is a deliberate hard stop, since it is the only mechanism that forces klar's docs to be re-read on an upgrade. **Not** gated, and therefore only as reliable as the reader: OKCA figures in `primitives.scss` comments (primitives are absent from the DTCG artifact, so nothing checks them), and every judgment-level rule in this file. Treat an ungated convention as a convention.
+
+**Recording a figure in a story (#223).** Story prose is now in the audit's scope, but only when the sentence says which colour it is about — a token comment gets that free from its declaration and prose does not. Write `OKCA <n> on <bg>` with a `--custom-property` or a `#rrggbb` literal somewhere to its **left** on the same line; the nearest one wins, which is what lets one line carry two claims. `<bg>` must be a name the audit knows (`page`, `bg-surface`, `white`, `bg-inverse`, `error-bg`, …), optionally mode-prefixed (`on dark page`); light is assumed. A figure the parser cannot anchor or whose background it cannot resolve is reported as `UNCHECKED`, not passed. Stating a *threshold* rather than a measurement — `OKCA 4.5 bold threshold`, `… floor` — is recognised and excluded, so tier tables need no special handling.
+
+**Do not record a token's *value* in a story.** A figure is an argument and has to be written down; a value is a fact the artifact already holds. Stories that display token colours import `requireTokenValue` from `src/web-components/design-tokens/token-values.ts`, which reads `audit/tokens.dtcg.json` — so the swatch cannot disagree with the stylesheet, and a renamed token throws at build time instead of rendering a blank. Copying `oklch(…)` into a story is how the data-grid demo spent months painting a colour the system had stopped using, under that colour's token name, with nothing to catch it.
+
+**A brand hex and the token derived from it are different colours.** Converting hex → OKLCH rounds, so their OKCA scores can differ by a tenth (`#082840` is 14.0 on white; `--color-action-primary` is 13.9). Both figures are correct about their own colour. Do not "reconcile" them — that necessarily makes one wrong, which is a mistake this repo has already made once.
+
+Recorded figures are re-baselined to klar 3.0. Any figure you add must be measured with klar 3.x — prefer `npm run audit:contrast` over a bare `klar contrast`, since it measures exactly as the audit does. A number carried over from an older tool or an older note will be wrong twice over: 2.0.0 recalibrated OKCA (+0.4 in the 3–7 band), and 3.0.0 both scored at full precision (±0.1) and stopped silently substituting a different colour for out-of-gamut input.
 
 **`audit/tokens.dtcg.json`** — auto-generated, do not edit by hand.
 - Produced by `npm run audit:tokens` (runs `scripts/export-tokens-dtcg.js`).
 - Contains all `--color-*` tokens with resolved `oklch()` values in W3C DTCG format, split into `light` and `dark` mode objects.
-- Tokens annotated "icon/border use" in `semantics.scss` carry `$extensions.usage: "non-text"` — these are the tokens that must NOT be used as CSS `color:` values for text.
-- Re-run whenever `src/design-tokens/semantics.scss` or `src/design-tokens/primitives.scss` changes.
+- `$extensions.usage: "non-text"` marks the tokens that must NOT be used as CSS `color:` values for text. It is derived **structurally** from what the token is, not from its prose (#218): a name containing `border`, or the existence of a `<name>-text` sibling (the system having minted a `-text` variant *is* the statement that the base is not for text), plus a short named-role list in the script for `focus` / `slider-thumb` / `highlight-decorative`. 16 of 55 tokens qualify. The export **fails** if a comment claims non-text use for a token no rule catches, so prose and rules cannot drift apart silently.
+- `$description` captures a comment **above** the declaration as well as one trailing it. Several of the longest annotations sit above, and trailing-only capture was dropping 21 of 55 light tokens' descriptions — including every form-control border, which is why `--color-border-control`'s dark behaviour read as an unexplained oversight from the artifact alone (#217).
+- Re-run whenever any file in `src/design-tokens/` changes.
+- **The same command enforces the sRGB gamut invariant** and exits 1 with the in-gamut value to use. It scans every `.scss` in `src/design-tokens/` — a wider set than it exports from, so `syntax.scss` is covered even though its tokens are not in the artifact. `--skip-gamut` bypasses it (klar not installed); nothing in the repo passes that flag.
 
 **`audit/pairings.json`** — hand-authored, update alongside component changes.
 - 108 foreground/background pairings, each measured in both modes (216 measurements). Per-component coverage is not derivable from the entry ids — form controls share `form-*` prefixes — so treat "every component is covered" as unverified until #197 settles how coverage is counted.
@@ -140,32 +173,37 @@ Recorded figures are re-baselined to klar 3.0. Any figure you add must be measur
 
 ### Integration Points
 
-**klar CLI** — requires **3.x** (`klar --version`). Every contrast figure recorded in this repo assumes it. On 2.x the numbers in `audit/` and the tier tables are wrong: 2.x scored through an 8-bit hex round-trip *and* silently applied CSS Color 4 gamut mapping, so for any out-of-gamut color it reported a value that was neither the authored color nor the painted one.
+**klar CLI** — requires **3.x** (`klar --version`). Every contrast figure recorded in this repo assumes it. On 2.x the numbers in `audit/` and the tier tables are wrong: 2.x scored through an 8-bit hex round-trip *and* silently substituted a different color for any out-of-gamut input, reporting a figure for a color nobody had asked about. Under the sRGB invariant (#225) that substitution can no longer arise, but the precision difference still makes 2.x figures wrong.
 All klar commands accept both `<hex>` and `oklch(L C H)` CSS color strings as inputs — pass OKLCH values directly without converting to hex first.
 
 ```bash
 klar meta <color>                                    # Inspect a color: OKLCH axes, saturation, gamut
-klar contrast <fg> <bg> --gamut-map clip -q          # Check contrast ratio (OKCA, WCAG-compatible)
+klar contrast <fg> <bg> -q                           # Check contrast ratio (OKCA, WCAG-compatible)
 klar contrast <fg> <bg> --type deltaE -q             # Perceptual drift between two colors
 klar contrast <fg> <bg> --type wcag2 -q              # WCAG 2.x ratio (cross-check against the legacy algorithm)
 klar contrast <c> "#000" --allow-out-of-gamut --json # Is this color renderable in sRGB? → .gamut.outOfGamut
 klar find <bg> <color> --target 4.5 -q               # Lightness-adjusted compliant color (exit 1 = unachievable; still prints closest)
-klar variants <color>                                # Generate a perceptually-spaced tonal grid
-klar match <color1> <color2>                         # Match chroma of two colors for palette harmony
-klar lightness <color>                               # Min/max lightness range for a color in sRGB gamut
+klar find <bg> <color> --target 4.5 --json           # Same, with .reason / .resolvableBy / .deltaE — branch on .reason, never on prose
+klar variants <color>                                # Perceptually-spaced tonal grid (adaptive; --min-delta default 11)
+klar match <color1> <color2>                         # Match chroma of two colors — REBUILDS one of them, read .colors
+klar lightness <color>                               # Min/max lightness range in sRGB (exit 1 = chroma renderable at no lightness)
 klar pair                                            # Random accessible color pair (seed for exploration)
 klar plugins list                                    # List installed contrast algorithm plugins
 ```
 
+Flags worth knowing that aren't in the one-liners above: `find` takes `--tolerance <n>` (default `0.5`, the acceptable overshoot above target) and `--allow-desaturation` (off by default — `find` moves **lightness only** unless you pass it). `variants` has a fixed-step mode via `--light-steps`/`--chroma-steps`, which emits `"color": ""` for out-of-gamut cells and has no `-q`; filter those out before iterating. `--no-plugins` is global. Verified here that installed plugins do **not** alter a default `okca` result, so the audit does not need it.
+
 **klar key rules:**
-- **OKCA is the default** — WCAG 2.x-compatible ratio on the 1–21 scale, no `--type` flag needed
-- **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Light-on-dark caps near 21; dark-on-light caps near 20; the same chromatic pair returns different numbers when swapped
+- **OKCA is the default** — WCAG 2.x-compatible ratio, no `--type` flag needed
+- **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Light-on-dark caps at **20.9**; dark-on-light at **20**; the same chromatic pair returns different numbers when swapped. Never reuse a reversed measurement
 - **deltaE is the art director's metric** — answers "did it change much?"; < 3 imperceptible, 5–10 acceptable drift, 11+ clearly different
 - **Built-in `--type` values**: `okca` (default), `wcag2`, `deltaE`. Any other `--type` comes from a plugin installed in the environment — plugins are independent of klar-cli and not guaranteed present. Run `klar plugins list` to see what's registered.
-- **Gate `find`/`match` captures on the exit code** — grep-style contract: `0` success, `1` soft failure (`find` target unachievable / `match` infeasible — the closest value is *still printed to stdout*), `2` usage error. An unchecked `ADJUSTED=$(klar find …)` silently assigns a non-compliant color on exit `1`. Use `if ADJUSTED=$(klar find <bg> <color> --target 4.5 -q); then …; else handle_no_compliant_color; fi`
+- **Gate `find`/`match` captures on the exit code** — grep-style contract: `0` success, `1` soft failure (`find` target unachievable / `match` infeasible — the closest value is *still printed to stdout*), `2` usage error. An unchecked `ADJUSTED=$(klar find …)` silently assigns a non-compliant color on exit `1`. Use `if ADJUSTED=$(klar find <bg> <color> --target 4.5 -q); then …; else handle_no_compliant_color; fi`. On exit 1, read `.reason` from `--json` (`lightness-exhausted` / `unreachable` / `chroma-exhausted`) rather than the printed message — `lightness-exhausted` means the fix requires giving up chroma, which is a brand decision, and `.resolvableBy` quotes what that would cost
+- **`klar match` does not preserve its first argument.** It rebuilds whichever of the two can adopt the other's chroma inside sRGB, so the "reference" may be the one that moved. Read `.colors` from `--json` instead of assuming, and re-measure contrast afterward — a pair that just cleared 4.5 can drop below it once chromas are aligned
 - **`contrast` exits 1 on out-of-gamut input**, printing the value anyway. Same gating discipline applies, and note `execSync` in Node *throws* — the value is stranded in `err.stdout`. Pass `--allow-out-of-gamut` when you have already decided to accept it.
-- **Pass `--gamut-map clip` when measuring a Candor token.** klar defaults to `css` (CSS Color 4 chroma reduction); `clip` is the per-channel clamp browsers actually perform, and it is never the optimistic one. This only matters for colors outside sRGB, which Candor tokens must not be (#225) — so treat a figure that changes between the two as a gamut bug, not a measurement choice.
-- **Never use culori for gamut work** despite it being a dependency: `clampChroma`/`toGamut` implement spec chroma-reduction and matched rendered output on only 4 of 11 sampled colors.
+- **Don't pass `--allow-out-of-gamut` when measuring a Candor token.** klar exits 1 on out-of-gamut input; let it. That exit is the correct outcome — OKCA is not defined there, so the right response is to fix the token, not to coax a number out of the tool. `--allow-out-of-gamut` remains correct for the one-line gamut *check*, where reading the verdict is the whole point.
+- **`--gamut-map` is pinned in `check-contrast.js` for reproducibility, not policy.** klar reads a `KLAR_GAMUT_MAP` environment variable that changes the mapping process-wide, so an *unpinned* command produces different figures on a machine that has it set — verified here: the same out-of-gamut colour scores 6.6 under the `css` default and 4.3 under `KLAR_GAMUT_MAP=clip`. An explicit flag beats the variable (verified), which is what makes the audit environment-independent. Note the variable does **not** waive the exit-1 failure (also verified), so it cannot be used to sneak an out-of-gamut colour past the audit. As for *which* value: it can't matter for Candor colours — under the invariant `clip` and `css` return identical values on all 216 audited measurements, so a figure that ever changes between them is a gamut bug, not a measurement choice.
+- **Never use culori for gamut work** despite it being a dependency: `clampChroma`/`toGamut` answer "what should this color be replaced with", which Candor deliberately has no opinion on. The only question here is the boolean "is this value renderable at all" — `klar contrast <c> "#000" --allow-out-of-gamut --json` → `.gamut.outOfGamut`.
 
 See the klar [README](https://github.com/pawn002/klar/blob/main/README.md) for the full [command reference](https://github.com/pawn002/klar/blob/main/README.md#command-reference) and [exit-code contract](https://github.com/pawn002/klar/blob/main/README.md#exit-codes). [`AGENT_PLAYBOOK.md`](https://github.com/pawn002/klar/blob/main/AGENT_PLAYBOOK.md) in the same repo has worked examples of the palette-building and audit workflows.
 
@@ -360,8 +398,10 @@ Apply whenever a flex child holds user-supplied content that may include long un
 
 **colors.scss**:
 ```scss
-$color-primary: oklch(0.55 0.18 250); // Always use OKLCH format
+$color-primary: oklch(0.55 0.18 250); // Always use OKLCH format — and always in sRGB gamut
 ```
+
+After changing any colour, run `npm run audit:tokens` (gamut gate + DTCG re-export) then `npm run audit:contrast` (re-measures every affected pairing and every recorded figure). The gamut gate runs first for a reason: a contrast figure measured on an out-of-gamut colour is meaningless, so gamut must be settled before contrast is worth checking.
 
 **typography.scss**:
 - Base size: `$font-size-md: 1rem` (16px)
@@ -378,7 +418,7 @@ $color-primary: oklch(0.55 0.18 250); // Always use OKLCH format
 2. Put scoped CSS in `static styles = css\`...\``; reference tokens as `var(--...)` custom properties — never redeclare or hard-code token values
 3. Create `candor-<name>.stories.ts` showcasing all variants, including a `Default` story
 4. Re-export from `src/web-components/index.ts` so the `@customElement()` side effect registers the tag
-5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value.
+5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value. If the component needs a colour the system doesn't have, add it as a **token** rather than a literal in `static styles` — a literal in a component is invisible to both the gamut gate and the contrast audit.
 6. Expose consumer style hooks per the "Consumer style hooks (`::part` + custom properties)" convention below — a `part` on each meaningful internal, and `--candor-<name>-<knob>` custom properties (token-defaulted) for the bounded density/shape knobs. Document them in the component's story and the Introduction "Styling & overriding" table.
 
 See "Web Components Authoring Conventions" below for the full conventions.
@@ -659,8 +699,9 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 1. **Don't hard-code colors**: Always use design tokens
 2. **Don't use hex colors in tokens**: Use OKLCH format
+2a. **Don't author a colour sRGB can't render**: OKLCH accepts more chroma than the gamut allows and says nothing. The value then specifies nothing — it delegates the choice away from Candor — and every contrast figure recorded against it is undefined, since OKCA is only established across sRGB. Hold L and H, pull chroma to the boundary, and round **inward**. `npm run audit:tokens` gates this and prints the value to use — see "The sRGB gamut is an invariant" above
 3. **Don't skip accessibility validation**: Check contrast before finalizing
-3a. **Don't use `--color-status-*` (or any `$extensions.usage: "non-text"` token) as a CSS `color:` value for text**: These tokens — `--color-status-error`, `--color-status-success`, `--color-status-warning`, and the base icon/border variants — are contrast-validated only for non-text use (icons, borders, indicators). Their OKCA against common backgrounds is below every text threshold. Always use the paired `-text` variant: `--color-status-error-text`, `--color-status-success-text`, `--color-status-warning-text`. Check `audit/tokens.dtcg.json` — any token with `"$extensions": { "usage": "non-text" }` must not appear in a `color:` rule.
+3a. **Don't use `--color-status-*` (or any `$extensions.usage: "non-text"` token) as a CSS `color:` value for text**: These tokens — `--color-status-error`, `--color-status-success`, `--color-status-warning`, and the base icon/border variants — are contrast-validated only for non-text use (icons, borders, indicators). Their OKCA against common backgrounds is below every text threshold. Always use the paired `-text` variant: `--color-status-error-text`, `--color-status-success-text`, `--color-status-warning-text`. Check `audit/tokens.dtcg.json` — any token with `"$extensions": { "usage": "non-text" }` must not appear in a `color:` rule. That field is now derived structurally and covers all 16 qualifying tokens including every border; before #218 it matched a literal phrase in a comment, was set on 5 tokens, and flagged **no border at all** — so this check silently passed for the entire category it exists to protect. If you are reading an older branch, do not trust it.
 4. **Don't create components without stories**: Every component needs a story
 5. **Don't modify node_modules**: This is obvious but worth stating
 6. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)

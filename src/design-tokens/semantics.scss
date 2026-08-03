@@ -26,11 +26,11 @@
     --color-border-strong:     var(--gray-300);
     --color-border-on-inverse: oklch(0.40 0.05 245); // subtle divider on navy-800 inverse surface
     // Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA).
-    // gray-500: OKCA 3.8 on page ✅. Fails on bg-surface (OKCA 2.9) — use
+    // gray-500: OKCA 3.8 on page ✅, OKCA 2.8 on bg-surface ❌ — use
     // --color-border-control-on-surface on any container that hosts form controls on a surface bg.
     // Declared light-only and aliasing the primitive, so dark inherits the same
-    // L=0.56 grey: OKCA 3.5 on dark page ✅, 2.9 on dark bg-surface ❌ — the same
-    // split as light, which is why only the -on-surface sibling needs a dark value (#217).
+    // L=0.56 grey: OKCA 3.5 on dark page ✅, OKCA 2.9 on dark bg-surface ❌ — the
+    // same split as light, which is why only the -on-surface sibling needs a dark value (#217).
     --color-border-control:            var(--gray-500);
     --color-border-control-on-surface: oklch(0.50 0 0); // OKCA 3.8 on bg-surface ✅, 5.0 on page ✅
     // Form-control knob fill (slider/switch thumb) — a light puck; pairs with
@@ -66,8 +66,8 @@
     // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────
     // azure-400 is the brand original (#1493FB) — use on dark backgrounds only.
     // azure-500/600 are the accessible steps for use on white backgrounds.
-    --color-link:         oklch(0.49 0.18 250.80); // OKCA 5.1 on white ✅ — azure-500 (L=0.53) was OKCA 4.2; stepped to L=0.49 for OKCA compliance (#14)
-    --color-link-hover:   var(--azure-600);   // OKCA 6.1 on white ✅
+    --color-link:         oklch(0.49 0.14 250.80); // OKCA 5.3 on white ✅ — azure-500 (L=0.53) was OKCA 4.4; stepped to L=0.49 for OKCA compliance (#14)
+    --color-link-hover:   var(--azure-600);   // OKCA 6.4 on white ✅
     --color-link-visited: var(--indigo-700);  // OKCA 5.8 on white ✅ — honors universal :visited convention
 
     // ─── Colors: Highlight (burgundy) ─────────────────────────────────────────
@@ -88,15 +88,15 @@
     // ─── Colors: Status ────────────────────────────────────────────────────────
     // Base colors: non-text use only (icons, borders, indicators).
     // For text on light status-bg, use --color-status-*-text (contrast-validated below).
-    --color-status-error:         oklch(0.54 0.22 25);    // icon/border use — OKCA 3.4 on error-bg ✅ (WCAG 1.4.11)
-    --color-status-error-bg:      oklch(0.95 0.05 25);
-    --color-status-error-text:    oklch(0.45 0.22 25);    // OKCA 4.6 on error-bg ✅ — outside sRGB; paints #b00000. Margin over the 4.5 floor is 0.1. Re-authored in gamut by #225
+    --color-status-error:         oklch(0.54 0.21 25);    // icon/border use — OKCA 3.6 on error-bg ✅ (WCAG 1.4.11)
+    --color-status-error-bg:      oklch(0.95 0.02 25);
+    --color-status-error-text:    oklch(0.45 0.18 25);    // OKCA 5.4 on error-bg ✅ — C=0.22 exceeded what sRGB holds at this L and H, so the token specified no single colour and its recorded 4.6 was undefined; re-authored to the boundary, same L and H (#225)
     --color-status-success:       oklch(0.55 0.15 144.2); // icon/border use — OKCA 3.4 on success-bg ✅ (WCAG 1.4.11)
     --color-status-success-bg:    oklch(0.95 0.05 145);
-    --color-status-success-text:  oklch(0.46 0.15 144.2); // OKCA 5.1 on success-bg ✅ — L=0.50 was OKCA 4.2; stepped to L=0.46 (#14)
-    --color-status-warning:       oklch(0.54 0.16 53.54); // icon/border use — OKCA 3.4 on warning-bg ✅ (WCAG 1.4.11)
-    --color-status-warning-bg:    oklch(0.95 0.05 53);
-    --color-status-warning-text:  oklch(0.40 0.16 53.54); // OKCA 6.5 on warning-bg ✅
+    --color-status-success-text:  oklch(0.46 0.14 144.2); // OKCA 5.1 on success-bg ✅ — L=0.50 was OKCA 4.2; stepped to L=0.46 (#14)
+    --color-status-warning:       oklch(0.54 0.13 53.54); // icon/border use — OKCA 3.6 on warning-bg ✅ (WCAG 1.4.11)
+    --color-status-warning-bg:    oklch(0.95 0.02 53);
+    --color-status-warning-text:  oklch(0.40 0.10 53.54); // OKCA 6.9 on warning-bg ✅ — C=0.16 was the furthest outside sRGB of any Candor colour (deltaE 11 from the nearest in-gamut form, and off-hue with it — amber becoming dark red); re-authored to the boundary, same L and H (#225)
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────
     --color-blockquote-bg:     var(--color-bg-surface);
@@ -238,7 +238,7 @@
     --color-text-disabled:          var(--gray-600); // OKCA 2.2 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
     --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
     --color-text-subtle-on-inverse: oklch(0.40 0 0); // muted text on white inverse surface
-    --color-text-on-action:         oklch(0.16 0.02 248.99); // OKCA 6.7 on action-primary ✅ — same as bg-page; gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5
+    --color-text-on-action:         oklch(0.16 0.02 248.99); // OKCA 7.0 on action-primary ✅ — same as bg-page; gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5
 
     // ─── Borders ───────────────────────────────────────────────────────────
     --color-border-default:    var(--gray-600); // subtle separator — non-text, decorative
@@ -253,12 +253,13 @@
     // ─── Action — Primary (navy) ───────────────────────────────────────────
     // Direct OKLCH values instead of navy-* scale refs — the navy palette is
     // intentionally low-chroma (C≤0.06) which reads as muted gray-blue at
-    // light steps. Boosted chroma (C=0.12) makes the primary button read as
-    // a confident blue without changing hue or breaking contrast targets.
-    // gray-800 text on primary: OKCA 5.6 — primary on bg-page: OKCA 7.0 ✅
-    --color-action-primary:        oklch(0.79 0.12 245); // OKCA 7.0 on bg-page ✅
-    --color-action-primary-hover:  oklch(0.87 0.08 245); // OKCA 11.5 on bg-page ✅
-    --color-action-primary-active: oklch(0.87 0.08 245);
+    // light steps. Boosted chroma (C=0.11 — the most sRGB renders at this L and
+    // hue) makes the primary button read as a confident blue without changing
+    // hue or breaking contrast targets.
+    // gray-800 text on primary: OKCA 5.6 — primary on bg-page: OKCA 7.3 ✅
+    --color-action-primary:        oklch(0.79 0.11 245); // OKCA 7.3 on bg-page ✅
+    --color-action-primary-hover:  oklch(0.87 0.06 245); // OKCA 11.9 on bg-page ✅
+    --color-action-primary-active: oklch(0.87 0.06 245);
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
     // bg-page text on burgundy-300: OKCA 7.3 ✅
@@ -272,7 +273,7 @@
     --color-action-destructive:        transparent;
     --color-action-destructive-hover:  oklch(0.72 0.15 347 / 0.12); // subtle rose tint on hover
     --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22); // stronger tint on active
-    --color-action-destructive-text:   oklch(0.75 0.15 347);         // OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). In gamut, so specified and painted agree. Still OKCA 3.9 on bg-surface ❌ — see #224
+    --color-action-destructive-text:   oklch(0.75 0.15 347);         // OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). Still OKCA 3.9 on bg-surface ❌ — see #224
     --color-action-destructive-border: oklch(0.75 0.15 347);         // matches text
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
@@ -287,16 +288,16 @@
     --color-action-tertiary-text:  var(--gray-0);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────
-    --color-link:         var(--azure-300);   // OKCA 5.6 on bg-page ✅
-    --color-link-hover:   var(--azure-200);   // OKCA 10.7 on bg-page ✅
-    --color-link-visited: var(--indigo-300);  // OKCA 5.8 on bg-page ✅
+    --color-link:         var(--azure-300);   // OKCA 6.3 on bg-page ✅
+    --color-link-hover:   var(--azure-200);   // OKCA 11.2 on bg-page ✅
+    --color-link-visited: var(--indigo-300);  // OKCA 6.6 on bg-page ✅
 
     // ─── Highlight (burgundy) ─────────────────────────────────────────────────
     // burgundy-200: OKCA 9.7 on bg-surface ✅, 11.6 on bg-page ✅
     --color-highlight: var(--burgundy-200); // OKCA 9.7 on bg-surface ✅
 
     // ─── Focus ─────────────────────────────────────────────────────────────
-    --color-focus: var(--azure-300); // OKCA 5.6 on bg-page ✅
+    --color-focus: var(--azure-300); // OKCA 6.3 on bg-page ✅
 
     // ─── Status ────────────────────────────────────────────────────────────
     // Lightened foreground colors to meet contrast on dark backgrounds.
@@ -305,13 +306,13 @@
     // competing with vivid borders and creating a "glowing" effect.
     --color-status-error:         oklch(0.68 0.11 25);     // icon/border use — not required to pass text contrast
     --color-status-error-bg:      oklch(0.23 0.02 18);     // near-neutral dark — barely rosy tint
-    --color-status-error-text:    oklch(0.79 0.22 25);     // OKCA 3.4 on error-bg ❌ — far outside sRGB; paints #ff746f (red pinned at 255). The recorded 5.2 was measured on a colour no browser renders. Fails the 4.5 badge floor. L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value. Re-authored in gamut by #225; see #222
+    --color-status-error-text:    oklch(0.79 0.12 25);     // OKCA 6.0 on error-bg ✅ — C=0.22 was far outside sRGB, so the token named no single colour and every figure recorded for it was undefined; its nearest in-gamut form was OKCA 3.4, which is how five failures sat inside a passing audit (#222). Re-authored to the boundary, same L and H (#225). L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value, kept because it still holds for the renderable one
     --color-status-success:       oklch(0.70 0.08 144.2);  // icon/border use — not required to pass text contrast
     --color-status-success-bg:    oklch(0.23 0.02 144);    // near-neutral dark — barely green tint
     --color-status-success-text:  oklch(0.80 0.15 144.2);  // OKCA 5.4 on success-bg ✅
     --color-status-warning:       oklch(0.72 0.09 53.54);  // icon/border use — not required to pass text contrast
     --color-status-warning-bg:    oklch(0.25 0.02 68);     // near-neutral dark — barely warm tint
-    --color-status-warning-text:  oklch(0.82 0.16 53.54);  // OKCA 5.2 on warning-bg ✅ — outside sRGB; paints #ffa456. Re-authored in gamut by #225
+    --color-status-warning-text:  oklch(0.82 0.11 53.54);  // OKCA 6.8 on warning-bg ✅ — C=0.16 exceeded what sRGB holds at this L and H; re-authored to the boundary, same L and H (#225)
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
     // Deep navy tint — hue-distinct from gray-900 page but not light-inverted.

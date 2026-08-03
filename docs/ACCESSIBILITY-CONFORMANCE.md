@@ -73,23 +73,21 @@ All interactive components are fully keyboard-operable:
 
 Color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components), with the exceptions recorded below. Contrast is validated with the [klar CLI](https://github.com/pawn002/klar) 3.x against its OKCA and WCAG 2.x algorithms; OKLCH color space is used throughout to ensure perceptually accurate lightness calculations. Every pairing is enumerated in `audit/pairings.json` and re-measured by `npm run audit:contrast`.
 
-Figures are measured on the color a browser **renders**, not the color the token specifies. These differ when a token falls outside the sRGB gamut, and the difference is always in the permissive direction. klar 2.x reported the mapped value silently; 3.x does not, which is what surfaced the additional exceptions below. Bringing every token inside sRGB — so that the specified and rendered colors are the same — is tracked in [#225](https://github.com/pawn002/candor/issues/225).
+Figures are measured on the color Candor **specifies**, and that is sufficient because of a second invariant: as of [#225](https://github.com/pawn002/candor/issues/225) every authored Candor color is inside the sRGB gamut, and `npm run audit:tokens` fails the build if one is not. sRGB is the baseline gamut for digital products, so a value inside it needs no substitution by anything downstream — the specified color is the delivered color, and the conformance claim does not depend on the behavior of any particular engine or version.
+
+Previously 19 of 62 colors were outside the gamut. Such a value does not name a single color at all, and OKCA — which is established across sRGB — is not defined for it, so the figures recorded against those tokens were undefined rather than merely optimistic. Five real failures consequently sat inside a passing audit. That class of error is now structurally prevented rather than tracked.
 
 Text at 14px and below is additionally validated against a three-tier use-case contrast system (see `docs/archive/CONTRAST-TIERS.md` for the original proposal and `CLAUDE.md` → "OKCA Contrast Thresholds" for the thresholds in force). Tier 1 (reading text) requires OKCA 9.5 regular / 6.5 bold; Tier 2 (functional UI) requires 6.5 / 4.5; Tier 3 (supplementary, meaning redundantly coded) requires 4.5 / 4.5. Across all 216 audited pairings, the OKCA score is at or below the WCAG 2.x figure for the same pair — so OKCA is the binding constraint and a pair that passes it also passes WCAG.
 
-**Known exceptions**, all tracked for a fix. Eight of the 212 enforced pairing measurements currently fall below their floor:
+**Known exceptions**, tracked for a fix. Two of the 212 enforced pairing measurements currently fall below their floor, and they are the same pairing in the two modes:
 
 | Pairing | Measured | Required | Tracked |
 |---|---|---|---|
-| `candor-accessible-text` `role_="status"` in error color, 14px | OKCA 5.7 light / 4.0 dark | 9.5 (Tier 1) | [#208](https://github.com/pawn002/candor/issues/208) |
-| `candor-button` destructive variant, dark mode | OKCA 4.4 | 4.5 (Tier 2 bold) | [#209](https://github.com/pawn002/candor/issues/209) |
-| Form required asterisk, dark mode | OKCA 4.0 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
-| Form error message, dark mode | OKCA 4.0 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
-| `candor-accessible-text` `role_="label"` in error color, dark mode | OKCA 4.0 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
-| `candor-accessible-text` `role_="message"` in error color, dark mode | OKCA 4.0 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
-| `candor-badge` error variant, dark mode | OKCA 3.4 | 4.5 | [#222](https://github.com/pawn002/candor/issues/222) |
+| `candor-accessible-text` `role_="status"` in error color, 14px | OKCA 6.4 light / 6.9 dark | 9.5 (Tier 1) | [#208](https://github.com/pawn002/candor/issues/208) |
 
-The five #222 rows share a single cause — `--color-status-error-text` in dark mode is specified outside the sRGB gamut, so browsers render a less saturated color than the token names. They were previously recorded as passing because the measurement was taken on the specified color rather than the rendered one. All five are resolved by the token re-authoring in [#225](https://github.com/pawn002/candor/issues/225).
+Both clear WCAG 2.1 AA's 4.5:1 and both clear Candor's Tier 2 and Tier 3 floors; what they miss is the Tier 1 reading floor that applies because the text is 14px. This is a typographic question rather than a color one — at 16px the floor drops to 4.5 and both clear it comfortably.
+
+Six exceptions were resolved in the 5.0.0 token re-authoring: five under [#222](https://github.com/pawn002/candor/issues/222), which shared a single cause (dark `--color-status-error-text` was specified outside the sRGB gamut, so it named no single color and its recorded figures were undefined), and the `candor-button` destructive variant under [#209](https://github.com/pawn002/candor/issues/209).
 
 ### Live regions
 

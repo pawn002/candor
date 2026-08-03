@@ -108,7 +108,7 @@ The bundler resolves the bare specifier and inlines the file at build time. This
 import tokens from '@candor-design/tokens/tokens/candor-tokens.json';
 
 tokens.root['--color-action-primary']; // oklch(0.27 0.06 245.34)
-tokens.dark['--color-action-primary']; // oklch(0.79 0.12 245)
+tokens.dark['--color-action-primary']; // oklch(0.79 0.11 245)
 ```
 
 ---

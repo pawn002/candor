@@ -4,9 +4,14 @@
 
 :root {
     // ─── Color Ramps ───────────────────────────────────────────────────────────
-    // Brand anchors are annotated. Steps use constant H/C across each family.
+    // Brand anchors are annotated. Each family holds a constant hue; chroma is
+    // constant through the mid-tones and tapers at both ends, because the sRGB
+    // gamut narrows as lightness approaches 0 or 1 and a constant-chroma ramp
+    // would run outside it. Every step is authored at the highest chroma sRGB
+    // can actually render at that lightness — see the sRGB invariant in
+    // CLAUDE.md. `npm run audit:tokens` fails if a step drifts back out (#225).
 
-    // Navy  (H=245.34  C=0.06)
+    // Navy  (H=245.34  C=0.06 through the mid-tones)
     // Anchor: navy-800 = #082840
     --navy-50:  oklch(0.97 0.01 245.34);
     --navy-100: oklch(0.93 0.02 245.34);
@@ -16,8 +21,8 @@
     --navy-500: oklch(0.53 0.06 245.34);
     --navy-600: oklch(0.44 0.06 245.34);
     --navy-700: oklch(0.35 0.06 245.34);
-    --navy-800: oklch(0.27 0.06 245.34); // #082840 — on white: OKCA 13.8 ✅ (WCAG 2.x 15.0)
-    --navy-900: oklch(0.19 0.05 245.34);
+    --navy-800: oklch(0.27 0.06 245.34); // #082840 — on white: OKCA 13.9 ✅ (WCAG 2.x 15.0)
+    --navy-900: oklch(0.19 0.04 245.34);
 
     // Burgundy  (H=347.43  C=0.08)
     // Anchor: burgundy-700 = #5F2B48
@@ -32,35 +37,35 @@
     --burgundy-800: oklch(0.28 0.07 347.43);
     --burgundy-900: oklch(0.20 0.05 347.43);
 
-    // Azure  (H=250.80  C=0.18)
+    // Azure  (H=250.80  C=0.18 at the anchor)
     // Anchor: azure-400 = #1493FB (original brand color)
     // Figures below are OKCA (Candor's policy algorithm), foreground-on-white.
-    // ⚠️  azure-400 reaches only OKCA 2.5 on white — not usable as text on a light bg.
-    //     azure-500 (4.2) still misses the 4.5 floor, which is why --color-link steps
-    //     to L=0.49 (#14); azure-600 (6.1) clears it. Reversed — white text *on* these
-    //     fills — they read OKCA 4.4 and 6.4 respectively (OKCA is polarity-aware).
-    --azure-50:  oklch(0.97 0.02 250.80);
-    --azure-100: oklch(0.93 0.05 250.80);
-    --azure-200: oklch(0.86 0.10 250.80);
-    --azure-300: oklch(0.77 0.15 250.80);
+    // ⚠️  azure-400 reaches only OKCA 2.6 on white — not usable as text on a light bg.
+    //     azure-500 (4.4) still misses the 4.5 floor, which is why --color-link steps
+    //     to L=0.49 (#14); azure-600 (6.4) clears it. Reversed — white text *on* these
+    //     fills — they read OKCA 4.6 and 6.7 respectively (OKCA is polarity-aware).
+    --azure-50:  oklch(0.97 0.01 250.80);
+    --azure-100: oklch(0.93 0.03 250.80);
+    --azure-200: oklch(0.86 0.07 250.80);
+    --azure-300: oklch(0.77 0.12 250.80);
     --azure-400: oklch(0.65 0.18 250.80); // #1493FB — original anchor — decorative/dark-bg only
-    --azure-500: oklch(0.53 0.18 250.80); // OKCA 4.2 on white ❌ (WCAG 2.x 5.3)
-    --azure-600: oklch(0.45 0.17 250.80); // OKCA 6.1 on white ✅ (WCAG 2.x 7.5)
-    --azure-700: oklch(0.37 0.14 250.80);
-    --azure-800: oklch(0.28 0.10 250.80);
-    --azure-900: oklch(0.20 0.06 250.80);
+    --azure-500: oklch(0.53 0.15 250.80); // OKCA 4.4 on white ❌ (WCAG 2.x 5.3)
+    --azure-600: oklch(0.45 0.13 250.80); // OKCA 6.4 on white ✅ (WCAG 2.x 7.5)
+    --azure-700: oklch(0.37 0.10 250.80);
+    --azure-800: oklch(0.28 0.08 250.80);
+    --azure-900: oklch(0.20 0.05 250.80);
 
-    // Purple  (H=278.14  C=0.21)
+    // Purple  (H=278.14  C=0.21 at the anchor)
     // Anchor: indigo-500 = #6969F7 (original brand color)
     // ⚠️  OKCA on white: indigo-500 is 3.2 and indigo-600 is 3.8 — neither clears the
     //     4.5 text floor. Both are decorative/non-text only; --color-link-visited uses
     //     indigo-700 (OKCA 5.8). The old "indigo-600 is the accessible step" note was a
     //     WCAG 2.x reading (5.0) and does not hold under OKCA.
-    --indigo-50:  oklch(0.97 0.02 278.14);
-    --indigo-100: oklch(0.93 0.05 278.14);
-    --indigo-200: oklch(0.86 0.10 278.14);
-    --indigo-300: oklch(0.77 0.15 278.14);
-    --indigo-400: oklch(0.68 0.18 278.14);
+    --indigo-50:  oklch(0.97 0.01 278.14);
+    --indigo-100: oklch(0.93 0.03 278.14);
+    --indigo-200: oklch(0.86 0.06 278.14);
+    --indigo-300: oklch(0.77 0.11 278.14);
+    --indigo-400: oklch(0.68 0.17 278.14);
     --indigo-500: oklch(0.60 0.21 278.14); // #6969F7 — original anchor — decorative only
     --indigo-600: oklch(0.56 0.21 278.14); // #5f5dea — OKCA 3.8 on white ❌ (WCAG 2.x 5.0)
     --indigo-700: oklch(0.47 0.20 278.14);
@@ -76,7 +81,7 @@
     --gray-400: oklch(0.71 0 0);
     --gray-500: oklch(0.56 0 0);          // #757575 — OKCA 3.8 on white (WCAG 2.x 4.7); non-text/border use. 0.57 renders as #777777 = WCAG 4.47 in browser, fails axe
     --gray-600: oklch(0.46 0 0);
-    --gray-700: oklch(0.32 0 0);          // #333333 — OKCA 11.4 on white ✅ (WCAG 2.x 12.7)
+    --gray-700: oklch(0.32 0 0);          // #333333 — OKCA 11.5 on white ✅ (WCAG 2.x 12.7)
     --gray-800: oklch(0.24 0.03 248.99);  // #15202B — dark bg (slight blue)
     --gray-900: oklch(0.16 0.02 248.99);
 
