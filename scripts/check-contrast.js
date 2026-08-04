@@ -5,6 +5,10 @@
  * Re-measures Candor's recorded contrast against the klar CLI and fails when
  * reality and the repo disagree. Two independent checks:
  *
+ *   0. TIER CLASSIFICATION — every pairing's `min` re-derived from its `tier`,
+ *      `size` and `weight`. `min` is hand-typed and hand-typed numbers drift;
+ *      the tier table determines it, so the two can disagree and that
+ *      disagreement is a misclassification worth stopping for (#213).
  *   1. PAIRINGS — every entry in audit/pairings.json, in both modes, measured
  *      against its `min` floor. Entries carrying `exempt` are measured and
  *      reported but never fail the run.
@@ -172,6 +176,58 @@ function value(mode, dotted) {
 const deref = (ref) => ref.replace(/^\{|\}$/g, '');
 
 // ── 1. pairings ──────────────────────────────────────────────────────────────
+
+// The floor a pairing must meet, derived from its tier, size and weight — i.e.
+// the tier table in CLAUDE.md expressed as code. This is what makes `tier` a
+// field worth having rather than a comment in a machine-readable slot (#213):
+// `min` was hand-typed, and hand-typed numbers drift, but tier + size + weight
+// determine it, so the two can be checked against each other. A pairing whose
+// recorded `min` disagrees with its tier is a misclassification — either the
+// number is wrong or the tier is, and both are worth stopping for.
+//
+// `redundant-channel` was considered alongside this and deliberately NOT added.
+// The distinction is exactly cross-checkability: a channel name ("position",
+// "shape") is a human claim that nothing can verify, so populating it would
+// convert unexamined assumptions into recorded facts and make a half-filled
+// column read as validated. The honest place for that reasoning is the `note`,
+// where it does not look machine-checked.
+//
+// KNOWN LIMIT, stated so the check is not read as more than it is: this catches
+// tier/min *contradictions*, not every misclassification. Where two tiers
+// produce the same floor — 14px bold is 4.5 under both Tier 2 and Tier 3, and
+// every tier collapses to one number at 16px and above — a wrong tier is
+// invisible here. Tripwired and confirmed: flipping badge-default from 3 to 2
+// does not fire. The check has real teeth only on the 14px row, which is also
+// the only row where the tier axis changes anything.
+//
+// `weight` is bold only at wght >= 700 (CLAUDE.md): `semibold` and `medium` are
+// regular here regardless of how heavy they look.
+function floorFor(tier, size, weight) {
+  if (tier === 'non-text') return 3; // WCAG 1.4.11, not a text tier at all
+  const bold = weight === 'bold';
+  if (size >= 24) return 3;
+  if (size >= 19) return bold ? 3 : 4.5;
+  if (size >= 16) return 4.5;
+  // 14px is the only row where the tier axis does any work.
+  if (tier === 1) return bold ? 6.5 : null; // Tier 1 regular is not permitted at 14px
+  if (tier === 2) return bold ? 4.5 : 6.5;
+  return 4.5;
+}
+
+function checkTiers() {
+  const problems = [];
+  for (const p of pairings) {
+    if (p.tier === undefined) { problems.push(`${p.id} — no tier recorded`); continue; }
+    if (p.size < 14) { problems.push(`${p.id} — size ${p.size} is below the readable floor`); continue; }
+    const expected = floorFor(p.tier, p.size, p.weight);
+    if (expected === null) {
+      problems.push(`${p.id} — Tier 1 regular at ${p.size}px is not permitted; the fix is 16px, not a floor`);
+    } else if (expected !== p.min) {
+      problems.push(`${p.id} — tier ${p.tier} at ${p.size}px ${p.weight} requires min ${expected}, recorded ${p.min}`);
+    }
+  }
+  return problems;
+}
 
 function checkPairings() {
   const failures = [];
@@ -563,7 +619,12 @@ function checkTextSizeFloor() {
 
 assertKlar3();
 
-console.log('Pairings (audit/pairings.json)');
+console.log('Tier classification (audit/pairings.json)');
+const TI = checkTiers();
+console.log(`  ${pairings.length} pairings, ${TI.length} whose min disagrees with their tier`);
+for (const t of TI) console.log(`  ✗  ${t}`);
+
+console.log('\nPairings (audit/pairings.json)');
 const P = checkPairings();
 console.log(`  ${P.checked} enforced, ${P.exempted} exempt, ${P.failures.length} failing`);
 for (const f of P.failures) console.log(`  ✗  ${f}`);
@@ -588,6 +649,6 @@ const T = checkTextSizeFloor();
 console.log(`  ${T.allowed} declared chrome/icon, ${T.violations.length} unaccounted`);
 for (const v of T.violations) console.log(`  ✗  ${v}`);
 
-const failed = P.failures.length + R.drift.length + S.drift.length + T.violations.length;
+const failed = TI.length + P.failures.length + R.drift.length + S.drift.length + T.violations.length;
 console.log(failed ? `\n✗  ${failed} problem(s)` : '\n✓  no drift');
 process.exit(failed ? 1 : 0);

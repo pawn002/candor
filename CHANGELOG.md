@@ -180,6 +180,14 @@ The design has a consequence worth knowing: **`state` text needs no colour of it
 
 ### Changed
 
+- **`audit/pairings.json` entries carry an explicit `tier`, and `min` is now derived from it rather than trusted.** #213 asked whether a per-pairing field was the right instrument at all, and warned that a `redundant-channel` column would make things worse — a channel name is a human claim nothing can verify, so populating it converts unexamined assumptions into recorded facts and a half-filled column reads as validated.
+
+  That argument turns on cross-checkability, and it points the opposite way for `tier`: tier + size + weight *determine* `min`, so a wrong tier surfaces as a contradiction. The audit derives the floor and fails when the two disagree. Backfilling all 114 found exactly **two** disagreements, both on `exempt` entries carrying a `min` of 3 that no tier can produce — `form-input-placeholder` and `form-input-disabled-value`, now corrected to 4.5, the floor they would carry as active content.
+
+  A fourth value was forced by the data: **`"non-text"`**, for the six icon pairings whose 3.0 comes from WCAG 1.4.11 rather than any text tier. They had been sitting in a text-tier file with a floor no text tier explains.
+
+  **The check's teeth are limited to the 14px row and that is stated rather than glossed:** at 16px and above every tier collapses to one floor, and at 14px bold Tiers 2 and 3 are both 4.5, so a wrong tier is undetectable there. Confirmed by tripwire — flipping `badge-default` from 3 to 2 does not fire. 14px is also the only row where the tier axis changes the answer, so the coverage lands where the classification matters. **No `redundant-channel` field was added**; that reasoning belongs in `note`, where it does not look machine-checked.
+
 - **The Tier 3 redundant-channel rule is narrowed, and `candor-badge`'s recorded justification is corrected.** The rule said the channel must be "assigned by the system, not a consumer opt-in", which recognised only one way of being non-optional — a component rendering an icon. It now recognises two: the component renders it (`candor-alert`, `candor-toast`, `role_="state"`), **or** the component cannot render without it (a badge's label, since a badge with no content is not a badge). The second comes with a precondition the rule now states: the label must *name the condition*. `<candor-badge variant="error">3</candor-badge>` has no channel; `3 failed` does.
 
   `badge-default` claimed "badge shape always provides redundant coding". That is true of *badge vs. surrounding text* and false of *error badge vs. warning badge* — two jobs conflated in one note, and the five status siblings carried no note at all, taking the discount on a justification written elsewhere. All six are rewritten (#214, #213).
