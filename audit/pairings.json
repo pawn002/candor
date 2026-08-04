@@ -139,6 +139,51 @@
       "note": "candor-accessible-text role=status color=error — Tier 1 Reading at 16px, matching form-error-message, which is the same colour on the same background carrying the same content (#208). At 14px this was unsatisfiable: no chromatic text colour reaches 9.5 (#240)."
     },
     {
+      "id": "accessible-text-state-text",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 4.5,
+      "note": "candor-accessible-text role=state — Tier 3 at 14px. The component renders an aria-hidden tone icon, so the outcome is redundantly coded by a non-colour channel; the redundancy is structural rather than author-asserted (#213). The text itself is never coloured — text-default only — which is why it clears with margin."
+    },
+    {
+      "id": "accessible-text-state-icon-success",
+      "fg": "{color.status.success}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 3,
+      "note": "role=state tone=success icon. Non-text use of a status base token, which is what those tokens are validated for; the 3.0 floor is the WCAG 1.4.11 non-text contrast minimum, not a text floor."
+    },
+    {
+      "id": "accessible-text-state-icon-warning",
+      "fg": "{color.status.warning}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 3,
+      "note": "role=state tone=warning icon. Non-text; see accessible-text-state-icon-success."
+    },
+    {
+      "id": "accessible-text-state-icon-error",
+      "fg": "{color.status.error}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 3,
+      "note": "role=state tone=error icon. Non-text; see accessible-text-state-icon-success."
+    },
+    {
+      "id": "accessible-text-state-icon-info",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 3,
+      "note": "role=state tone=info icon — text-subtle, matching candor-alert info. Non-text."
+    },
+    {
       "id": "accessible-text-annotation-primary",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",

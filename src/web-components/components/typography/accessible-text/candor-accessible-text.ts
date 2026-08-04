@@ -1,9 +1,18 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { phCheckCircleFill, phWarningFill, phXCircleFill, phInfoFill } from '../../../icons';
 
-type AccessibleTextRole = 'label' | 'message' | 'status' | 'annotation';
+type AccessibleTextRole = 'label' | 'message' | 'status' | 'state' | 'annotation';
 type AccessibleTextSize = 'sm' | 'md' | 'lg';
 type AccessibleTextColor = 'primary' | 'secondary' | 'disabled' | 'error';
+type AccessibleTextTone = 'success' | 'warning' | 'error' | 'info';
+
+const TONE_ICON: Record<AccessibleTextTone, string> = {
+  success: phCheckCircleFill,
+  warning: phWarningFill,
+  error: phXCircleFill,
+  info: phInfoFill,
+};
 
 @customElement('candor-accessible-text')
 export class CandorAccessibleText extends LitElement {
@@ -41,6 +50,32 @@ export class CandorAccessibleText extends LitElement {
       letter-spacing: 0.02em;
       line-height: var(--line-height-tight);
     }
+    /* Stays at 14px, unlike status, because the component renders a tone icon
+       that carries the outcome. That makes the meaning redundantly coded by a
+       non-colour channel, which is Tier 3 (floor 4.5) rather than Tier 1 — and
+       the redundancy is structural, not something an author has to remember.
+       Consequently the text itself needs no colour: the icon carries the state,
+       so the text stays at text-default (OKCA 11.5) and clears every floor with
+       margin. This is the case the tier table means by "redundantly coded". */
+    :host([role_="state"]) {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-2xs);
+      font-size: var(--font-size-sm);
+      letter-spacing: 0.02em;
+      line-height: var(--line-height-tight);
+      color: var(--color-text-default);
+    }
+    /* Icon colour uses the non-text status tokens, which is what they are
+       validated for. The text never uses them. */
+    :host([role_="state"]) .state-icon { flex-shrink: 0; width: 1em; height: 1em; }
+    :host([role_="state"][tone="success"]) .state-icon { color: var(--color-status-success); }
+    :host([role_="state"][tone="warning"]) .state-icon { color: var(--color-status-warning); }
+    :host([role_="state"][tone="error"])   .state-icon { color: var(--color-status-error); }
+    /* No --color-status-info token exists; candor-alert uses text-subtle for the
+       info icon, and this matches it. */
+    :host([role_="state"][tone="info"])    .state-icon { color: var(--color-text-subtle); }
+
     :host([role_="annotation"]) {
       font-size: var(--font-size-sm);
       letter-spacing: 0.02em;
@@ -68,10 +103,20 @@ export class CandorAccessibleText extends LitElement {
   @property({ reflect: true }) role_: AccessibleTextRole = 'label';
   @property({ reflect: true }) size?: AccessibleTextSize;
   @property({ reflect: true }) color: AccessibleTextColor = 'primary';
+  /** Only meaningful for role_="state" — selects the icon that carries the outcome. */
+  @property({ reflect: true }) tone: AccessibleTextTone = 'info';
   @property({ type: Boolean, reflect: true }) bold = false;
 
   override render() {
-    return html`<span class="accessible-text"><slot></slot></span>`;
+    // The icon is aria-hidden: it is a redundant channel for sighted users who
+    // cannot rely on colour, not a substitute for saying the outcome in words.
+    // Screen-reader users get the meaning from the text, which must therefore
+    // still read correctly on its own ("All responses processed", not "done").
+    const icon =
+      this.role_ === 'state'
+        ? html`<svg class="state-icon" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${TONE_ICON[this.tone] ?? TONE_ICON.info}"/></svg>`
+        : nothing;
+    return html`${icon}<span class="accessible-text"><slot></slot></span>`;
   }
 }
 

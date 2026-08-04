@@ -260,16 +260,27 @@ The question is not "is this text important?" All text in a well-designed UI is 
 
 **Section headings that label data** (e.g. "Classification breakdown") are comprehension text — they organise data, they don't instruct. Use `<candor-text variant="label">` (Roboto Flex uppercase) not `<candor-accessible-text role_="label">`.
 
-#### The four roles
+#### The five roles
 
 | Role | Use case | Size | Weight | Style | Tier |
 |---|---|---|---|---|---|
 | `label` | Form field labels, structural anchors in instructional contexts | 14px | bold | uppercase | 2 |
 | `message` | System messages, body-length guidance the user must act on | 16px | regular | — | 1 |
-| `status` | Validation errors, live counters, state changes | **16px** | regular | — | 1 |
+| `status` | Validation errors and action-required text — what the user must **do next** | **16px** | regular | — | 1 |
+| `state` | Outcomes that have **already happened** — renders a tone icon | 14px | regular | — | 3 |
 | `annotation` | Hints, constraints, legal small print that guide an action | 14px | regular | italic | 3 |
 
-The Tier column is not decoration — it is what determines the size. `message` and `status` are both Tier 1 ("must read to act"), and Tier 1 regular text is required to be ≥ 16px, so both sit there. `status` was 14px until #208; that made it the one role in the system whose mandated size made its mandated floor unsatisfiable for the colour it most often carries. `annotation` and `label` stay at 14px because Tier 3 and Tier 2-bold have floors that 14px can actually meet.
+The Tier column is not decoration — it determines the size. Tier 1 regular text is required to be ≥ 16px, so `message` and `status` sit there; `label`, `state` and `annotation` stay at 14px because Tier 2-bold and Tier 3 have floors 14px can actually meet.
+
+**`status` vs `state` — the distinction that decides the size.** `status` is Tier 1 because the text is the *sole* channel for an instruction: an icon beside "Enter a valid National Insurance number" says something is wrong, but not which field or what format, so no redundant channel makes 14px sufficient. `state` is Tier 3 because the component renders an `aria-hidden` tone icon that genuinely carries the outcome — lose the text and you still know it succeeded.
+
+The test: **could a reader who cannot resolve the glyphs still act correctly?** Yes → `state`. No → `status`.
+
+`status` was 14px until #208, which made it the one role whose mandated size made its mandated floor unsatisfiable for the colour it most often carries.
+
+**Do not hand-type a status glyph into the content** — `✕ Error: …`, `✓ Done`. A screen reader announces the character ("multiplication sign"), and it is invisible to the contrast audit. Carry the state in words, and use `role_="state"` when an icon is wanted: it renders an `aria-hidden` one, and colours it from the `--color-status-*` non-text tokens while the text stays `--color-text-default`. Moving the colour onto the icon is what removes the contrast constraint rather than negotiating with it — see "Contrast is bought with chroma" below.
+
+**Counters and data readouts are not `status`.** "14 of 47 reviewed" is comprehension text — the user reads it to form a judgment, not to follow an instruction — so it belongs in `candor-text` (Roboto Flex), per the instruction-vs-comprehension rule above.
 
 #### Label casing
 
