@@ -164,6 +164,17 @@ export interface CandorChipEventMap {
   change: CustomEvent<CandorChipChangeDetail>;
   dismiss: CustomEvent<undefined>;
 }
+/**
+ * Deliberately empty. candor-button emits no Candor event — the inner button's
+ * native `click` retargets to the host and reaches consumers unaided, so adding
+ * one would duplicate it (#201). "Emits nothing" is a real statement about the
+ * API, not an omission, and declaring it is what makes a listener on the removed
+ * `clicked` a compile error rather than silently dead code (#236). Without this
+ * the class gets no overloads and falls back to the permissive native signature,
+ * which accepts any string.
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CandorButtonEventMap {}
 export interface CandorMenuEventMap {
   select: CustomEvent<CandorMenuSelectDetail>;
 }
@@ -199,4 +210,597 @@ export interface CandorAlertEventMap {
 }
 export interface CandorToastEventMap {
   dismiss: CustomEvent<undefined>;
+}
+
+// ── Enforcement: typed `addEventListener` on each component ──────────────────
+// The maps above describe the event surface; these overloads make the compiler
+// hold consumers to it. Without them a listener on an event that does not exist
+// is valid TypeScript — `addEventListener`'s signature is `(type: string, …)`,
+// so there is nothing to check the string against — and the failure is silent at
+// runtime: the handler simply never fires. That is a CSS-shaped failure mode on
+// a code-shaped API, and it is what made every rename in #201 invisible to a
+// consumer's build (#236).
+//
+// Two overloads per component, Candor's map first and the native map second, so
+// `'change'` resolves to `CustomEvent<…>` while `'click'` and `'keydown'` keep
+// their native types. A name in neither map matches no overload and is an error.
+//
+// A component that emits nothing still needs an entry — see CandorButtonEventMap
+// above. Omitting one does not leave that component neutral; it leaves the class
+// with no overloads at all, falling back to the permissive native signature that
+// accepts any string. `candor-button` is exactly where that matters, since its
+// `clicked` was removed in #201.
+//
+// This does NOT contradict the note above about `HTMLElementEventMap`. That
+// objection is to augmenting it GLOBALLY, which would retype `change`/`input`/
+// `toggle` for every element in a consumer's project. These are per-class and
+// invisible to anything that is not a Candor element.
+//
+// Reaches the ordinary case, not just consumers who hand-annotate: every
+// component augments `HTMLElementTagNameMap`, so `document.querySelector(
+// 'candor-tabs')` is already typed `CandorTabs`.
+//
+// Limits, deliberately:
+//   • Framework template bindings (`@change=`, `(change)=`) never go through
+//     this signature; neither does an untyped reference such as getElementById.
+//   • Omitting a permissive `(type: string, …)` fallback is what creates the
+//     error at all — so dispatching your own custom event on a Candor element
+//     needs a widening cast: `(el as HTMLElement).addEventListener(…)`.
+//   • Same cast for a union of Candor elements: TypeScript will not call an
+//     overloaded method on a union type.
+//
+// `tests/event-types.test-d.ts` holds these overloads to their job with
+// `@ts-expect-error`, so they cannot quietly stop working.
+
+declare module './components/form/input/candor-input' {
+  interface CandorInput {
+    addEventListener<K extends keyof CandorInputEventMap>(
+      type: K,
+      listener: (this: CandorInput, ev: CandorInputEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorInput, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorInputEventMap>(
+      type: K,
+      listener: (this: CandorInput, ev: CandorInputEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorInput, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/form/select/candor-select' {
+  interface CandorSelect {
+    addEventListener<K extends keyof CandorSelectEventMap>(
+      type: K,
+      listener: (this: CandorSelect, ev: CandorSelectEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorSelect, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorSelectEventMap>(
+      type: K,
+      listener: (this: CandorSelect, ev: CandorSelectEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorSelect, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/form/radio/candor-radio' {
+  interface CandorRadio {
+    addEventListener<K extends keyof CandorRadioEventMap>(
+      type: K,
+      listener: (this: CandorRadio, ev: CandorRadioEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorRadio, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorRadioEventMap>(
+      type: K,
+      listener: (this: CandorRadio, ev: CandorRadioEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorRadio, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/form/checkbox/candor-checkbox' {
+  interface CandorCheckbox {
+    addEventListener<K extends keyof CandorCheckboxEventMap>(
+      type: K,
+      listener: (this: CandorCheckbox, ev: CandorCheckboxEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorCheckbox, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorCheckboxEventMap>(
+      type: K,
+      listener: (this: CandorCheckbox, ev: CandorCheckboxEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorCheckbox, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/form/switch/candor-switch' {
+  interface CandorSwitch {
+    addEventListener<K extends keyof CandorSwitchEventMap>(
+      type: K,
+      listener: (this: CandorSwitch, ev: CandorSwitchEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorSwitch, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorSwitchEventMap>(
+      type: K,
+      listener: (this: CandorSwitch, ev: CandorSwitchEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorSwitch, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/form/slider/candor-slider' {
+  interface CandorSlider {
+    addEventListener<K extends keyof CandorSliderEventMap>(
+      type: K,
+      listener: (this: CandorSlider, ev: CandorSliderEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorSlider, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorSliderEventMap>(
+      type: K,
+      listener: (this: CandorSlider, ev: CandorSliderEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorSlider, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/form/listbox/candor-listbox' {
+  interface CandorListbox {
+    addEventListener<K extends keyof CandorListboxEventMap>(
+      type: K,
+      listener: (this: CandorListbox, ev: CandorListboxEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorListbox, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorListboxEventMap>(
+      type: K,
+      listener: (this: CandorListbox, ev: CandorListboxEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorListbox, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/form/combobox/candor-combobox' {
+  interface CandorCombobox {
+    addEventListener<K extends keyof CandorComboboxEventMap>(
+      type: K,
+      listener: (this: CandorCombobox, ev: CandorComboboxEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorCombobox, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorComboboxEventMap>(
+      type: K,
+      listener: (this: CandorCombobox, ev: CandorComboboxEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorCombobox, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/form/autocomplete/candor-autocomplete' {
+  interface CandorAutocomplete {
+    addEventListener<K extends keyof CandorAutocompleteEventMap>(
+      type: K,
+      listener: (this: CandorAutocomplete, ev: CandorAutocompleteEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorAutocomplete, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorAutocompleteEventMap>(
+      type: K,
+      listener: (this: CandorAutocomplete, ev: CandorAutocompleteEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorAutocomplete, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/chip/candor-chip' {
+  interface CandorChip {
+    addEventListener<K extends keyof CandorChipEventMap>(
+      type: K,
+      listener: (this: CandorChip, ev: CandorChipEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorChip, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorChipEventMap>(
+      type: K,
+      listener: (this: CandorChip, ev: CandorChipEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorChip, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/button/candor-button' {
+  interface CandorButton {
+    addEventListener<K extends keyof CandorButtonEventMap>(
+      type: K,
+      listener: (this: CandorButton, ev: CandorButtonEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorButton, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorButtonEventMap>(
+      type: K,
+      listener: (this: CandorButton, ev: CandorButtonEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorButton, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/menu/candor-menu' {
+  interface CandorMenu {
+    addEventListener<K extends keyof CandorMenuEventMap>(
+      type: K,
+      listener: (this: CandorMenu, ev: CandorMenuEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorMenu, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorMenuEventMap>(
+      type: K,
+      listener: (this: CandorMenu, ev: CandorMenuEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorMenu, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/pagination/candor-pagination' {
+  interface CandorPagination {
+    addEventListener<K extends keyof CandorPaginationEventMap>(
+      type: K,
+      listener: (this: CandorPagination, ev: CandorPaginationEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorPagination, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorPaginationEventMap>(
+      type: K,
+      listener: (this: CandorPagination, ev: CandorPaginationEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorPagination, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/tabs/candor-tabs' {
+  interface CandorTabs {
+    addEventListener<K extends keyof CandorTabsEventMap>(
+      type: K,
+      listener: (this: CandorTabs, ev: CandorTabsEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorTabs, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorTabsEventMap>(
+      type: K,
+      listener: (this: CandorTabs, ev: CandorTabsEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorTabs, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/disclosure/candor-disclosure' {
+  interface CandorDisclosure {
+    addEventListener<K extends keyof CandorDisclosureEventMap>(
+      type: K,
+      listener: (this: CandorDisclosure, ev: CandorDisclosureEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorDisclosure, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorDisclosureEventMap>(
+      type: K,
+      listener: (this: CandorDisclosure, ev: CandorDisclosureEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorDisclosure, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/accordion/candor-accordion-item' {
+  interface CandorAccordionItem {
+    addEventListener<K extends keyof CandorAccordionItemEventMap>(
+      type: K,
+      listener: (this: CandorAccordionItem, ev: CandorAccordionItemEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorAccordionItem, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorAccordionItemEventMap>(
+      type: K,
+      listener: (this: CandorAccordionItem, ev: CandorAccordionItemEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorAccordionItem, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/form/chat-input/candor-chat-input' {
+  interface CandorChatInput {
+    addEventListener<K extends keyof CandorChatInputEventMap>(
+      type: K,
+      listener: (this: CandorChatInput, ev: CandorChatInputEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorChatInput, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorChatInputEventMap>(
+      type: K,
+      listener: (this: CandorChatInput, ev: CandorChatInputEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorChatInput, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/data-grid/candor-data-grid' {
+  interface CandorDataGrid {
+    addEventListener<K extends keyof CandorDataGridEventMap>(
+      type: K,
+      listener: (this: CandorDataGrid, ev: CandorDataGridEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorDataGrid, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorDataGridEventMap>(
+      type: K,
+      listener: (this: CandorDataGrid, ev: CandorDataGridEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorDataGrid, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/tone-picker/candor-tone-picker' {
+  interface CandorTonePicker {
+    addEventListener<K extends keyof CandorTonePickerEventMap>(
+      type: K,
+      listener: (this: CandorTonePicker, ev: CandorTonePickerEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorTonePicker, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorTonePickerEventMap>(
+      type: K,
+      listener: (this: CandorTonePicker, ev: CandorTonePickerEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorTonePicker, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/modal/candor-modal' {
+  interface CandorModal {
+    addEventListener<K extends keyof CandorModalEventMap>(
+      type: K,
+      listener: (this: CandorModal, ev: CandorModalEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorModal, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorModalEventMap>(
+      type: K,
+      listener: (this: CandorModal, ev: CandorModalEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorModal, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/drawer/candor-drawer' {
+  interface CandorDrawer {
+    addEventListener<K extends keyof CandorDrawerEventMap>(
+      type: K,
+      listener: (this: CandorDrawer, ev: CandorDrawerEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorDrawer, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorDrawerEventMap>(
+      type: K,
+      listener: (this: CandorDrawer, ev: CandorDrawerEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorDrawer, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/alert/candor-alert' {
+  interface CandorAlert {
+    addEventListener<K extends keyof CandorAlertEventMap>(
+      type: K,
+      listener: (this: CandorAlert, ev: CandorAlertEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorAlert, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorAlertEventMap>(
+      type: K,
+      listener: (this: CandorAlert, ev: CandorAlertEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorAlert, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
+}
+declare module './components/toast/candor-toast' {
+  interface CandorToast {
+    addEventListener<K extends keyof CandorToastEventMap>(
+      type: K,
+      listener: (this: CandorToast, ev: CandorToastEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorToast, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | AddEventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof CandorToastEventMap>(
+      type: K,
+      listener: (this: CandorToast, ev: CandorToastEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(
+      type: K,
+      listener: (this: CandorToast, ev: HTMLElementEventMap[K]) => unknown,
+      options?: boolean | EventListenerOptions,
+    ): void;
+  }
 }

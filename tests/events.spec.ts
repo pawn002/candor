@@ -119,7 +119,11 @@ test.describe('candor-modal / candor-drawer — close fires exactly once', () =>
       await page.goto(gotoStory(storyId));
       await page.locator(sel).waitFor();
       await page.evaluate((sel) => {
-        const host = document.querySelector(sel)!;
+        // `sel` is a union of two tag names, so querySelector returns a union of
+        // two classes — and each carries its own `addEventListener` overloads
+        // (#236), which TypeScript will not call on a union. Widen to HTMLElement;
+        // the event name is asserted by the type tests, not here.
+        const host = document.querySelector<HTMLElement>(sel)!;
         const w = window as unknown as { __closes: number };
         w.__closes = 0;
         host.addEventListener('close', () => w.__closes++);

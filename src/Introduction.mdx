@@ -97,6 +97,18 @@ Two rules govern those names:
 1. **Present tense, matching the DOM's own vocabulary** — `close`, not `closed`; `dismiss`, not `dismissed`. Past tense read as a different *category* of event when it was only ever a different spelling.
 2. **No Candor event where a native one already arrives.** `candor-button` emits nothing: the inner button's native `click` retargets to the host and reaches you unaided, and a `disabled` button suppresses it natively. Listen for `click`.
 
+**Event names are type-checked.** Each component declares `addEventListener` overloads from its own event map, so a name the component doesn't emit is a compile error rather than a listener that silently never fires:
+
+```ts
+const tabs = document.querySelector('candor-tabs')!;
+
+tabs.addEventListener('change', (e) => go(e.detail));  // ✓ detail is string
+tabs.addEventListener('click', (e) => …);              // ✓ native events still work
+tabs.addEventListener('tab-change', …);                // ✗ compile error — removed in 5.0.0
+```
+
+`detail` is typed from the map, so no cast is needed. Two things this deliberately can't reach: framework template bindings (`@change=`, `(change)=`) don't go through this signature, and dispatching *your own* custom event on a Candor element needs a widening cast — `(el as HTMLElement).addEventListener('my-event', …)` — since there's no permissive fallback overload.
+
 Event names and their `detail` types are published in the `@candor-design/web-components` TypeScript declarations — import a `*Detail` type or a per-component `*EventMap` interface instead of hand-annotating:
 
 ```ts
