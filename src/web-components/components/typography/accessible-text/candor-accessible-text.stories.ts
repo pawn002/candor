@@ -239,29 +239,47 @@ The test: does the user fill it in? → sentence case. Does it label a section o
 };
 
 export const AllRoles: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'All five roles, with the size each one mandates. The size is not a style choice — it ' +
+          'follows from the tier, which follows from what the text does. `status` and `state` are ' +
+          'the pair worth reading together: both report something about system state, but `status` ' +
+          'is Tier 1 at 16px because the text is the only channel for an instruction, while `state` ' +
+          'is Tier 3 at 14px because the component renders an icon that carries the outcome.',
+      },
+    },
+  },
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:520px;">
       <candor-card>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="label"</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="label" · 14px · Tier 2</p>
           <candor-accessible-text role_="label">Section Title / Form Field Label</candor-accessible-text>
         </div>
       </candor-card>
       <candor-card>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="message"</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="message" · 16px · Tier 1</p>
           <candor-accessible-text role_="message">System message: Your request has been received and is being processed. You will receive a confirmation email shortly.</candor-accessible-text>
         </div>
       </candor-card>
       <candor-card>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="status"</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="status" · 16px · Tier 1 — what you must do next</p>
           <candor-accessible-text role_="status" color="error">Validation failed — 3 fields require attention</candor-accessible-text>
         </div>
       </candor-card>
       <candor-card>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="annotation"</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="state" · 14px · Tier 3 — what already happened</p>
+          <candor-accessible-text role_="state" tone="warning">3 responses flagged for review</candor-accessible-text>
+        </div>
+      </candor-card>
+      <candor-card>
+        <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="annotation" · 14px · Tier 3</p>
           <candor-accessible-text role_="annotation" color="secondary">This information is collected under the Data Protection Act 2018. Your data will not be shared with third parties without your consent.</candor-accessible-text>
         </div>
       </candor-card>
