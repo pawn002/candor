@@ -100,7 +100,7 @@ Roboto Flex is a variable font. The `opsz` (optical size) axis is the single mos
 
 Atkinson Hyperlegible carries critical UI text because its glyph differentiation survives at 14px where other typefaces begin to blur.
 
-- **Bold has two distinct jobs in Atkinson contexts — hierarchy and contrast — and they must not be confused.** As a hierarchy signal, bold marks structural anchors: form field labels, section headings. As a contrast call, bold is applied at 14px when the OKCA Tier 2 threshold requires it — bold drops the required score from 6.5 to 4.5, which `--color-text-subtle` (5.0) clears. Error messages are a specific case: they are Tier 1 reading text and must either use `--color-text-default` or be bumped to 16px — not bolded as a workaround. Bold on a red error message reads as double-emphasis and does not substitute for a genuine contrast fix.
+- **Bold has two distinct jobs in Atkinson contexts — hierarchy and contrast — and they must not be confused.** As a hierarchy signal, bold marks structural anchors: form field labels, section headings. As a contrast call, bold is applied at 14px when the OKCA Tier 2 threshold requires it — bold drops the required score from 6.5 to 4.5, which `--color-text-subtle` (5.0) clears. Error messages are a specific case: they are Tier 1 reading text and are therefore required to be 16px — not bolded as a workaround. Bold on a red error message reads as double-emphasis and does not substitute for a genuine contrast fix.
 - **Positive letter-spacing is mandatory.** Without it, adjacent glyphs like "rr" cluster into "m." Use `0.06em` for 14px badges, `0.02em` for 16px body roles, `var(--letter-spacing-wide)` for uppercase labels. Never zero.
 
 ### The 14px floor and the tier system
@@ -109,11 +109,30 @@ No readable text in Candor falls below 14px. 12px (`--font-size-xs`) is for deco
 
 | Tier | Perceptual task | 14px regular | 14px bold | Candor components |
 |---|---|---|---|---|
-| 1 — Reading | Sequential decoding — must read to act | **9.5** | **6.5** | Alert body, toast message, modal prose, form error messages |
-| 2 — Functional UI | Recognition — text is the sole channel for meaning | **6.5** | **4.5** | Pagination numbers, breadcrumb links, table cell data, chip labels, button labels |
+| 1 — Reading | Sequential decoding — must read to act | **not permitted at 14px** | **6.5** | Alert body, toast message, modal prose, form error messages |
+| 2 — Functional UI | Recognition — text is the sole channel for meaning | **6.5** | **4.5** | Pagination numbers and position readouts, breadcrumb links, table cell data, chip labels, button labels |
 | 3 — Supplementary | Pattern match — meaning redundantly coded by shape, icon, or position | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata |
 
-The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 5.0 — it fails Tier 1 and Tier 2 regular, but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change. The fix for a Tier 1 failure is bumping to 16px.
+The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 5.0 — it fails Tier 2 regular but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change.
+
+**Tier 1 regular text is required to be 16px.** It used to carry a 9.5 floor at 14px, and that floor was not merely strict — it was unreachable by every colored text token in the system. Contrast on a light background is bought by lowering lightness, and the sRGB gamut narrows toward black, so chroma falls with it. Past a hue's ceiling, contrast can only be purchased with color, and the end of that trade is pure black.
+
+Measured maximums on white, at the darkest lightness sRGB allows for each chroma:
+
+| hue | C=0.18 | C=0.14 | C=0.10 | C=0.06 | C=0 |
+|---|---|---|---|---|---|
+| error (red) | **6.6** | 10.3 | 15.0 | 18.7 | 20 |
+| warning (amber) | 1.9 | 3.9 | **8.2** | 15.4 | 20 |
+| success (green) | 3.8 | **6.9** | 11.9 | 17.5 | 20 |
+| link (blue) | 2.9 | **5.4** | 10.3 | 16.7 | 20 |
+
+Bold values are the chroma each token is authored at — so those are its hard ceilings, not its current scores with room above. A 9.5 floor asked every one of them to desaturate.
+
+Two things a designer should take from this table. **A contrast floor is a saturation budget**, so read the row before choosing a number. And **the same floor is a different demand at every hue** — at C=0.18 red reaches 6.6 while amber reaches 1.9, because the gamut is far larger in red down there. That asymmetry is why amber is authored at lower chroma than red; it was found by hitting the wall, not chosen.
+
+It is also the arithmetic behind this document's opening argument. "Maximum contrast" is not a strong color decision — at OKCA 20 the chroma is exactly zero. It is the absence of a decision, which is precisely the clinical default described in *The core tension*.
+
+So when a floor cannot be met, the first question is whether the text should be colored at all. If the color carries meaning — status, link affordance — keep the color and change the size. If it is decorative, drop to `--color-text-default` and the contrast comes free. Desaturating a semantic color to satisfy a number is the last resort: it preserves the score and discards the thing the score was protecting.
 
 ### Traps
 

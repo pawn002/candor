@@ -379,6 +379,40 @@ Stated as a size requirement it becomes actionable and self-consistent: **a Tier
 
 Tier 1 **bold** at 14px keeps its 6.5 floor: bold is a genuine perceptual compensation, and 6.5 is reachable by chromatic text.
 
+#### Contrast is bought with chroma — a floor is a saturation budget
+
+The reason a floor can be unreachable is geometric, and it is worth understanding before setting any threshold.
+
+On a light background, more contrast means lower lightness. The sRGB gamut narrows as it descends toward black, so the chroma available falls with it. **Contrast and saturation are therefore not independent axes**: past a hue's ceiling, every increment of contrast is paid for in colour, and the limit of that trade is pure black — OKCA 20, chroma exactly 0.
+
+Maximum OKCA on white at each chroma, measured at the darkest lightness sRGB permits for that chroma (`*` marks the chroma the token is authored at):
+
+| hue | C=0.18 | C=0.14 | C=0.10 | C=0.06 | C=0.03 | C=0 |
+|---|---|---|---|---|---|---|
+| error (red, H 25) | **6.6\*** | 10.3 | 15.0 | 18.7 | 20.0 | 20 |
+| warning (amber, H 53.5) | 1.9 | 3.9 | **8.2\*** | 15.4 | 19.3 | 20 |
+| success (green, H 144.2) | 3.8 | **6.9\*** | 11.9 | 17.5 | 20.0 | 20 |
+| link (blue, H 250.8) | 2.9 | **5.4\*** | 10.3 | 16.7 | 19.5 | 20 |
+
+Three consequences for anyone setting or meeting a threshold:
+
+1. **A contrast floor is a saturation budget.** Requiring 9.5 does not only say "make it darker" — it says "spend most of your chroma." Read the row before choosing a number.
+
+2. **The same floor is a different demand at every hue.** At C=0.18 red reaches 6.6 while amber reaches 1.9, because the gamut is far larger in red at low lightness. A uniform floor silently taxes yellows and oranges hardest — which is why `--color-status-warning-text` is authored at C=0.10 while `--color-status-error-text` sits at 0.18. That was discovered by hitting the boundary, not by choice.
+
+3. **Past roughly OKCA 15 the text is achromatic in practice.** Chroma is under 0.06 there, which at those lightnesses reads as black with a cast rather than as a colour.
+
+This is the quantitative form of the design philosophy at the top of this file. "Maximum contrast is not automatically correct" is not only an aesthetic claim: at OKCA 20 the chroma is exactly zero, so maximum contrast is not a strict colour decision but the absence of one. A number chosen without reading the table above may be deleting the colour system rather than validating it.
+
+**Authoring rule when a floor cannot be met.** Ask first whether the text should be coloured at all.
+
+- **The colour carries meaning** (status, link affordance) → keep the colour and change the *size*. This is the Tier 1 rule above.
+- **The colour is decorative** → drop to `--color-text-default` and the contrast is free.
+
+Desaturating a semantic colour to buy contrast is the option to reach for last: it keeps the number and discards the thing the number was protecting. If it is genuinely the right call, it is a brand decision, and `klar find --json` reports its exact cost in `.resolvableBy` — take that to the decision rather than nudging chroma until the audit passes.
+
+The same geometry applies inverted on dark backgrounds: contrast there means *higher* lightness, the gamut narrows toward white, and the limit is pure white. Light-on-dark caps at 20.9 rather than 20, but the trade is identical.
+
 **Key audit rules:**
 - `--color-text-subtle` (OKCA 5.0 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
 - Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight (wght ≥ 700)**, not a color change or size bump.
