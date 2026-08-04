@@ -262,12 +262,14 @@ The question is not "is this text important?" All text in a well-designed UI is 
 
 #### The four roles
 
-| Role | Use case | Size | Weight | Style |
-|---|---|---|---|---|
-| `label` | Form field labels, structural anchors in instructional contexts | 14px | bold | uppercase |
-| `message` | System messages, body-length guidance the user must act on | 16px | regular | — |
-| `status` | Validation errors, live counters, state changes | 14px | regular | — |
-| `annotation` | Hints, constraints, legal small print that guide an action | 14px | regular | italic |
+| Role | Use case | Size | Weight | Style | Tier |
+|---|---|---|---|---|---|
+| `label` | Form field labels, structural anchors in instructional contexts | 14px | bold | uppercase | 2 |
+| `message` | System messages, body-length guidance the user must act on | 16px | regular | — | 1 |
+| `status` | Validation errors, live counters, state changes | **16px** | regular | — | 1 |
+| `annotation` | Hints, constraints, legal small print that guide an action | 14px | regular | italic | 3 |
+
+The Tier column is not decoration — it is what determines the size. `message` and `status` are both Tier 1 ("must read to act"), and Tier 1 regular text is required to be ≥ 16px, so both sit there. `status` was 14px until #208; that made it the one role in the system whose mandated size made its mandated floor unsatisfiable for the colour it most often carries. `annotation` and `label` stay at 14px because Tier 3 and Tier 2-bold have floors that 14px can actually meet.
 
 #### Label casing
 
@@ -347,22 +349,42 @@ Contrast requirements have **two axes**: font size and use-case tier. **Never ap
 | ≥ 24px | 3.0 | 3.0 |
 | 19–23px | 4.5 | 3.0 |
 | 16–18px (`--font-size-md`) | 4.5 | 4.5 |
-| **14px (`--font-size-sm`)** | **9.5** | **6.5** |
+| **14px (`--font-size-sm`)** | **9.5** *(Tier 1 regular not permitted — see below)* | **6.5** |
 | 12px (`--font-size-xs`) | decorative only | decorative only |
 
-**Use-case tier axis — 14px adjustments:**
+The 14px regular figure is retained as the *size-axis* baseline because it is what a neutral-coloured reading passage would need at that size. No Candor component may rely on it: Tier 1 regular text is required to be ≥ 16px, and Tiers 2 and 3 carry their own lower floors. It is the reason 14px regular reading text is disallowed, not a target to build against.
+
+**Use-case tier axis — a 14px-only adjustment.** Be precise about what this axis is: it modifies the 14px row and nothing else. At 16px and above, every tier carries the same floor, because the size axis has already done the work. Do not read the tier table as a general second dimension — `pairings.json` has exactly two distinct floors above 14px (3 and 4.5), both from the size axis.
 
 | Tier | Perceptual task | 14px regular | 14px bold | Candor components |
 |---|---|---|---|---|
-| **1 — Reading** | Sequential decoding — must read to act | **9.5** | **6.5** | Alert body, toast message, modal prose, form error messages, article body |
-| **2 — Functional UI** | Recognition — sole channel for meaning | **6.5** | **4.5** | Pagination numbers, breadcrumb links, table cell data, chip labels, button labels |
+| **1 — Reading** | Sequential decoding — must read to act | **not permitted at 14px** | **6.5** | Alert body, toast message, modal prose, form error messages, article body |
+| **2 — Functional UI** | Recognition — sole channel for meaning | **6.5** | **4.5** | Pagination numbers and position readouts, breadcrumb links, table cell data, chip labels, button labels |
 | **3 — Supplementary** | Pattern match — meaning redundantly coded | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata, breadcrumb separators, pagination ellipsis, accordion quiet headings (wght 500 — structural nesting is the redundant channel) |
+
+#### Tier 1 regular text must be ≥ 16px
+
+This replaces the former 9.5 floor at 14px, which was **unreachable by any coloured text in the system** and so functioned as an unintended ban on chromatic must-read text (#240). Measured against white, every chromatic text token returns `lightness-exhausted` at that target — there is no lightness at that hue and chroma reaching 9.5 inside sRGB:
+
+| token | measures | to reach 9.5 |
+|---|---|---|
+| `--color-status-error-text` | 6.4 | chroma 0.18 → 0.146, deltaE 8 |
+| `--color-status-warning-text` | 8.1 | chroma 0.10 → 0.092, deltaE 3 |
+| `--color-status-success-text` | 6.1 | chroma 0.14 → 0.116, deltaE 9 |
+| `--color-link` | 5.3 | chroma 0.14 → 0.104, deltaE 12 |
+
+The floor did not ask coloured text to be darker; it asked it to stop being coloured. Only near-neutral text could satisfy it (`--color-text-default` is 11.5).
+
+Stated as a size requirement it becomes actionable and self-consistent: **a Tier 1 element at 14px is a sizing bug, and the fix is the size.** At 16px the floor is 4.5 and every status colour clears it with margin. The system already worked this way in practice — `candor-input` renders its validation errors at 16px (`form-error-message`, floor 4.5, measures 6.4 ✅) while the generic `candor-accessible-text role_="status"` rendered identical content at 14px and could not pass (#208).
+
+Tier 1 **bold** at 14px keeps its 6.5 floor: bold is a genuine perceptual compensation, and 6.5 is reachable by chromatic text.
 
 **Key audit rules:**
 - `--color-text-subtle` (OKCA 5.0 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
 - Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight (wght ≥ 700)**, not a color change or size bump.
-- Tier 1 failures at 14px are genuine and typically require bumping to 16px (e.g. alert body, toast).
+- **Tier 1 regular at 14px is not a contrast failure to fix with colour — it is a size to change.** Bump to 16px.
 - Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position) — it is assigned by the system, not a consumer opt-in.
+- **Classify by what the text does, not by which component renders it.** A validation error is Tier 1 whether it comes from `candor-input`'s built-in slot or from a hand-placed `candor-accessible-text`. Two pairings with the same fg, bg, size and purpose must carry the same floor; where they differ, one of them is misclassified.
 - **Variable font weight axis**: "bold" means `wght ≥ 700`. Non-`wght` axes — `GRAD`, `opsz`, `wdth` — affect perceived stroke weight visually but do not change the compliance column. A component at `font-weight: 500` with `GRAD: -150` is regular for compliance purposes regardless of visual appearance.
 
 ## Responsive Layout Patterns

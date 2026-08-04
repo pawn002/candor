@@ -124,19 +124,19 @@
       "id": "accessible-text-status-primary",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
-      "size": 14,
+      "size": 16,
       "weight": "regular",
-      "min": 9.5,
-      "note": "candor-accessible-text role=status color=primary — 14px regular Tier 1 Reading (form validation, status messages)"
+      "min": 4.5,
+      "note": "candor-accessible-text role=status color=primary — Tier 1 Reading (form validation, status messages). 16px, because Tier 1 regular is not permitted at 14px (#240)."
     },
     {
       "id": "accessible-text-status-error",
       "fg": "{color.status.error-text}",
       "bg": "{color.bg.page}",
-      "size": 14,
+      "size": 16,
       "weight": "regular",
-      "min": 9.5,
-      "note": "candor-accessible-text role=status color=error — 14px regular Tier 1 Reading"
+      "min": 4.5,
+      "note": "candor-accessible-text role=status color=error — Tier 1 Reading at 16px, matching form-error-message, which is the same colour on the same background carrying the same content (#208). At 14px this was unsatisfiable: no chromatic text colour reaches 9.5 (#240)."
     },
     {
       "id": "accessible-text-annotation-primary",
@@ -722,8 +722,8 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
-      "min": 9.5,
-      "note": "compact-mode 'Page X of Y' — sole position indicator, so Tier 1 Reading floor; text-default clears it (OKCA 11.4 light / 12.8 dark)"
+      "min": 6.5,
+      "note": "compact-mode 'Page X of Y' — Tier 2 Functional UI: it is the sole channel for position, which is Tier 2's definition, not Tier 1's (it is recognised, not read sequentially to act). Previously filed as Tier 1 while described in Tier 2's own words. text-default clears either (OKCA 11.5 light / 12.9 dark)."
     },
     {
       "id": "chip-default",

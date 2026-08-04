@@ -29,8 +29,15 @@ export class CandorAccessibleText extends LitElement {
       letter-spacing: 0.02em;
       line-height: var(--line-height-normal);
     }
+    /* 16px, not 14px. The status role carries validation errors and state
+       changes — Tier 1 "must read to act" content — and Tier 1 regular text is
+       required to be 16px or larger, because the 14px floor is unreachable by
+       any chromatic text colour (#240). candor-input already renders its own
+       validation errors at 16px; this makes the generic role agree with it
+       (#208). NB: this comment sits inside a tagged template literal, so it must
+       contain no backtick characters — one would terminate the literal. */
     :host([role_="status"]) {
-      font-size: var(--font-size-sm);
+      font-size: var(--font-size-md);
       letter-spacing: 0.02em;
       line-height: var(--line-height-tight);
     }

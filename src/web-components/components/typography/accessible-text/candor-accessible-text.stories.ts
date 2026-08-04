@@ -35,12 +35,14 @@ The core authoring decision is not "is this text important?" — all text in a w
 
 ### Four roles
 
-| Role | Use case | Size | Weight | Style |
-|---|---|---|---|---|
-| \`label\` | Form field labels, structural anchors in instructional contexts | 14px | bold | uppercase |
-| \`message\` | System messages, body-length guidance the user must act on | 16px | regular | — |
-| \`status\` | Validation errors, live counters, state changes | 14px | regular | — |
-| \`annotation\` | Hints, constraints, legal small print that guide an action | 14px | regular | italic |
+| Role | Use case | Size | Weight | Style | Tier |
+|---|---|---|---|---|---|
+| \`label\` | Form field labels, structural anchors in instructional contexts | 14px | bold | uppercase | 2 |
+| \`message\` | System messages, body-length guidance the user must act on | 16px | regular | — | 1 |
+| \`status\` | Validation errors, live counters, state changes | **16px** | regular | — | 1 |
+| \`annotation\` | Hints, constraints, legal small print that guide an action | 14px | regular | italic | 3 |
+
+The tier decides the size. \`status\` and \`message\` are both Tier 1 — content the user must read to know what to do next — and Tier 1 regular text is required to be 16px or larger, because at 14px the floor is unreachable by any chromatic text colour. \`status\` was 14px until 5.0.0, which made validation errors the one place where the size the system mandated and the contrast it required could not both be met (#208).
 
 **Section headings that label data** (not instructional) should use \`<candor-text variant="label">\` instead — same visual treatment, Roboto Flex.
 
@@ -129,7 +131,7 @@ export const FontComparison: Story = {
         <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;line-height:var(--line-height-tight);">FORM LABEL</span>
         <span style="font-size:var(--font-size-md);letter-spacing:0.02em;line-height:var(--line-height-normal);">The quick brown fox jumps over the lazy dog.</span>
         <span style="font-size:var(--font-size-sm);letter-spacing:0.02em;line-height:var(--line-height-relaxed);font-style:italic;color:var(--color-text-subtle);">Supplementary annotation for context.</span>
-        <span style="font-size:var(--font-size-sm);letter-spacing:0.02em;line-height:var(--line-height-tight);color:var(--color-status-error-text);">Error: This field is required.</span>
+        <span style="font-size:var(--font-size-md);letter-spacing:0.02em;line-height:var(--line-height-tight);color:var(--color-status-error-text);">Error: This field is required.</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.75rem;">
         <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible</p>
