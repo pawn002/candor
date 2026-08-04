@@ -437,11 +437,38 @@ Desaturating a semantic colour to buy contrast is the option to reach for last: 
 
 The same geometry applies inverted on dark backgrounds: contrast there means *higher* lightness, the gamut narrows toward white, and the limit is pure white. Light-on-dark caps at 20.9 rather than 20, but the trade is identical.
 
+#### The corollary for tinted backgrounds: a pale tint may not be a colour at all
+
+The same narrowing that limits dark text limits *pale* fills, and there it has a consequence the contrast floors never see, because nothing in this file measures whether two variants of a component look different from each other.
+
+Candor's status background tokens sit at L 0.95. The maximum chroma sRGB permits there is strongly hue-dependent — measured with `klar lightness`, reading off the highest chroma whose max lightness still reaches 0.95:
+
+| hue | max chroma at L 0.95 | authored |
+|---|---|---|
+| error (red, H 25) | ~0.02 | 0.02 |
+| warning (amber, H 53) | ~0.02 | 0.02 |
+| success (green, H 145) | >0.05 | 0.05 |
+
+Red and amber are pinned to near-white; green has room. The result is that **`--color-status-error-bg` and `--color-status-warning-bg` are deltaE 4 apart in normal vision** — at the edge of imperceptible, and closer than Candor's own "acceptable drift" band starts. Not a CVD edge case: nobody can reliably tell them apart.
+
+Two things follow:
+
+1. **It cannot be fixed by adding chroma.** There is none to add at that lightness and hue. Making those two tints distinguishable means lowering their lightness, which is a different design (tinted fills become mid-tones) and a change to every pairing measured against them.
+2. **Therefore a pale tinted background is not a variant channel**, and a component must not be credited with one for having it. `candor-badge` was: its recorded justification claimed "badge shape always provides redundant coding", which is true of *badge vs. surrounding text* and false of *error badge vs. warning badge* — two different jobs, conflated in one note (#214).
+
+Worth noting **this got worse in #225 and nobody measured it**: error-bg was authored at C 0.05, out of gamut at L 0.95, and pulling it to the boundary halved the separation from deltaE 8 to 4. The re-authoring was correct — the old value never named a deliverable colour — but "every pairing was re-measured and nothing regressed" was a statement about *contrast*, and this is not a contrast property. It is the same lesson as the rest of this release: a guard reports what it measures, and silence outside its scope is not a pass.
+
 **Key audit rules:**
 - `--color-text-subtle` (OKCA 5.0 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
 - Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight (wght ≥ 700)**, not a color change or size bump.
 - **Tier 1 regular at 14px is not a contrast failure to fix with colour — it is a size to change.** Bump to 16px.
-- Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position) — it is assigned by the system, not a consumer opt-in.
+- Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position). The channel must be **non-optional** — something the reader cannot end up without. There are two ways to achieve that, and only the first was recognised until #214:
+  - **The component renders it.** `candor-alert`, `candor-toast` and `candor-accessible-text role_="state"` each assign a distinct icon *shape* per variant, with no way to turn it off.
+  - **The component cannot render without it.** A text-bearing component whose label states the condition — a badge reading "Overdue", "Failed", "Active" — carries the meaning in text that is structurally mandatory, since a badge with no content is not a badge. This is not a consumer opt-in in the sense the rule was written to forbid; the consumer chooses the words, not whether there are any.
+
+  **The precondition, which is what makes this a real distinction rather than a loophole:** the label must *name the condition*, not merely be present. `<candor-badge variant="error">3</candor-badge>` has no channel — "3" says nothing about being an error, so colour is carrying it alone. `<candor-badge variant="error">3 failed</candor-badge>` does. Candor cannot enforce this, so it is a documented authoring rule, taught by worked example in the badge story rather than only asserted here.
+
+  What does **not** count: variant differentiation carried by colour alone. `candor-stat` is the case — `.stat__value` is a number and the label names what is measured, not whether the value is good. "847 ms" in amber and "847 ms" in green differ only in hue. Stat's `<slot>` is where the channel goes; `<candor-accessible-text role_="state" tone="warning">` is the intended occupant, since its icon is component-rendered and therefore non-optional.
 - **Classify by what the text does, not by which component renders it.** A validation error is Tier 1 whether it comes from `candor-input`'s built-in slot or from a hand-placed `candor-accessible-text`. Two pairings with the same fg, bg, size and purpose must carry the same floor; where they differ, one of them is misclassified.
 - **Variable font weight axis**: "bold" means `wght ≥ 700`. Non-`wght` axes — `GRAD`, `opsz`, `wdth` — affect perceived stroke weight visually but do not change the compliance column. A component at `font-weight: 500` with `GRAD: -150` is regular for compliance purposes regardless of visual appearance.
 

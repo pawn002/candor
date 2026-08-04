@@ -217,7 +217,7 @@
       "size": 39,
       "weight": "bold",
       "min": 3,
-      "note": "candor-stat color=success — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
+      "note": "candor-stat color=success — 25-39px bold (sm/md/lg), all large text, threshold 3.0. Tier 3 status is NOT satisfied by the component alone: .stat__value is a number and the label names what is measured, not whether it is good, so colour is the sole variant signal. The redundant channel goes in the slot — candor-accessible-text role_=\"state\" renders a component-guaranteed icon (#214)."
     },
     {
       "id": "stat-value-warning",
@@ -226,7 +226,7 @@
       "size": 39,
       "weight": "bold",
       "min": 3,
-      "note": "candor-stat color=warning — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
+      "note": "candor-stat color=warning — 25-39px bold (sm/md/lg), all large text, threshold 3.0. See stat-value-success: colour is the sole variant signal unless the slot carries a state element (#214)."
     },
     {
       "id": "stat-value-error",
@@ -235,7 +235,7 @@
       "size": 39,
       "weight": "bold",
       "min": 3,
-      "note": "candor-stat color=error — 25–39px bold (sm/md/lg sizes), all large text"
+      "note": "candor-stat color=error — 25-39px bold (sm/md/lg), all large text, threshold 3.0. See stat-value-success: colour is the sole variant signal unless the slot carries a state element (#214)."
     },
     {
       "id": "stat-value-info",
@@ -244,7 +244,7 @@
       "size": 39,
       "weight": "bold",
       "min": 3,
-      "note": "candor-stat color=info uses --color-link as foreground — 25–39px bold (sm/md/lg sizes), all large text"
+      "note": "candor-stat color=info uses --color-link as foreground — 25-39px bold (sm/md/lg), all large text. See stat-value-success: colour is the sole variant signal unless the slot carries a state element (#214)."
     },
     {
       "id": "stat-unit",
@@ -307,7 +307,7 @@
       "size": 14,
       "weight": "bold",
       "min": 4.5,
-      "note": "Tier 3 Supplementary — badge shape always provides redundant coding"
+      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition — not the pill shape. The shape distinguishes a badge from surrounding text; it does not distinguish an error badge from a warning one, which is the job the colour is doing. The label is non-optional in the structural sense (a badge with no content is not a badge), which is why this qualifies under the narrowed Tier 3 clause, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
     },
     {
       "id": "badge-primary",
@@ -315,7 +315,8 @@
       "bg": "{color.action.primary}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. primary/secondary are frequently used as neutral accents with no status meaning at all, so there is nothing for a redundant channel to encode."
     },
     {
       "id": "badge-secondary",
@@ -323,7 +324,8 @@
       "bg": "{color.action.secondary}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. primary/secondary are frequently used as neutral accents with no status meaning at all, so there is nothing for a redundant channel to encode."
     },
     {
       "id": "badge-success",
@@ -331,7 +333,8 @@
       "bg": "{color.status.success-bg}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: at L 0.95 sRGB permits ~0.02 chroma at the error and warning hues, so error-bg and warning-bg are deltaE 4 apart in NORMAL vision and cannot be separated further without lowering lightness. success-bg is the one that has room (green reaches C 0.05 at that lightness), so it reads as distinct — do not generalise from it (#214)."
     },
     {
       "id": "badge-error",
@@ -339,7 +342,8 @@
       "bg": "{color.status.error-bg}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: error-bg vs warning-bg is deltaE 4 in normal vision, 2 under deuteranopia. Both are pinned at C 0.02 by the sRGB gamut at L 0.95 (#214)."
     },
     {
       "id": "badge-warning",
@@ -347,7 +351,8 @@
       "bg": "{color.status.warning-bg}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: warning-bg vs error-bg is deltaE 4 in normal vision, 2 under deuteranopia. Both are pinned at C 0.02 by the sRGB gamut at L 0.95 (#214)."
     },
     {
       "id": "button-primary-medium",
