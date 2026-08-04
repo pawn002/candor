@@ -31,7 +31,7 @@ function showToast(message, variant = 'info', autoDismissMs = 4000) {
   });
   container.appendChild(toast);
   const timer = setTimeout(() => toast.remove(), autoDismissMs);
-  toast.addEventListener('dismissed', () => { clearTimeout(timer); toast.remove(); });
+  toast.addEventListener('dismiss', () => { clearTimeout(timer); toast.remove(); });
 }
 
 showToast('Your changes have been saved.', 'success');
@@ -61,7 +61,7 @@ candor-toast-container { --candor-toast-min-width: 24rem; }
     heading: { control: 'text', type: { name: 'string' }, description: 'Optional heading' },
     message: { control: 'text', type: { name: 'string' }, description: 'Toast message text' },
     dismissible: { control: 'boolean', type: { name: 'boolean' }, description: 'Show dismiss button' },
-    dismissed: { control: false, description: 'CustomEvent fired when the dismiss button is clicked. Consumer is responsible for removing the element from the DOM.' },
+    dismiss: { control: false, description: 'CustomEvent fired when the dismiss button is clicked. Consumer is responsible for removing the element from the DOM.' },
   },
   args: { variant: 'info', heading: '', message: 'Your changes have been saved.', dismissible: true },
   render: (args) => html`<candor-toast variant="${args['variant']}" heading="${args['heading']}" message="${args['message']}" ?dismissible=${args['dismissible']}></candor-toast>`,
@@ -105,7 +105,7 @@ export const Triggered: Story = {
       var t = Object.assign(document.createElement('candor-toast'), { variant: variants[i], message: messages[i], dismissible: true });
       c.appendChild(t);
       var timer = setTimeout(function(){ t.remove(); }, 4000);
-      t.addEventListener('dismissed', function(){ clearTimeout(timer); t.remove(); });
+      t.addEventListener('dismiss', function(){ clearTimeout(timer); t.remove(); });
     })(this)">Trigger notification</candor-button>
   `,
 };

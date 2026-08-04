@@ -173,7 +173,7 @@ export class CandorTabs extends LitElement {
 
   private _activate(id: string) {
     this.activeId = id;
-    this.dispatchEvent(new CustomEvent('tab-change', { detail: id, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('change', { detail: id, bubbles: true, composed: true }));
     this.requestUpdate();
     this.querySelectorAll('candor-tab-panel').forEach((panel: Element) => {
       (panel as CandorTabPanel).active = (panel as CandorTabPanel).panelId === id;

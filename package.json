@@ -21,6 +21,7 @@
     "test-storybook": "test-storybook",
     "build-storybook": "storybook build",
     "test:playwright": "playwright test",
+    "typecheck": "tsc --noEmit",
     "test:playwright:ui": "playwright test --ui",
     "build:tokens": "node scripts/build-tokens.js",
     "build:wc": "vite build --config vite.wc.config.ts && vite build --config vite.tone-data.config.ts",

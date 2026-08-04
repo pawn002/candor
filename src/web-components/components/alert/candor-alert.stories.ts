@@ -39,7 +39,7 @@ readers announce error/warning content automatically when the element appears.
     },
     heading: { control: 'text', type: { name: 'string' }, description: 'Optional heading' },
     message: { control: 'text', type: { name: 'string' }, description: 'Body text' },
-    dismissible: { control: 'boolean', type: { name: 'boolean' }, description: 'Show dismiss button (emits "dismissed" event)' },
+    dismissible: { control: 'boolean', type: { name: 'boolean' }, description: 'Show dismiss button (emits "dismiss" event)' },
   },
   args: { variant: 'info', heading: '', message: 'This is an informational message.', dismissible: false },
   render: (args) => html`<candor-alert variant="${args['variant']}" heading="${args['heading']}" message="${args['message']}" ?dismissible=${args['dismissible']}></candor-alert>`,

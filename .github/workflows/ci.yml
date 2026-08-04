@@ -28,6 +28,26 @@ jobs:
   # non-zero on the two #208 pairings, so wiring it now would mean a job
   # that is red for a known reason, which trains people to ignore it. Add it
   # here the moment #208 lands.
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npm ci
+      # Neither build type-checks: Vite transpiles without checking, and
+      # build-storybook does not either. So without this job a type error sits in
+      # the tree unread — which is how #237 shipped a broken `types` entry while
+      # the compiler was naming the exact fix on line 10 of vite.wc.config.ts.
+      #
+      # This also gates tests/event-types.test-d.ts, which asserts the typed
+      # addEventListener overloads with `@ts-expect-error`. That file has no
+      # runtime; `tsc` IS its assertion, and it fails in both directions — if an
+      # overload stops rejecting a removed event name, the directive goes unused
+      # and the build fails on that. Without this job that guard executes never.
+      - run: npm run typecheck
+
   gamut:
     runs-on: ubuntu-latest
     steps:

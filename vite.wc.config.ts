@@ -7,7 +7,15 @@ export default defineConfig({
     dts({
       include: ['src/web-components'],
       exclude: ['**/*.stories.ts'],
-      outDir: 'web-components/dist',
+      // `outDirs`, not `outDir`. vite-plugin-dts 5 delegates to unplugin-dts,
+      // which renamed the option — and an unknown key is ignored rather than
+      // rejected, so the plugin silently fell back to preserving the full source
+      // path and emitted `dist/src/web-components/index.d.ts`. package.json
+      // points `types` at `./dist/index.d.ts`, so the declarations stopped being
+      // reachable at all. `entryRoot` is what puts them back at the dist root
+      // (#237).
+      outDirs: 'web-components/dist',
+      entryRoot: 'src/web-components',
       tsconfigPath: './tsconfig.wc.json',
     }),
   ],

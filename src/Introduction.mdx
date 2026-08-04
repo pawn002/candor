@@ -87,10 +87,27 @@ Components communicate outward through DOM `CustomEvent`s. Every Candor event is
 
 **The naming follows the DOM's own two-event rule**, applied uniformly so there's nothing component-specific to memorise:
 
-- **`change`** — the *committed* value. Every value control emits it: input, autocomplete, select, radio, checkbox, switch, slider, listbox, combobox, and chip. This is the predictable event to reach for. Discrete controls (checkbox, radio, select, switch) commit in a single action, so `change` is the only value event they emit — exactly like their native counterparts.
+- **`change`** — the *committed* value. Every value control emits it: input, autocomplete, select, radio, checkbox, switch, slider, listbox, combobox, and chip. This is the predictable event to reach for. Discrete controls (checkbox, radio, select, switch) commit in a single action, so `change` is the only value event they emit — exactly like their native counterparts. A selection that commits is a value change too, so `change` also covers `candor-tabs` (the newly-active tab id) and `candor-pagination` (the new page number).
 - **`input`** — the *live, mid-edit* value, fired continuously. Only controls with a real editing phase emit it: `candor-input` (per keystroke), `candor-autocomplete` (per free-text keystroke), `candor-slider` (per drag tick / arrow step), and `candor-combobox` (per filter-text keystroke) — mirroring native `<input>` and `<input type="range">`.
 
-Semantic, non-value events keep distinct names: `send`, `dismissed`, `closed`, `selected`, `toggle`, `clicked`, `page-change`, `tab-change`, `color-select`, `cell-activate`.
+Semantic, non-value events keep distinct names: `send`, `dismiss`, `close`, `select`, `toggle`, `color-select`, `cell-activate`.
+
+Two rules govern those names:
+
+1. **Present tense, matching the DOM's own vocabulary** — `close`, not `closed`; `dismiss`, not `dismissed`. Past tense read as a different *category* of event when it was only ever a different spelling.
+2. **No Candor event where a native one already arrives.** `candor-button` emits nothing: the inner button's native `click` retargets to the host and reaches you unaided, and a `disabled` button suppresses it natively. Listen for `click`.
+
+**Event names are type-checked.** Each component declares `addEventListener` overloads from its own event map, so a name the component doesn't emit is a compile error rather than a listener that silently never fires:
+
+```ts
+const tabs = document.querySelector('candor-tabs')!;
+
+tabs.addEventListener('change', (e) => go(e.detail));  // ✓ detail is string
+tabs.addEventListener('click', (e) => …);              // ✓ native events still work
+tabs.addEventListener('tab-change', …);                // ✗ compile error — removed in 5.0.0
+```
+
+`detail` is typed from the map, so no cast is needed. Two things this deliberately can't reach: framework template bindings (`@change=`, `(change)=`) don't go through this signature, and dispatching *your own* custom event on a Candor element needs a widening cast — `(el as HTMLElement).addEventListener('my-event', …)` — since there's no permissive fallback overload.
 
 Event names and their `detail` types are published in the `@candor-design/web-components` TypeScript declarations — import a `*Detail` type or a per-component `*EventMap` interface instead of hand-annotating:
 
@@ -102,11 +119,11 @@ el.addEventListener('change', (e) => {
 });
 ```
 
-**Deprecated aliases.** Three controls previously used bespoke value-changed names. Each legacy name is still emitted with its original semantics so existing listeners keep working, and maps to whichever new event shares those semantics. The aliases are deprecated and will be removed in the next major.
+**Removed in 5.0.0.** Three controls once used bespoke value-changed names. They were deprecated in 4.2.0 and are now gone — listeners must move to the replacement, which carries the same `detail` payload and the same semantics.
 
 <table>
   <thead>
-    <tr><th>Component</th><th>Deprecated event</th><th>Semantics</th><th>Use instead</th></tr>
+    <tr><th>Component</th><th>Removed event</th><th>Semantics</th><th>Use instead</th></tr>
   </thead>
   <tbody>
     <tr><td>candor-input</td><td><code>input-change</code></td><td>live</td><td><code>input</code></td></tr>

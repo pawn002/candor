@@ -7,7 +7,12 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: '`<candor-button>` — five variants covering the full hierarchy of actions. Emits a `clicked` CustomEvent.',
+        component:
+          '`<candor-button>` — five variants covering the full hierarchy of actions. ' +
+          'Listen for the standard DOM `click` event: the inner button\'s native click ' +
+          'retargets to the host and reaches you unaided, so there is no Candor-specific ' +
+          'event to learn. (A `disabled` button suppresses it natively.) The bespoke ' +
+          '`clicked` event was removed in 5.0.0 — it only ever duplicated `click` (#201).',
       },
     },
   },

@@ -76,8 +76,6 @@ export class CandorInput extends LitElement {
     // Live value stream — fires on every keystroke, mirroring the native
     // `input` event but carrying the value as `detail` (see events.ts / #164).
     this.dispatchEvent(new CustomEvent('input', { detail: this.value, bubbles: true, composed: true }));
-    // Deprecated alias — same live semantics; remove in the next major (#164).
-    this.dispatchEvent(new CustomEvent('input-change', { detail: this.value, bubbles: true, composed: true }));
   }
 
   private _onChange() {

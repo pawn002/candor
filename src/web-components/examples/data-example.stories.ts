@@ -32,7 +32,7 @@ Demonstrates a canonical list-management UI:
 - **Drawer** holds the filter panel, keeping the table full-width while filters are open
 - **Disclosure** collapses the "Advanced filters" section inside the drawer
 - **Badge** on the filter button shows the count of active filters at a glance
-- **Pagination** navigates large result sets via the \`page-change\` CustomEvent
+- **Pagination** navigates large result sets via the \`change\` CustomEvent
 - **Table** renders sortable columns and row data
 
 The filter drawer uses \`<aside>\` with an \`aria-label\` — landmark navigation lets

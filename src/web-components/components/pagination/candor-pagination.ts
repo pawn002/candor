@@ -120,7 +120,7 @@ export class CandorPagination extends LitElement {
   private _goTo(page: number) {
     const clamped = Math.max(1, Math.min(page, this.totalPages));
     this.currentPage = clamped;
-    this.dispatchEvent(new CustomEvent('page-change', { detail: clamped, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('change', { detail: clamped, bubbles: true, composed: true }));
     this.requestUpdate();
   }
 

@@ -74,7 +74,7 @@ Use this for sort/view options where exactly one item is active at a time.
 use this when the trigger is near the right edge of the viewport to prevent overflow.
 
 Pass \`entries\` as a JSON-encoded \`entries\` attribute (\`entries='${'$'}{JSON.stringify(...)}'\`)
-or as the JS \`entries\` property. Emits a \`selected\` CustomEvent with the chosen entry.
+or as the JS \`entries\` property. Emits a \`select\` CustomEvent with the chosen entry.
         `.trim(),
       },
     },
@@ -127,7 +127,7 @@ export const ShortList: Story = {
         story: 'When entries carry a `checked` property, the component switches to ' +
           '`role="menuitemradio"` with `aria-checked` on every item. A checkmark ' +
           'appears beside the active item; a fixed-width spacer keeps text aligned ' +
-          'across all items. The `selected` event still fires on activation — update ' +
+          'across all items. The `select` event still fires on activation — update ' +
           '`checked` in the entries array to reflect the new selection.',
       },
     },

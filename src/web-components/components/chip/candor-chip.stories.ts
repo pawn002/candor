@@ -22,9 +22,9 @@ Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warn
 \`error\`.
 
 **Events.** \`change\` fires on select/deselect, carrying the new selected state as a
-\`boolean\` in \`detail\`; \`dismissed\` fires when the remove button is activated, with no
-payload. The legacy \`selected-change\` is still emitted with the same semantics as
-\`change\` — deprecated, removed in the next major (#201).
+\`boolean\` in \`detail\`; \`dismiss\` fires when the remove button is activated, with no
+payload. The legacy \`selected-change\` was removed in 5.0.0 (#201) — use \`change\`, which
+has the same semantics and the same payload.
         `.trim(),
       },
     },
