@@ -560,7 +560,19 @@ const FONT_SIZE_RE =
   /font-size:\s*(?:var\(\s*(--font-size-xs|--text-xs)\s*\)|(\d*\.?\d+)(rem|px))/g;
 // candor-text is the only component with a size scale, so this is unambiguous.
 const SIZE_ATTR_RE = /<candor-text\b[^>]*\bsize="(xs)"/g;
-const MARKER_RE = /12px-ok:\s*([a-z][a-z0-9-]*)/;
+// The marker must open a comment — `// 12px-ok: <reason>` or `/* 12px-ok: … */`
+// — and be the first thing in it. Matching the bare string anywhere would let
+// PROSE authorise a real violation: the typography showcase documents this very
+// syntax in rendered copy, and that copy sits three lines from `font-size`
+// declarations. A guard defeatable by its own documentation is the failure shape
+// this release keeps finding, so the escape hatch is narrowed to a form that
+// cannot occur in running text (#230).
+//
+// Residual limit, stated rather than implied: a string literal containing
+// `/* 12px-ok: icon` would still match, because this is a regex and not a
+// tokenizer. That takes deliberate effort, unlike writing the words in a
+// sentence, which took me one commit.
+const MARKER_RE = /(?:\/\/|\/\*)\s*12px-ok:\s*([a-z][a-z0-9-]*)/;
 
 function sourceFiles() {
   const out = [];
@@ -601,7 +613,7 @@ function checkTextSizeFloor() {
 
       for (const hit of hits) {
         if (!marker) {
-          violations.push(`${where} — ${hit} is below the ${FLOOR_PX}px floor and carries no "12px-ok: <reason>" marker`);
+          violations.push(`${where} — ${hit} is below the ${FLOOR_PX}px floor and carries no "// 12px-ok: <reason>" comment (the marker must open a comment, not merely appear in the text)`);
         } else if (!SUB_FLOOR_REASONS.has(marker[1])) {
           violations.push(`${where} — ${hit} claims "12px-ok: ${marker[1]}", which is not a reason the audit recognises (${[...SUB_FLOOR_REASONS].join(', ')})`);
         } else {

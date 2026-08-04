@@ -365,6 +365,8 @@ font-size: var(--font-size-xs);
 
 Recognised reasons are `badge-chrome` and `icon`, and free text is rejected — an unrecognised reason fails exactly like a missing one. This is an author assertion, the same shape as `exempt` in `pairings.json`, because chrome cannot be told from content by looking at CSS. The marker may sit on the declaration or up to three lines above it. Absolute literals (`font-size: 0.75rem`) are caught as well as the token, so hard-coding is not a way around it.
 
+**The marker must *open* a comment** — `// 12px-ok: icon` or `/* 12px-ok: icon */`, with the marker first. `/* note: 12px-ok: icon */` does not count, and neither does the string in running text. That is deliberate: the type-scale story documents this syntax in rendered copy, and matching the bare string anywhere would let that documentation authorise a real violation three lines away. Residual limit — a string literal containing `/* 12px-ok: icon` still matches, since this is a regex and not a tokenizer; that takes deliberate effort, unlike writing the words in a sentence.
+
 **`candor-text` has no `xs` size** (removed in 5.0.0). A component whose purpose is readable text should not offer a size at which text is not permitted; the story demonstrating `xs` was rendering a full sentence at 12px to explain that 12px is not for sentences. Reach for the token directly when you genuinely need chrome.
 
 ### OKCA Contrast Thresholds — Two Axes

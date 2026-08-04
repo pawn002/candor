@@ -85,6 +85,19 @@ const renderShowcase = () => html`
           text. <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">--font-size-xs</code> (12px) is for decorative
           and non-text use only.
         </p>
+        <p style="font-size: var(--font-size-md); color: var(--color-text-subtle); margin: var(--spacing-sm) 0 0; line-height: var(--line-height-normal);">
+          Reaching for the 12px row has two conditions attached. It is <strong style="color: var(--color-text-default); font-weight: var(--font-weight-semibold);">not reachable through
+          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">&lt;candor-text&gt;</code></strong>
+          — that component's scale stops at 14px, because a component for readable text should not
+          offer a size at which text is not permitted. Set the token directly on the element that
+          needs it. And <strong style="color: var(--color-text-default); font-weight: var(--font-weight-semibold);">the audit will fail the build</strong> unless the declaration
+          declares why, with a
+          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">12px-ok: badge-chrome</code>
+          or
+          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">12px-ok: icon</code>
+          comment — because 12px carries no contrast floor in either axis, so using it silently
+          removed the text from contrast auditing altogether (#230).
+        </p>
       </div>
 
       <div style="border: var(--border-width-thin) solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-surface);">
