@@ -20,14 +20,6 @@ jobs:
       - run: npm ci
       - run: npm run build:tokens
 
-  # The sRGB gamut invariant (#225). Runs on every PR so the guarantee is a
-  # gate rather than a convention someone has to remember to run — the audit
-  # is only as good as the odds it gets invoked.
-  #
-  # This is audit:tokens only, NOT audit:contrast: the latter still exits
-  # non-zero on the two #208 pairings, so wiring it now would mean a job
-  # that is red for a known reason, which trains people to ignore it. Add it
-  # here the moment #208 lands.
   typecheck:
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +40,30 @@ jobs:
       # and the build fails on that. Without this job that guard executes never.
       - run: npm run typecheck
 
-  gamut:
+  # Both colour audits, in the one order that makes either of them mean
+  # anything. audit:tokens owns the sRGB gamut invariant (#225); audit:contrast
+  # owns contrast (#211). They run on every PR so each guarantee is a gate
+  # rather than a convention someone remembers — an audit is only as good as
+  # the odds it gets invoked.
+  #
+  # audit:contrast was held out of CI while it exited non-zero on two genuine
+  # failures (#208, #209) — a job red for a known reason trains people to
+  # ignore it. Both are closed, so it comes in.
+  #
+  # THE STEP ORDER IS LOAD-BEARING, and not merely because gamut is logically
+  # prior. audit:contrast reads audit/tokens.dtcg.json off disk, so run on its
+  # own it measures the *committed* artifact rather than the current tokens.
+  # Verified: change a token without re-exporting and audit:contrast alone
+  # reports "✓ no drift", exit 0, while 19 real violations sit in the tree —
+  # including the changed token's own recorded figure. Re-export first and the
+  # same tree fails with all 19 named. A parallel job would have been a false
+  # green, which is the #218 shape once more: a guard that passes because it
+  # measured the wrong thing.
+  #
+  # So this is one job, not two. Splitting it for a finer red/green signal
+  # would put audit:contrast back on the committed artifact — the separation
+  # people would want is exactly the thing that breaks it.
+  audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -64,8 +79,21 @@ jobs:
       # audit:tokens regenerates the DTCG artifact. If that produces a diff,
       # the committed artifact was stale — someone changed a token and did not
       # re-export, so every downstream figure was measured against the old set.
+      #
+      # This gate is also what lets the contrast step below trust what it
+      # reads: once the regenerated artifact matches the committed one, the
+      # file on disk describes the tokens in this commit.
       - name: audit/tokens.dtcg.json is up to date
         run: git diff --exit-code -- audit/tokens.dtcg.json
+      # Pairings against their floors, plus every OKCA figure recorded in a
+      # token comment or story prose, plus the 14px text floor. Exit 1 is a
+      # violation; exit 2 means the audit could not be trusted to run (klar
+      # missing, wrong major, or a colour outside sRGB — a defect the step
+      # above should already have caught).
+      #
+      # ~250 klar invocations, so this is the slowest step here by some way
+      # (about a minute). That is the cost of measuring rather than asserting.
+      - run: npm run audit:contrast
 
   build-web-components:
     runs-on: ubuntu-latest
