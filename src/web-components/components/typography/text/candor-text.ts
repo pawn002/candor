@@ -2,7 +2,12 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 type TextVariant = 'body' | 'caption' | 'label';
-type TextSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+// No 'xs'. --font-size-xs (12px) is below the readable-text floor, and this is
+// the component whose entire purpose is readable text — offering a size at which
+// its own output is not permitted is an affordance that can only be misused
+// (#230). 12px remains available for badge chrome and icon glyphs via the token
+// itself; those are not text, and are not set through this component.
+type TextSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 type TextColor = 'primary' | 'secondary' | 'disabled';
 
 @customElement('candor-text')
@@ -17,7 +22,6 @@ export class CandorText extends LitElement {
     .text--body    { font-family: var(--font-family-reading); }
     .text--caption { font-family: var(--font-family-reading); font-style: italic; letter-spacing: var(--letter-spacing-italic); }
     .text--label   { font-family: var(--font-family-base); font-weight: var(--font-weight-regular); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; line-height: var(--line-height-tight); }
-    .text--size-xs  { font-size: var(--font-size-xs); }
     .text--size-sm  { font-size: var(--font-size-sm); }
     .text--size-md  { font-size: var(--font-size-md); }
     .text--size-lg  { font-size: var(--font-size-lg); }

@@ -33,8 +33,8 @@ const meta: Meta = {
     },
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'],
-      description: 'Text size. xs (12px) is decorative only.',
+      options: ['sm', 'md', 'lg', 'xl', '2xl', '3xl'],
+      description: 'Text size. sm (14px) is the floor — 12px is not offered here (#230).',
     },
     color: {
       control: 'select',
@@ -56,12 +56,22 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const Sizes: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The scale starts at `sm` (14px). There is no `xs`: 12px is below the readable-text ' +
+          'floor, and this component exists to render readable text, so the size was removed in ' +
+          '5.0.0 rather than documented as forbidden (#230).\n\n' +
+          'The old story rendered a full sentence at 12px in order to explain that 12px is not for ' +
+          'sentences — and stories are what developers copy. 12px is still available as ' +
+          '`--font-size-xs` for badge chrome and icon glyphs, which are not text and are not set ' +
+          'through this component.',
+      },
+    },
+  },
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
-      <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
-        <candor-text variant="label" size="sm" color="secondary" style="min-width:10ch;">xs · 12px</candor-text>
-        <candor-text variant="body" size="xs">Decorative only — icons, badge chrome, non-readable metadata.</candor-text>
-      </div>
       <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
         <candor-text variant="label" size="sm" color="secondary" style="min-width:10ch;">sm · 14px</candor-text>
         <candor-text variant="body" size="sm">System floor for readable text. Dense UI, captions, secondary prose.</candor-text>

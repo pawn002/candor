@@ -18,6 +18,12 @@ const meta: Meta = {
 Five semantic color variants signal the metric's state: \`default\`, \`success\`,
 \`warning\`, \`error\`, \`info\`. The color applies to the value and unit, not the label.
 
+**When you use a status colour, put the verdict in the slot too.** A stat's label names *what
+is measured*, not whether the number is good — so unlike a badge, colour here can end up as
+the only thing saying "this is a problem". \`<candor-accessible-text role_="state">\` is the
+intended occupant: its icon is rendered by the component, so the redundancy cannot be
+forgotten. See *Rule: colour is not the channel* (#214).
+
 Compose with \`<candor-badge>\` for trend indicators (↑ 12% vs. last month) and with
 \`<candor-card>\` when the stat lives inside a surface panel.
         `.trim(),
@@ -101,6 +107,63 @@ export const AllColors: Story = {
       <candor-stat value="3" label="Failures" color="error" size="lg"></candor-stat>
       <candor-stat value="1,284" label="Users" color="default" size="lg"></candor-stat>
       <candor-stat value="512" label="API calls" color="info" size="lg"></candor-stat>
+    </div>
+  `,
+};
+
+export const ColourIsNotTheChannel: Story = {
+  name: 'Rule: colour is not the channel',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story: `
+Stat differs from badge, and the difference decides the rule.
+
+A badge's label states the condition — "3 failed" — so the text carries the meaning and the
+fill is decoration. A stat's label states **what is measured**, not the verdict. "Response
+time 847 ms" is the same sentence whether that number is excellent or alarming; only the
+colour says which. That makes colour the sole channel, which is exactly what the Tier 3
+discount is not allowed to rest on.
+
+The fix is already in the component: \`<candor-stat>\` has a default slot. Put
+\`<candor-accessible-text role_="state">\` in it. Its tone icon is rendered by that component
+rather than hand-placed, so the redundant channel cannot be omitted by accident — and its
+text stays \`--color-text-default\`, so it clears every floor with margin while the icon does
+the colour work.
+
+Note the first row is not *wrong* in every context — a reader who knows the thresholds can
+read it. It is wrong as a **default**, because it makes correct interpretation conditional on
+knowledge the interface never supplied.
+        `.trim(),
+      },
+    },
+  },
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:620px;padding:var(--spacing-md);">
+      <div>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-md);">Colour alone — the verdict is unstated</p>
+        <div style="display:flex;gap:var(--spacing-xl);flex-wrap:wrap;justify-content:center;">
+          <candor-stat value="847" unit="ms" label="Response time" color="warning" size="lg"></candor-stat>
+          <candor-stat value="99.2" unit="%" label="Uptime" color="success" size="lg"></candor-stat>
+          <candor-stat value="12" label="Open incidents" color="error" size="lg"></candor-stat>
+        </div>
+      </div>
+      <hr style="border:none;border-top:var(--border-width-thin) solid var(--color-border-default);margin:0;width:100%;" />
+      <div>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-md);">With a state element in the slot</p>
+        <div style="display:flex;gap:var(--spacing-xl);flex-wrap:wrap;justify-content:center;">
+          <candor-stat value="847" unit="ms" label="Response time" color="warning" size="lg">
+            <candor-accessible-text role_="state" tone="warning">Above target</candor-accessible-text>
+          </candor-stat>
+          <candor-stat value="99.2" unit="%" label="Uptime" color="success" size="lg">
+            <candor-accessible-text role_="state" tone="success">Meeting SLA</candor-accessible-text>
+          </candor-stat>
+          <candor-stat value="12" label="Open incidents" color="error" size="lg">
+            <candor-accessible-text role_="state" tone="error">Needs attention</candor-accessible-text>
+          </candor-stat>
+        </div>
+      </div>
     </div>
   `,
 };

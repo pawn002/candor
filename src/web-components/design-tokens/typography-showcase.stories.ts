@@ -68,7 +68,7 @@ const renderShowcase = () => html`
                   <candor-chip label="${f.voice}"></candor-chip>
                 </div>
                 <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-normal);">${f.use}</p>
-                <code style="display: block; font-family: var(--font-family-mono); font-size: var(--font-size-xs); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm);">${f.variable}</code>
+                <code style="display: block; font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm);">${f.variable}</code>
               </div>
             </candor-card>
           `;
@@ -84,6 +84,19 @@ const renderShowcase = () => html`
           (<code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">--font-size-sm</code>) is the minimum for readable
           text. <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">--font-size-xs</code> (12px) is for decorative
           and non-text use only.
+        </p>
+        <p style="font-size: var(--font-size-md); color: var(--color-text-subtle); margin: var(--spacing-sm) 0 0; line-height: var(--line-height-normal);">
+          Reaching for the 12px row has two conditions attached. It is <strong style="color: var(--color-text-default); font-weight: var(--font-weight-semibold);">not reachable through
+          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">&lt;candor-text&gt;</code></strong>
+          — that component's scale stops at 14px, because a component for readable text should not
+          offer a size at which text is not permitted. Set the token directly on the element that
+          needs it. And <strong style="color: var(--color-text-default); font-weight: var(--font-weight-semibold);">the audit will fail the build</strong> unless the declaration
+          declares why, with a
+          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">12px-ok: badge-chrome</code>
+          or
+          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">12px-ok: icon</code>
+          comment — because 12px carries no contrast floor in either axis, so using it silently
+          removed the text from contrast auditing altogether (#230).
         </p>
       </div>
 
@@ -189,7 +202,13 @@ perceived weight as size increases, meaning the effective hierarchy reads larger
 numeric ratio.
 
 Minimum readable text size is 14px (\`--font-size-sm\`). \`--font-size-xs\` (12px) is for
-decorative and non-text use only.
+decorative and non-text use only — icon glyphs and badge chrome, not language.
+
+That is enforced rather than asked for: \`npm run audit:contrast\` fails on any sub-14px
+\`font-size\` in \`src/\` that does not carry a \`12px-ok: <reason>\` marker naming a reason the
+audit recognises. The check lives in the *contrast* audit because 12px has no OKCA floor
+defined for it, so setting it on text used to remove that text from auditing silently (#230).
+\`candor-text\` no longer offers an \`xs\` size at all.
         `.trim(),
       },
     },

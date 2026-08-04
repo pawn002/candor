@@ -22,6 +22,10 @@ default) and \`md\` (16px).
 Both sizes use **Atkinson Hyperlegible**. \`sm\` (14px) is bold — small text needs the
 heavier stroke for legibility and contrast. \`md\` (16px) is regular — the contrast floor
 is identical for both weights at 16px, so the lighter stroke is preferred.
+
+**The label must name the condition, not just be present.** A badge's fill is decoration on
+top of its text, not a second channel — see *Rule: the label carries the meaning* for the
+measurement behind that.
         `.trim(),
       },
     },
@@ -58,6 +62,67 @@ export const AllVariants: Story = {
       <candor-badge variant="success">Success</candor-badge>
       <candor-badge variant="error">Error</candor-badge>
       <candor-badge variant="warning">Warning</candor-badge>
+    </div>
+  `,
+};
+
+export const LabelCarriesTheMeaning: Story = {
+  name: 'Rule: the label carries the meaning',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story: `
+A badge's **colour is not a channel** — its label is. This is the authoring rule the
+component cannot enforce, so it is demonstrated rather than only stated.
+
+The reason is measurable, and it is not primarily about colour vision. Candor's status
+background tokens sit at lightness 0.95, and the sRGB gamut permits only about 0.02 chroma
+at the red and amber hues up there — green has more room, which is why success reads as
+distinct and the other two do not. \`--color-status-error-bg\` and
+\`--color-status-warning-bg\` are consequently **deltaE 4 apart in normal vision** (2 under
+deuteranopia), where Candor's own scale calls anything under 3 imperceptible.
+
+It cannot be fixed by adding chroma, because there is none to add at that lightness. So the
+badge fill is decoration on top of the label, and the label has to do the work.
+
+**The test:** cover the badge's colour with your thumb. Does the sentence still tell you what
+happened? If not, the badge is relying on a channel that isn't there (#214).
+        `.trim(),
+      },
+    },
+  },
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:560px;padding:var(--spacing-md);">
+      <div>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Insufficient — the number says nothing</p>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+          <candor-badge variant="error">3</candor-badge>
+          <candor-badge variant="warning">12</candor-badge>
+          <candor-badge variant="success">47</candor-badge>
+        </div>
+        <p style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:var(--spacing-sm) 0 0;line-height:var(--line-height-relaxed);">Three counts. Only the fill distinguishes a failure from a pass, and the first two fills are not reliably distinguishable by anyone.</p>
+      </div>
+      ${divider}
+      <div>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Sufficient — the label names the condition</p>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+          <candor-badge variant="error">3 failed</candor-badge>
+          <candor-badge variant="warning">12 need review</candor-badge>
+          <candor-badge variant="success">47 passed</candor-badge>
+        </div>
+        <p style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:var(--spacing-sm) 0 0;line-height:var(--line-height-relaxed);">Same colours, same component. The meaning now survives the colour being invisible, which is what the Tier 3 discount is for.</p>
+      </div>
+      ${divider}
+      <div>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Also fine — no status meaning to carry</p>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+          <candor-badge variant="primary">3 new</candor-badge>
+          <candor-badge variant="secondary">Beta</candor-badge>
+          <candor-badge variant="default">Draft</candor-badge>
+        </div>
+        <p style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:var(--spacing-sm) 0 0;line-height:var(--line-height-relaxed);">The rule applies to badges encoding status. Used as a neutral accent there is no second meaning for a redundant channel to encode.</p>
+      </div>
     </div>
   `,
 };

@@ -167,6 +167,28 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
 ];
 
+// Swatch label style, held out of the template on purpose.
+//
+// These names wrap — several exceed the 160px column at 14px — and they must break
+// after a hyphen, not mid-token. The default `word-break: normal` does that; the
+// `break-all` this replaced split `--color-border-default` as `--color-border-defaul`
+// + `t`, which for a string whose whole purpose is to be copied is worse than a wrap.
+//
+// It lives in a const rather than inline because a CSS comment inside a style="…"
+// attribute is one stray double quote away from truncating the attribute — which is
+// exactly what happened when this explanation was written inline, silently dropping
+// the two declarations that followed it. Prose belongs in TypeScript, where quoting
+// it is free.
+const SWATCH_LABEL_STYLE = [
+  'display: block',
+  'font-family: var(--font-family-mono)',
+  'font-size: var(--font-size-sm)',
+  'color: var(--color-text-subtle)',
+  'word-break: normal',
+  'overflow-wrap: break-word',
+  'margin: 0',
+].join('; ');
+
 const renderSwatchGrid = (categories: ColorCategory[]) => html`
   <div style="display: block; font-family: var(--font-family-base); padding: var(--spacing-lg); background: var(--color-bg-page);">
     ${categories.map(cat => html`
@@ -195,14 +217,7 @@ const renderSwatchGrid = (categories: ColorCategory[]) => html`
             <div style="border: 1px solid var(--color-border-default); border-radius: var(--radius-sm); overflow: hidden; background: var(--color-bg-surface);">
               <div style="height: 56px; background: var(${c.variable});"></div>
               <div style="padding: var(--spacing-xs) var(--spacing-sm);">
-                <code style="
-                  display: block;
-                  font-family: var(--font-family-mono);
-                  font-size: 0.65rem;
-                  color: var(--color-text-subtle);
-                  word-break: break-all;
-                  margin: 0;
-                ">${c.variable}</code>
+                <code style="${SWATCH_LABEL_STYLE}">${c.variable}</code>
               </div>
             </div>
           `)}

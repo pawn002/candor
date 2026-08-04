@@ -119,9 +119,14 @@ export class CandorDataGrid extends LitElement {
       pointer-events: none;
       gap: 0.2em;
     }
+    /* 14px, not 12px. This renders cell.label — consumer content, and the same
+       string the cell exposes as its accessible name. It is read, not chrome, so
+       the readable-text floor applies (#230). 12px also had the effect of
+       removing it from contrast auditing entirely, which is how #229 stayed
+       unnoticed: the visible text inside every cell had no pairing at all. */
     .data-grid__cell-label {
       font-family: var(--font-family-mono);
-      font-size: var(--font-size-xs);
+      font-size: var(--font-size-sm);
       line-height: 1;
     }
     .data-grid__check {

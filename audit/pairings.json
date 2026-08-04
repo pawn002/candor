@@ -7,6 +7,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "Field label across form components — 14px bold Atkinson, Tier 2 Functional"
     },
@@ -16,6 +17,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 3,
       "min": 4.5,
       "note": "Required marker (*) — inherits label size/weight; Tier 3 Supplementary (label text is the redundant channel)"
     },
@@ -25,6 +27,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "Typed value inside input/combobox/select — 16px regular, Tier 1 Reading"
     },
@@ -34,9 +37,10 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
-      "min": 3,
+      "tier": 3,
+      "min": 4.5,
       "exempt": "candor-supplementary",
-      "note": "Placeholder text — no enforced floor: placeholder is supplementary and transient (real content replaces it on input) and is never the sole channel for meaning (the field carries a real label). min records the Tier-3 floor it would fall under if it were primary content. Measured OKCA 2.0 light / 2.2 dark on bg.page."
+      "note": "Placeholder text — exempt (candor-supplementary): transient, disappears on input, never the sole channel for meaning since the field has a real label. min records the floor it WOULD carry as active content: 16px regular is 4.5 in every tier. Was recorded as 3, which no tier produces (#213)."
     },
     {
       "id": "form-input-disabled-value",
@@ -44,9 +48,10 @@
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
-      "min": 3,
+      "tier": 1,
+      "min": 4.5,
       "exempt": "wcag-1.4.3",
-      "note": "Value text inside a disabled input — SC 1.4.3 exempts inactive components, so no floor is enforced; min records the Tier-3 floor it would fall under if active. Measured OKCA 1.5 light / 1.9 dark on bg.surface. Per the disabled-label convention (#134) the dim value signals 'unavailable'; the input's required disabled hint carries the actionable meaning."
+      "note": "Value text in a disabled input — exempt (wcag-1.4.3, which exempts inactive components). Tier 1 as content: it is the field value. min records the floor it would carry if active: 16px regular is 4.5. Was recorded as 3, which no tier produces (#213)."
     },
     {
       "id": "form-error-message",
@@ -54,6 +59,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "Error message below field — 16px regular, Tier 1 Reading (user must read to correct)"
     },
@@ -63,6 +69,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "Hint/help text below field — 14px regular, Tier 3 Supplementary"
     },
@@ -72,6 +79,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "candor-accessible-text role=label color=primary — Tier 2 Functional"
     },
@@ -81,6 +89,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "candor-accessible-text role=label color=secondary — Tier 2 Functional"
     },
@@ -90,6 +99,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "candor-accessible-text role=label color=error — Tier 2 Functional"
     },
@@ -99,6 +109,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "candor-accessible-text role=message color=primary — Tier 1 Reading"
     },
@@ -108,6 +119,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "candor-accessible-text role=message color=secondary — Tier 1 Reading"
     },
@@ -117,6 +129,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "candor-accessible-text role=message color=error — Tier 1 Reading"
     },
@@ -124,19 +137,71 @@
       "id": "accessible-text-status-primary",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
-      "size": 14,
+      "size": 16,
       "weight": "regular",
-      "min": 9.5,
-      "note": "candor-accessible-text role=status color=primary — 14px regular Tier 1 Reading (form validation, status messages)"
+      "tier": 1,
+      "min": 4.5,
+      "note": "candor-accessible-text role=status color=primary — Tier 1 Reading (form validation, status messages). 16px, because Tier 1 regular is not permitted at 14px (#240)."
     },
     {
       "id": "accessible-text-status-error",
       "fg": "{color.status.error-text}",
       "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 1,
+      "min": 4.5,
+      "note": "candor-accessible-text role=status color=error — Tier 1 Reading at 16px, matching form-error-message, which is the same colour on the same background carrying the same content (#208). At 14px this was unsatisfiable: no chromatic text colour reaches 9.5 (#240)."
+    },
+    {
+      "id": "accessible-text-state-text",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
-      "min": 9.5,
-      "note": "candor-accessible-text role=status color=error — 14px regular Tier 1 Reading"
+      "tier": 3,
+      "min": 4.5,
+      "note": "candor-accessible-text role=state — Tier 3 at 14px. The component renders an aria-hidden tone icon, so the outcome is redundantly coded by a non-colour channel; the redundancy is structural rather than author-asserted (#213). The text itself is never coloured — text-default only — which is why it clears with margin."
+    },
+    {
+      "id": "accessible-text-state-icon-success",
+      "fg": "{color.status.success}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "role=state tone=success icon. Non-text use of a status base token, which is what those tokens are validated for; the 3.0 floor is the WCAG 1.4.11 non-text contrast minimum, not a text floor."
+    },
+    {
+      "id": "accessible-text-state-icon-warning",
+      "fg": "{color.status.warning}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "role=state tone=warning icon. Non-text; see accessible-text-state-icon-success."
+    },
+    {
+      "id": "accessible-text-state-icon-error",
+      "fg": "{color.status.error}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "role=state tone=error icon. Non-text; see accessible-text-state-icon-success."
+    },
+    {
+      "id": "accessible-text-state-icon-info",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "role=state tone=info icon — text-subtle, matching candor-alert info. Non-text."
     },
     {
       "id": "accessible-text-annotation-primary",
@@ -144,6 +209,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "candor-accessible-text role=annotation color=primary — Tier 3 Supplementary (italic, context-framing)"
     },
@@ -153,6 +219,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "candor-accessible-text role=annotation color=secondary — Tier 3 Supplementary"
     },
@@ -162,6 +229,7 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
+      "tier": 2,
       "min": 3,
       "note": "candor-stat default color — 25–39px bold (sm/md/lg sizes), all large text, threshold 3.0"
     },
@@ -171,8 +239,9 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
+      "tier": 2,
       "min": 3,
-      "note": "candor-stat color=success — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
+      "note": "candor-stat color=success — 25-39px bold (sm/md/lg), all large text, threshold 3.0. Tier 3 status is NOT satisfied by the component alone: .stat__value is a number and the label names what is measured, not whether it is good, so colour is the sole variant signal. The redundant channel goes in the slot — candor-accessible-text role_=\"state\" renders a component-guaranteed icon (#214)."
     },
     {
       "id": "stat-value-warning",
@@ -180,8 +249,9 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
+      "tier": 2,
       "min": 3,
-      "note": "candor-stat color=warning — 25–39px bold (sm/md/lg sizes), all large text; was using non-text token before audit"
+      "note": "candor-stat color=warning — 25-39px bold (sm/md/lg), all large text, threshold 3.0. See stat-value-success: colour is the sole variant signal unless the slot carries a state element (#214)."
     },
     {
       "id": "stat-value-error",
@@ -189,8 +259,9 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
+      "tier": 2,
       "min": 3,
-      "note": "candor-stat color=error — 25–39px bold (sm/md/lg sizes), all large text"
+      "note": "candor-stat color=error — 25-39px bold (sm/md/lg), all large text, threshold 3.0. See stat-value-success: colour is the sole variant signal unless the slot carries a state element (#214)."
     },
     {
       "id": "stat-value-info",
@@ -198,8 +269,9 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
+      "tier": 2,
       "min": 3,
-      "note": "candor-stat color=info uses --color-link as foreground — 25–39px bold (sm/md/lg sizes), all large text"
+      "note": "candor-stat color=info uses --color-link as foreground — 25-39px bold (sm/md/lg), all large text. See stat-value-success: colour is the sole variant signal unless the slot carries a state element (#214)."
     },
     {
       "id": "stat-unit",
@@ -207,6 +279,7 @@
       "bg": "{color.bg.page}",
       "size": 20,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "candor-stat unit suffix — 20px regular; 19-23px regular = 4.5 threshold"
     },
@@ -216,6 +289,7 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "candor-stat label — designed for use on surface backgrounds, Tier 3 Supplementary"
     },
@@ -225,6 +299,7 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "Column header — Tier 3 Supplementary (position provides redundancy); fixed in audit from 12px + wrong token"
     },
@@ -234,6 +309,7 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "Row header — Tier 3 Supplementary; fixed in audit from 12px + wrong token"
     },
@@ -243,8 +319,19 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "Grid caption (semibold, treated as bold for threshold) — Tier 2 Functional"
+    },
+    {
+      "id": "data-grid-cell-label",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 2,
+      "min": 6.5,
+      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. Measured here against the component's DEFAULTS; a consumer supplying --cell-fg/--cell-bg leaves Candor's control and Candor cannot audit the result."
     },
     {
       "id": "badge-default",
@@ -252,8 +339,9 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "bold",
+      "tier": 3,
       "min": 4.5,
-      "note": "Tier 3 Supplementary — badge shape always provides redundant coding"
+      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition — not the pill shape. The shape distinguishes a badge from surrounding text; it does not distinguish an error badge from a warning one, which is the job the colour is doing. The label is non-optional in the structural sense (a badge with no content is not a badge), which is why this qualifies under the narrowed Tier 3 clause, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
     },
     {
       "id": "badge-primary",
@@ -261,7 +349,9 @@
       "bg": "{color.action.primary}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "tier": 3,
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. primary/secondary are frequently used as neutral accents with no status meaning at all, so there is nothing for a redundant channel to encode."
     },
     {
       "id": "badge-secondary",
@@ -269,7 +359,9 @@
       "bg": "{color.action.secondary}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "tier": 3,
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. primary/secondary are frequently used as neutral accents with no status meaning at all, so there is nothing for a redundant channel to encode."
     },
     {
       "id": "badge-success",
@@ -277,7 +369,9 @@
       "bg": "{color.status.success-bg}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "tier": 3,
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: at L 0.95 sRGB permits ~0.02 chroma at the error and warning hues, so error-bg and warning-bg are deltaE 4 apart in NORMAL vision and cannot be separated further without lowering lightness. success-bg is the one that has room (green reaches C 0.05 at that lightness), so it reads as distinct — do not generalise from it (#214)."
     },
     {
       "id": "badge-error",
@@ -285,7 +379,9 @@
       "bg": "{color.status.error-bg}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "tier": 3,
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: error-bg vs warning-bg is deltaE 4 in normal vision, 2 under deuteranopia. Both are pinned at C 0.02 by the sRGB gamut at L 0.95 (#214)."
     },
     {
       "id": "badge-warning",
@@ -293,7 +389,9 @@
       "bg": "{color.status.warning-bg}",
       "size": 14,
       "weight": "bold",
-      "min": 4.5
+      "tier": 3,
+      "min": 4.5,
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: warning-bg vs error-bg is deltaE 4 in normal vision, 2 under deuteranopia. Both are pinned at C 0.02 by the sRGB gamut at L 0.95 (#214)."
     },
     {
       "id": "button-primary-medium",
@@ -301,6 +399,7 @@
       "bg": "{color.action.primary}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "font-weight-medium (500) treated as regular for threshold purposes"
     },
@@ -310,6 +409,7 @@
       "bg": "{color.action.primary}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "Small button overrides to font-weight-bold (700)"
     },
@@ -319,6 +419,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Outlined button — transparent bg, effective background is bg-page"
     },
@@ -328,6 +429,7 @@
       "bg": "{color.action.tertiary}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5
     },
     {
@@ -336,6 +438,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5
     },
     {
@@ -344,6 +447,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Outlined button — transparent bg, effective background is bg-page"
     },
@@ -353,6 +457,7 @@
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "Info variant title — font-weight-semibold (600) treated as regular"
     },
@@ -362,6 +467,7 @@
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "Tier 1 Reading"
     },
@@ -371,6 +477,7 @@
       "bg": "{color.status.success-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5
     },
     {
@@ -379,6 +486,7 @@
       "bg": "{color.status.success-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5
     },
     {
@@ -387,6 +495,7 @@
       "bg": "{color.status.warning-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5
     },
     {
@@ -395,6 +504,7 @@
       "bg": "{color.status.warning-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5
     },
     {
@@ -403,6 +513,7 @@
       "bg": "{color.status.error-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5
     },
     {
@@ -411,6 +522,7 @@
       "bg": "{color.status.error-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5
     },
     {
@@ -419,6 +531,7 @@
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "color-toast-message resolves to color-text-default in light mode; plugin audits per mode"
     },
@@ -428,6 +541,7 @@
       "bg": "{color.status.success-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5
     },
     {
@@ -436,6 +550,7 @@
       "bg": "{color.status.warning-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5
     },
     {
@@ -444,6 +559,7 @@
       "bg": "{color.status.error-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5
     },
     {
@@ -452,6 +568,7 @@
       "bg": "{color.bg.surface}",
       "size": 20,
       "weight": "bold",
+      "tier": 2,
       "min": 3,
       "note": "20px bold — 19-23px bold threshold applies"
     },
@@ -461,6 +578,7 @@
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Inactive nav link — Tier 2 Functional"
     },
@@ -470,6 +588,7 @@
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Active nav link — font-weight-semibold (600) treated as regular"
     },
@@ -479,6 +598,7 @@
       "bg": "{color.action.secondary}",
       "size": 14,
       "weight": "bold",
+      "tier": 3,
       "min": 4.5,
       "note": "Nav notification badge — 14px semibold on secondary action color"
     },
@@ -488,6 +608,7 @@
       "bg": "{color.bg.inverse}",
       "size": 20,
       "weight": "bold",
+      "tier": 2,
       "min": 3
     },
     {
@@ -496,6 +617,7 @@
       "bg": "{color.bg.inverse}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Inactive link on inverse (dark navy) nav — Tier 2 Functional"
     },
@@ -505,6 +627,7 @@
       "bg": "{color.bg.inverse}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "font-weight-semibold (600) treated as regular"
     },
@@ -514,6 +637,7 @@
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
+      "tier": 2,
       "min": 3
     },
     {
@@ -522,6 +646,7 @@
       "bg": "{color.bg.page}",
       "size": 31,
       "weight": "bold",
+      "tier": 2,
       "min": 3
     },
     {
@@ -530,6 +655,7 @@
       "bg": "{color.bg.page}",
       "size": 25,
       "weight": "bold",
+      "tier": 2,
       "min": 3
     },
     {
@@ -538,6 +664,7 @@
       "bg": "{color.bg.page}",
       "size": 20,
       "weight": "bold",
+      "tier": 2,
       "min": 3,
       "note": "20px bold — 19-23px bold threshold applies"
     },
@@ -547,6 +674,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5
     },
     {
@@ -555,6 +683,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5
     },
     {
@@ -563,6 +692,7 @@
       "bg": "{color.bg.page}",
       "size": 25,
       "weight": "bold",
+      "tier": 2,
       "min": 3,
       "note": "Secondary color heading — large text, min 3.0"
     },
@@ -572,6 +702,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "thead th — table sits on bg-page by default; subtle-on-surface on white exceeds its on-surface guarantee"
     },
@@ -581,6 +712,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 2,
       "min": 6.5,
       "note": "td — 14px regular Tier 2 Functional (table data is recognition, sole channel)"
     },
@@ -590,6 +722,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "td.label — key/value row label; Tier 3 Supplementary (row position is the redundant channel)"
     },
@@ -599,6 +732,7 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "regular",
+      "tier": 2,
       "min": 6.5,
       "note": "td on even zebra row — same Tier 2 Functional threshold as on bg-page"
     },
@@ -608,6 +742,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "th[scope=row] in key/value table — 14px bold Tier 2 Functional"
     },
@@ -617,6 +752,7 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "th[scope=row] on even zebra row — same Tier 2 bold threshold"
     },
@@ -626,6 +762,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "Table caption — Tier 3 Supplementary (position is redundant channel); OKCA 5.0 light / 6.7 dark"
     },
@@ -635,6 +772,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Inactive tab — Tier 2 Functional"
     },
@@ -644,6 +782,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Active tab — font-weight-semibold (600) treated as regular"
     },
@@ -653,6 +792,7 @@
       "bg": "{color.bg.inverse}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5
     },
     {
@@ -661,6 +801,7 @@
       "bg": "{color.bg.inverse}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5
     },
     {
@@ -669,6 +810,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "Tier 2 Functional"
     },
@@ -678,6 +820,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5
     },
     {
@@ -686,6 +829,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "/ separator — Tier 3 Supplementary (position is the redundant channel)"
     },
@@ -695,6 +839,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "Inactive page button — 14px bold Tier 2 Functional"
     },
@@ -704,8 +849,9 @@
       "bg": "{color.action.primary}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
-      "note": "Current page — font-weight-medium (500) treated as regular"
+      "note": "Current page number — Tier 3 rather than Tier 2 like its pagination-page siblings, because the current page is the one button rendered as a filled pill (--color-action-primary), so its identity is carried by the fill and its position in the sequence, not by reading the digit. Weight is medium (500), which is regular for compliance purposes (#213)."
     },
     {
       "id": "pagination-ellipsis",
@@ -713,6 +859,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "ellipsis — Tier 3 Supplementary"
     },
@@ -722,8 +869,9 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
-      "min": 9.5,
-      "note": "compact-mode 'Page X of Y' — sole position indicator, so Tier 1 Reading floor; text-default clears it (OKCA 11.4 light / 12.8 dark)"
+      "tier": 2,
+      "min": 6.5,
+      "note": "compact-mode 'Page X of Y' — Tier 2 Functional UI: it is the sole channel for position, which is Tier 2's definition, not Tier 1's (it is recognised, not read sequentially to act). Previously filed as Tier 1 while described in Tier 2's own words. text-default clears either (OKCA 11.5 light / 12.9 dark)."
     },
     {
       "id": "chip-default",
@@ -731,6 +879,7 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5,
       "note": "Default/unselected chip body — Tier 2 Functional"
     },
@@ -740,6 +889,7 @@
       "bg": "{color.action.primary}",
       "size": 14,
       "weight": "bold",
+      "tier": 2,
       "min": 4.5
     },
     {
@@ -748,6 +898,7 @@
       "bg": "{color.bg.elevated}",
       "size": 25,
       "weight": "bold",
+      "tier": 2,
       "min": 3,
       "note": "Modal h2 title — 25px bold, large text threshold"
     },
@@ -757,6 +908,7 @@
       "bg": "{color.bg.elevated}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "Modal prose — Tier 1 Reading"
     },
@@ -766,6 +918,7 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "Card footer metadata — 14px regular Tier 3 Supplementary"
     },
@@ -775,6 +928,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "Noto Serif body prose — Tier 1 Reading"
     },
@@ -784,6 +938,7 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "regular",
+      "tier": 2,
       "min": 6.5,
       "note": "Inline code burgundy on surface — Tier 2 functional UI at 14px regular (6.5 floor)"
     },
@@ -793,6 +948,7 @@
       "bg": "{color.bg.code}",
       "size": 14,
       "weight": "regular",
+      "tier": 2,
       "min": 6.5,
       "note": "Code block text (white on navy) — 14px regular Tier 2 Functional"
     },
@@ -802,6 +958,7 @@
       "bg": "{color.blockquote.bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "Blockquote body (subtle-on-surface on surface bg) — Tier 1 Reading"
     },
@@ -811,6 +968,7 @@
       "bg": "{color.action.secondary}",
       "size": 14,
       "weight": "semibold",
+      "tier": 3,
       "min": 4.5,
       "note": "Navigation badge count (white on burgundy) — Tier 3 Supplementary; OKCA 9.7 light / 7.3 dark"
     },
@@ -820,6 +978,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "C-axis column headers — Tier 3 Supplementary (color swatch is the redundant channel)"
     },
@@ -829,6 +988,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "L-axis row headers — Tier 3 Supplementary (color swatch is the redundant channel)"
     },
@@ -838,6 +998,7 @@
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "regular",
+      "tier": 2,
       "min": 6.5,
       "note": "Selected oklch value display — Tier 2 Functional (sole channel for the precise selected value)"
     },
@@ -847,6 +1008,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "No color selected placeholder — Tier 3 Supplementary (swatch absence is redundant channel)"
     },
@@ -856,6 +1018,7 @@
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
+      "tier": 3,
       "min": 4.5,
       "note": "Keyboard navigation hint — Tier 3 Supplementary (behavior is redundant channel)"
     },
@@ -865,6 +1028,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 5.1 light / 5.7 dark ✅ (tight — tightest use of this color)"
     },
@@ -874,6 +1038,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.8 light / 6.0 dark ✅"
     },
@@ -883,6 +1048,7 @@
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
+      "tier": 2,
       "min": 4.5,
       "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 6.1 light / 10.8 dark ✅"
     },
@@ -892,6 +1058,7 @@
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
+      "tier": "non-text",
       "min": 3,
       "note": "Info icon in candor-alert and candor-toast (non-text currentColor SVG on surface bg) — OKCA 3.8 light / 5.6 dark ✅ non-text 3:1"
     },
@@ -901,6 +1068,7 @@
       "bg": "{color.status.success-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": "non-text",
       "min": 3,
       "note": "Success icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.4 light / 4.7 dark ✅"
     },
@@ -910,6 +1078,7 @@
       "bg": "{color.status.warning-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": "non-text",
       "min": 3,
       "note": "Warning icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.4 light / 4.6 dark ✅"
     },
@@ -919,6 +1088,7 @@
       "bg": "{color.status.error-bg}",
       "size": 16,
       "weight": "regular",
+      "tier": "non-text",
       "min": 3,
       "note": "Error icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.4 light / 3.5 dark ✅"
     },
@@ -928,6 +1098,7 @@
       "bg": "{color.bg.elevated}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "candor-autocomplete suggestion item in the popup list — 16px regular on elevated surface, Tier 1 Reading (user reads it to decide whether to accept). Value/placeholder/label/hint/error reuse the shared form-* pairings."
     },
@@ -937,6 +1108,7 @@
       "bg": "{color.bg.code}",
       "size": 14,
       "weight": "regular",
+      "tier": 2,
       "min": 6.5,
       "note": "candor-code inline code — text-code on bg-code; Tier 2 Functional (character position load-bearing). Light: white on navy-800 (OKCA 14.4) ✅ / Dark: off-white text-default on deep navy (OKCA 11.9) ✅"
     },
@@ -946,6 +1118,7 @@
       "bg": "{color.callout.bg}",
       "size": 16,
       "weight": "regular",
+      "tier": 1,
       "min": 4.5,
       "note": "candor-article .callout body — text-default on the indigo wash; Tier 1 Reading. Light: gray-700 on indigo-50 (OKCA 10.3) ✅ / Dark: off-white on dark indigo tint (OKCA 10.1) ✅. The --color-highlight-decorative left border is decorative only (meaning carried by the wash + authored label), not gated at 3:1."
     }

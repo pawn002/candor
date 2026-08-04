@@ -111,9 +111,101 @@ Six previously-recorded contrast exceptions are resolved by this change: the fiv
 
 Full per-token table in [#225](https://github.com/pawn002/candor/issues/225).
 
+#### Tier 1 regular text must be ≥ 16px, replacing an unreachable 14px contrast floor
+
+**Before:** Tier 1 (must-read-to-act) regular text at 14px carried an OKCA floor of 9.5.
+
+**After:** Tier 1 regular text is required to be 16px or larger, where the floor is 4.5. The 9.5 figure is retained only as the size-axis baseline that explains *why* 14px regular reading text is disallowed — it is not a target to build against.
+
+**Why:** 9.5 was unreachable by every chromatic text colour in the system. Measured against white, all four return `lightness-exhausted` from `klar find` — there is no lightness at that hue and chroma that reaches 9.5 inside sRGB:
+
+| token | measures | what 9.5 would cost |
+|---|---|---|
+| `--color-status-error-text` | 6.4 | chroma 0.18 → 0.146, deltaE 8 |
+| `--color-status-warning-text` | 8.1 | chroma 0.10 → 0.092, deltaE 3 |
+| `--color-status-success-text` | 6.1 | chroma 0.14 → 0.116, deltaE 9 |
+| `--color-link` | 5.3 | chroma 0.14 → 0.104, deltaE 12 |
+
+The floor was not asking coloured text to be darker; it was asking it to stop being coloured. Only near-neutral text could satisfy it, so in practice it functioned as an unintended ban on chromatic must-read text — a rule the system had already been quietly violating in the direction of good design (#240).
+
+Stated as a size requirement, it becomes actionable and self-consistent: **a Tier 1 element at 14px is a sizing bug, and the fix is the size.** The system already worked this way — `candor-input` renders its validation errors at 16px and passes, while the generic `candor-accessible-text role_="status"` rendered identical content at 14px and could not (#208).
+
+Tier 1 **bold** at 14px keeps its 6.5 floor; bold is a genuine perceptual compensation and 6.5 is reachable.
+
+**Migration:** `candor-accessible-text role_="status"` now renders at 16px rather than 14px. Expect screenshot diffs anywhere it appears. If the text is reporting an *outcome* rather than an instruction, use the new `role_="state"` below and it stays at 14px.
+
+#### `candor-accessible-text` `role_="status"` split into `status` and `state`
+
+**Before:** one role for everything about system state, at one size.
+
+**After:**
+
+```html
+<!-- Tier 1, 16px — the user must read this to know what to do -->
+<candor-accessible-text role_="status" color="error">Enter a valid National Insurance number.</candor-accessible-text>
+
+<!-- Tier 3, 14px — an outcome; renders an aria-hidden tone icon -->
+<candor-accessible-text role_="state" tone="success">All responses processed — no flags raised</candor-accessible-text>
+```
+
+**Why:** the 16px requirement above is correct for an instruction and wrong for an outcome. An icon beside "Enter a valid National Insurance number" says something is wrong but not *which field or what format*, so nothing is redundant and the text is the sole channel — Tier 1. An icon beside "All responses processed" genuinely carries the outcome; delete the text and you still know it succeeded — Tier 3, floor 4.5, which 14px meets.
+
+The redundancy is **structural**: the component renders the icon, so it cannot be forgotten by an author. This is what the tier table has always meant by "redundantly coded", now with an instrument behind it (#213).
+
+The design has a consequence worth knowing: **`state` text needs no colour of its own.** The icon carries the tone via `--color-status-*` — the tokens validated for non-text use — while the text stays `--color-text-default` (OKCA 11.5 on page) and clears every floor with margin. Moving the colour onto the icon removes the contrast constraint rather than negotiating with it.
+
+**The test:** could a reader who cannot resolve the glyphs still act correctly? Yes → `state`. No → `status`.
+
+**Migration:** existing `role_="status"` keeps working and grows to 16px. Audit each usage against the test above; anything reporting a completed outcome should become `role_="state"` with a `tone`, which restores 14px. Counters and data readouts ("14 of 47 reviewed") are neither — they are comprehension text and belong in `candor-text`.
+
+#### `candor-text` no longer accepts `size="xs"`
+
+**Before:** `<candor-text size="xs">` rendered at 12px.
+
+**After:** the size scale starts at `sm` (14px). `size="xs"` is a type error, and an unrecognised attribute value at runtime.
+
+**Why:** 12px is below the readable-text floor, and `candor-text` is the component whose entire purpose is readable text. Offering a size at which its own output is not permitted is an affordance that can only be misused — and was: the story documenting `xs` rendered a full English sentence at 12px in order to demonstrate that 12px is not for sentences, which is precisely the "a story that demonstrates wrong usage is as harmful as a component bug" case (#230).
+
+**Migration:** use `size="sm"`. If the content is genuinely chrome — initials in an avatar, a glyph in a badge — set `--font-size-xs` directly on that element and mark it (see the audit gate below); it is not text, and it does not belong in a text component.
+
 ### Added
 
 - **`npm run audit:tokens` now gates the sRGB gamut invariant.** The export fails, before writing anything, if any `oklch()` literal in `src/design-tokens/*.scss` falls outside sRGB — printing the offending declaration with its file and line, and the in-gamut value to use in its place. Two details that would otherwise bite are handled: it rounds chroma **inward** rather than to nearest, because the in-gamut maximum sits exactly *on* the boundary and 2dp nearest-rounding pushes roughly half of these values straight back out; and it discovers stylesheets by listing the directory rather than from a hardcoded list, so `syntax.scss` is covered despite not being in the DTCG artifact — six of its ten tokens were out of gamut. The gate lives here rather than in `check-contrast.js` because gamut is a property of a *token*, not of a pairing: this script sees every declaration, while the contrast audit only ever sees colors someone remembered to add to `pairings.json`. Pass `--skip-gamut` to export without klar installed (#225).
+
+- **`role_="state"` on `candor-accessible-text`** — a fifth role for outcomes that have already happened. Renders an `aria-hidden` tone icon (`success` / `warning` / `error` / `info`) beside the text, coloured from the `--color-status-*` non-text tokens while the text itself stays `--color-text-default`. Screen-reader users get the outcome from the wording, so each line must still read correctly on its own — "All responses processed", not "Done" (#213).
+
+- **`audit:contrast` now enforces the 14px text floor**, which was stated in five places and enforced in none. The check lives in the *contrast* audit rather than a typography linter for a specific reason: 12px is classified decorative in **both** axes of the tier table, so no OKCA floor is defined for it, so `pairings.json` contains zero size-12 entries. Setting `--font-size-xs` on a piece of text therefore removed it from contrast auditing altogether, silently, with nothing recording that it had happened — the #218 shape again, and the direct reason #229 sat unnoticed. The audit now reports its own blind spot.
+
+  Any sub-14px `font-size` in `src/` fails unless it declares a reason the audit recognises (`badge-chrome`, `icon`) in a `12px-ok:` marker on the declaration or up to three lines above it. Free text is rejected exactly like a missing marker, so the assertion cannot degrade into a comment. The marker must also **open** a comment rather than merely appear in the text — because the type-scale story documents this syntax in rendered copy, and a looser match would have let that documentation authorise a real violation three lines away. Absolute literals (`font-size: 0.75rem`) are caught alongside the token, so hard-coding is not a way around it. **Known limit, stated rather than left to be assumed:** relative units cannot be resolved statically, so `0.9em` is not judged — Candor has one such site, at 14.4px (#230).
+
+### Changed
+
+- **`audit/pairings.json` entries carry an explicit `tier`, and `min` is now derived from it rather than trusted.** #213 asked whether a per-pairing field was the right instrument at all, and warned that a `redundant-channel` column would make things worse — a channel name is a human claim nothing can verify, so populating it converts unexamined assumptions into recorded facts and a half-filled column reads as validated.
+
+  That argument turns on cross-checkability, and it points the opposite way for `tier`: tier + size + weight *determine* `min`, so a wrong tier surfaces as a contradiction. The audit derives the floor and fails when the two disagree. Backfilling all 114 found exactly **two** disagreements, both on `exempt` entries carrying a `min` of 3 that no tier can produce — `form-input-placeholder` and `form-input-disabled-value`, now corrected to 4.5, the floor they would carry as active content.
+
+  A fourth value was forced by the data: **`"non-text"`**, for the six icon pairings whose 3.0 comes from WCAG 1.4.11 rather than any text tier. They had been sitting in a text-tier file with a floor no text tier explains.
+
+  **The check's teeth are limited to the 14px row and that is stated rather than glossed:** at 16px and above every tier collapses to one floor, and at 14px bold Tiers 2 and 3 are both 4.5, so a wrong tier is undetectable there. Confirmed by tripwire — flipping `badge-default` from 3 to 2 does not fire. 14px is also the only row where the tier axis changes the answer, so the coverage lands where the classification matters. **No `redundant-channel` field was added**; that reasoning belongs in `note`, where it does not look machine-checked.
+
+- **The Tier 3 redundant-channel rule is narrowed, and `candor-badge`'s recorded justification is corrected.** The rule said the channel must be "assigned by the system, not a consumer opt-in", which recognised only one way of being non-optional — a component rendering an icon. It now recognises two: the component renders it (`candor-alert`, `candor-toast`, `role_="state"`), **or** the component cannot render without it (a badge's label, since a badge with no content is not a badge). The second comes with a precondition the rule now states: the label must *name the condition*. `<candor-badge variant="error">3</candor-badge>` has no channel; `3 failed` does.
+
+  `badge-default` claimed "badge shape always provides redundant coding". That is true of *badge vs. surrounding text* and false of *error badge vs. warning badge* — two jobs conflated in one note, and the five status siblings carried no note at all, taking the discount on a justification written elsewhere. All six are rewritten (#214, #213).
+
+- **A measurement that changes what the badge fill can be credited with.** Candor's status background tokens sit at lightness 0.95, where sRGB permits only ~0.02 chroma at the red and amber hues (green reaches 0.05, which is why success looks distinct and the other two do not). `--color-status-error-bg` and `--color-status-warning-bg` are therefore **deltaE 4 apart in normal vision** — inside the band Candor's own scale calls imperceptible, and not fixable by adding chroma, because there is none to add at that lightness.
+
+  This is not the colour-vision finding #214 was filed with; it is stronger, and it is not conditional on CVD. It also **got worse in #225 and nobody measured it**: error-bg was authored at C 0.05, out of gamut at that lightness, and pulling it to the boundary halved the separation from deltaE 8 to 4. The re-authoring was right — the old value never named a deliverable colour — but "every pairing was re-measured and nothing regressed" was a claim about contrast, and variant distinguishability is not a contrast property. Recorded in CLAUDE.md as the tint corollary to "contrast is bought with chroma".
+
+  Note also that #214's original figures were taken before #225 and describe colours that no longer exist. They were re-measured against current values rather than carried forward.
+
+- **`candor-stat` and `candor-badge` do not get the same answer.** Badge's label states the condition, so its text is the channel. Stat's label states *what is measured* — "Response time 847 ms" reads identically whether the number is good or alarming — so colour can be the sole signal. Stat needs no new API for this: its default slot takes `<candor-accessible-text role_="state">`, whose icon is component-rendered and therefore cannot be forgotten. Both components gain a story teaching the rule by worked contrast (`Rule: the label carries the meaning`, `Rule: colour is not the channel`).
+
+### Fixed
+
+- **`candor-data-grid` cell labels render at 14px and have a contrast pairing for the first time.** `.data-grid__cell-label` is consumer content — the visible text in every gridcell, and the same string the cell exposes as its accessible name — but was set at 12px, which meant it could not meaningfully be audited at all. It is the text #229 found unreadable at OKCA 2.7, and it had no pairing while the three headers around it did. Note the boundary the new pairing records: it measures the component's **defaults**; a consumer supplying `--cell-fg`/`--cell-bg` leaves Candor's control, and Candor cannot audit that result (#230, #229).
+- **Token names in the colour and typography showcases are readable.** Both rendered token names — the thing a developer reads precisely in order to copy it — as sub-floor text: 12px in the typography showcase and 0.65rem (10.4px) in the colour swatch grid. Both are now 14px. The swatch labels also break at hyphens rather than mid-word; `break-all` was splitting `--color-border-default` as `--color-border-defaul / t`, which for a string whose purpose is to be copied is worse than a wrap (#230).
+- **A truncated `style` attribute in the colour showcase.** The comment explaining the wrap fix above was written *inside* `style="…"` and contained a double quote, which closed the attribute early and silently dropped the two declarations after it — `overflow-wrap: break-word` and `margin: 0`. Nothing errored: lit-html rendered the attribute, the browser parsed what it received, and the wrap looked fixed because removing `word-break: break-all` was the load-bearing half. Caught by reading the computed style during visual review rather than by trusting the screenshot. The declarations now live in a `SWATCH_LABEL_STYLE` const so the prose sits in TypeScript, where quoting it is free; the repo was swept for the same shape and the four remaining in-attribute comments contain no quotes.
+- **The type scale now states 12px's two conditions.** The row was labelled "Decorative / non-text only" but said nothing about *how* to use it legitimately — that it is not reachable through `candor-text`, and that the audit fails the build without a `12px-ok:` marker. A designer reading the scale is the person most likely to reach for 12px, so that is where the conditions belong.
 
 ### Fixed (tooling)
 

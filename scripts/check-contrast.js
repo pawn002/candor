@@ -5,6 +5,10 @@
  * Re-measures Candor's recorded contrast against the klar CLI and fails when
  * reality and the repo disagree. Two independent checks:
  *
+ *   0. TIER CLASSIFICATION — every pairing's `min` re-derived from its `tier`,
+ *      `size` and `weight`. `min` is hand-typed and hand-typed numbers drift;
+ *      the tier table determines it, so the two can disagree and that
+ *      disagreement is a misclassification worth stopping for (#213).
  *   1. PAIRINGS — every entry in audit/pairings.json, in both modes, measured
  *      against its `min` floor. Entries carrying `exempt` are measured and
  *      reported but never fail the run.
@@ -20,6 +24,14 @@
  *      third surface drifted freely (#223). It is the surface developers copy
  *      from, and it is where the tier rules are taught by worked example — a
  *      story that argues from a stale number teaches the wrong threshold.
+ *
+ *   4. TEXT SIZE FLOOR — every sub-14px font-size in src/. This is a contrast
+ *      check wearing typography clothes: 12px has no OKCA floor defined for it
+ *      in either axis of the tier table, so setting --font-size-xs on text
+ *      removes that text from check 1 entirely, and nothing recorded that it
+ *      had happened. The floor was stated in five places and enforced in none
+ *      (#230); this is the enforcement. Genuine chrome escapes by asserting a
+ *      recognised reason inline, the same shape as `exempt` in pairings.json.
  *
  *      Values are a different problem from figures and get a different fix: a
  *      story that *displays* a token's colour reads it from the artifact via
@@ -164,6 +176,58 @@ function value(mode, dotted) {
 const deref = (ref) => ref.replace(/^\{|\}$/g, '');
 
 // ── 1. pairings ──────────────────────────────────────────────────────────────
+
+// The floor a pairing must meet, derived from its tier, size and weight — i.e.
+// the tier table in CLAUDE.md expressed as code. This is what makes `tier` a
+// field worth having rather than a comment in a machine-readable slot (#213):
+// `min` was hand-typed, and hand-typed numbers drift, but tier + size + weight
+// determine it, so the two can be checked against each other. A pairing whose
+// recorded `min` disagrees with its tier is a misclassification — either the
+// number is wrong or the tier is, and both are worth stopping for.
+//
+// `redundant-channel` was considered alongside this and deliberately NOT added.
+// The distinction is exactly cross-checkability: a channel name ("position",
+// "shape") is a human claim that nothing can verify, so populating it would
+// convert unexamined assumptions into recorded facts and make a half-filled
+// column read as validated. The honest place for that reasoning is the `note`,
+// where it does not look machine-checked.
+//
+// KNOWN LIMIT, stated so the check is not read as more than it is: this catches
+// tier/min *contradictions*, not every misclassification. Where two tiers
+// produce the same floor — 14px bold is 4.5 under both Tier 2 and Tier 3, and
+// every tier collapses to one number at 16px and above — a wrong tier is
+// invisible here. Tripwired and confirmed: flipping badge-default from 3 to 2
+// does not fire. The check has real teeth only on the 14px row, which is also
+// the only row where the tier axis changes anything.
+//
+// `weight` is bold only at wght >= 700 (CLAUDE.md): `semibold` and `medium` are
+// regular here regardless of how heavy they look.
+function floorFor(tier, size, weight) {
+  if (tier === 'non-text') return 3; // WCAG 1.4.11, not a text tier at all
+  const bold = weight === 'bold';
+  if (size >= 24) return 3;
+  if (size >= 19) return bold ? 3 : 4.5;
+  if (size >= 16) return 4.5;
+  // 14px is the only row where the tier axis does any work.
+  if (tier === 1) return bold ? 6.5 : null; // Tier 1 regular is not permitted at 14px
+  if (tier === 2) return bold ? 4.5 : 6.5;
+  return 4.5;
+}
+
+function checkTiers() {
+  const problems = [];
+  for (const p of pairings) {
+    if (p.tier === undefined) { problems.push(`${p.id} — no tier recorded`); continue; }
+    if (p.size < 14) { problems.push(`${p.id} — size ${p.size} is below the readable floor`); continue; }
+    const expected = floorFor(p.tier, p.size, p.weight);
+    if (expected === null) {
+      problems.push(`${p.id} — Tier 1 regular at ${p.size}px is not permitted; the fix is 16px, not a floor`);
+    } else if (expected !== p.min) {
+      problems.push(`${p.id} — tier ${p.tier} at ${p.size}px ${p.weight} requires min ${expected}, recorded ${p.min}`);
+    }
+  }
+  return problems;
+}
 
 function checkPairings() {
   const failures = [];
@@ -459,11 +523,120 @@ function checkStoryFigures() {
   return { drift, unchecked, checked, thresholds };
 }
 
+// ── 4. text below the 14px floor ─────────────────────────────────────────────
+//
+// Sub-14px text is not merely a typography rule: 12px is classified decorative
+// in both axes of the tier table, so no OKCA floor is defined for it, and
+// pairings.json accordingly holds zero size-12 entries. Setting --font-size-xs
+// on a piece of text therefore removes it from this audit — silently, and with
+// nothing recording that it happened. That is why the check lives here rather
+// than in a typography linter: the contrast audit is reporting its own blind
+// spot. #229 sat unnoticed inside that blind spot (#230).
+//
+// Chrome cannot be told from content by looking at CSS, so the escape is an
+// author assertion with a named reason, exactly as `exempt` works in
+// pairings.json. Free text is not accepted — the reason must be one the system
+// recognises, or the assertion is just a comment.
+const SUB_FLOOR_REASONS = new Set([
+  // A glyph or initials inside a badge, avatar, or chip, where the meaning is
+  // carried by an adjacent accessible name. Not text to be read.
+  'badge-chrome',
+  // A glyph sized by font-size — an icon, not language.
+  'icon',
+]);
+
+// KNOWN LIMIT: only absolute units are judged. `font-size: 0.9em` cannot be
+// resolved without knowing the inherited size, so a relative unit is a hole in
+// this check — stated here rather than left for a reader to assume covered,
+// since that assumption is the failure mode the check exists to end. Candor has
+// one such site (typography-showcase, 0.9em of 16px = 14.4px, above the floor).
+// Closing it properly needs a computed-style pass in the browser, which is a
+// Playwright job rather than a static one.
+const FLOOR_PX = 14;
+const SOURCE_FILE_RE = /\.(ts|scss)$/;
+const SOURCE_SKIP_RE = /\.d\.ts$/;
+// A font-size declaration naming the 12px token, or an absolute literal.
+const FONT_SIZE_RE =
+  /font-size:\s*(?:var\(\s*(--font-size-xs|--text-xs)\s*\)|(\d*\.?\d+)(rem|px))/g;
+// candor-text is the only component with a size scale, so this is unambiguous.
+const SIZE_ATTR_RE = /<candor-text\b[^>]*\bsize="(xs)"/g;
+// The marker must open a comment — `// 12px-ok: <reason>` or `/* 12px-ok: … */`
+// — and be the first thing in it. Matching the bare string anywhere would let
+// PROSE authorise a real violation: the typography showcase documents this very
+// syntax in rendered copy, and that copy sits three lines from `font-size`
+// declarations. A guard defeatable by its own documentation is the failure shape
+// this release keeps finding, so the escape hatch is narrowed to a form that
+// cannot occur in running text (#230).
+//
+// Residual limit, stated rather than implied: a string literal containing
+// `/* 12px-ok: icon` would still match, because this is a regex and not a
+// tokenizer. That takes deliberate effort, unlike writing the words in a
+// sentence, which took me one commit.
+const MARKER_RE = /(?:\/\/|\/\*)\s*12px-ok:\s*([a-z][a-z0-9-]*)/;
+
+function sourceFiles() {
+  const out = [];
+  const visit = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) visit(full);
+      else if (SOURCE_FILE_RE.test(entry.name) && !SOURCE_SKIP_RE.test(entry.name)) out.push(full);
+    }
+  };
+  visit(path.join(ROOT, 'src'));
+  return out.sort();
+}
+
+function checkTextSizeFloor() {
+  const violations = [];
+  let allowed = 0;
+
+  for (const file of sourceFiles()) {
+    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/);
+
+    lines.forEach((line, i) => {
+      const hits = [];
+      for (const m of line.matchAll(FONT_SIZE_RE)) {
+        if (m[1]) { hits.push(`${m[1]} (12px)`); continue; }
+        const px = m[3] === 'rem' ? Number(m[2]) * 16 : Number(m[2]);
+        if (px < FLOOR_PX) hits.push(`${m[2]}${m[3]} (${px}px)`);
+      }
+      for (const _m of line.matchAll(SIZE_ATTR_RE)) hits.push('candor-text size="xs"');
+      if (!hits.length) return;
+
+      // The marker may sit on the declaration or on any of the three lines
+      // above it, since a reason worth stating rarely fits inline.
+      const context = lines.slice(Math.max(0, i - 3), i + 1).join('\n');
+      const marker = MARKER_RE.exec(context);
+      const where = `${rel}:${i + 1}`;
+
+      for (const hit of hits) {
+        if (!marker) {
+          violations.push(`${where} — ${hit} is below the ${FLOOR_PX}px floor and carries no "// 12px-ok: <reason>" comment (the marker must open a comment, not merely appear in the text)`);
+        } else if (!SUB_FLOOR_REASONS.has(marker[1])) {
+          violations.push(`${where} — ${hit} claims "12px-ok: ${marker[1]}", which is not a reason the audit recognises (${[...SUB_FLOOR_REASONS].join(', ')})`);
+        } else {
+          allowed++;
+          if (VERBOSE) console.log(`  ok      ${where} ${hit} — ${marker[1]}`);
+        }
+      }
+    });
+  }
+
+  return { violations, allowed };
+}
+
 // ── main ─────────────────────────────────────────────────────────────────────
 
 assertKlar3();
 
-console.log('Pairings (audit/pairings.json)');
+console.log('Tier classification (audit/pairings.json)');
+const TI = checkTiers();
+console.log(`  ${pairings.length} pairings, ${TI.length} whose min disagrees with their tier`);
+for (const t of TI) console.log(`  ✗  ${t}`);
+
+console.log('\nPairings (audit/pairings.json)');
 const P = checkPairings();
 console.log(`  ${P.checked} enforced, ${P.exempted} exempt, ${P.failures.length} failing`);
 for (const f of P.failures) console.log(`  ✗  ${f}`);
@@ -483,6 +656,11 @@ console.log(`  ${S.checked} re-measured, ${S.thresholds} threshold statement(s) 
 for (const d of S.drift) console.log(`  ✗  ${d}`);
 for (const u of S.unchecked) console.log(`  ?  UNCHECKED ${u}`);
 
-const failed = P.failures.length + R.drift.length + S.drift.length;
+console.log('\nText below the 14px floor (src/**/*.{ts,scss})');
+const T = checkTextSizeFloor();
+console.log(`  ${T.allowed} declared chrome/icon, ${T.violations.length} unaccounted`);
+for (const v of T.violations) console.log(`  ✗  ${v}`);
+
+const failed = TI.length + P.failures.length + R.drift.length + S.drift.length + T.violations.length;
 console.log(failed ? `\n✗  ${failed} problem(s)` : '\n✓  no drift');
 process.exit(failed ? 1 : 0);
