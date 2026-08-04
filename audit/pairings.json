@@ -292,6 +292,15 @@
       "note": "Grid caption (semibold, treated as bold for threshold) — Tier 2 Functional"
     },
     {
+      "id": "data-grid-cell-label",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "min": 6.5,
+      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. Measured here against the component's DEFAULTS; a consumer supplying --cell-fg/--cell-bg leaves Candor's control and Candor cannot audit the result."
+    },
+    {
       "id": "badge-default",
       "fg": "{color.text.subtle-on-surface}",
       "bg": "{color.bg.surface}",

@@ -198,9 +198,14 @@ const renderSwatchGrid = (categories: ColorCategory[]) => html`
                 <code style="
                   display: block;
                   font-family: var(--font-family-mono);
-                  font-size: 0.65rem;
+                  font-size: var(--font-size-sm);
                   color: var(--color-text-subtle);
-                  word-break: break-all;
+                  /* Break after the hyphens, not mid-word. break-all splits
+                     --color-border-default as "--color-border-defaul / t",
+                     which is unreadable and, since these names are meant to be
+                     copied, actively misleading. */
+                  word-break: normal;
+                  overflow-wrap: break-word;
                   margin: 0;
                 ">${c.variable}</code>
               </div>

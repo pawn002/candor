@@ -209,6 +209,8 @@ export const AIChatInterface: Story = {
                       justify-content: center;
                       flex-shrink: 0;
                       font-family: var(--font-family-accessible);
+                      /* 12px-ok: badge-chrome — initials in an avatar disc, not text to read.
+                         The sender is stated in words beside the message. */
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-on-action);
@@ -243,6 +245,8 @@ export const AIChatInterface: Story = {
                       justify-content: center;
                       flex-shrink: 0;
                       font-family: var(--font-family-accessible);
+                      /* 12px-ok: badge-chrome — initials in an avatar disc, not text to read.
+                         The sender is stated in words beside the message. */
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-subtle);
@@ -308,6 +312,8 @@ export const AIChatInterface: Story = {
                       justify-content: center;
                       flex-shrink: 0;
                       font-family: var(--font-family-accessible);
+                      /* 12px-ok: badge-chrome — initials in an avatar disc, not text to read.
+                         The sender is stated in words beside the message. */
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-on-action);
@@ -342,6 +348,8 @@ export const AIChatInterface: Story = {
                       justify-content: center;
                       flex-shrink: 0;
                       font-family: var(--font-family-accessible);
+                      /* 12px-ok: badge-chrome — initials in an avatar disc, not text to read.
+                         The sender is stated in words beside the message. */
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-subtle);

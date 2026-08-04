@@ -107,6 +107,8 @@ Atkinson Hyperlegible carries critical UI text because its glyph differentiation
 
 No readable text in Candor falls below 14px. 12px (`--font-size-xs`) is for decorative chrome only — never for content a user is expected to read. At 14px, a single OKCA threshold is not enough — the required score depends on the perceptual task the text is serving.
 
+The floor is not only a legibility rule, which is why it is now gated by the *contrast* audit. 12px is decorative in both axes of the tier table, so nothing defines a contrast floor for it — meaning a designer who reached for 12px to fit a dense layout was, without being told, also removing that text from every contrast check. `audit:contrast` fails on any sub-14px size that does not name a recognised reason (`badge-chrome`, `icon`). If you want 12px, the system will now ask you what it is for.
+
 | Tier | Perceptual task | 14px regular | 14px bold | Candor components |
 |---|---|---|---|---|
 | 1 — Reading | Sequential decoding — must read to act | **not permitted at 14px** | **6.5** | Alert body, toast message, modal prose, form error messages |

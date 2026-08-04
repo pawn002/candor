@@ -144,7 +144,7 @@ The two audits split by what they own: **`audit:tokens` owns gamut, `audit:contr
 
 **`audit:tokens` runs in CI** (the `gamut` job), so the sRGB invariant is enforced on every PR rather than depending on someone remembering. That job also re-exports the artifact and fails if it differs from the committed one, catching a token change that was never re-exported. `audit:contrast` is not in CI yet for the reason above.
 
-**What is and is not guaranteed.** Only executable gates guarantee anything; prose and linked references do not. Currently gated: sRGB gamut (CI), stale figures in `semantics.scss` comments, stale figures in story prose, pairings below their floor, and klar's major version — that last one is a deliberate hard stop, since it is the only mechanism that forces klar's docs to be re-read on an upgrade. **Not** gated, and therefore only as reliable as the reader: OKCA figures in `primitives.scss` comments (primitives are absent from the DTCG artifact, so nothing checks them), and every judgment-level rule in this file. Treat an ungated convention as a convention.
+**What is and is not guaranteed.** Only executable gates guarantee anything; prose and linked references do not. Currently gated: sRGB gamut (CI), stale figures in `semantics.scss` comments, stale figures in story prose, pairings below their floor, sub-14px text without a declared reason, and klar's major version — that last one is a deliberate hard stop, since it is the only mechanism that forces klar's docs to be re-read on an upgrade. **Not** gated, and therefore only as reliable as the reader: OKCA figures in `primitives.scss` comments (primitives are absent from the DTCG artifact, so nothing checks them), font sizes written in **relative units** (`0.9em` can't be resolved statically — the text-size gate reads absolute units only, and says so at the top of its section), and every judgment-level rule in this file. Treat an ungated convention as a convention.
 
 **Recording a figure in a story (#223).** Story prose is now in the audit's scope, but only when the sentence says which colour it is about — a token comment gets that free from its declaration and prose does not. Write `OKCA <n> on <bg>` with a `--custom-property` or a `#rrggbb` literal somewhere to its **left** on the same line; the nearest one wins, which is what lets one line carry two claims. `<bg>` must be a name the audit knows (`page`, `bg-surface`, `white`, `bg-inverse`, `error-bg`, …), optionally mode-prefixed (`on dark page`); light is assumed. A figure the parser cannot anchor or whose background it cannot resolve is reported as `UNCHECKED`, not passed. Stating a *threshold* rather than a measurement — `OKCA 4.5 bold threshold`, `… floor` — is recognised and excluded, so tier tables need no special handling.
 
@@ -347,7 +347,20 @@ This is a **systems transparency feature**, not a stylistic preference. In high-
 
 ### Text Size Floor
 
-No readable text in the system should fall below **14px** (`--font-size-sm` = `0.875rem`). This is enforced at the primitive token level. `--text-xs` (12px) is for decorative/non-text use only (icons, badges chrome).
+No readable text in the system falls below **14px** (`--font-size-sm` = `0.875rem`). `--text-xs` (12px) is for decorative/non-text use only (icon glyphs, badge chrome).
+
+**This is gated, and the gate is in `audit:contrast` rather than a typography check — because the floor is a contrast rule wearing typography clothes.** 12px is classified decorative in *both* axes of the tier table, so no OKCA floor is defined for it, so `pairings.json` holds zero size-12 entries. Setting `--font-size-xs` on text therefore removed that text from the contrast audit entirely, with nothing recording that it had happened — the #218 shape again, and the direct reason #229 went unnoticed. The check reports the audit's own blind spot (#230).
+
+Any sub-14px `font-size` in `src/` fails the audit unless it carries a marker naming a reason the audit recognises:
+
+```css
+/* 12px-ok: badge-chrome — initials in an avatar disc, not text to read. */
+font-size: var(--font-size-xs);
+```
+
+Recognised reasons are `badge-chrome` and `icon`, and free text is rejected — an unrecognised reason fails exactly like a missing one. This is an author assertion, the same shape as `exempt` in `pairings.json`, because chrome cannot be told from content by looking at CSS. The marker may sit on the declaration or up to three lines above it. Absolute literals (`font-size: 0.75rem`) are caught as well as the token, so hard-coding is not a way around it.
+
+**`candor-text` has no `xs` size** (removed in 5.0.0). A component whose purpose is readable text should not offer a size at which text is not permitted; the story demonstrating `xs` was rendering a full sentence at 12px to explain that 12px is not for sentences. Reach for the token directly when you genuinely need chrome.
 
 ### OKCA Contrast Thresholds — Two Axes
 

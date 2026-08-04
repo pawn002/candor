@@ -68,7 +68,7 @@ const renderShowcase = () => html`
                   <candor-chip label="${f.voice}"></candor-chip>
                 </div>
                 <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-normal);">${f.use}</p>
-                <code style="display: block; font-family: var(--font-family-mono); font-size: var(--font-size-xs); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm);">${f.variable}</code>
+                <code style="display: block; font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm);">${f.variable}</code>
               </div>
             </candor-card>
           `;
@@ -189,7 +189,13 @@ perceived weight as size increases, meaning the effective hierarchy reads larger
 numeric ratio.
 
 Minimum readable text size is 14px (\`--font-size-sm\`). \`--font-size-xs\` (12px) is for
-decorative and non-text use only.
+decorative and non-text use only — icon glyphs and badge chrome, not language.
+
+That is enforced rather than asked for: \`npm run audit:contrast\` fails on any sub-14px
+\`font-size\` in \`src/\` that does not carry a \`12px-ok: <reason>\` marker naming a reason the
+audit recognises. The check lives in the *contrast* audit because 12px has no OKCA floor
+defined for it, so setting it on text used to remove that text from auditing silently (#230).
+\`candor-text\` no longer offers an \`xs\` size at all.
         `.trim(),
       },
     },
