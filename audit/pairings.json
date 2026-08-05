@@ -331,7 +331,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. Measured here against the component's DEFAULTS; a consumer supplying --cell-fg/--cell-bg leaves Candor's control and Candor cannot audit the result."
+      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. This figure is now structural rather than a default: the label carries its own opaque plate and does not inherit --cell-fg, so a consumer's cell colours cannot move it — OKCA 11.5 light / 12.9 dark ✅ against the 6.5 floor. Before the plate it was consumer-determined and unauditable, and six cells in this component's own demos sat between 2.7 and 5.9 (#229)."
     },
     {
       "id": "badge-default",

@@ -6,33 +6,43 @@ import { requireTokenValue } from '../../design-tokens/token-values';
 // are labelled with the token name, so a copied value turns the demo into a
 // lie the moment the token moves — which is what happened: this table painted
 // `oklch(0.63 0.15 144)` as `--color-status-success` long after the token had
-// moved to L=0.55 (#223). `foreground` is not a token: it is the label colour
-// chosen for legibility on that swatch, so it stays declared here.
-const swatch = (variable: string, foreground: string) => ({
+// moved to L=0.55 (#223).
+//
+// No `foreground` is passed. It used to carry a per-swatch label colour chosen
+// for legibility, and for four of these twelve no such colour exists. White is
+// the best available on each of the three status fills, and it is not enough
+// against the 6.5 floor this label carries:
+//   `#ffffff` reaches OKCA 4.4 on status-error
+//   `#ffffff` reaches OKCA 4.2 on status-success
+//   `#ffffff` reaches OKCA 4.4 on status-warning
+// `--color-focus` is worse than close. klar reports `unreachable`: no colour
+// whatsoever clears even 4.5 against it, at black or white, so there was never
+// a label colour to pick. The label now carries its own opaque plate from the
+// component, so its contrast no longer depends on the swatch at all (#229).
+const swatch = (variable: string) => ({
   label: variable,
   background: requireTokenValue('light', variable),
-  foreground,
 });
 
 const TOKEN_HEADERS = JSON.stringify(['Token A', 'Token B', 'Token C', 'Token D']);
 const TOKEN_ROWS = JSON.stringify([
   { rowHeader: 'Backgrounds', cells: [
-    swatch('--color-bg-page', '#333'),
-    swatch('--color-bg-surface', '#333'),
-    swatch('--color-bg-elevated', '#333'),
-    swatch('--color-bg-inverse', '#fff'),
+    swatch('--color-bg-page'),
+    swatch('--color-bg-surface'),
+    swatch('--color-bg-elevated'),
+    swatch('--color-bg-inverse'),
   ]},
   { rowHeader: 'Action', cells: [
-    swatch('--color-action-primary', '#fff'),
-    swatch('--color-action-secondary', '#fff'),
-    swatch('--color-action-tertiary', '#333'),
-    swatch('--color-action-destructive-text', '#fff'),
+    swatch('--color-action-primary'),
+    swatch('--color-action-secondary'),
+    swatch('--color-action-tertiary'),
+    swatch('--color-action-destructive-text'),
   ]},
   { rowHeader: 'Status', cells: [
-    swatch('--color-status-error', '#fff'),
-    swatch('--color-status-success', '#fff'),
-    swatch('--color-status-warning', '#fff'),
-    swatch('--color-focus', '#fff'),
+    swatch('--color-status-error'),
+    swatch('--color-status-success'),
+    swatch('--color-status-warning'),
+    swatch('--color-focus'),
   ]},
 ]);
 
@@ -121,5 +131,15 @@ export const HideHeaders: Story = {
 export const TokenSwatch: Story = {
   name: 'Token Swatch Grid',
   parameters: { controls: { disable: true } },
-  render: () => html`<candor-data-grid caption="Design token colors" show-labels column-headers='${TOKEN_HEADERS}' rows='${TOKEN_ROWS}'></candor-data-grid>`,
+  // Taller cells than the default 2.5rem. The label plate is centred and these
+  // names run to 24 characters, so at the default height the plate fills the
+  // cell and the swatch survives only as a rim — which defeats a demo whose
+  // subject is the colour. The heat map needs no such override: "High"/"Med"
+  // are short enough that the plate stays small and the fill dominates.
+  render: () => html`<candor-data-grid
+    caption="Design token colors"
+    show-labels
+    style="--candor-data-grid-cell-min-height: 4.5rem;"
+    column-headers='${TOKEN_HEADERS}'
+    rows='${TOKEN_ROWS}'></candor-data-grid>`,
 };

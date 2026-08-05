@@ -429,6 +429,15 @@ const BG_ALIASES = {
   'success-bg': 'color.status.success-bg',
   'warning-bg': 'color.status.warning-bg',
   'action-primary': 'color.action.primary',
+  // The saturated base tokens, as *backgrounds*. They are flagged non-text for
+  // use as a `color:` value, which says nothing about painting on top of them —
+  // and the data-grid token demo does exactly that, which is where #229 lives.
+  // A figure about text on one of these has to be expressible, or the only way
+  // to record it is prose the audit cannot read.
+  'status-error': 'color.status.error',
+  'status-success': 'color.status.success',
+  'status-warning': 'color.status.warning',
+  focus: 'color.focus',
   'this bg': 'SELF',
 };
 
