@@ -170,10 +170,17 @@ candor-disclosure::part(trigger) { padding-top: 0; }
     <tr><td>candor-autocomplete</td><td><code>input</code>, <code>label</code>, <code>hint</code>, <code>error-message</code></td><td><code>--candor-autocomplete-&#123;padding-x,padding-y,font-size,radius&#125;</code></td></tr>
     <tr><td>candor-disclosure</td><td><code>trigger</code>, <code>label</code>, <code>icon</code>, <code>panel</code></td><td><code>--candor-disclosure-trigger-&#123;padding-y,padding-x&#125;</code></td></tr>
     <tr><td>candor-drawer</td><td>—</td><td><code>--candor-drawer-size</code>, <code>--candor-drawer-height</code></td></tr>
+    <tr><td>candor-code</td><td><code>code</code></td><td>—</td></tr>
+    <tr><td>candor-slider</td><td>—</td><td><code>--candor-slider-&#123;track-height,thumb-size,gradient-height&#125;</code></td></tr>
+    <tr><td>candor-modal</td><td>—</td><td><code>--candor-modal-max-width</code></td></tr>
+    <tr><td>candor-toast</td><td>—</td><td><code>--candor-toast-&#123;min-width,max-width&#125;</code></td></tr>
+    <tr><td>candor-data-grid</td><td>—</td><td><code>--candor-data-grid-cell-min-height</code></td></tr>
   </tbody>
 </table>
 
-More components gain these hooks as consumer demand surfaces; the convention above is what every new component follows.
+The last five rows were shipping and semver-protected but undocumented until 5.0.0 (#246) — `--candor-modal-max-width` and `--candor-toast-max-width` in particular are overrides you would go looking for and conclude did not exist.
+
+More components gain these hooks as consumer demand surfaces; the convention above is what every new component follows. Ten of the 37 components expose a hook today, and that is the intended state rather than a gap to fill: each of these came from a real override someone needed, and a part name invented without a use case is a public-API commitment made blind.
 
 ---
 

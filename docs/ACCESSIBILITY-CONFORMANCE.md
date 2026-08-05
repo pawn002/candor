@@ -39,7 +39,9 @@ Badge, Stat, Table, Card, Heading, AccessibleText / Text / Article
 
 ### Web components (`@candor-design/web-components`)
 
-The 34 Lit custom elements in `@candor-design/web-components` are the canonical component surface. They implement the same ARIA patterns, keyboard contracts, live region approaches, and focus management that the 26-component audit validated, carrying those conformance targets forward by construction.
+The **37** Lit custom elements in `@candor-design/web-components` are the canonical component surface. They implement the same ARIA patterns, keyboard contracts, live region approaches, and focus management that the 26-component audit validated, carrying those conformance targets forward by construction.
+
+This paragraph said "34" until 5.0.0, and the count was not corrected by simply bumping it: raising a number inside a conformance statement asserts that the components it newly covers meet the bar it states (#197). Of the three added since — `candor-tone-picker`, `candor-code`, `candor-autocomplete` — the first is AT-audited and passing (`docs/A11Y-AUDIT.md`), and the second is non-interactive inline text with no ARIA surface to get wrong. **`candor-autocomplete` has had no AT walkthrough.** It is a full ARIA combobox with keyboard navigation and a live-region status, which is precisely the shape that needs one, so it is included in the count as part of the surface but is **explicitly outside** the "validated by construction" claim above until it is audited. Treat its conformance as unverified.
 
 A formal screen reader walkthrough of the web components package as a whole has not been conducted as of v3.0.0; the AT-snapshot audit of the Storybook example stories (see `docs/A11Y-AUDIT.md`) is the most recent WC-specific validation. The following implementation notes apply:
 
