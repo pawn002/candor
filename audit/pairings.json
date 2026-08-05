@@ -398,10 +398,10 @@
       "fg": "{color.text.on-action}",
       "bg": "{color.action.primary}",
       "size": 16,
-      "weight": "regular",
+      "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "font-weight-medium (500) treated as regular for threshold purposes"
+      "note": "Filled button. font-weight-bold (700) — .button sets it for every size and variant; the note here previously claimed medium (500), which the component has not used since #131 (#224)."
     },
     {
       "id": "button-primary-small",
@@ -411,24 +411,34 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Small button overrides to font-weight-bold (700)"
+      "note": "Filled button at the 14px rung. Bold is inherited from .button, not an override — this is the one button row where the tier axis changes the floor, so the weight has to be right (#224)."
     },
     {
       "id": "button-secondary",
       "fg": "{color.action.primary}",
       "bg": "{color.bg.page}",
       "size": 16,
-      "weight": "regular",
+      "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Outlined button — transparent bg, effective background is bg-page"
+      "note": "Outlined button — transparent fill, so the effective background is whatever is behind it. This entry covers bg-page; see button-secondary-on-surface for the other real placement (#224)."
+    },
+    {
+      "id": "button-secondary-on-surface",
+      "fg": "{color.action.primary}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Outlined button on a card/panel/modal. Passes with margin in both modes (light 10.3, dark 6.1) — recorded because it was previously unmeasured, not because it was close (#224)."
     },
     {
       "id": "button-tertiary",
       "fg": "{color.action.tertiary-text}",
       "bg": "{color.action.tertiary}",
       "size": 16,
-      "weight": "regular",
+      "weight": "bold",
       "tier": 2,
       "min": 4.5
     },
@@ -437,19 +447,39 @@
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 16,
-      "weight": "regular",
+      "weight": "bold",
       "tier": 2,
       "min": 4.5
+    },
+    {
+      "id": "button-ghost-on-surface",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Ghost button is transparent-filled too, so it has the same two backgrounds. Passes with margin in both modes (light 8.6, dark 10.7) (#224)."
     },
     {
       "id": "button-destructive",
       "fg": "{color.action.destructive-text}",
       "bg": "{color.bg.page}",
       "size": 16,
-      "weight": "regular",
+      "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Outlined button — transparent bg, effective background is bg-page"
+      "note": "Outlined button — transparent fill, so the effective background is whatever is behind it. This entry covers bg-page; see button-destructive-on-surface for the other real placement (#224)."
+    },
+    {
+      "id": "button-destructive-on-surface",
+      "fg": "{color.action.destructive-text}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "The placement that actually matters for a destructive action — delete confirmations live in modals. This is the pairing that was missing: dark measured 3.9 here against a 4.5 floor while passing on page, so the variant failed in its commonest position and nothing could see it. Dark --color-action-destructive-text stepped L 0.75 -> 0.78 to clear both (#224)."
     },
     {
       "id": "alert-title-info",

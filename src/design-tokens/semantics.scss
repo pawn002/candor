@@ -32,7 +32,7 @@
     // L=0.56 grey: OKCA 3.5 on dark page ✅, OKCA 2.9 on dark bg-surface ❌ — the
     // same split as light, which is why only the -on-surface sibling needs a dark value (#217).
     --color-border-control:            var(--gray-500);
-    --color-border-control-on-surface: oklch(0.50 0 0); // OKCA 3.8 on bg-surface ✅, 5.0 on page ✅
+    --color-border-control-on-surface: oklch(0.50 0 0); // OKCA 3.8 on bg-surface ✅, OKCA 5.0 on page ✅
     // Form-control knob fill (slider/switch thumb) — a light puck; pairs with
     // --color-border-control (darker) for the edge. icon/border use (non-text UI).
     --color-slider-thumb:              var(--gray-0); // white knob in light — icon/border use
@@ -54,8 +54,8 @@
     --color-action-destructive:        transparent;
     --color-action-destructive-hover:  oklch(0.37 0.15 347 / 0.08); // subtle crimson tint on hover
     --color-action-destructive-active: oklch(0.37 0.15 347 / 0.15); // stronger tint on active
-    --color-action-destructive-text:   oklch(0.37 0.15 347);         // OKCA 9.3 on white ✅
-    --color-action-destructive-border: oklch(0.37 0.15 347);         // matches text
+    --color-action-destructive-text:   oklch(0.37 0.15 347);         // OKCA 9.3 on page ✅, OKCA 6.9 on bg-surface ✅ — outlined, so both backgrounds are real placements (#224)
+    --color-action-destructive-border: oklch(0.37 0.15 347);         // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
 
     // ─── Colors: Action — Tertiary ─────────────────────────────────────────────
     // No border — structural identity is the fill (distinct from secondary's outline).
@@ -72,8 +72,7 @@
 
     // ─── Colors: Highlight (burgundy) ─────────────────────────────────────────
     // Inline code — burgundy-700, clearly distinct from indigo visited links (ΔE 0 collision fixed).
-    // OKCA 6.9 on bg-surface ✅, 9.3 on white ✅
-    --color-highlight: var(--burgundy-700); // OKCA 6.9 on bg-surface ✅
+    --color-highlight: var(--burgundy-700); // OKCA 6.9 on bg-surface ✅, OKCA 9.3 on page ✅
 
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
     // In light mode: dark navy block (inverted) — no border needed, bg does the work.
@@ -233,8 +232,11 @@
     --color-text-default:           oklch(0.88 0.01 248); // OKCA 12.9 on bg-page ✅ — off-white with cool undertone; white OKCA 19.2 on bg-page is harsh
     --color-text-subtle:            var(--gray-400);      // OKCA 6.8 on bg-page ✅
     --color-text-subtle-on-surface: var(--gray-400);      // OKCA 5.6 on bg-surface ✅
-    // Component-scoped: toast message text — gray-400 on dark status-bgs: OKCA 5.5–5.8 ✅
-    --color-toast-message:          var(--color-text-subtle); // intentionally subtle in dark mode — softer than off-white; dimming is a feature, not a bug
+    // Component-scoped: toast message text on the three dark status backgrounds.
+    // Written out per background rather than as a range — it was OKCA 5.5–5.8
+    // across all three, and the audit's grammar has no range form, so that
+    // phrasing was unverifiable and had never once been measured (#224).
+    --color-toast-message:          var(--color-text-subtle); // OKCA 5.8 on error-bg ✅, OKCA 5.8 on success-bg ✅, OKCA 5.5 on warning-bg ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug
     --color-text-disabled:          var(--gray-600); // OKCA 2.2 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
     --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
     --color-text-subtle-on-inverse: oklch(0.40 0 0); // muted text on white inverse surface
@@ -256,13 +258,19 @@
     // light steps. Boosted chroma (C=0.11 — the most sRGB renders at this L and
     // hue) makes the primary button read as a confident blue without changing
     // hue or breaking contrast targets.
-    // gray-800 text on primary: OKCA 5.6 — primary on bg-page: OKCA 7.3 ✅
+    // Deliberately no figures here. Both that this comment used to carry were
+    // duplicates recorded better elsewhere, and one had gone stale unnoticed
+    // because the export discarded this comment entirely (#224): it credited the
+    // label as gray-800, which was OKCA 5.6 here, but the label stopped being
+    // gray-800 when --color-text-on-action moved to the bg-page navy for exactly
+    // that reason — it fails the 14px bold floor of 6.5. That token's own comment
+    // records the change and is audited; this one restated it and rotted.
     --color-action-primary:        oklch(0.79 0.11 245); // OKCA 7.3 on bg-page ✅
     --color-action-primary-hover:  oklch(0.87 0.06 245); // OKCA 11.9 on bg-page ✅
     --color-action-primary-active: oklch(0.87 0.06 245);
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
-    // bg-page text on burgundy-300: OKCA 7.3 ✅
+    // Label on the secondary fill: bg-page OKCA 7.3 on this bg ✅
     --color-action-secondary:        var(--burgundy-300); // OKCA 7.6 on bg-page ✅ (fill vs page)
     --color-action-secondary-hover:  var(--burgundy-200); // OKCA 11.6 on bg-page ✅
     --color-action-secondary-active: var(--burgundy-200);
@@ -273,15 +281,22 @@
     --color-action-destructive:        transparent;
     --color-action-destructive-hover:  oklch(0.72 0.15 347 / 0.12); // subtle rose tint on hover
     --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22); // stronger tint on active
-    --color-action-destructive-text:   oklch(0.75 0.15 347);         // OKCA 4.7 on bg-page ✅ — Tier 2 bold floor is 4.5; L=0.74 was OKCA 4.4 and missed by 0.1, stepped to L=0.75 (#209). Still OKCA 3.9 on bg-surface ❌ — see #224
-    --color-action-destructive-border: oklch(0.75 0.15 347);         // matches text
+    // Stepped L=0.75 → 0.78 so the label clears its floor on BOTH backgrounds, not
+    // only the page. The button is outlined (transparent fill), so its effective
+    // background is whatever sits behind it — and a destructive confirmation most
+    // often sits in a modal or card, i.e. on bg-surface. L=0.75 measured 3.9 there
+    // against a 4.5 floor while passing on page at 4.7, so the variant failed in its
+    // commonest placement and the single page-only pairing could not see it (#224).
+    // deltaE 3 from L=0.75 — at the edge of imperceptible.
+    --color-action-destructive-text:   oklch(0.78 0.15 347);         // OKCA 5.6 on bg-page ✅, OKCA 4.7 on bg-surface ✅ — Tier 2 floor 4.5; L=0.74 was OKCA 4.4 on bg-page (#209), L=0.75 was OKCA 3.9 on bg-surface (#224)
+    --color-action-destructive-border: oklch(0.78 0.15 347);         // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
-    // ⚠️  fill is only OKCA 1.1 against page — intentionally subtle in dark mode.
+    // ⚠️  fill is only OKCA 1.1 on page — intentionally subtle in dark mode.
     // Text (gray-0) on tertiary bg remains readable. Uses the cool-gray ramp
     // (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead
     // of advancing and competing with the primary button (warm advances / cool
-    // recedes); L preserved, so white text is still OKCA 12.0. Revisit if buttons
+    // recedes); L preserved, so white OKCA 12.0 on this bg ✅. Revisit if buttons
     // need more prominence in dark.
     --color-action-tertiary:       var(--gray-cool-700); // cooled counterpart of gray-700
     --color-action-tertiary-hover: var(--gray-cool-600); // cooled counterpart of gray-600
@@ -293,8 +308,8 @@
     --color-link-visited: var(--indigo-300);  // OKCA 6.6 on bg-page ✅
 
     // ─── Highlight (burgundy) ─────────────────────────────────────────────────
-    // burgundy-200: OKCA 9.7 on bg-surface ✅, 11.6 on bg-page ✅
-    --color-highlight: var(--burgundy-200); // OKCA 9.7 on bg-surface ✅
+    // burgundy-200 — inline code on the dark ramp.
+    --color-highlight: var(--burgundy-200); // OKCA 9.7 on bg-surface ✅, OKCA 11.6 on bg-page ✅
 
     // ─── Focus ─────────────────────────────────────────────────────────────
     --color-focus: var(--azure-300); // OKCA 6.3 on bg-page ✅

@@ -297,6 +297,9 @@ function darkDeclaredNames() {
 const FG_ALIASES = {
   'text-default': 'color.text.default',
   white: 'oklch(1 0 0)',
+  // A filled button's label is the page colour in dark mode, so "bg-page OKCA 7.3
+  // on this bg" is a real claim about a real pairing rather than a category error.
+  'bg-page': 'color.bg.page',
 };
 
 // Backgrounds named in the comments, mapped to their DTCG path. Names that are
@@ -335,8 +338,68 @@ const BG_ALIASES = {
 const CLAIM_RE =
   /(?:(?!was\s)([a-z0-9-]+)\s+)?(was\s+)?OKCA\s+(\d+(?:\.\d+)?)(?:\s+on\s+(this bg|(?:dark|light)\s+[a-z-]+|[a-z-]+))?/gi;
 
+/**
+ * A figure written without the OKCA keyword — "OKCA 9.3 on page, 6.9 on bg-surface" —
+ * is not a claim by the grammar above, so CLAIM_RE does not match it, so nothing is
+ * reported. That silence is the defect: to any reader the second number is
+ * unmistakably a contrast claim about a named background, and this script is the
+ * only thing that would ever say otherwise.
+ *
+ * Found by writing one. Both destructive-button comments were annotated this way
+ * while resolving #224, and the audit's figure count went *down* by one — the only
+ * signal that two new claims had entered the repo unverified. The comment being
+ * replaced had used the full grammar and had been checked, so the edit made the
+ * file less audited while appearing to document it better.
+ *
+ * Reported UNCHECKED rather than parsed, deliberately. Inferring that a bare number
+ * before "on <bg>" is an OKCA figure would work here and would be wrong the first
+ * time someone writes a sentence where it isn't — and a guard that reports a figure
+ * for the wrong colour is worse than one that reports nothing (#218).
+ *
+ * KNOWN LIMIT: only fires when the background name is one BG_ALIASES knows. A
+ * near-miss naming an unrecognised background stays silent, because at that point
+ * "8.2 on the hover fill" is indistinguishable from ordinary prose containing a
+ * number. The high-confidence case is the one that bit, and it is the one caught.
+ *
+ * Two guards keep it off ordinary prose, both added after real false positives:
+ *   - the number must not follow `-`, a word character, or `.`, so the `800` in
+ *     "navy-800 on white page" is a token name and not a reading;
+ *   - it must be inside OKCA's actual range. The scale is bounded at 20.9, and no
+ *     figure is below 1, so "L=0.75 on page" is not a contrast claim either.
+ */
+const NEAR_MISS_RE = /(?<![-\w.])(\d+(?:\.\d+)?)\s+on\s+((?:dark|light)\s+[a-z-]+|[a-z-]+)/gi;
+const OKCA_MIN = 1;
+const OKCA_MAX = 21; // light-on-dark caps at 20.9; anything above is not a reading
+
+/** Spans of `description` already accounted for by a full-grammar claim. */
+function claimSpans(description) {
+  const spans = [];
+  for (const m of description.matchAll(CLAIM_RE)) spans.push([m.index, m.index + m[0].length]);
+  return spans;
+}
+
+function nearMisses(description) {
+  const spans = claimSpans(description);
+  const out = [];
+  for (const m of description.matchAll(NEAR_MISS_RE)) {
+    const start = m.index;
+    if (spans.some(([a, b]) => start >= a && start < b)) continue; // part of a real claim
+    const n = Number(m[1]);
+    if (!(n >= OKCA_MIN && n <= OKCA_MAX)) continue; // not in OKCA's range — see above
+    let key = m[2].toLowerCase();
+    const modePrefix = /^(?:dark|light)\s+(.+)$/.exec(key);
+    if (modePrefix) key = modePrefix[1];
+    if (!(key in BG_ALIASES)) continue; // see KNOWN LIMIT above
+    out.push(m[0].trim());
+  }
+  return out;
+}
+
 function claimsFor(mode, dotted, description) {
   const out = [];
+  for (const t of nearMisses(description)) {
+    out.push({ kind: 'unchecked', text: `${t} — reads as a figure but omits the OKCA keyword` });
+  }
   for (const m of description.matchAll(CLAIM_RE)) {
     const [, fgName, historical, num, target] = m;
     if (historical) { out.push({ kind: 'historical' }); continue; }
