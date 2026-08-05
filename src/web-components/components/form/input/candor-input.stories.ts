@@ -118,10 +118,12 @@ export const OnSurface: Story = {
     docs: {
       description: {
         story: 'Side-by-side comparison of input borders on page background vs surface background. ' +
-          'The surface container overrides `--color-border-control` to `var(--color-border-control-on-surface)`, ' +
-          'which all child form controls inherit automatically. ' +
-          'Without the override, --color-border-control (gray-500) achieves only OKCA 2.8 on bg-surface — ' +
-          'below the 3.0 non-text contrast threshold.',
+          'Both containers are plain — no override, nothing for the consumer to remember. ' +
+          '`--color-border-control` reaches OKCA 4.4 on page and OKCA 3.3 on bg-surface, ' +
+          'clearing the 3.0 non-text floor on either. ' +
+          'Until 5.0.0 the surface case needed a hand-applied `--color-border-control-on-surface` ' +
+          'override, and this story was the only place in the repo that applied it correctly; ' +
+          'the token now holds on every background it can land on, so that sibling token is gone (#217).',
       },
     },
   },
@@ -138,7 +140,7 @@ export const OnSurface: Story = {
       </div>
       <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
         <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Surface background</div>
-        <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);--color-border-control:var(--color-border-control-on-surface);">
+        <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);">
           <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
           <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
           <candor-input label="With error" error="This field is required"></candor-input>

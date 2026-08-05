@@ -168,7 +168,30 @@ The design has a consequence worth knowing: **`state` text needs no colour of it
 
 **Migration:** use `size="sm"`. If the content is genuinely chrome — initials in an avatar, a glyph in a badge — set `--font-size-xs` directly on that element and mark it (see the audit gate below); it is not text, and it does not belong in a text component.
 
+#### `--color-border-control-on-surface` removed; `--color-border-control` re-authored to be safe on every background
+
+**Before:** `--color-border-control` (L 0.56) cleared WCAG 1.4.11's 3:1 on `--color-bg-page` and missed it on `--color-bg-surface`. Consumers were expected to set `--color-border-control: var(--color-border-control-on-surface)` on any container hosting form controls over a surface fill.
+
+```css
+/* every surface container that held a form control */
+.panel { background: var(--color-bg-surface); --color-border-control: var(--color-border-control-on-surface); }
+```
+
+**After:** one token, no override. `--color-border-control` is L 0.53 in light (OKCA 4.4 on page, 3.3 on surface) and L 0.58 in dark (3.9 on page, 3.2 on surface) — above the floor on either background.
+
+```css
+.panel { background: var(--color-bg-surface); }
+```
+
+**Why:** the override was a correctness property delegated to whoever remembered a documented rule, and the repo remembered it once out of twice. The colour-iterator example shipped four radios and two checkboxes on a surface container at OKCA 2.8, and `candor-switch`'s off-state thumb sits on a track that paints its *own* `bg-surface` fill — so that one was below the floor in every consumer, on every page, with no container the consumer could have fixed it on. A second token whose existence means "the first one is unsafe here" is the failure mode, not the fix (#217).
+
+The new value is deltaE 3 from the base it replaces and deltaE 3 from the sibling it absorbs — imperceptibly between the two colours it supersedes, so this buys the correctness at essentially no visual cost.
+
+**Migration:** delete the `--color-border-control` override from any surface container; the default is now correct there. Any direct use of `--color-border-control-on-surface` becomes `--color-border-control`.
+
 ### Fixed
+
+- **Form-control boundaries are now measured, not assumed (#217).** `audit/pairings.json` held **zero** entries for any border token, so the one colour that draws the edge of `candor-input`, `select`, `combobox`, `autocomplete`, `listbox`, `chat-input`, `checkbox`, `radio`, `switch`, `slider` and `menu` carried no floor at all — its figures lived only in a comment. Four pairings added at WCAG 1.4.11's 3.0: the boundary on page and on surface, the switch's off-state thumb against its own track, and the slider thumb against the page (recorded separately because *which* background carries it is the load-bearing claim there — the thumb is 22px on a 4px track, so its outline falls mostly on the page). `--color-border-strong`'s annotation is corrected too: its dark comment asserted 1.4.11 compliance as if it were a property of the token, while the same token measures a third of that in light.
 
 - **The destructive button's label failed its floor in the placement it is most used in (#224).** `candor-button`'s destructive variant is outlined — `--color-action-destructive` is `transparent` — so its effective background is whatever sits behind it. It was validated against `--color-bg-page` only, and in dark mode measured **3.9 on `--color-bg-surface`** against a 4.5 floor: a delete confirmation inside a modal or card, which is where delete confirmations live. Dark `--color-action-destructive-text` steps L 0.75 → 0.78 (OKCA 5.6 on page, 4.7 on surface; deltaE 3, at the edge of imperceptible), and `-border` moves with it to keep its "matches text" annotation true. Light mode already passed both (9.3 / 6.9) and is unchanged.
 
