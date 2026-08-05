@@ -123,6 +123,27 @@ jobs:
 
   chromatic:
     runs-on: ubuntu-latest
+    # GitHub withholds repository secrets from Dependabot-triggered runs, so on a
+    # Dependabot PR this job can only fail with "Missing project token" — 15
+    # seconds in, having snapshotted nothing. That red says nothing about the
+    # bump, and a check that always fails for a reason unrelated to the change is
+    # noise that trains people to ignore the column.
+    #
+    # Skipping it does NOT mean dependency updates go un-diffed. It means they
+    # are not diffed *here*: the policy is that Dependabot PRs are notifications,
+    # and the updates land through a human-authored batch PR where the secret
+    # exists and the visual diff gets a real review. Read this as the other half
+    # of the skip, because merging a Dependabot PR directly would bypass the
+    # visual gate entirely — autoAcceptChanges below is true on main, so whatever
+    # a Storybook bump changed would become the new baseline with nobody having
+    # looked at it. Batching also costs one Chromatic build per round instead of
+    # one per bump.
+    #
+    # The alternative was a Dependabot-scoped copy of the token. Rejected: `npm
+    # ci` runs dependency install scripts in this same job, so a compromised
+    # version of any transitive dev dependency — the exact thing these PRs
+    # change — would execute alongside a write-scoped project token.
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v5
         with:
