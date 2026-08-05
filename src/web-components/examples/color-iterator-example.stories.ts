@@ -8,6 +8,27 @@ const NAV_ITEMS = JSON.stringify([
   { label: 'About', href: '#' },
 ]);
 
+/*
+ * Slider tracks for the two lightness axes. Chroma TAPERS toward both ends of
+ * each ramp, and that is the point rather than an inconsistency: sRGB narrows
+ * as lightness leaves the middle, so a constant-chroma ramp leaves the gamut at
+ * its ends even though its middle is fine.
+ *
+ * Both tracks used to hold chroma constant across all three stops, which put
+ * four of the six endpoints outside sRGB — where a value names no colour and
+ * the browser picks one. The IG matrix directly below already recorded this:
+ * it marks C 0.065 unrenderable at L 0.11 for this very hue, while the track
+ * beneath it painted C 0.065 at L 0.05. The demo contradicted its own data
+ * table, and nothing looked at the track because the gamut gate stopped at
+ * src/design-tokens/ (#228).
+ *
+ * Do not "restore" constant chroma. The taper is the honest axis.
+ */
+const FG_TRACK =
+  'linear-gradient(to right, oklch(0.05 0.01 142), oklch(0.55 0.065 142), oklch(0.97 0.04 142))';
+const BG_TRACK =
+  'linear-gradient(to right, oklch(0.05 0.02 333), oklch(0.94 0.04 333), oklch(0.97 0.02 333))';
+
 // H=142 olive-green gamut — anchor: L=0.55 C=0.065 (#647a61, the FG in this story)
 const FG_ROWS = JSON.stringify(buildGamutRows(
   (() => {
@@ -171,7 +192,7 @@ export const ColorPairIterator: Story = {
                 <candor-slider
                   label="Foreground lightness"
                   min="0" max="1" step="0.001" value="0.555"
-                  gradient="linear-gradient(to right, oklch(0.05 0.065 142), oklch(0.55 0.065 142), oklch(0.97 0.065 142))">
+                  gradient="${FG_TRACK}">
                 </candor-slider>
 
                 <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">
@@ -218,7 +239,7 @@ export const ColorPairIterator: Story = {
                 <candor-slider
                   label="Background lightness"
                   min="0" max="1" step="0.001" value="0.94"
-                  gradient="linear-gradient(to right, oklch(0.05 0.054 333), oklch(0.94 0.054 333), oklch(0.97 0.054 333))">
+                  gradient="${BG_TRACK}">
                 </candor-slider>
 
                 <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">
@@ -232,7 +253,7 @@ export const ColorPairIterator: Story = {
                     <candor-tone-picker
                       aria-label="Background tones — pink H 333"
                       size="small"
-                      selected-value="oklch(0.94 0.054 333)"
+                      selected-value="oklch(0.94 0.04 333)"
                       rows='${BG_ROWS}'
                       column-headers='${BG_HEADERS}'>
                     </candor-tone-picker>

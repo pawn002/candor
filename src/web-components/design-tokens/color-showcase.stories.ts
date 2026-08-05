@@ -38,8 +38,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     colors: [
       { name: 'Default', variable: '--color-border-default', description: 'Subtle separator' },
       { name: 'Strong', variable: '--color-border-strong', description: 'Emphasized separator — table rules, card edges' },
-      { name: 'Control', variable: '--color-border-control', description: 'Form control outlines — 3:1 non-text contrast' },
-      { name: 'Control on Surface', variable: '--color-border-control-on-surface', description: 'Form control outline on bg-surface — higher L for sufficient contrast' },
+      { name: 'Control', variable: '--color-border-control', description: 'Form control outlines — clears 3:1 non-text on page and surface alike' },
       { name: 'On Inverse', variable: '--color-border-on-inverse', description: 'Divider on inverse (navy) surface' },
       { name: 'Focus', variable: '--color-focus', description: 'Focus ring — high-visibility azure' },
     ],

@@ -70,6 +70,11 @@ export class CandorDataGrid extends LitElement {
       border-bottom: 1px solid var(--color-border-strong);
       border-right: var(--border-width-thin) solid var(--color-border-strong);
     }
+    /* NOTE: min-height here is inert and always has been — this is a <td>, so
+       it computes (72px with the knob set) and lays out at content height. The
+       cell's height is set on .data-grid__cell-inner below, which is a flex
+       span and does honour it. Left in place because min-width does work on a
+       table cell and the pair reads as one declaration. */
     .data-grid__cell {
       position: relative;
       min-width: 2.5rem;
@@ -110,24 +115,67 @@ export class CandorDataGrid extends LitElement {
       opacity: 0.35;
       cursor: not-allowed;
     }
+    /* --candor-data-grid-cell-min-height is the one style hook this component
+       exposes so far (#165's convention; the rest of its surface is still
+       missing, tracked separately). It lives here rather than on the <td>
+       because min-height does not apply to a table cell. It exists because the
+       label plate is centred, so cell height is what decides how much of the
+       fill stays visible around it: at 2.5rem a long label leaves only a rim of
+       colour. A demo whose subject IS the colour can buy that back without
+       needing a new size rung (#229). */
     .data-grid__cell-inner {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 100%;
+      min-height: var(--candor-data-grid-cell-min-height, 2.5rem);
       pointer-events: none;
       gap: 0.2em;
+      padding: 0.25rem;
+      box-sizing: border-box;
     }
     /* 14px, not 12px. This renders cell.label — consumer content, and the same
        string the cell exposes as its accessible name. It is read, not chrome, so
        the readable-text floor applies (#230). 12px also had the effect of
        removing it from contrast auditing entirely, which is how #229 stayed
-       unnoticed: the visible text inside every cell had no pairing at all. */
+       unnoticed: the visible text inside every cell had no pairing at all.
+
+       The label carries its OWN background and does not inherit --cell-fg. That
+       is the whole fix for #229, and the reasoning matters more than the CSS:
+
+       This label is alternative content — it exists for a reader who cannot
+       resolve the cell's colour, which makes it the redundant non-colour
+       channel in CLAUDE.md's Tier 3 sense. A channel whose legibility depends
+       on the very colour it is compensating for is not a channel. Painted
+       directly on the fill it could not be one: six cells across this
+       component's own demos measured 2.7-5.9 against a 6.5 floor, and
+       --color-focus was *unreachable* — klar reports no colour meeting 4.5
+       against it, at black or white. That is not a bad palette choice. A
+       saturated fill at L 0.54-0.75 cannot host text, because contrast is
+       bought with lightness and the gamut narrows as lightness leaves the
+       middle.
+
+       So the plate is opaque and token-coloured: text-default on bg-page is
+       OKCA 11.5 light / 12.9 dark, independent of the cell beneath it, in one
+       pairing the audit can measure. Deliberately NOT a translucent scrim —
+       check-contrast.js skips alpha values as uncompositable, so a scrim would
+       fix the appearance by removing the label from the audit, which is the
+       failure this release exists to stop shipping (#229, #230).
+
+       --cell-fg still governs the rest of the cell, including the selected
+       check glyph; only the label opts out. */
     .data-grid__cell-label {
       font-family: var(--font-family-mono);
       font-size: var(--font-size-sm);
       line-height: 1;
+      color: var(--color-text-default);
+      background: var(--color-bg-page);
+      padding: 0.15rem 0.3rem;
+      border-radius: var(--radius-sm);
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .data-grid__check {
       font-size: var(--font-size-sm);

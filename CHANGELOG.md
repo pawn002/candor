@@ -168,7 +168,30 @@ The design has a consequence worth knowing: **`state` text needs no colour of it
 
 **Migration:** use `size="sm"`. If the content is genuinely chrome — initials in an avatar, a glyph in a badge — set `--font-size-xs` directly on that element and mark it (see the audit gate below); it is not text, and it does not belong in a text component.
 
+#### `--color-border-control-on-surface` removed; `--color-border-control` re-authored to be safe on every background
+
+**Before:** `--color-border-control` (L 0.56) cleared WCAG 1.4.11's 3:1 on `--color-bg-page` and missed it on `--color-bg-surface`. Consumers were expected to set `--color-border-control: var(--color-border-control-on-surface)` on any container hosting form controls over a surface fill.
+
+```css
+/* every surface container that held a form control */
+.panel { background: var(--color-bg-surface); --color-border-control: var(--color-border-control-on-surface); }
+```
+
+**After:** one token, no override. `--color-border-control` is L 0.53 in light (OKCA 4.4 on page, 3.3 on surface) and L 0.58 in dark (3.9 on page, 3.2 on surface) — above the floor on either background.
+
+```css
+.panel { background: var(--color-bg-surface); }
+```
+
+**Why:** the override was a correctness property delegated to whoever remembered a documented rule, and the repo remembered it once out of twice. The colour-iterator example shipped four radios and two checkboxes on a surface container at OKCA 2.8, and `candor-switch`'s off-state thumb sits on a track that paints its *own* `bg-surface` fill — so that one was below the floor in every consumer, on every page, with no container the consumer could have fixed it on. A second token whose existence means "the first one is unsafe here" is the failure mode, not the fix (#217).
+
+The new value is deltaE 3 from the base it replaces and deltaE 3 from the sibling it absorbs — imperceptibly between the two colours it supersedes, so this buys the correctness at essentially no visual cost.
+
+**Migration:** delete the `--color-border-control` override from any surface container; the default is now correct there. Any direct use of `--color-border-control-on-surface` becomes `--color-border-control`.
+
 ### Fixed
+
+- **Form-control boundaries are now measured, not assumed (#217).** `audit/pairings.json` held **zero** entries for any border token, so the one colour that draws the edge of `candor-input`, `select`, `combobox`, `autocomplete`, `listbox`, `chat-input`, `checkbox`, `radio`, `switch`, `slider` and `menu` carried no floor at all — its figures lived only in a comment. Four pairings added at WCAG 1.4.11's 3.0: the boundary on page and on surface, the switch's off-state thumb against its own track, and the slider thumb against the page (recorded separately because *which* background carries it is the load-bearing claim there — the thumb is 22px on a 4px track, so its outline falls mostly on the page). `--color-border-strong`'s annotation is corrected too: its dark comment asserted 1.4.11 compliance as if it were a property of the token, while the same token measures a third of that in light.
 
 - **The destructive button's label failed its floor in the placement it is most used in (#224).** `candor-button`'s destructive variant is outlined — `--color-action-destructive` is `transparent` — so its effective background is whatever sits behind it. It was validated against `--color-bg-page` only, and in dark mode measured **3.9 on `--color-bg-surface`** against a 4.5 floor: a delete confirmation inside a modal or card, which is where delete confirmations live. Dark `--color-action-destructive-text` steps L 0.75 → 0.78 (OKCA 5.6 on page, 4.7 on surface; deltaE 3, at the edge of imperceptible), and `-border` moves with it to keep its "matches text" annotation true. Light mode already passed both (9.3 / 6.9) and is unchanged.
 
@@ -238,6 +261,26 @@ The design has a consequence worth knowing: **`state` text needs no colour of it
 - **The type scale now states 12px's two conditions.** The row was labelled "Decorative / non-text only" but said nothing about *how* to use it legitimately — that it is not reachable through `candor-text`, and that the audit fails the build without a `12px-ok:` marker. A designer reading the scale is the person most likely to reach for 12px, so that is where the conditions belong.
 
 ### Fixed (tooling)
+
+- **`candor-data-grid`'s cell label carries its own background, so `show-labels` is legible on any fill (#229).** The issue was filed against one swatch — `--color-focus`, where no label colour reaches usable contrast in either direction. Re-measured after #223 moved the label from 12px to 14px, which gave it a floor to fail, it was **six** cells across the component's own two demos: the three status fills peak at OKCA 4.2–4.4 against 6.5, the heat map's High and Med cells at 4.2 and 5.9, and `--color-focus` at 2.7 — where klar reports `unreachable`, meaning no colour whatsoever clears even 4.5 against it.
+
+  Not a palette mistake. Every failing cell sits at L 0.54–0.75 with real chroma, and contrast is bought with lightness: a saturated fill in the middle of the lightness range cannot host text, which is the same geometry recorded in "contrast is bought with chroma".
+
+  **The reframing is what fixed it.** This label is *alternative content* — it exists for a reader who cannot resolve the cell's colour, which makes it the redundant non-colour channel in Tier 3's sense. A channel whose legibility depends on the very colour it compensates for is not a channel. So the label now paints on its own opaque plate from token colours and no longer inherits `--cell-fg`: `--color-text-default` on `--color-bg-page`, OKCA 11.5 light / 12.9 dark, independent of the cell beneath it. Its pairing changes from a *default* a consumer could silently invalidate into a structural guarantee — which also closes the un-auditable boundary #223 had to record as a known limit.
+
+  Deliberately **opaque, not a translucent scrim**: `check-contrast.js` skips alpha values as uncompositable, so a scrim would have fixed the appearance by removing the label from the audit — the exact move this release exists to stop.
+
+  Two things fell out. `--candor-data-grid-cell-min-height` is added (the component had *no* style hooks at all, missing the #165 convention entirely — the rest of that surface is still absent): the plate is centred, so cell height decides how much fill stays visible around it, and 24-character token names at the default height leave only a rim. And `min-height` on `.data-grid__cell` turns out to have been **inert since it was written** — it is a `<td>`, where `min-height` does not apply; the computed value was 72px while the cell laid out at 37px. The height now lives on the inner flex element, where it works.
+
+- **The sRGB gate now scans all of `src/`, and 16 of 36 `oklch()` literals outside the token directory were out of gamut (#228).** The gate was written to cover `src/design-tokens/`, on the reasonable premise that tokens are where colours live. They are not. Gradient stops in stories, heat-map sample data in the data-grid demo, image-placeholder fills in the card examples, and the endpoints of both lightness ramps in the colour-tool example were all outside sRGB — 44% of the literals in the unscanned region, against zero inside it.
+
+  The invariant's own wording decides the scope question, which is why the scan moved rather than the prose: *every authored Candor colour must be renderable in sRGB*. The argument never depended on the value being a token — an out-of-gamut OKLCH value delegates the final colour to whatever consumes it, so it names no single colour, and that is as true of a gradient stop as of a `--color-*` declaration. These render in published Storybook, under Candor's name, as the system's own output.
+
+  **The colour-tool example is the one worth reading twice.** Both slider tracks were constant-chroma lightness ramps — C 0.065 across L 0.05→0.97, C 0.054 across L 0.05→0.97 — which is the exact trap CLAUDE.md documents ("a ramp at constant chroma will leave the gamut at its ends even though its middle is fine"). It left at both ends. And the story **already knew**: the gamut matrix rendered a few lines below each track marks C 0.065 unrenderable at L 0.11 for that hue, while the track beneath it painted C 0.065 at L 0.05. The demo contradicted its own data table, and nothing looked, because the gate stopped one directory short. Both tracks now taper chroma toward each end, with the reason recorded in TypeScript beside them so the taper is not "corrected" back into a violation.
+
+  **There is deliberately no opt-out.** One was considered for deliberate out-of-gamut fixtures in the colour tool — its whole subject is exploring OKLCH space, so the case seemed plausible. Inspection found none: every one of the 16 was an ordinary authored colour. An exemption with no user is only an escape hatch waiting to be used, and #218 is the record of what a lightly-used exemption becomes. If a genuine fixture appears, the mechanism can be built then, shaped by the real case.
+
+  Two limits are stated in the gate rather than left to be assumed: template interpolation has no value to judge statically, and relative colour syntax (`oklch(from var(--token) …)`) derives from a token already gated. The four sites that shift lightness under that syntax while holding chroma are the shape that can genuinely leave the gamut; all four were measured in both modes and are in gamut, because the tokens involved carry chroma 0 or 0.03. That is a fact about today's values, not a guarantee. Coverage goes from 106 authored colours to 180.
 
 - **Figures in `audit/pairings.json` `note` fields are audited, and 16 of 28 were stale (#239).** This was the third surface with the same shape and the last one left: token comments were checked, story prose became checked in #223, pairing notes never were — so every figure written there had been unverified since the file was created. The drift is mostly the klar 2→3 re-baseline, which #216 and #227 applied everywhere the audit could reach, and that is the diagnostic rather than a footnote: **the field stayed stale precisely because it was outside the tool that repaired everything else.** A record does not drift at random; it drifts where nothing is looking.
 

@@ -331,7 +331,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. Measured here against the component's DEFAULTS; a consumer supplying --cell-fg/--cell-bg leaves Candor's control and Candor cannot audit the result."
+      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. This figure is now structural rather than a default: the label carries its own opaque plate and does not inherit --cell-fg, so a consumer's cell colours cannot move it — OKCA 11.5 light / 12.9 dark ✅ against the 6.5 floor. Before the plate it was consumer-determined and unauditable, and six cells in this component's own demos sat between 2.7 and 5.9 (#229)."
     },
     {
       "id": "badge-default",
@@ -1151,6 +1151,46 @@
       "tier": 1,
       "min": 4.5,
       "note": "candor-article .callout body — text-default on the indigo wash; Tier 1 Reading. Gray-700 on indigo-50 in light, off-white on a dark indigo tint in dark — OKCA 10.4 light / 10.1 dark ✅. The --color-highlight-decorative left border is decorative only (meaning carried by the wash + authored label), not gated at 3:1."
+    },
+    {
+      "id": "form-control-border-on-page",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The form-control boundary at page level — candor-input, select, combobox, autocomplete, listbox, chat-input, checkbox, radio, switch, slider, menu all draw their edge from this one token. WCAG 1.4.11 non-text, so the 3.0 floor is 1.4.11's, not a text floor. OKCA 4.4 light / 3.9 dark ✅"
+    },
+    {
+      "id": "form-control-border-on-surface",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The same boundary on a surface container. This is the pairing whose absence was #217: the token was validated on page only, was OKCA 2.8 light and was OKCA 2.9 dark here, and the documented fix was a --color-border-control-on-surface override the consumer applied by hand. The colour-iterator example shipped six controls without it. 5.0.0 retired the sibling and moved the base value to a lightness safe on both backgrounds — OKCA 3.3 light / 3.2 dark ✅"
+    },
+    {
+      "id": "switch-track-thumb-off",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-switch off-state thumb against its own track. Same two colours as form-control-border-on-surface but not the same claim: the track paints its own bg-surface fill, so no page context could rescue this one and it was below the floor in every consumer, not just on surface containers. The thumb is the sole indicator of off vs on. OKCA 3.3 light / 3.2 dark ✅"
+    },
+    {
+      "id": "slider-thumb-border-on-page",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-slider thumb outline. Recorded separately from form-control-border-on-page because the background is a load-bearing claim rather than an incidental one: the thumb is 22px against a 4px track, so most of its outline falls on the page and not on the track. Against the track it is far weaker (2.3 and 1.0 by mode, deliberately not written in the audited grammar — those are a different background than this pairing's, and the audit would measure them against this one), so it is the page that carries identifiability — see #247. OKCA 4.4 light / 3.9 dark ✅"
     }
   ]
 }

@@ -36,7 +36,7 @@ type Story = StoryObj;
 export const ProductCard: Story = {
   render: () => html`
     <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 350px;">
-      <div style="width: 100%; height: 200px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
+      <div style="width: 100%; height: 200px; background: linear-gradient(135deg, oklch(0.75 0.13 250), oklch(0.60 0.16 250));"></div>
 
       <div style="padding: var(--spacing-card-padding);">
         <candor-heading level="h2" style="margin-bottom: 0.5rem;">
@@ -78,7 +78,7 @@ export const ProductCard: Story = {
 export const ArticleCard: Story = {
   render: () => html`
     <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 400px;">
-      <div style="width: 100%; height: 180px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
+      <div style="width: 100%; height: 180px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.09 200));"></div>
 
       <div style="padding: var(--spacing-card-padding);">
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
@@ -168,7 +168,7 @@ export const CardGrid: Story = {
 
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-card-gap);">
         <candor-card variant="outlined" padding="none">
-          <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.75 0.15 250), oklch(0.60 0.18 250));"></div>
+          <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.75 0.13 250), oklch(0.60 0.16 250));"></div>
           <div style="padding: var(--spacing-card-padding);">
             <candor-heading level="h3" style="margin-bottom: 0.5rem;">
               Product Name
@@ -183,7 +183,7 @@ export const CardGrid: Story = {
         </candor-card>
 
         <candor-card variant="outlined" padding="none">
-          <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.15 200));"></div>
+          <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.09 200));"></div>
           <div style="padding: var(--spacing-card-padding);">
             <candor-heading level="h3" style="margin-bottom: 0.5rem;">
               Another Product
