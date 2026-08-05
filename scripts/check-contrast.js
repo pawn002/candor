@@ -477,6 +477,18 @@ function checkRecordedFigures() {
  *
  *   a custom property   "--color-text-subtle (OKCA 5.0 on page) fails …"
  *   a hex literal       "**Navy** `#082840` — primary action (OKCA 13.9 on white)"
+ *   an oklch() literal  "--color-brand: oklch(0.45 0.12 250); // OKCA 6.4 on white"
+ *
+ * The oklch() form exists for teaching examples, where the token name is the
+ * reader's to choose and therefore resolves to nothing here — the walkthrough in
+ * chat-example defines `--color-brand`, which is not a Candor token (#219). A
+ * literal is in fact the strongest anchor of the three: it *is* the colour, with
+ * no lookup in between. It also carries the gamut invariant into story samples,
+ * since klar exits non-zero on an unrenderable input and this script does not
+ * pass --allow-out-of-gamut — so a sample colour outside sRGB can no longer have
+ * a contrast figure recorded against it at all, which is the correct outcome:
+ * OKCA is not defined there. Every one of that walkthrough's six samples was
+ * outside sRGB when this was written.
  *
  * The anchor is the nearest one to the LEFT of the figure, which is what lets a
  * single line carry two claims about two colours ("decorative at OKCA 2.6 on
@@ -489,7 +501,7 @@ function checkRecordedFigures() {
 const STORY_GLOB_DIRS = ['src'];
 const STORY_FILE_RE = /\.stories\.ts$/;
 
-const ANCHOR_RE = /--[a-z][a-z0-9-]*|#[0-9a-fA-F]{6}\b/g;
+const ANCHOR_RE = /--[a-z][a-z0-9-]*|#[0-9a-fA-F]{6}\b|oklch\([^)]*\)/gi;
 const STORY_CLAIM_RE = /OKCA\s+(\d+(?:\.\d+)?)(?:\s+on\s+((?:dark|light)\s+[a-z-]+|[a-z-]+))?/gi;
 
 // "OKCA 4.5 bold threshold" states the floor a component must clear; it is not
@@ -554,7 +566,7 @@ function checkStoryFigures() {
           continue;
         }
 
-        const fg = anchor.startsWith('#')
+        const fg = anchor.startsWith('#') || /^oklch\(/i.test(anchor)
           ? anchor
           : byCssVar.has(anchor)
             ? value(mode, byCssVar.get(anchor))
@@ -579,6 +591,14 @@ function checkStoryFigures() {
         } else if (VERBOSE) {
           console.log(`  ok      ${where} ${anchor} on ${key} ${measured}`);
         }
+      }
+
+      // Same near-miss check the token comments get (see NEAR_MISS_RE). There are
+      // none in story prose today — this is symmetry, not a repair. The asymmetry
+      // is the thing worth removing: "checked for this in one file type and not the
+      // other" is a half-covered guard, and a half-covered guard reads as coverage.
+      for (const t of nearMisses(line)) {
+        unchecked.push(`${where} — "${t}" reads as a figure but omits the OKCA keyword`);
       }
     });
   }
