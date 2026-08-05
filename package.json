@@ -1,6 +1,6 @@
 {
   "name": "@candor-design/tokens",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "description": "Candor design tokens — CSS custom properties for a humanist design system built with OKLCH.",
   "main": "./tokens/candor-tokens.css",
   "module": "./tokens/candor-tokens.css",
