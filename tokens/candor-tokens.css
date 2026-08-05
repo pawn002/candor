@@ -117,8 +117,7 @@
   --color-border-default: var(--gray-200);
   --color-border-strong: var(--gray-300);
   --color-border-on-inverse: oklch(0.40 0.05 245);
-  --color-border-control: var(--gray-500);
-  --color-border-control-on-surface: oklch(0.50 0 0);
+  --color-border-control: oklch(0.53 0 0);
   --color-slider-thumb: var(--gray-0);
   --color-action-primary: var(--navy-800);
   --color-action-primary-hover: var(--navy-900);
@@ -247,7 +246,7 @@
     --color-border-default: var(--gray-600);
     --color-border-strong: var(--gray-500);
     --color-border-on-inverse: oklch(0.85 0 0);
-    --color-border-control-on-surface: oklch(0.60 0 0);
+    --color-border-control: oklch(0.58 0 0);
     --color-slider-thumb: var(--gray-100);
     --color-action-primary: oklch(0.79 0.11 245);
     --color-action-primary-hover: oklch(0.87 0.06 245);
@@ -258,8 +257,8 @@
     --color-action-destructive: transparent;
     --color-action-destructive-hover: oklch(0.72 0.15 347 / 0.12);
     --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22);
-    --color-action-destructive-text: oklch(0.75 0.15 347);
-    --color-action-destructive-border: oklch(0.75 0.15 347);
+    --color-action-destructive-text: oklch(0.78 0.15 347);
+    --color-action-destructive-border: oklch(0.78 0.15 347);
     --color-action-tertiary: var(--gray-cool-700);
     --color-action-tertiary-hover: var(--gray-cool-600);
     --color-action-tertiary-text: var(--gray-0);
@@ -305,7 +304,7 @@
   --color-border-default: var(--gray-600);
   --color-border-strong: var(--gray-500);
   --color-border-on-inverse: oklch(0.85 0 0);
-  --color-border-control-on-surface: oklch(0.60 0 0);
+  --color-border-control: oklch(0.58 0 0);
   --color-slider-thumb: var(--gray-100);
   --color-action-primary: oklch(0.79 0.11 245);
   --color-action-primary-hover: oklch(0.87 0.06 245);
@@ -316,8 +315,8 @@
   --color-action-destructive: transparent;
   --color-action-destructive-hover: oklch(0.72 0.15 347 / 0.12);
   --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22);
-  --color-action-destructive-text: oklch(0.75 0.15 347);
-  --color-action-destructive-border: oklch(0.75 0.15 347);
+  --color-action-destructive-text: oklch(0.78 0.15 347);
+  --color-action-destructive-border: oklch(0.78 0.15 347);
   --color-action-tertiary: var(--gray-cool-700);
   --color-action-tertiary-hover: var(--gray-cool-600);
   --color-action-tertiary-text: var(--gray-0);
@@ -359,8 +358,7 @@
   --color-border-default: var(--gray-200);
   --color-border-strong: var(--gray-300);
   --color-border-on-inverse: oklch(0.40 0.05 245);
-  --color-border-control: var(--gray-500);
-  --color-border-control-on-surface: oklch(0.50 0 0);
+  --color-border-control: oklch(0.53 0 0);
   --color-slider-thumb: var(--gray-0);
   --color-action-primary: var(--navy-800);
   --color-action-primary-hover: var(--navy-900);
