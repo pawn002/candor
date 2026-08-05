@@ -3,7 +3,7 @@
  * scripts/check-contrast.js
  *
  * Re-measures Candor's recorded contrast against the klar CLI and fails when
- * reality and the repo disagree. Two independent checks:
+ * reality and the repo disagree. Six independent checks:
  *
  *   0. TIER CLASSIFICATION — every pairing's `min` re-derived from its `tier`,
  *      `size` and `weight`. `min` is hand-typed and hand-typed numbers drift;
@@ -12,20 +12,27 @@
  *   1. PAIRINGS — every entry in audit/pairings.json, in both modes, measured
  *      against its `min` floor. Entries carrying `exempt` are measured and
  *      reported but never fail the run.
- *   2. RECORDED FIGURES — the OKCA numbers written into token descriptions
+ *   2. PAIRING NOTES — the OKCA numbers written into the `note` field of
+ *      audit/pairings.json. Those notes are the justification text for an
+ *      `exempt` or an unusual `min`, so a stale figure there argues from a
+ *      measurement that is no longer true. Nothing read them until #239, and
+ *      16 of 28 had drifted — mostly through the klar 2→3 re-baseline that was
+ *      applied everywhere the audit could see, which is the tell: this surface
+ *      was invisible to the tool that fixed all the others.
+ *   3. RECORDED FIGURES — the OKCA numbers written into token descriptions
  *      (sourced from the `//` comments in semantics.scss and surfaced in
  *      audit/tokens.dtcg.json). These are the justification text a future
  *      contributor reads when deciding whether a colour can move, so a stale
  *      number is a real defect — that is what #211 was filed for, after a
  *      recorded 15.2 survived years of drift from a measured 14.1.
- *   3. STORY FIGURES — the same numbers written into story prose. Check 2 was
+ *   4. STORY FIGURES — the same numbers written into story prose. Check 3 was
  *      scoped to token comments while the convention it enforces ("every
  *      recorded figure must be re-measurable") was never so limited, so this
  *      third surface drifted freely (#223). It is the surface developers copy
  *      from, and it is where the tier rules are taught by worked example — a
  *      story that argues from a stale number teaches the wrong threshold.
  *
- *   4. TEXT SIZE FLOOR — every sub-14px font-size in src/. This is a contrast
+ *   5. TEXT SIZE FLOOR — every sub-14px font-size in src/. This is a contrast
  *      check wearing typography clothes: 12px has no OKCA floor defined for it
  *      in either axis of the tier table, so setting --font-size-xs on text
  *      removes that text from check 1 entirely, and nothing recorded that it
@@ -268,7 +275,113 @@ function checkPairings() {
   return { failures, unresolved, checked, exempted };
 }
 
-// ── 2. recorded figures ──────────────────────────────────────────────────────
+// ── 2. figures recorded in pairing notes ─────────────────────────────────────
+//
+// A note is the justification a contributor reads when deciding whether a colour
+// may move, and several carry the reasoning behind an `exempt` or an unusual
+// `min`. Nothing read them until #239, so every figure in them had been unchecked
+// since the file was created and 16 of 28 had drifted — mostly the klar 2→3
+// re-baseline, which had been applied everywhere the audit could see. That is the
+// diagnostic detail rather than a footnote: the surface stayed stale precisely
+// because it was outside the tool that repaired the others.
+//
+// This case needs no anchor grammar, unlike story prose (check 4): a note belongs
+// to a pairing, so its foreground and background are already known. Only the
+// number and an optional mode have to be parsed.
+//
+// The corollary is a rule for authors: within a note, `OKCA <n>` always means
+// *this pairing's* colours. A figure about some other colour must not be written
+// in this grammar, because the check will confidently measure it against the
+// wrong pair. Put such a comparison in words, or measure the other colour where
+// it lives.
+//
+// `was OKCA <n>` marks a superseded figure, the same marker CLAIM_RE uses. Notes
+// need it more than token comments do: a note is often the record of *why* a
+// colour moved, so it quotes the number the colour used to have. That figure
+// cannot be re-measured — the value it described no longer exists — and without
+// a way to say so, the only options are to report it as permanent drift or to
+// phrase around the parser, which is how a figure ends up unreadable to the tool
+// while still being read by people.
+const NOTE_CLAIM_RE =
+  /(was\s+)?OKCA\s+(\d+(?:\.\d+)?)\s*(light|dark)?(?:\s*\/\s*(\d+(?:\.\d+)?)\s*(light|dark))?/gi;
+
+// Near-misses, on the same principle as NEAR_MISS_RE: report a figure written
+// outside the grammar rather than passing it in silence. Notes have no
+// `on <bg>` to key off — the background is implicit — so the high-confidence
+// signal here is a number adjacent to a mode word, in either order, which is
+// exactly the form the un-audited notes used ("light 10.3, dark 6.1").
+//
+// KNOWN LIMIT: a figure not adjacent to a mode word is not caught. "dark
+// measured 3.9 here" reads as a claim to a human and matches nothing; widening
+// to any bare decimal would flag deltaE values, chroma, lightness and pixel
+// sizes, which are all common in these notes and none of them contrast.
+const NOTE_NEAR_MISS_RES = [
+  /(?<![-\w.])(\d+(?:\.\d+)?)\s+(?:light|dark)\b/gi,
+  /\b(?:light|dark)\s+(\d+(?:\.\d+)?)(?![\w.])/gi,
+];
+
+function noteNearMisses(note) {
+  const spans = [];
+  for (const m of note.matchAll(NOTE_CLAIM_RE)) spans.push([m.index, m.index + m[0].length]);
+  const out = [];
+  for (const re of NOTE_NEAR_MISS_RES) {
+    for (const m of note.matchAll(re)) {
+      if (spans.some(([a, b]) => m.index >= a && m.index < b)) continue;
+      const n = Number(m[1]);
+      if (!(n >= OKCA_MIN && n <= OKCA_MAX)) continue;
+      out.push(m[0].trim());
+    }
+  }
+  return out;
+}
+
+function checkPairingNotes() {
+  const drift = [];
+  const unchecked = [];
+  let checked = 0;
+  let historical = 0;
+
+  for (const p of pairings) {
+    if (!p.note) continue;
+
+    for (const t of noteNearMisses(p.note)) {
+      unchecked.push(`${p.id} — "${t}" reads as a figure but omits the OKCA keyword`);
+    }
+
+    for (const m of p.note.matchAll(NOTE_CLAIM_RE)) {
+      if (m[1]) { historical++; continue; } // "was OKCA …" — describes a value that is gone
+      // One match can carry both modes: "OKCA 5.0 light / 6.8 dark".
+      const claims = [
+        { raw: m[2], claimed: Number(m[2]), mode: (m[3] || 'light').toLowerCase() },
+        ...(m[4] ? [{ raw: m[4], claimed: Number(m[4]), mode: m[5].toLowerCase() }] : []),
+      ];
+
+      for (const c of claims) {
+        const fg = value(c.mode, deref(p.fg));
+        const bg = value(c.mode, deref(p.bg));
+        if (!fg || !bg) {
+          unchecked.push(`${p.id} [${c.mode}] — "${m[0].trim()}" but ${!fg ? p.fg : p.bg} does not resolve`);
+          continue;
+        }
+        if (fg.includes('/') || bg.includes('/')) {
+          unchecked.push(`${p.id} [${c.mode}] — "${m[0].trim()}" is an alpha value, not measurable without compositing`);
+          continue;
+        }
+        checked++;
+        const measured = okca(fg, bg);
+        if (measured !== c.claimed) {
+          drift.push(`${p.id} [${c.mode}] — note records ${c.raw}, measured ${measured}`);
+        } else if (VERBOSE) {
+          console.log(`  ok      ${p.id} [${c.mode}] note ${measured}`);
+        }
+      }
+    }
+  }
+
+  return { drift, unchecked, checked, historical };
+}
+
+// ── 3. recorded figures ──────────────────────────────────────────────────────
 
 // Dark is an override layer: a token the dark mixin does not redeclare keeps the
 // light declaration — and, in the artifact, the light comment. Its recorded figure
@@ -297,6 +410,9 @@ function darkDeclaredNames() {
 const FG_ALIASES = {
   'text-default': 'color.text.default',
   white: 'oklch(1 0 0)',
+  // A filled button's label is the page colour in dark mode, so "bg-page OKCA 7.3
+  // on this bg" is a real claim about a real pairing rather than a category error.
+  'bg-page': 'color.bg.page',
 };
 
 // Backgrounds named in the comments, mapped to their DTCG path. Names that are
@@ -335,8 +451,68 @@ const BG_ALIASES = {
 const CLAIM_RE =
   /(?:(?!was\s)([a-z0-9-]+)\s+)?(was\s+)?OKCA\s+(\d+(?:\.\d+)?)(?:\s+on\s+(this bg|(?:dark|light)\s+[a-z-]+|[a-z-]+))?/gi;
 
+/**
+ * A figure written without the OKCA keyword — "OKCA 9.3 on page, 6.9 on bg-surface" —
+ * is not a claim by the grammar above, so CLAIM_RE does not match it, so nothing is
+ * reported. That silence is the defect: to any reader the second number is
+ * unmistakably a contrast claim about a named background, and this script is the
+ * only thing that would ever say otherwise.
+ *
+ * Found by writing one. Both destructive-button comments were annotated this way
+ * while resolving #224, and the audit's figure count went *down* by one — the only
+ * signal that two new claims had entered the repo unverified. The comment being
+ * replaced had used the full grammar and had been checked, so the edit made the
+ * file less audited while appearing to document it better.
+ *
+ * Reported UNCHECKED rather than parsed, deliberately. Inferring that a bare number
+ * before "on <bg>" is an OKCA figure would work here and would be wrong the first
+ * time someone writes a sentence where it isn't — and a guard that reports a figure
+ * for the wrong colour is worse than one that reports nothing (#218).
+ *
+ * KNOWN LIMIT: only fires when the background name is one BG_ALIASES knows. A
+ * near-miss naming an unrecognised background stays silent, because at that point
+ * "8.2 on the hover fill" is indistinguishable from ordinary prose containing a
+ * number. The high-confidence case is the one that bit, and it is the one caught.
+ *
+ * Two guards keep it off ordinary prose, both added after real false positives:
+ *   - the number must not follow `-`, a word character, or `.`, so the `800` in
+ *     "navy-800 on white page" is a token name and not a reading;
+ *   - it must be inside OKCA's actual range. The scale is bounded at 20.9, and no
+ *     figure is below 1, so "L=0.75 on page" is not a contrast claim either.
+ */
+const NEAR_MISS_RE = /(?<![-\w.])(\d+(?:\.\d+)?)\s+on\s+((?:dark|light)\s+[a-z-]+|[a-z-]+)/gi;
+const OKCA_MIN = 1;
+const OKCA_MAX = 21; // light-on-dark caps at 20.9; anything above is not a reading
+
+/** Spans of `description` already accounted for by a full-grammar claim. */
+function claimSpans(description) {
+  const spans = [];
+  for (const m of description.matchAll(CLAIM_RE)) spans.push([m.index, m.index + m[0].length]);
+  return spans;
+}
+
+function nearMisses(description) {
+  const spans = claimSpans(description);
+  const out = [];
+  for (const m of description.matchAll(NEAR_MISS_RE)) {
+    const start = m.index;
+    if (spans.some(([a, b]) => start >= a && start < b)) continue; // part of a real claim
+    const n = Number(m[1]);
+    if (!(n >= OKCA_MIN && n <= OKCA_MAX)) continue; // not in OKCA's range — see above
+    let key = m[2].toLowerCase();
+    const modePrefix = /^(?:dark|light)\s+(.+)$/.exec(key);
+    if (modePrefix) key = modePrefix[1];
+    if (!(key in BG_ALIASES)) continue; // see KNOWN LIMIT above
+    out.push(m[0].trim());
+  }
+  return out;
+}
+
 function claimsFor(mode, dotted, description) {
   const out = [];
+  for (const t of nearMisses(description)) {
+    out.push({ kind: 'unchecked', text: `${t} — reads as a figure but omits the OKCA keyword` });
+  }
   for (const m of description.matchAll(CLAIM_RE)) {
     const [, fgName, historical, num, target] = m;
     if (historical) { out.push({ kind: 'historical' }); continue; }
@@ -403,7 +579,7 @@ function checkRecordedFigures() {
   return { drift, unchecked, checked, historical, inherited };
 }
 
-// ── 3. recorded figures in story prose ───────────────────────────────────────
+// ── 4. recorded figures in story prose ───────────────────────────────────────
 
 /**
  * A token comment has a free anchor: the declaration it sits on says which
@@ -414,6 +590,18 @@ function checkRecordedFigures() {
  *
  *   a custom property   "--color-text-subtle (OKCA 5.0 on page) fails …"
  *   a hex literal       "**Navy** `#082840` — primary action (OKCA 13.9 on white)"
+ *   an oklch() literal  "--color-brand: oklch(0.45 0.12 250); // OKCA 6.4 on white"
+ *
+ * The oklch() form exists for teaching examples, where the token name is the
+ * reader's to choose and therefore resolves to nothing here — the walkthrough in
+ * chat-example defines `--color-brand`, which is not a Candor token (#219). A
+ * literal is in fact the strongest anchor of the three: it *is* the colour, with
+ * no lookup in between. It also carries the gamut invariant into story samples,
+ * since klar exits non-zero on an unrenderable input and this script does not
+ * pass --allow-out-of-gamut — so a sample colour outside sRGB can no longer have
+ * a contrast figure recorded against it at all, which is the correct outcome:
+ * OKCA is not defined there. Every one of that walkthrough's six samples was
+ * outside sRGB when this was written.
  *
  * The anchor is the nearest one to the LEFT of the figure, which is what lets a
  * single line carry two claims about two colours ("decorative at OKCA 2.6 on
@@ -426,7 +614,7 @@ function checkRecordedFigures() {
 const STORY_GLOB_DIRS = ['src'];
 const STORY_FILE_RE = /\.stories\.ts$/;
 
-const ANCHOR_RE = /--[a-z][a-z0-9-]*|#[0-9a-fA-F]{6}\b/g;
+const ANCHOR_RE = /--[a-z][a-z0-9-]*|#[0-9a-fA-F]{6}\b|oklch\([^)]*\)/gi;
 const STORY_CLAIM_RE = /OKCA\s+(\d+(?:\.\d+)?)(?:\s+on\s+((?:dark|light)\s+[a-z-]+|[a-z-]+))?/gi;
 
 // "OKCA 4.5 bold threshold" states the floor a component must clear; it is not
@@ -491,7 +679,7 @@ function checkStoryFigures() {
           continue;
         }
 
-        const fg = anchor.startsWith('#')
+        const fg = anchor.startsWith('#') || /^oklch\(/i.test(anchor)
           ? anchor
           : byCssVar.has(anchor)
             ? value(mode, byCssVar.get(anchor))
@@ -517,13 +705,21 @@ function checkStoryFigures() {
           console.log(`  ok      ${where} ${anchor} on ${key} ${measured}`);
         }
       }
+
+      // Same near-miss check the token comments get (see NEAR_MISS_RE). There are
+      // none in story prose today — this is symmetry, not a repair. The asymmetry
+      // is the thing worth removing: "checked for this in one file type and not the
+      // other" is a half-covered guard, and a half-covered guard reads as coverage.
+      for (const t of nearMisses(line)) {
+        unchecked.push(`${where} — "${t}" reads as a figure but omits the OKCA keyword`);
+      }
     });
   }
 
   return { drift, unchecked, checked, thresholds };
 }
 
-// ── 4. text below the 14px floor ─────────────────────────────────────────────
+// ── 5. text below the 14px floor ─────────────────────────────────────────────
 //
 // Sub-14px text is not merely a typography rule: 12px is classified decorative
 // in both axes of the tier table, so no OKCA floor is defined for it, and
@@ -642,6 +838,12 @@ console.log(`  ${P.checked} enforced, ${P.exempted} exempt, ${P.failures.length}
 for (const f of P.failures) console.log(`  ✗  ${f}`);
 for (const u of P.unresolved) console.log(`  ?  UNCHECKED ${u}`);
 
+console.log('\nFigures in pairing notes (audit/pairings.json)');
+const N = checkPairingNotes();
+console.log(`  ${N.checked} re-measured, ${N.historical} historical (skipped), ${N.drift.length} drifted`);
+for (const d of N.drift) console.log(`  ✗  ${d}`);
+for (const u of N.unchecked) console.log(`  ?  UNCHECKED ${u}`);
+
 console.log('\nRecorded figures (token descriptions)');
 const R = checkRecordedFigures();
 console.log(
@@ -661,6 +863,7 @@ const T = checkTextSizeFloor();
 console.log(`  ${T.allowed} declared chrome/icon, ${T.violations.length} unaccounted`);
 for (const v of T.violations) console.log(`  ✗  ${v}`);
 
-const failed = TI.length + P.failures.length + R.drift.length + S.drift.length + T.violations.length;
+const failed =
+  TI.length + P.failures.length + N.drift.length + R.drift.length + S.drift.length + T.violations.length;
 console.log(failed ? `\n✗  ${failed} problem(s)` : '\n✓  no drift');
 process.exit(failed ? 1 : 0);

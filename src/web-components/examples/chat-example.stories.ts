@@ -195,7 +195,7 @@ export const AIChatInterface: Story = {
                     font-size: var(--font-size-md);
                     line-height: var(--line-height-normal);
                   ">
-                    What lightness value should I target in OKLCH if a brand primary needs to pass WCAG AA on white?
+                    What lightness should I target in OKLCH if a brand primary needs to clear Candor's contrast floor on the page? I know WCAG AA as 4.5:1 — is that the same thing?
                   </div>
                   <div
                     aria-hidden="true"
@@ -257,18 +257,30 @@ export const AIChatInterface: Story = {
                   <div style="flex: 1; min-width: 0;">
                     <candor-article font="serif" justify lang="en">
                       <p>
-                        For WCAG AA (4.5:1 against white), you need <strong>L&nbsp;≤&nbsp;0.55</strong>. Below that threshold, any reasonably saturated hue gives you the headroom you need — the exact cutoff shifts slightly with chroma, but 0.55 is a safe working ceiling.
+                        Related but not the same, and the difference matters here. Candor's floors are OKCA, which is WCAG-compatible but not identical — across all 216 pairings Candor audits, the OKCA score comes in at or below the WCAG 2.x figure for the same pair, so OKCA is the binding constraint. Build to 4.5:1 in WCAG and you can still miss Candor's 4.5; the gap is widest on dark backgrounds, where WCAG 2.x compresses hardest.
                       </p>
-                      <p>A practical navy starting point:</p>
+                      <p>
+                        There also isn't a single lightness answer, and a threshold that ignores chroma will mislead you. Two things set the cutoff together: contrast is bought with lightness, but the sRGB gamut narrows as lightness falls, so the chroma available falls with it. At Candor's azure hue the most sRGB holds is C&nbsp;0.09 at L&nbsp;0.32 and C&nbsp;0.15 at L&nbsp;0.55 — so "saturated" is not a constant you get to choose independently.
+                      </p>
+                      <p>
+                        Measured at that hue, holding each step at the highest chroma sRGB renders, Candor's 4.5 floor puts the ceiling near <strong>L&nbsp;≤&nbsp;0.52</strong>: <code>oklch(0.50 0.14 250)</code> reaches OKCA 5.0 on page, while <code>oklch(0.55 0.15 250)</code> reaches OKCA 4.0 on page and misses. Check your own hue rather than borrowing that number:
+                      </p>
                       <div class="code-block">
-                        <pre tabindex="0"><code>// WCAG AA on white — L ≤ 0.55
---color-brand:        oklch(0.45 0.20 250);  // 7.1:1 ✅
---color-brand-hover:  oklch(0.38 0.20 250);  // 9.8:1 ✅
---color-brand-active: oklch(0.32 0.20 250);  // 13.2:1 ✅</code></pre>
+                        <pre tabindex="0"><code>klar find "#fff" "oklch(0.55 0.15 250)" --target 4.5</code></pre>
+                        <candor-button variant="ghost" size="small">Copy</candor-button>
+                      </div>
+                      <p>A navy starting point, every value inside sRGB:</p>
+                      <div class="code-block">
+                        <pre tabindex="0"><code>// Candor's 4.5 floor on the page. Chroma is at the sRGB
+// boundary for each L — raise it and the value stops
+// naming a colour any display can render.
+--color-brand:        oklch(0.45 0.12 250);  // OKCA 6.4 on page ✅
+--color-brand-hover:  oklch(0.38 0.10 250);  // OKCA 8.9 on page ✅
+--color-brand-active: oklch(0.32 0.09 250);  // OKCA 11.5 on page ✅</code></pre>
                         <candor-button variant="ghost" size="small">Copy</candor-button>
                       </div>
                       <p>
-                        Holding C and H constant means every interactive state is a pure lightness shift — the color stays recognizably itself across rest, hover, and active.
+                        Holding H constant keeps the colour recognisably itself across rest, hover, and active. C cannot be held with it — each step down in lightness gives up a little chroma, because that is where the gamut boundary is, not because the design asked for it.
                       </p>
                     </candor-article>
                   </div>
@@ -360,18 +372,20 @@ export const AIChatInterface: Story = {
                   <div style="flex: 1; min-width: 0;">
                     <candor-article font="serif" justify lang="en">
                       <p>
-                        Dark mode inverts the contrast direction — now you need enough lightness <em>above</em> the dark background. On Candor's page color (<code>oklch(0.16 0.02 249)</code>), you need <strong>L&nbsp;≥&nbsp;0.60</strong> for 4.5:1.
+                        Dark mode inverts the direction — now you need lightness <em>above</em> the background — and it needs much more of it than feels right. On Candor's page colour (<code>oklch(0.16 0.02 249)</code>), the 4.5 floor sits near <strong>L&nbsp;≥&nbsp;0.74</strong>: <code>oklch(0.72 0.15 250)</code> reaches OKCA 3.9 on dark page and misses, while <code>oklch(0.76 0.12 250)</code> reaches OKCA 5.9 on dark page. Four hundredths of lightness is the whole margin.
                       </p>
-                      <p>Keep the hue; step L up significantly, and ease off chroma slightly — high C at high L reads electric on a dark surface:</p>
+                      <p>Same hue, and chroma tapers as you climb — but note <em>why</em>:</p>
                       <div class="code-block">
-                        <pre tabindex="0"><code>// Same hue, inverted lightness, reduced chroma
---color-brand-dark:        oklch(0.72 0.18 250);  // 5.1:1 on dark page ✅
---color-brand-dark-hover:  oklch(0.80 0.16 250);  // 7.4:1 ✅
---color-brand-dark-active: oklch(0.85 0.14 250);  // 10.2:1 ✅</code></pre>
+                        <pre tabindex="0"><code>// Chroma is at the sRGB boundary at each L, not a
+// stylistic choice — the gamut gives you less of it
+// the lighter you go.
+--color-brand-dark:        oklch(0.76 0.12 250);  // OKCA 5.9 on dark page ✅
+--color-brand-dark-hover:  oklch(0.80 0.10 250);  // OKCA 8.0 on dark page ✅
+--color-brand-dark-active: oklch(0.85 0.07 250);  // OKCA 10.8 on dark page ✅</code></pre>
                         <candor-button variant="ghost" size="small">Copy</candor-button>
                       </div>
                       <p>
-                        The chroma taper (0.18 → 0.14) is the same principle as the dark mode status colors — prevent the neon quality that high C at high L produces against a very dark background.
+                        The taper is usually explained as taste — high C at high L reads electric against a very dark surface, which is true and is why Candor's dark status colours are muted. But at this hue the boundary is stricter than taste would be: sRGB holds C&nbsp;0.12 at L&nbsp;0.76 and only C&nbsp;0.07 by L&nbsp;0.85. A ramp that keeps chroma constant while raising lightness leaves the gamut near the top, and a value outside sRGB specifies nothing — every display resolves it differently, and no contrast figure measured against it is defined.
                       </p>
                     </candor-article>
                   </div>

@@ -50,7 +50,18 @@ const SKIP_GAMUT = process.argv.includes('--skip-gamut');
  * Leading capture walks up from the declaration and stops at a blank line, a
  * box-drawing section divider, or another declaration — so a section header
  * never gets attributed to whichever token happens to be listed first under
- * it. A trailing comment still wins when both are present.
+ * it.
+ *
+ * BOTH are kept when both are present. #217 fixed leading-only capture but left
+ * `trailing || leading`, which silently discarded the leading comment on the 17
+ * declarations that carry both — and six of those discarded comments contained a
+ * contrast figure, so those figures were outside the audit entirely. Not
+ * UNCHECKED: absent, with nothing anywhere recording that they existed. One had
+ * been wrong for as long as it had been invisible (`--color-action-primary`
+ * claiming "gray-800 text on primary: OKCA 5.6" for a label that stopped being
+ * gray-800). That is #217's own defect class one notch narrower, and the reason
+ * the fix is to concatenate rather than to pick a winner: a capture that chooses
+ * bounds every downstream guard to what it chose (#224).
  */
 const DIVIDER_RE = /^\s*\/\/\s*[─—-]{3,}/;
 
@@ -73,7 +84,9 @@ function parseDeclarations(scss) {
     const m = declRe.exec(line);
     if (!m) return;
     const trailing = (m[3] || '').trim();
-    result[m[1]] = { raw: m[2].trim(), comment: trailing || leadingComment(lines, i) };
+    const leading = leadingComment(lines, i);
+    const both = [leading, trailing].filter(Boolean).join(' — ');
+    result[m[1]] = { raw: m[2].trim(), comment: both };
   });
   return result;
 }
