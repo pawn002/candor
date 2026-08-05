@@ -262,6 +262,16 @@ The new value is deltaE 3 from the base it replaces and deltaE 3 from the siblin
 
 ### Fixed (tooling)
 
+- **All 11 Dependabot advisories resolved; `npm audit` reports 0.** Every one was `development` scope, so nothing reached either published package, but the tree carried 4 high (`brace-expansion` ×2, `immutable`, `js-yaml`, `postcss`), 5 moderate and 2 low. Most cleared with a non-breaking `npm audit fix`.
+
+  Five of the six survivors — `uuid`, `nyc`, `jest-junit`, `istanbul-lib-processinfo` and the wrapper itself — traced to a single root: **`@storybook/test-runner`, which nothing in this repo runs.** No `test-runner-jest.config`, no hooks in `.storybook/`, no CI step; only a `test-storybook` npm script that invoked it. It is vestigial from before #148 removed the screenshot specs and made Chromatic the visual gate. Removed, along with the dead script — which is a better outcome than npm's offer of a breaking major bump to a tool with no caller.
+
+  Removing it surfaced a dependency the repo had been getting for free: **`@types/node` was never declared**, arriving transitively via `test-runner` → `jest`. `npm run typecheck` broke the moment the tool left. Now an explicit devDependency at the same version (`^24`) it had been resolving to, so the typecheck depends on something the manifest actually states.
+
+  The last one, `esbuild`, is pinned below the patched version by Storybook 10.4.4, so it needed an `overrides` entry (`^0.28.1`) rather than a bump. Verified the forced version against the thing it could plausibly break: `build-storybook`, `build:wc`, `build:tokens`, `typecheck` and all 28 Playwright tests pass.
+
+- **Regenerated the committed `tokens/` build output, which was two releases stale.** It still held `--color-border-control-on-surface` and the pre-#224 destructive values. The **published package was never affected** — `publish.yml` runs `build:tokens` before `npm publish`, so npm always gets a fresh build — but anyone reading `tokens/candor-tokens.json` in the repo was reading tokens the system had stopped using.
+
 - **`candor-data-grid`'s cell label carries its own background, so `show-labels` is legible on any fill (#229).** The issue was filed against one swatch — `--color-focus`, where no label colour reaches usable contrast in either direction. Re-measured after #223 moved the label from 12px to 14px, which gave it a floor to fail, it was **six** cells across the component's own two demos: the three status fills peak at OKCA 4.2–4.4 against 6.5, the heat map's High and Med cells at 4.2 and 5.9, and `--color-focus` at 2.7 — where klar reports `unreachable`, meaning no colour whatsoever clears even 4.5 against it.
 
   Not a palette mistake. Every failing cell sits at L 0.54–0.75 with real chroma, and contrast is bought with lightness: a saturated fill in the middle of the lightness range cannot host text, which is the same geometry recorded in "contrast is bought with chroma".
