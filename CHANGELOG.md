@@ -6,6 +6,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed (tooling)
+
+- **The `chromatic` CI job no longer runs on Dependabot pull requests.** GitHub withholds repository secrets from Dependabot-triggered runs, so the job could only ever fail there with `✖ Missing project token`, ~15 seconds in, having snapshotted nothing — a red check reporting on the absence of a credential rather than on the bump. It was never blocking (`chromatic` is deliberately not a required status check), but a column that is always red for a reason unrelated to the change is a column people learn to skip.
+
+  Recorded alongside the skip, because the skip alone would be a hole: `autoAcceptChanges` is true on `main`, so a Dependabot PR merged directly would have its rendering changes adopted as the new baseline with nobody having reviewed them. The policy the skip depends on is that **Dependabot PRs are notifications** — updates land through a human-authored batch PR, where the secret exists and the visual diff gets a real review. A Dependabot-scoped copy of the token was considered and rejected: `npm ci` runs dependency install scripts in that same job, so a compromised version of any transitive dev dependency — precisely what these PRs change — would execute next to a write-scoped project token.
+
+### Changed (tooling)
+
+- **Dev-dependency updates batched:** Storybook 10.3.5/10.4.4 → 10.5.6 (`storybook`, `@storybook/addon-a11y`, `@storybook/addon-docs`, `@storybook/addon-themes`, `@storybook/web-components-vite`), `@chromatic-com/storybook` 5.1.2 → 5.2.1, `@playwright/test` 1.59.1 → 1.62.1, `vite-plugin-dts` 5.0.0 → 5.0.3. Supersedes Dependabot #251, #205 and #204. Verified: `typecheck`, `audit:tokens` (180 colours in gamut, artifact unchanged), `audit:contrast` (238 enforced pairings, 0 failing, no drift), `test:playwright` (28/28), `build:tokens`, `build:wc`, `build-storybook`, `npm audit` 0 vulnerabilities. `typescript` 5.9.3 → 7.0.2 (#203) is deliberately not in this batch — a major belongs in its own PR.
+
 ## [5.0.0] - 2026-08-05
 
 ### Breaking changes
