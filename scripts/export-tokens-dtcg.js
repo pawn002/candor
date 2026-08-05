@@ -213,25 +213,64 @@ function suggestInGamut(color) {
 }
 
 /**
- * Every oklch() literal in a stylesheet, with the line it sits on.
+ * Every oklch() literal in a source file, with the line it sits on.
  *
  * Scans raw text rather than the parsed token map for two reasons. Parsing
  * semantics.scss as one map would collide light and dark on the same token
  * name and silently drop one of the two values. And an oklch() that is *not* a
- * custom-property declaration — a hard-coded fill in a rule body — is exactly
- * as unrenderable as one that is, so the gate should see it.
+ * custom-property declaration — a hard-coded fill in a rule body, a gradient
+ * stop in a story — is exactly as unrenderable as one that is, so the gate
+ * should see it.
+ *
+ * Only *plain numeric* literals are judged: `oklch(L C H)` and `oklch(L C H / A)`.
+ * Two forms are deliberately skipped, and the second is the one worth knowing
+ * about:
+ *
+ *   - Template interpolation (`oklch(${l} ${c} ${h})`) has no value to judge
+ *     until it runs.
+ *   - Relative colour syntax (`oklch(from var(--token) l c h / 0.08)`) derives
+ *     from a token that is itself gated here, so the base is guaranteed. Alpha-
+ *     only derivations stay in gamut trivially. The four sites that shift
+ *     *lightness* while holding chroma — `calc(l - 0.04)` on
+ *     --color-action-tertiary-hover and `calc(l - 0.06)` on --color-bg-surface,
+ *     in buttons.scss and candor-button.ts — are the shape that genuinely can
+ *     leave the gamut, since the chroma bound moves with L. All four were
+ *     measured in both modes when the scan was widened (#228) and all four are
+ *     in gamut, because those tokens carry chroma 0 or 0.03 and sit nowhere
+ *     near a boundary. That is true of the current values, not by construction:
+ *     a future token with real chroma under one of these rules would need
+ *     resolving before it could be judged, which this static scan cannot do.
  */
 function scanOklch(file) {
-  const text = fs.readFileSync(file, 'utf8');
+  // Strip comments before scanning: a value quoted in a comment is prose — a
+  // historical figure, a worked example — not an authored colour. Block
+  // comments are blanked in place so line numbers survive.
+  const text = fs
+    .readFileSync(file, 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\r\n]/g, ' '));
   const found = [];
   text.split(/\r?\n/).forEach((line, i) => {
-    const code = line.replace(/\/\/.*$/, ''); // figures in comments are prose, not colours
-    for (const m of code.matchAll(/oklch\([^)]*\)/g)) {
+    const code = line.replace(/\/\/.*$/, '');
+    for (const m of code.matchAll(/oklch\(\s*[\d.]+\s+[\d.]+\s+[\d.]+\s*(?:\/\s*[\d.%]+\s*)?\)/g)) {
       const decl = /(--[\w-]+)\s*:/.exec(code.slice(0, m.index));
       found.push({ name: decl ? decl[1] : '(inline)', raw: m[0], line: i + 1 });
     }
   });
   return found;
+}
+
+/** Every .ts / .scss file under src/, which is the gate's scan surface (#228). */
+function sourceFiles() {
+  const out = [];
+  const visit = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) visit(full);
+      else if (/\.(ts|scss)$/.test(entry.name) && !/\.d\.ts$/.test(entry.name)) out.push(full);
+    }
+  };
+  visit(path.join(ROOT, 'src'));
+  return out.sort();
 }
 
 /**
@@ -240,10 +279,31 @@ function scanOklch(file) {
  * Checks *authored* literals rather than resolved semantic values: a semantic
  * that aliases a primitive is the same colour, so scanning literals covers
  * every distinct colour exactly once and reports the declaration a contributor
- * actually has to edit. Covers every stylesheet in src/design-tokens/, not
- * just the two this script exports from — syntax.scss is not in the DTCG
- * artifact but its colours are still authored Candor colours, and six of them
- * were outside sRGB when the gate was written.
+ * actually has to edit.
+ *
+ * SCOPE: every .ts and .scss file under src/, not only src/design-tokens/.
+ * The gate originally scanned the token directory, on the reasonable premise
+ * that tokens are where colours live. They are not: 16 of 36 oklch() literals
+ * elsewhere in src/ were outside sRGB when that was measured (#228) — gradient
+ * stops in stories, heat-map sample data in the data-grid demo, the endpoints
+ * of a lightness ramp in the colour-tool example.
+ *
+ * The invariant's own wording settles the scope question, which is why the
+ * scan moved rather than the prose: "every authored Candor colour must be
+ * renderable in sRGB" (#225). The argument for it never depended on the value
+ * being a token — an out-of-gamut OKLCH value delegates the final colour to
+ * whatever consumes it, so it names no single colour, and that is as true of a
+ * gradient stop as of a token. These render in published Storybook under
+ * Candor's name, as the system's own output.
+ *
+ * There is deliberately NO opt-out. One was considered for "deliberate
+ * out-of-gamut fixtures" in the colour-tool demo, and inspection found none:
+ * every one of the 16 was an ordinary authored colour, and the colour-iterator
+ * cases were constant-chroma lightness ramps — the textbook trap CLAUDE.md
+ * already documents, not a fixture. An escape hatch with no user is pure
+ * attack surface, and the #218 lesson is that a lightly-used exemption becomes
+ * the default. If a genuine fixture ever appears, build the mechanism then,
+ * shaped by the real case.
  */
 function checkGamut(sources) {
   try {
@@ -264,8 +324,9 @@ function checkGamut(sources) {
   const violations = [];
   const seen = new Map(); // value → verdict, so a repeated colour costs one klar call
   let checked = 0;
-  for (const file of sources) {
-    for (const { name, raw, line } of scanOklch(path.join(ROOT, 'src/design-tokens', file))) {
+  for (const abs of sources) {
+    const file = path.relative(ROOT, abs).replace(/\\/g, '/');
+    for (const { name, raw, line } of scanOklch(abs)) {
       // Alpha does not affect whether the base colour is renderable; measure
       // the opaque form so a translucent token is still held to the invariant.
       const opaque = raw.replace(/\s*\/\s*[^)]+\)/, ')');
@@ -392,15 +453,12 @@ const darkOwnRaw = parseDeclarations(extractMixin(semanticsScss, 'dark-color-tok
 const darkRaw  = { ...lightRaw, ...darkOwnRaw };
 
 // 2a. Gamut gate — before anything is emitted, so a colour sRGB cannot render
-// never reaches the artifact, a component, or a contrast figure. Discovered by
-// listing the directory rather than named here, so a new token stylesheet is
-// covered the day it lands instead of the day someone remembers this list.
+// never reaches the artifact, a component, or a contrast figure. Files are
+// discovered by walking src/ rather than named here, so a new stylesheet or
+// story is covered the day it lands instead of the day someone remembers this
+// list — which is the failure the widened scope fixed (#228).
 if (!SKIP_GAMUT) {
-  checkGamut(
-    fs.readdirSync(path.join(ROOT, 'src/design-tokens'))
-      .filter((f) => f.endsWith('.scss'))
-      .sort()
-  );
+  checkGamut(sourceFiles());
 }
 
 // 3. Resolve all var() references

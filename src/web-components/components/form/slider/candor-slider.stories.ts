@@ -38,7 +38,7 @@ track — use it to show the lightness or hue spectrum the slider is traversing:
   gradient="linear-gradient(to right,
     oklch(0.36 0.12 142),
     oklch(0.65 0.12 142),
-    oklch(0.94 0.12 142))"
+    oklch(0.94 0.11 142))"
 ></candor-slider>
 \`\`\`
 
@@ -115,7 +115,7 @@ export const GradientTrack: Story = {
       },
     },
   },
-  render: () => html`<candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.12 142))"></candor-slider>`,
+  render: () => html`<candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.11 142))"></candor-slider>`,
   // Gradient mode hides the numeric display; valueTextFn gives the screen reader the
   // L value it otherwise couldn't infer from the raw decimal. Function → set in play.
   play: setElementProps('candor-slider', { valueTextFn: (v: number) => `L=${v.toFixed(2)}` }),
@@ -130,7 +130,7 @@ export const AllVariants: Story = {
       </candor-card>
       <candor-card>
         <span slot="header">Vivid green — C 0.12, gamut L 0.36–0.94</span>
-        <candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.12 142))"></candor-slider>
+        <candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.11 142))"></candor-slider>
       </candor-card>
       <candor-card>
         <span slot="header">Muted rose — C 0.054, gamut L 0.12–0.93</span>
