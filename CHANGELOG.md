@@ -6,6 +6,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **`@candor-design/web-components` now declares its `culori` dependency, and `@candor-design/tokens` no longer ships the TypeScript compiler (#254).** Two mistakes that had been cancelling each other out.
+
+  `web-components/dist/tone-data.js` — the `./tone-data` entry point — contains a bare `import … from "culori"` by design (`external: ['culori']`, so consumers who already use culori don't get a second copy). But the package declared **no dependencies at all**, so that import resolved only because `@candor-design/tokens` carried `culori` in *its* runtime dependencies, where it did not belong. Verified by negative control: with culori absent, `import '@candor-design/web-components/tone-data'` fails with `ERR_MODULE_NOT_FOUND`. Removing it from `tokens` without this fix would have published a broken entry point.
+
+  `@candor-design/tokens` ships `files: ["tokens"]` — four CSS/JSON artifacts — and declared ten runtime dependencies. `typescript`, `lit` and `tslib` moved to `devDependencies`; `@standard-schema/spec` was removed outright (its only occurrence anywhere in the repo was its own `package.json` line). The five `@fontsource*` entries stay: `candor-fonts.css` `@import`s them by bare specifier, so a consumer's bundler must resolve them. A clean install of both packages now resolves to the five font packages plus culori, with no compiler.
+
+  Also corrected: the tone-picker story described culori as "a peer dependency of the `/tone-data` entry point" — nothing declared such a peer — and said the CIEDE2000 labels were "computed at build time", when `buildGamutRows` runs at module top level and computes them on import.
+
+- **Added `npm run audit:packaging`, gating what the published packages declare against what their built artifacts reference.** Runs in CI in the `build-web-components` job, after `build:wc`, since it reads the gitignored `web-components/dist`.
+
+  Two directions, because the bug had two halves: **undeclared** (a bare specifier in a published artifact that no manifest declares — breaks a consumer's install) and **unused** (a declared runtime dependency no published artifact references — how a compiler ends up in a stylesheet's dependency tree). `peerDependencies` are exempt from the unused check, since a peer is a claim about consumer coordination rather than about what the bundle imports. Verified by tripwire in both directions.
+
+  This is the gap that let #254 exist: `build:tokens` validates the artifacts, `audit:*` validate colour, `typecheck` and `test:playwright` run against source — **nothing read a manifest.** And an undeclared import cannot fail locally, because this repo hoists every package into one `node_modules`; it surfaces only in a clean install somewhere else. No allowlist, per the `audit:tokens` precedent — inspection found no legitimate exception in either direction.
+
 ### Fixed (tooling)
 
 - **The `chromatic` CI job no longer runs on Dependabot pull requests.** GitHub withholds repository secrets from Dependabot-triggered runs, so the job could only ever fail there with `✖ Missing project token`, ~15 seconds in, having snapshotted nothing — a red check reporting on the absence of a credential rather than on the bump. It was never blocking (`chromatic` is deliberately not a required status check), but a column that is always red for a reason unrelated to the change is a column people learn to skip.

@@ -107,6 +107,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build:wc
+      # Gates what the published packages *declare* against what their built
+      # artifacts *reference*. It lives here rather than in the `audit` job
+      # because it reads web-components/dist, which is gitignored and therefore
+      # only exists after the build step above.
+      #
+      # An undeclared import cannot fail anywhere else: this repo hoists every
+      # package into one node_modules, so a missing declaration resolves fine
+      # here and breaks only in a consumer's clean install (#254).
+      - run: npm run audit:packaging
 
   accessibility:
     # Keyboard / focus / ARIA behaviour the visual gate (Chromatic) can't see.
