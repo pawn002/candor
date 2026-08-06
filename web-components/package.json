@@ -46,6 +46,9 @@
     "access": "public",
     "provenance": true
   },
+  "dependencies": {
+    "culori": "^4.0.2"
+  },
   "peerDependencies": {
     "@candor-design/tokens": ">=4.0.0"
   }
