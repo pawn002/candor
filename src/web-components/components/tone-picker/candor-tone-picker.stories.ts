@@ -77,8 +77,9 @@ import { NAVY_GAMUT_ROWS, NAVY_GAMUT_HEADERS } from '@candor-design/web-componen
 \`\`\`
 
 For custom hues, use \`buildGamutRows\` — it accepts the raw L × C grid and the anchor coordinates, and
-returns a \`ToneRow[]\` with CIEDE2000 labels computed at build time (culori is a peer dependency of the
-\`/tone-data\` entry point and is not bundled into it):
+returns a \`ToneRow[]\` whose labels carry the CIEDE2000 distance from the anchor. culori computes those
+distances and is **not** bundled into the \`/tone-data\` entry, so the entry imports it at runtime; it is a
+declared \`dependency\` of \`@candor-design/web-components\` and needs no action from you (#254):
 
 \`\`\`ts
 import { buildGamutRows } from '@candor-design/web-components/tone-data';
