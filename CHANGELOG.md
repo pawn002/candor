@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [5.0.1] - 2026-08-05
+
 ### Fixed
 
 - **`@candor-design/web-components` now declares its `culori` dependency, and `@candor-design/tokens` no longer ships the TypeScript compiler (#254).** Two mistakes that had been cancelling each other out.
