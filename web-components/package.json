@@ -1,6 +1,6 @@
 {
   "name": "@candor-design/web-components",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Candor design system — Lit 3 custom elements. Framework-agnostic web components paired with @candor-design/tokens.",
   "type": "module",
   "main": "./dist/candor-web-components.umd.cjs",
