@@ -6,6 +6,7 @@
   "main": "./dist/candor-web-components.umd.cjs",
   "module": "./dist/candor-web-components.js",
   "types": "./dist/index.d.ts",
+  "customElements": "custom-elements.json",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -19,6 +20,7 @@
   },
   "files": [
     "dist",
+    "custom-elements.json",
     "README.md"
   ],
   "sideEffects": true,
