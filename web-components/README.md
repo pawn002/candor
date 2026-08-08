@@ -16,6 +16,8 @@ The rules live in the **[component catalog](https://main--69c25e2492ad056c243298
 - Which icon set Candor uses and how an icon's weight is chosen. The icon font is not shipped in this package.
 - Which parts of a component are safe to restyle, and which are unsupported.
 
+The package also ships a **[Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest)** at `custom-elements.json`, declared via the `customElements` field. VS Code and JetBrains read it for tag and attribute completion, and it is the machine-readable form of everything above: every element's description, attributes, events, CSS parts and custom properties. It is generated from the component sources and checked against them in CI, so it cannot drift. It is a dev-time artifact — editors and tooling read it, and it never reaches a browser.
+
 Three facts about this package's own API, recorded here because *absence* is invisible in a declaration file:
 
 - The form controls emit **`change`** and **`input`**. There is no `changed` event — a listener bound to it never fires, and nothing reports that.

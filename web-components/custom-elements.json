@@ -1,0 +1,5072 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/accordion/candor-accordion-item.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One expandable section. **There is no accordion container** — this is the item\nonly, and the name says so.\n\nTwo consequences. Sequential items form an accordion by adjacency, with no\nwrapper to add. And nothing enforces one-open-at-a-time: if the design needs\nthat exclusivity, the consumer closes the siblings in response to `toggle`.\nMost of the time exclusivity is not wanted anyway — it hides content the user\njust asked to compare.\n\n`toggle` reports the new state, and `open` **is** updated by the component, so\nthis is not a controlled component in the way modal and drawer are. Bind\n`toggle` to react, not to assign.\n\nThe choice against `candor-disclosure` is grouping: a disclosure is one\nstandalone \"show more\" affordance; this is a member of a set and is styled to\nsit in a stack.\n\n`variant=\"quiet\"` renders the heading at weight 500. Structural nesting is\nwhat makes it legible at that weight — do not use it for a standalone item\nwhere that context is absent.\n\nContent stays in the DOM when collapsed, so it remains findable by in-page\nsearch.",
+          "name": "CandorAccordionItem",
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "'default' | 'subtle' | 'quiet'"
+              },
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "description": "detail: boolean — the new open state",
+              "name": "toggle"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "'default' | 'subtle' | 'quiet'"
+              },
+              "default": "'default'",
+              "fieldName": "variant"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-accordion-item",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorAccordionItem",
+          "declaration": {
+            "name": "CandorAccordionItem",
+            "module": "src/web-components/components/accordion/candor-accordion-item.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-accordion-item",
+          "declaration": {
+            "name": "CandorAccordionItem",
+            "module": "src/web-components/components/accordion/candor-accordion-item.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/alert/candor-alert.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A persistent inline message about the state of the surrounding content.\n\nThe choice against `candor-toast` is persistence, not severity: an alert stays\nuntil the condition changes and sits in the layout next to what it concerns; a\ntoast is transient and floats. Anything the user must be able to re-read —\na form-level failure, a permissions notice — belongs here.\n\nEach variant renders its own icon *shape*, with no way to turn it off. That\ncomponent-rendered icon is what makes the meaning redundantly coded rather\nthan carried by colour alone, and it is why the variant is safe to rely on\nhere in a way it is not on `candor-stat`.\n\nThe `role` follows the variant: `error` and `warning` announce assertively,\nthe others politely. Set the variant to match the severity rather than the\npalette you want, because it is choosing the announcement behaviour too.\n\nSupply the body through `message` or the default slot — `message` wins when\nboth are set. Use the slot when the body needs markup such as a link.\n\n`dismissible` adds a close button. It hides the alert but does not resolve the\nunderlying condition; if the condition can recur, re-render rather than\nassuming dismissal was final.",
+          "name": "CandorAlert",
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "AlertVariant"
+              },
+              "default": "'info'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "message"
+            },
+            {
+              "kind": "field",
+              "name": "dismissible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "dismissible"
+            }
+          ],
+          "events": [
+            {
+              "name": "dismiss",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: none — the user activated the close button"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "AlertVariant"
+              },
+              "default": "'info'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "message"
+            },
+            {
+              "name": "dismissible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "dismissible"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-alert",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorAlert",
+          "declaration": {
+            "name": "CandorAlert",
+            "module": "src/web-components/components/alert/candor-alert.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-alert",
+          "declaration": {
+            "name": "CandorAlert",
+            "module": "src/web-components/components/alert/candor-alert.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/badge/candor-badge.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A small status or category marker.\n\n**The label must name the condition, not just be present.** Colour cannot be\nthe sole channel for meaning, and the tinted background does not rescue it\n(see below). The redundant channel here is the *text*, which is structurally\nmandatory because a badge with no content is not a badge — but it only counts\nif it says what the condition is:\n\n```html\n<candor-badge variant=\"error\">3</candor-badge>          <!-- no channel: \"3\" says nothing -->\n<candor-badge variant=\"error\">3 failed</candor-badge>   <!-- correct -->\n```\n\nCandor cannot enforce this, so it is an authoring rule rather than a\nconstraint — which is exactly why it is written here, where the decision is\nmade.\n\n**Do not treat the tinted background as a variant channel.** At L 0.95 the\nsRGB gamut permits almost no chroma at red or amber, so\n`--color-status-error-bg` and `--color-status-warning-bg` sit about deltaE 4\napart — at the edge of imperceptible for everyone, not just as a CVD edge\ncase. Error and warning badges are told apart by their words, not their fill.\n\nFor an outcome that has already happened and wants an icon, consider\n`candor-accessible-text role_=\"state\"`, whose icon is component-rendered and\ntherefore cannot be omitted.\n\nEmits no custom events.",
+          "name": "CandorBadge",
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "BadgeVariant"
+              },
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "BadgeSize"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "BadgeVariant"
+              },
+              "default": "'default'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "BadgeSize"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-badge",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorBadge",
+          "declaration": {
+            "name": "CandorBadge",
+            "module": "src/web-components/components/badge/candor-badge.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-badge",
+          "declaration": {
+            "name": "CandorBadge",
+            "module": "src/web-components/components/badge/candor-badge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/breadcrumb/candor-breadcrumb.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A hierarchical trail showing where the current page sits.\n\nItems come from the `items` array, not from slotted markup. **Include the\ncurrent page as the last item** — the component marks it `aria-current=\"page\"`\nand renders it as static text rather than a link, so omitting it leaves the\ntrail pointing at ancestors with no anchor for where the user actually is.\n\nThe component supplies its own `<nav aria-label=\"Breadcrumb\">` wrapper. Do not\nnest it in another `<nav>`; that produces two navigation landmarks for one\ncontrol.\n\nSeparators are drawn by a CSS `::after` using the content alt-text form\n(`content: '/' / ''`), so the slash is painted but announces as nothing. The\n`<ol>`/`<li>` structure carries the hierarchy for assistive technology. There\nis no separator element to style or replace.\n\nThis is a trail, not a history stack: it should reflect the site's structure,\nnot the route the user took to arrive.\n\nEmits no custom events — items are ordinary links and navigate directly.",
+          "name": "CandorBreadcrumb",
+          "members": [
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "BreadcrumbItem[]"
+              },
+              "default": "[]",
+              "attribute": "items"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "items",
+              "type": {
+                "text": "BreadcrumbItem[]"
+              },
+              "default": "[]",
+              "fieldName": "items"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-breadcrumb",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorBreadcrumb",
+          "declaration": {
+            "name": "CandorBreadcrumb",
+            "module": "src/web-components/components/breadcrumb/candor-breadcrumb.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-breadcrumb",
+          "declaration": {
+            "name": "CandorBreadcrumb",
+            "module": "src/web-components/components/breadcrumb/candor-breadcrumb.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/button/candor-button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A button.\n\n**It dispatches no custom events.** Bind `@click` on the host — the inner\n`<button>`'s click crosses the shadow boundary, so a host listener receives\nit. There is no `press`, `activate` or `button-click`; a listener bound to one\nof those never fires and nothing reports it.\n\n**Sizes are `small`, `medium` and `large`. There is no `size=\"icon\"`.** An\nunrecognised value is accepted silently, produces no class, and renders at the\ndefault size — so the mistake is invisible. For an icon-only button, use a\nsize and supply `aria-label`.\n\n`aria-label` on the host is supported: it is mirrored onto the inner button\nand stripped from the host, so the name is announced once rather than twice.\nAn icon-only button needs it, since the glyph carries no text.\n\n`type=\"submit\"` works inside a native `<form>`.\n\n**A disabled button needs an adjacent explanation, and it must not be a\ntooltip.** Native `disabled` removes the button from the tab order, so a\nhover- or focus-gated tooltip is unreachable by keyboard and screen reader —\nthe users most likely to need it. WCAG 1.4.3 exempts the dimmed label from\ncontrast, and that dimming does signal \"unavailable\"; what it can no longer\ncarry is *why*, or what would unlock it. Put that in a readable,\nenabled-contrast element next to the button, where it sits in document order\nand everyone meets it. There is deliberately no `hint` property — the\nconsumer supplies the adjacent element.\n\n`variant=\"destructive\"` is for irreversible actions. It is a colour, not a\nconfirmation: pair it with one where the action warrants it.\n\nEmits no custom events.",
+          "name": "CandorButton",
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "ButtonVariant"
+              },
+              "default": "'primary'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "ButtonSize"
+              },
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'button'",
+              "attribute": "type"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "ButtonVariant"
+              },
+              "default": "'primary'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "ButtonSize"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'button'",
+              "fieldName": "type"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssParts": [
+            {
+              "name": "button"
+            }
+          ],
+          "cssProperties": [
+            {
+              "name": "--candor-button-font-size"
+            },
+            {
+              "name": "--candor-button-min-height"
+            },
+            {
+              "name": "--candor-button-padding-x"
+            },
+            {
+              "name": "--candor-button-padding-y"
+            },
+            {
+              "name": "--candor-button-radius"
+            }
+          ],
+          "tagName": "candor-button",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorButton",
+          "declaration": {
+            "name": "CandorButton",
+            "module": "src/web-components/components/button/candor-button.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-button",
+          "declaration": {
+            "name": "CandorButton",
+            "module": "src/web-components/components/button/candor-button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/card/candor-card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A surface grouping related content. Three named regions: the default slot for\nthe body, plus optional `header` and `footer` slots that render their chrome\nonly when filled.\n\n**Do not use `<header>` or `<footer>` elements in the slotted content.** They\ncarry implicit `banner` and `contentinfo` landmark roles, and the HTML spec\nonly suppresses that inside `article`, `aside`, `main`, `nav` and `section` —\nnot inside a custom element. A card in a dialog or panel then contributes a\npage-level landmark, which pollutes the landmark list assistive technology\nnavigates by. Use `<div>`, or `role=\"none\"` if the element is required.\n\nA card is presentational: it has no heading of its own and no role. If the\ncard's content is a section, put a `candor-heading` in the `header` slot so\nthe grouping is conveyed structurally rather than only visually.\n\n`padding=\"none\"` is for content that manages its own inset — a full-bleed\nimage or an embedded table.\n\nEmits no custom events.",
+          "name": "CandorCard",
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "CardVariant"
+              },
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "padding",
+              "type": {
+                "text": "CardPadding"
+              },
+              "default": "'md'",
+              "attribute": "padding",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "CardVariant"
+              },
+              "default": "'default'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "padding",
+              "type": {
+                "text": "CardPadding"
+              },
+              "default": "'md'",
+              "fieldName": "padding"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-card",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorCard",
+          "declaration": {
+            "name": "CandorCard",
+            "module": "src/web-components/components/card/candor-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-card",
+          "declaration": {
+            "name": "CandorCard",
+            "module": "src/web-components/components/card/candor-card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/chip/candor-chip.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A compact interactive token — a filter, a selected value, a removable tag.\n\nThe distinction from `candor-badge` is interactivity: a badge is a marker the\nuser reads, a chip is something they toggle, remove or follow. A chip with\nneither `selectable`, `dismissible` nor `link-href` is a badge with extra\nmachinery; use `candor-badge`.\n\nThe three modes render different elements and are not fully independent:\n`selectable` makes the body a toggle button carrying `aria-pressed`,\n`link-href` makes it an anchor, and `dismissible` adds a separate remove\nbutton alongside either. Setting both `selectable` and `link-href` is\nambiguous — pick one.\n\n`label` is a **property, not a slot**, because it also builds the remove\nbutton's accessible name (\"Remove <label>\"). A chip with no `label` gives that\nbutton no name.\n\n`change` reports selection state; `dismiss` asks to be removed. **Neither\nremoves the chip** — `dismiss` does not hide it, so the consumer owns the\nlist and must drop the item in response. A chip that stays put after the user\nclicks its × is the expected failure here.",
+          "name": "CandorChip",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "ChipVariant"
+              },
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selectable"
+            },
+            {
+              "kind": "field",
+              "name": "dismissible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "dismissible"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "linkHref",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "link-href"
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: boolean — the new selected state (selectable mode only)"
+            },
+            {
+              "name": "dismiss",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: none — the user asked to remove this chip; the consumer must remove it"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "ChipVariant"
+              },
+              "default": "'default'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selectable"
+            },
+            {
+              "name": "dismissible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "dismissible"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selected"
+            },
+            {
+              "name": "link-href",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "linkHref"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-chip",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorChip",
+          "declaration": {
+            "name": "CandorChip",
+            "module": "src/web-components/components/chip/candor-chip.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-chip",
+          "declaration": {
+            "name": "CandorChip",
+            "module": "src/web-components/components/chip/candor-chip.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/code/candor-code.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Inline code — the drop-in that bundles the `--color-bg-code` / `--color-text-code`\ntoken pair (plus mono font, padding, radius, border) so they can't be\nhalf-applied. Using `--color-bg-code` alone yields invisible dark-on-dark text\n(#170); this element renders the pair correctly by construction.\n\nFor block/multiline code, wrap in a `<pre>` or use a syntax-highlighting\nsurface — this element is for inline spans within prose.\n\nEmits no custom events.",
+          "name": "CandorCode",
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssParts": [
+            {
+              "name": "code"
+            }
+          ],
+          "tagName": "candor-code",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorCode",
+          "declaration": {
+            "name": "CandorCode",
+            "module": "src/web-components/components/code/candor-code.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-code",
+          "declaration": {
+            "name": "CandorCode",
+            "module": "src/web-components/components/code/candor-code.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/data-grid/candor-data-grid.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A two-dimensional grid of selectable cells — a colour matrix, a seat map, a\nswatch picker.\n\nChoose against `candor-table` on interaction, not on data shape: a table is\ncontent to read; this is a widget the user navigates cell by cell with arrow\nkeys, as `role=\"grid\"` promises. Using it for text a reader only scans\nimposes a keyboard model that gets in the way.\n\n**Pass data through attributes, not a `<script>` tag.** A `<script>` inside a\nlit-html story template never executes, so the element silently renders empty:\n\n```html\n<candor-data-grid rows='${JSON.stringify(rows)}' column-headers='${JSON.stringify(headers)}'></candor-data-grid>\n```\n\nThe JS property is camelCase (`el.columnHeaders`); the attribute is\n`column-headers`.\n\n`GridCell.background` and `foreground` are per-cell colour overrides for\nmatrices whose cells *are* the data. **They bypass the token system and\ntherefore the contrast audit** — nothing measures a colour supplied at\nruntime, so the pairing is the consumer's responsibility. Do not reach for\nthem for ordinary emphasis.\n\n`cell-activate` carries the row and column indexes and the `GridCell` itself.\nSelection is not applied for you: set `GridCell.selected` and re-render.\n\n`hide-headers` hides the headers visually but keeps them for assistive\ntechnology, so the grid stays navigable; `show-labels` renders each cell's\n`label` as visible text rather than leaving it as the accessible name only.\n\nSet `caption` — it is the grid's accessible name.",
+          "name": "CandorDataGrid",
+          "members": [
+            {
+              "kind": "field",
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "caption"
+            },
+            {
+              "kind": "field",
+              "name": "columnHeaders",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "attribute": "column-headers"
+            },
+            {
+              "kind": "field",
+              "name": "rows",
+              "type": {
+                "text": "GridRow[]"
+              },
+              "default": "[]",
+              "attribute": "rows"
+            },
+            {
+              "kind": "field",
+              "name": "hideHeaders",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hide-headers",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showLabels",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-labels"
+            }
+          ],
+          "events": [
+            {
+              "name": "cell-activate",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: CandorCellActivateDetail — `{ row, col, cell }` for the activated cell"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "caption"
+            },
+            {
+              "name": "column-headers",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "fieldName": "columnHeaders"
+            },
+            {
+              "name": "rows",
+              "type": {
+                "text": "GridRow[]"
+              },
+              "default": "[]",
+              "fieldName": "rows"
+            },
+            {
+              "name": "hide-headers",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideHeaders"
+            },
+            {
+              "name": "show-labels",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showLabels"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssProperties": [
+            {
+              "name": "--candor-data-grid-cell-min-height"
+            }
+          ],
+          "tagName": "candor-data-grid",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorDataGrid",
+          "declaration": {
+            "name": "CandorDataGrid",
+            "module": "src/web-components/components/data-grid/candor-data-grid.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-data-grid",
+          "declaration": {
+            "name": "CandorDataGrid",
+            "module": "src/web-components/components/data-grid/candor-data-grid.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/disclosure/candor-disclosure.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A standalone \"show more\" — one label, one collapsible region.\n\nThe choice against `candor-accordion-item` is grouping: use this when the\nsection stands alone, and the accordion item when it belongs to a stack.\n\n`toggle` reports the new state and `open` is updated by the component, so bind\n`toggle` to react rather than to assign.\n\n`label` is a property, not a slot, because it also becomes the trigger's\naccessible name. It must describe what is revealed — \"Show more\" alone tells a\nscreen-reader user nothing about what expands.\n\nContent stays in the DOM when collapsed, so it is still found by in-page\nsearch and still costs render time. Do not use this to defer expensive work,\nand do not hide anything a user is likely to need — a collapsed section is\neffectively invisible to someone scanning.\n\n`::part(trigger)` is exposed for restyling the summary row.",
+          "name": "CandorDisclosure",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "toggle",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: boolean — the new open state"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssParts": [
+            {
+              "name": "icon"
+            },
+            {
+              "name": "label"
+            },
+            {
+              "name": "panel"
+            },
+            {
+              "name": "trigger"
+            }
+          ],
+          "cssProperties": [
+            {
+              "name": "--candor-disclosure-trigger-padding-x"
+            },
+            {
+              "name": "--candor-disclosure-trigger-padding-y"
+            }
+          ],
+          "tagName": "candor-disclosure",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorDisclosure",
+          "declaration": {
+            "name": "CandorDisclosure",
+            "module": "src/web-components/components/disclosure/candor-disclosure.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-disclosure",
+          "declaration": {
+            "name": "CandorDisclosure",
+            "module": "src/web-components/components/disclosure/candor-disclosure.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/drawer/candor-drawer.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A panel sliding in from an edge, backed by the native `<dialog>`.\n\n**Controlled.** `close` reports dismissal; the component does not clear `open`\nfor you.\n\nChoose against `candor-modal` on interruption rather than shape: a modal\nblocks the task until answered, a drawer sits alongside it. If the user could\nreasonably keep working, this is the right component — and if they genuinely\ncan, also set `modal=\"false\"`, which uses a non-modal dialog that does not\ntrap focus or inert the page. A modal drawer that is really a side panel makes\nthe rest of the page unusable for no reason.\n\nNon-modal drawers deliberately do **not** steal focus on open, so a persistent\ninspector or filter panel does not yank the caret out of whatever the user is\ntyping in.\n\n`modal` and `dismiss-on-backdrop` both use a custom boolean converter rather\nthan `type: Boolean` — see their own comments. The short version: write\n`modal=\"false\"`, not a bare attribute, and expect the string `\"false\"` to be\nhonoured, which Lit's default converter would not do.\n\n**Do not put `<header>` or `<footer>` in slotted content** — they contribute\n`banner` and `contentinfo` landmarks that are not suppressed inside a dialog.\nThe component's own header sets `role=\"none\"` for this reason.\n\n`--candor-drawer-size` and `--candor-drawer-height` override the size rungs\nfor a one-off without a new variant.",
+          "name": "CandorDrawer",
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "position",
+              "type": {
+                "text": "DrawerPosition"
+              },
+              "default": "'right'",
+              "attribute": "position",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "DrawerSize"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dismissOnBackdrop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Whether clicking the backdrop dismisses the drawer. Default true. Set\n`dismiss-on-backdrop=\"false\"` to require an explicit close (data-loss guard\nfor flows where an accidental outside-click would discard unsaved work).\n\nA custom converter (not `type: Boolean`) is required so\n`dismiss-on-backdrop=\"false\"` parses to `false`: Lit's boolean converter\ntreats *any* present attribute — including the string \"false\" — as `true`,\nwhich would silently keep backdrop-dismiss on. Same trap as `modal` below.",
+              "attribute": "dismiss-on-backdrop"
+            },
+            {
+              "kind": "field",
+              "name": "modal",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Default true preserves current (modal) behavior. Set `modal=\"false\"` for a\nnon-modal side panel — e.g. a persistent assistant, inspector, or filter panel\nthe user works alongside — that doesn't trap focus or dim the page.\n\nA custom converter (not `type: Boolean`) is required so `modal=\"false\"` parses\nto `false`: Lit's boolean converter treats *any* present attribute — including\nthe string \"false\" — as `true`, which would make `modal=\"false\"` silently modal.\nReflected as \"true\"/\"false\" so CSS can target the non-modal state via\n`:host([modal='false'])`.",
+              "attribute": "modal",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "close",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: none — the user dismissed the drawer; the consumer must clear `open`"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "position",
+              "type": {
+                "text": "DrawerPosition"
+              },
+              "default": "'right'",
+              "fieldName": "position"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "DrawerSize"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "dismiss-on-backdrop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Whether clicking the backdrop dismisses the drawer. Default true. Set\n`dismiss-on-backdrop=\"false\"` to require an explicit close (data-loss guard\nfor flows where an accidental outside-click would discard unsaved work).\n\nA custom converter (not `type: Boolean`) is required so\n`dismiss-on-backdrop=\"false\"` parses to `false`: Lit's boolean converter\ntreats *any* present attribute — including the string \"false\" — as `true`,\nwhich would silently keep backdrop-dismiss on. Same trap as `modal` below.",
+              "fieldName": "dismissOnBackdrop"
+            },
+            {
+              "name": "modal",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Default true preserves current (modal) behavior. Set `modal=\"false\"` for a\nnon-modal side panel — e.g. a persistent assistant, inspector, or filter panel\nthe user works alongside — that doesn't trap focus or dim the page.\n\nA custom converter (not `type: Boolean`) is required so `modal=\"false\"` parses\nto `false`: Lit's boolean converter treats *any* present attribute — including\nthe string \"false\" — as `true`, which would make `modal=\"false\"` silently modal.\nReflected as \"true\"/\"false\" so CSS can target the non-modal state via\n`:host([modal='false'])`.",
+              "fieldName": "modal"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssProperties": [
+            {
+              "name": "--candor-drawer-height"
+            },
+            {
+              "name": "--candor-drawer-size"
+            }
+          ],
+          "tagName": "candor-drawer",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorDrawer",
+          "declaration": {
+            "name": "CandorDrawer",
+            "module": "src/web-components/components/drawer/candor-drawer.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-drawer",
+          "declaration": {
+            "name": "CandorDrawer",
+            "module": "src/web-components/components/drawer/candor-drawer.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/autocomplete/candor-autocomplete.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A free-text input that offers non-binding suggestions as the user types —\nthe web-component analogue of a native `<input list>` + `<datalist>`.\n\nThe distinction from `candor-combobox` is the whole point of this component:\nhere the committed value is ALWAYS the raw text the user typed. Suggestions\nare hints, never a constraint — the user may pick one or ignore them and type\nanything. `candor-combobox`, by contrast, constrains the value to its option\nset and emits the chosen `ComboboxOption`. Reach for autocomplete when the\nfield accepts open input but a known set of values is worth surfacing (model\nnames discovered from an endpoint, previously-used tags, common cities).\n\nEvents follow the Candor two-event rule (see events.ts / #164): `input` fires\nthe live text on every keystroke; `change` fires the committed text on blur,\non Enter, and when a suggestion is chosen. Both carry a plain string — the\nsame shape as candor-input — because the value is always free text.\n\nSee `candor-select` for the four-way comparison across all the pickers.",
+          "name": "CandorAutocomplete",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "hint",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "hint"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled"
+            },
+            {
+              "kind": "field",
+              "name": "suggestions",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "description": "Non-binding suggestions surfaced as the user types. The value is never\nconstrained to this list — picking one just fills the field.",
+              "attribute": "suggestions"
+            },
+            {
+              "kind": "field",
+              "name": "maxSuggestions",
+              "type": {
+                "text": "number"
+              },
+              "default": "8",
+              "description": "Cap on how many filtered suggestions to show at once (discovered lists can\nbe long). 0 or negative means no cap.",
+              "attribute": "max-suggestions"
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: string — the committed text, on blur, Enter, or suggestion choice"
+            },
+            {
+              "name": "input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: string — the live text, on every keystroke"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "error"
+            },
+            {
+              "name": "hint",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "hint"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "suggestions",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "description": "Non-binding suggestions surfaced as the user types. The value is never\nconstrained to this list — picking one just fills the field.",
+              "fieldName": "suggestions"
+            },
+            {
+              "name": "max-suggestions",
+              "type": {
+                "text": "number"
+              },
+              "default": "8",
+              "description": "Cap on how many filtered suggestions to show at once (discovered lists can\nbe long). 0 or negative means no cap.",
+              "fieldName": "maxSuggestions"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssParts": [
+            {
+              "name": "error-message"
+            },
+            {
+              "name": "hint"
+            },
+            {
+              "name": "input"
+            },
+            {
+              "name": "label"
+            }
+          ],
+          "cssProperties": [
+            {
+              "name": "--candor-autocomplete-font-size"
+            },
+            {
+              "name": "--candor-autocomplete-padding-x"
+            },
+            {
+              "name": "--candor-autocomplete-padding-y"
+            },
+            {
+              "name": "--candor-autocomplete-radius"
+            }
+          ],
+          "tagName": "candor-autocomplete",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorAutocomplete",
+          "declaration": {
+            "name": "CandorAutocomplete",
+            "module": "src/web-components/components/form/autocomplete/candor-autocomplete.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-autocomplete",
+          "declaration": {
+            "name": "CandorAutocomplete",
+            "module": "src/web-components/components/form/autocomplete/candor-autocomplete.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/chat-input/candor-chat-input.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "The composer for a conversational surface — an auto-growing textarea with a\nsend affordance.\n\n**Enter sends; Shift+Enter inserts a newline.** That is the convention users\nbring from chat clients, and it is not configurable here.\n\n**The component clears itself after a successful send** and announces \"Message\nsent\" in a live region. Do not also clear it from your `send` handler, and do\nnot treat the event as a request you may decline — by the time it fires the\ntext is already gone. If the send can fail, keep your own copy of\n`detail.value` so you can restore or retry.\n\nWhitespace-only input is ignored, and no event fires while `disabled`. Note\nthat the guard trims but `detail.value` does not — a message with leading or\ntrailing whitespace arrives with it intact, so trim at the point of use if\nthat matters.\n\nUnlike the other form controls this is **not** form-associated: it does not\nparticipate in `<form>` submission or `FormData`. It is a message composer,\nnot a field.\n\n`disclaimer` renders standing small print beneath the composer — model\nfallibility notices and similar. It is not a validation channel.",
+          "name": "CandorChatInput",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Message'",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Type a message…'",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "disclaimer",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "disclaimer"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled"
+            }
+          ],
+          "events": [
+            {
+              "name": "send",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: CandorChatInputSendDetail — `{ value }`, the message text, after the composer has cleared"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Message'",
+              "fieldName": "label"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Type a message…'",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "disclaimer",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "disclaimer"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-chat-input",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorChatInput",
+          "declaration": {
+            "name": "CandorChatInput",
+            "module": "src/web-components/components/form/chat-input/candor-chat-input.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-chat-input",
+          "declaration": {
+            "name": "CandorChatInput",
+            "module": "src/web-components/components/form/chat-input/candor-chat-input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/checkbox/candor-checkbox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single checkbox. Independent by design — unlike `candor-radio`, there is no\ngrouping mechanism here, because checkboxes are not mutually exclusive and\nneed no roving-focus shim.\n\nA set of related checkboxes should still be wrapped in a `<fieldset>` with a\n`<legend>`, which is what names the set for assistive technology. That is a\nconsumer-level markup rule this component cannot enforce; nothing breaks\nfunctionally without it, but the group has no accessible name.\n\nNames itself with `label`, which renders a real `<label>`. Setting\n`aria-label` on the host does **not** reach the inner input — this component\ndoes not forward it.\n\nA disabled checkbox must carry an adjacent explanation of why it is locked; a\ngreyed control with no reason reads as broken.",
+          "name": "CandorCheckbox",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "checked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "name"
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: boolean — the new checked state, on user toggle"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "checked"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "name"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-checkbox",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorCheckbox",
+          "declaration": {
+            "name": "CandorCheckbox",
+            "module": "src/web-components/components/form/checkbox/candor-checkbox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-checkbox",
+          "declaration": {
+            "name": "CandorCheckbox",
+            "module": "src/web-components/components/form/checkbox/candor-checkbox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/combobox/candor-combobox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A filterable picker: the user types to narrow the list, but the committed\nvalue is **constrained to the option set**.\n\nThat constraint is the whole distinction from `candor-autocomplete`, which\naccepts whatever the user types and treats its suggestions as non-binding.\nReach for this when a value outside the set would be invalid (a country, an\naccount, a known tag); reach for autocomplete when free text is legitimate and\nthe suggestions are a convenience.\n\n**`change` can fire with `detail: null`** — that is the \"no valid selection\"\nsignal, emitted when the user clears or abandons a partial entry. A handler\nthat assumes an object will throw on it. `input` carries the raw filter text\nas a string and is not a value commit.\n\nSee `candor-select` for the four-way comparison across all the pickers.\n\n`aria-label` on the host is supported and is mirrored inward. A disabled\ncombobox must carry a `hint` explaining the lock.",
+          "name": "CandorCombobox",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Search…'",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "hint",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "hint"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled"
+            },
+            {
+              "kind": "field",
+              "name": "options",
+              "type": {
+                "text": "ComboboxOption[]"
+              },
+              "default": "[]",
+              "attribute": "options"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: string — the live filter text, on every keystroke"
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: ComboboxOption | null — the committed option, or null when none is selected"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Search…'",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "error"
+            },
+            {
+              "name": "hint",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "hint"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "options",
+              "type": {
+                "text": "ComboboxOption[]"
+              },
+              "default": "[]",
+              "fieldName": "options"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-combobox",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorCombobox",
+          "declaration": {
+            "name": "CandorCombobox",
+            "module": "src/web-components/components/form/combobox/candor-combobox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-combobox",
+          "declaration": {
+            "name": "CandorCombobox",
+            "module": "src/web-components/components/form/combobox/candor-combobox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/input/candor-input.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Single- or multi-line text entry. Set `multiline` to render a `<textarea>`\ninstead of an `<input>`; `rows` and `resize` apply only in that mode.\n\nTwo events, and the distinction is the usual one: `input` fires the live value\non every keystroke, `change` fires the committed value on blur. Both carry a\nplain string in `detail`. There is no `changed` event — a listener bound to\nthat name never fires and nothing reports it.\n\n`error` renders the message in a pre-established live region and sets\n`aria-invalid`, so assign it reactively rather than conditionally rendering\nthe element. Validation errors render at 16px here, which is deliberate:\nmust-read text is Tier 1, and Tier 1 regular text below 16px cannot meet its\ncontrast floor in any chromatic colour (#240). Prefer this built-in `error`\nover a hand-placed message, which is easy to size at 14px by accident.\n\n`hint` is for standing guidance (format, constraints). A **disabled** input\nmust carry one explaining the lock — permission boundary, system constraint,\nor something the user can change elsewhere — because a greyed field with no\nexplanation reads as broken.\n\n**Name it with `label`, not `aria-label`.** Unlike `candor-select`,\n`candor-listbox`, `candor-combobox`, `candor-autocomplete`, `candor-switch`\nand `candor-slider`, this component does not forward `aria-label` from the\nhost to the inner control. ARIA on a custom-element host does not reach into\nits shadow root, so `<candor-input aria-label=\"Email\">` leaves the `<input>`\nunnamed and adds a named generic to the accessibility tree. `label` renders a\nreal `<label for>` and is the supported path.",
+          "name": "CandorInput",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "'text' | 'email' | 'password' | 'number'"
+              },
+              "default": "'text'",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "hint",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "hint"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "multiline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "multiline"
+            },
+            {
+              "kind": "field",
+              "name": "rows",
+              "type": {
+                "text": "number"
+              },
+              "default": "3",
+              "attribute": "rows"
+            },
+            {
+              "kind": "field",
+              "name": "resize",
+              "type": {
+                "text": "'none' | 'vertical' | 'both'"
+              },
+              "default": "'vertical'",
+              "attribute": "resize"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "autocomplete",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "autocomplete"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: string — the live value, on every keystroke"
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: string — the committed value, on blur"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "'text' | 'email' | 'password' | 'number'"
+              },
+              "default": "'text'",
+              "fieldName": "type"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "error",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "error"
+            },
+            {
+              "name": "hint",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "hint"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "name"
+            },
+            {
+              "name": "multiline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "multiline"
+            },
+            {
+              "name": "rows",
+              "type": {
+                "text": "number"
+              },
+              "default": "3",
+              "fieldName": "rows"
+            },
+            {
+              "name": "resize",
+              "type": {
+                "text": "'none' | 'vertical' | 'both'"
+              },
+              "default": "'vertical'",
+              "fieldName": "resize"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "autocomplete",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "autocomplete"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssParts": [
+            {
+              "name": "error-message"
+            },
+            {
+              "name": "hint"
+            },
+            {
+              "name": "input"
+            },
+            {
+              "name": "label"
+            }
+          ],
+          "cssProperties": [
+            {
+              "name": "--candor-input-font-size"
+            },
+            {
+              "name": "--candor-input-padding-x"
+            },
+            {
+              "name": "--candor-input-padding-y"
+            },
+            {
+              "name": "--candor-input-radius"
+            }
+          ],
+          "tagName": "candor-input",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorInput",
+          "declaration": {
+            "name": "CandorInput",
+            "module": "src/web-components/components/form/input/candor-input.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-input",
+          "declaration": {
+            "name": "CandorInput",
+            "module": "src/web-components/components/form/input/candor-input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/listbox/candor-listbox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A styleable dropdown — a custom trigger button plus an ARIA listbox popup,\nrather than a native `<select>`.\n\nPrefer `candor-select` unless the trigger or the options need presentation the\nnative control cannot give you. This component reimplements the popup,\nkeyboard model and dismiss behaviour that the platform would otherwise\nprovide, and on mobile it replaces the OS picker with a web one.\n\n**`change.detail` is the whole `ListboxOption` object, not a string** — the\ndifference from `candor-select`, and the easiest thing to get wrong when\nswitching between them. Read `detail.value` for the value.\n\nSee `candor-select` for the four-way comparison against `candor-combobox` and\n`candor-autocomplete`.\n\n`aria-label` on the host is supported and is mirrored inward. A disabled\nlistbox must carry a `hint` explaining the lock.",
+          "name": "CandorListbox",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Select an option'",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "hint",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "hint"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled"
+            },
+            {
+              "kind": "field",
+              "name": "options",
+              "type": {
+                "text": "ListboxOption[]"
+              },
+              "default": "[]",
+              "attribute": "options"
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: ListboxOption — the selected option object"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Select an option'",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "error"
+            },
+            {
+              "name": "hint",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "hint"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "options",
+              "type": {
+                "text": "ListboxOption[]"
+              },
+              "default": "[]",
+              "fieldName": "options"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-listbox",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorListbox",
+          "declaration": {
+            "name": "CandorListbox",
+            "module": "src/web-components/components/form/listbox/candor-listbox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-listbox",
+          "declaration": {
+            "name": "CandorListbox",
+            "module": "src/web-components/components/form/listbox/candor-listbox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/radio/candor-radio.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single radio button. **Groups are resolved structurally, not by `name`** —\nthis is the one thing to know before using it.\n\nEach radio lives in its own shadow root, so the browser cannot tie\nshared-`name` inputs into a mutually-exclusive, arrow-navigable set the way it\ndoes for native inputs. The component reimplements both behaviours by querying\nsibling `candor-radio[name=\"…\"]` elements within a scope — and that scope is\n`closest('fieldset')`, falling back to `parentElement`.\n\nThe practical consequence: wrap every group in a `<fieldset>` with a\n`<legend>`. Any real layout puts each option in its own wrapper element, and\nwithout the fieldset the scope collapses to that wrapper — so each radio sees\nonly itself. **Arrow-key navigation and mutual exclusion both stop, silently.**\nNo error is raised, nothing is logged, and the control still looks correct.\n\n```html\n<fieldset>\n  <legend>Notification frequency</legend>\n  <div><candor-radio name=\"freq\" value=\"all\" label=\"Everything\"></candor-radio></div>\n  <div><candor-radio name=\"freq\" value=\"none\" label=\"Nothing\"></candor-radio></div>\n</fieldset>\n```\n\nThe `<legend>` is not decorative: it is what names the group for assistive\ntechnology, and each radio's own label names only the option.\n\nA disabled radio needs an adjacent explanation of why — a locked control with\nno reason reads as broken. See the disabled-hint convention in CLAUDE.md.",
+          "name": "CandorRadio",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Group identity — but **not** the grouping mechanism, unlike a native\n`<input type=\"radio\">`. Radios with the same `name` are only tied together\nif they also share a `<fieldset>` (see the class comment): `name` selects\nthe siblings, the fieldset bounds the search. Setting `name` alone on radios\nin separate wrappers produces a group that silently does not group.\n\nLeaving it unset opts out of grouping entirely — `_groupSiblings` returns\nempty, so arrow keys and mutual exclusion do nothing.",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "checked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: string — this radio's `value`, when the user selects it"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Group identity — but **not** the grouping mechanism, unlike a native\n`<input type=\"radio\">`. Radios with the same `name` are only tied together\nif they also share a `<fieldset>` (see the class comment): `name` selects\nthe siblings, the fieldset bounds the search. Setting `name` alone on radios\nin separate wrappers produces a group that silently does not group.\n\nLeaving it unset opts out of grouping entirely — `_groupSiblings` returns\nempty, so arrow keys and mutual exclusion do nothing.",
+              "fieldName": "name"
+            },
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "checked"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-radio",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorRadio",
+          "declaration": {
+            "name": "CandorRadio",
+            "module": "src/web-components/components/form/radio/candor-radio.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-radio",
+          "declaration": {
+            "name": "CandorRadio",
+            "module": "src/web-components/components/form/radio/candor-radio.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/select/candor-select.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A dropdown backed by a **native `<select>`**. Options come from the `options`\narray, not from slotted `<option>` markup.\n\nCandor has four option-pickers and they are easy to confuse. The axes are\nwhether the value is constrained to the option set, and what arrives in\n`change.detail`:\n\n| | constrained | filterable | `change.detail` |\n|---|---|---|---|\n| `candor-select` | yes | no | `string` |\n| `candor-listbox` | yes | no | `ListboxOption` |\n| `candor-combobox` | yes | yes | `ComboboxOption \\| null` |\n| `candor-autocomplete` | no | yes | `string` |\n\nReach for this one first. Being a real `<select>`, it gets the platform's own\npicker — which on mobile is a native wheel or sheet that no custom popup\nmatches for usability, and which needs no focus-trap or dismiss handling.\nChoose `candor-listbox` only when the trigger or options need styling the\nnative control does not allow.\n\n`aria-label` on the host is supported: it is mirrored inward and stripped from\nthe host so the name is announced once.\n\nA disabled select must carry a `hint` explaining the lock — commonly this\ncontrol is disabled because it has no options yet, which is invisible to the\nuser unless said.",
+          "name": "CandorSelect",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "options",
+              "type": {
+                "text": "SelectOption[]"
+              },
+              "default": "[]",
+              "attribute": "options"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "hint",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "hint"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "name"
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: string — the selected option's `value`"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "options",
+              "type": {
+                "text": "SelectOption[]"
+              },
+              "default": "[]",
+              "fieldName": "options"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "error",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "error"
+            },
+            {
+              "name": "hint",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "hint"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "name"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-select",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorSelect",
+          "declaration": {
+            "name": "CandorSelect",
+            "module": "src/web-components/components/form/select/candor-select.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-select",
+          "declaration": {
+            "name": "CandorSelect",
+            "module": "src/web-components/components/form/select/candor-select.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/slider/candor-slider.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A range slider. The defaults (`min` 0, `max` 1, `step` 0.001) are tuned for\nnormalised axes such as OKLCH lightness and chroma rather than for percentages\nor counts — set all three explicitly for anything else.\n\n**`valueTextFn` is how the value is announced**, via `aria-valuetext`. Without\nit, assistive technology reads the raw number, which for a normalised axis is\nmeaningless (\"0.482\"). There is deliberately no built-in formatter: axes like\nchroma have a maximum that moves with lightness and hue, so any auto-computed\nlabel would be confidently wrong. Supply the semantics.\n\nIt takes a function, so it must be set as a **property**, not an attribute —\n`el.valueTextFn = v => …` or lit's `.valueTextFn=${…}`. The attribute form\ncannot carry a function.\n\n`input` fires continuously as the user drags; `change` fires once on release.\nBind expensive work to `change`.\n\n**There is no `hint` property.** The disabled state dims the host, which would\ndim an internal hint along with it — so a disabled slider's explanation goes\nin an adjacent `<candor-accessible-text role_=\"annotation\">`, which stays at\nfull contrast. That explanation is required, not optional: a dimmed slider\nwith no reason reads as broken.\n\n`aria-label` on the host is supported and is mirrored onto the inner input.",
+          "name": "CandorSlider",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "step",
+              "type": {
+                "text": "number"
+              },
+              "default": "0.001",
+              "attribute": "step"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "valueTextFn",
+              "type": {
+                "text": "(v: number) => string | undefined"
+              },
+              "attribute": "value-text-fn"
+            },
+            {
+              "kind": "field",
+              "name": "gradient",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "gradient"
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: number — the live value, continuously while dragging"
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: number — the committed value, on release"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "min",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "min"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "max"
+            },
+            {
+              "name": "step",
+              "type": {
+                "text": "number"
+              },
+              "default": "0.001",
+              "fieldName": "step"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "value"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "value-text-fn",
+              "type": {
+                "text": "(v: number) => string | undefined"
+              },
+              "fieldName": "valueTextFn"
+            },
+            {
+              "name": "gradient",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "gradient"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssProperties": [
+            {
+              "name": "--candor-slider-gradient-height"
+            },
+            {
+              "name": "--candor-slider-thumb-size"
+            },
+            {
+              "name": "--candor-slider-track-height"
+            }
+          ],
+          "tagName": "candor-slider",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorSlider",
+          "declaration": {
+            "name": "CandorSlider",
+            "module": "src/web-components/components/form/slider/candor-slider.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-slider",
+          "declaration": {
+            "name": "CandorSlider",
+            "module": "src/web-components/components/form/slider/candor-slider.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/form/switch/candor-switch.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A toggle for a setting that takes effect immediately.\n\nThe choice against `candor-checkbox` is about *when* the change applies, not\nabout appearance: a switch commits on toggle, a checkbox commits when the\nsurrounding form is submitted. A switch inside a form with a Save button is\nthe wrong control — it promises immediacy the form does not deliver.\n\n`aria-label` on the host **is** supported here: it is mirrored onto the inner\ncontrol and stripped from the host, so screen readers announce the name once\nrather than twice. Prefer the visible `label` where the design allows one.\n\n`hint` is the standing explanation slot. A disabled switch must use it to say\nwhy the control is locked — for a switch especially, since the off state and\nthe disabled state look similar and the user cannot tell whether the setting\nis off or unavailable.",
+          "name": "CandorSwitch",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "hint",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "hint"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "checked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required"
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: boolean — the new checked state, on user toggle"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label"
+            },
+            {
+              "name": "hint",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "hint"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "name"
+            },
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "checked"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-switch",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorSwitch",
+          "declaration": {
+            "name": "CandorSwitch",
+            "module": "src/web-components/components/form/switch/candor-switch.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-switch",
+          "declaration": {
+            "name": "CandorSwitch",
+            "module": "src/web-components/components/form/switch/candor-switch.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/menu/candor-menu.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A dropdown menu of commands.\n\n`entries` is a union: a `MenuItem` object, or the literal string\n`'separator'`. Separators are rendered as `role=\"separator\"` and skipped by\nkeyboard navigation, so they cost nothing to include.\n\n```ts\nentries = [{label:'Rename'}, 'separator', {label:'Delete', disabled:true}];\n```\n\n**A menu is for actions, not for choosing a value.** If the result is a value\nbound to a field, use `candor-select` or `candor-listbox` — those are form\ncontrols and participate in submission; this is not.\n\nSetting `checked` on any item switches every item's role from `menuitem` to\n`menuitemradio` for that render, which changes how the whole set is announced.\nThat is right for a set of mutually exclusive view options and wrong for a\nmixed list of commands where one happens to be checked.\n\n`select` carries the whole `MenuItem`, not an index or a label. Disabled items\ndo not emit it.\n\n`label` names the trigger and must describe what the menu affects — several\nmenus all labelled \"Options\" are indistinguishable by voice control and in a\nscreen reader's control list.",
+          "name": "CandorMenu",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "entries",
+              "type": {
+                "text": "MenuEntry[]"
+              },
+              "default": "[]",
+              "attribute": "entries"
+            },
+            {
+              "kind": "field",
+              "name": "align",
+              "type": {
+                "text": "'left' | 'right'"
+              },
+              "default": "'left'",
+              "attribute": "align"
+            }
+          ],
+          "events": [
+            {
+              "name": "select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: MenuItem — the chosen entry"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "entries",
+              "type": {
+                "text": "MenuEntry[]"
+              },
+              "default": "[]",
+              "fieldName": "entries"
+            },
+            {
+              "name": "align",
+              "type": {
+                "text": "'left' | 'right'"
+              },
+              "default": "'left'",
+              "fieldName": "align"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-menu",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorMenu",
+          "declaration": {
+            "name": "CandorMenu",
+            "module": "src/web-components/components/menu/candor-menu.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-menu",
+          "declaration": {
+            "name": "CandorMenu",
+            "module": "src/web-components/components/menu/candor-menu.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/modal/candor-modal.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A modal dialog, backed by the native `<dialog>` element and `showModal()` —\nso the focus trap, inertness of the page behind, and Escape-to-close come from\nthe platform rather than from script.\n\n**Controlled.** `close` reports that the user dismissed it; the component does\nnot clear `open` for you. Set `open = false` in response or it reopens on the\nnext render.\n\nSet `alert` for a decision the user cannot postpone — it switches the role to\n`alertdialog`, which tells assistive technology to announce the content\nimmediately. Use it for destructive confirmations, not for ordinary forms.\n\n**Do not put `<header>` or `<footer>` in slotted content.** They carry\nimplicit `banner` and `contentinfo` landmark roles, which are not suppressed\ninside a dialog, so they leak page-level landmarks into the dialog. The\ncomponent's own header already sets `role=\"none\"` for this reason; use `<div>`\nin anything you slot.\n\nThe body is focusable and named, so a scrollable dialog can be reached and\nscrolled by keyboard — a scroll region that cannot receive focus is\nunreachable without a pointer.\n\nChoose against `candor-drawer` on interruption, not on size: a modal blocks\nthe task until answered; a drawer is a panel alongside it. If the user could\nreasonably keep working, it is a drawer.",
+          "name": "CandorModal",
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "alert",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "alert"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "ModalSize"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "close",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: none — the user dismissed the dialog; the consumer must clear `open`"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "alert",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "alert"
+            },
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "ModalSize"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssProperties": [
+            {
+              "name": "--candor-modal-max-width"
+            }
+          ],
+          "tagName": "candor-modal",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorModal",
+          "declaration": {
+            "name": "CandorModal",
+            "module": "src/web-components/components/modal/candor-modal.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-modal",
+          "declaration": {
+            "name": "CandorModal",
+            "module": "src/web-components/components/modal/candor-modal.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/navigation/candor-navigation.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A primary navigation bar — brand, links, and optional per-item badges.\n\nItems come from the `items` array. Mark the active item with `active: true`;\nit renders `aria-current=\"page\"`, which is what tells a screen-reader user\nwhere they are. Styling alone does not.\n\nThe component supplies its own `<nav>` landmark named by `label` (default\n\"Main navigation\"). **Change `label` if a page has more than one of these** —\ntwo navigation landmarks with the same name are indistinguishable in a\nlandmark list, which is the case the name exists for. Do not nest this in\nanother `<nav>`.\n\n`item.badge` renders a count. Give it `badgeLabel` whenever the number alone\nis ambiguous: \"3\" beside Messages announces as \"3\", which does not say three\n*what*. `badgeLabel` supplies the accessible name (\"3 unread messages\").\n\n`theme=\"inverse\"` is for dark bars. It changes the token set the links draw\nfrom, so contrast stays validated; do not approximate it with a background\ncolour and default links.\n\nEmits no custom events — items are ordinary links and navigate directly.",
+          "name": "CandorNavigation",
+          "members": [
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "NavItem[]"
+              },
+              "default": "[]",
+              "attribute": "items"
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "theme",
+              "type": {
+                "text": "'default' | 'inverse'"
+              },
+              "default": "'default'",
+              "attribute": "theme",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "brand",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "brand"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Main navigation'",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "items",
+              "type": {
+                "text": "NavItem[]"
+              },
+              "default": "[]",
+              "fieldName": "items"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "theme",
+              "type": {
+                "text": "'default' | 'inverse'"
+              },
+              "default": "'default'",
+              "fieldName": "theme"
+            },
+            {
+              "name": "brand",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "brand"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Main navigation'",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-navigation",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorNavigation",
+          "declaration": {
+            "name": "CandorNavigation",
+            "module": "src/web-components/components/navigation/candor-navigation.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-navigation",
+          "declaration": {
+            "name": "CandorNavigation",
+            "module": "src/web-components/components/navigation/candor-navigation.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/pagination/candor-pagination.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Page navigation for a paged collection.\n\n**Controlled, not self-advancing.** `change` reports the page the user asked\nfor; the component does not move to it. Assign `current-page` in response, or\nthe control appears dead. The requested page is clamped to\n`1…total-pages` before the event fires, so `detail` is always in range.\n\n`compact` swaps the numbered buttons for a \"Page N of M\" readout in a live\nregion — appropriate for narrow viewports and for large page counts where a\nnumbered strip is more noise than navigation.\n\n`aria-label` on the host is supported and names the nav landmark. Set it when\na page has more than one paginated region, so the two are distinguishable in\na landmark list.\n\nPrevious/Next disable themselves at the ends rather than wrapping.",
+          "name": "CandorPagination",
+          "members": [
+            {
+              "kind": "field",
+              "name": "currentPage",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "current-page"
+            },
+            {
+              "kind": "field",
+              "name": "totalPages",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "total-pages"
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "compact",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: number — the requested page, clamped to 1…total-pages"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "current-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "currentPage"
+            },
+            {
+              "name": "total-pages",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "totalPages"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "compact"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-pagination",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorPagination",
+          "declaration": {
+            "name": "CandorPagination",
+            "module": "src/web-components/components/pagination/candor-pagination.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-pagination",
+          "declaration": {
+            "name": "CandorPagination",
+            "module": "src/web-components/components/pagination/candor-pagination.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/progress/candor-progress.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Progress feedback, as a determinate bar or a spinner.\n\n`indeterminate` is not cosmetic: it drops `aria-valuenow`/`min`/`max` so\nassistive technology announces \"busy\" rather than a number. Use it whenever\nthe completion fraction is unknown — a spinner showing a fabricated\npercentage is worse than no percentage.\n\n`value` is a **percentage, 0–100**, not a 0–1 fraction. Passing 0.75 renders a\nbar at 1% rather than three-quarters, and nothing rejects it.\n\n`label` should say what is in progress (\"Uploading report\"), not that\nsomething is. It becomes the accessible name; without it the name falls back\nto a host `aria-label` and then to \"Loading\", which tells a screen-reader user\nnothing about what they are waiting for.\n\nThe bar announces its own percentage through `aria-valuetext`, so a visible\npercentage beside it is duplication for screen-reader users — set one or the\nother.\n\nEmits no custom events. Progress is driven entirely by the consumer setting\n`value`; there is no completion event.",
+          "name": "CandorProgress",
+          "members": [
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "ProgressType"
+              },
+              "default": "'bar'",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "indeterminate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "indeterminate"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "ProgressSize"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "type",
+              "type": {
+                "text": "ProgressType"
+              },
+              "default": "'bar'",
+              "fieldName": "type"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "value"
+            },
+            {
+              "name": "indeterminate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "indeterminate"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "ProgressSize"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-progress",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorProgress",
+          "declaration": {
+            "name": "CandorProgress",
+            "module": "src/web-components/components/progress/candor-progress.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-progress",
+          "declaration": {
+            "name": "CandorProgress",
+            "module": "src/web-components/components/progress/candor-progress.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/stat/candor-stat.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single numeric readout — a value, an optional unit, and a label naming what\nis measured.\n\n**`color` is not a redundant channel, and this is the one thing to get right\nhere.** Unlike `candor-alert` and `candor-accessible-text role_=\"state\"`, this\ncomponent renders no icon: \"847 ms\" in amber and \"847 ms\" in green differ only\nin hue. The value is a number and the label names the *quantity*, not whether\nit is good — so nothing in the default rendering tells a reader who cannot use\ncolour that the figure is a problem.\n\nThe default `<slot>` is where that channel goes, and\n`candor-accessible-text role_=\"state\"` is its intended occupant, because its\ntone icon is component-rendered and so cannot be left off:\n\n```html\n<candor-stat value=\"847\" unit=\"ms\" label=\"p99 latency\" color=\"warning\">\n  <candor-accessible-text role_=\"state\" tone=\"warning\">Above target</candor-accessible-text>\n</candor-stat>\n```\n\nSetting `color` with an empty slot is the failure mode, not a shortcut.\n\n`unit` is folded into the value's accessible name so screen readers announce\n\"847 ms\" rather than the number alone.\n\nEmits no custom events.",
+          "name": "CandorStat",
+          "members": [
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "StatColor"
+              },
+              "default": "'default'",
+              "attribute": "color",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "StatSize"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string | number"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "unit",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "unit"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "color",
+              "type": {
+                "text": "StatColor"
+              },
+              "default": "'default'",
+              "fieldName": "color"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "StatSize"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string | number"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "unit",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "unit"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-stat",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorStat",
+          "declaration": {
+            "name": "CandorStat",
+            "module": "src/web-components/components/stat/candor-stat.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-stat",
+          "declaration": {
+            "name": "CandorStat",
+            "module": "src/web-components/components/stat/candor-stat.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/table/candor-table.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A static data table. Structure comes from `headers` and `rows`, not from\nslotted markup.\n\n**Cells are `string[]` — there is no way to put interactive or marked-up\ncontent in one.** No links, buttons, badges or icons. A table needing a row\naction or a status chip is not this component; compose the markup yourself or\nuse `candor-data-grid`, whose cells carry more.\n\n**Always set `caption`.** It is the table's accessible name, and a page with\nseveral tables is otherwise a list of anonymous \"table\" landmarks to anyone\nnavigating by structure. It is visible text, not a tooltip — treat it as the\ntable's title rather than as an accessibility afterthought.\n\n`TableRow.isHeader` promotes a row's cells to `<th scope=\"row\">`, which is\nwhat makes a key/value table readable: without it, a screen reader announces\nthe value with no idea which key it belongs to.\n\n`numeric-columns` right-aligns and tabular-figures those column indexes;\n`mono-columns` sets them in the mono face. Both take **zero-based indexes**,\nand an out-of-range index is ignored silently.\n\nChoose against `candor-data-grid` on interaction: this is content to read, a\ngrid is a two-dimensional widget the user navigates cell by cell.\n\nEmits no custom events.",
+          "name": "CandorTable",
+          "members": [
+            {
+              "kind": "field",
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "caption"
+            },
+            {
+              "kind": "field",
+              "name": "headers",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "attribute": "headers"
+            },
+            {
+              "kind": "field",
+              "name": "rows",
+              "type": {
+                "text": "TableRow[]"
+              },
+              "default": "[]",
+              "attribute": "rows"
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "compact",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "numericColumns",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "attribute": "numeric-columns"
+            },
+            {
+              "kind": "field",
+              "name": "monoColumns",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "attribute": "mono-columns"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "caption"
+            },
+            {
+              "name": "headers",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "fieldName": "headers"
+            },
+            {
+              "name": "rows",
+              "type": {
+                "text": "TableRow[]"
+              },
+              "default": "[]",
+              "fieldName": "rows"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "compact"
+            },
+            {
+              "name": "numeric-columns",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "fieldName": "numericColumns"
+            },
+            {
+              "name": "mono-columns",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "fieldName": "monoColumns"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-table",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorTable",
+          "declaration": {
+            "name": "CandorTable",
+            "module": "src/web-components/components/table/candor-table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-table",
+          "declaration": {
+            "name": "CandorTable",
+            "module": "src/web-components/components/table/candor-table.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/tabs/candor-tabs.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One panel in a `candor-tabs` set. Meaningless on its own.\n\n`panel-id` must match the `id` of a `TabItem` in the parent's `tabs` array —\nthat pairing is what binds tab to panel, and a mismatch fails silently.\n\n`active` is managed by the parent; do not set it by hand. The host is a\nstyling wrapper and the real `role=\"tabpanel\"` lives inside it, so slotted\ncontent sits in the panel rather than beside it.\n\nAll panels stay in the DOM; inactive ones are hidden. Content is therefore\nstill findable by in-page search and still costs render time — do not use tabs\nto defer expensive work.\n\nEmits no custom events — `candor-tabs` emits `change` for the whole set.",
+          "name": "CandorTabPanel",
+          "members": [
+            {
+              "kind": "field",
+              "name": "panelId",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "panel-id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tabLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "tab-label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "panel-id",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "panelId"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "active"
+            },
+            {
+              "name": "tab-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "tabLabel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-tab-panel",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "A tab set. The tab strip is built from the `tabs` array; the panels are\nslotted `candor-tab-panel` elements.\n\n**The two halves are joined by id.** Each `TabItem.id` must match the\n`panel-id` of a slotted panel. A mismatch is silent — the tab renders, the\nclick registers, and no panel appears.\n\n```html\n<candor-tabs .tabs=${[{id:'a',label:'Overview'},{id:'b',label:'Detail'}]} active-id=\"a\">\n  <candor-tab-panel panel-id=\"a\">…</candor-tab-panel>\n  <candor-tab-panel panel-id=\"b\">…</candor-tab-panel>\n</candor-tabs>\n```\n\n`active-id` is controlled: `change` reports the tab the user chose, and the\nconsumer assigns it back. Leaving it unset shows no panel.\n\nThe strip implements the ARIA tabs keyboard model — arrow keys move between\ntabs, and the strip is one tab stop, so Tab moves from the strip into the\npanel rather than across the tabs.\n\nTabs are for alternate views of *sibling* content. Content the user should\nread in sequence, or that needs printing or linking, belongs on the page —\nhiding it behind a tab makes it unfindable.",
+          "name": "CandorTabs",
+          "members": [
+            {
+              "kind": "field",
+              "name": "tabs",
+              "type": {
+                "text": "TabItem[]"
+              },
+              "default": "[]",
+              "attribute": "tabs"
+            },
+            {
+              "kind": "field",
+              "name": "theme",
+              "type": {
+                "text": "'default' | 'inverse'"
+              },
+              "default": "'default'",
+              "attribute": "theme",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "activeId",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "active-id"
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: string — the id of the newly selected tab"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tabs",
+              "type": {
+                "text": "TabItem[]"
+              },
+              "default": "[]",
+              "fieldName": "tabs"
+            },
+            {
+              "name": "theme",
+              "type": {
+                "text": "'default' | 'inverse'"
+              },
+              "default": "'default'",
+              "fieldName": "theme"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "active-id",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "activeId"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-tabs",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorTabPanel",
+          "declaration": {
+            "name": "CandorTabPanel",
+            "module": "src/web-components/components/tabs/candor-tabs.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CandorTabs",
+          "declaration": {
+            "name": "CandorTabs",
+            "module": "src/web-components/components/tabs/candor-tabs.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-tab-panel",
+          "declaration": {
+            "name": "CandorTabPanel",
+            "module": "src/web-components/components/tabs/candor-tabs.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-tabs",
+          "declaration": {
+            "name": "CandorTabs",
+            "module": "src/web-components/components/tabs/candor-tabs.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/toast/candor-toast.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A transient notification. Place inside a `candor-toast-container`, which owns\nthe stacking and screen position.\n\nThe choice against `candor-alert` is persistence: an alert stays until the\ncondition changes and sits next to what it concerns; a toast floats and goes\naway. **Anything the user may need to re-read is an alert** — a toast that has\ndisappeared cannot be recovered, so it is the wrong carrier for an error the\nuser must act on, or for detail they might need twice.\n\nEach variant renders its own icon shape, so the meaning is not carried by\ncolour alone. As with `candor-alert`, the variant also sets the announcement\npoliteness: `error` and `warning` announce assertively, the others politely.\n\n**This component does not dismiss itself.** There is no duration or timeout\nproperty — `dismiss` fires when the user activates the close button, and any\nauto-expiry is the consumer's timer removing the element.\n\nFor a live region to announce reliably it must be in the DOM before its text\narrives, so render the container up front and add toasts into it, rather than\ncreating a container and its first toast in the same update.",
+          "name": "CandorToast",
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "ToastVariant"
+              },
+              "default": "'info'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "message"
+            },
+            {
+              "kind": "field",
+              "name": "dismissible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "dismissible"
+            }
+          ],
+          "events": [
+            {
+              "name": "dismiss",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: none — the user activated the close button; the consumer must remove the toast"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "ToastVariant"
+              },
+              "default": "'info'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "message"
+            },
+            {
+              "name": "dismissible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "dismissible"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "cssProperties": [
+            {
+              "name": "--candor-toast-max-width"
+            },
+            {
+              "name": "--candor-toast-min-width"
+            }
+          ],
+          "tagName": "candor-toast",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "Fixed-position stack for `candor-toast` elements. Owns where toasts appear and\nhow they stack; the toasts own their own content and dismissal.\n\nRender it once, high in the app, and keep it mounted — adding and removing it\nalongside its toasts defeats the live-region announcement, which needs the\nregion present before the text arrives.\n\nIt is a positioned wrapper with no role of its own: the announcement comes\nfrom each toast, so an empty container is inert and costs nothing.\n\nOne per screen position. Two containers at `top-right` will overlap, since\neach stacks independently.\n\nEmits no custom events — the toasts inside emit their own `dismiss`.",
+          "name": "CandorToastContainer",
+          "members": [
+            {
+              "kind": "field",
+              "name": "position",
+              "type": {
+                "text": "'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'"
+              },
+              "default": "'top-right'",
+              "attribute": "position",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "position",
+              "type": {
+                "text": "'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'"
+              },
+              "default": "'top-right'",
+              "fieldName": "position"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-toast-container",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorToast",
+          "declaration": {
+            "name": "CandorToast",
+            "module": "src/web-components/components/toast/candor-toast.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CandorToastContainer",
+          "declaration": {
+            "name": "CandorToastContainer",
+            "module": "src/web-components/components/toast/candor-toast.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-toast",
+          "declaration": {
+            "name": "CandorToast",
+            "module": "src/web-components/components/toast/candor-toast.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-toast-container",
+          "declaration": {
+            "name": "CandorToastContainer",
+            "module": "src/web-components/components/toast/candor-toast.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/tone-picker/candor-tone-picker.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A perceptual colour-tone picker — a grid of OKLCH swatches laid out by\nlightness and chroma, for choosing a tone rather than an arbitrary colour.\n\nThe specialised sibling of `candor-data-grid`: same keyboard model, but it\nunderstands the colour axes, so it reports OKLCH components alongside the\nselection instead of leaving the consumer to parse a string.\n\n`selected-value` is controlled — `color-select` reports the chosen swatch and\nthe consumer assigns it back.\n\n`color-select` carries the OKLCH string plus the `l`, `c` and `h` components\nand the cell's grid position, so a consumer needing an axis does not have to\nre-parse the value.\n\n**Every swatch it offers is inside the sRGB gamut**, which is what makes the\nchoice a specification rather than a request: OKLCH accepts more chroma than\nsRGB can render and says nothing about it, and a colour outside the gamut has\nno defined contrast score. Cells the gamut cannot reach are not offered.\n\n`hide-ui` strips the surrounding controls for embedding the grid in a larger\ntool; `size=\"small\"` tightens the cells for dense layouts.\n\nSet `caption` — it is the grid's accessible name.",
+          "name": "CandorTonePicker",
+          "members": [
+            {
+              "kind": "field",
+              "name": "rows",
+              "type": {
+                "text": "ToneRow[]"
+              },
+              "default": "[]",
+              "attribute": "rows"
+            },
+            {
+              "kind": "field",
+              "name": "columnHeaders",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "attribute": "column-headers"
+            },
+            {
+              "kind": "field",
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "caption"
+            },
+            {
+              "kind": "field",
+              "name": "hideHeaders",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hide-headers",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideUi",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hide-ui",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showLabels",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-labels",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'small' | 'normal'"
+              },
+              "default": "'normal'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedValue",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "attribute": "selected-value"
+            }
+          ],
+          "events": [
+            {
+              "name": "color-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: ToneColorSelectDetail — `{ value, row, col, l, c, h }` for the chosen swatch"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "rows",
+              "type": {
+                "text": "ToneRow[]"
+              },
+              "default": "[]",
+              "fieldName": "rows"
+            },
+            {
+              "name": "column-headers",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "fieldName": "columnHeaders"
+            },
+            {
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "caption"
+            },
+            {
+              "name": "hide-headers",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideHeaders"
+            },
+            {
+              "name": "hide-ui",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideUi"
+            },
+            {
+              "name": "show-labels",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showLabels"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'small' | 'normal'"
+              },
+              "default": "'normal'",
+              "fieldName": "size"
+            },
+            {
+              "name": "selected-value",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "fieldName": "selectedValue"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-tone-picker",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorTonePicker",
+          "declaration": {
+            "name": "CandorTonePicker",
+            "module": "src/web-components/components/tone-picker/candor-tone-picker.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-tone-picker",
+          "declaration": {
+            "name": "CandorTonePicker",
+            "module": "src/web-components/components/tone-picker/candor-tone-picker.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/toolbar/candor-toolbar.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A grouped set of controls sharing **one tab stop**.\n\nThat is the whole point of the component, and the thing to understand before\nslotting anything in. It implements a roving tabindex: exactly one child is\ntabbable at a time, and arrow keys move between them (Left/Right when\nhorizontal, Up/Down when vertical, plus Home and End). A toolbar of eight\nbuttons therefore costs a keyboard user one Tab rather than eight.\n\nThe consequence is that **the component rewrites its children's `tabindex`**.\nSetting `tabindex` on a slotted control will be overwritten on the next\nslotchange or focus change; do not try to make a second child tabbable.\n\nOnly recognised interactive elements join the rotation — buttons, links, and\nelements carrying the button, checkbox or radio roles, each excluded while\n`aria-disabled=\"true\"`. Slotting a control the matcher does not recognise\nleaves it unreachable by arrow key *and* untabbable, which is worse than not\nusing a toolbar at all. Check the selector list before slotting a custom\nwidget.\n\nName it: pass `aria-label` on the host, or `aria-labelledby` pointing at\nvisible text. An unnamed toolbar is announced only as \"toolbar\".\n\n`orientation` sets both the layout and which arrow keys navigate, so it must\nmatch the visual direction or the keyboard model contradicts the picture.\n\nEmits no custom events — the slotted controls emit their own.",
+          "name": "CandorToolbar",
+          "members": [
+            {
+              "kind": "field",
+              "name": "ariaLabelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "aria-labelledby"
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "aria-labelledby",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "ariaLabelledby"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-toolbar",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "A visual divider between groups of controls inside `candor-toolbar`.\n\nCarries `role=\"separator\"` with an orientation, so it conveys the grouping\nstructurally as well as visually. It is not interactive and is not part of the\ntoolbar's arrow-key rotation — inserting one does not cost a stop.\n\nNote its `orientation` is the axis of the *rule*, and therefore the opposite\nof the toolbar's: a horizontal toolbar takes vertical separators, which is why\nthe default here is `vertical` while `candor-toolbar` defaults to\n`horizontal`.\n\nGrouping is the only reason to use one. A separator between every control is\nnoise that makes the real groups harder to see.\n\nEmits no custom events.",
+          "name": "CandorToolbarSeparator",
+          "members": [
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'vertical' | 'horizontal'"
+              },
+              "default": "'vertical'",
+              "attribute": "orientation",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "orientation",
+              "type": {
+                "text": "'vertical' | 'horizontal'"
+              },
+              "default": "'vertical'",
+              "fieldName": "orientation"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-toolbar-separator",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorToolbar",
+          "declaration": {
+            "name": "CandorToolbar",
+            "module": "src/web-components/components/toolbar/candor-toolbar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CandorToolbarSeparator",
+          "declaration": {
+            "name": "CandorToolbarSeparator",
+            "module": "src/web-components/components/toolbar/candor-toolbar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-toolbar",
+          "declaration": {
+            "name": "CandorToolbar",
+            "module": "src/web-components/components/toolbar/candor-toolbar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-toolbar-separator",
+          "declaration": {
+            "name": "CandorToolbarSeparator",
+            "module": "src/web-components/components/toolbar/candor-toolbar.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/tooltip/candor-tooltip.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A short label revealed on hover or focus. Wraps its trigger: slot the control,\nset `text`.\n\n**Supplementary only.** The content is reachable only by hovering or focusing,\nso anything a user must read to act belongs in the layout instead — a `hint`\non the form control, or a `candor-accessible-text role_=\"annotation\"` beside\nit. If losing the tooltip would leave the interface ambiguous, it is carrying\ntoo much.\n\n**Never put a disabled control's explanation in one.** Native `disabled`\nelements are not focusable and do not reliably fire hover events, so the\ntooltip is unreachable precisely for keyboard and screen-reader users. Use\nadjacent text.\n\nThe bubble renders inside this element's shadow root, so **an ancestor with\n`overflow: hidden` or `overflow: auto` will clip it** — a real constraint\ninside cards, toolbars and scroll containers. There is no portalling. Where\nclipping occurs, either give the ancestor room or move the text into the\nlayout, which the point above suggests anyway.\n\n`position` is a preference, not collision detection: the bubble does not flip\nto stay on screen.\n\nEmits no custom events.",
+          "name": "CandorTooltip",
+          "members": [
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "text"
+            },
+            {
+              "kind": "field",
+              "name": "position",
+              "type": {
+                "text": "TooltipPosition"
+              },
+              "default": "'top'",
+              "attribute": "position",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "text"
+            },
+            {
+              "name": "position",
+              "type": {
+                "text": "TooltipPosition"
+              },
+              "default": "'top'",
+              "fieldName": "position"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-tooltip",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorTooltip",
+          "declaration": {
+            "name": "CandorTooltip",
+            "module": "src/web-components/components/tooltip/candor-tooltip.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-tooltip",
+          "declaration": {
+            "name": "CandorTooltip",
+            "module": "src/web-components/components/tooltip/candor-tooltip.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/typography/accessible-text/candor-accessible-text.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Instructional text set in Atkinson Hyperlegible — text the reader must decode\nprecisely to know what to do next.\n\nThe test against `candor-text` is functional, not a matter of importance:\ncould a reader who cannot resolve the glyphs still act correctly? If no, it\nbelongs here. Form labels, validation errors and action-required hints do;\ndata values, results and counters do not.\n\nThe property is `role_`, not `role`. It reflects to an attribute, and\nreflecting to `role` would overwrite the element's own ARIA role — so the\nattribute a consumer writes is `role_=\"status\"`.\n\n`role_` also decides the size, and the two are not independently adjustable\nfor a reason. `status` is 16px because it is the *sole* channel for an\ninstruction: an icon can say something is wrong but not which field or what\nformat, so no redundant channel makes 14px sufficient. `state` stays at 14px\nbecause it renders an `aria-hidden` tone icon that genuinely carries the\noutcome. The test between them: could a reader who cannot resolve the glyphs\nstill act correctly? Yes → `state`. No → `status`.\n\nBecause `state`'s icon carries the outcome, its text needs no colour — leave\n`color` at `primary` and let `tone` select the icon. Moving colour onto the\nicon is what removes the contrast constraint rather than negotiating with it.\n\nDo not hand-type a status glyph into the slot (`✕ Error: …`). A screen reader\nannounces the character, and it is invisible to the contrast audit. Use\n`role_=\"state\"` when an icon is wanted.\n\nBold is for hierarchy and labelling only — `role_=\"label\"` applies it already.\nDo not add `bold` to an error or status message: the colour carries urgency,\nand bold on top of it is double-emphasis.\n\nEmits no custom events.",
+          "name": "CandorAccessibleText",
+          "members": [
+            {
+              "kind": "field",
+              "name": "role_",
+              "type": {
+                "text": "AccessibleTextRole"
+              },
+              "default": "'label'",
+              "attribute": "role_",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "AccessibleTextSize | undefined"
+              },
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "AccessibleTextColor"
+              },
+              "default": "'primary'",
+              "attribute": "color",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "AccessibleTextTone"
+              },
+              "default": "'info'",
+              "description": "Only meaningful for role_=\"state\" — selects the icon that carries the outcome.",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "bold",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "bold",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "role_",
+              "type": {
+                "text": "AccessibleTextRole"
+              },
+              "default": "'label'",
+              "fieldName": "role_"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "AccessibleTextSize | undefined"
+              },
+              "fieldName": "size"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "AccessibleTextColor"
+              },
+              "default": "'primary'",
+              "fieldName": "color"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "AccessibleTextTone"
+              },
+              "default": "'info'",
+              "description": "Only meaningful for role_=\"state\" — selects the icon that carries the outcome.",
+              "fieldName": "tone"
+            },
+            {
+              "name": "bold",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "bold"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-accessible-text",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorAccessibleText",
+          "declaration": {
+            "name": "CandorAccessibleText",
+            "module": "src/web-components/components/typography/accessible-text/candor-accessible-text.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-accessible-text",
+          "declaration": {
+            "name": "CandorAccessibleText",
+            "module": "src/web-components/components/typography/accessible-text/candor-accessible-text.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/typography/article/candor-article.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Long-form prose — articles, reports, editorial content, deliberation\nsummaries. Style the `<p>`, `<h*>`, `<ul>` and `<blockquote>` markup you slot\nin; this element supplies the reading typography around it.\n\n**`justify` is a transparency feature, not a stylistic preference.** Full\njustification plus hyphenation produces the clean block edge of a formal\nproduced document, where human-authored prose has a ragged right. That makes\nAI-generated content identifiable ambiently, without a label and without the\nreader having to look for one — which matters in high-stakes contexts\n(planning decisions, medical summaries, legal briefs) and aligns with the\nspirit of EU AI Act Article 52 disclosure. **Set it on AI-generated prose.**\nIt does not make the content feel cold: register signals origin, tone is a\nseparate axis, and AI output can be written warmly.\n\n`justify` requires `lang` on this element or an ancestor — `hyphens: auto`\nneeds it to find a hyphenation dictionary, and without one justification\nproduces rivers of whitespace. It applies to `<p>` only; headings stay\nleft-aligned.\n\n`font=\"serif\"` (Noto Serif, the default) is for authored content, human or AI\nalike — the serif register says \"produced artifact, read carefully\".\n`font=\"sans\"` (Noto Sans) is for UI prose that needs sentence-by-sentence\nreading but is not authored content: help documentation, onboarding, release\nnotes.\n\n**This is the one component that opts out of Shadow DOM.** `createRenderRoot`\nreturns `this`, and the prose styles are injected once into `document.head`,\nbecause scoped styles cannot reach slotted markup deeply enough to set prose.\nTwo consequences: the styles are global rather than encapsulated, and there is\nno shadow boundary, so `::part` does not apply here.\n\nEmits no custom events.",
+          "name": "CandorArticle",
+          "members": [
+            {
+              "kind": "field",
+              "name": "font",
+              "type": {
+                "text": "'serif' | 'sans'"
+              },
+              "default": "'serif'",
+              "attribute": "font",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "justify",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "justify",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "font",
+              "type": {
+                "text": "'serif' | 'sans'"
+              },
+              "default": "'serif'",
+              "fieldName": "font"
+            },
+            {
+              "name": "justify",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "justify"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-article",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorArticle",
+          "declaration": {
+            "name": "CandorArticle",
+            "module": "src/web-components/components/typography/article/candor-article.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-article",
+          "declaration": {
+            "name": "CandorArticle",
+            "module": "src/web-components/components/typography/article/candor-article.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/typography/heading/candor-heading.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A heading. `level` sets the visual size and the semantic level together — they\nare deliberately not separable.\n\nThe semantics are ARIA, not markup. This element renders a bare `<slot>` and\ncarries `role=\"heading\"` with `aria-level` on the host, resynced whenever\n`level` changes; it does **not** emit an `<h1>`–`<h6>`. Screen readers get the\ncorrect level either way, but tooling that looks for native heading *elements*\nrather than the heading *role* will not find it.\n\nThere is no separate `size` property, so \"an h2 that looks like an h4\" is not\nexpressible. That is the point: if a heading needs to be smaller, it is\nusually the wrong level. For large display text carrying no heading semantics,\nuse `candor-text`, which has sizes up to `3xl` and no role.\n\nWeight is constant across levels; hierarchy comes from size plus\n`font-optical-sizing: auto`, which lets the Roboto Flex `opsz` axis thicken\nstrokes as size grows. That gradient is why there is no `bold` property here.\n\nEmits no custom events.",
+          "name": "CandorHeading",
+          "members": [
+            {
+              "kind": "field",
+              "name": "level",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "'h2'",
+              "attribute": "level",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "HeadingColor"
+              },
+              "default": "'primary'",
+              "attribute": "color",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "level",
+              "type": {
+                "text": "HeadingLevel"
+              },
+              "default": "'h2'",
+              "fieldName": "level"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "HeadingColor"
+              },
+              "default": "'primary'",
+              "fieldName": "color"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-heading",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorHeading",
+          "declaration": {
+            "name": "CandorHeading",
+            "module": "src/web-components/components/typography/heading/candor-heading.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-heading",
+          "declaration": {
+            "name": "CandorHeading",
+            "module": "src/web-components/components/typography/heading/candor-heading.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/web-components/components/typography/text/candor-text.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Body copy, captions, and uppercase UI labels — the *comprehension* half of\nCandor's type system, set in Roboto Flex.\n\nChoosing between this and `candor-accessible-text` is not a judgment about\nimportance; all text in a good UI is important. The question is whether the\nreader must decode this text precisely to know what to do next. A validation\nerror, a form label, an action-required hint → instructional, use\n`candor-accessible-text`. A data value, a classification result, a heading\nthat organises data, running prose → the reader is forming a judgment, use\nthis.\n\nTwo cases that look instructional and are not: a section heading labelling\ndata (\"Classification breakdown\") is `variant=\"label\"` here, not\n`candor-accessible-text role_=\"label\"`; and a counter or readout (\"14 of 47\nreviewed\") is comprehension text, so it belongs here too.\n\nThere is no `xs` size (removed in 5.0.0). 12px is below the readable-text\nfloor, and a component whose purpose is readable text should not offer a size\nat which its own output is disallowed. For badge chrome or icon glyphs, use\n`--font-size-xs` directly — those are not text and are not set through here.\n\n`variant=\"label\"` uppercases through CSS `text-transform`, so write the slot\ncontent in sentence case: assistive technology reads the DOM text, not the\nrendered casing.\n\nEmits no custom events.",
+          "name": "CandorText",
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "TextVariant"
+              },
+              "default": "'body'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "TextSize"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "TextColor"
+              },
+              "default": "'primary'",
+              "attribute": "color",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "bold",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "bold"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "TextVariant"
+              },
+              "default": "'body'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "TextSize"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "TextColor"
+              },
+              "default": "'primary'",
+              "fieldName": "color"
+            },
+            {
+              "name": "bold",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "bold"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "candor-text",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CandorText",
+          "declaration": {
+            "name": "CandorText",
+            "module": "src/web-components/components/typography/text/candor-text.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "candor-text",
+          "declaration": {
+            "name": "CandorText",
+            "module": "src/web-components/components/typography/text/candor-text.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

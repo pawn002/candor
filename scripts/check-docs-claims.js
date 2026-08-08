@@ -244,6 +244,55 @@ if (listed.length === 0) {
   console.log(`  ✓ lists exactly the ${expectedEvents.length} dispatched event names`);
 }
 
+// ── the shipped custom-elements manifest ─────────────────────────────────────
+//
+// CI additionally runs `npm run build:cem` and `git diff --exit-code` on this
+// file, which is what catches a *stale* manifest. That check cannot run here,
+// because regenerating requires the analyzer and this script is meant to stay
+// dependency-free — so what is checked here is the complementary half: that the
+// committed manifest describes the elements this source registers.
+//
+// Both are needed. The git-diff catches "someone changed a component and did not
+// regenerate"; this catches "the manifest was regenerated from a glob that
+// silently stopped matching", which produces a smaller file that is internally
+// consistent and diffs clean against its own regeneration.
+console.log('\nweb-components/custom-elements.json');
+
+const CEM_PATH = path.join(ROOT, 'web-components', 'custom-elements.json');
+
+if (!fs.existsSync(CEM_PATH)) {
+  fail('the manifest is missing — run `npm run build:cem`');
+} else {
+  const cem = JSON.parse(fs.readFileSync(CEM_PATH, 'utf8'));
+  const described = new Set(
+    (cem.modules ?? [])
+      .flatMap((m) => m.declarations ?? [])
+      .filter((d) => d.customElement && d.tagName)
+      .map((d) => d.tagName),
+  );
+
+  const cemMissing = [...registered].filter((t) => !described.has(t)).sort();
+  const cemExtra = [...described].filter((t) => !registered.has(t)).sort();
+
+  for (const t of cemMissing) fail(`<${t}> is registered but absent from the manifest`);
+  for (const t of cemExtra) fail(`<${t}> is in the manifest but is not registered`);
+
+  // A manifest whose descriptions are empty is the failure mode the analyzer
+  // cannot report: it succeeds, and produces an accurate list of names — which
+  // is roughly what the .d.ts already give, and is the thing #267 said was not
+  // worth shipping on its own.
+  const undescribed = [...(cem.modules ?? [])]
+    .flatMap((m) => m.declarations ?? [])
+    .filter((d) => d.customElement && d.tagName && !d.description)
+    .map((d) => d.tagName)
+    .sort();
+  for (const t of undescribed) fail(`<${t}> is in the manifest with no description`);
+
+  if (cemMissing.length === 0 && cemExtra.length === 0 && undescribed.length === 0) {
+    console.log(`  ✓ describes exactly the ${described.size} registered elements, all with descriptions`);
+  }
+}
+
 if (failed) {
   console.log(
     '\n✖ documentation claims do not match the build.' +

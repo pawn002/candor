@@ -101,6 +101,22 @@ jobs:
       # one until branch protection is updated; a gate that does not block is
       # the gap #267 is about, one level up.
       - run: npm run audit:docs
+      # The manifest is a committed, published artifact generated from the
+      # component sources, so it goes stale exactly the way tokens.dtcg.json
+      # does — same gate, same reason. Regenerate, then fail if that produced a
+      # diff, which means someone changed a component and did not re-run it.
+      #
+      # audit:docs above checks the complementary half (the manifest describes
+      # the elements the source registers, and none is undescribed). Neither
+      # subsumes the other: a manifest regenerated from a glob that stopped
+      # matching diffs clean against itself while describing fewer elements.
+      #
+      # Output is deterministic across platforms only because the config
+      # normalises CRLF — without that this step fails on every run for a
+      # checkout-settings reason. See custom-elements-manifest.config.mjs.
+      - run: npm run build:cem
+      - name: web-components/custom-elements.json is up to date
+        run: git diff --exit-code -- web-components/custom-elements.json
 
   build-web-components:
     runs-on: ubuntu-latest
