@@ -31,7 +31,8 @@
     "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
     "audit:tokens": "node scripts/export-tokens-dtcg.js",
     "audit:contrast": "node scripts/check-contrast.js",
-    "audit:packaging": "node scripts/check-package-deps.js"
+    "audit:packaging": "node scripts/check-package-deps.js",
+    "audit:docs": "node scripts/check-docs-claims.js"
   },
   "repository": {
     "type": "git",
@@ -44,7 +45,7 @@
   "bugs": {
     "url": "https://github.com/pawn002/candor/issues"
   },
-  "homepage": "https://github.com/pawn002/candor#readme",
+  "homepage": "https://main--69c25e2492ad056c24329876.chromatic.com",
   "overrides": {
     "chokidar": "^5.0.0",
     "readdirp": "^4.0.0",

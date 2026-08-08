@@ -94,6 +94,13 @@ jobs:
       # ~250 klar invocations, so this is the slowest step here by some way
       # (about a minute). That is the cost of measuring rather than asserting.
       - run: npm run audit:contrast
+      # Independent of the colour sequence above — it reads src/ and the READMEs
+      # and needs no build, so its position here carries none of the ordering
+      # significance the two steps before it do. It lives in this job because
+      # `audit` is a required status check on main and a new job would not be
+      # one until branch protection is updated; a gate that does not block is
+      # the gap #267 is about, one level up.
+      - run: npm run audit:docs
 
   build-web-components:
     runs-on: ubuntu-latest
