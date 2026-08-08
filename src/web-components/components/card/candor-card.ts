@@ -4,6 +4,27 @@ import { customElement, property, state } from 'lit/decorators.js';
 type CardVariant = 'default' | 'elevated' | 'outlined';
 type CardPadding = 'none' | 'sm' | 'md' | 'lg';
 
+/**
+ * A surface grouping related content. Three named regions: the default slot for
+ * the body, plus optional `header` and `footer` slots that render their chrome
+ * only when filled.
+ *
+ * **Do not use `<header>` or `<footer>` elements in the slotted content.** They
+ * carry implicit `banner` and `contentinfo` landmark roles, and the HTML spec
+ * only suppresses that inside `article`, `aside`, `main`, `nav` and `section` —
+ * not inside a custom element. A card in a dialog or panel then contributes a
+ * page-level landmark, which pollutes the landmark list assistive technology
+ * navigates by. Use `<div>`, or `role="none"` if the element is required.
+ *
+ * A card is presentational: it has no heading of its own and no role. If the
+ * card's content is a section, put a `candor-heading` in the `header` slot so
+ * the grouping is conveyed structurally rather than only visually.
+ *
+ * `padding="none"` is for content that manages its own inset — a full-bleed
+ * image or an embedded table.
+ *
+ * Emits no custom events.
+ */
 @customElement('candor-card')
 export class CandorCard extends LitElement {
   static override styles = css`

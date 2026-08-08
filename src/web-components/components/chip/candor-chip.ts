@@ -4,6 +4,32 @@ import { phX } from '../../icons';
 
 type ChipVariant = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
 
+/**
+ * A compact interactive token — a filter, a selected value, a removable tag.
+ *
+ * The distinction from `candor-badge` is interactivity: a badge is a marker the
+ * user reads, a chip is something they toggle, remove or follow. A chip with
+ * neither `selectable`, `dismissible` nor `link-href` is a badge with extra
+ * machinery; use `candor-badge`.
+ *
+ * The three modes render different elements and are not fully independent:
+ * `selectable` makes the body a toggle button carrying `aria-pressed`,
+ * `link-href` makes it an anchor, and `dismissible` adds a separate remove
+ * button alongside either. Setting both `selectable` and `link-href` is
+ * ambiguous — pick one.
+ *
+ * `label` is a **property, not a slot**, because it also builds the remove
+ * button's accessible name ("Remove <label>"). A chip with no `label` gives that
+ * button no name.
+ *
+ * `change` reports selection state; `dismiss` asks to be removed. **Neither
+ * removes the chip** — `dismiss` does not hide it, so the consumer owns the
+ * list and must drop the item in response. A chip that stays put after the user
+ * clicks its × is the expected failure here.
+ *
+ * @fires change - detail: boolean — the new selected state (selectable mode only)
+ * @fires dismiss - detail: none — the user asked to remove this chip; the consumer must remove it
+ */
 @customElement('candor-chip')
 export class CandorChip extends LitElement {
   static override styles = css`

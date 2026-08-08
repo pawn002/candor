@@ -4,6 +4,32 @@ import { phInfoFill, phCheckCircleFill, phWarningFill, phXCircleFill, phX } from
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 
+/**
+ * A persistent inline message about the state of the surrounding content.
+ *
+ * The choice against `candor-toast` is persistence, not severity: an alert stays
+ * until the condition changes and sits in the layout next to what it concerns; a
+ * toast is transient and floats. Anything the user must be able to re-read —
+ * a form-level failure, a permissions notice — belongs here.
+ *
+ * Each variant renders its own icon *shape*, with no way to turn it off. That
+ * component-rendered icon is what makes the meaning redundantly coded rather
+ * than carried by colour alone, and it is why the variant is safe to rely on
+ * here in a way it is not on `candor-stat`.
+ *
+ * The `role` follows the variant: `error` and `warning` announce assertively,
+ * the others politely. Set the variant to match the severity rather than the
+ * palette you want, because it is choosing the announcement behaviour too.
+ *
+ * Supply the body through `message` or the default slot — `message` wins when
+ * both are set. Use the slot when the body needs markup such as a link.
+ *
+ * `dismissible` adds a close button. It hides the alert but does not resolve the
+ * underlying condition; if the condition can recur, re-render rather than
+ * assuming dismissal was final.
+ *
+ * @fires dismiss - detail: none — the user activated the close button
+ */
 @customElement('candor-alert')
 export class CandorAlert extends LitElement {
   static override styles = css`

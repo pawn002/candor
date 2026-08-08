@@ -5,6 +5,29 @@ import { observeHostAriaLabel } from '../../utils/host-aria';
 type ProgressType = 'bar' | 'spinner';
 type ProgressSize = 'sm' | 'md' | 'lg';
 
+/**
+ * Progress feedback, as a determinate bar or a spinner.
+ *
+ * `indeterminate` is not cosmetic: it drops `aria-valuenow`/`min`/`max` so
+ * assistive technology announces "busy" rather than a number. Use it whenever
+ * the completion fraction is unknown — a spinner showing a fabricated
+ * percentage is worse than no percentage.
+ *
+ * `value` is a **percentage, 0–100**, not a 0–1 fraction. Passing 0.75 renders a
+ * bar at 1% rather than three-quarters, and nothing rejects it.
+ *
+ * `label` should say what is in progress ("Uploading report"), not that
+ * something is. It becomes the accessible name; without it the name falls back
+ * to a host `aria-label` and then to "Loading", which tells a screen-reader user
+ * nothing about what they are waiting for.
+ *
+ * The bar announces its own percentage through `aria-valuetext`, so a visible
+ * percentage beside it is duplication for screen-reader users — set one or the
+ * other.
+ *
+ * Emits no custom events. Progress is driven entirely by the consumer setting
+ * `value`; there is no completion event.
+ */
 @customElement('candor-progress')
 export class CandorProgress extends LitElement {
   static override styles = css`

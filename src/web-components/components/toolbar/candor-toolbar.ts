@@ -14,6 +14,34 @@ const FOCUSABLE_SELECTOR = [
 
 let _nextId = 0;
 
+/**
+ * A grouped set of controls sharing **one tab stop**.
+ *
+ * That is the whole point of the component, and the thing to understand before
+ * slotting anything in. It implements a roving tabindex: exactly one child is
+ * tabbable at a time, and arrow keys move between them (Left/Right when
+ * horizontal, Up/Down when vertical, plus Home and End). A toolbar of eight
+ * buttons therefore costs a keyboard user one Tab rather than eight.
+ *
+ * The consequence is that **the component rewrites its children's `tabindex`**.
+ * Setting `tabindex` on a slotted control will be overwritten on the next
+ * slotchange or focus change; do not try to make a second child tabbable.
+ *
+ * Only recognised interactive elements join the rotation — buttons, links, and
+ * elements carrying the button, checkbox or radio roles, each excluded while
+ * `aria-disabled="true"`. Slotting a control the matcher does not recognise
+ * leaves it unreachable by arrow key *and* untabbable, which is worse than not
+ * using a toolbar at all. Check the selector list before slotting a custom
+ * widget.
+ *
+ * Name it: pass `aria-label` on the host, or `aria-labelledby` pointing at
+ * visible text. An unnamed toolbar is announced only as "toolbar".
+ *
+ * `orientation` sets both the layout and which arrow keys navigate, so it must
+ * match the visual direction or the keyboard model contradicts the picture.
+ *
+ * Emits no custom events — the slotted controls emit their own.
+ */
 @customElement('candor-toolbar')
 export class CandorToolbar extends LitElement {
   static override styles = css`
@@ -128,6 +156,23 @@ export class CandorToolbar extends LitElement {
   }
 }
 
+/**
+ * A visual divider between groups of controls inside `candor-toolbar`.
+ *
+ * Carries `role="separator"` with an orientation, so it conveys the grouping
+ * structurally as well as visually. It is not interactive and is not part of the
+ * toolbar's arrow-key rotation — inserting one does not cost a stop.
+ *
+ * Note its `orientation` is the axis of the *rule*, and therefore the opposite
+ * of the toolbar's: a horizontal toolbar takes vertical separators, which is why
+ * the default here is `vertical` while `candor-toolbar` defaults to
+ * `horizontal`.
+ *
+ * Grouping is the only reason to use one. A separator between every control is
+ * noise that makes the real groups harder to see.
+ *
+ * Emits no custom events.
+ */
 @customElement('candor-toolbar-separator')
 export class CandorToolbarSeparator extends LitElement {
   static override styles = css`

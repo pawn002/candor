@@ -6,6 +6,28 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
+/**
+ * A hierarchical trail showing where the current page sits.
+ *
+ * Items come from the `items` array, not from slotted markup. **Include the
+ * current page as the last item** — the component marks it `aria-current="page"`
+ * and renders it as static text rather than a link, so omitting it leaves the
+ * trail pointing at ancestors with no anchor for where the user actually is.
+ *
+ * The component supplies its own `<nav aria-label="Breadcrumb">` wrapper. Do not
+ * nest it in another `<nav>`; that produces two navigation landmarks for one
+ * control.
+ *
+ * Separators are drawn by a CSS `::after` using the content alt-text form
+ * (`content: '/' / ''`), so the slash is painted but announces as nothing. The
+ * `<ol>`/`<li>` structure carries the hierarchy for assistive technology. There
+ * is no separator element to style or replace.
+ *
+ * This is a trail, not a history stack: it should reflect the site's structure,
+ * not the route the user took to arrive.
+ *
+ * Emits no custom events — items are ordinary links and navigate directly.
+ */
 @customElement('candor-breadcrumb')
 export class CandorBreadcrumb extends LitElement {
   static override styles = css`

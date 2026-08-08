@@ -9,6 +9,29 @@ export interface NavItem {
   badgeLabel?: string;
 }
 
+/**
+ * A primary navigation bar — brand, links, and optional per-item badges.
+ *
+ * Items come from the `items` array. Mark the active item with `active: true`;
+ * it renders `aria-current="page"`, which is what tells a screen-reader user
+ * where they are. Styling alone does not.
+ *
+ * The component supplies its own `<nav>` landmark named by `label` (default
+ * "Main navigation"). **Change `label` if a page has more than one of these** —
+ * two navigation landmarks with the same name are indistinguishable in a
+ * landmark list, which is the case the name exists for. Do not nest this in
+ * another `<nav>`.
+ *
+ * `item.badge` renders a count. Give it `badgeLabel` whenever the number alone
+ * is ambiguous: "3" beside Messages announces as "3", which does not say three
+ * *what*. `badgeLabel` supplies the accessible name ("3 unread messages").
+ *
+ * `theme="inverse"` is for dark bars. It changes the token set the links draw
+ * from, so contrast stays validated; do not approximate it with a background
+ * colour and default links.
+ *
+ * Emits no custom events — items are ordinary links and navigate directly.
+ */
 @customElement('candor-navigation')
 export class CandorNavigation extends LitElement {
   static override styles = css`

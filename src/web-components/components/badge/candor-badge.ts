@@ -4,6 +4,36 @@ import { customElement, property } from 'lit/decorators.js';
 type BadgeVariant = 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning';
 type BadgeSize = 'sm' | 'md';
 
+/**
+ * A small status or category marker.
+ *
+ * **The label must name the condition, not just be present.** Colour cannot be
+ * the sole channel for meaning, and the tinted background does not rescue it
+ * (see below). The redundant channel here is the *text*, which is structurally
+ * mandatory because a badge with no content is not a badge — but it only counts
+ * if it says what the condition is:
+ *
+ * ```html
+ * <candor-badge variant="error">3</candor-badge>          <!-- no channel: "3" says nothing -->
+ * <candor-badge variant="error">3 failed</candor-badge>   <!-- correct -->
+ * ```
+ *
+ * Candor cannot enforce this, so it is an authoring rule rather than a
+ * constraint — which is exactly why it is written here, where the decision is
+ * made.
+ *
+ * **Do not treat the tinted background as a variant channel.** At L 0.95 the
+ * sRGB gamut permits almost no chroma at red or amber, so
+ * `--color-status-error-bg` and `--color-status-warning-bg` sit about deltaE 4
+ * apart — at the edge of imperceptible for everyone, not just as a CVD edge
+ * case. Error and warning badges are told apart by their words, not their fill.
+ *
+ * For an outcome that has already happened and wants an icon, consider
+ * `candor-accessible-text role_="state"`, whose icon is component-rendered and
+ * therefore cannot be omitted.
+ *
+ * Emits no custom events.
+ */
 @customElement('candor-badge')
 export class CandorBadge extends LitElement {
   static override styles = css`

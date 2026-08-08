@@ -5,6 +5,40 @@ import { observeHostAriaLabel } from '../../utils/host-aria';
 type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'destructive';
 type ButtonSize = 'small' | 'medium' | 'large';
 
+/**
+ * A button.
+ *
+ * **It dispatches no custom events.** Bind `@click` on the host — the inner
+ * `<button>`'s click crosses the shadow boundary, so a host listener receives
+ * it. There is no `press`, `activate` or `button-click`; a listener bound to one
+ * of those never fires and nothing reports it.
+ *
+ * **Sizes are `small`, `medium` and `large`. There is no `size="icon"`.** An
+ * unrecognised value is accepted silently, produces no class, and renders at the
+ * default size — so the mistake is invisible. For an icon-only button, use a
+ * size and supply `aria-label`.
+ *
+ * `aria-label` on the host is supported: it is mirrored onto the inner button
+ * and stripped from the host, so the name is announced once rather than twice.
+ * An icon-only button needs it, since the glyph carries no text.
+ *
+ * `type="submit"` works inside a native `<form>`.
+ *
+ * **A disabled button needs an adjacent explanation, and it must not be a
+ * tooltip.** Native `disabled` removes the button from the tab order, so a
+ * hover- or focus-gated tooltip is unreachable by keyboard and screen reader —
+ * the users most likely to need it. WCAG 1.4.3 exempts the dimmed label from
+ * contrast, and that dimming does signal "unavailable"; what it can no longer
+ * carry is *why*, or what would unlock it. Put that in a readable,
+ * enabled-contrast element next to the button, where it sits in document order
+ * and everyone meets it. There is deliberately no `hint` property — the
+ * consumer supplies the adjacent element.
+ *
+ * `variant="destructive"` is for irreversible actions. It is a colour, not a
+ * confirmation: pair it with one where the action warrants it.
+ *
+ * Emits no custom events.
+ */
 @customElement('candor-button')
 export class CandorButton extends LitElement {
   static override styles = css`
