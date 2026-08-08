@@ -6,6 +6,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **`candor-input`, `candor-checkbox`, `candor-radio` and `candor-chat-input` now forward a host `aria-label` to their inner control (#270).** Six of the ten form controls already did; these four did not, and on the first three the result was a control with **no accessible name at all** — no error, no warning, and a rendering pixel-identical to a correct one. ARIA on a custom-element host does not cross the shadow boundary, so the attribute the consumer wrote did nothing for the inner control while still sitting on the host. All four now use the existing `observeHostAriaLabel` helper, which mirrors the value inward and strips it from the host so the name is announced once rather than twice.
+
+  **The failing form was the one the platform teaches** — `aria-label` is the standard fallback when a visible label is unwanted, it is what accessibility linters suggest, and it worked on six sibling components in the same library. `candor-input`'s own story had been instructing consumers to use it since before the gap existed. Nothing contradicted that instruction, because nothing was reading.
+
+  Where a visible `label` and an `aria-label` are both set the `aria-label` wins outright — unchanged behaviour, matching the six controls that already forwarded — so it must *contain* the visible label text (WCAG 2.5.3). Noted in each component's TSDoc. On `candor-radio` the TSDoc also records what the name applies to: **the one option, not the group.** A group missing its `<legend>` is not fixed by labelling its radios.
+
+### Added
+
+- **`tests/host-aria-label.spec.ts` gates host `aria-label` forwarding at runtime (#270).** Asserts, per component and in both insertion orders — attribute-then-append (plain HTML) and append-then-attribute (the React/Angular path the helper's MutationObserver exists for) — that the host no longer carries the attribute, that exactly one inner element does, that its *computed accessible name* is the value, and that where a native control exists it is the element that got named. Runs in the `accessibility` job, an existing required status check.
+
+  It had to be a runtime test: the defect's only symptom is absence. An unnamed input is pixel-identical to a named one so Chromatic cannot see it, the contrast and gamut audits do not look at naming, and `tests/accessibility.spec.ts` had zero `aria-label` coverage. Nothing in the repo would have caught the regression, which is how four components stayed broken while six worked.
+
+  **The subject list is derived from source rather than written down**, because a hand-maintained list is a false negative waiting to happen — the next form control gets added, nobody remembers the list, and the suite goes green having tested everything except the new thing. A component qualifies if it renders a native `<input>`/`<textarea>`/`<select>` (the *obligation*: this is what makes the rule apply, so a component cannot leave the set by simply not forwarding — the half that catches this bug) or if it calls `observeHostAriaLabel` (the *coverage*: it pulls in components whose role sits on a `<button>` or `<ul>`, like `candor-listbox` and `candor-menu`). The second half alone is circular. The union is 18 components; a `discovery` test asserts a floor so a broken scan fails loudly rather than passing by testing nothing.
+
+  Comments are stripped before the native-control scan. Without that, `candor-listbox` matched on the words "rather than a native `<select>`" in its own TSDoc — prose describing what the component deliberately is *not*, read by a regex as proof that it is. Same shape as the `12px-ok:` marker rule: documentation must not be able to satisfy the check it documents.
+
+  Deliberately **not** added: a dev-mode `console.warn` for an unnamed control, the obvious third remedy. React and Angular attach an element and then set its attributes, so it would fire on every correctly-named control in those frameworks and train people to ignore the console.
+
 ### Changed
 
 - **Both packages' `homepage` now points at the component catalog** rather than at the GitHub README (#267). `homepage` is what the npm registry page renders, what `npm home` opens, and what tooling reads when it wants "where are the docs" — pointing it at a README that then links the catalog put the one hop an automated reader is least likely to take between a consumer and the rules.
@@ -36,7 +56,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
   **Member-level TSDoc stays by exception.** There are 180 public members, and requiring a comment on each produces filler on the obvious ones that trains readers to skip TSDoc entirely. `candor-radio`'s `name` is the model for when to write one: it is not merely undocumented but actively misleading, since it reads as native radio grouping and is not.
 
-  Facts now recorded that a declaration file structurally cannot express — several found only by reading the source for this pass: `candor-input` does **not** forward `aria-label` to its inner control while six sibling controls do; `candor-heading` is `role="heading"` + `aria-level` rather than a native `<h1>`–`<h6>`; `candor-article` opts out of Shadow DOM entirely, so `::part` does not apply to it; `candor-chat-input` clears itself *before* the consumer sees `send`; `candor-stat` has no redundant channel for its `color`; `candor-table` cells are `string[]`, so a row action is not expressible; and `candor-modal`, `candor-drawer`, `candor-pagination` and `candor-tabs` are controlled while `candor-accordion-item` and `candor-disclosure` are not.
+  Facts now recorded that a declaration file structurally cannot express — several found only by reading the source for this pass: `candor-input` did **not** forward `aria-label` to its inner control while six sibling controls did — filed as #270 and fixed below in this same release, so the block now documents the forwarding rather than the gap; `candor-heading` is `role="heading"` + `aria-level` rather than a native `<h1>`–`<h6>`; `candor-article` opts out of Shadow DOM entirely, so `::part` does not apply to it; `candor-chat-input` clears itself *before* the consumer sees `send`; `candor-stat` has no redundant channel for its `color`; `candor-table` cells are `string[]`, so a row action is not expressible; and `candor-modal`, `candor-drawer`, `candor-pagination` and `candor-tabs` are controlled while `candor-accordion-item` and `candor-disclosure` are not.
 
 - **`npm run audit:docs` gates the README's claims about the component surface against what `src/` actually registers (#267).** Checks the tag table in both directions and every prose count. Runs in CI in the `audit` job — an existing *required* status check, so it blocks on merge rather than only reporting.
 

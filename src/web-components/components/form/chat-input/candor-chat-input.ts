@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
 import { phPaperPlaneTiltFill } from '../../../icons';
+import { observeHostAriaLabel } from '../../../utils/host-aria';
 import type { CandorChatInputSendDetail } from '../../../events';
 
 let _nextId = 0;
@@ -29,6 +30,11 @@ let _nextId = 0;
  *
  * `disclaimer` renders standing small print beneath the composer — model
  * fallibility notices and similar. It is not a validation channel.
+ *
+ * The composer is named by `label`, which defaults to `"Message"` and renders a
+ * visually-hidden `<label>`. `aria-label` on the host is mirrored onto the
+ * textarea and stripped from the host, and overrides that default. Note it names
+ * the *composer* — the send button carries its own fixed name.
  *
  * @fires send - detail: CandorChatInputSendDetail — `{ value }`, the message text, after the composer has cleared
  */
@@ -100,6 +106,21 @@ export class CandorChatInput extends LitElement {
   @state() private _value = '';
   @state() private _statusMessage = '';
 
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  @state() private _ariaLabel?: string;
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
+
   @query('.chat-input__textarea') private _textarea!: HTMLTextAreaElement;
 
   private _id = _nextId++;
@@ -149,6 +170,7 @@ export class CandorChatInput extends LitElement {
             placeholder="${this.placeholder}"
             ?disabled="${this.disabled}"
             .value="${this._value}"
+            aria-label="${this._ariaLabel || nothing}"
             aria-describedby="${this._hintId}${this.disclaimer ? ' ' + this._inputId + '-disclaimer' : ''}"
             rows="1"
             @input="${this._onInput}"

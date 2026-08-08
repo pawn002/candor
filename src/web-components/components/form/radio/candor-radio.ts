@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../../utils/host-aria';
 
 /**
  * A single radio button. **Groups are resolved structurally, not by `name`** —
@@ -27,6 +28,12 @@ import { customElement, property } from 'lit/decorators.js';
  *
  * The `<legend>` is not decorative: it is what names the group for assistive
  * technology, and each radio's own label names only the option.
+ *
+ * `aria-label` on the host is mirrored onto the inner input and stripped from
+ * the host, the same as every other Candor form control. Note what it names,
+ * though: **this one option, not the group.** A group with no `<legend>` is not
+ * fixed by putting `aria-label` on its radios — that renames the options and
+ * leaves the group anonymous.
  *
  * A disabled radio needs an adjacent explanation of why — a locked control with
  * no reason reads as broken. See the disabled-hint convention in CLAUDE.md.
@@ -115,6 +122,21 @@ export class CandorRadio extends LitElement {
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  @state() private _ariaLabel?: string;
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
+
   private _id = `candor-radio-${Math.random().toString(36).slice(2, 9)}`;
 
   override updated(changed: Map<string, unknown>) {
@@ -200,6 +222,7 @@ export class CandorRadio extends LitElement {
           .value="${this.value}"
           .checked="${this.checked}"
           ?disabled="${this.disabled}"
+          aria-label="${this._ariaLabel || nothing}"
           name="${this.name || nothing}"
           @change="${this._onChange}"
           @keydown="${this._onKeydown}"

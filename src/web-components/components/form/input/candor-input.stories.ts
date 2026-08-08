@@ -13,7 +13,10 @@ state. Covers text, email, password, and number input types, plus a textarea mod
 \`multiline\`.
 
 The label is always rendered — never omit it for visual reasons. If the design calls for a
-labelless input, set \`aria-label\` on the host element so the field remains accessible.
+labelless input, set \`aria-label\` on the host element so the field remains accessible: the
+component mirrors it onto the inner control and strips it from the host, so the name is
+announced once rather than twice. Where both are set the \`aria-label\` wins outright, so make
+it contain the visible label text (WCAG 2.5.3) rather than replacing it.
 
 **Hint and error are shown simultaneously.** The hint appears above the input (between label
 and field); the error appears below. Both are associated with the field via \`aria-describedby\`

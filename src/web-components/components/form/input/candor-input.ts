@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../../utils/host-aria';
 
 /**
  * Single- or multi-line text entry. Set `multiline` to render a `<textarea>`
@@ -22,13 +23,11 @@ import { customElement, property, query } from 'lit/decorators.js';
  * or something the user can change elsewhere — because a greyed field with no
  * explanation reads as broken.
  *
- * **Name it with `label`, not `aria-label`.** Unlike `candor-select`,
- * `candor-listbox`, `candor-combobox`, `candor-autocomplete`, `candor-switch`
- * and `candor-slider`, this component does not forward `aria-label` from the
- * host to the inner control. ARIA on a custom-element host does not reach into
- * its shadow root, so `<candor-input aria-label="Email">` leaves the `<input>`
- * unnamed and adds a named generic to the accessibility tree. `label` renders a
- * real `<label for>` and is the supported path.
+ * **Prefer `label` — but `aria-label` on the host works too**, mirrored onto the
+ * inner control and stripped from the host so the name is announced once. Where
+ * both are set the `aria-label` wins outright, so make it *contain* the visible
+ * label text (WCAG 2.5.3) rather than replacing it with something unrelated.
+ * Setting neither leaves the control unnamed, and nothing reports that.
  *
  * @fires input - detail: string — the live value, on every keystroke
  * @fires change - detail: string — the committed value, on blur
@@ -81,6 +80,21 @@ export class CandorInput extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property() value = '';
   @property() autocomplete?: string;
+
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  @state() private _ariaLabel?: string;
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
 
   private _id = `candor-input-${Math.random().toString(36).slice(2, 9)}`;
   private _hintId = `${this._id}-hint`;
@@ -139,6 +153,7 @@ export class CandorInput extends LitElement {
               ?required="${this.required}"
               .placeholder="${this.placeholder || ''}"
               .value="${this.value}"
+              aria-label="${this._ariaLabel || nothing}"
               aria-invalid="${this.error ? 'true' : nothing}"
               aria-describedby="${describedBy}"
               name="${this.name || nothing}"
@@ -155,6 +170,7 @@ export class CandorInput extends LitElement {
               ?required="${this.required}"
               .placeholder="${this.placeholder || ''}"
               .value="${this.value}"
+              aria-label="${this._ariaLabel || nothing}"
               aria-invalid="${this.error ? 'true' : nothing}"
               aria-describedby="${describedBy}"
               name="${this.name || nothing}"
