@@ -6,6 +6,28 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **Both packages' `homepage` now points at the component catalog** rather than at the GitHub README (#267). `homepage` is what the npm registry page renders, what `npm home` opens, and what tooling reads when it wants "where are the docs" — pointing it at a README that then links the catalog put the one hop an automated reader is least likely to take between a consumer and the rules.
+
+- **Both READMEs now have a Documentation section that says what the packages are *not*.** The pointer that existed was a single line reading "Browse components", which describes a demo gallery; what is behind it is the usage rules, and those are the part that cannot be inferred from the package at all. The new section states plainly that the packages ship API surface only, names the questions the catalog answers and the package cannot, and records three facts about the web-components API that a declaration file structurally cannot express — that components emit `change` and `input` but never `changed`, that `candor-button` dispatches no custom events, and that there is no `size="icon"`.
+
+  The failure this addresses is not only "a consumer misses a rule" but "a consumer concludes the rule does not exist" — an exhaustive search of `node_modules` producing a confident wrong answer. One explicit sentence converts *I found nothing* into *I have not looked yet*.
+
+  Deliberately **not** done: vendoring the catalog into the tarball, or restating the rules in the README. Both create a second source of truth that will desync, which is the problem this release is fixing rather than one to add to.
+
+- **The root README's Storybook section now leads with the hosted catalog URL** instead of only clone-and-run instructions.
+
+### Added
+
+- **`npm run audit:docs` gates the README's claims about the component surface against what `src/` actually registers (#267).** Checks the tag table in both directions and every prose count. Runs in CI in the `audit` job — an existing *required* status check, so it blocks on merge rather than only reporting.
+
+  **The drift it was filed for turned out not to be drift.** Three counts were in circulation at 5.0.1 — "37 custom elements" in README prose, 40 tags in that same README's table, 41 in issue #257's title, the last having already propagated into a consumer's own notes. But **37 and 40 are both correct**: there are 37 component source files and 40 registered custom elements, because `candor-tabs`, `candor-toast` and `candor-toolbar` each register a companion element. The obvious fix — 37 → 40 everywhere — would have broken the hook-coverage measurements in `CLAUDE.md` and `Introduction.mdx`, whose denominator is components and whose parts sum to exactly 37.
+
+  So the defect was never a stale number; it was that "component" and "custom element" were used interchangeably, leaving nobody able to say which number a sentence was asking for. Both nouns are now used precisely, and the check validates each claim against the count its own noun names. The 41 is reproducible as `grep -c "@customElement('candor-"` over `src/` — the extra match is `candor-foo` in a doc comment in `utils/host-aria.ts`, so the scan reads decorators anchored to the start of a line, the same rule the `12px-ok:` marker and `check-package-deps.js`'s `@import` handling already follow: prose that demonstrates a syntax must not be read as an instance of it.
+
+  Verified by tripwire in three directions — a stale count, a registered tag missing from the table, and a table tag that is not registered. A fourth fired during development and is worth recording: the count pattern read "Lit 3 custom elements" as a claim of *three*, producing a failure indistinguishable from a real one.
+
 ## [5.0.1] - 2026-08-05
 
 ### Fixed

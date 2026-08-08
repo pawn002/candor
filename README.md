@@ -2,7 +2,13 @@
 
 A humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.1 AA accessibility baked in.
 
-**[Browse components →](https://main--69c25e2492ad056c24329876.chromatic.com)**
+**[Component catalog and usage rules →](https://main--69c25e2492ad056c24329876.chromatic.com)**
+
+## Documentation
+
+**The published packages ship API surface only** — CSS custom properties here, type declarations in `@candor-design/web-components`. Neither carries Candor's usage rules, and several of those rules are not expressible in a stylesheet or a `.d.ts` at all. Finding nothing in `node_modules` does not establish that Candor is silent on a question; it establishes that you have not looked yet.
+
+The rules live in the **[component catalog](https://main--69c25e2492ad056c24329876.chromatic.com)**, which is canonical. For tokens specifically, it is where to find which contrast floor applies to a given piece of text (the floor depends on font size *and* use-case tier), which tokens are validated for non-text use only, and why colours are authored in OKLCH and held inside the sRGB gamut.
 
 ## Install
 
@@ -77,7 +83,7 @@ CSS custom properties pierce Shadow DOM boundaries automatically — loading `ca
 
 ```js
 import '@candor-design/web-components';
-// All 37 custom elements are now registered
+// All 40 custom elements are now registered
 ```
 
 Named exports are also available for direct class access (e.g. typed references, programmatic instantiation). Importing any class still triggers the package's side-effectful `customElements.define()` calls, so the corresponding tag is also registered:
@@ -297,6 +303,10 @@ Outputs to `web-components/dist/`:
 - `index.d.ts` + per-component `.d.ts` — TypeScript declarations
 
 ### Storybook
+
+The published catalog is at **https://main--69c25e2492ad056c24329876.chromatic.com** and tracks `main` — as a consumer, that is the one to read; nothing below is needed to browse the components or their usage rules.
+
+To run it against local changes:
 
 ```bash
 npm run storybook

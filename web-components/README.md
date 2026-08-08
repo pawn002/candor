@@ -2,7 +2,25 @@
 
 Framework-agnostic Lit 3 custom elements for the [Candor design system](https://github.com/pawn002/candor) — a humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.1 AA accessibility.
 
-**[Browse components →](https://main--69c25e2492ad056c24329876.chromatic.com)**
+**[Component catalog and usage rules →](https://main--69c25e2492ad056c24329876.chromatic.com)**
+
+## Documentation
+
+**This package ships API surface only.** The type declarations give you member names and types. They do not carry Candor's usage rules, and several of those rules are not expressible in a `.d.ts` at all — so finding nothing in `node_modules` does not establish that Candor is silent on a question. It establishes that you have not looked yet.
+
+The rules live in the **[component catalog](https://main--69c25e2492ad056c24329876.chromatic.com)**, which is canonical. Questions it answers and this package cannot:
+
+- What markup a `candor-radio` group requires. The grouping is structural, not `name`-based as it is for native inputs, and getting it wrong disables arrow-key navigation *and* mutual exclusion with no error raised.
+- Which typeface a given piece of text takes, and why that is a decision rather than a preference.
+- Which contrast floor applies to a given piece of text — the floor depends on font size *and* use-case tier, so a colour compliant in one component is not automatically compliant in another.
+- Which icon set Candor uses and how an icon's weight is chosen. The icon font is not shipped in this package.
+- Which parts of a component are safe to restyle, and which are unsupported.
+
+Three facts about this package's own API, recorded here because *absence* is invisible in a declaration file:
+
+- The form controls emit **`change`** and **`input`**. There is no `changed` event — a listener bound to it never fires, and nothing reports that.
+- **`candor-button` dispatches no custom events.** Bind `@click` on the host element. (The full set of custom events across the library is `change`, `input`, `select`, `toggle`, `close` and `dismiss`.)
+- **There is no `size="icon"`.** Sizes are `small`, `medium` and `large`; an unrecognised value is accepted silently and does nothing.
 
 ## Install
 
@@ -29,7 +47,7 @@ Load the tokens stylesheet once at the document level and import the components 
 
 ```js
 import '@candor-design/web-components';
-// All 37 custom elements are now registered
+// All 40 custom elements are now registered
 ```
 
 Named exports give you typed access to the element classes — useful for programmatic instantiation or TypeScript references. Importing a class still triggers `customElements.define()`, so the tag is registered as a side effect:
@@ -40,7 +58,7 @@ import { CandorButton, CandorInput } from '@candor-design/web-components';
 
 ## What's included
 
-37 custom elements covering typography, display, navigation, forms, overlays, and data:
+37 components, registering 40 custom elements, covering typography, display, navigation, forms, overlays, and data. The two counts differ because three components register a companion element alongside the parent — shown as `(+ …)` below:
 
 | Category | Tags |
 |---|---|
