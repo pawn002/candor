@@ -7,6 +7,34 @@ export interface TabItem {
   label: string;
 }
 
+/**
+ * A tab set. The tab strip is built from the `tabs` array; the panels are
+ * slotted `candor-tab-panel` elements.
+ *
+ * **The two halves are joined by id.** Each `TabItem.id` must match the
+ * `panel-id` of a slotted panel. A mismatch is silent — the tab renders, the
+ * click registers, and no panel appears.
+ *
+ * ```html
+ * <candor-tabs .tabs=${[{id:'a',label:'Overview'},{id:'b',label:'Detail'}]} active-id="a">
+ *   <candor-tab-panel panel-id="a">…</candor-tab-panel>
+ *   <candor-tab-panel panel-id="b">…</candor-tab-panel>
+ * </candor-tabs>
+ * ```
+ *
+ * `active-id` is controlled: `change` reports the tab the user chose, and the
+ * consumer assigns it back. Leaving it unset shows no panel.
+ *
+ * The strip implements the ARIA tabs keyboard model — arrow keys move between
+ * tabs, and the strip is one tab stop, so Tab moves from the strip into the
+ * panel rather than across the tabs.
+ *
+ * Tabs are for alternate views of *sibling* content. Content the user should
+ * read in sequence, or that needs printing or linking, belongs on the page —
+ * hiding it behind a tab makes it unfindable.
+ *
+ * @fires change - detail: string — the id of the newly selected tab
+ */
 @customElement('candor-tabs')
 export class CandorTabs extends LitElement {
   static override styles = css`
@@ -300,6 +328,22 @@ export class CandorTabs extends LitElement {
   }
 }
 
+/**
+ * One panel in a `candor-tabs` set. Meaningless on its own.
+ *
+ * `panel-id` must match the `id` of a `TabItem` in the parent's `tabs` array —
+ * that pairing is what binds tab to panel, and a mismatch fails silently.
+ *
+ * `active` is managed by the parent; do not set it by hand. The host is a
+ * styling wrapper and the real `role="tabpanel"` lives inside it, so slotted
+ * content sits in the panel rather than beside it.
+ *
+ * All panels stay in the DOM; inactive ones are hidden. Content is therefore
+ * still findable by in-page search and still costs render time — do not use tabs
+ * to defer expensive work.
+ *
+ * Emits no custom events — `candor-tabs` emits `change` for the whole set.
+ */
 @customElement('candor-tab-panel')
 export class CandorTabPanel extends LitElement {
   static override styles = css`

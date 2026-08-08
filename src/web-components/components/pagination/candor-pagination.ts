@@ -5,6 +5,26 @@ import { observeHostAriaLabel } from '../../utils/host-aria';
 
 type PageItem = number | 'ellipsis';
 
+/**
+ * Page navigation for a paged collection.
+ *
+ * **Controlled, not self-advancing.** `change` reports the page the user asked
+ * for; the component does not move to it. Assign `current-page` in response, or
+ * the control appears dead. The requested page is clamped to
+ * `1…total-pages` before the event fires, so `detail` is always in range.
+ *
+ * `compact` swaps the numbered buttons for a "Page N of M" readout in a live
+ * region — appropriate for narrow viewports and for large page counts where a
+ * numbered strip is more noise than navigation.
+ *
+ * `aria-label` on the host is supported and names the nav landmark. Set it when
+ * a page has more than one paginated region, so the two are distinguishable in
+ * a landmark list.
+ *
+ * Previous/Next disable themselves at the ends rather than wrapping.
+ *
+ * @fires change - detail: number — the requested page, clamped to 1…total-pages
+ */
 @customElement('candor-pagination')
 export class CandorPagination extends LitElement {
   static override styles = css`

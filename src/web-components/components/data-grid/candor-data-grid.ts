@@ -16,6 +16,42 @@ export interface GridRow {
   cells: GridCell[];
 }
 
+/**
+ * A two-dimensional grid of selectable cells — a colour matrix, a seat map, a
+ * swatch picker.
+ *
+ * Choose against `candor-table` on interaction, not on data shape: a table is
+ * content to read; this is a widget the user navigates cell by cell with arrow
+ * keys, as `role="grid"` promises. Using it for text a reader only scans
+ * imposes a keyboard model that gets in the way.
+ *
+ * **Pass data through attributes, not a `<script>` tag.** A `<script>` inside a
+ * lit-html story template never executes, so the element silently renders empty:
+ *
+ * ```html
+ * <candor-data-grid rows='${JSON.stringify(rows)}' column-headers='${JSON.stringify(headers)}'></candor-data-grid>
+ * ```
+ *
+ * The JS property is camelCase (`el.columnHeaders`); the attribute is
+ * `column-headers`.
+ *
+ * `GridCell.background` and `foreground` are per-cell colour overrides for
+ * matrices whose cells *are* the data. **They bypass the token system and
+ * therefore the contrast audit** — nothing measures a colour supplied at
+ * runtime, so the pairing is the consumer's responsibility. Do not reach for
+ * them for ordinary emphasis.
+ *
+ * `cell-activate` carries the row and column indexes and the `GridCell` itself.
+ * Selection is not applied for you: set `GridCell.selected` and re-render.
+ *
+ * `hide-headers` hides the headers visually but keeps them for assistive
+ * technology, so the grid stays navigable; `show-labels` renders each cell's
+ * `label` as visible text rather than leaving it as the accessible name only.
+ *
+ * Set `caption` — it is the grid's accessible name.
+ *
+ * @fires cell-activate - detail: CandorCellActivateDetail — `{ row, col, cell }` for the activated cell
+ */
 @customElement('candor-data-grid')
 export class CandorDataGrid extends LitElement {
   static override styles = css`

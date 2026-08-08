@@ -5,6 +5,33 @@ import type { CandorChatInputSendDetail } from '../../../events';
 
 let _nextId = 0;
 
+/**
+ * The composer for a conversational surface — an auto-growing textarea with a
+ * send affordance.
+ *
+ * **Enter sends; Shift+Enter inserts a newline.** That is the convention users
+ * bring from chat clients, and it is not configurable here.
+ *
+ * **The component clears itself after a successful send** and announces "Message
+ * sent" in a live region. Do not also clear it from your `send` handler, and do
+ * not treat the event as a request you may decline — by the time it fires the
+ * text is already gone. If the send can fail, keep your own copy of
+ * `detail.value` so you can restore or retry.
+ *
+ * Whitespace-only input is ignored, and no event fires while `disabled`. Note
+ * that the guard trims but `detail.value` does not — a message with leading or
+ * trailing whitespace arrives with it intact, so trim at the point of use if
+ * that matters.
+ *
+ * Unlike the other form controls this is **not** form-associated: it does not
+ * participate in `<form>` submission or `FormData`. It is a message composer,
+ * not a field.
+ *
+ * `disclaimer` renders standing small print beneath the composer — model
+ * fallibility notices and similar. It is not a validation channel.
+ *
+ * @fires send - detail: CandorChatInputSendDetail — `{ value }`, the message text, after the composer has cleared
+ */
 @customElement('candor-chat-input')
 export class CandorChatInput extends LitElement {
   static override styles = css`

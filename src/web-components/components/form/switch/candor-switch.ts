@@ -2,6 +2,25 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { observeHostAriaLabel } from '../../../utils/host-aria';
 
+/**
+ * A toggle for a setting that takes effect immediately.
+ *
+ * The choice against `candor-checkbox` is about *when* the change applies, not
+ * about appearance: a switch commits on toggle, a checkbox commits when the
+ * surrounding form is submitted. A switch inside a form with a Save button is
+ * the wrong control — it promises immediacy the form does not deliver.
+ *
+ * `aria-label` on the host **is** supported here: it is mirrored onto the inner
+ * control and stripped from the host, so screen readers announce the name once
+ * rather than twice. Prefer the visible `label` where the design allows one.
+ *
+ * `hint` is the standing explanation slot. A disabled switch must use it to say
+ * why the control is locked — for a switch especially, since the off state and
+ * the disabled state look similar and the user cannot tell whether the setting
+ * is off or unavailable.
+ *
+ * @fires change - detail: boolean — the new checked state, on user toggle
+ */
 @customElement('candor-switch')
 export class CandorSwitch extends LitElement {
   static formAssociated = true;

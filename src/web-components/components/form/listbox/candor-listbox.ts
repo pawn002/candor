@@ -11,6 +11,27 @@ export interface ListboxOption {
 
 let _nextId = 0;
 
+/**
+ * A styleable dropdown — a custom trigger button plus an ARIA listbox popup,
+ * rather than a native `<select>`.
+ *
+ * Prefer `candor-select` unless the trigger or the options need presentation the
+ * native control cannot give you. This component reimplements the popup,
+ * keyboard model and dismiss behaviour that the platform would otherwise
+ * provide, and on mobile it replaces the OS picker with a web one.
+ *
+ * **`change.detail` is the whole `ListboxOption` object, not a string** — the
+ * difference from `candor-select`, and the easiest thing to get wrong when
+ * switching between them. Read `detail.value` for the value.
+ *
+ * See `candor-select` for the four-way comparison against `candor-combobox` and
+ * `candor-autocomplete`.
+ *
+ * `aria-label` on the host is supported and is mirrored inward. A disabled
+ * listbox must carry a `hint` explaining the lock.
+ *
+ * @fires change - detail: ListboxOption — the selected option object
+ */
 @customElement('candor-listbox')
 export class CandorListbox extends LitElement {
   static formAssociated = true;

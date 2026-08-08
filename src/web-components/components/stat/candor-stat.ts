@@ -4,6 +4,34 @@ import { customElement, property } from 'lit/decorators.js';
 type StatColor = 'default' | 'success' | 'warning' | 'error' | 'info';
 type StatSize  = 'sm' | 'md' | 'lg';
 
+/**
+ * A single numeric readout — a value, an optional unit, and a label naming what
+ * is measured.
+ *
+ * **`color` is not a redundant channel, and this is the one thing to get right
+ * here.** Unlike `candor-alert` and `candor-accessible-text role_="state"`, this
+ * component renders no icon: "847 ms" in amber and "847 ms" in green differ only
+ * in hue. The value is a number and the label names the *quantity*, not whether
+ * it is good — so nothing in the default rendering tells a reader who cannot use
+ * colour that the figure is a problem.
+ *
+ * The default `<slot>` is where that channel goes, and
+ * `candor-accessible-text role_="state"` is its intended occupant, because its
+ * tone icon is component-rendered and so cannot be left off:
+ *
+ * ```html
+ * <candor-stat value="847" unit="ms" label="p99 latency" color="warning">
+ *   <candor-accessible-text role_="state" tone="warning">Above target</candor-accessible-text>
+ * </candor-stat>
+ * ```
+ *
+ * Setting `color` with an empty slot is the failure mode, not a shortcut.
+ *
+ * `unit` is folded into the value's accessible name so screen readers announce
+ * "847 ms" rather than the number alone.
+ *
+ * Emits no custom events.
+ */
 @customElement('candor-stat')
 export class CandorStat extends LitElement {
   static override styles = css`

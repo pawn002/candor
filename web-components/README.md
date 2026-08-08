@@ -19,7 +19,7 @@ The rules live in the **[component catalog](https://main--69c25e2492ad056c243298
 Three facts about this package's own API, recorded here because *absence* is invisible in a declaration file:
 
 - The form controls emit **`change`** and **`input`**. There is no `changed` event — a listener bound to it never fires, and nothing reports that.
-- **`candor-button` dispatches no custom events.** Bind `@click` on the host element. (The full set of custom events across the library is `change`, `input`, `select`, `toggle`, `close` and `dismiss`.)
+- **`candor-button` dispatches no custom events.** Bind `@click` on the host element. (The full set across the library is `cell-activate`, `change`, `close`, `color-select`, `dismiss`, `input`, `select`, `send` and `toggle` — checked against the source by `npm run audit:docs`.)
 - **There is no `size="icon"`.** Sizes are `small`, `medium` and `large`; an unrecognised value is accepted silently and does nothing.
 
 ## Install

@@ -14,6 +14,41 @@ const TONE_ICON: Record<AccessibleTextTone, string> = {
   info: phInfoFill,
 };
 
+/**
+ * Instructional text set in Atkinson Hyperlegible — text the reader must decode
+ * precisely to know what to do next.
+ *
+ * The test against `candor-text` is functional, not a matter of importance:
+ * could a reader who cannot resolve the glyphs still act correctly? If no, it
+ * belongs here. Form labels, validation errors and action-required hints do;
+ * data values, results and counters do not.
+ *
+ * The property is `role_`, not `role`. It reflects to an attribute, and
+ * reflecting to `role` would overwrite the element's own ARIA role — so the
+ * attribute a consumer writes is `role_="status"`.
+ *
+ * `role_` also decides the size, and the two are not independently adjustable
+ * for a reason. `status` is 16px because it is the *sole* channel for an
+ * instruction: an icon can say something is wrong but not which field or what
+ * format, so no redundant channel makes 14px sufficient. `state` stays at 14px
+ * because it renders an `aria-hidden` tone icon that genuinely carries the
+ * outcome. The test between them: could a reader who cannot resolve the glyphs
+ * still act correctly? Yes → `state`. No → `status`.
+ *
+ * Because `state`'s icon carries the outcome, its text needs no colour — leave
+ * `color` at `primary` and let `tone` select the icon. Moving colour onto the
+ * icon is what removes the contrast constraint rather than negotiating with it.
+ *
+ * Do not hand-type a status glyph into the slot (`✕ Error: …`). A screen reader
+ * announces the character, and it is invisible to the contrast audit. Use
+ * `role_="state"` when an icon is wanted.
+ *
+ * Bold is for hierarchy and labelling only — `role_="label"` applies it already.
+ * Do not add `bold` to an error or status message: the colour carries urgency,
+ * and bold on top of it is double-emphasis.
+ *
+ * Emits no custom events.
+ */
 @customElement('candor-accessible-text')
 export class CandorAccessibleText extends LitElement {
   static override styles = css`

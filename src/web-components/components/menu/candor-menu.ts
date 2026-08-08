@@ -11,6 +11,35 @@ export interface MenuItem {
 
 export type MenuEntry = MenuItem | 'separator';
 
+/**
+ * A dropdown menu of commands.
+ *
+ * `entries` is a union: a `MenuItem` object, or the literal string
+ * `'separator'`. Separators are rendered as `role="separator"` and skipped by
+ * keyboard navigation, so they cost nothing to include.
+ *
+ * ```ts
+ * entries = [{label:'Rename'}, 'separator', {label:'Delete', disabled:true}];
+ * ```
+ *
+ * **A menu is for actions, not for choosing a value.** If the result is a value
+ * bound to a field, use `candor-select` or `candor-listbox` — those are form
+ * controls and participate in submission; this is not.
+ *
+ * Setting `checked` on any item switches every item's role from `menuitem` to
+ * `menuitemradio` for that render, which changes how the whole set is announced.
+ * That is right for a set of mutually exclusive view options and wrong for a
+ * mixed list of commands where one happens to be checked.
+ *
+ * `select` carries the whole `MenuItem`, not an index or a label. Disabled items
+ * do not emit it.
+ *
+ * `label` names the trigger and must describe what the menu affects — several
+ * menus all labelled "Options" are indistinguishable by voice control and in a
+ * screen reader's control list.
+ *
+ * @fires select - detail: MenuItem — the chosen entry
+ */
 @customElement('candor-menu')
 export class CandorMenu extends LitElement {
   static override styles = css`
