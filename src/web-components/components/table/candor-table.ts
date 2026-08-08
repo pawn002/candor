@@ -6,6 +6,33 @@ export interface TableRow {
   isHeader?: boolean;
 }
 
+/**
+ * A static data table. Structure comes from `headers` and `rows`, not from
+ * slotted markup.
+ *
+ * **Cells are `string[]` — there is no way to put interactive or marked-up
+ * content in one.** No links, buttons, badges or icons. A table needing a row
+ * action or a status chip is not this component; compose the markup yourself or
+ * use `candor-data-grid`, whose cells carry more.
+ *
+ * **Always set `caption`.** It is the table's accessible name, and a page with
+ * several tables is otherwise a list of anonymous "table" landmarks to anyone
+ * navigating by structure. It is visible text, not a tooltip — treat it as the
+ * table's title rather than as an accessibility afterthought.
+ *
+ * `TableRow.isHeader` promotes a row's cells to `<th scope="row">`, which is
+ * what makes a key/value table readable: without it, a screen reader announces
+ * the value with no idea which key it belongs to.
+ *
+ * `numeric-columns` right-aligns and tabular-figures those column indexes;
+ * `mono-columns` sets them in the mono face. Both take **zero-based indexes**,
+ * and an out-of-range index is ignored silently.
+ *
+ * Choose against `candor-data-grid` on interaction: this is content to read, a
+ * grid is a two-dimensional widget the user navigates cell by cell.
+ *
+ * Emits no custom events.
+ */
 @customElement('candor-table')
 export class CandorTable extends LitElement {
   static override styles = css`

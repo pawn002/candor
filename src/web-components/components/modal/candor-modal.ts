@@ -4,6 +4,35 @@ import { phX } from '../../icons';
 
 type ModalSize = 'sm' | 'md' | 'lg';
 
+/**
+ * A modal dialog, backed by the native `<dialog>` element and `showModal()` —
+ * so the focus trap, inertness of the page behind, and Escape-to-close come from
+ * the platform rather than from script.
+ *
+ * **Controlled.** `close` reports that the user dismissed it; the component does
+ * not clear `open` for you. Set `open = false` in response or it reopens on the
+ * next render.
+ *
+ * Set `alert` for a decision the user cannot postpone — it switches the role to
+ * `alertdialog`, which tells assistive technology to announce the content
+ * immediately. Use it for destructive confirmations, not for ordinary forms.
+ *
+ * **Do not put `<header>` or `<footer>` in slotted content.** They carry
+ * implicit `banner` and `contentinfo` landmark roles, which are not suppressed
+ * inside a dialog, so they leak page-level landmarks into the dialog. The
+ * component's own header already sets `role="none"` for this reason; use `<div>`
+ * in anything you slot.
+ *
+ * The body is focusable and named, so a scrollable dialog can be reached and
+ * scrolled by keyboard — a scroll region that cannot receive focus is
+ * unreachable without a pointer.
+ *
+ * Choose against `candor-drawer` on interruption, not on size: a modal blocks
+ * the task until answered; a drawer is a panel alongside it. If the user could
+ * reasonably keep working, it is a drawer.
+ *
+ * @fires close - detail: none — the user dismissed the dialog; the consumer must clear `open`
+ */
 @customElement('candor-modal')
 export class CandorModal extends LitElement {
   static override styles = css`

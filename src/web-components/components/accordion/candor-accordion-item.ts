@@ -2,6 +2,33 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { phCaretDownBold } from '../../icons';
 
+/**
+ * One expandable section. **There is no accordion container** — this is the item
+ * only, and the name says so.
+ *
+ * Two consequences. Sequential items form an accordion by adjacency, with no
+ * wrapper to add. And nothing enforces one-open-at-a-time: if the design needs
+ * that exclusivity, the consumer closes the siblings in response to `toggle`.
+ * Most of the time exclusivity is not wanted anyway — it hides content the user
+ * just asked to compare.
+ *
+ * `toggle` reports the new state, and `open` **is** updated by the component, so
+ * this is not a controlled component in the way modal and drawer are. Bind
+ * `toggle` to react, not to assign.
+ *
+ * The choice against `candor-disclosure` is grouping: a disclosure is one
+ * standalone "show more" affordance; this is a member of a set and is styled to
+ * sit in a stack.
+ *
+ * `variant="quiet"` renders the heading at weight 500. Structural nesting is
+ * what makes it legible at that weight — do not use it for a standalone item
+ * where that context is absent.
+ *
+ * Content stays in the DOM when collapsed, so it remains findable by in-page
+ * search.
+ *
+ * @fires toggle - detail: boolean — the new open state
+ */
 @customElement('candor-accordion-item')
 export class CandorAccordionItem extends LitElement {
   static override styles = css`

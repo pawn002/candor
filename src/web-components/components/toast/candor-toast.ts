@@ -4,6 +4,30 @@ import { phInfoFill, phCheckCircleFill, phWarningFill, phXCircleFill, phX } from
 
 type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 
+/**
+ * A transient notification. Place inside a `candor-toast-container`, which owns
+ * the stacking and screen position.
+ *
+ * The choice against `candor-alert` is persistence: an alert stays until the
+ * condition changes and sits next to what it concerns; a toast floats and goes
+ * away. **Anything the user may need to re-read is an alert** — a toast that has
+ * disappeared cannot be recovered, so it is the wrong carrier for an error the
+ * user must act on, or for detail they might need twice.
+ *
+ * Each variant renders its own icon shape, so the meaning is not carried by
+ * colour alone. As with `candor-alert`, the variant also sets the announcement
+ * politeness: `error` and `warning` announce assertively, the others politely.
+ *
+ * **This component does not dismiss itself.** There is no duration or timeout
+ * property — `dismiss` fires when the user activates the close button, and any
+ * auto-expiry is the consumer's timer removing the element.
+ *
+ * For a live region to announce reliably it must be in the DOM before its text
+ * arrives, so render the container up front and add toasts into it, rather than
+ * creating a container and its first toast in the same update.
+ *
+ * @fires dismiss - detail: none — the user activated the close button; the consumer must remove the toast
+ */
 @customElement('candor-toast')
 export class CandorToast extends LitElement {
   static override styles = css`
@@ -98,6 +122,22 @@ export class CandorToast extends LitElement {
   }
 }
 
+/**
+ * Fixed-position stack for `candor-toast` elements. Owns where toasts appear and
+ * how they stack; the toasts own their own content and dismissal.
+ *
+ * Render it once, high in the app, and keep it mounted — adding and removing it
+ * alongside its toasts defeats the live-region announcement, which needs the
+ * region present before the text arrives.
+ *
+ * It is a positioned wrapper with no role of its own: the announcement comes
+ * from each toast, so an empty container is inert and costs nothing.
+ *
+ * One per screen position. Two containers at `top-right` will overlap, since
+ * each stacks independently.
+ *
+ * Emits no custom events — the toasts inside emit their own `dismiss`.
+ */
 @customElement('candor-toast-container')
 export class CandorToastContainer extends LitElement {
   static override styles = css`

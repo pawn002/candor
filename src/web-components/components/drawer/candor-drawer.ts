@@ -5,6 +5,37 @@ import { phX } from '../../icons';
 type DrawerPosition = 'left' | 'right' | 'bottom';
 type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
 
+/**
+ * A panel sliding in from an edge, backed by the native `<dialog>`.
+ *
+ * **Controlled.** `close` reports dismissal; the component does not clear `open`
+ * for you.
+ *
+ * Choose against `candor-modal` on interruption rather than shape: a modal
+ * blocks the task until answered, a drawer sits alongside it. If the user could
+ * reasonably keep working, this is the right component — and if they genuinely
+ * can, also set `modal="false"`, which uses a non-modal dialog that does not
+ * trap focus or inert the page. A modal drawer that is really a side panel makes
+ * the rest of the page unusable for no reason.
+ *
+ * Non-modal drawers deliberately do **not** steal focus on open, so a persistent
+ * inspector or filter panel does not yank the caret out of whatever the user is
+ * typing in.
+ *
+ * `modal` and `dismiss-on-backdrop` both use a custom boolean converter rather
+ * than `type: Boolean` — see their own comments. The short version: write
+ * `modal="false"`, not a bare attribute, and expect the string `"false"` to be
+ * honoured, which Lit's default converter would not do.
+ *
+ * **Do not put `<header>` or `<footer>` in slotted content** — they contribute
+ * `banner` and `contentinfo` landmarks that are not suppressed inside a dialog.
+ * The component's own header sets `role="none"` for this reason.
+ *
+ * `--candor-drawer-size` and `--candor-drawer-height` override the size rungs
+ * for a one-off without a new variant.
+ *
+ * @fires close - detail: none — the user dismissed the drawer; the consumer must clear `open`
+ */
 @customElement('candor-drawer')
 export class CandorDrawer extends LitElement {
   static override styles = css`
