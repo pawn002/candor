@@ -1,6 +1,38 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
+/**
+ * Single- or multi-line text entry. Set `multiline` to render a `<textarea>`
+ * instead of an `<input>`; `rows` and `resize` apply only in that mode.
+ *
+ * Two events, and the distinction is the usual one: `input` fires the live value
+ * on every keystroke, `change` fires the committed value on blur. Both carry a
+ * plain string in `detail`. There is no `changed` event — a listener bound to
+ * that name never fires and nothing reports it.
+ *
+ * `error` renders the message in a pre-established live region and sets
+ * `aria-invalid`, so assign it reactively rather than conditionally rendering
+ * the element. Validation errors render at 16px here, which is deliberate:
+ * must-read text is Tier 1, and Tier 1 regular text below 16px cannot meet its
+ * contrast floor in any chromatic colour (#240). Prefer this built-in `error`
+ * over a hand-placed message, which is easy to size at 14px by accident.
+ *
+ * `hint` is for standing guidance (format, constraints). A **disabled** input
+ * must carry one explaining the lock — permission boundary, system constraint,
+ * or something the user can change elsewhere — because a greyed field with no
+ * explanation reads as broken.
+ *
+ * **Name it with `label`, not `aria-label`.** Unlike `candor-select`,
+ * `candor-listbox`, `candor-combobox`, `candor-autocomplete`, `candor-switch`
+ * and `candor-slider`, this component does not forward `aria-label` from the
+ * host to the inner control. ARIA on a custom-element host does not reach into
+ * its shadow root, so `<candor-input aria-label="Email">` leaves the `<input>`
+ * unnamed and adds a named generic to the accessibility tree. `label` renders a
+ * real `<label for>` and is the supported path.
+ *
+ * @fires input - detail: string — the live value, on every keystroke
+ * @fires change - detail: string — the committed value, on blur
+ */
 @customElement('candor-input')
 export class CandorInput extends LitElement {
   static formAssociated = true;

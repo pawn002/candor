@@ -20,6 +20,11 @@ let _nextId = 0;
  * the live text on every keystroke; `change` fires the committed text on blur,
  * on Enter, and when a suggestion is chosen. Both carry a plain string — the
  * same shape as candor-input — because the value is always free text.
+ *
+ * See `candor-select` for the four-way comparison across all the pickers.
+ *
+ * @fires input - detail: string — the live text, on every keystroke
+ * @fires change - detail: string — the committed text, on blur, Enter, or suggestion choice
  */
 @customElement('candor-autocomplete')
 export class CandorAutocomplete extends LitElement {

@@ -9,6 +9,8 @@ import { customElement } from 'lit/decorators.js';
  *
  * For block/multiline code, wrap in a `<pre>` or use a syntax-highlighting
  * surface — this element is for inline spans within prose.
+ *
+ * Emits no custom events.
  */
 @customElement('candor-code')
 export class CandorCode extends LitElement {

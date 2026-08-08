@@ -10,6 +10,29 @@ export interface ComboboxOption {
 
 let _nextId = 0;
 
+/**
+ * A filterable picker: the user types to narrow the list, but the committed
+ * value is **constrained to the option set**.
+ *
+ * That constraint is the whole distinction from `candor-autocomplete`, which
+ * accepts whatever the user types and treats its suggestions as non-binding.
+ * Reach for this when a value outside the set would be invalid (a country, an
+ * account, a known tag); reach for autocomplete when free text is legitimate and
+ * the suggestions are a convenience.
+ *
+ * **`change` can fire with `detail: null`** — that is the "no valid selection"
+ * signal, emitted when the user clears or abandons a partial entry. A handler
+ * that assumes an object will throw on it. `input` carries the raw filter text
+ * as a string and is not a value commit.
+ *
+ * See `candor-select` for the four-way comparison across all the pickers.
+ *
+ * `aria-label` on the host is supported and is mirrored inward. A disabled
+ * combobox must carry a `hint` explaining the lock.
+ *
+ * @fires input - detail: string — the live filter text, on every keystroke
+ * @fires change - detail: ComboboxOption | null — the committed option, or null when none is selected
+ */
 @customElement('candor-combobox')
 export class CandorCombobox extends LitElement {
   static formAssociated = true;

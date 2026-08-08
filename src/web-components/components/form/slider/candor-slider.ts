@@ -2,6 +2,35 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { observeHostAriaLabel } from '../../../utils/host-aria';
 
+/**
+ * A range slider. The defaults (`min` 0, `max` 1, `step` 0.001) are tuned for
+ * normalised axes such as OKLCH lightness and chroma rather than for percentages
+ * or counts — set all three explicitly for anything else.
+ *
+ * **`valueTextFn` is how the value is announced**, via `aria-valuetext`. Without
+ * it, assistive technology reads the raw number, which for a normalised axis is
+ * meaningless ("0.482"). There is deliberately no built-in formatter: axes like
+ * chroma have a maximum that moves with lightness and hue, so any auto-computed
+ * label would be confidently wrong. Supply the semantics.
+ *
+ * It takes a function, so it must be set as a **property**, not an attribute —
+ * `el.valueTextFn = v => …` or lit's `.valueTextFn=${…}`. The attribute form
+ * cannot carry a function.
+ *
+ * `input` fires continuously as the user drags; `change` fires once on release.
+ * Bind expensive work to `change`.
+ *
+ * **There is no `hint` property.** The disabled state dims the host, which would
+ * dim an internal hint along with it — so a disabled slider's explanation goes
+ * in an adjacent `<candor-accessible-text role_="annotation">`, which stays at
+ * full contrast. That explanation is required, not optional: a dimmed slider
+ * with no reason reads as broken.
+ *
+ * `aria-label` on the host is supported and is mirrored onto the inner input.
+ *
+ * @fires input - detail: number — the live value, continuously while dragging
+ * @fires change - detail: number — the committed value, on release
+ */
 @customElement('candor-slider')
 export class CandorSlider extends LitElement {
   static formAssociated = true;

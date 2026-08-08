@@ -10,6 +10,34 @@ type TextVariant = 'body' | 'caption' | 'label';
 type TextSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 type TextColor = 'primary' | 'secondary' | 'disabled';
 
+/**
+ * Body copy, captions, and uppercase UI labels — the *comprehension* half of
+ * Candor's type system, set in Roboto Flex.
+ *
+ * Choosing between this and `candor-accessible-text` is not a judgment about
+ * importance; all text in a good UI is important. The question is whether the
+ * reader must decode this text precisely to know what to do next. A validation
+ * error, a form label, an action-required hint → instructional, use
+ * `candor-accessible-text`. A data value, a classification result, a heading
+ * that organises data, running prose → the reader is forming a judgment, use
+ * this.
+ *
+ * Two cases that look instructional and are not: a section heading labelling
+ * data ("Classification breakdown") is `variant="label"` here, not
+ * `candor-accessible-text role_="label"`; and a counter or readout ("14 of 47
+ * reviewed") is comprehension text, so it belongs here too.
+ *
+ * There is no `xs` size (removed in 5.0.0). 12px is below the readable-text
+ * floor, and a component whose purpose is readable text should not offer a size
+ * at which its own output is disallowed. For badge chrome or icon glyphs, use
+ * `--font-size-xs` directly — those are not text and are not set through here.
+ *
+ * `variant="label"` uppercases through CSS `text-transform`, so write the slot
+ * content in sentence case: assistive technology reads the DOM text, not the
+ * rendered casing.
+ *
+ * Emits no custom events.
+ */
 @customElement('candor-text')
 export class CandorText extends LitElement {
   static override styles = css`

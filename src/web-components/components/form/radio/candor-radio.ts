@@ -1,6 +1,38 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
+/**
+ * A single radio button. **Groups are resolved structurally, not by `name`** —
+ * this is the one thing to know before using it.
+ *
+ * Each radio lives in its own shadow root, so the browser cannot tie
+ * shared-`name` inputs into a mutually-exclusive, arrow-navigable set the way it
+ * does for native inputs. The component reimplements both behaviours by querying
+ * sibling `candor-radio[name="…"]` elements within a scope — and that scope is
+ * `closest('fieldset')`, falling back to `parentElement`.
+ *
+ * The practical consequence: wrap every group in a `<fieldset>` with a
+ * `<legend>`. Any real layout puts each option in its own wrapper element, and
+ * without the fieldset the scope collapses to that wrapper — so each radio sees
+ * only itself. **Arrow-key navigation and mutual exclusion both stop, silently.**
+ * No error is raised, nothing is logged, and the control still looks correct.
+ *
+ * ```html
+ * <fieldset>
+ *   <legend>Notification frequency</legend>
+ *   <div><candor-radio name="freq" value="all" label="Everything"></candor-radio></div>
+ *   <div><candor-radio name="freq" value="none" label="Nothing"></candor-radio></div>
+ * </fieldset>
+ * ```
+ *
+ * The `<legend>` is not decorative: it is what names the group for assistive
+ * technology, and each radio's own label names only the option.
+ *
+ * A disabled radio needs an adjacent explanation of why — a locked control with
+ * no reason reads as broken. See the disabled-hint convention in CLAUDE.md.
+ *
+ * @fires change - detail: string — this radio's `value`, when the user selects it
+ */
 @customElement('candor-radio')
 export class CandorRadio extends LitElement {
   static formAssociated = true;
@@ -69,6 +101,16 @@ export class CandorRadio extends LitElement {
 
   @property() label?: string;
   @property() value = '';
+  /**
+   * Group identity — but **not** the grouping mechanism, unlike a native
+   * `<input type="radio">`. Radios with the same `name` are only tied together
+   * if they also share a `<fieldset>` (see the class comment): `name` selects
+   * the siblings, the fieldset bounds the search. Setting `name` alone on radios
+   * in separate wrappers produces a group that silently does not group.
+   *
+   * Leaving it unset opts out of grouping entirely — `_groupSiblings` returns
+   * empty, so arrow keys and mutual exclusion do nothing.
+   */
   @property() name?: string;
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;

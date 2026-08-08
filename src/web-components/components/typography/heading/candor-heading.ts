@@ -4,6 +4,27 @@ import { customElement, property } from 'lit/decorators.js';
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 type HeadingColor = 'primary' | 'secondary' | 'disabled';
 
+/**
+ * A heading. `level` sets the visual size and the semantic level together — they
+ * are deliberately not separable.
+ *
+ * The semantics are ARIA, not markup. This element renders a bare `<slot>` and
+ * carries `role="heading"` with `aria-level` on the host, resynced whenever
+ * `level` changes; it does **not** emit an `<h1>`–`<h6>`. Screen readers get the
+ * correct level either way, but tooling that looks for native heading *elements*
+ * rather than the heading *role* will not find it.
+ *
+ * There is no separate `size` property, so "an h2 that looks like an h4" is not
+ * expressible. That is the point: if a heading needs to be smaller, it is
+ * usually the wrong level. For large display text carrying no heading semantics,
+ * use `candor-text`, which has sizes up to `3xl` and no role.
+ *
+ * Weight is constant across levels; hierarchy comes from size plus
+ * `font-optical-sizing: auto`, which lets the Roboto Flex `opsz` axis thicken
+ * strokes as size grows. That gradient is why there is no `bold` property here.
+ *
+ * Emits no custom events.
+ */
 @customElement('candor-heading')
 export class CandorHeading extends LitElement {
   static override styles = css`

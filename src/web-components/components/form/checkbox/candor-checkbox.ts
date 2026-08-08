@@ -1,6 +1,25 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
+/**
+ * A single checkbox. Independent by design — unlike `candor-radio`, there is no
+ * grouping mechanism here, because checkboxes are not mutually exclusive and
+ * need no roving-focus shim.
+ *
+ * A set of related checkboxes should still be wrapped in a `<fieldset>` with a
+ * `<legend>`, which is what names the set for assistive technology. That is a
+ * consumer-level markup rule this component cannot enforce; nothing breaks
+ * functionally without it, but the group has no accessible name.
+ *
+ * Names itself with `label`, which renders a real `<label>`. Setting
+ * `aria-label` on the host does **not** reach the inner input — this component
+ * does not forward it.
+ *
+ * A disabled checkbox must carry an adjacent explanation of why it is locked; a
+ * greyed control with no reason reads as broken.
+ *
+ * @fires change - detail: boolean — the new checked state, on user toggle
+ */
 @customElement('candor-checkbox')
 export class CandorCheckbox extends LitElement {
   static formAssociated = true;
