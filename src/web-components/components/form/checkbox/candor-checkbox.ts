@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import { observeHostAriaLabel } from '../../../utils/host-aria';
 
 /**
  * A single checkbox. Independent by design — unlike `candor-radio`, there is no
@@ -11,9 +12,11 @@ import { customElement, property } from 'lit/decorators.js';
  * consumer-level markup rule this component cannot enforce; nothing breaks
  * functionally without it, but the group has no accessible name.
  *
- * Names itself with `label`, which renders a real `<label>`. Setting
- * `aria-label` on the host does **not** reach the inner input — this component
- * does not forward it.
+ * Names itself with `label`, which renders a real `<label>`; slotted content
+ * inside that label names it too. `aria-label` on the host also works — it is
+ * mirrored onto the inner input and stripped from the host — but it *overrides*
+ * the visible text rather than adding to it, so where both exist the
+ * `aria-label` must contain the visible label (WCAG 2.5.3).
  *
  * A disabled checkbox must carry an adjacent explanation of why it is locked; a
  * greyed control with no reason reads as broken.
@@ -96,6 +99,21 @@ export class CandorCheckbox extends LitElement {
   @property({ type: Boolean }) required = false;
   @property() name?: string;
 
+  // aria-label observed manually so the attribute is stripped off the host
+  // (avoids host/inner double-naming — see utils/host-aria.ts).
+  @state() private _ariaLabel?: string;
+  private _stopObservingAriaLabel?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this._stopObservingAriaLabel = observeHostAriaLabel(this, (v) => { this._ariaLabel = v; });
+  }
+
+  override disconnectedCallback(): void {
+    this._stopObservingAriaLabel?.();
+    super.disconnectedCallback();
+  }
+
   private _id = `candor-checkbox-${Math.random().toString(36).slice(2, 9)}`;
 
   override updated(changed: Map<string, unknown>) {
@@ -119,6 +137,7 @@ export class CandorCheckbox extends LitElement {
           .checked="${this.checked}"
           ?disabled="${this.disabled}"
           ?required="${this.required}"
+          aria-label="${this._ariaLabel || nothing}"
           name="${this.name || nothing}"
           @change="${this._onChange}"
         />
