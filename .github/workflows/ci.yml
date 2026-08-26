@@ -188,15 +188,21 @@ jobs:
       # stories affected by the diff, and Chromatic still falls back to a full
       # build when a dependency/config change invalidates the graph.
       #
-      # onlyChanged is scoped OFF on main deliberately. It used to read
-      # `onlyChanged: true`, while the comment here claimed "full builds still
-      # run on main" — nothing implemented that, and the gap mattered because
-      # autoAcceptChanges is true on main: a story TurboSnap failed to select
-      # would not merely go unsnapshotted, it would auto-accept and become the
-      # baseline with nobody having looked at it. Chromatic's own guidance is to
-      # disable TurboSnap on the base branch for exactly this reason — it is the
-      # only thing that catches a TurboSnap miss. Main merges are rarer than PR
-      # pushes, so the extra snapshots are the cheaper half of the trade (#281).
+      # TurboSnap runs on main too, and the comment above used to claim the
+      # opposite ("full builds still run on main"). The claim was wrong; the fix
+      # is this note, not the behaviour.
+      #
+      # Chromatic's general guidance IS to disable TurboSnap on the base branch,
+      # so that a full build catches anything TurboSnap missed. That guidance
+      # does not transfer here, because autoAcceptChanges is true on main: a
+      # full build on main accepts every snapshot without anyone looking, so it
+      # catches nothing — it only re-baselines, at full price. Measured over the
+      # 50 merges to main in the 90 days to Aug 2026, turning it off would have
+      # billed 12,400 snapshots against 7,547 with it on (+64%). Paying that for
+      # a review nobody performs is the wrong trade.
+      #
+      # The review gate is the PR build, where exitZeroOnChanges reports diffs
+      # and a human accepts them. That is where a miss would be caught (#281).
       #
       # The PR build is the review gate: it reports diffs without blocking, and
       # accepting them there is what approves them. The main build only records
@@ -214,6 +220,6 @@ jobs:
       - uses: chromaui/action@v18
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          onlyChanged: ${{ github.ref != 'refs/heads/main' }}
+          onlyChanged: true
           exitZeroOnChanges: ${{ github.event_name == 'pull_request' }}
           autoAcceptChanges: ${{ github.ref == 'refs/heads/main' }}
