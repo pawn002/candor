@@ -1,7 +1,18 @@
 import type { Preview, Decorator } from '@storybook/web-components-vite';
 import '../src/styles.scss';
-import '../src/web-components/index';
 import { CandorDocsContainer } from './candor-docs';
+
+// Deliberately NOT `import '../src/web-components/index'`. That barrel registers
+// all 40 elements in one module, and anything preview.ts imports lands in every
+// story's dependency graph — so a one-line change to any component marked all 49
+// story files dirty and TurboSnap's `onlyChanged` selected the whole Storybook
+// on every build (#281). Each story now imports the components it renders, which
+// is the edge the graph was missing.
+//
+// `untraced` on the barrel would have silenced the symptom and severed the only
+// path from a component to its story, so a real regression would have gone
+// un-snapshotted and green. Registration lives with the story that needs it
+// instead. `audit:docs` gates that every tag a story renders is imported by it.
 
 // Applies data-theme to the iframe <html> element without wrapping the story,
 // so the theme switch never disturbs the rendered markup.

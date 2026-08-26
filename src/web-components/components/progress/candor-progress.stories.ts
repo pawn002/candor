@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../card/candor-card';
+import './candor-progress';
+
 const meta: Meta = {
   title: 'Components/Progress',
   tags: ['autodocs'],

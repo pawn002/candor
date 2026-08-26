@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import './candor-navigation';
+
 const defaultItems = JSON.stringify([
   { label: 'Home', href: '#home', active: true },
   { label: 'Products', href: '#products' },

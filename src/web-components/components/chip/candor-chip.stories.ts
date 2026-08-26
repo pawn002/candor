@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import './candor-chip';
+
 const meta: Meta = {
   title: 'Components/Chip',
   tags: ['autodocs'],

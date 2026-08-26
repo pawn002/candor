@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { clickInShadow } from '../../story-utils';
 
+import './candor-menu';
+
 const DEMO_ENTRIES = JSON.stringify([
   { label: 'Edit' },
   { label: 'Duplicate' },

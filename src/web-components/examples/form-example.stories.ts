@@ -1,6 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../components/alert/candor-alert';
+import '../components/button/candor-button';
+import '../components/form/checkbox/candor-checkbox';
+import '../components/form/input/candor-input';
+import '../components/form/radio/candor-radio';
+import '../components/form/select/candor-select';
+import '../components/form/switch/candor-switch';
+import '../components/progress/candor-progress';
+import '../components/typography/heading/candor-heading';
+import '../components/typography/text/candor-text';
+
 const DEPT_OPTIONS = JSON.stringify([
   { value: 'support', label: 'Customer support' },
   { value: 'sales', label: 'Sales' },

@@ -1,6 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../components/badge/candor-badge';
+import '../components/button/candor-button';
+import '../components/disclosure/candor-disclosure';
+import '../components/drawer/candor-drawer';
+import '../components/form/checkbox/candor-checkbox';
+import '../components/form/input/candor-input';
+import '../components/form/select/candor-select';
+import '../components/pagination/candor-pagination';
+import '../components/typography/heading/candor-heading';
+import '../components/typography/text/candor-text';
+
 const STATUS_OPTIONS = JSON.stringify([
   { value: 'all', label: 'All statuses' },
   { value: 'pending', label: 'Pending' },

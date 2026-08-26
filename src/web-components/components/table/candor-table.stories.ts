@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import './candor-table';
+
 const FINANCE_HEADERS = JSON.stringify(['Quarter', 'Revenue', 'Expenses', 'Net']);
 const FINANCE_ROWS = JSON.stringify([
   { cells: ['Q1 2024', '£1,240,000', '£980,000', '£260,000'] },

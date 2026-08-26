@@ -293,6 +293,147 @@ if (!fs.existsSync(CEM_PATH)) {
   }
 }
 
+// ── stories: every rendered tag is registered by a module the story imports ───
+// Registration used to be global: `.storybook/preview.ts` imported the barrel,
+// so every story rendered every tag whether it asked for it or not. That made
+// each component a dependency of all 49 stories, which is why TurboSnap's
+// `onlyChanged` selected the entire Storybook on every component change (#281).
+//
+// Moving registration into each story removes the hub, and creates a failure
+// this gate exists to catch: a story that renders a tag it never imported gets
+// an unregistered element, which renders as an empty inline box. That is a
+// *visual* defect, so the only thing that would have caught it is Chromatic —
+// the tool the change was made to keep honest. Static is the right layer.
+//
+// Tags are read from inside `html` templates only. A `<candor-button>` written
+// in a docs-description string is prose describing markup, not markup, and a
+// scan that cannot tell the difference would demand an import for a component
+// the story never renders — the same trap the aria-label scan hit when it read
+// its own TSDoc as evidence (#270).
+//
+// Stated so it is not assumed covered: markup built dynamically — `unsafeHTML`,
+// `innerHTML`, a tag name assembled from a variable — is invisible here, since
+// the tag does not exist as a literal until it runs. No story does that today
+// (verified: zero matches across all 49), which is what makes a static scan
+// sufficient rather than merely convenient. A story that starts to would need
+// its import checked by hand, or the practice ruled out.
+console.log('\nStories — components are imported where they are rendered');
+
+const BARREL = 'src/web-components/index.ts';
+
+const stripComments = (src) =>
+  src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+
+// Contents of every lit `html` tagged template literal. Walks rather than
+// regexes because `${...}` may itself contain a nested html`` template.
+function htmlTemplates(src) {
+  const out = [];
+  let from = 0;
+  for (;;) {
+    const re = /\bhtml\s*`/g;
+    re.lastIndex = from;
+    const hit = re.exec(src);
+    if (!hit) return out;
+    let i = re.lastIndex;
+    let depth = 0;
+    let buf = '';
+    while (i < src.length) {
+      const c = src[i];
+      if (c === '\\') { i += 2; continue; }
+      if (depth === 0 && c === '`') { i++; break; }
+      if (c === '$' && src[i + 1] === '{') { depth++; i += 2; continue; }
+      if (depth > 0) {
+        if (c === '{') depth++;
+        else if (c === '}') depth--;
+        i++;
+        continue;
+      }
+      buf += c;
+      i++;
+    }
+    out.push(buf);
+    from = hit.index + 5;
+  }
+}
+
+function renderedTags(file) {
+  const src = stripComments(fs.readFileSync(file, 'utf8'));
+  const tags = new Set();
+  for (const tpl of htmlTemplates(src)) {
+    for (const m of tpl.matchAll(/<(candor-[a-z0-9-]+)/g)) tags.add(m[1]);
+  }
+  for (const m of src.matchAll(/createElement\(\s*['"](candor-[a-z0-9-]+)/g)) tags.add(m[1]);
+  return tags;
+}
+
+// Tags reachable from a file's own relative imports, followed transitively —
+// `candor-tabs.ts` registers `candor-tab-panel` too, so importing the parent is
+// enough for the companion.
+function reachableTags(entry, seen = new Set()) {
+  const abs = path.resolve(entry);
+  if (seen.has(abs) || !fs.existsSync(abs)) return new Set();
+  seen.add(abs);
+
+  const src = stripComments(fs.readFileSync(abs, 'utf8'));
+  const tags = new Set();
+  for (const m of src.matchAll(/^@customElement\(\s*['"]([a-z][a-z0-9-]*)['"]\s*\)/gm)) tags.add(m[1]);
+
+  for (const m of src.matchAll(/^import\s[^'"]*['"](\.[^'"]+)['"]/gm)) {
+    const target = path.resolve(path.dirname(abs), m[1]);
+    for (const cand of [`${target}.ts`, path.join(target, 'index.ts')]) {
+      if (fs.existsSync(cand)) {
+        for (const t of reachableTags(cand, seen)) tags.add(t);
+        break;
+      }
+    }
+  }
+  return tags;
+}
+
+const importsBarrel = (file) =>
+  [...stripComments(fs.readFileSync(file, 'utf8')).matchAll(/^import\s[^'"]*['"](\.[^'"]+)['"]/gm)].some((m) => {
+    const target = path.resolve(path.dirname(path.resolve(file)), m[1]);
+    return path.relative(ROOT, `${target}.ts`) === BARREL || path.relative(ROOT, path.join(target, 'index.ts')) === BARREL;
+  });
+
+// The barrel is what made every story depend on every component. Re-adding it
+// anywhere in the Storybook graph restores that, and every check above would
+// still pass — so the property has to be asserted directly, not inferred from
+// the tags resolving.
+const PREVIEW = path.join(ROOT, '.storybook', 'preview.ts');
+if (importsBarrel(PREVIEW)) {
+  fail(`.storybook/preview.ts imports ${BARREL} — that puts all ${nElements} elements in every story's dependency graph (#281)`);
+}
+
+const storyFiles = walk(path.join(ROOT, 'src')).filter((f) => f.endsWith('.stories.ts'));
+let unimported = 0;
+
+for (const story of storyFiles) {
+  const rel = path.relative(ROOT, story);
+  if (importsBarrel(story)) {
+    fail(`${rel} imports ${BARREL} — import the components it renders instead (#281)`);
+    unimported++;
+    continue;
+  }
+
+  const rendered = renderedTags(story);
+  if (rendered.size === 0) continue;
+
+  const available = reachableTags(story);
+  for (const tag of [...rendered].sort()) {
+    if (!available.has(tag)) {
+      fail(`${rel} renders <${tag}> but never imports it — it will render as an unregistered element`);
+      unimported++;
+    }
+  }
+}
+
+if (storyFiles.length === 0) {
+  fail('found no story files — the scan is broken, not the stories');
+} else if (unimported === 0) {
+  console.log(`  ✓ ${storyFiles.length} story files import every component they render`);
+}
+
 if (failed) {
   console.log(
     '\n✖ documentation claims do not match the build.' +

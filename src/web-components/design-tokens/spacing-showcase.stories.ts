@@ -3,6 +3,11 @@ import { html } from 'lit';
 import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
+import '../components/button/candor-button';
+import '../components/card/candor-card';
+import '../components/chip/candor-chip';
+import '../components/stat/candor-stat';
+
 interface SpacingItem {
   name: string;
   value: string;

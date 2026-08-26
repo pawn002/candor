@@ -1,6 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../components/badge/candor-badge';
+import '../components/button/candor-button';
+import '../components/card/candor-card';
+import '../components/menu/candor-menu';
+import '../components/stat/candor-stat';
+import '../components/tooltip/candor-tooltip';
+import '../components/typography/heading/candor-heading';
+import '../components/typography/text/candor-text';
+
 const MENU_ENTRIES = JSON.stringify([
   { label: 'Save for later' },
   { label: 'Add to wishlist' },

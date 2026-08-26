@@ -2,6 +2,10 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { setElementProps } from '../../../story-utils';
 
+import '../../card/candor-card';
+import '../../typography/accessible-text/candor-accessible-text';
+import './candor-slider';
+
 const meta: Meta = {
   title: 'Components/Form/Slider',
   tags: ['autodocs'],

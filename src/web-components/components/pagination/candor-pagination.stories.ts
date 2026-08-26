@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../table/candor-table';
+import './candor-pagination';
+
 const meta: Meta = {
   title: 'Components/Pagination',
   tags: ['autodocs'],

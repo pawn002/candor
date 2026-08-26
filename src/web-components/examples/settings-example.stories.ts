@@ -1,6 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../components/alert/candor-alert';
+import '../components/badge/candor-badge';
+import '../components/breadcrumb/candor-breadcrumb';
+import '../components/button/candor-button';
+import '../components/form/combobox/candor-combobox';
+import '../components/form/input/candor-input';
+import '../components/form/select/candor-select';
+import '../components/form/switch/candor-switch';
+import '../components/menu/candor-menu';
+import '../components/modal/candor-modal';
+import '../components/tabs/candor-tabs';
+import '../components/toast/candor-toast';
+import '../components/typography/heading/candor-heading';
+import '../components/typography/text/candor-text';
+
 const BREADCRUMB_BASIC = JSON.stringify([
   { label: 'Home', href: '/' },
   { label: 'Account', href: '/account' },
