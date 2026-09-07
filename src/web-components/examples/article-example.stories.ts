@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../components/badge/candor-badge';
+import '../components/navigation/candor-navigation';
+import '../components/typography/article/candor-article';
+
 const NAV_ITEMS = JSON.stringify([
   { label: 'Writing', href: '#', active: true },
   { label: 'About', href: '#' },

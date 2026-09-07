@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { requireTokenValue } from '../../design-tokens/token-values';
 
+import './candor-data-grid';
+
 // Backgrounds are read from audit/tokens.dtcg.json, never copied. These cells
 // are labelled with the token name, so a copied value turns the demo into a
 // lie the moment the token moves — which is what happened: this table painted

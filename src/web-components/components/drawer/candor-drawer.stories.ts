@@ -1,6 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../button/candor-button';
+import '../form/input/candor-input';
+import '../form/select/candor-select';
+import '../typography/heading/candor-heading';
+import '../typography/text/candor-text';
+import './candor-drawer';
+
 const meta: Meta = {
   title: 'Components/Drawer',
   tags: ['autodocs'],

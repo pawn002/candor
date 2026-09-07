@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../badge/candor-badge';
+import '../card/candor-card';
+import '../typography/accessible-text/candor-accessible-text';
+import './candor-stat';
+
 const meta: Meta = {
   title: 'Components/Stat',
   tags: ['autodocs'],

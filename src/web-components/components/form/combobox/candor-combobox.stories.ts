@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { openCombobox } from '../../../story-utils';
 
+import './candor-combobox';
+
 const DEFAULT_OPTIONS_JSON = JSON.stringify([
   { value: 'us', label: 'United States' },
   { value: 'gb', label: 'United Kingdom' },

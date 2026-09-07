@@ -83,6 +83,9 @@ declared \`dependency\` of \`@candor-design/web-components\` and needs no action
 
 \`\`\`ts
 import { buildGamutRows } from '@candor-design/web-components/tone-data';
+
+import '../card/candor-card';
+import './candor-tone-picker';
 const rows = buildGamutRows(grid, anchorL, anchorC, anchorH);
 \`\`\`
 

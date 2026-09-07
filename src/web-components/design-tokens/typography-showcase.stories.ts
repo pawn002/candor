@@ -3,6 +3,11 @@ import { html } from 'lit';
 import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
+import '../components/alert/candor-alert';
+import '../components/card/candor-card';
+import '../components/chip/candor-chip';
+import '../components/table/candor-table';
+
 interface FontFamily {
   name: string;
   variable: string;

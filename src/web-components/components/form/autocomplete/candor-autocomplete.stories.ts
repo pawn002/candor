@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import './candor-autocomplete';
+
 const MODELS = [
   'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'o1', 'o1-mini',
   'claude-opus-4', 'claude-sonnet-4', 'claude-haiku-4',

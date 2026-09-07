@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../form/checkbox/candor-checkbox';
+import '../form/radio/candor-radio';
+import '../typography/text/candor-text';
+import './candor-accordion-item';
+
 const meta: Meta = {
   title: 'Components/Accordion',
   tags: ['autodocs'],

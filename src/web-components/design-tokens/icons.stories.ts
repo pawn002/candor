@@ -3,6 +3,11 @@ import { html } from 'lit';
 import { Description, Stories, Title } from '@storybook/addon-docs/blocks';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
+import '../components/accordion/candor-accordion-item';
+import '../components/alert/candor-alert';
+import '../components/button/candor-button';
+import '../components/card/candor-card';
+
 const meta: Meta = {
   title: 'Design Tokens/Icons',
   tags: ['autodocs'],

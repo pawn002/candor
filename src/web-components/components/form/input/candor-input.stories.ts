@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, nothing } from 'lit';
 
+import '../../card/candor-card';
+import './candor-input';
+
 const meta: Meta = {
   title: 'Components/Form/Input',
   tags: ['autodocs'],

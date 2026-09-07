@@ -185,8 +185,24 @@ jobs:
           node-version: 22
       - run: npm ci
       # Official Chromatic action. TurboSnap (onlyChanged) snapshots only the
-      # stories affected by the diff — full builds still run on main and when
-      # Chromatic detects a dependency/config change that invalidates the graph.
+      # stories affected by the diff, and Chromatic still falls back to a full
+      # build when a dependency/config change invalidates the graph.
+      #
+      # TurboSnap runs on main too, and the comment above used to claim the
+      # opposite ("full builds still run on main"). The claim was wrong; the fix
+      # is this note, not the behaviour.
+      #
+      # Chromatic's general guidance IS to disable TurboSnap on the base branch,
+      # so that a full build catches anything TurboSnap missed. That guidance
+      # does not transfer here, because autoAcceptChanges is true on main: a
+      # full build on main accepts every snapshot without anyone looking, so it
+      # catches nothing — it only re-baselines, at full price. Measured over the
+      # 50 merges to main in the 90 days to Aug 2026, turning it off would have
+      # billed 12,400 snapshots against 7,547 with it on (+64%). Paying that for
+      # a review nobody performs is the wrong trade.
+      #
+      # The review gate is the PR build, where exitZeroOnChanges reports diffs
+      # and a human accepts them. That is where a miss would be caught (#281).
       #
       # The PR build is the review gate: it reports diffs without blocking, and
       # accepting them there is what approves them. The main build only records

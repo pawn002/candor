@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../../card/candor-card';
+import './candor-select';
+
 const FREQUENCY_OPTIONS = JSON.stringify([
   { value: 'never', label: 'Never' },
   { value: 'daily', label: 'Daily' },

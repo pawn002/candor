@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../button/candor-button';
+import './candor-modal';
+
 const meta: Meta = {
   title: 'Components/Modal',
   tags: ['autodocs'],
