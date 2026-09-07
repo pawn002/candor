@@ -1,6 +1,10 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
+// TEMPORARY — TurboSnap selection probe for #281, reverted in the next commit.
+// Touching exactly one component so Chromatic's ancestor is the full build on
+// this PR rather than one on main. Prediction: 4 story files / 18 snapshots.
+
 export interface TableRow {
   cells: string[];
   isHeader?: boolean;
