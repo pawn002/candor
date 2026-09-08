@@ -72,6 +72,30 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
   Verified by tripwire in twelve directions: a stale count, a registered tag missing from the table, a table tag that is not registered, a missing class block, a dispatched event with no `@fires`, a `@fires` for an event nothing dispatches, a dropped no-events assertion, a stale README event list, a missing manifest, an element dropped from the manifest, an element in the manifest with no description, and a component changed without regenerating. Two more fired during development and are worth recording, because both produced failures indistinguishable from real ones: the count pattern read "Lit 3 custom elements" as a claim of *three*, and the class-block pattern matched `\n` where a Windows checkout has `\r\n`, reporting all 40 elements as undocumented.
 
+### Changed (tooling)
+
+- **`.storybook/preview.ts` no longer imports the component barrel; each story now imports the components it renders (#281).** The barrel registers all 40 elements in one module, and anything `preview.ts` imports lands in every story's dependency graph — so all 37 components sat in it and every component change hit TurboSnap's "changed file is in the preview's graph" full-rebuild trigger. `onlyChanged: true` had been set since #200 and was selecting the entire Storybook on every build.
+
+  Measured from `preview-stats.json`, the file TurboSnap actually reads: components in `preview.ts`'s graph went **37/37 → 0/37**, and stories reachable from a component by reverse edges went from a **median of 0** to a median of 3 (min 1, max 17). The median of 0 is the sharper number and is worse than it first looked — stories did not depend on every component, they depended on **none**. Registration flowed only through preview, so the graph held no component→story edge at all, and a full rebuild was the only correct thing TurboSnap could have done.
+
+  Confirmed on real builds rather than inferred: a one-component commit selected **4 story files and captured 18 snapshots** (18 + 0.2 × 230 = 64 billed, against 248 for a full build), matching a prediction recorded before the push, and replicated on the revert. Two of those four consumers reach `candor-table` *indirectly*, so the reverse-edge walk resolves through composition and not merely from a component to its own story.
+
+  **`untraced` on the barrel was the obvious fix and is a trap.** The barrel was the only path from a component module to a story, so untracing it leaves a component change tracing to nothing: the affected story goes un-snapshotted and the build passes. That is worse than a full rebuild, which is at least correct — the #218 shape again, a guard that passes because it measured the wrong thing.
+
+- **`onlyChanged` stays `true` on `main`; the comment claiming otherwise is what was wrong.** The comment had read "full builds still run on main" while nothing implemented that. Chromatic's general guidance *is* to disable TurboSnap on the base branch so a full build catches what TurboSnap missed — but that guidance assumes someone reviews it, and `autoAcceptChanges` is true on `main`, so a full build there accepts every snapshot with nobody looking. It catches nothing and re-baselines at full price: replaying the 50 merges to `main` in the 90 days to August 2026, turning TurboSnap off would have billed **12,400 snapshots against 7,547** (+64%). The scoping was tried, measured, and reverted; the comment now records why the general guidance is declined here so the next reader does not re-apply it.
+
+- **`npm run chromatic` gains `--only-changed`** so it reproduces what CI does — it was a full build, which is a misleading thing to reach for when debugging TurboSnap. **`npm run chromatic:trace`** added for the `--dry-run --debug --trace-changed` diagnostic.
+
+### Added (tooling)
+
+- **`audit:docs` gates that every `<candor-*>` tag a story renders is imported by that story, and that `.storybook/preview.ts` does not import the barrel (#281).** Moving registration into stories removes the hub, and creates a failure this gate exists to catch: a story rendering a tag it never imported gets an unregistered element, which renders as an empty inline box. That is a *visual* defect, so the only thing that would have caught it is Chromatic — the tool the change was made to keep honest. Static is the right layer.
+
+  Tags are read from inside `html` templates only, by walking the source rather than matching the file. A `<candor-button>` written in a docs-description string is prose describing markup, not markup: a whole-file scan would have demanded **11 imports across 8 stories** for components those stories never render — re-adding the false edges the change had just removed. Same discipline as the `12px-ok:` marker and the `observeHostAriaLabel` scan: documentation must not be able to satisfy the check it documents.
+
+  The barrel's absence from `preview.ts` is asserted directly rather than inferred, because re-adding it anywhere in the Storybook graph restores the original problem while every other check still passes. Verified by tripwire in three directions: a dropped import fails, the barrel returning to `preview.ts` fails, and prose mentioning a tag does not satisfy the check.
+
+  Stated so it is not assumed covered: markup built dynamically — `unsafeHTML`, `innerHTML`, a tag name assembled from a variable — is invisible to a static scan, since the tag does not exist as a literal until it runs. No story does that today (verified: zero matches across all 49), which is what makes a static scan sufficient rather than merely convenient.
+
 ## [5.0.1] - 2026-08-05
 
 ### Fixed
