@@ -3,11 +3,13 @@ import { html, nothing } from 'lit';
 
 import '../../card/candor-card';
 import './candor-input';
+import { allModes } from '../../../../../.storybook/modes';
 
 const meta: Meta = {
   title: 'Components/Form/Input',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     docs: {
       description: {
         component: `

@@ -3,6 +3,7 @@ import { html } from 'lit';
 
 import '../card/candor-card';
 import './candor-alert';
+import { allModes } from '../../../../.storybook/modes';
 
 // Full-width rule separating showcase scenarios (replaces grouping cards,
 // which crowded content at mobile widths).
@@ -12,6 +13,7 @@ const meta: Meta = {
   title: 'Components/Alert',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     docs: {
       description: {
         component: `
