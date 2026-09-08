@@ -9,6 +9,20 @@ Published automatically on every merge to `main`.
 
 Use the Storybook URL with Playwright MCP to visually inspect components without running Storybook locally.
 
+### Branch names are single-use — never reuse one after its PR merges
+
+When a branch's PR merges, **cut a fresh branch name for the next change.** Do not restart the old name from `main`.
+
+Chromatic picks its ancestor build **by branch name**. Reusing a name means the ancestor is a build on that name's previous incarnation — whose commit is not an ancestor of anything on `main`, because Candor merges squash-only. Git's merge-base then falls back to the commit *before* that PR landed, and Chromatic diffs against it, seeing the whole of the already-merged PR as newly changed.
+
+Measured (#284): the same one-file `CHANGELOG.md` diff, minutes apart — on a reused branch name Chromatic reported **97 changed files**, disabled TurboSnap on a `.storybook/preview.ts` change that had already merged, and captured all **248** snapshots; on `main` it reported **1 changed file** and bypassed all 248 at zero cost.
+
+**This rule exists because of how agents are driven, not how humans branch.** A human opening the next PR naturally picks a new name and never meets this. An agent told to "develop on branch X" will restart X from `main` after X's PR merges — which is exactly how #284 was found. If a task assigns you a branch name whose PR has already merged, use a new name and say why.
+
+It costs nothing to follow and there is no gate for it: whether a name was used before is a property of Chromatic's build history, not of the tree. Treat it as a convention, in the sense the root `CLAUDE.md` means that word.
+
+Note the blast radius is whatever the intervening squashed content touched. Reusing a name after a docs-only merge still bypasses correctly; reusing one after a component or `.storybook/` merge costs the full 248. That makes it *intermittent*, which is worse than consistently broken — it will appear to be fine most of the time.
+
 ---
 
 ## Versioning & Release
