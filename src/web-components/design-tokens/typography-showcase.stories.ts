@@ -7,6 +7,7 @@ import '../components/alert/candor-alert';
 import '../components/card/candor-card';
 import '../components/chip/candor-chip';
 import '../components/table/candor-table';
+import { allModes } from '../../../.storybook/modes';
 
 interface FontFamily {
   name: string;
@@ -183,6 +184,7 @@ const meta: Meta = {
   title: 'Design Tokens/Typography',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     layout: 'fullscreen',
     docs: {
       page: () => React.createElement(React.Fragment, null,
