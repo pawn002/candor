@@ -2,11 +2,13 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 import './candor-code';
+import { allModes } from '../../../../.storybook/modes';
 
 const meta: Meta = {
   title: 'Components/Code',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     docs: {
       description: {
         component: `
