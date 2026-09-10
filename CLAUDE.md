@@ -143,7 +143,7 @@ Three things to know before adding one:
 
 - **Adding modes changes a snapshot's *identity*, so the light one re-baselines too.** A story that produced one unnamed snapshot now produces two named `light` and `dark`, both new keys with no baseline behind them. Expect twice as many baselines to accept as you added snapshots, and expect roughly half to be pixel-identical to what was already approved. This is not a regression; it caught out the #286 prediction, which said 27 and got 54.
 
-- **Editing `.storybook/modes.ts` disables TurboSnap for that build.** It is a Storybook config file, so Chromatic cannot link it to specific stories and falls back to a full build. A batch that touches only story files does not pay this; one that also edits `modes.ts` captures all 292.
+- **Any edit to `.storybook/modes.ts` disables TurboSnap for that build — including a comment-only one.** It is a Storybook config file, so Chromatic cannot link it to specific stories and falls back to a full build. **The trigger is the path, not the content**: the build for this very section captured all 292 for a one-word fix to a comment, on a diff that was otherwise `CLAUDE.md` and `CHANGELOG.md` alone. So batch dark-mode additions — a batch touching only story files pays nothing, and every separate visit to `modes.ts` costs a full capture regardless of how small it is.
 
 - **`color-showcase` is deliberately excluded.** Its `LightTheme`/`DarkTheme` stories already pin `globals` themselves, so modes there would render each twice for two redundant snapshots.
 
