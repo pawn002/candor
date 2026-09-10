@@ -434,6 +434,83 @@ if (storyFiles.length === 0) {
   console.log(`  ✓ ${storyFiles.length} story files import every component they render`);
 }
 
+// ---------------------------------------------------------------------------
+// staticDirs assets vs. Chromatic's `externals` (#281)
+//
+// Files in public/ are served at the Storybook root but are NOT in any story's
+// module graph, so TurboSnap cannot see a change to one. Chromatic's `externals`
+// option exists for exactly this: list such paths and a change to one forces a
+// full rebuild.
+//
+// Candor deliberately does NOT set it, because today nothing in public/ can
+// affect a snapshot. Chromatic captures the story iframe, and public/ holds two
+// favicons — consumed by the *manager* chrome and by src/index.html — plus an
+// unreferenced wordmark. `.storybook/preview-head.html`, the one file injected
+// into the iframe, pulls Google Fonts and inline CSS and references nothing
+// here. So `externals` would spend a full 292-snapshot rebuild on every favicon
+// edit to guard a visual change that cannot occur.
+//
+// That reasoning is true of the tree as it stands and stops being true the
+// moment a story renders one of these assets: TurboSnap would then bypass a
+// build in which the image genuinely changed, and the snapshot would be stale
+// with nothing reporting it. That is the #218 shape — a guard passing because
+// it measured the wrong thing — so the condition is checked rather than trusted.
+//
+// The scan requires a *path* context (src=, href=, url(), or a leading slash),
+// not a bare filename. `editor-example.stories.ts` prints "hero-banner.png" as
+// visible copy inside a mock editor; that is prose about a file, not a request
+// for one, and the same distinction the `12px-ok:` marker and the native-control
+// scan both turn on.
+console.log('\nstaticDirs assets — public/ vs. Chromatic externals');
+
+const PUBLIC_DIR = path.join(ROOT, 'public');
+const MAIN_TS = path.join(ROOT, '.storybook', 'main.ts');
+
+const publicAssets = fs.existsSync(PUBLIC_DIR)
+  ? fs.readdirSync(PUBLIC_DIR).filter((f) => f !== '.gitkeep')
+  : [];
+
+// `externals:` at the start of a config line, not the word in a comment.
+const externalsSet = /^\s*externals\s*:/m.test(stripComments(fs.readFileSync(MAIN_TS, 'utf8')));
+
+const referencedAssets = [];
+if (publicAssets.length > 0) {
+  const scanned = [
+    ...storyFiles,
+    ...walk(path.join(ROOT, 'src')).filter((f) => f.endsWith('.mdx')),
+    path.join(ROOT, '.storybook', 'preview-head.html'),
+    path.join(ROOT, '.storybook', 'preview.ts'),
+  ].filter((f) => fs.existsSync(f));
+
+  for (const asset of publicAssets) {
+    const name = asset.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const inPath = new RegExp(
+      `(?:src|href)\\s*=\\s*["'\`][^"'\`]*${name}|url\\(\\s*["']?[^)"']*${name}|/${name}`,
+    );
+    for (const file of scanned) {
+      if (inPath.test(fs.readFileSync(file, 'utf8'))) {
+        referencedAssets.push(`${asset} (${path.relative(ROOT, file)})`);
+        break;
+      }
+    }
+  }
+}
+
+if (referencedAssets.length > 0 && !externalsSet) {
+  fail(
+    `a rendered file references public/ assets that TurboSnap cannot see — set \`externals\` in .storybook/main.ts so a change to one forces a full rebuild (#281):\n      ` +
+      referencedAssets.join('\n      '),
+  );
+} else if (publicAssets.length === 0) {
+  console.log('  ✓ public/ holds no assets — externals not needed');
+} else if (referencedAssets.length === 0) {
+  console.log(
+    `  ✓ none of the ${publicAssets.length} public/ assets is rendered in a story — externals correctly unset`,
+  );
+} else {
+  console.log(`  ✓ ${referencedAssets.length} rendered public/ asset(s), and externals is set`);
+}
+
 if (failed) {
   console.log(
     '\n✖ documentation claims do not match the build.' +
