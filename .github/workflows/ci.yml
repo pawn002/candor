@@ -217,6 +217,40 @@ jobs:
       # fails because nobody answers it twice. That left main red from Aug 1 to
       # Aug 3, which is worse than ungated: a real breakage on main was
       # indistinguishable from the standing failure (#232).
+      #
+      # The workflow triggers this job on `pull_request`, and Chromatic's setup
+      # docs say to use `push` instead, because TurboSnap otherwise "examines
+      # ephemeral merge commits that don't exist in actual Git history". The
+      # first half of that is true here and the second is not, so the trigger
+      # stays (#281 finding 3).
+      #
+      # actions/checkout does check out the ephemeral merge ref, so the runner's
+      # HEAD is a commit GitHub invented and nobody can fetch:
+      #
+      #   git checkout --progress --force refs/remotes/pull/287/merge
+      #   HEAD is now at c2bdf52 Merge ec68007 into 096bf9b
+      #
+      # But chromaui/action overrides the SHA and branch it reports, so the CLI
+      # never sees that commit. Same build, seconds later:
+      #
+      #   Commit 'ec68007' on branch 'claude/chromatic-dark-coverage';
+      #   found 1 parent build and 6 changed files
+      #
+      # ec68007 is the PR head and the six files are exactly the PR's diff — not
+      # a merge-shaped superset, and not a commit that vanishes after the PR
+      # closes. Corroborated on build 157, where a one-component change selected
+      # exactly the four story files predicted from the branch diff.
+      #
+      # So switching to `push` would buy nothing — the ephemeral commit never
+      # reaches the CLI to confuse it — while building every branch push,
+      # including branches with no PR open. Do not re-open this on the strength
+      # of the doc line alone; it is written for workflows that call the CLI
+      # directly, where the override does not exist. Re-check it if this job
+      # ever stops using chromaui/action.
+      #
+      # Unrelated: #249 is a separate sharp edge in this same trigger config
+      # (a PR retargeted to main never gets CI). This finding neither causes
+      # nor fixes it.
       - uses: chromaui/action@v18
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
