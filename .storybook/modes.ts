@@ -39,8 +39,9 @@
  * component's stylesheet overstates it badly — 50 against the 37 genuinely
  * painted — because it credits every variant, including ones no story renders.
  *
- * Twelve story files now carry dark, covering all 37. The five added second
- * were each the cheapest story that paints something otherwise unseen in dark:
+ * Ten story files now carry dark, covering all 37 (44 of the 292 snapshots).
+ * The five added second were each the cheapest story that paints something
+ * otherwise unseen in dark:
  * `settings-example` (status text, link, destructive, toast), `navigation` (the
  * four inverse tokens — nothing else paints them), `code` (the three code
  * tokens), `color-iterator-example` (slider-thumb, and focus), `modal`

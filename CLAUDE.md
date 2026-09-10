@@ -117,6 +117,43 @@ The component library is the Lit 3 web components in `src/web-components/compone
 - Accessibility addon enabled (`@storybook/addon-a11y`)
 - Runs on port 6006
 
+### Dark-mode visual coverage is opt-in per story
+
+Candor renders every component in light and dark from the same tokens, but a Chromatic snapshot only ever captures one theme. Dark coverage is therefore a **property of the story, not of the system** — a component with no dark snapshot has no visual gate in dark, however correct its tokens are.
+
+A story opts in by importing `allModes` from `.storybook/modes.ts` and setting `chromatic.modes` **on its `meta`**:
+
+```ts
+import { allModes } from '../../../../.storybook/modes';
+
+const meta: Meta = {
+  title: 'Components/Card',
+  parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
+  },
+  // …
+};
+```
+
+Meta-level parameters deep-merge with story-level ones, so a story that already sets `parameters.chromatic = { pauseAnimationAtEnd: true }` keeps it — verified on the build, not assumed.
+
+**It is per-story rather than global in `preview.ts`, and that is a cost decision.** Each mode is a separately billed snapshot, so applying it project-wide would take the suite from 248 to 496 and cost more per quarter than the whole TurboSnap exercise saved (#281). Ten story files carry dark today, covering all 37 theme-varying tokens any story actually paints, at 44 of the 292 snapshots. **Adding dark to a story is a judgement about that story, not a default to apply.**
+
+Three things to know before adding one:
+
+- **Adding modes changes a snapshot's *identity*, so the light one re-baselines too.** A story that produced one unnamed snapshot now produces two named `light` and `dark`, both new keys with no baseline behind them. Expect twice as many baselines to accept as you added snapshots, and expect roughly half to be pixel-identical to what was already approved. This is not a regression; it caught out the #286 prediction, which said 27 and got 54.
+
+- **Any edit to `.storybook/modes.ts` disables TurboSnap for that build — including a comment-only one.** It is a Storybook config file, so Chromatic cannot link it to specific stories and falls back to a full build. **The trigger is the path, not the content**: the build for this very section captured all 292 for a one-word fix to a comment, on a diff that was otherwise `CLAUDE.md` and `CHANGELOG.md` alone. So batch dark-mode additions — a batch touching only story files pays nothing, and every separate visit to `modes.ts` costs a full capture regardless of how small it is.
+
+- **`color-showcase` is deliberately excluded.** Its `LightTheme`/`DarkTheme` stories already pin `globals` themselves, so modes there would render each twice for two redundant snapshots.
+
+**Coverage is counted by token, not by component**, and the counting rule is the load-bearing part: credit a story only with tokens whose CSS gate it satisfies — base rules always, a `.x--variant` rule only when the story renders that `variant="…"`, a `:host([attr])` rule only when it sets that attribute. Counting tokens merely *present* in a component's stylesheet gives 50 against the 37 genuinely painted, and pointed at three stories where the variant-aware count says five.
+
+**The ceiling, stated so it is not mistaken for a gap.** Five tokens are painted only on `:hover` or `:active` — `--color-action-destructive-hover`/`-active`, `--color-action-primary-hover`/`-active`, and `--color-link-hover`. No resting-state snapshot reaches them **in either theme**, so no story will ever cover them and `audit:contrast` measuring their values is the only check they have. Read "dark coverage is complete" as *complete for what snapshots can reach* — the #218 / #229 distinction again, and the reason it is written down rather than inferred from a green build.
+
+Read `.storybook/modes.ts` before changing any of this; it carries the per-story reasoning and the one case that looks like a mistake and is not (`--color-focus` is genuinely painted at rest, as the border of `candor-tone-picker`'s selected swatch).
+
+
 ### Playwright Testing
 
 - Config: `playwright.config.ts`
@@ -148,7 +185,7 @@ The two audits split by what they own: **`audit:tokens` owns gamut, `audit:contr
 
 **The ordering is not housekeeping, and this is the part to understand before touching that job.** `audit:contrast` reads `audit/tokens.dtcg.json` off disk, so on its own it measures the *committed* artifact, not the tokens in the working tree. Verified by tripwire: lighten `--color-text-subtle` to `oklch(0.70 0 0)` without re-exporting and `audit:contrast` alone prints `✓ no drift` and exits 0 while 19 real violations sit in the tree — nine pairings at 2.1 against a floor of 4.5, plus the changed token's own recorded figure and the story that quotes it. Re-export first and the same tree fails with all 19 named. So running the two audits as parallel jobs would produce a false green, which is the #218 shape again: a guard that passes because it measured the wrong thing. Keep them sequential in one job — the finer red/green signal that splitting would buy is bought by breaking the check.
 
-**What is and is not guaranteed.** Only executable gates guarantee anything; prose and linked references do not. Currently gated, all of it in CI via the `audit` job: sRGB gamut, a stale DTCG artifact, stale figures in `semantics.scss` comments, stale figures in pairing `note` fields, stale figures in story prose, pairings below their floor, a pairing's `min` disagreeing with its `tier` (on the 14px row — see the `tier` field below for why only there), sub-14px text without a declared reason, the README tag table and element/component counts against what `src/` registers, a class-level TSDoc block on every registered element, every `@fires` tag against the `new CustomEvent` calls in the same file, and the shipped `custom-elements.json` against the registered set plus a stale-manifest check (`audit:docs` + `build:cem`, #267), every `<candor-*>` tag a story renders against the components that story imports — and `.storybook/preview.ts` not importing the barrel (`audit:docs`, #281), and klar's major version — that last one is a deliberate hard stop, since it is the only mechanism that forces klar's docs to be re-read on an upgrade. **Not** gated, and therefore only as reliable as the reader: OKCA figures in `primitives.scss` comments (primitives are absent from the DTCG artifact, so nothing checks them), font sizes written in **relative units** (`0.9em` can't be resolved statically — the text-size gate reads absolute units only, and says so at the top of its section), and every judgment-level rule in this file. Treat an ungated convention as a convention.
+**What is and is not guaranteed.** Only executable gates guarantee anything; prose and linked references do not. Currently gated, all of it in CI via the `audit` job: sRGB gamut, a stale DTCG artifact, stale figures in `semantics.scss` comments, stale figures in pairing `note` fields, stale figures in story prose, pairings below their floor, a pairing's `min` disagreeing with its `tier` (on the 14px row — see the `tier` field below for why only there), sub-14px text without a declared reason, the README tag table and element/component counts against what `src/` registers, a class-level TSDoc block on every registered element, every `@fires` tag against the `new CustomEvent` calls in the same file, and the shipped `custom-elements.json` against the registered set plus a stale-manifest check (`audit:docs` + `build:cem`, #267), every `<candor-*>` tag a story renders against the components that story imports — and `.storybook/preview.ts` not importing the barrel (`audit:docs`, #281), and klar's major version — that last one is a deliberate hard stop, since it is the only mechanism that forces klar's docs to be re-read on an upgrade. **Not** gated, and therefore only as reliable as the reader: OKCA figures in `primitives.scss` comments (primitives are absent from the DTCG artifact, so nothing checks them), font sizes written in **relative units** (`0.9em` can't be resolved statically — the text-size gate reads absolute units only, and says so at the top of its section), **which stories carry a dark snapshot** (nothing checks that a component the visual gate only ever sees in light is one that ought to be — see the dark-mode section above), and every judgment-level rule in this file. Treat an ungated convention as a convention.
 
 **One gate lives in the `accessibility` job rather than `audit`, because it is a runtime property and nothing static can stand in for it:** host `aria-label` forwarding (`tests/host-aria-label.spec.ts`, #270). See "aria-label host-trap" below for what it asserts and how it picks its subjects.
 
@@ -557,7 +594,8 @@ After changing any colour, run `npm run audit:tokens` (gamut gate + DTCG re-expo
 
    Uniform coverage at the class level is what makes any of this gateable: "every element declares its events" is only checkable if every element is supposed to. Selective coverage also manufactures a false signal, since a missing comment starts to read as "nothing surprising here" — the #213 half-filled-column problem.
 5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value. If the component needs a colour the system doesn't have, add it as a **token** rather than a literal in `static styles` — a literal in a component is invisible to both the gamut gate and the contrast audit.
-6. Expose consumer style hooks per the "Consumer style hooks (`::part` + custom properties)" convention below — a `part` on each meaningful internal, and `--candor-<name>-<knob>` custom properties (token-defaulted) for the bounded density/shape knobs. Document them in the component's story and the Introduction "Styling & overriding" table.
+6. Decide whether the story earns a **dark snapshot** — see "Dark-mode visual coverage is opt-in per story" above. There is no default and no gate: a story without `chromatic.modes` has no visual check in dark at all. Add it when the component paints a theme-varying token nothing else covers; skip it when a sibling story already covers the same tokens, and say which in the PR.
+7. Expose consumer style hooks per the "Consumer style hooks (`::part` + custom properties)" convention below — a `part` on each meaningful internal, and `--candor-<name>-<knob>` custom properties (token-defaulted) for the bounded density/shape knobs. Document them in the component's story and the Introduction "Styling & overriding" table.
 
 See "Web Components Authoring Conventions" below for the full conventions.
 
