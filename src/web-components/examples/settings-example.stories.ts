@@ -15,6 +15,7 @@ import '../components/tabs/candor-tabs';
 import '../components/toast/candor-toast';
 import '../components/typography/heading/candor-heading';
 import '../components/typography/text/candor-text';
+import { allModes } from '../../../.storybook/modes';
 
 const BREADCRUMB_BASIC = JSON.stringify([
   { label: 'Home', href: '/' },
@@ -68,6 +69,7 @@ const meta: Meta = {
   title: 'Examples/Settings Example',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     docs: {
       description: {
         component: `

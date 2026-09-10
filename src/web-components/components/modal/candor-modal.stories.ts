@@ -3,11 +3,13 @@ import { html } from 'lit';
 
 import '../button/candor-button';
 import './candor-modal';
+import { allModes } from '../../../../.storybook/modes';
 
 const meta: Meta = {
   title: 'Components/Modal',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     docs: {
       description: {
         component: `

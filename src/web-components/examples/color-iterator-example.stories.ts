@@ -14,6 +14,7 @@ import '../components/stat/candor-stat';
 import '../components/table/candor-table';
 import '../components/tone-picker/candor-tone-picker';
 import '../components/typography/accessible-text/candor-accessible-text';
+import { allModes } from '../../../.storybook/modes';
 
 const NAV_ITEMS = JSON.stringify([
   { label: 'Tools', href: '#', active: true },
@@ -105,6 +106,7 @@ const meta: Meta = {
   title: 'Examples/Color Iterator Example',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     docs: {
       description: {
         component: `
