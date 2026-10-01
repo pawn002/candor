@@ -28,6 +28,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- **Contributor tooling: the klar Agent Skill is checked in at `.claude/skills/klar/`** (via `klar skill install`, klar 3.1.0). It sends an agent to `klar playbook` before any colour work. CLAUDE.md now says which half of the playbook applies here: its mechanics (argument order, exit-code gating, deltaE), not its flat WCAG threshold table — Candor's floors are the tier-derived `min` values in `audit/pairings.json`. Re-verified under 3.1.0: all 238 enforced pairings pass and 0 of 122 recorded figures drift.
+
+- **Generated artifacts are pinned to LF in a new `.gitattributes`.** `audit/tokens.dtcg.json` and `web-components/custom-elements.json` are written with LF, but a Windows checkout with `core.autocrlf=true` held them as CRLF, so every regeneration showed a whole-file diff with no content change. Repo-internal; no package change.
+
 - **Both packages' `homepage` now points at the component catalog** rather than at the GitHub README (#267). `homepage` is what the npm registry page renders, what `npm home` opens, and what tooling reads when it wants "where are the docs" — pointing it at a README that then links the catalog put the one hop an automated reader is least likely to take between a consumer and the rules.
 
 - **Both READMEs now have a Documentation section that says what the packages are *not*.** The pointer that existed was a single line reading "Browse components", which describes a demo gallery; what is behind it is the usage rules, and those are the part that cannot be inferred from the package at all. The new section states plainly that the packages ship API surface only, names the questions the catalog answers and the package cannot, and records three facts about the web-components API that a declaration file structurally cannot express — that components emit `change` and `input` but never `changed`, that `candor-button` dispatches no custom events, and that there is no `size="icon"`.
