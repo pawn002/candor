@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../card/candor-card';
+import './candor-badge';
+
 // Full-width rule separating showcase scenarios (consistent with the other
 // component showcases — dividers, not grouping cards).
 const divider = html`<hr style="border: none; border-top: var(--border-width-thin) solid var(--color-border-default); margin: 0; width: 100%;" />`;

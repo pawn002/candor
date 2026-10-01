@@ -5,6 +5,10 @@ import { focusInShadow } from '../../story-utils';
 import '../button/candor-button';
 import '../toolbar/candor-toolbar';
 
+import '../button/candor-button';
+import '../toolbar/candor-toolbar';
+import './candor-tooltip';
+
 const meta: Meta = {
   title: 'Components/Tooltip',
   tags: ['autodocs'],

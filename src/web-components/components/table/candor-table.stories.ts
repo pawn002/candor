@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import './candor-table';
+import { allModes } from '../../../../.storybook/modes';
+
 const FINANCE_HEADERS = JSON.stringify(['Quarter', 'Revenue', 'Expenses', 'Net']);
 const FINANCE_ROWS = JSON.stringify([
   { cells: ['Q1 2024', '£1,240,000', '£980,000', '£260,000'] },
@@ -39,6 +42,7 @@ const meta: Meta = {
   title: 'Components/Table',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     docs: {
       description: {
         component: `

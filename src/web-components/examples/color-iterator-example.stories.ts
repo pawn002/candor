@@ -2,6 +2,20 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { buildGamutRows } from '../components/tone-picker/gamut-data';
 
+import '../components/accordion/candor-accordion-item';
+import '../components/badge/candor-badge';
+import '../components/button/candor-button';
+import '../components/card/candor-card';
+import '../components/form/checkbox/candor-checkbox';
+import '../components/form/radio/candor-radio';
+import '../components/form/slider/candor-slider';
+import '../components/navigation/candor-navigation';
+import '../components/stat/candor-stat';
+import '../components/table/candor-table';
+import '../components/tone-picker/candor-tone-picker';
+import '../components/typography/accessible-text/candor-accessible-text';
+import { allModes } from '../../../.storybook/modes';
+
 const NAV_ITEMS = JSON.stringify([
   { label: 'Tools', href: '#', active: true },
   { label: 'Blog', href: '#' },
@@ -92,6 +106,7 @@ const meta: Meta = {
   title: 'Examples/Color Iterator Example',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     docs: {
       description: {
         component: `

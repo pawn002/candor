@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import './candor-navigation';
+import { allModes } from '../../../../.storybook/modes';
+
 const defaultItems = JSON.stringify([
   { label: 'Home', href: '#home', active: true },
   { label: 'Products', href: '#products' },
@@ -19,6 +22,7 @@ const meta: Meta = {
   title: 'Components/Navigation',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
     docs: {
       description: {
         component: `

@@ -1,6 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../components/badge/candor-badge';
+import '../components/button/candor-button';
+import '../components/form/chat-input/candor-chat-input';
+import '../components/navigation/candor-navigation';
+import '../components/typography/accessible-text/candor-accessible-text';
+import '../components/typography/article/candor-article';
+
 const NAV_ITEMS = JSON.stringify([
   { label: 'Chat', href: '#', active: true },
   { label: 'Docs', href: '#' },

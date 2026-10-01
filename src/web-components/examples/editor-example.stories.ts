@@ -1,6 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../components/badge/candor-badge';
+import '../components/button/candor-button';
+import '../components/toast/candor-toast';
+import '../components/toolbar/candor-toolbar';
+import '../components/typography/accessible-text/candor-accessible-text';
+import '../components/typography/heading/candor-heading';
+import '../components/typography/text/candor-text';
+
 const meta: Meta = {
   title: 'Examples/Editor Example',
   tags: ['autodocs'],

@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../../card/candor-card';
+import '../../form/input/candor-input';
+import '../text/candor-text';
+import './candor-accessible-text';
+
 const meta: Meta = {
   title: 'Typography/AccessibleText',
   tags: ['autodocs'],

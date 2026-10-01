@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { clickInShadow } from '../../../story-utils';
 
+import './candor-listbox';
+
 const LANGUAGES_JSON = JSON.stringify([
   { value: 'en', label: 'English' },
   { value: 'fr', label: 'French' },
