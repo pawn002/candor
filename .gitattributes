@@ -1,0 +1,8 @@
+# Generated artifacts are written with LF by their scripts. Check them out as LF
+# too, so regenerating on a Windows checkout (core.autocrlf=true) does not show a
+# phantom whole-file diff against a tree whose content is unchanged.
+audit/tokens.dtcg.json text eol=lf
+web-components/custom-elements.json text eol=lf
+
+# Installed verbatim by `klar skill install`, which compares against its shipped copy.
+.claude/skills/klar/SKILL.md text eol=lf
