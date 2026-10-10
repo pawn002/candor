@@ -12,8 +12,8 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  * consumer-level markup rule this component cannot enforce; nothing breaks
  * functionally without it, but the group has no accessible name.
  *
- * Names itself with `label`, which renders a real `<label>`; slotted content
- * inside that label names it too. `aria-label` on the host also works — it is
+ * Names itself with `label`, which renders a real `<label>`; text in the default
+ * slot lands inside that label and names it too. `aria-label` on the host also works — it is
  * mirrored onto the inner input and stripped from the host — but it *overrides*
  * the visible text rather than adding to it, so where both exist the
  * `aria-label` must contain the visible label (WCAG 2.5.3).
@@ -21,6 +21,23 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  * A disabled checkbox must carry an adjacent explanation of why it is locked; a
  * greyed control with no reason reads as broken.
  *
+ * **Two slots, and they are not interchangeable (#263).** The default slot sits
+ * *inside* the `<label>`, so whatever it holds becomes part of this control's
+ * accessible name — use it for label text only, as an alternative to `label`.
+ * Anything interactive (a help button, a link) goes in `slot="end"`, which
+ * renders *beside* the label: projecting a `<button>` into the default slot
+ * makes the document invalid (a `<label>` may hold only its own control) and
+ * folds the button's text into the checkbox's name, so a reader hears
+ * "OKCA About OKCA, checkbox" and then the button again.
+ *
+ * ```html
+ * <candor-checkbox label="OKCA">
+ *   <candor-button slot="end" variant="ghost" size="small">About OKCA</candor-button>
+ * </candor-checkbox>
+ * ```
+ *
+ * @slot - Label text, rendered inside the `<label>` and so part of the accessible name. Text only — see above.
+ * @slot end - Content beside the checkbox, outside its label — help buttons, links. Not part of the accessible name.
  * @fires change - detail: boolean — the new checked state, on user toggle
  */
 @customElement('candor-checkbox')
@@ -29,7 +46,7 @@ export class CandorCheckbox extends LitElement {
   private _internals = this.attachInternals();
 
   static override styles = css`
-    :host { display: inline-flex; }
+    :host { display: inline-flex; align-items: center; gap: var(--spacing-sm); }
     .checkbox-wrapper {
       display: inline-flex;
       align-items: center;
@@ -145,6 +162,7 @@ export class CandorCheckbox extends LitElement {
         ${this.label ? html`<span class="checkbox-label">${this.label}</span>` : nothing}
         <slot></slot>
       </label>
+      <slot name="end"></slot>
     `;
   }
 }
