@@ -326,7 +326,7 @@ export class CandorCombobox extends LitElement {
             </div>
           ` : nothing}
         </div>
-        <span id="${this._errId}" class="combobox__description combobox__error" role="alert">${this.error}</span>
+        <span id="${this._errId}" class="combobox__description combobox__error" role="alert" aria-live="polite" aria-atomic="true">${this.error}</span>
       </div>
     `;
   }

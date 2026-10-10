@@ -285,7 +285,7 @@ export class CandorAutocomplete extends LitElement {
             </ul>
           ` : nothing}
         </div>
-        <span part="error-message" id="${this._errId}" class="autocomplete__description autocomplete__error" role="alert">${this.error}</span>
+        <span part="error-message" id="${this._errId}" class="autocomplete__description autocomplete__error" role="alert" aria-live="polite" aria-atomic="true">${this.error}</span>
       </div>
     `;
   }

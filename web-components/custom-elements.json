@@ -1550,8 +1550,18 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single checkbox. Independent by design — unlike `candor-radio`, there is no\ngrouping mechanism here, because checkboxes are not mutually exclusive and\nneed no roving-focus shim.\n\nA set of related checkboxes should still be wrapped in a `<fieldset>` with a\n`<legend>`, which is what names the set for assistive technology. That is a\nconsumer-level markup rule this component cannot enforce; nothing breaks\nfunctionally without it, but the group has no accessible name.\n\nNames itself with `label`, which renders a real `<label>`; slotted content\ninside that label names it too. `aria-label` on the host also works — it is\nmirrored onto the inner input and stripped from the host — but it *overrides*\nthe visible text rather than adding to it, so where both exist the\n`aria-label` must contain the visible label (WCAG 2.5.3).\n\nA disabled checkbox must carry an adjacent explanation of why it is locked; a\ngreyed control with no reason reads as broken.",
+          "description": "A single checkbox. Independent by design — unlike `candor-radio`, there is no\ngrouping mechanism here, because checkboxes are not mutually exclusive and\nneed no roving-focus shim.\n\nA set of related checkboxes should still be wrapped in a `<fieldset>` with a\n`<legend>`, which is what names the set for assistive technology. That is a\nconsumer-level markup rule this component cannot enforce; nothing breaks\nfunctionally without it, but the group has no accessible name.\n\nNames itself with `label`, which renders a real `<label>`; text in the default\nslot lands inside that label and names it too. `aria-label` on the host also works — it is\nmirrored onto the inner input and stripped from the host — but it *overrides*\nthe visible text rather than adding to it, so where both exist the\n`aria-label` must contain the visible label (WCAG 2.5.3).\n\nA disabled checkbox must carry an adjacent explanation of why it is locked; a\ngreyed control with no reason reads as broken.\n\n**Two slots, and they are not interchangeable (#263).** The default slot sits\n*inside* the `<label>`, so whatever it holds becomes part of this control's\naccessible name — use it for label text only, as an alternative to `label`.\nAnything interactive (a help button, a link) goes in `slot=\"end\"`, which\nrenders *beside* the label: projecting a `<button>` into the default slot\nmakes the document invalid (a `<label>` may hold only its own control) and\nfolds the button's text into the checkbox's name, so a reader hears\n\"OKCA About OKCA, checkbox\" and then the button again.\n\n```html\n<candor-checkbox label=\"OKCA\">\n  <candor-button slot=\"end\" variant=\"ghost\" size=\"small\">About OKCA</candor-button>\n</candor-checkbox>\n```",
           "name": "CandorCheckbox",
+          "slots": [
+            {
+              "description": "Label text, rendered inside the `<label>` and so part of the accessible name. Text only — see above.",
+              "name": ""
+            },
+            {
+              "description": "Content beside the checkbox, outside its label — help buttons, links. Not part of the accessible name.",
+              "name": "end"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -2384,8 +2394,18 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single radio button. **Groups are resolved structurally, not by `name`** —\nthis is the one thing to know before using it.\n\nEach radio lives in its own shadow root, so the browser cannot tie\nshared-`name` inputs into a mutually-exclusive, arrow-navigable set the way it\ndoes for native inputs. The component reimplements both behaviours by querying\nsibling `candor-radio[name=\"…\"]` elements within a scope — and that scope is\n`closest('fieldset')`, falling back to `parentElement`.\n\nThe practical consequence: wrap every group in a `<fieldset>` with a\n`<legend>`. Any real layout puts each option in its own wrapper element, and\nwithout the fieldset the scope collapses to that wrapper — so each radio sees\nonly itself. **Arrow-key navigation and mutual exclusion both stop, silently.**\nNo error is raised, nothing is logged, and the control still looks correct.\n\n```html\n<fieldset>\n  <legend>Notification frequency</legend>\n  <div><candor-radio name=\"freq\" value=\"all\" label=\"Everything\"></candor-radio></div>\n  <div><candor-radio name=\"freq\" value=\"none\" label=\"Nothing\"></candor-radio></div>\n</fieldset>\n```\n\nThe `<legend>` is not decorative: it is what names the group for assistive\ntechnology, and each radio's own label names only the option.\n\n`aria-label` on the host is mirrored onto the inner input and stripped from\nthe host, the same as every other Candor form control. Note what it names,\nthough: **this one option, not the group.** A group with no `<legend>` is not\nfixed by putting `aria-label` on its radios — that renames the options and\nleaves the group anonymous.\n\nA disabled radio needs an adjacent explanation of why — a locked control with\nno reason reads as broken. See the disabled-hint convention in CLAUDE.md.",
+          "description": "A single radio button. **Groups are resolved structurally, not by `name`** —\nthis is the one thing to know before using it.\n\nEach radio lives in its own shadow root, so the browser cannot tie\nshared-`name` inputs into a mutually-exclusive, arrow-navigable set the way it\ndoes for native inputs. The component reimplements that grouping by querying\nsibling `candor-radio[name=\"…\"]` elements within a scope — and that scope is\n`closest('fieldset')`, falling back to `parentElement`. From the group it\nsupplies what the platform would have: mutual exclusion, arrow-key movement,\na single tab stop (the checked option, else the first enabled one), and each\noption's position in the set, so a screen reader can say \"2 of 5\". A\n`<fieldset>` holding only this group is given `role=\"radiogroup\"` unless it\nalready carries a role.\n\nThe practical consequence: wrap every group in a `<fieldset>` with a\n`<legend>`. Any real layout puts each option in its own wrapper element, and\nwithout the fieldset the scope collapses to that wrapper — so each radio sees\nonly itself. **Arrow-key navigation and mutual exclusion both stop.** The\ncontrol still looks correct; the one signal is a console warning, raised when\na named radio finds no other radio of that name in its group.\n\n```html\n<fieldset>\n  <legend>Notification frequency</legend>\n  <div><candor-radio name=\"freq\" value=\"all\" label=\"Everything\"></candor-radio></div>\n  <div><candor-radio name=\"freq\" value=\"none\" label=\"Nothing\"></candor-radio></div>\n</fieldset>\n```\n\nThe `<legend>` is not decorative: it is what names the group for assistive\ntechnology, and each radio's own label names only the option.\n\n`aria-label` on the host is mirrored onto the inner input and stripped from\nthe host, the same as every other Candor form control. Note what it names,\nthough: **this one option, not the group.** A group with no `<legend>` is not\nfixed by putting `aria-label` on its radios — that renames the options and\nleaves the group anonymous.\n\nA disabled radio needs an adjacent explanation of why — a locked control with\nno reason reads as broken. See the disabled-hint convention in CLAUDE.md.\n\n**Two slots, and they are not interchangeable (#263).** The default slot sits\n*inside* the `<label>`, so whatever it holds becomes part of this control's\naccessible name — use it for label text only, as an alternative to `label`.\nAnything interactive (a help button, a link) goes in `slot=\"end\"`, which\nrenders *beside* the label: projecting a `<button>` into the default slot\nmakes the document invalid (a `<label>` may hold only its own control) and\nfolds the button's text into the option's name, so a reader hears\n\"OKCA About OKCA, radio button\" and then the button again.\n\n```html\n<candor-radio label=\"OKCA\" name=\"metric\" value=\"okca\">\n  <candor-button slot=\"end\" variant=\"ghost\" size=\"small\">About OKCA</candor-button>\n</candor-radio>\n```",
           "name": "CandorRadio",
+          "slots": [
+            {
+              "description": "Label text, rendered inside the `<label>` and so part of the accessible name. Text only — see above.",
+              "name": ""
+            },
+            {
+              "description": "Content beside the option, outside its label — help buttons, links. Not part of the accessible name.",
+              "name": "end"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -2932,8 +2952,18 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A toggle for a setting that takes effect immediately.\n\nThe choice against `candor-checkbox` is about *when* the change applies, not\nabout appearance: a switch commits on toggle, a checkbox commits when the\nsurrounding form is submitted. A switch inside a form with a Save button is\nthe wrong control — it promises immediacy the form does not deliver.\n\n`aria-label` on the host **is** supported here: it is mirrored onto the inner\ncontrol and stripped from the host, so screen readers announce the name once\nrather than twice. Prefer the visible `label` where the design allows one.\n\n`hint` is the standing explanation slot. A disabled switch must use it to say\nwhy the control is locked — for a switch especially, since the off state and\nthe disabled state look similar and the user cannot tell whether the setting\nis off or unavailable.",
+          "description": "A toggle for a setting that takes effect immediately.\n\nThe choice against `candor-checkbox` is about *when* the change applies, not\nabout appearance: a switch commits on toggle, a checkbox commits when the\nsurrounding form is submitted. A switch inside a form with a Save button is\nthe wrong control — it promises immediacy the form does not deliver.\n\n`aria-label` on the host **is** supported here: it is mirrored onto the inner\ncontrol and stripped from the host, so screen readers announce the name once\nrather than twice. Prefer the visible `label` where the design allows one.\n\n`hint` is the standing explanation slot. A disabled switch must use it to say\nwhy the control is locked — for a switch especially, since the off state and\nthe disabled state look similar and the user cannot tell whether the setting\nis off or unavailable.\n\n**Two slots, and they are not interchangeable (#263).** The default slot sits\n*inside* the `<label>`, so whatever it holds becomes part of this control's\naccessible name — use it for label text only, as an alternative to `label`.\nAnything interactive (a help button, a link) goes in `slot=\"end\"`, which\nrenders *beside* the label: projecting a `<button>` into the default slot\nmakes the document invalid (a `<label>` may hold only its own control) and\nfolds the button's text into the switch's name, so a reader hears\n\"OKCA About OKCA, switch\" and then the button again.\n\n```html\n<candor-switch label=\"OKCA\">\n  <candor-button slot=\"end\" variant=\"ghost\" size=\"small\">About OKCA</candor-button>\n</candor-switch>\n```",
           "name": "CandorSwitch",
+          "slots": [
+            {
+              "description": "Label text, rendered inside the `<label>` and so part of the accessible name. Text only — see above.",
+              "name": ""
+            },
+            {
+              "description": "Content beside the switch, outside its label — help buttons, links. Not part of the accessible name.",
+              "name": "end"
+            }
+          ],
           "members": [
             {
               "kind": "field",

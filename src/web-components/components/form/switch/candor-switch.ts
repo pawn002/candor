@@ -19,6 +19,23 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  * the disabled state look similar and the user cannot tell whether the setting
  * is off or unavailable.
  *
+ * **Two slots, and they are not interchangeable (#263).** The default slot sits
+ * *inside* the `<label>`, so whatever it holds becomes part of this control's
+ * accessible name — use it for label text only, as an alternative to `label`.
+ * Anything interactive (a help button, a link) goes in `slot="end"`, which
+ * renders *beside* the label: projecting a `<button>` into the default slot
+ * makes the document invalid (a `<label>` may hold only its own control) and
+ * folds the button's text into the switch's name, so a reader hears
+ * "OKCA About OKCA, switch" and then the button again.
+ *
+ * ```html
+ * <candor-switch label="OKCA">
+ *   <candor-button slot="end" variant="ghost" size="small">About OKCA</candor-button>
+ * </candor-switch>
+ * ```
+ *
+ * @slot - Label text, rendered inside the `<label>` and so part of the accessible name. Text only — see above.
+ * @slot end - Content beside the switch, outside its label — help buttons, links. Not part of the accessible name.
  * @fires change - detail: boolean — the new checked state, on user toggle
  */
 @customElement('candor-switch')
@@ -29,6 +46,7 @@ export class CandorSwitch extends LitElement {
   static override styles = css`
     :host { display: block; }
     .switch-container { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+    .switch-row { display: flex; align-items: center; gap: var(--spacing-sm); }
     .switch-wrapper {
       display: inline-flex;
       align-items: center;
@@ -138,26 +156,29 @@ export class CandorSwitch extends LitElement {
   override render() {
     return html`
       <div class="switch-container">
-        <label class="switch-wrapper ${this.disabled ? 'switch-wrapper--disabled' : ''}" for="${this._id}">
-          <input
-            class="switch-input"
-            type="checkbox"
-            role="switch"
-            id="${this._id}"
-            .checked="${this.checked}"
-            ?disabled="${this.disabled}"
-            ?required="${this.required}"
-            aria-label="${this._ariaLabel || nothing}"
-            aria-describedby="${this.hint ? this._hintId : nothing}"
-            name="${this.name || nothing}"
-            @change="${this._onChange}"
-          />
-          <span class="switch-track">
-            <span class="switch-thumb"></span>
-          </span>
-          ${this.label ? html`<span class="switch-label">${this.label}</span>` : nothing}
-          <slot></slot>
-        </label>
+        <div class="switch-row">
+          <label class="switch-wrapper ${this.disabled ? 'switch-wrapper--disabled' : ''}" for="${this._id}">
+            <input
+              class="switch-input"
+              type="checkbox"
+              role="switch"
+              id="${this._id}"
+              .checked="${this.checked}"
+              ?disabled="${this.disabled}"
+              ?required="${this.required}"
+              aria-label="${this._ariaLabel || nothing}"
+              aria-describedby="${this.hint ? this._hintId : nothing}"
+              name="${this.name || nothing}"
+              @change="${this._onChange}"
+            />
+            <span class="switch-track">
+              <span class="switch-thumb"></span>
+            </span>
+            ${this.label ? html`<span class="switch-label">${this.label}</span>` : nothing}
+            <slot></slot>
+          </label>
+          <slot name="end"></slot>
+        </div>
         ${this.hint ? html`<span id="${this._hintId}" class="switch-hint">${this.hint}</span>` : nothing}
       </div>
     `;

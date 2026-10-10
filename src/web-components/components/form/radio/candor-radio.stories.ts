@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 import './candor-radio';
+import '../../button/candor-button';
 
 const meta: Meta = {
   title: 'Components/Form/Radio',
@@ -28,6 +29,12 @@ hears "Yes" with no frame of reference for what the question was.
 Form-associated (\`ElementInternals\`): the selected value appears in \`FormData\` keyed by
 \`name\` when wrapped in a \`<form>\`.
 
+**Secondary content goes in \`slot="end"\`, not the default slot.** The default slot renders
+inside the option's \`<label>\`, so anything in it becomes part of the option's accessible
+name — a help button there is announced as part of the option ("OKCA About OKCA, radio
+button") and makes the label invalid HTML. \`slot="end"\` renders beside the label instead;
+see *With Adjacent Help*. The same two slots exist on \`candor-checkbox\` and \`candor-switch\`.
+
 **Events.** \`change\` fires on the newly selected radio, carrying its \`value\` as a
 \`string\` in \`detail\`. There is no live \`input\` event — a radio has no mid-edit phase.
         `.trim(),
@@ -42,7 +49,7 @@ Form-associated (\`ElementInternals\`): the selected value appears in \`FormData
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },
   args: { label: 'Option A', value: 'a', checked: false, disabled: false },
-  render: (args) => html`<candor-radio label="${args['label']}" value="${args['value']}" ?checked=${args['checked']} ?disabled=${args['disabled']} name="demo"></candor-radio>`,
+  render: (args) => html`<candor-radio label="${args['label']}" value="${args['value']}" ?checked=${args['checked']} ?disabled=${args['disabled']}></candor-radio>`,
 };
 
 export default meta;
@@ -84,6 +91,31 @@ export const Group: Story = {
       <candor-radio label="Email" value="email" name="contact" checked></candor-radio>
       <candor-radio label="Phone" value="phone" name="contact"></candor-radio>
       <candor-radio label="Post" value="post" name="contact" disabled></candor-radio>
+    </fieldset>
+  `,
+};
+
+/**
+ * A help control beside each option (#263). The button sits in `slot="end"`,
+ * outside the option's `<label>`, so each radio is named by its label alone —
+ * "OKCA, radio button, 2 of 3" — and the button is a separate stop. Arrow keys
+ * still move between the options; Tab moves from the group's one tab stop to
+ * that option's button.
+ */
+export const WithAdjacentHelp: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => html`
+    <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:var(--spacing-xs);">
+      <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-relaxed);margin-bottom:var(--spacing-xs);">Contrast algorithm</legend>
+      <candor-radio label="WCAG 2.1" value="wcag21" name="algorithm-help" checked>
+        <candor-button slot="end" variant="ghost" size="small">About WCAG 2.1</candor-button>
+      </candor-radio>
+      <candor-radio label="OKCA" value="okca" name="algorithm-help">
+        <candor-button slot="end" variant="ghost" size="small">About OKCA</candor-button>
+      </candor-radio>
+      <candor-radio label="Delta E" value="deltae" name="algorithm-help">
+        <candor-button slot="end" variant="ghost" size="small">About Delta E</candor-button>
+      </candor-radio>
     </fieldset>
   `,
 };
