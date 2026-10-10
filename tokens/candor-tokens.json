@@ -79,6 +79,8 @@
     "--weight-medium": "500",
     "--weight-semibold": "600",
     "--weight-bold": "700",
+    "--leading-display": "1.1",
+    "--leading-snug": "1.2",
     "--leading-tight": "1.25",
     "--leading-normal": "1.5",
     "--leading-relaxed": "1.75",

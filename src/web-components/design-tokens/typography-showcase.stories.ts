@@ -125,24 +125,47 @@ const renderShowcase = () => html`
       </div>
     </section>
 
+    <section style="margin-top: var(--spacing-2xl);">
+      <div style="margin-bottom: var(--spacing-lg);">
+        <h2 style="font-family: var(--font-family-display); font-size: var(--font-size-2xl); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-tight);">Leading</h2>
+        <p style="font-size: var(--font-size-md); color: var(--color-text-subtle); margin: 0; line-height: var(--line-height-normal);">
+          Line height tightens as type grows. It is a multiplier, so the gap between lines already
+          grows with the size; large type wants proportionally less of it, or a wrapped heading
+          reads as separate phrases rather than one line that broke (#264). Leading only shows when
+          a heading wraps, so check headings at narrow widths.
+          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">candor-heading</code> and <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">candor-article</code>
+          apply the heading rows below by level.
+        </p>
+      </div>
+      <candor-table compact
+        headers='${JSON.stringify(leadingHeaders)}'
+        rows='${JSON.stringify(leadingRows)}'></candor-table>
+    </section>
+
   </div>
 `;
+
+const leadingHeaders = ['Token', 'Value', 'Use'];
+const leadingRows = [
+  { cells: ['--line-height-display', '1.1', 'Display headings, 31px and up (h1, h2)'] },
+  { cells: ['--line-height-snug', '1.2', 'Subsection headings, 20–25px (h3, h4)'] },
+  { cells: ['--line-height-tight', '1.25', 'Body-sized headings (h5, h6) and compact UI: labels, buttons, badges'] },
+  { cells: ['--line-height-normal', '1.5', 'UI text and short prose'] },
+  { cells: ['--line-height-relaxed', '1.75', 'Long-form reading (candor-article body)'] },
+];
 
 const sizeRampHeaders = ['Size', 'Token', 'Regular', 'Bold', 'Notes'];
 const sizeRampRows = [
   { cells: ['≥ 24px', '3xl – xl', '3.0', '3.0', 'WCAG large text — both weights qualify'] },
   { cells: ['19 – 23px', '—', '4.5', '3.0', 'Bold qualifies as large from 18.67px; regular does not until 24px'] },
   { cells: ['16 – 18px', '--font-size-md', '4.5', '4.5', 'WCAG 4.5 floor — binds both weights'] },
-  { cells: ['15px', '—', '6.5', '4.5', 'Sub-16px ramp (editorially derived)'] },
-  { cells: ['14px', '--font-size-sm', '9.5', '6.5', 'Candor readable text floor — demand more than doubles vs. 16px'] },
-  { cells: ['13px', '—', '13.8', '9.5', 'Not in Candor scale — ramp context only'] },
-  { cells: ['12px', '--font-size-xs', '20', '13.8', 'Decorative / non-text only — 20 = black on white'] },
-  { cells: ['< 12px', '—', '—', '—', 'Not supported — contrast cannot compensate for letterform resolution failure'] },
+  { cells: ['14px', '--font-size-sm', '9.5', '6.5', 'Smallest text size. 9.5 is what neutral reading text needs here; no coloured text reaches it (#240), so Tier 1 regular text is 16px or larger'] },
+  { cells: ['12px and below', '--font-size-xs', '—', '—', 'Decorative / non-text only (badge chrome, icons). No text is rendered here, so no floor applies'] },
 ];
 
 const tierHeaders = ['Tier', 'Perceptual task', '14px regular', '14px bold', 'Candor components'];
 const tierRows = [
-  { cells: ['1 — Reading', 'Sequential decoding — must read to act', '9.5', '6.5', 'Toast message, alert body, modal prose, form error messages, article inline text'] },
+  { cells: ['1 — Reading', 'Sequential decoding — must read to act', 'not permitted — use 16px', '6.5', 'Toast message, alert body, modal prose, form error messages, article inline text'] },
   { cells: ['2 — Functional UI', 'Recognition — sole channel for meaning', '6.5', '4.5', 'Breadcrumb links (bold), pagination numbers, table cell data, chip labels'] },
   { cells: ['3 — Supplementary', 'Pattern match — meaning redundantly coded', '4.5', '4.5', 'Badge text, hint text, breadcrumb separators, pagination ellipsis, stat labels, table metadata, accordion quiet headings (wght 500 — structural nesting is the redundant channel)'] },
 ];
@@ -238,17 +261,28 @@ export const OKCAContrastGuidance: Story = {
         story: `
 Candor's contrast requirements have **two axes**: font size and use-case tier.
 
-**Size axis** — OKCA raises the required score as text shrinks. Contrast demand more than
-doubles between 16px and 14px for regular-weight text. The ramp is anchored at the WCAG 4.5
-floor at 16px and at the maximum achievable OKCA score (20 — black on white) at 12px.
+**Size axis** — at 16px and above the floors are WCAG's: 4.5, dropping to 3.0 for large
+text. Below 16px Candor sets its own, higher floors. They are a **margin**, not a measured
+requirement. A pair sitting exactly on the WCAG line has nothing to spare against the display
+brightness and ambient light it will actually be read in, and smaller text has less to spare,
+so the floor rises. No specific score is known to be needed at a specific size — OKCA does not
+model viewing conditions, and makes no such claim — so treat the 14px figures as policy, not as
+measurements of legibility.
 
-**Use-case tier axis** — the size penalty at 14px applies in full only to text that is read
-sequentially. The visual system processes short labels and pattern-matched status text
-differently from fluent prose. Three tiers adjust the 14px threshold accordingly.
+**14px is the only sub-16px size that carries text**, so it is the only row. 12px is decorative
+and carries no floor. The 14px regular figure, 9.5, is what a neutral reading passage needs
+there. Neutral text reaches it (\`--color-text-default\` is OKCA 11.5 on page), but no
+coloured text in the system can (#240). That is why Tier 1 regular text must be 16px or larger
+rather than held to 9.5: a floor only near-black text can meet would quietly ban colour from
+must-read text.
 
-> Sub-16px ramp values (12–15px) are editorially derived from geometric interpolation between
-> known anchors, not from a named standard. OKCA is polarity-aware and chroma-compressed —
-> passing OKCA also passes WCAG (zero false-pass guarantee).
+**Use-case tier axis** — this adjusts the 14px row only. Text read sequentially keeps the full
+floor; short labels and pattern-matched status text, which the eye recognises rather than
+reads, carry lower ones. Three tiers set the 14px threshold accordingly. At 16px and above
+every tier has the same floor.
+
+> OKCA is polarity-aware and chroma-compressed — passing OKCA also passes WCAG (zero
+> false-pass guarantee).
         `.trim(),
       },
     },

@@ -302,7 +302,7 @@ Likely causes, in order of frequency:
 
 ### Symptom: "Everything is bold and nothing stands out"
 
-- **Atkinson bold used incorrectly on reading text.** Form error messages at 14px are Tier 1 — bold does not substitute for the required 9.5 OKCA score. Fix: use `--color-text-default` or bump to 16px. Bold is legitimate at 14px for Tier 2 functional text, where it drops the threshold from 6.5 to 4.5. Alert and toast body text are at 16px for this reason.
+- **Atkinson bold used incorrectly on reading text.** Form error messages are Tier 1, and Tier 1 regular text must be 16px or larger. Bolding a 14px error to reach the 14px bold floor is not the fix, because bold is for hierarchy, not urgency. Fix: bump to 16px. Bold is legitimate at 14px for Tier 2 functional text, where it drops the threshold from 6.5 to 4.5. Alert and toast body text are at 16px for this reason.
 - **Heading weight inflation.** Every heading reaches for `font-weight: 600`. Fix: let optical sizing do the work; remove explicit weight.
 - **Label weight leaking into prose.** Body copy is inheriting a bold style from a parent. Fix: scope the bold; body prose should almost always be regular.
 

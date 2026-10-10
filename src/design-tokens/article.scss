@@ -31,10 +31,10 @@
         &:first-child { margin-top: 0; }
     }
 
-    h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); }
-    h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); }
-    h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); }
-    h4 { font-size: var(--font-size-h4); }
+    h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
+    h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
+    h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-snug); }
+    h4 { font-size: var(--font-size-h4); line-height: var(--line-height-snug); }
     h5 { font-size: var(--font-size-base); margin-top: var(--spacing-lg); }  // floor at 16px; reduced top margin
     h6 { font-size: 0.875rem;              margin-top: var(--spacing-md); }  // floor at 14px; reduced top margin
 
