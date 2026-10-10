@@ -208,6 +208,46 @@ test.describe('candor-radio', () => {
     await expect(page.getByRole('radiogroup', { name: 'Preferred contact method' })).toBeVisible();
   });
 
+  test('renaming an option out of the group re-syncs the options it left', async ({ page }) => {
+    await page.goto(gotoStory('components-form-radio--group'));
+
+    const result = await page.evaluate(async () => {
+      await customElements.whenDefined('candor-radio');
+      const frame = () => new Promise((r) => requestAnimationFrame(() => r(null)));
+      const fs = document.createElement('fieldset');
+      fs.innerHTML = `
+        <legend>Rename</legend>
+        <candor-radio name="rename" value="a" label="A"></candor-radio>
+        <candor-radio name="rename" value="b" label="B"></candor-radio>
+        <candor-radio name="rename" value="c" label="C"></candor-radio>`;
+      const consumer = document.createElement('fieldset');
+      consumer.setAttribute('role', 'radiogroup');
+      consumer.innerHTML = `
+        <legend>Consumer role</legend>
+        <candor-radio name="own" value="a" label="A"></candor-radio>
+        <candor-radio name="own" value="b" label="B"></candor-radio>`;
+      document.body.append(fs, consumer);
+      await frame();
+
+      const radios = fs.querySelectorAll('candor-radio');
+      (radios[2] as HTMLElement & { name: string }).name = 'elsewhere';
+      (consumer.querySelectorAll('candor-radio')[1] as HTMLElement & { name: string }).name = 'elsewhere';
+      await frame();
+      return {
+        sizes: Array.from(radios).slice(0, 2).map(
+          (r) => r.shadowRoot!.querySelector('input')!.getAttribute('aria-setsize'),
+        ),
+        role: fs.getAttribute('role'),
+        consumerRole: consumer.getAttribute('role'),
+      };
+    });
+    // The two left behind are now a set of two, and a fieldset holding two
+    // names is no longer a radiogroup — but a role the consumer wrote stays.
+    expect(result.sizes).toEqual(['2', '2']);
+    expect(result.role).toBeNull();
+    expect(result.consumerRole).toBe('radiogroup');
+  });
+
   test('a named radio with no group warns', async ({ page }) => {
     await page.goto(gotoStory('components-form-radio--group'));
 

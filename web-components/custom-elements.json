@@ -2439,8 +2439,9 @@
               "type": {
                 "text": "string | undefined"
               },
-              "description": "Group identity — but **not** the grouping mechanism, unlike a native\n`<input type=\"radio\">`. Radios with the same `name` are only tied together\nif they also share a `<fieldset>` (see the class comment): `name` selects\nthe siblings, the fieldset bounds the search. Setting `name` alone on radios\nin separate wrappers produces a group that silently does not group.\n\nLeaving it unset opts out of grouping entirely — `_groupSiblings` returns\nempty, so arrow keys and mutual exclusion do nothing.",
-              "attribute": "name"
+              "description": "Group identity — but **not** the grouping mechanism, unlike a native\n`<input type=\"radio\">`. Radios with the same `name` are only tied together\nif they also share a `<fieldset>` (see the class comment): `name` selects\nthe siblings, the fieldset bounds the search. Setting `name` alone on radios\nin separate wrappers produces a group that does not group, and logs a\nconsole warning saying so.\n\nLeaving it unset opts out of grouping entirely — `_groupSiblings` returns\nempty, so arrow keys and mutual exclusion do nothing.\n\nReflected to the attribute, because siblings are found by the selector\n`candor-radio[name=\"…\"]`: unreflected, a name set as a property — the path\na framework binding takes — left the radio outside every group.",
+              "attribute": "name",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -2493,7 +2494,7 @@
               "type": {
                 "text": "string | undefined"
               },
-              "description": "Group identity — but **not** the grouping mechanism, unlike a native\n`<input type=\"radio\">`. Radios with the same `name` are only tied together\nif they also share a `<fieldset>` (see the class comment): `name` selects\nthe siblings, the fieldset bounds the search. Setting `name` alone on radios\nin separate wrappers produces a group that silently does not group.\n\nLeaving it unset opts out of grouping entirely — `_groupSiblings` returns\nempty, so arrow keys and mutual exclusion do nothing.",
+              "description": "Group identity — but **not** the grouping mechanism, unlike a native\n`<input type=\"radio\">`. Radios with the same `name` are only tied together\nif they also share a `<fieldset>` (see the class comment): `name` selects\nthe siblings, the fieldset bounds the search. Setting `name` alone on radios\nin separate wrappers produces a group that does not group, and logs a\nconsole warning saying so.\n\nLeaving it unset opts out of grouping entirely — `_groupSiblings` returns\nempty, so arrow keys and mutual exclusion do nothing.\n\nReflected to the attribute, because siblings are found by the selector\n`candor-radio[name=\"…\"]`: unreflected, a name set as a property — the path\na framework binding takes — left the radio outside every group.",
               "fieldName": "name"
             },
             {

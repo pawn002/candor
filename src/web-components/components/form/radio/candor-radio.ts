@@ -2,6 +2,10 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { observeHostAriaLabel } from '../../../utils/host-aria';
 
+// Fieldsets this component gave role="radiogroup", so it only ever removes a
+// role it wrote itself (see _markRadioGroup).
+const markedFieldsets = new WeakSet<HTMLFieldSetElement>();
+
 /**
  * A single radio button. **Groups are resolved structurally, not by `name`** —
  * this is the one thing to know before using it.
@@ -136,12 +140,17 @@ export class CandorRadio extends LitElement {
    * `<input type="radio">`. Radios with the same `name` are only tied together
    * if they also share a `<fieldset>` (see the class comment): `name` selects
    * the siblings, the fieldset bounds the search. Setting `name` alone on radios
-   * in separate wrappers produces a group that silently does not group.
+   * in separate wrappers produces a group that does not group, and logs a
+   * console warning saying so.
    *
    * Leaving it unset opts out of grouping entirely — `_groupSiblings` returns
    * empty, so arrow keys and mutual exclusion do nothing.
+   *
+   * Reflected to the attribute, because siblings are found by the selector
+   * `candor-radio[name="…"]`: unreflected, a name set as a property — the path
+   * a framework binding takes — left the radio outside every group.
    */
-  @property() name?: string;
+  @property({ reflect: true }) name?: string;
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
 
@@ -209,6 +218,14 @@ export class CandorRadio extends LitElement {
     // group-wide rather than local.
     if (changed.has('checked') || changed.has('disabled') || changed.has('name')) {
       this._syncGroup();
+    }
+    // A rename also leaves a group: the options still carrying the old name
+    // would otherwise keep counting this one in their set size.
+    const oldName = changed.get('name') as string | undefined;
+    if (oldName && oldName !== this.name && this.isConnected) {
+      this._resolveScope()
+        .querySelector<CandorRadio>(`candor-radio[name="${CSS.escape(oldName)}"]`)
+        ?._syncGroup();
     }
   }
 
@@ -289,6 +306,7 @@ export class CandorRadio extends LitElement {
       this._tabStop = true;
       this._posInSet = undefined;
       this._setSize = undefined;
+      if (this._scope) this._markRadioGroup(this._scope, members);
       return;
     }
     const enabled = members.filter((r) => !r.disabled);
@@ -313,11 +331,22 @@ export class CandorRadio extends LitElement {
    * wrapper), only when the consumer has not set a role themselves, and only
    * when every radio inside it belongs to this one group. A fieldset holding two
    * named groups is not a radiogroup, and marking it one would be a lie.
+   *
+   * The role is taken back off when the fieldset stops qualifying — a radio
+   * renamed or removed out of the group — but only from a fieldset this
+   * component marked, so a role the consumer wrote is never touched.
    */
   private _markRadioGroup(scope: ParentNode, members: CandorRadio[]): void {
-    if (!(scope instanceof HTMLFieldSetElement) || scope.hasAttribute('role')) return;
-    if (scope.querySelectorAll('candor-radio').length !== members.length) return;
-    scope.setAttribute('role', 'radiogroup');
+    if (!(scope instanceof HTMLFieldSetElement)) return;
+    const qualifies =
+      members.length >= 2 && scope.querySelectorAll('candor-radio').length === members.length;
+    if (qualifies && !scope.hasAttribute('role')) {
+      scope.setAttribute('role', 'radiogroup');
+      markedFieldsets.add(scope);
+    } else if (!qualifies && markedFieldsets.has(scope)) {
+      if (scope.getAttribute('role') === 'radiogroup') scope.removeAttribute('role');
+      markedFieldsets.delete(scope);
+    }
   }
 
   private _select() {
