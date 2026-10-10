@@ -21,10 +21,10 @@ npm install @candor-design/tokens
 ### Web components (framework-agnostic)
 
 ```bash
-npm install @candor-design/web-components @candor-design/tokens
+npm install @candor-design/web-components @candor-design/tokens lit
 ```
 
-Includes all 37 Candor components as Lit 3 custom elements. No framework required — works in plain HTML, React, Vue, Svelte, or any other environment that supports web standards. Version is kept in sync with `@candor-design/tokens`.
+Includes all 37 Candor components as Lit 3 custom elements, each with its own entry point (`import '@candor-design/web-components/button'`) so you ship only what you render. Lit is a peer dependency. No framework required — works in plain HTML, React, Vue, Svelte, or any other environment that supports web standards; a single-file `standalone` build covers `<script>`-tag use. Version is kept in sync with `@candor-design/tokens`. See the [package README](web-components/README.md) for the import forms.
 
 ### Fonts
 
@@ -298,9 +298,11 @@ npm run build:wc
 ```
 
 Outputs to `web-components/dist/`:
-- `candor-web-components.js` — ESM bundle (165 kB, 30 kB gzipped)
-- `candor-web-components.umd.cjs` — UMD for CDN / legacy environments
-- `index.d.ts` + per-component `.d.ts` — TypeScript declarations
+- `index.js` + `components/**` — ESM, one module per source file; the per-component entry points in `web-components/package.json` point here. `lit` and `culori` stay external
+- `candor-web-components.standalone.js` — every element in one ESM file, Lit and culori bundled, for `<script type="module">`
+- `**/*.d.ts` — TypeScript declarations
+
+The `exports` map is generated from `src/web-components/index.ts` by `npm run sync:wc-exports`; `npm run audit:packaging` fails if it is stale.
 
 ### Storybook
 

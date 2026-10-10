@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
+import { customElement } from '../../../utils/define';
 import { phCheckCircleFill, phWarningFill, phXCircleFill, phInfoFill } from '../../../icons';
 
 type AccessibleTextRole = 'label' | 'message' | 'status' | 'state' | 'annotation';

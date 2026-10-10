@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
+import { customElement } from '../../utils/define';
 
 type BadgeVariant = 'default' | 'primary' | 'secondary' | 'success' | 'error' | 'warning';
 type BadgeSize = 'sm' | 'md';

@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
+import { property, state, query, queryAll } from 'lit/decorators.js';
+import { customElement } from '../../utils/define';
 import { phCaretDownBold, phDotsThreeVerticalBold, phCheckBold } from '../../icons';
 import { observeHostAriaLabel } from '../../utils/host-aria';
 

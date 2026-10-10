@@ -6,6 +6,52 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Breaking changes
+
+#### `@candor-design/web-components`: Lit is a peer dependency, per-component entry points, no CommonJS/UMD build (#256, #257)
+
+**Before:**
+```js
+import '@candor-design/web-components';           // all 40 elements, Lit bundled inside
+const wc = require('@candor-design/web-components'); // UMD
+```
+```html
+<script type="module" src=".../dist/candor-web-components.js"></script>
+```
+
+**After:**
+```bash
+npm install lit   # if your app does not already depend on Lit 3
+```
+```js
+import '@candor-design/web-components/button';    // just <candor-button>
+import '@candor-design/web-components';           // still registers all 40
+```
+```html
+<script type="module" src=".../dist/candor-web-components.standalone.js"></script>
+```
+
+**Why:** importing anything shipped every element. `sideEffects: true` and a single entry point meant a bundler could drop nothing, so an app that renders nine elements shipped 40 — measured on color-pair-quick-iterator, adopting nine components doubled its bundle (#257). Lit was bundled inside, so an app using Lit loaded two copies and got Lit's "multiple versions" warning in its own console, attributed to its own code (#256). The build is now one ESM module per source file, with an entry point per component and Lit external. In a scratch Vite app built against the packed tarball, one component ships 22 kB (8 kB gzip) and the same nine ship 66 kB (17 kB gzip), Lit included, against 219 kB (42 kB gzip) for the full library.
+
+The UMD build is gone, because Lit has no global build for a UMD file with Lit external to load. Its job, a file you can put in a `<script>` tag, moves to `./standalone`, which bundles Lit and culori. The old ESM file could not do that job either: it imported `culori` by bare name, which a browser cannot resolve without an import map.
+
+**Migration:**
+- Add `lit@^3` to your dependencies if it is not there already. npm 7+ installs a missing peer for you.
+- Code using `require()`: switch to `import`. There is no CommonJS entry.
+- `<script>`-tag pages: point at `dist/candor-web-components.standalone.js` instead of `dist/candor-web-components.js` (which no longer exists).
+- Optional but recommended: replace `import '@candor-design/web-components'` with one import per element you render. Named imports from the root (`import { CandorButton } from '@candor-design/web-components'`) still register all 40.
+- Deep imports into `dist/` were never supported and now fail: `exports` lists every supported path.
+
+### Fixed
+
+- **Importing Candor no longer throws, or stops partway, when a `candor-*` tag is already registered (#257).** Lit's `@customElement` calls `customElements.define()` unconditionally, and the registry throws on a name it already holds. Inside the barrel import, that throw left every element before the collision registered and every element after it inert, with one error as the only clue. An app with its own `candor-card` therefore could not adopt the library one element at a time; color-pair-quick-iterator had to rename nine elements in one commit before it could import the package at all. Each element now skips a tag that is already defined and logs a warning naming it. Every other element still registers.
+
+- **`dist/icons.d.ts` no longer ships (#260).** It declared nine `ph*` constants that no entry point exports, so `import { phInfoFill } from '@candor-design/web-components'` type-checked and then failed at runtime. Those glyphs are component chrome, not an icon set, and they deliberately stay unexported. The package README gains an **Icons** section, so `node_modules` now says what only Storybook said before: Candor uses Phosphor, inlines path data because font classes do not reach into a shadow root, and assigns weight by role.
+
+### Added (tooling)
+
+- **`npm run audit:packaging` checks the `exports` map (#257).** The map is generated from `src/web-components/index.ts` by `npm run sync:wc-exports`. The audit fails in three cases: the committed map is stale, so a new component would have no entry point; an export points at a file the build did not emit; or the standalone bundle contains a bare import, which would make it unloadable from a `<script>` tag. All three failures were checked by breaking each one on purpose.
+
 ### Fixed
 
 - **A `candor-radio` group is now one tab stop, and each option says where it is in the set (#262).** Native radio grouping never forms across shadow roots, so every option's inner input carried `tabindex="0"` — a five-option group took five Tab presses, and with arrows already moving between options there were two ways through the group instead of one. The group now uses roving tabindex, the other half of the APG radio-group pattern the arrow handling already implemented: the checked option is the tab stop, or the first enabled option when nothing is checked — without that fallback an unanswered group would be unreachable by keyboard. Tab now leaves the group in one press.

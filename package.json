@@ -23,7 +23,7 @@
     "typecheck": "tsc --noEmit",
     "test:playwright:ui": "playwright test --ui",
     "build:tokens": "node scripts/build-tokens.js",
-    "build:wc": "vite build --config vite.wc.config.ts && vite build --config vite.tone-data.config.ts",
+    "build:wc": "vite build --config vite.wc.config.ts && vite build --config vite.wc-standalone.config.ts",
     "version": "node scripts/sync-wc-version.js && git add web-components/package.json",
     "release:patch": "npm version patch && git push origin main --follow-tags",
     "release:minor": "npm version minor && git push origin main --follow-tags",
@@ -33,6 +33,7 @@
     "audit:tokens": "node scripts/export-tokens-dtcg.js",
     "audit:contrast": "node scripts/check-contrast.js",
     "audit:packaging": "node scripts/check-package-deps.js",
+    "sync:wc-exports": "node scripts/sync-wc-exports.js",
     "audit:docs": "node scripts/check-docs-claims.js",
     "build:cem": "cem analyze"
   },

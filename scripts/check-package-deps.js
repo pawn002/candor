@@ -172,6 +172,52 @@ for (const t of targets) {
   }
 }
 
+// ── web-components entry points (#257) ──────────────────────────────────────
+//
+// Three checks on the exports map, each for a failure nothing else would see:
+//
+//   stale     — the committed map differs from what the barrel derives. A new
+//               component with no subpath is invisible: it builds, it is in the
+//               barrel, and it has no per-component entry point.
+//   dangling  — an export target the build did not emit. Resolves fine in this
+//               repo's tests, which import source; fails on a consumer's first
+//               import.
+//   bare specifier in the standalone bundle — a browser cannot resolve
+//               `import 'lit'` from a <script> tag without an import map, so a
+//               single one makes the whole file unloadable there.
+{
+  const { deriveExports, MANIFEST } = require('./sync-wc-exports');
+  const pkg = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
+  const wcRoot = path.dirname(MANIFEST);
+  let ok = true;
+  console.log('\n@candor-design/web-components entry points');
+
+  if (JSON.stringify(pkg.exports) !== JSON.stringify(deriveExports())) {
+    console.log('  ✖ stale: the exports map does not match the barrel — run `npm run sync:wc-exports`');
+    ok = false;
+  }
+
+  const targets = Object.values(pkg.exports).flatMap((v) => (typeof v === 'string' ? [v] : Object.values(v)));
+  for (const t of new Set(targets)) {
+    if (!fs.existsSync(path.join(wcRoot, t))) {
+      console.log(`  ✖ dangling: exports points at ${t}, which the build did not emit`);
+      ok = false;
+    }
+  }
+
+  const standalone = path.join(wcRoot, 'dist', 'candor-web-components.standalone.js');
+  if (fs.existsSync(standalone)) {
+    const bare = [...jsSpecifiers(stripBlockComments(fs.readFileSync(standalone, 'utf8')))];
+    if (bare.length > 0) {
+      console.log(`  ✖ the standalone bundle imports ${bare.join(', ')} — it must load from a <script> tag`);
+      ok = false;
+    }
+  }
+
+  if (ok) console.log(`  ✓ ${Object.keys(pkg.exports).length} exports match the barrel and resolve to built files`);
+  else failed = true;
+}
+
 if (failed) {
   console.log(
     '\n✖ package dependency check failed.' +

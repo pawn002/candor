@@ -1,5 +1,5 @@
 import { LitElement, css, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement } from '../../utils/define';
 
 /**
  * Inline code — the drop-in that bundles the `--color-bg-code` / `--color-text-code`
