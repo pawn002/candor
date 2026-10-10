@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
+import { customElement } from '../../../utils/define';
 
 type TextVariant = 'body' | 'caption' | 'label';
 // No 'xs'. --font-size-xs (12px) is below the readable-text floor, and this is

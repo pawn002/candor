@@ -163,6 +163,19 @@ The conformance model distinguishes what the library guarantees from what the co
 
 ## Migration notes
 
+### v6.0.0
+
+#### `@candor-design/web-components` ships as per-module ESM with Lit as a peer
+
+Four changes, one packaging decision (#256, #257):
+
+- **Lit is a `peerDependency` (`^3`), not bundled.** Install `lit` if your app does not already depend on it.
+- **Each component has an entry point**: `@candor-design/web-components/<tag without candor->`. The root still registers all 40 elements.
+- **No CommonJS or UMD build.** `require()` callers move to `import`. `<script>`-tag pages load `dist/candor-web-components.standalone.js`, which bundles Lit and culori.
+- **`exports` is exhaustive.** A deep import into `dist/` that is not listed there fails to resolve.
+
+The CHANGELOG entry for 6.0.0 has before/after examples and measured sizes.
+
 ### v3.0.0
 
 #### Angular reference component library removed

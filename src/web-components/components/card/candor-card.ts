@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
+import { customElement } from '../../utils/define';
 
 type CardVariant = 'default' | 'elevated' | 'outlined';
 type CardPadding = 'none' | 'sm' | 'md' | 'lg';

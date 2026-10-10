@@ -3,27 +3,182 @@
   "version": "5.0.1",
   "description": "Candor design system — Lit 3 custom elements. Framework-agnostic web components paired with @candor-design/tokens.",
   "type": "module",
-  "main": "./dist/candor-web-components.umd.cjs",
-  "module": "./dist/candor-web-components.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "customElements": "custom-elements.json",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/candor-web-components.js",
-      "require": "./dist/candor-web-components.umd.cjs"
+      "import": "./dist/index.js"
+    },
+    "./standalone": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/candor-web-components.standalone.js"
     },
     "./tone-data": {
       "types": "./dist/tone-data.d.ts",
       "import": "./dist/tone-data.js"
-    }
+    },
+    "./heading": {
+      "types": "./dist/components/typography/heading/candor-heading.d.ts",
+      "import": "./dist/components/typography/heading/candor-heading.js"
+    },
+    "./text": {
+      "types": "./dist/components/typography/text/candor-text.d.ts",
+      "import": "./dist/components/typography/text/candor-text.js"
+    },
+    "./accessible-text": {
+      "types": "./dist/components/typography/accessible-text/candor-accessible-text.d.ts",
+      "import": "./dist/components/typography/accessible-text/candor-accessible-text.js"
+    },
+    "./article": {
+      "types": "./dist/components/typography/article/candor-article.d.ts",
+      "import": "./dist/components/typography/article/candor-article.js"
+    },
+    "./code": {
+      "types": "./dist/components/code/candor-code.d.ts",
+      "import": "./dist/components/code/candor-code.js"
+    },
+    "./badge": {
+      "types": "./dist/components/badge/candor-badge.d.ts",
+      "import": "./dist/components/badge/candor-badge.js"
+    },
+    "./alert": {
+      "types": "./dist/components/alert/candor-alert.d.ts",
+      "import": "./dist/components/alert/candor-alert.js"
+    },
+    "./card": {
+      "types": "./dist/components/card/candor-card.d.ts",
+      "import": "./dist/components/card/candor-card.js"
+    },
+    "./stat": {
+      "types": "./dist/components/stat/candor-stat.d.ts",
+      "import": "./dist/components/stat/candor-stat.js"
+    },
+    "./progress": {
+      "types": "./dist/components/progress/candor-progress.d.ts",
+      "import": "./dist/components/progress/candor-progress.js"
+    },
+    "./button": {
+      "types": "./dist/components/button/candor-button.d.ts",
+      "import": "./dist/components/button/candor-button.js"
+    },
+    "./chip": {
+      "types": "./dist/components/chip/candor-chip.d.ts",
+      "import": "./dist/components/chip/candor-chip.js"
+    },
+    "./breadcrumb": {
+      "types": "./dist/components/breadcrumb/candor-breadcrumb.d.ts",
+      "import": "./dist/components/breadcrumb/candor-breadcrumb.js"
+    },
+    "./pagination": {
+      "types": "./dist/components/pagination/candor-pagination.d.ts",
+      "import": "./dist/components/pagination/candor-pagination.js"
+    },
+    "./toolbar": {
+      "types": "./dist/components/toolbar/candor-toolbar.d.ts",
+      "import": "./dist/components/toolbar/candor-toolbar.js"
+    },
+    "./navigation": {
+      "types": "./dist/components/navigation/candor-navigation.d.ts",
+      "import": "./dist/components/navigation/candor-navigation.js"
+    },
+    "./input": {
+      "types": "./dist/components/form/input/candor-input.d.ts",
+      "import": "./dist/components/form/input/candor-input.js"
+    },
+    "./checkbox": {
+      "types": "./dist/components/form/checkbox/candor-checkbox.d.ts",
+      "import": "./dist/components/form/checkbox/candor-checkbox.js"
+    },
+    "./radio": {
+      "types": "./dist/components/form/radio/candor-radio.d.ts",
+      "import": "./dist/components/form/radio/candor-radio.js"
+    },
+    "./switch": {
+      "types": "./dist/components/form/switch/candor-switch.d.ts",
+      "import": "./dist/components/form/switch/candor-switch.js"
+    },
+    "./select": {
+      "types": "./dist/components/form/select/candor-select.d.ts",
+      "import": "./dist/components/form/select/candor-select.js"
+    },
+    "./slider": {
+      "types": "./dist/components/form/slider/candor-slider.d.ts",
+      "import": "./dist/components/form/slider/candor-slider.js"
+    },
+    "./listbox": {
+      "types": "./dist/components/form/listbox/candor-listbox.d.ts",
+      "import": "./dist/components/form/listbox/candor-listbox.js"
+    },
+    "./combobox": {
+      "types": "./dist/components/form/combobox/candor-combobox.d.ts",
+      "import": "./dist/components/form/combobox/candor-combobox.js"
+    },
+    "./autocomplete": {
+      "types": "./dist/components/form/autocomplete/candor-autocomplete.d.ts",
+      "import": "./dist/components/form/autocomplete/candor-autocomplete.js"
+    },
+    "./chat-input": {
+      "types": "./dist/components/form/chat-input/candor-chat-input.d.ts",
+      "import": "./dist/components/form/chat-input/candor-chat-input.js"
+    },
+    "./tooltip": {
+      "types": "./dist/components/tooltip/candor-tooltip.d.ts",
+      "import": "./dist/components/tooltip/candor-tooltip.js"
+    },
+    "./modal": {
+      "types": "./dist/components/modal/candor-modal.d.ts",
+      "import": "./dist/components/modal/candor-modal.js"
+    },
+    "./drawer": {
+      "types": "./dist/components/drawer/candor-drawer.d.ts",
+      "import": "./dist/components/drawer/candor-drawer.js"
+    },
+    "./toast": {
+      "types": "./dist/components/toast/candor-toast.d.ts",
+      "import": "./dist/components/toast/candor-toast.js"
+    },
+    "./tabs": {
+      "types": "./dist/components/tabs/candor-tabs.d.ts",
+      "import": "./dist/components/tabs/candor-tabs.js"
+    },
+    "./accordion-item": {
+      "types": "./dist/components/accordion/candor-accordion-item.d.ts",
+      "import": "./dist/components/accordion/candor-accordion-item.js"
+    },
+    "./disclosure": {
+      "types": "./dist/components/disclosure/candor-disclosure.d.ts",
+      "import": "./dist/components/disclosure/candor-disclosure.js"
+    },
+    "./menu": {
+      "types": "./dist/components/menu/candor-menu.d.ts",
+      "import": "./dist/components/menu/candor-menu.js"
+    },
+    "./table": {
+      "types": "./dist/components/table/candor-table.d.ts",
+      "import": "./dist/components/table/candor-table.js"
+    },
+    "./data-grid": {
+      "types": "./dist/components/data-grid/candor-data-grid.d.ts",
+      "import": "./dist/components/data-grid/candor-data-grid.js"
+    },
+    "./tone-picker": {
+      "types": "./dist/components/tone-picker/candor-tone-picker.d.ts",
+      "import": "./dist/components/tone-picker/candor-tone-picker.js"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "custom-elements.json",
     "README.md"
   ],
-  "sideEffects": true,
+  "sideEffects": [
+    "./dist/components/**/*.js",
+    "./dist/index.js",
+    "./dist/candor-web-components.standalone.js"
+  ],
   "keywords": [
     "web-components",
     "custom-elements",
@@ -52,6 +207,7 @@
     "culori": "^4.0.2"
   },
   "peerDependencies": {
-    "@candor-design/tokens": ">=4.0.0"
+    "@candor-design/tokens": ">=4.0.0",
+    "lit": "^3.0.0"
   }
 }

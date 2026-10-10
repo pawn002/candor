@@ -1,5 +1,6 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
+import { customElement } from '../../utils/define';
 
 type StatColor = 'default' | 'success' | 'warning' | 'error' | 'info';
 type StatSize  = 'sm' | 'md' | 'lg';
