@@ -171,8 +171,8 @@
     --focus-ring-offset: var(--border-width-2);
 
     // ─── Interaction ───────────────────────────────────────────────────────────
-    --hit-target-aaa: 2.75rem;  // 44px minimum — WCAG 2.5.5 AAA (Target Size Enhanced)
-    --hit-target-aa:  1.375rem; // 22px minimum — WCAG 2.5.5 AA  (Target Size Minimum)
+    --hit-target-aaa: 2.75rem; // 44px — WCAG 2.5.5 Target Size (Enhanced), AAA
+    --hit-target-aa:  1.5rem;  // 24px — WCAG 2.5.8 Target Size (Minimum), AA, new in WCAG 2.2 (#279)
 
     // ─── Typography ────────────────────────────────────────────────────────────
     --font-family-base:       var(--font-sans);        // Roboto Flex — UI workhorse
@@ -204,6 +204,12 @@
     --font-weight-semibold: var(--weight-semibold);
     --font-weight-bold:     var(--weight-bold);
 
+    // Leading tightens as size grows: a unitless multiplier already makes the
+    // absolute gap grow with the type, and large type wants proportionally less
+    // of it (#264). Display for 31px and up (h1, h2), snug for 20-25px (h3, h4),
+    // tight for body-sized headings and compact UI, normal and relaxed for prose.
+    --line-height-display:  var(--leading-display);
+    --line-height-snug:     var(--leading-snug);
     --line-height-tight:    var(--leading-tight);
     --line-height-normal:   var(--leading-normal);
     --line-height-relaxed:  var(--leading-relaxed);

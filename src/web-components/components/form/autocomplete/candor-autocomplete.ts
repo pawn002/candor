@@ -91,7 +91,11 @@ export class CandorAutocomplete extends LitElement {
     }
     .autocomplete__description {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: var(--letter-spacing-italic); min-height: var(--hit-target-aa);
+      letter-spacing: var(--letter-spacing-italic);
+      /* Reserves one line so the field does not jump when a description appears.
+         Sized from the text, not a hit-target token: it is not a target (#279). */
+      line-height: var(--line-height-normal);
+      min-height: calc(var(--font-size-sm) * var(--line-height-normal));
     }
     .autocomplete__error { color: var(--color-status-error-text); font-size: var(--font-size-md); }
   `;

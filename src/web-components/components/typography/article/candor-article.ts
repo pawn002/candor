@@ -27,10 +27,10 @@ const articleStyles = `
   candor-article h3:first-child, candor-article h4:first-child,
   candor-article h5:first-child, candor-article h6:first-child { margin-top: 0; }
 
-  candor-article h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); }
-  candor-article h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); }
-  candor-article h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); }
-  candor-article h4 { font-size: var(--font-size-h4); }
+  candor-article h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
+  candor-article h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
+  candor-article h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-snug); }
+  candor-article h4 { font-size: var(--font-size-h4); line-height: var(--line-height-snug); }
   candor-article h5 { font-size: var(--font-size-base); margin-top: var(--spacing-lg); }
   candor-article h6 { font-size: var(--font-size-sm); margin-top: var(--spacing-md); }
 
