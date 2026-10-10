@@ -51,7 +51,12 @@ export class CandorAccordionItem extends LitElement {
     .accordion-item__chevron { width: 1rem; height: 1rem; flex-shrink: 0; color: var(--color-text-subtle-on-surface); transition: transform 0.22s ease; }
     details[open] .accordion-item__chevron { transform: rotate(180deg); }
     .accordion-item__panel { display: grid; grid-template-rows: 1fr; }
-    .accordion-item__content { overflow: hidden; padding-bottom: 0.875rem; font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-default); line-height: var(--line-height-normal); }
+    /* No overflow clip on the content (#261). It clipped the focus ring of any
+       control flush with the content edge, and any positioned descendant. The
+       min-width: 0 keeps what the clip was implicitly doing for layout: a grid
+       item with visible overflow takes its min-content width, so a wide child
+       would otherwise widen the panel rather than wrap. */
+    .accordion-item__content { min-width: 0; padding-bottom: 0.875rem; font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-default); line-height: var(--line-height-normal); }
   `;
 
   @property() heading = '';

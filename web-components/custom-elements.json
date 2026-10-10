@@ -486,7 +486,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A surface grouping related content. Three named regions: the default slot for\nthe body, plus optional `header` and `footer` slots that render their chrome\nonly when filled.\n\n**Do not use `<header>` or `<footer>` elements in the slotted content.** They\ncarry implicit `banner` and `contentinfo` landmark roles, and the HTML spec\nonly suppresses that inside `article`, `aside`, `main`, `nav` and `section` —\nnot inside a custom element. A card in a dialog or panel then contributes a\npage-level landmark, which pollutes the landmark list assistive technology\nnavigates by. Use `<div>`, or `role=\"none\"` if the element is required.\n\nA card is presentational: it has no heading of its own and no role. If the\ncard's content is a section, put a `candor-heading` in the `header` slot so\nthe grouping is conveyed structurally rather than only visually.\n\n`padding=\"none\"` is for content that manages its own inset — a full-bleed\nimage or an embedded table.\n\nEmits no custom events.",
+          "description": "A surface grouping related content. Three named regions: the default slot for\nthe body, plus optional `header` and `footer` slots that render their chrome\nonly when filled.\n\n**Do not use `<header>` or `<footer>` elements in the slotted content.** They\ncarry implicit `banner` and `contentinfo` landmark roles, and the HTML spec\nonly suppresses that inside `article`, `aside`, `main`, `nav` and `section` —\nnot inside a custom element. A card in a dialog or panel then contributes a\npage-level landmark, which pollutes the landmark list assistive technology\nnavigates by. Use `<div>`, or `role=\"none\"` if the element is required.\n\nA card is presentational: it has no heading of its own and no role. If the\ncard's content is a section, put a `candor-heading` in the `header` slot so\nthe grouping is conveyed structurally rather than only visually.\n\n`padding=\"none\"` is for content that manages its own inset — a full-bleed\nimage or an embedded table.\n\nThe card clips its content to its rounded corners with `overflow: clip`, which\nis not a scroll container, so `position: sticky` inside a card pins to the\nviewport as expected. A focus ring on a control flush with the card's edge is\nstill clipped. Keep an inset, or set `--candor-card-overflow: visible` and\nround the first and last children yourself, since the card no longer does it.\n\nEmits no custom events.",
           "name": "CandorCard",
           "members": [
             {
@@ -532,6 +532,11 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "cssProperties": [
+            {
+              "name": "--candor-card-overflow"
+            }
+          ],
           "tagName": "candor-card",
           "customElement": true
         }
@@ -3217,7 +3222,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A modal dialog, backed by the native `<dialog>` element and `showModal()` —\nso the focus trap, inertness of the page behind, and Escape-to-close come from\nthe platform rather than from script.\n\n**Controlled.** `close` reports that the user dismissed it; the component does\nnot clear `open` for you. Set `open = false` in response or it reopens on the\nnext render.\n\nSet `alert` for a decision the user cannot postpone — it switches the role to\n`alertdialog`, which tells assistive technology to announce the content\nimmediately. Use it for destructive confirmations, not for ordinary forms.\n\n**Do not put `<header>` or `<footer>` in slotted content.** They carry\nimplicit `banner` and `contentinfo` landmark roles, which are not suppressed\ninside a dialog, so they leak page-level landmarks into the dialog. The\ncomponent's own header already sets `role=\"none\"` for this reason; use `<div>`\nin anything you slot.\n\nThe body is focusable and named, so a scrollable dialog can be reached and\nscrolled by keyboard — a scroll region that cannot receive focus is\nunreachable without a pointer.\n\nChoose against `candor-drawer` on interruption, not on size: a modal blocks\nthe task until answered; a drawer is a panel alongside it. If the user could\nreasonably keep working, it is a drawer.",
+          "description": "A modal dialog, backed by the native `<dialog>` element and `showModal()` —\nso the focus trap, inertness of the page behind, and Escape-to-close come from\nthe platform rather than from script.\n\n**Controlled.** `close` reports that the user dismissed it; the component does\nnot clear `open` for you. Set `open = false` in response or it reopens on the\nnext render.\n\nSet `alert` for a decision the user cannot postpone — it switches the role to\n`alertdialog`, which tells assistive technology to announce the content\nimmediately. Use it for destructive confirmations, not for ordinary forms.\n\n**Do not put `<header>` or `<footer>` in slotted content.** They carry\nimplicit `banner` and `contentinfo` landmark roles, which are not suppressed\ninside a dialog, so they leak page-level landmarks into the dialog. The\ncomponent's own header already sets `role=\"none\"` for this reason; use `<div>`\nin anything you slot.\n\nThe body is focusable and named, so a scrollable dialog can be reached and\nscrolled by keyboard — a scroll region that cannot receive focus is\nunreachable without a pointer. When the body scrolls, it takes initial focus\ninstead of the close button, so the first arrow key scrolls the content rather\nthan the page behind. An `autofocus` element in the content still wins.\n\nChoose against `candor-drawer` on interruption, not on size: a modal blocks\nthe task until answered; a drawer is a panel alongside it. If the user could\nreasonably keep working, it is a drawer.",
           "name": "CandorModal",
           "members": [
             {
@@ -4157,7 +4162,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A transient notification. Place inside a `candor-toast-container`, which owns\nthe stacking and screen position.\n\nThe choice against `candor-alert` is persistence: an alert stays until the\ncondition changes and sits next to what it concerns; a toast floats and goes\naway. **Anything the user may need to re-read is an alert** — a toast that has\ndisappeared cannot be recovered, so it is the wrong carrier for an error the\nuser must act on, or for detail they might need twice.\n\nEach variant renders its own icon shape, so the meaning is not carried by\ncolour alone. As with `candor-alert`, the variant also sets the announcement\npoliteness: `error` and `warning` announce assertively, the others politely.\n\n**This component does not dismiss itself.** There is no duration or timeout\nproperty — `dismiss` fires when the user activates the close button, and any\nauto-expiry is the consumer's timer removing the element.\n\nFor a live region to announce reliably it must be in the DOM before its text\narrives, so render the container up front and add toasts into it, rather than\ncreating a container and its first toast in the same update.",
+          "description": "A transient notification. Place inside a `candor-toast-container`, which owns\nthe stacking and screen position.\n\nThe choice against `candor-alert` is persistence: an alert stays until the\ncondition changes and sits next to what it concerns; a toast floats and goes\naway. **Anything the user may need to re-read is an alert** — a toast that has\ndisappeared cannot be recovered, so it is the wrong carrier for an error the\nuser must act on, or for detail they might need twice.\n\nEach variant renders its own icon shape, so the meaning is not carried by\ncolour alone. As with `candor-alert`, the variant also sets the announcement\npoliteness: `error` and `warning` announce assertively, the others politely.\n\n**This component does not dismiss itself.** There is no duration or timeout\nproperty — `dismiss` fires when the user activates the close button, and any\nauto-expiry is the consumer's timer removing the element.\n\n**Put it in a `candor-toast-container` for the announcement, too.** A live\nregion announces reliably only if it exists before its text arrives, and a\ntoast is created at the moment it has something to say. So inside a\ncontainer the toast carries no live role of its own: the container's\npersistent regions announce it (#266). A toast outside a container keeps its\nown `status` or `alert` role, which is the less reliable pattern.",
           "name": "CandorToast",
           "members": [
             {
@@ -4196,6 +4201,15 @@
               },
               "default": "false",
               "attribute": "dismissible"
+            },
+            {
+              "kind": "field",
+              "name": "announcement",
+              "type": {
+                "text": "string"
+              },
+              "description": "What the container's live region says for this toast.",
+              "readonly": true
             }
           ],
           "events": [
@@ -4258,7 +4272,7 @@
         },
         {
           "kind": "class",
-          "description": "Fixed-position stack for `candor-toast` elements. Owns where toasts appear and\nhow they stack; the toasts own their own content and dismissal.\n\nRender it once, high in the app, and keep it mounted — adding and removing it\nalongside its toasts defeats the live-region announcement, which needs the\nregion present before the text arrives.\n\nIt is a positioned wrapper with no role of its own: the announcement comes\nfrom each toast, so an empty container is inert and costs nothing.\n\nOne per screen position. Two containers at `top-right` will overlap, since\neach stacks independently.\n\nEmits no custom events — the toasts inside emit their own `dismiss`.",
+          "description": "Fixed-position stack for `candor-toast` elements. Owns where toasts appear and\nhow they stack; the toasts own their own content and dismissal.\n\n**It owns the announcement.** It renders two persistent, visually hidden live\nregions, one polite and one assertive, and adds each toast's heading and\nmessage to the right one as the toast arrives: `warning` and `error` are\nassertive, the others polite. Because the regions exist before any toast\ndoes, the text is a change to a live region, which is the pattern assistive\ntechnology announces reliably (#266). A repeated identical toast is\nannounced again, since each one adds a new line. Toasts inside the container\ndrop their own live role, so nothing is announced twice.\n\nRender it once, high in the app, and keep it mounted. A container created in\nthe same update as its first toast has regions no older than the text.\n\nOne per screen position. Two containers at `top-right` will overlap, since\neach stacks independently.\n\nEmits no custom events — the toasts inside emit their own `dismiss`.",
           "name": "CandorToastContainer",
           "members": [
             {
@@ -4642,7 +4656,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A short label revealed on hover or focus. Wraps its trigger: slot the control,\nset `text`.\n\n**Supplementary only.** The content is reachable only by hovering or focusing,\nso anything a user must read to act belongs in the layout instead — a `hint`\non the form control, or a `candor-accessible-text role_=\"annotation\"` beside\nit. If losing the tooltip would leave the interface ambiguous, it is carrying\ntoo much.\n\n**Never put a disabled control's explanation in one.** Native `disabled`\nelements are not focusable and do not reliably fire hover events, so the\ntooltip is unreachable precisely for keyboard and screen-reader users. Use\nadjacent text.\n\nThe bubble renders inside this element's shadow root, so **an ancestor with\n`overflow: hidden` or `overflow: auto` will clip it** — a real constraint\ninside cards, toolbars and scroll containers. There is no portalling. Where\nclipping occurs, either give the ancestor room or move the text into the\nlayout, which the point above suggests anyway.\n\n`position` is a preference, not collision detection: the bubble does not flip\nto stay on screen.\n\nEmits no custom events.",
+          "description": "A short label revealed on hover or focus. Wraps its trigger: slot the control,\nset `text`.\n\n**Supplementary only.** The content is reachable only by hovering or focusing,\nso anything a user must read to act belongs in the layout instead — a `hint`\non the form control, or a `candor-accessible-text role_=\"annotation\"` beside\nit. If losing the tooltip would leave the interface ambiguous, it is carrying\ntoo much.\n\n**Never put a disabled control's explanation in one.** Native `disabled`\nelements are not focusable and do not reliably fire hover events, so the\ntooltip is unreachable precisely for keyboard and screen-reader users. Use\nadjacent text.\n\nThe bubble is shown as a popover, in the top layer, so no ancestor's\n`overflow` or stacking context can clip or cover it. That includes\n`candor-card`, `candor-toolbar` and a consumer's own scroll panes (#259). It\nis placed in viewport coordinates from the trigger's position when shown, and\nre-placed on scroll and resize while it is open.\n\n`position` is a preference, not collision detection: the bubble does not flip\nto stay on screen.\n\nEmits no custom events.",
           "name": "CandorTooltip",
           "members": [
             {

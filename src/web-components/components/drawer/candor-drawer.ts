@@ -169,6 +169,9 @@ export class CandorDrawer extends LitElement {
     .drawer__body {
       flex: 1;
       overflow-y: auto;
+      /* Reaching either end must not chain the scroll to the page behind the
+         dialog (#265). Not inherited, so a consumer cannot set it from outside. */
+      overscroll-behavior: contain;
       padding: var(--spacing-md);
       color: var(--color-text-default);
       font-family: var(--font-family-base);
@@ -247,6 +250,7 @@ export class CandorDrawer extends LitElement {
         // already was in the page. Do not add autofocus for the non-modal path.
         if (this.modal) {
           this._dialog?.showModal();
+          this._focusScrollingBody();
         } else {
           this._dialog?.show();
         }
@@ -255,6 +259,14 @@ export class CandorDrawer extends LitElement {
         this.setAttribute('inert', '');
       }
     }
+  }
+
+  /** As candor-modal (#265): a scrolling body takes initial focus from the close button. */
+  private _focusScrollingBody() {
+    const root = this.shadowRoot;
+    const body = root?.querySelector<HTMLElement>('.drawer__body');
+    if (!body || root?.activeElement !== root?.querySelector('.drawer__close')) return;
+    if (body.scrollHeight > body.clientHeight) body.focus();
   }
 
   private _close() {

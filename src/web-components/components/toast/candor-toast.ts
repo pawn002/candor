@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, query, state } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
 import { phInfoFill, phCheckCircleFill, phWarningFill, phXCircleFill, phX } from '../../icons';
 
@@ -23,9 +23,12 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
  * property — `dismiss` fires when the user activates the close button, and any
  * auto-expiry is the consumer's timer removing the element.
  *
- * For a live region to announce reliably it must be in the DOM before its text
- * arrives, so render the container up front and add toasts into it, rather than
- * creating a container and its first toast in the same update.
+ * **Put it in a `candor-toast-container` for the announcement, too.** A live
+ * region announces reliably only if it exists before its text arrives, and a
+ * toast is created at the moment it has something to say. So inside a
+ * container the toast carries no live role of its own: the container's
+ * persistent regions announce it (#266). A toast outside a container keeps its
+ * own `status` or `alert` role, which is the less reliable pattern.
  *
  * @fires dismiss - detail: none — the user activated the close button; the consumer must remove the toast
  */
@@ -91,6 +94,19 @@ export class CandorToast extends LitElement {
   @property() message = '';
   @property({ type: Boolean }) dismissible = false;
 
+  /** Inside a container, the container announces; the toast must not as well. */
+  @state() private _inContainer = false;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this._inContainer = this.parentElement?.localName === 'candor-toast-container';
+  }
+
+  /** What the container's live region says for this toast. */
+  get announcement(): string {
+    return [this.heading, this.message].filter(Boolean).join('. ');
+  }
+
   private _iconPath() {
     switch (this.variant) {
       case 'info':    return phInfoFill;
@@ -103,7 +119,7 @@ export class CandorToast extends LitElement {
   override render() {
     const role = this.variant === 'warning' || this.variant === 'error' ? 'alert' : 'status';
     return html`
-      <div class="toast toast--${this.variant}" role="${role}">
+      <div class="toast toast--${this.variant}" role="${this._inContainer ? nothing : role}">
         <svg class="toast__icon" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${this._iconPath()}"/></svg>
         <div class="toast__content">
           ${this.heading ? html`<div class="toast__title">${this.heading}</div>` : nothing}
@@ -127,12 +143,17 @@ export class CandorToast extends LitElement {
  * Fixed-position stack for `candor-toast` elements. Owns where toasts appear and
  * how they stack; the toasts own their own content and dismissal.
  *
- * Render it once, high in the app, and keep it mounted — adding and removing it
- * alongside its toasts defeats the live-region announcement, which needs the
- * region present before the text arrives.
+ * **It owns the announcement.** It renders two persistent, visually hidden live
+ * regions, one polite and one assertive, and adds each toast's heading and
+ * message to the right one as the toast arrives: `warning` and `error` are
+ * assertive, the others polite. Because the regions exist before any toast
+ * does, the text is a change to a live region, which is the pattern assistive
+ * technology announces reliably (#266). A repeated identical toast is
+ * announced again, since each one adds a new line. Toasts inside the container
+ * drop their own live role, so nothing is announced twice.
  *
- * It is a positioned wrapper with no role of its own: the announcement comes
- * from each toast, so an empty container is inert and costs nothing.
+ * Render it once, high in the app, and keep it mounted. A container created in
+ * the same update as its first toast has regions no older than the text.
  *
  * One per screen position. Two containers at `top-right` will overlap, since
  * each stacks independently.
@@ -157,13 +178,62 @@ export class CandorToastContainer extends LitElement {
     :host([position='bottom-right']) { bottom: 0; right: 0; }
     :host([position='bottom-left'])  { bottom: 0; left: 0; }
     ::slotted(*) { pointer-events: all; }
+    .live {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
   `;
 
   @property({ reflect: true }) position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'top-right';
 
+  @query('.live--polite') private _polite!: HTMLElement;
+  @query('.live--assertive') private _assertive!: HTMLElement;
+
+  /** The line each toast added, so it can be removed when the toast leaves. */
+  private _lines = new Map<CandorToast, HTMLElement>();
+
+  // aria-relevant="additions" with aria-atomic="false": each toast is a new
+  // child, so it is announced on its own, and removing it says nothing.
   override render() {
-    return html`<slot></slot>`;
+    return html`
+      <slot @slotchange="${this._onSlotChange}"></slot>
+      <div class="live live--polite" role="status" aria-live="polite" aria-atomic="false" aria-relevant="additions"></div>
+      <div class="live live--assertive" aria-live="assertive" aria-atomic="false" aria-relevant="additions"></div>
+    `;
   }
+
+  private _onSlotChange = async (e: Event) => {
+    const present = (e.target as HTMLSlotElement)
+      .assignedElements()
+      .filter((el): el is CandorToast => el instanceof CandorToast);
+
+    for (const [toast, line] of this._lines) {
+      if (!present.includes(toast)) {
+        line.remove();
+        this._lines.delete(toast);
+      }
+    }
+
+    for (const toast of present) {
+      if (this._lines.has(toast)) continue;
+      const line = document.createElement('div');
+      this._lines.set(toast, line);
+      // A framework appends the element and then sets its properties, so the
+      // text is read once the toast has rendered them.
+      await toast.updateComplete;
+      if (this._lines.get(toast) !== line) continue;
+      line.textContent = toast.announcement;
+      const assertive = toast.variant === 'warning' || toast.variant === 'error';
+      (assertive ? this._assertive : this._polite).append(line);
+    }
+  };
 }
 
 declare global {
