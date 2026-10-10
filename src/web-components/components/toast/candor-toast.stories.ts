@@ -19,7 +19,13 @@ task finished.
 Alerts are for persistent conditions the user must read — validation errors, system warnings,
 confirmation requirements.
 
-Renders \`role="status"\` for info/success and \`role="alert"\` for warning/error.
+**Announcement.** Inside a \`candor-toast-container\`, the container announces each toast
+through two live regions it renders up front: polite for info/success, assertive for
+warning/error. A live region only announces reliably if it exists before its text arrives,
+and a toast is created at the moment it has something to say, so the toast itself carries no
+live role there. Keep the container mounted for the life of the page. A toast outside a
+container falls back to its own \`role="status"\` or \`role="alert"\`, which is the less
+reliable pattern.
 
 Use \`<candor-toast-container position="top-right">\` (or \`top-left\`, \`bottom-right\`,
 \`bottom-left\`) to fix a stack to a corner of the viewport. Add and remove toasts

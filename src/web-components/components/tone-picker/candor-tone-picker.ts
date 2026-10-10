@@ -66,7 +66,13 @@ export class CandorTonePicker extends LitElement {
       font-family: var(--font-family-accessible);
     }
 
-    .gamut-scroll { overflow-x: auto; }
+    /* A scroll container clips everything outside its padding box, including the
+       focus ring of the outermost swatches, which paints outside the cell. The
+       padding gives the ring somewhere to go (#261). */
+    .gamut-scroll {
+      overflow-x: auto;
+      padding: calc(var(--focus-ring-width) + var(--focus-ring-offset));
+    }
 
     .sr-only {
       position: absolute;

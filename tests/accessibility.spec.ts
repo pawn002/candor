@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 /**
  * Accessibility behaviour tests for the Candor web components.
@@ -315,3 +315,186 @@ for (const component of ['input', 'select', 'listbox', 'combobox', 'autocomplete
     await expect(region).not.toBeEmpty();
   });
 }
+
+// ── Containment (#259, #261, #265, #266) ────────────────────────────────────
+//
+// None of these failures shows in a screenshot of the resting state. A clipped
+// tooltip or focus ring shows only while something is hovered or focused, a
+// page scrolling behind a modal only on a key press, and a live region that
+// does not announce looks exactly like one that does.
+
+/**
+ * How much of a focus ring clipping ancestors cut off. Walks the flattened tree
+ * up from each element matching `selector`, in light and shadow trees, and
+ * intersects its ring box (border box grown by --focus-ring-width +
+ * --focus-ring-offset) with every ancestor whose overflow is not `visible`.
+ * Returns the worst loss on any side of any match, in px.
+ */
+async function ringClipping(page: Page, selector: string) {
+  return page.evaluate((sel) => {
+    const findAll = (root: ParentNode): Element[] => [
+      ...root.querySelectorAll(sel),
+      ...[...root.querySelectorAll('*')].flatMap((el) => (el.shadowRoot ? findAll(el.shadowRoot) : [])),
+    ];
+    const targets = findAll(document);
+    if (targets.length === 0) throw new Error(`no element matches ${sel}`);
+
+    const probe = document.createElement('div');
+    probe.style.width = 'calc(var(--focus-ring-width) + var(--focus-ring-offset))';
+    document.body.append(probe);
+    const ring = probe.getBoundingClientRect().width;
+    probe.remove();
+
+    const up = (n: Node): Node | null =>
+      (n as Element).assignedSlot ?? n.parentNode ?? ((n as ShadowRoot).host || null);
+    let worst = 0;
+    for (const target of targets) {
+      const r = target.getBoundingClientRect();
+      const box = { left: r.left - ring, right: r.right + ring, top: r.top - ring, bottom: r.bottom + ring };
+      for (let node = up(target); node && node !== document; node = up(node)) {
+        if (!(node instanceof Element)) continue;
+        const s = getComputedStyle(node);
+        if (s.overflowX === 'visible' && s.overflowY === 'visible') continue;
+        const c = node.getBoundingClientRect();
+        worst = Math.max(worst, c.left - box.left, box.right - c.right, c.top - box.top, box.bottom - c.bottom);
+      }
+    }
+    return Math.round(worst * 10) / 10;
+  }, selector);
+}
+
+/**
+ * Open a story and wait until Storybook has rendered it. These tests add
+ * elements of their own, and Storybook's render, landing after them, resets
+ * focus and can replace what is in the root.
+ */
+async function openStory(page: Page, id: string) {
+  await page.goto(gotoStory(id));
+  await page.locator('body.sb-show-main #storybook-root > *').first().waitFor();
+}
+
+test.describe('containment', () => {
+  test('a tooltip inside candor-toolbar is shown in the top layer, outside the toolbar (#259)', async ({ page }) => {
+    await openStory(page, 'components-tooltip--in-toolbar');
+    await page.locator('candor-tooltip candor-button button').first().focus();
+    const bubble = page.locator('candor-tooltip .tooltip__bubble').first();
+    await expect(bubble).toBeVisible();
+    const result = await bubble.evaluate((b) => {
+      const r = b.getBoundingClientRect();
+      const toolbar = document.querySelector('candor-toolbar')!.getBoundingClientRect();
+      return {
+        topLayer: b.matches(':popover-open'),
+        // position="bottom": the bubble sits below the toolbar's bottom edge,
+        // in the region the toolbar's overflow used to cut away.
+        belowToolbar: r.top >= toolbar.bottom,
+      };
+    });
+    expect(result).toEqual({ topLayer: true, belowToolbar: true });
+    await page.keyboard.press('Escape');
+    await expect(bubble).toBeHidden();
+  });
+
+  test('candor-card clips without becoming a scroll container (#259)', async ({ page }) => {
+    await openStory(page, 'components-card--default');
+    const overflow = await page.locator('candor-card .card').evaluate((el) => getComputedStyle(el).overflow);
+    expect(overflow).toBe('clip');
+  });
+
+  test('an open accordion does not clip the focus ring of content flush with its edge (#261)', async ({ page }) => {
+    await openStory(page, 'components-accordion--open-by-default');
+    await page.evaluate(() => {
+      const b = document.createElement('button');
+      b.id = 'flush';
+      b.textContent = 'Flush';
+      b.style.cssText = 'display:block;width:100%;margin:0;';
+      document.querySelector('candor-accordion-item[open]')!.append(b);
+    });
+    expect(await ringClipping(page, '#flush')).toBeLessThanOrEqual(0);
+  });
+
+  test('the tone picker leaves room for the outermost swatch ring (#261)', async ({ page }) => {
+    await openStory(page, 'components-tonepicker--default');
+    await page.locator('candor-tone-picker .cell-btn').first().waitFor();
+    expect(await ringClipping(page, '.cell-btn')).toBeLessThanOrEqual(0);
+  });
+
+  for (const tag of ['candor-modal', 'candor-drawer'] as const) {
+    const part = tag.replace('candor-', '');
+
+    test(`${tag}: a scrolling body takes initial focus and contains its overscroll (#265)`, async ({ page }) => {
+      await openStory(page, `components-${part}--default`);
+      await page.evaluate((t) => {
+        document.body.append(Object.assign(document.createElement('div'), { style: 'height:3000px' }));
+        const el = document.createElement(t) as HTMLElement & { open: boolean; heading: string };
+        el.id = 'long';
+        el.heading = 'Long';
+        el.innerHTML = '<p style="height:2000px;margin:0">Tall content</p>';
+        document.body.append(el);
+        el.open = true;
+      }, tag);
+      const body = page.locator(`#long .${part}__body`);
+      await expect(body).toBeFocused();
+      expect(await body.evaluate((el) => getComputedStyle(el).overscrollBehaviorY)).toBe('contain');
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('ArrowDown');
+      await expect.poll(() => body.evaluate((el) => el.scrollTop)).toBeGreaterThan(0);
+      expect(await page.evaluate(() => window.scrollY)).toBe(0);
+    });
+
+    test(`${tag}: a body that fits leaves initial focus on the close button (#265)`, async ({ page }) => {
+      await openStory(page, `components-${part}--default`);
+      await page.evaluate((t) => {
+        const el = document.createElement(t) as HTMLElement & { open: boolean; heading: string };
+        el.id = 'short';
+        el.heading = 'Short';
+        el.innerHTML = '<p>One line.</p>';
+        document.body.append(el);
+        el.open = true;
+      }, tag);
+      await expect(page.locator(`#short .${part}__close`)).toBeFocused();
+    });
+  }
+
+  test('candor-toast-container announces each toast through a region that was already there (#266)', async ({ page }) => {
+    await openStory(page, 'components-toast--default');
+    await page.evaluate(() => {
+      const c = document.createElement('candor-toast-container');
+      c.id = 'stack';
+      document.body.append(c);
+    });
+
+    // The regions exist, empty, before any toast does.
+    const regions = await page.locator('#stack').evaluate((c) =>
+      [...c.shadowRoot!.querySelectorAll('[aria-live]')].map((r) => [r.getAttribute('aria-live'), r.textContent]),
+    );
+    expect(regions).toEqual([['polite', ''], ['assertive', '']]);
+
+    const add = (variant: string, message: string) =>
+      page.evaluate(([v, m]) => {
+        // The framework order: append first, set properties after.
+        const t = document.createElement('candor-toast') as HTMLElement & { variant: string; message: string };
+        document.getElementById('stack')!.append(t);
+        t.variant = v;
+        t.message = m;
+      }, [variant, message]);
+    await add('success', 'Copied.');
+    await add('success', 'Copied.');
+    await add('error', 'Could not save.');
+
+    const lines = (live: string) => page.locator(`#stack [aria-live="${live}"] > div`).allTextContents();
+    // A repeated toast is a new line, so it is announced again.
+    await expect.poll(() => lines('polite')).toEqual(['Copied.', 'Copied.']);
+    await expect.poll(() => lines('assertive')).toEqual(['Could not save.']);
+
+    // Inside the container a toast has no live role of its own, so nothing is
+    // announced twice.
+    const ownRoles = await page
+      .locator('#stack candor-toast .toast')
+      .evaluateAll((els) => els.map((e) => e.getAttribute('role')));
+    expect(ownRoles).toEqual([null, null, null]);
+
+    // Removing a toast removes its line; with aria-relevant="additions" that is silent.
+    await page.evaluate(() => document.querySelector('#stack candor-toast')!.remove());
+    await expect.poll(() => lines('polite')).toEqual(['Copied.']);
+  });
+});

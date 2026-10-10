@@ -24,13 +24,28 @@ type CardPadding = 'none' | 'sm' | 'md' | 'lg';
  * `padding="none"` is for content that manages its own inset — a full-bleed
  * image or an embedded table.
  *
+ * The card clips its content to its rounded corners with `overflow: clip`, which
+ * is not a scroll container, so `position: sticky` inside a card pins to the
+ * viewport as expected. A focus ring on a control flush with the card's edge is
+ * still clipped. Keep an inset, or set `--candor-card-overflow: visible` and
+ * round the first and last children yourself, since the card no longer does it.
+ *
  * Emits no custom events.
  */
 @customElement('candor-card')
 export class CandorCard extends LitElement {
   static override styles = css`
     :host { display: block; }
-    .card { border-radius: var(--radius-md); overflow: hidden; }
+    .card {
+      border-radius: var(--radius-md);
+      /* \`clip\`, not \`hidden\` (#259). Both round the content to the corner
+         radius, but \`hidden\` also makes the card a scroll container, so a
+         \`position: sticky\` descendant pinned to the card instead of the
+         viewport, with a sticky range of zero. \`clip\` cuts without creating a
+         scrollport. The custom property is the escape hatch for content that
+         must spill, such as a focus ring on a flush \`padding="none"\` child. */
+      overflow: var(--candor-card-overflow, clip);
+    }
     .card--default  { background-color: var(--color-bg-surface); }
     .card--elevated { background-color: var(--color-bg-elevated); box-shadow: var(--shadow-md); }
     .card--outlined { background-color: var(--color-bg-page); border: var(--border-width-thin) solid var(--color-border-default); }

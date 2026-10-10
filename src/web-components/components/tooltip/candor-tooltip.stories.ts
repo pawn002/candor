@@ -160,10 +160,12 @@ export const AllPositions: Story = {
   `,
 };
 
-// Regression coverage for #107 / #175. A hidden tooltip bubble must contribute
-// nothing to layout, or its intrinsic (nowrap) width leaks into the host's
-// scrollWidth and — inside candor-toolbar's overflow-x:auto row — produces stray
-// scrollbars. The toolbar sits in a deliberately tight 320px column so any leak
+// Regression coverage for #107 / #175 / #259. A hidden tooltip bubble must
+// contribute nothing to layout, or its intrinsic (nowrap) width leaks into the
+// host's scrollWidth and — inside candor-toolbar's overflow-x:auto row —
+// produces stray scrollbars. A shown one must not be clipped by that same row,
+// which is why it is a top-layer popover; tests/accessibility.spec.ts checks
+// that half, since a resting snapshot never shows a bubble. The toolbar sits in a deliberately tight 320px column so any leak
 // would surface as a scrollbar here. The `pauseAnimationAtEnd` Chromatic hint
 // keeps the hidden-state snapshot stable.
 export const InToolbar: Story = {
@@ -176,7 +178,8 @@ export const InToolbar: Story = {
         story:
           'Wrapping toolbar controls in tooltips must not inflate the toolbar. When hidden, the ' +
           'tooltip bubble is `display:none`, so it adds nothing to the toolbar’s content width and ' +
-          'never trips its `overflow-x:auto` scrollbar. This story pins the toolbar in a 320px ' +
+          'never trips its `overflow-x:auto` scrollbar. When shown, it opens in the top layer, so the ' +
+          'toolbar cannot clip it either (#259). This story pins the toolbar in a 320px ' +
           'container — before the #107/#175 fix, the hidden bubbles’ leaked width produced stray ' +
           'horizontal and vertical scrollbars on the toolbar here.',
       },

@@ -26,7 +26,9 @@ type ModalSize = 'sm' | 'md' | 'lg';
  *
  * The body is focusable and named, so a scrollable dialog can be reached and
  * scrolled by keyboard — a scroll region that cannot receive focus is
- * unreachable without a pointer.
+ * unreachable without a pointer. When the body scrolls, it takes initial focus
+ * instead of the close button, so the first arrow key scrolls the content rather
+ * than the page behind. An `autofocus` element in the content still wins.
  *
  * Choose against `candor-drawer` on interruption, not on size: a modal blocks
  * the task until answered; a drawer is a panel alongside it. If the user could
@@ -115,6 +117,9 @@ export class CandorModal extends LitElement {
     .modal__body {
       flex: 1;
       overflow-y: auto;
+      /* Reaching either end must not chain the scroll to the page behind the
+         dialog (#265). Not inherited, so a consumer cannot set it from outside. */
+      overscroll-behavior: contain;
       padding: var(--spacing-md);
       color: var(--color-text-default);
       font-family: var(--font-family-base);
@@ -155,10 +160,26 @@ export class CandorModal extends LitElement {
     if (changed.has('open')) {
       if (this.open) {
         this._dialog?.showModal();
+        this._focusScrollingBody();
       } else {
         this._dialog?.close();
       }
     }
+  }
+
+  /**
+   * `showModal()` focuses the first focusable element, which is the close
+   * button. When the body scrolls, that leaves focus outside the scroll region,
+   * so the reader's first arrow key scrolls the page behind the dialog instead
+   * of the content (#265). In that case focus moves to the body, which is
+   * already focusable and named. Focus a consumer placed with `autofocus` is
+   * left alone: only the close-button default is overridden.
+   */
+  private _focusScrollingBody() {
+    const root = this.shadowRoot;
+    const body = root?.querySelector<HTMLElement>('.modal__body');
+    if (!body || root?.activeElement !== root?.querySelector('.modal__close')) return;
+    if (body.scrollHeight > body.clientHeight) body.focus();
   }
 
   private _close() {
