@@ -95,6 +95,33 @@ export const Group: Story = {
   `,
 };
 
+// The fieldset is a two-column grid and each radio a subgrid row spanning it,
+// so every label shares the first column and every info button the second —
+// the buttons line up however long the labels are. This reaches inside the
+// radio from outside: its `<label>` and `end` slot are its direct children in
+// the flattened tree, so they become the subgrid's two cells.
+const HELP_GROUP_STYLE = [
+  'border:none', 'padding:0', 'margin:0',
+  'display:grid', 'grid-template-columns:max-content max-content',
+  'column-gap:var(--spacing-sm)', 'row-gap:var(--spacing-xs)', 'align-items:center',
+].join(';');
+const HELP_ROW_STYLE = 'grid-column:1 / -1;display:grid;grid-template-columns:subgrid;';
+
+// The icon-only button pattern from Design Tokens/Icons (Pattern B): the name
+// is `aria-label` on the host, so a screen reader hears the full "About OKCA" —
+// a name that has to stand alone, since it is a separate stop — and the glyph
+// is aria-hidden. Fill weight, because the icon is the button's only content
+// and the button is an action (#296 questions whether fill is too heavy here).
+// 1.5rem rather than the pattern's 1.25rem: Phosphor's info disc fills only
+// about 80% of its em box, and the "i" inside it needs the extra size to read.
+// Padding-x is pulled to the small size's padding-y so the button is square.
+const infoButton = (topic: string) => html`
+  <candor-button slot="end" variant="ghost" size="small" aria-label="About ${topic}"
+    style="--candor-button-padding-x:var(--spacing-button-padding-y-sm);">
+    <i class="ph-fill ph-info" style="font-size:1.5rem;line-height:1;" aria-hidden="true"></i>
+  </candor-button>
+`;
+
 /**
  * A help control beside each option (#263). The button sits in `slot="end"`,
  * outside the option's `<label>`, so each radio is named by its label alone —
@@ -105,16 +132,16 @@ export const Group: Story = {
 export const WithAdjacentHelp: Story = {
   parameters: { controls: { disable: true } },
   render: () => html`
-    <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:var(--spacing-xs);">
+    <fieldset style="${HELP_GROUP_STYLE}">
       <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-relaxed);margin-bottom:var(--spacing-xs);">Contrast algorithm</legend>
-      <candor-radio label="WCAG 2.1" value="wcag21" name="algorithm-help" checked>
-        <candor-button slot="end" variant="ghost" size="small">About WCAG 2.1</candor-button>
+      <candor-radio label="WCAG 2.1" value="wcag21" name="algorithm-help" checked style="${HELP_ROW_STYLE}">
+        ${infoButton('WCAG 2.1')}
       </candor-radio>
-      <candor-radio label="OKCA" value="okca" name="algorithm-help">
-        <candor-button slot="end" variant="ghost" size="small">About OKCA</candor-button>
+      <candor-radio label="OKCA" value="okca" name="algorithm-help" style="${HELP_ROW_STYLE}">
+        ${infoButton('OKCA')}
       </candor-radio>
-      <candor-radio label="Delta E" value="deltae" name="algorithm-help">
-        <candor-button slot="end" variant="ghost" size="small">About Delta E</candor-button>
+      <candor-radio label="Delta E" value="deltae" name="algorithm-help" style="${HELP_ROW_STYLE}">
+        ${infoButton('Delta E')}
       </candor-radio>
     </fieldset>
   `,
