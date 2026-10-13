@@ -129,7 +129,7 @@ export const AllVariants: Story = {
   render: () => html`
     <div style="max-width:480px;display:flex;flex-direction:column;gap:var(--spacing-md);">
       <candor-card>
-        <span slot="header">Default fill</span>
+        <span slot="header">Default rail</span>
         <candor-slider label="Opacity" min="0" max="100" step="1" value="40"></candor-slider>
       </candor-card>
       <candor-card>
