@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 import './candor-table';
+import '../button/candor-button';
+import '../badge/candor-badge';
+import { phInfoFill } from '../../icons';
 import { allModes } from '../../../../.storybook/modes';
 
 const FINANCE_HEADERS = JSON.stringify(['Quarter', 'Revenue', 'Expenses', 'Net']);
@@ -55,8 +58,9 @@ Set \`caption\` to render a visible \`<caption>\` element above the table — th
 primary accessible name for the table and should always be provided. Screen readers
 announce it when the user enters the table.
 
-Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: string[], isHeader?: boolean }[]\`
-via JS properties (or JSON-encoded as attributes). Set \`isHeader: true\` on a row for
+Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: TableCell[], isHeader?: boolean }[]\`
+via JS properties (or JSON-encoded as attributes). A cell is a string, or markup — a Lit
+template or a DOM node — set through the \`rows\` property; see *Interactive cells*. Set \`isHeader: true\` on a row for
 key/value tables where the first cell of each row is a row-header.
 
 **Monospace columns.** Two column-index props (zero-based JSON arrays) apply Candor's
@@ -125,4 +129,45 @@ export const MonoColumns: Story = {
     },
   },
   render: () => html`<candor-table caption="Recent releases" headers='${RELEASE_HEADERS}' rows='${RELEASE_ROWS}' mono-columns='${RELEASE_MONO_COLS}' numeric-columns='${RELEASE_NUMERIC_COLS}'></candor-table>`,
+};
+
+// The info button beside a metric label, which is what kept a consumer on its
+// own table implementation (#258). The cells are Lit templates, so this story
+// sets `rows` as a property rather than an attribute. The icon is inline SVG:
+// the cell renders inside the table's shadow root, where icon-font classes do
+// not reach. Consumers take the path data from @phosphor-icons/core; the story
+// borrows Candor's own copy of the same glyph.
+const aboutButton = (topic: string) => html`
+  <candor-button variant="ghost" size="small" aria-label="About ${topic}"
+    style="--candor-button-padding-x:var(--spacing-button-padding-y-sm);vertical-align:middle;margin-inline-start:var(--spacing-2xs);">
+    <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor" style="width:1.25rem;height:1.25rem;display:block;"><path d="${phInfoFill}"/></svg>
+  </candor-button>
+`;
+
+export const InteractiveCells: Story = {
+  name: 'Interactive cells',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Cells can hold markup as well as text: a Lit template or a DOM node, set through the ' +
+          '`rows` property. Here each metric label carries an info button and each result a ' +
+          'badge. The buttons are ordinary Tab stops, since this is a table to read, not a grid ' +
+          'to navigate. Markup renders in the table’s shadow root, so style it with Candor ' +
+          'components or inline styles, and use inline SVG for icons.',
+      },
+    },
+  },
+  render: () => html`
+    <candor-table
+      caption="Contrast metrics"
+      .headers=${['Metric', 'Value', 'Result']}
+      .rows=${[
+        { cells: [html`OKCA${aboutButton('OKCA')}`, '11.5', html`<candor-badge variant="success">Passes</candor-badge>`] },
+        { cells: [html`WCAG 2.1${aboutButton('WCAG 2.1')}`, '12.6', html`<candor-badge variant="success">Passes</candor-badge>`] },
+        { cells: [html`Delta E${aboutButton('Delta E')}`, '4.1', html`<candor-badge variant="warning">Barely distinct</candor-badge>`] },
+      ]}
+      numeric-columns="[1]"
+    ></candor-table>
+  `,
 };

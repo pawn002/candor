@@ -1,9 +1,17 @@
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, css, html, nothing, type TemplateResult } from 'lit';
 import { property } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
 
+/**
+ * One cell's content. A string is text. A Lit `TemplateResult` or a DOM `Node`
+ * renders as markup, which is how a cell holds a link, a button or a badge
+ * (#258). Only strings survive the JSON `rows` attribute; markup has to be set
+ * through the `rows` property.
+ */
+export type TableCell = string | TemplateResult | Node;
+
 export interface TableRow {
-  cells: string[];
+  cells: TableCell[];
   isHeader?: boolean;
 }
 
@@ -11,10 +19,15 @@ export interface TableRow {
  * A static data table. Structure comes from `headers` and `rows`, not from
  * slotted markup.
  *
- * **Cells are `string[]` — there is no way to put interactive or marked-up
- * content in one.** No links, buttons, badges or icons. A table needing a row
- * action or a status chip is not this component; compose the markup yourself or
- * use `candor-data-grid`, whose cells carry more.
+ * **A cell is text or markup.** Each cell is a `TableCell`: a string, a Lit
+ * `TemplateResult`, or a DOM `Node`. Markup is how a cell holds an info button
+ * beside a label, a link, or a status badge. Set it through the `rows`
+ * property, since the JSON attribute can only carry strings. Markup renders
+ * inside this element's shadow root, so the page's stylesheet does not reach it:
+ * use Candor components or inline styles, and inline SVG rather than icon-font
+ * classes, which do not cross a shadow boundary. Interactive content is still
+ * ordinary page content: it is in the Tab order, and the table does not manage
+ * focus. A table the user moves through cell by cell is `candor-data-grid`.
  *
  * **Always set `caption`.** It is the table's accessible name, and a page with
  * several tables is otherwise a list of anonymous "table" landmarks to anyone
