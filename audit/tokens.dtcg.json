@@ -125,7 +125,7 @@
         "strong": {
           "$type": "color",
           "$value": "oklch(0.81 0 0)",
-          "$description": "Separator/divider fill — decorative, carries no 1.4.11 floor: OKCA 1.3 on page. Do not reach for it as a control boundary; that is border-control. candor-slider does use it as the unfilled half of its track, where the figure is load-bearing and each mode fails a different half — see #247.",
+          "$description": "Separator/divider fill — decorative, carries no 1.4.11 floor: OKCA 1.3 on page. Do not reach for it as a control boundary; that is border-control. candor-slider used it for the unfilled half of its track, the one place the figure was load-bearing; since #247 the slider rail is border-control.",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-300"

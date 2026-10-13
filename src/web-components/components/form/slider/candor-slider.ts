@@ -27,6 +27,14 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  * full contrast. That explanation is required, not optional: a dimmed slider
  * with no reason reads as broken.
  *
+ * **The track is a single rail with no filled portion**, and that is deliberate
+ * (#247). The thumb is the value: its outline is what clears the non-text floor
+ * against the page, in both modes. A filled/unfilled split looked like a second
+ * value channel, but could not be made legible in both modes at once, and in a
+ * group of sliders a coloured fill on each one is noise. There is no `emphasis`
+ * or fill option yet; it can be added without breaking anything if a real use
+ * for a single emphasised slider turns up.
+ *
  * `aria-label` on the host is supported and is mirrored onto the inner input.
  *
  * @fires input - detail: number — the live value, continuously while dragging
@@ -84,11 +92,8 @@ export class CandorSlider extends LitElement {
     .slider__input::-webkit-slider-runnable-track {
       height: var(--candor-slider-track-height);
       border-radius: 99px;
-      background: linear-gradient(
-        to right,
-        var(--color-action-primary) var(--fill-percent, 50%),
-        var(--color-border-strong) var(--fill-percent, 50%)
-      );
+      /* One inert rail, no filled portion — the thumb is the value (#247). */
+      background: var(--color-border-control);
     }
     .slider__track--gradient .slider__input::-webkit-slider-runnable-track {
       background: transparent;
@@ -96,11 +101,7 @@ export class CandorSlider extends LitElement {
     .slider__input::-moz-range-track {
       height: var(--candor-slider-track-height);
       border-radius: 99px;
-      background: linear-gradient(
-        to right,
-        var(--color-action-primary) var(--fill-percent, 50%),
-        var(--color-border-strong) var(--fill-percent, 50%)
-      );
+      background: var(--color-border-control);
     }
     .slider__track--gradient .slider__input::-moz-range-track {
       background: transparent;
@@ -187,10 +188,6 @@ export class CandorSlider extends LitElement {
 
   private _id = `candor-slider-${Math.random().toString(36).slice(2, 9)}`;
 
-  private get _fillPercent() {
-    return ((this.value - this.min) / (this.max - this.min)) * 100;
-  }
-
   private get _valueText() {
     return this.valueTextFn ? this.valueTextFn(this.value) : String(this.value);
   }
@@ -229,7 +226,6 @@ export class CandorSlider extends LitElement {
             .max="${String(this.max)}"
             .step="${String(this.step)}"
             .value="${String(this.value)}"
-            style="--fill-percent:${this._fillPercent}%"
             ?disabled="${this.disabled}"
             aria-label="${this._ariaLabel || nothing}"
             aria-valuetext="${this._valueText}"

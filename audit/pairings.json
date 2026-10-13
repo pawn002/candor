@@ -1190,7 +1190,27 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-slider thumb outline. Recorded separately from form-control-border-on-page because the background is a load-bearing claim rather than an incidental one: the thumb is 22px against a 4px track, so most of its outline falls on the page and not on the track. Against the track it is far weaker (2.3 and 1.0 by mode, deliberately not written in the audited grammar — those are a different background than this pairing's, and the audit would measure them against this one), so it is the page that carries identifiability — see #247. OKCA 4.4 light / 3.9 dark ✅"
+      "note": "candor-slider thumb outline. Recorded separately from form-control-border-on-page because the background is a load-bearing claim rather than an incidental one: the thumb is 22px against a 4px track, so most of its outline falls on the page and not on the track. Since #247 the track is the same colour as this outline, so against the track the outline does not separate at all; it is the page that carries identifiability, which is why the track has no filled portion any more. OKCA 4.4 light / 3.9 dark ✅"
+    },
+    {
+      "id": "slider-track-on-page",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-slider rail. Until #247 the track was a filled/unfilled split, action-primary up to the value and border-strong after it, and each mode failed a different half: light, the unfilled track against the page; dark, the boundary between the halves. No single neutral fixed both, so the fill was dropped and the whole rail is the control boundary token; the thumb carries the value. Same colours as form-control-border-on-page, recorded separately because the rail is what shows the range the thumb moves in. OKCA 4.4 light / 3.9 dark ✅"
+    },
+    {
+      "id": "slider-track-on-surface",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The slider rail inside a surface container, as in the slider's own All variants story, where every slider sits in a candor-card. OKCA 3.3 light / 3.2 dark ✅"
     }
   ]
 }
