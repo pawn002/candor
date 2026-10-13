@@ -397,13 +397,26 @@ function isNonText(cssVar, declared) {
   return NON_TEXT_BY_ROLE.has(cssVar);
 }
 
-/** Build a DTCG token entry. Adds $extensions.usage for non-text tokens. */
-function dtcgEntry(cssVar, value, comment, declared) {
+/**
+ * Build a DTCG token entry. Adds $extensions.usage for non-text tokens, and
+ * $extensions.aliasOf when the token is declared as a bare `var(--other)`.
+ *
+ * aliasOf (#242): resolving an alias keeps the number and throws away the
+ * derivation, which in the stylesheet *is* the explanation. Two tokens that
+ * both alias --navy-900 looked like a copy-paste bug in the artifact, and a
+ * consumer could not see that --color-blockquote-bg follows --color-bg-surface.
+ * $value stays the resolved colour, deliberately: check-contrast.js hands
+ * $value straight to klar, and a DTCG `{reference}` there would need a second
+ * resolver. The relationship is recorded beside the value instead.
+ */
+function dtcgEntry(cssVar, value, comment, declared, raw) {
   const entry = { $type: 'color', $value: value };
   if (comment) entry.$description = comment;
-  if (isNonText(cssVar, declared)) {
-    entry.$extensions = { usage: 'non-text' };
-  }
+  const ext = {};
+  if (isNonText(cssVar, declared)) ext.usage = 'non-text';
+  const alias = /^var\((--[\w-]+)\)$/.exec(raw || '');
+  if (alias) ext.aliasOf = alias[1];
+  if (Object.keys(ext).length) entry.$extensions = ext;
   return entry;
 }
 
@@ -483,14 +496,14 @@ let lightCount = 0, darkCount = 0;
 for (const [name, { value, comment }] of Object.entries(lightTokens)) {
   if (!name.startsWith('--color-')) continue;
   if (!isEmittableColor(value)) { skipped.light.push(`${name} → ${value}`); continue; }
-  setPath(output.light, toDtcgPath(name, declared), dtcgEntry(name, value, comment, declared));
+  setPath(output.light, toDtcgPath(name, declared), dtcgEntry(name, value, comment, declared, lightRaw[name]?.raw));
   lightCount++;
 }
 
 for (const [name, { value, comment }] of Object.entries(darkTokens)) {
   if (!name.startsWith('--color-')) continue;
   if (!isEmittableColor(value)) { skipped.dark.push(`${name} → ${value}`); continue; }
-  setPath(output.dark, toDtcgPath(name, declared), dtcgEntry(name, value, comment, declared));
+  setPath(output.dark, toDtcgPath(name, declared), dtcgEntry(name, value, comment, declared, darkRaw[name]?.raw));
   darkCount++;
 }
 
@@ -501,18 +514,26 @@ fs.mkdirSync(outDir, { recursive: true });
 fs.writeFileSync(outFile, JSON.stringify(output, null, 2) + '\n');
 
 // 5a. Report on the non-text guard, and fail if prose and rules disagree.
-let nonTextCount = 0, noDesc = 0;
+let nonTextCount = 0, noDesc = 0, aliasOnly = 0;
 for (const [name] of Object.entries(lightTokens)) {
   if (!name.startsWith('--color-')) continue;
   if (isNonText(name, declared)) nonTextCount++;
 }
-walkTokens(output.light, (tok) => { if (!tok.$description) noDesc++; });
+// An alias with no prose is explained by what it aliases, so it is counted
+// apart from a token that has neither. Not a gate: a required sentence here
+// would be filler for "it is gray-0" (#242, the #213 trap).
+walkTokens(output.light, (tok) => {
+  if (tok.$description) return;
+  if (tok.$extensions?.aliasOf) aliasOnly++;
+  else noDesc++;
+});
 
 console.log(`✓  audit/tokens.dtcg.json`);
 console.log(`   light: ${lightCount} color tokens`);
 console.log(`   dark:  ${darkCount} color tokens`);
 console.log(`   non-text: ${nonTextCount} flagged (structural — border / has a -text sibling / named role)`);
-if (noDesc) console.log(`   ${noDesc} light token(s) still carry no $description`);
+if (aliasOnly) console.log(`   ${aliasOnly} light token(s) are explained only by their alias ($extensions.aliasOf)`);
+if (noDesc) console.log(`   ${noDesc} light token(s) carry neither a $description nor an alias`);
 
 const missedNonText = checkNonTextAgreement(lightTokens, declared);
 if (missedNonText.length) {

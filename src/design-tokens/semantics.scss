@@ -92,7 +92,7 @@
     // In dark mode: deep navy tint + explicit border — bg alone can't delineate at low L.
     --color-bg-code:     var(--color-bg-inverse);  // navy-800 on white page
     --color-text-code:   var(--color-text-inverse); // white on navy
-    --color-border-code: transparent;
+    --color-border-code: transparent; // deliberate: the code block is a filled navy panel with no rule around it; dark mode adds one (#242)
 
     // ─── Colors: Focus ─────────────────────────────────────────────────────────
     --color-focus: var(--azure-400); // high-visibility ring on dark/white backgrounds
@@ -101,13 +101,13 @@
     // Base colors: non-text use only (icons, borders, indicators).
     // For text on light status-bg, use --color-status-*-text (contrast-validated below).
     --color-status-error:         oklch(0.54 0.21 25);    // icon/border use — OKCA 3.6 on error-bg ✅ (WCAG 1.4.11)
-    --color-status-error-bg:      oklch(0.95 0.02 25);
+    --color-status-error-bg:      oklch(0.95 0.02 25);    // at the sRGB chroma ceiling for this L and H (0.03 is out of gamut), so it cannot get redder without getting darker. Only deltaE 4 from warning-bg: a pale tint is not a variant channel (#214, #242)
     --color-status-error-text:    oklch(0.45 0.18 25);    // OKCA 5.4 on error-bg ✅ — C=0.22 exceeded what sRGB holds at this L and H, so the token specified no single colour and its recorded 4.6 was undefined; re-authored to the boundary, same L and H (#225)
     --color-status-success:       oklch(0.55 0.15 144.2); // icon/border use — OKCA 3.4 on success-bg ✅ (WCAG 1.4.11)
-    --color-status-success-bg:    oklch(0.95 0.05 145);
+    --color-status-success-bg:    oklch(0.95 0.05 145);   // green has more chroma room at L 0.95 than red or amber, which is why it alone is above 0.02 (#242)
     --color-status-success-text:  oklch(0.46 0.14 144.2); // OKCA 5.1 on success-bg ✅ — L=0.50 was OKCA 4.2; stepped to L=0.46 (#14)
     --color-status-warning:       oklch(0.54 0.13 53.54); // icon/border use — OKCA 3.6 on warning-bg ✅ (WCAG 1.4.11)
-    --color-status-warning-bg:    oklch(0.95 0.02 53);
+    --color-status-warning-bg:    oklch(0.95 0.02 53);    // at the sRGB chroma ceiling for this L and H (0.03 is out of gamut). Only deltaE 4 from error-bg: a pale tint is not a variant channel (#214, #242)
     --color-status-warning-text:  oklch(0.40 0.10 53.54); // OKCA 6.9 on warning-bg ✅ — C=0.16 was the furthest outside sRGB of any Candor colour (deltaE 11 from the nearest in-gamut form, and off-hue with it — amber becoming dark red); re-authored to the boundary, same L and H (#225)
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────

@@ -3,8 +3,13 @@ name: CI
 on:
   push:
     branches: [main]
+  # No `branches:` filter on pull_request (#249). The filter matches the PR's
+  # *base*, so a stacked PR got no CI at all, and retargeting it to main fires
+  # `edited`, which is not a default activity type, so it still got none. That
+  # looked exactly like a run that had not started yet. Every PR now runs on
+  # open and on every push. Only chromatic is limited to PRs into main (below),
+  # since it is the one job that costs per run.
   pull_request:
-    branches: [main]
 
 jobs:
   build-tokens:
@@ -175,7 +180,11 @@ jobs:
     # ci` runs dependency install scripts in this same job, so a compromised
     # version of any transitive dev dependency — the exact thing these PRs
     # change — would execute alongside a write-scoped project token.
-    if: github.actor != 'dependabot[bot]'
+    #
+    # A PR into another branch skips it too (#249): it is the only job billed per
+    # run, and its baseline is main's, so a stacked PR's diff would be against the
+    # wrong tree anyway.
+    if: github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.base_ref == 'main')
     steps:
       - uses: actions/checkout@v5
         with:
