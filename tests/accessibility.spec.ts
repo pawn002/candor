@@ -316,6 +316,43 @@ for (const component of ['input', 'select', 'listbox', 'combobox', 'autocomplete
   });
 }
 
+// #258 — a table cell can hold markup, not only text. The cells are set as a
+// property; strings still go through the JSON attribute as before.
+test.describe('candor-table cells', () => {
+  test('markup in a cell renders, is reachable by Tab, and keeps its handlers', async ({ page }) => {
+    await page.goto(gotoStory('components-table--interactive-cells'));
+    const buttons = page.locator('candor-table candor-button button');
+    await expect(buttons).toHaveCount(3);
+    await expect(page.locator('candor-table td candor-badge')).toHaveCount(3);
+
+    // Named by the host aria-label, forwarded inward.
+    await expect(buttons.first()).toHaveAccessibleName('About OKCA');
+    await buttons.first().focus();
+    await page.keyboard.press('Tab');
+    await expect(buttons.nth(1)).toBeFocused();
+
+    // A Node cell, with a listener attached before it was handed to the table.
+    const clicked = await page.evaluate(async () => {
+      const table = document.querySelector('candor-table') as HTMLElement & { rows: unknown[] };
+      const btn = document.createElement('button');
+      btn.textContent = 'Node cell';
+      let hits = 0;
+      btn.addEventListener('click', () => hits++);
+      table.rows = [{ cells: ['Plain text', btn] }];
+      await (table as unknown as { updateComplete: Promise<void> }).updateComplete;
+      table.shadowRoot!.querySelector<HTMLButtonElement>('td button')!.click();
+      return { hits, text: table.shadowRoot!.querySelector('tbody th, tbody td')!.textContent };
+    });
+    expect(clicked).toEqual({ hits: 1, text: 'Plain text' });
+  });
+
+  test('string cells from the JSON attribute are unchanged', async ({ page }) => {
+    await page.goto(gotoStory('components-table--default'));
+    await expect(page.locator('candor-table tbody tr').first()).not.toBeEmpty();
+    expect(await page.locator('candor-table tbody td').first().evaluate((td) => td.children.length)).toBe(0);
+  });
+});
+
 // ── Containment (#259, #261, #265, #266) ────────────────────────────────────
 //
 // None of these failures shows in a screenshot of the resting state. A clipped
