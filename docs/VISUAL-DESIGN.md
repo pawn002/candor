@@ -199,10 +199,23 @@ Dark mode is where clinical defaults are most tempting and most destructive.
 - **Dark surface delineation needs borders, not just L-steps.** The WCAG contrast formula compresses at the dark end; a 0.05 L difference that reads clearly on white vanishes on near-black. Use `--color-border-*` tokens on elevated surfaces.
 - **H=347 (crimson) has no in-gamut medium that reads as dangerous.** The outlined pattern (thin border, transparent fill, colored text) is the working solution for destructive affordances in dark mode.
 
+### Scrollbars
+
+A scrollbar left to the browser is a default, not a decision. It draws a light track in dark mode, a 15px bar with arrow buttons under controls half again its height, and on macOS it hides until you scroll, so nothing shows that a row overflows. Candor draws its own (#307).
+
+- **Thin to look at, full size to grab.** The visible bar is 6px (`--scrollbar-thumb-size`) inside a 24px lane (`--scrollbar-size`, the AA target size). The rest of the lane is a transparent border on the thumb, so the whole lane can be dragged. This is the accessible choice made to look right, not a trade between the two.
+- **More space on the content side.** 12px between the bar and the content, 6px between the bar and the outer edge. Measured, the gaps are unequal; seen, they are even, because the eye measures from the content and the outer edge is a hard line.
+- **Inset from the ends** by `--radius-md`, so the bar clears a rounded corner instead of running into it.
+- **The rail grey.** The bar is `--color-border-control`, the same grey as a slider rail and a form-control border, so all three read as one family of inert edges. It darkens to `--color-text-subtle` on hover. On a code block, whose background is navy in both modes, it is `--color-border-strong`.
+- **Full-width rows need inset highlights.** A highlight that runs edge to edge stops short of the lane and looks cut off. Inset it by `--spacing-2xs` with `--radius-sm` corners, as the option panels do, and the gap reads as deliberate.
+
+Use `scrollbarStyles('<selector>')` from `src/web-components/utils/scrollbar.ts` on any element that scrolls, never on `:host`. `npm run audit:docs` fails on a component that scrolls without it.
+
 ### Traps
 
 | Trap | What it looks like | Fix |
 |---|---|---|
+| A scroller with the browser's scrollbar | A light track across a dark panel; a heavy bar with arrows under small controls | `scrollbarStyles()` on the scrolling element |
 | Using `--color-status-error` for 14px text | A small error label fails contrast | Use `--color-status-error-text` |
 | Two AA-compliant colors, no separation | Link text and body text both pass contrast against white, but blend against each other | Links must differ by hue, not just lightness |
 | Pure white on pure black | `color: white; background: black;` or equivalent near-values | Use `--color-text-default` on `--color-bg-page` — both pre-tuned away from the extremes |

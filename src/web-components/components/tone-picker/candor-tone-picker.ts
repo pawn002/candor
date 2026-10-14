@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing, type PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
+import { scrollbarStyles } from '../../utils/scrollbar';
 import { observeHostAriaLabel } from '../../utils/host-aria';
 
 export interface ToneCellValue {
@@ -60,7 +61,7 @@ export interface ToneColorSelectDetail {
  */
 @customElement('candor-tone-picker')
 export class CandorTonePicker extends LitElement {
-  static override styles = css`
+  static override styles = [css`
     :host {
       display: block;
       font-family: var(--font-family-accessible);
@@ -256,7 +257,7 @@ export class CandorTonePicker extends LitElement {
       color: var(--color-text-subtle);
       word-break: break-word;
     }
-  `;
+  `, scrollbarStyles('.gamut-scroll')];
 
   @property({ type: Array }) rows: ToneRow[] = [];
   @property({ type: Array, attribute: 'column-headers' }) columnHeaders: string[] = [];

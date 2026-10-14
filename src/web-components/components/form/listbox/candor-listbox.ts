@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { customElement } from '../../../utils/define';
+import { scrollbarStyles } from '../../../utils/scrollbar';
 import { phCaretDownBold } from '../../../icons';
 import { observeHostAriaLabel } from '../../../utils/host-aria';
 
@@ -38,7 +39,7 @@ export class CandorListbox extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static override styles = css`
+  static override styles = [css`
     :host { display: block; }
     .listbox-wrapper {
       display: flex; flex-direction: column; gap: var(--spacing-xs); position: relative;
@@ -96,7 +97,13 @@ export class CandorListbox extends LitElement {
     }
     .listbox__option {
       display: flex; align-items: center; justify-content: space-between;
-      padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
+      /* Inset rows (#307). The highlight floats inside the panel, so it can stop
+         short of the scrollbar lane without reading as cut off. The inline
+         padding gives back the margin, keeping option text in line with the
+         trigger. */
+      margin-inline: var(--spacing-2xs);
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-input-padding-y) calc(var(--spacing-input-padding-x) - var(--spacing-2xs));
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); cursor: pointer; user-select: none; gap: var(--spacing-xs);
     }
@@ -111,7 +118,7 @@ export class CandorListbox extends LitElement {
       font-family: var(--font-family-accessible); font-size: var(--font-size-md);
       letter-spacing: var(--letter-spacing-italic); color: var(--color-status-error-text);
     }
-  `;
+  `, scrollbarStyles('.listbox__dropdown')];
 
   @property() label = '';
   @property() value = '';

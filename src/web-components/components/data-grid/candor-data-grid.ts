@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
+import { scrollbarStyles } from '../../utils/scrollbar';
 import { observeHostAriaLabel } from '../../utils/host-aria';
 import type { CandorCellActivateDetail } from '../../events';
 
@@ -55,7 +56,7 @@ export interface GridRow {
  */
 @customElement('candor-data-grid')
 export class CandorDataGrid extends LitElement {
-  static override styles = css`
+  static override styles = [css`
     :host { display: block; }
     .data-grid__scroll { overflow-x: auto; }
     .sr-only {
@@ -231,7 +232,7 @@ export class CandorDataGrid extends LitElement {
       padding: 0; overflow: hidden; white-space: nowrap;
       clip-path: inset(50%);
     }
-  `;
+  `, scrollbarStyles('.data-grid__scroll')];
 
   @property() caption = '';
   @property({ type: Array, attribute: 'column-headers' }) columnHeaders: string[] = [];

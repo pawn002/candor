@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
+import { scrollbarStyles } from '../../utils/scrollbar';
 import { phXBold } from '../../icons';
 
 type DrawerPosition = 'left' | 'right' | 'bottom';
@@ -39,7 +40,7 @@ type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
  */
 @customElement('candor-drawer')
 export class CandorDrawer extends LitElement {
-  static override styles = css`
+  static override styles = [css`
     :host { display: contents; }
     dialog {
       border: none;
@@ -195,7 +196,7 @@ export class CandorDrawer extends LitElement {
       flex-shrink: 0;
     }
     .drawer__footer--empty { display: none; }
-  `;
+  `, scrollbarStyles('.drawer__body')];
 
   @property({ type: Boolean }) open = false;
   @property() heading = '';

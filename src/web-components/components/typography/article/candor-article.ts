@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { customElement } from '../../../utils/define';
+import { scrollbarRules } from '../../../utils/scrollbar';
 
 const articleStyles = `
   candor-article {
@@ -84,6 +85,11 @@ const articleStyles = `
     border-radius: var(--radius-md);
     overflow-x: auto;
     margin-bottom: var(--spacing-md);
+    /* The code background is navy in both modes, and the default grey thumb does
+       not clear 3.0 on it in light. border-strong does, in both modes: see
+       scrollbar-thumb-on-code in audit/pairings.json (#307). */
+    --_candor-scrollbar-thumb: var(--color-border-strong);
+    --_candor-scrollbar-thumb-hover: var(--color-text-code);
   }
   candor-article pre code {
     background: none;
@@ -185,7 +191,7 @@ const articleStyles = `
 if (!document.getElementById('candor-article-styles')) {
   const styleEl = document.createElement('style');
   styleEl.id = 'candor-article-styles';
-  styleEl.textContent = articleStyles;
+  styleEl.textContent = articleStyles + scrollbarRules('candor-article pre');
   document.head.appendChild(styleEl);
 }
 

@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing, type TemplateResult } from 'lit';
 import { property } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
+import { scrollbarStyles } from '../../utils/scrollbar';
 
 /**
  * One cell's content. A string is text. A Lit `TemplateResult` or a DOM `Node`
@@ -49,8 +50,11 @@ export interface TableRow {
  */
 @customElement('candor-table')
 export class CandorTable extends LitElement {
-  static override styles = css`
-    :host { display: block; overflow-x: auto; }
+  static override styles = [css`
+    :host { display: block; }
+    /* The scroller is an inner element, not the host: per-axis scrollbar rules
+       (::-webkit-scrollbar-thumb:horizontal) do not apply to :host (#307). */
+    .table__scroll { overflow-x: auto; }
     table {
       min-width: 100%;
       width: max-content;
@@ -115,7 +119,7 @@ export class CandorTable extends LitElement {
     :host([compact]) tbody tr:nth-child(odd) th {
       background: var(--color-bg-surface);
     }
-  `;
+  `, scrollbarStyles('.table__scroll')];
 
   @property() caption = '';
   @property({ type: Array }) headers: string[] = [];
@@ -135,7 +139,7 @@ export class CandorTable extends LitElement {
 
   override render() {
     return html`
-      <table>
+      <div class="table__scroll"><table>
         ${this.caption ? html`<caption>${this.caption}</caption>` : nothing}
         ${this.headers.length ? html`
           <thead>
@@ -153,7 +157,7 @@ export class CandorTable extends LitElement {
             </tr>
           `)}
         </tbody>
-      </table>
+      </table></div>
     `;
   }
 }

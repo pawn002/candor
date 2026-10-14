@@ -422,6 +422,9 @@ const BG_ALIASES = {
   'bg-page': 'color.bg.page',
   surface: 'color.bg.surface',
   'bg-surface': 'color.bg.surface',
+  elevated: 'color.bg.elevated',
+  'bg-elevated': 'color.bg.elevated',
+  'bg-code': 'color.bg.code',
   inverse: 'color.bg.inverse',
   'bg-inverse': 'color.bg.inverse',
   white: null, // literal

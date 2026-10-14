@@ -549,8 +549,8 @@
         },
         "control": {
           "$type": "color",
-          "$value": "oklch(0.58 0 0)",
-          "$description": "Dark needs its own value: contrast here means a *lighter* edge, so the light mode's L=0.53 would move the wrong way against a dark surface. L=0.58 is the darkest value clearing 3.0 on the worst dark background, with the same safe-everywhere property as light: OKCA 3.9 on dark page ✅, OKCA 3.2 on dark bg-surface ✅. Replaces the dark --color-border-control-on-surface (L=0.60), deltaE 2 away — see the light-mode note above for why the sibling is gone.",
+          "$value": "oklch(0.62 0 0)",
+          "$description": "Dark needs its own value: contrast here means a *lighter* edge, so the light mode's L=0.53 would move the wrong way against a dark surface. The worst dark background is bg-elevated, which is lighter than surface. It holds every option panel, the drawer, the modal and the chat input, so form-control borders and scrollbar thumbs both sit on it. L=0.58 was chosen against page and surface only and measured 2.6 there, with no pairing to say so (#307). L=0.62 clears it with 0.1 of margin: L=0.61 sits exactly on 3.0, so any later change to bg-elevated would push it under: OKCA 3.1 on dark bg-elevated ✅, OKCA 3.9 on dark bg-surface ✅, OKCA 4.6 on dark page ✅. Replaces the dark --color-border-control-on-surface (L=0.60) — see the light-mode note above for why the sibling is gone.",
           "$extensions": {
             "usage": "non-text"
           }
@@ -568,7 +568,7 @@
         "thumb": {
           "$type": "color",
           "$value": "oklch(0.91 0 0)",
-          "$description": "Light puck on the dark track — fill stays light (border-control 0.58 is the darker edge). icon/border use (non-text UI). — oklch(0.91) light knob in dark — icon/border use",
+          "$description": "Light puck on the dark track — fill stays light (border-control 0.62 is the darker edge). icon/border use (non-text UI). — oklch(0.91) light knob in dark — icon/border use",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-100"

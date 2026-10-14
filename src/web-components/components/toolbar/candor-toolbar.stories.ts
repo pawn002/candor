@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import { allModes } from '../../../../.storybook/modes';
 import './candor-toolbar';
 
 const BTN = 'btn btn-ghost btn-sm';
@@ -200,6 +201,49 @@ export const Vertical: Story = {
       </button>
       <button class="${BTN}" type="button" aria-label="Pencil" aria-pressed="false" title="Pencil" style="${ICON_ONLY}">
         <i class="ph-fill ph-pencil" aria-hidden="true" style="${FILL_ICON}"></i>
+      </button>
+      <candor-toolbar-separator orientation="horizontal"></candor-toolbar-separator>
+      <button class="${BTN}" type="button" aria-label="Zoom in" title="Zoom in" style="${ICON_ONLY}">
+        <i class="ph-fill ph-magnifying-glass-plus" aria-hidden="true" style="${FILL_ICON}"></i>
+      </button>
+      <button class="${BTN}" type="button" aria-label="Zoom out" title="Zoom out" style="${ICON_ONLY}">
+        <i class="ph-fill ph-magnifying-glass-minus" aria-hidden="true" style="${FILL_ICON}"></i>
+      </button>
+    </candor-toolbar>
+  `,
+};
+
+export const VerticalScrolling: Story = {
+  name: 'Vertical, in a short space',
+  parameters: {
+    controls: { disable: true },
+    // Dark is set on this story alone: it is the one that shows a toolbar's
+    // scrollbar, and dark is where the UA scrollbar was wrong (#307).
+    chromatic: { modes: { light: allModes.light, dark: allModes.dark } },
+    docs: {
+      description: {
+        story:
+          'A vertical toolbar taller than its space scrolls within its own bounds instead of spilling out of its container. ' +
+          'The cap is the host\'s height, so give the host one: set it, as here, or let the toolbar stretch as a flex or grid item. ' +
+          'The scrollbar draws a 6px bar inside a 24px grab area (`--scrollbar-size`, the AA target size), so the whole lane can be dragged. ' +
+          'Keyboard users never need it: arrow keys move focus through the toolbar and scroll the focused control into view.',
+      },
+    },
+  },
+  render: () => html`
+    <candor-toolbar aria-label="Drawing tools" orientation="vertical" style="height: 9rem;">
+      <button class="${BTN}" type="button" aria-label="Select" aria-pressed="true" title="Select"
+              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+        <i class="ph-fill ph-cursor" aria-hidden="true" style="${FILL_ICON}"></i>
+      </button>
+      <button class="${BTN}" type="button" aria-label="Pan" aria-pressed="false" title="Pan" style="${ICON_ONLY}">
+        <i class="ph-fill ph-hand" aria-hidden="true" style="${FILL_ICON}"></i>
+      </button>
+      <button class="${BTN}" type="button" aria-label="Pencil" aria-pressed="false" title="Pencil" style="${ICON_ONLY}">
+        <i class="ph-fill ph-pencil" aria-hidden="true" style="${FILL_ICON}"></i>
+      </button>
+      <button class="${BTN}" type="button" aria-label="Erase" aria-pressed="false" title="Erase" style="${ICON_ONLY}">
+        <i class="ph-fill ph-eraser" aria-hidden="true" style="${FILL_ICON}"></i>
       </button>
       <candor-toolbar-separator orientation="horizontal"></candor-toolbar-separator>
       <button class="${BTN}" type="button" aria-label="Zoom in" title="Zoom in" style="${ICON_ONLY}">

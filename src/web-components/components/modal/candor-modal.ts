@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
+import { scrollbarStyles } from '../../utils/scrollbar';
 import { phXBold } from '../../icons';
 
 type ModalSize = 'sm' | 'md' | 'lg';
@@ -38,7 +39,7 @@ type ModalSize = 'sm' | 'md' | 'lg';
  */
 @customElement('candor-modal')
 export class CandorModal extends LitElement {
-  static override styles = css`
+  static override styles = [css`
     :host { display: contents; }
     dialog {
       border: none;
@@ -143,7 +144,7 @@ export class CandorModal extends LitElement {
       flex-shrink: 0;
     }
     .modal__footer--empty { display: none; }
-  `;
+  `, scrollbarStyles('.modal__body')];
 
   @property({ type: Boolean }) open = false;
   @property({ type: Boolean }) alert = false;
