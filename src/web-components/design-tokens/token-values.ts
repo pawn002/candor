@@ -19,7 +19,7 @@
  * instance of it.
  *
  * Note this is a *documentation* path only. Components must never read values
- * this way — they consume `var(--color-…)` so that theming works.
+ * this way. They consume `var(--color-…)` so that theming works.
  */
 import dtcg from '../../../audit/tokens.dtcg.json';
 
@@ -57,7 +57,7 @@ const TOKENS: Record<TokenMode, Map<string, DtcgNode>> = {
 /**
  * The value `cssVar` resolves to in `mode`.
  *
- * The export resolves both modes in full — dark is an override layer in the
+ * The export resolves both modes in full. Dark is an override layer in the
  * SCSS, but the artifact carries all 55 tokens under each mode with the value
  * that actually renders there. So `undefined` means the token does not exist,
  * never that it is inherited.

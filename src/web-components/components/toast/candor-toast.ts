@@ -11,7 +11,7 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
  *
  * The choice against `candor-alert` is persistence: an alert stays until the
  * condition changes and sits next to what it concerns; a toast floats and goes
- * away. **Anything the user may need to re-read is an alert** — a toast that has
+ * away. **Anything the user may need to re-read is an alert.** A toast that has
  * disappeared cannot be recovered, so it is the wrong carrier for an error the
  * user must act on, or for detail they might need twice.
  *
@@ -20,7 +20,7 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
  * politeness: `error` and `warning` announce assertively, the others politely.
  *
  * **This component does not dismiss itself.** There is no duration or timeout
- * property — `dismiss` fires when the user activates the close button, and any
+ * property. `dismiss` fires when the user activates the close button, and any
  * auto-expiry is the consumer's timer removing the element.
  *
  * **Put it in a `candor-toast-container` for the announcement, too.** A live
@@ -30,7 +30,7 @@ type ToastVariant = 'info' | 'success' | 'warning' | 'error';
  * persistent regions announce it (#266). A toast outside a container keeps its
  * own `status` or `alert` role, which is the less reliable pattern.
  *
- * @fires dismiss - detail: none — the user activated the close button; the consumer must remove the toast
+ * @fires dismiss - detail: none (the user activated the close button; the consumer must remove the toast)
  */
 @customElement('candor-toast')
 export class CandorToast extends LitElement {
@@ -159,7 +159,7 @@ export class CandorToast extends LitElement {
  * One per screen position. Two containers at `top-right` will overlap, since
  * each stacks independently.
  *
- * Emits no custom events — the toasts inside emit their own `dismiss`.
+ * Emits no custom events. The toasts inside emit their own `dismiss`.
  */
 @customElement('candor-toast-container')
 export class CandorToastContainer extends LitElement {

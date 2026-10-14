@@ -2,13 +2,13 @@ import { LitElement, css, html } from 'lit';
 import { customElement } from '../../utils/define';
 
 /**
- * Inline code — the drop-in that bundles the `--color-bg-code` / `--color-text-code`
+ * Inline code: the drop-in that bundles the `--color-bg-code` / `--color-text-code`
  * token pair (plus mono font, padding, radius, border) so they can't be
  * half-applied. Using `--color-bg-code` alone yields invisible dark-on-dark text
  * (#170); this element renders the pair correctly by construction.
  *
  * For block/multiline code, wrap in a `<pre>` or use a syntax-highlighting
- * surface — this element is for inline spans within prose.
+ * surface. This element is for inline spans within prose.
  *
  * Emits no custom events.
  */

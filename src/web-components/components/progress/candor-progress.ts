@@ -11,7 +11,7 @@ type ProgressSize = 'sm' | 'md' | 'lg';
  *
  * `indeterminate` is not cosmetic: it drops `aria-valuenow`/`min`/`max` so
  * assistive technology announces "busy" rather than a number. Use it whenever
- * the completion fraction is unknown — a spinner showing a fabricated
+ * the completion fraction is unknown. A spinner showing a fabricated
  * percentage is worse than no percentage.
  *
  * `value` is a **percentage, 0–100**, not a 0–1 fraction. Passing 0.75 renders a
@@ -23,7 +23,7 @@ type ProgressSize = 'sm' | 'md' | 'lg';
  * nothing about what they are waiting for.
  *
  * The bar announces its own percentage through `aria-valuetext`, so a visible
- * percentage beside it is duplication for screen-reader users — set one or the
+ * percentage beside it is duplication for screen-reader users. Set one or the
  * other.
  *
  * Emits no custom events. Progress is driven entirely by the consumer setting

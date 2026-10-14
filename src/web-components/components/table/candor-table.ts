@@ -32,7 +32,7 @@ export interface TableRow {
  *
  * **Always set `caption`.** It is the table's accessible name, and a page with
  * several tables is otherwise a list of anonymous "table" landmarks to anyone
- * navigating by structure. It is visible text, not a tooltip — treat it as the
+ * navigating by structure. It is visible text, not a tooltip. Treat it as the
  * table's title rather than as an accessibility afterthought.
  *
  * `TableRow.isHeader` promotes a row's cells to `<th scope="row">`, which is

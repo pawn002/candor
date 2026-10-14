@@ -15,7 +15,7 @@ type PageItem = number | 'ellipsis';
  * `1…total-pages` before the event fires, so `detail` is always in range.
  *
  * `compact` swaps the numbered buttons for a "Page N of M" readout in a live
- * region — appropriate for narrow viewports and for large page counts where a
+ * region, appropriate for narrow viewports and for large page counts where a
  * numbered strip is more noise than navigation.
  *
  * `aria-label` on the host is supported and names the nav landmark. Set it when
@@ -24,7 +24,7 @@ type PageItem = number | 'ellipsis';
  *
  * Previous/Next disable themselves at the ends rather than wrapping.
  *
- * @fires change - detail: number — the requested page, clamped to 1…total-pages
+ * @fires change - detail: number (the requested page, clamped to 1…total-pages)
  */
 @customElement('candor-pagination')
 export class CandorPagination extends LitElement {

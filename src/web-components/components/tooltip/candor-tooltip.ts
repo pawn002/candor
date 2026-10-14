@@ -9,7 +9,7 @@ type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
  * set `text`.
  *
  * **Supplementary only.** The content is reachable only by hovering or focusing,
- * so anything a user must read to act belongs in the layout instead — a `hint`
+ * so anything a user must read to act belongs in the layout instead: a `hint`
  * on the form control, or a `candor-accessible-text role_="annotation"` beside
  * it. If losing the tooltip would leave the interface ambiguous, it is carrying
  * too much.

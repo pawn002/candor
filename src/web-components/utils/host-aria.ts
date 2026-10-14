@@ -5,16 +5,16 @@ import type { LitElement } from 'lit';
  * into a setter, and strip the attribute off the host so the value is announced
  * exactly once by AT.
  *
- * Background — the "host aria-label" trap:
+ * Background: the "host aria-label" trap.
  * When a consumer writes `<candor-foo aria-label="X">`, the host element receives
  * an accessible name from the attribute and shows up in the AT tree as
  * `generic "X"`. The inner element where we'd like the name (an inner `<grid>`,
- * `<input>`, etc.) does NOT inherit it — `aria-label` on a custom-element host
+ * `<input>`, etc.) does NOT inherit it. `aria-label` on a custom-element host
  * does not propagate across the shadow boundary. The historical workaround was
  * to also expose an `ariaLabel_` property and bind it inside, but that left the
  * attribute on the host so SR users heard the name twice (host generic + inner).
  *
- * `role="none"` on the host does NOT fix this — ARIA's presentational role
+ * `role="none"` on the host does NOT fix this. ARIA's presentational role
  * conflict resolution preserves the host's accessible name when `aria-label`
  * is set. The only reliable fix is to REMOVE the attribute from the host
  * after caching the value, which is what this helper does.

@@ -4,13 +4,13 @@ import { customElement } from '../../utils/define';
 import { phCaretDownBold } from '../../icons';
 
 /**
- * One expandable section. **There is no accordion container** — this is the item
+ * One expandable section. **There is no accordion container.** This is the item
  * only, and the name says so.
  *
  * Two consequences. Sequential items form an accordion by adjacency, with no
  * wrapper to add. And nothing enforces one-open-at-a-time: if the design needs
  * that exclusivity, the consumer closes the siblings in response to `toggle`.
- * Most of the time exclusivity is not wanted anyway — it hides content the user
+ * Most of the time exclusivity is not wanted anyway: it hides content the user
  * just asked to compare.
  *
  * `toggle` reports the new state, and `open` **is** updated by the component, so
@@ -22,13 +22,13 @@ import { phCaretDownBold } from '../../icons';
  * sit in a stack.
  *
  * `variant="quiet"` renders the heading at weight 500. Structural nesting is
- * what makes it legible at that weight — do not use it for a standalone item
+ * what makes it legible at that weight. Do not use it for a standalone item
  * where that context is absent.
  *
  * Content stays in the DOM when collapsed, so it remains findable by in-page
  * search.
  *
- * @fires toggle - detail: boolean — the new open state
+ * @fires toggle - detail: boolean (the new open state)
  */
 @customElement('candor-accordion-item')
 export class CandorAccordionItem extends LitElement {

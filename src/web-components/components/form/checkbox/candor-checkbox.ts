@@ -4,7 +4,7 @@ import { customElement } from '../../../utils/define';
 import { observeHostAriaLabel } from '../../../utils/host-aria';
 
 /**
- * A single checkbox. Independent by design — unlike `candor-radio`, there is no
+ * A single checkbox. Independent by design: unlike `candor-radio`, there is no
  * grouping mechanism here, because checkboxes are not mutually exclusive and
  * need no roving-focus shim.
  *
@@ -14,8 +14,8 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  * functionally without it, but the group has no accessible name.
  *
  * Names itself with `label`, which renders a real `<label>`; text in the default
- * slot lands inside that label and names it too. `aria-label` on the host also works — it is
- * mirrored onto the inner input and stripped from the host — but it *overrides*
+ * slot lands inside that label and names it too. `aria-label` on the host also works (it is
+ * mirrored onto the inner input and stripped from the host), but it *overrides*
  * the visible text rather than adding to it, so where both exist the
  * `aria-label` must contain the visible label (WCAG 2.5.3).
  *
@@ -24,7 +24,7 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  *
  * **Two slots, and they are not interchangeable (#263).** The default slot sits
  * *inside* the `<label>`, so whatever it holds becomes part of this control's
- * accessible name — use it for label text only, as an alternative to `label`.
+ * accessible name. Use it for label text only, as an alternative to `label`.
  * Anything interactive (a help button, a link) goes in `slot="end"`, which
  * renders *beside* the label: projecting a `<button>` into the default slot
  * makes the document invalid (a `<label>` may hold only its own control) and
@@ -37,9 +37,9 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  * </candor-checkbox>
  * ```
  *
- * @slot - Label text, rendered inside the `<label>` and so part of the accessible name. Text only — see above.
- * @slot end - Content beside the checkbox, outside its label — help buttons, links. Not part of the accessible name.
- * @fires change - detail: boolean — the new checked state, on user toggle
+ * @slot - Label text, rendered inside the `<label>` and so part of the accessible name. Text only (see above).
+ * @slot end - Content beside the checkbox, outside its label: help buttons, links. Not part of the accessible name.
+ * @fires change - detail: boolean (the new checked state, on user toggle)
  */
 @customElement('candor-checkbox')
 export class CandorCheckbox extends LitElement {

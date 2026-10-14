@@ -8,13 +8,13 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
 const markedFieldsets = new WeakSet<HTMLFieldSetElement>();
 
 /**
- * A single radio button. **Groups are resolved structurally, not by `name`** —
- * this is the one thing to know before using it.
+ * A single radio button. **Groups are resolved structurally, not by `name`**.
+ * This is the one thing to know before using it.
  *
  * Each radio lives in its own shadow root, so the browser cannot tie
  * shared-`name` inputs into a mutually-exclusive, arrow-navigable set the way it
  * does for native inputs. The component reimplements that grouping by querying
- * sibling `candor-radio[name="…"]` elements within a scope — and that scope is
+ * sibling `candor-radio[name="…"]` elements within a scope, and that scope is
  * `closest('fieldset')`, falling back to `parentElement`. From the group it
  * supplies what the platform would have: mutual exclusion, arrow-key movement,
  * a single tab stop (the checked option, else the first enabled one), and each
@@ -24,7 +24,7 @@ const markedFieldsets = new WeakSet<HTMLFieldSetElement>();
  *
  * The practical consequence: wrap every group in a `<fieldset>` with a
  * `<legend>`. Any real layout puts each option in its own wrapper element, and
- * without the fieldset the scope collapses to that wrapper — so each radio sees
+ * without the fieldset the scope collapses to that wrapper, so each radio sees
  * only itself. **Arrow-key navigation and mutual exclusion both stop.** The
  * control still looks correct; the one signal is a console warning, raised when
  * a named radio finds no other radio of that name in its group.
@@ -43,15 +43,15 @@ const markedFieldsets = new WeakSet<HTMLFieldSetElement>();
  * `aria-label` on the host is mirrored onto the inner input and stripped from
  * the host, the same as every other Candor form control. Note what it names,
  * though: **this one option, not the group.** A group with no `<legend>` is not
- * fixed by putting `aria-label` on its radios — that renames the options and
+ * fixed by putting `aria-label` on its radios: that renames the options and
  * leaves the group anonymous.
  *
- * A disabled radio needs an adjacent explanation of why — a locked control with
+ * A disabled radio needs an adjacent explanation of why. A locked control with
  * no reason reads as broken. See the disabled-hint convention in CLAUDE.md.
  *
  * **Two slots, and they are not interchangeable (#263).** The default slot sits
  * *inside* the `<label>`, so whatever it holds becomes part of this control's
- * accessible name — use it for label text only, as an alternative to `label`.
+ * accessible name. Use it for label text only, as an alternative to `label`.
  * Anything interactive (a help button, a link) goes in `slot="end"`, which
  * renders *beside* the label: projecting a `<button>` into the default slot
  * makes the document invalid (a `<label>` may hold only its own control) and
@@ -64,9 +64,9 @@ const markedFieldsets = new WeakSet<HTMLFieldSetElement>();
  * </candor-radio>
  * ```
  *
- * @slot - Label text, rendered inside the `<label>` and so part of the accessible name. Text only — see above.
- * @slot end - Content beside the option, outside its label — help buttons, links. Not part of the accessible name.
- * @fires change - detail: string — this radio's `value`, when the user selects it
+ * @slot - Label text, rendered inside the `<label>` and so part of the accessible name. Text only (see above).
+ * @slot end - Content beside the option, outside its label: help buttons, links. Not part of the accessible name.
+ * @fires change - detail: string (this radio's `value`, when the user selects it)
  */
 @customElement('candor-radio')
 export class CandorRadio extends LitElement {
@@ -137,19 +137,19 @@ export class CandorRadio extends LitElement {
   @property() label?: string;
   @property() value = '';
   /**
-   * Group identity — but **not** the grouping mechanism, unlike a native
+   * Group identity, but **not** the grouping mechanism, unlike a native
    * `<input type="radio">`. Radios with the same `name` are only tied together
    * if they also share a `<fieldset>` (see the class comment): `name` selects
    * the siblings, the fieldset bounds the search. Setting `name` alone on radios
    * in separate wrappers produces a group that does not group, and logs a
    * console warning saying so.
    *
-   * Leaving it unset opts out of grouping entirely — `_groupSiblings` returns
+   * Leaving it unset opts out of grouping entirely: `_groupSiblings` returns
    * empty, so arrow keys and mutual exclusion do nothing.
    *
    * Reflected to the attribute, because siblings are found by the selector
-   * `candor-radio[name="…"]`: unreflected, a name set as a property — the path
-   * a framework binding takes — left the radio outside every group.
+   * `candor-radio[name="…"]`: unreflected, a name set as a property (the path
+   * a framework binding takes) left the radio outside every group.
    */
   @property({ reflect: true }) name?: string;
   @property({ type: Boolean, reflect: true }) checked = false;
@@ -271,7 +271,7 @@ export class CandorRadio extends LitElement {
     return this.closest('fieldset') || this.parentElement || document;
   }
 
-  /** Every radio in this group, in document order — disabled ones included. */
+  /** Every radio in this group, in document order, disabled ones included. */
   private _groupMembers(): CandorRadio[] {
     if (!this.name) return [];
     return Array.from(
@@ -288,7 +288,7 @@ export class CandorRadio extends LitElement {
    * Recompute the group-wide state on every member: which one is the group's
    * single tab stop, and each option's position in the set (#262).
    *
-   * Native radios get all of this from the platform — one tab stop per group,
+   * Native radios get all of this from the platform: one tab stop per group,
    * arrows within it, and the "2 of 5" a screen reader announces. None of it
    * forms here, because each input is alone in its own shadow root, so the
    * component supplies it. The tab stop is the checked option, or the first
@@ -325,7 +325,7 @@ export class CandorRadio extends LitElement {
   /**
    * Give the group's `<fieldset>` the `radiogroup` role, so assistive
    * technology is told the options are mutually exclusive rather than merely
-   * related — a fieldset's implicit role is `group`.
+   * related. A fieldset's implicit role is `group`.
    *
    * Deliberately narrow, since this writes to the consumer's own markup: only a
    * `<fieldset>` (never the parent-element fallback, which is usually a layout
@@ -333,8 +333,8 @@ export class CandorRadio extends LitElement {
    * when every radio inside it belongs to this one group. A fieldset holding two
    * named groups is not a radiogroup, and marking it one would be a lie.
    *
-   * The role is taken back off when the fieldset stops qualifying — a radio
-   * renamed or removed out of the group — but only from a fieldset this
+   * The role is taken back off when the fieldset stops qualifying (a radio
+   * renamed or removed out of the group), but only from a fieldset this
    * component marked, so a role the consumer wrote is never touched.
    */
   private _markRadioGroup(scope: ParentNode, members: CandorRadio[]): void {
