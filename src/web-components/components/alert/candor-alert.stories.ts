@@ -25,9 +25,10 @@ results, system notices, validation summaries. Four variants: \`info\`, \`succes
 remain visible until dismissed or the state changes. Toasts are ephemeral and float over
 content — use them for transient feedback that doesn't require acknowledgement.
 
-**Warning and success text uses dark text on a tinted background**, not colored text.
-Colored text at these hues fails contrast on white. The background tint + icon + heading
-together carry the semantic signal without needing to rely on text color alone.
+**Every variant shares one neutral box.** The icon shape carries the variant, and the
+heading repeats it in the status text colour. The message is always default text. A pale
+status fill used to sit behind each variant; it was dropped because the error and warning
+tints are too close to tell apart, and because a pastel box reads as machine-made (#292).
 
 Renders \`role="status"\` for info/success and \`role="alert"\` for warning/error — screen
 readers announce error/warning content automatically when the element appears.

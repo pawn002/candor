@@ -41,13 +41,13 @@ export class CandorAlert extends LitElement {
       gap: var(--spacing-sm);
       padding: var(--spacing-sm) var(--spacing-md);
       border-radius: var(--radius-md);
-      border: var(--border-width-thin) solid;
+      /* One neutral box for every variant (#292). The icon shape carries the
+         variant and the heading colour repeats it. A pale status fill did
+         neither: error-bg and warning-bg are deltaE 4 apart (#214). */
+      background-color: var(--color-bg-surface);
+      border: var(--border-width-thin) solid var(--color-border-default);
       font-family: var(--font-family-accessible);
     }
-    .alert--info    { background-color: var(--color-bg-surface); border-color: var(--color-border-strong); }
-    .alert--success { background-color: var(--color-status-success-bg); border-color: var(--color-status-success); }
-    .alert--warning { background-color: var(--color-status-warning-bg); border-color: var(--color-status-warning); }
-    .alert--error   { background-color: var(--color-status-error-bg); border-color: var(--color-status-error); }
     .alert__icon { flex-shrink: 0; width: 1.25rem; height: 1.25rem; margin-top: 0.125rem; }
     .alert--info    .alert__icon { color: var(--color-text-subtle); }
     .alert--success .alert__icon { color: var(--color-status-success); }
@@ -59,10 +59,12 @@ export class CandorAlert extends LitElement {
       color: var(--color-text-default);
       font-size: var(--font-size-md);
       line-height: var(--line-height-tight);
-      margin-bottom: 0.25rem;
-      letter-spacing: var(--letter-spacing-wide);
-      text-transform: uppercase;
+      margin-bottom: var(--spacing-2xs);
+      letter-spacing: 0.02em;
     }
+    .alert--success .alert__title { color: var(--color-status-success-text); }
+    .alert--warning .alert__title { color: var(--color-status-warning-text); }
+    .alert--error   .alert__title { color: var(--color-status-error-text); }
     .alert__message {
       color: var(--color-text-default);
       font-size: var(--font-size-md);

@@ -42,6 +42,24 @@ The UMD build is gone, because Lit has no global build for a UMD file with Lit e
 - Optional but recommended: replace `import '@candor-design/web-components'` with one import per element you render. Named imports from the root (`import { CandorButton } from '@candor-design/web-components'`) still register all 40.
 - Deep imports into `dist/` were never supported and now fail: `exports` lists every supported path.
 
+#### Alert, toast, blockquote and callout lose their tinted boxes and side bars; two blockquote tokens removed (#292)
+
+**Before:** `candor-alert` and `candor-toast` drew each variant as a pale status-coloured box with a border in the same hue, and the toast added a thick bar down its left edge. The alert heading was uppercase. The article blockquote and `.callout` were tinted panels with a coloured left bar.
+
+**After:**
+- **Alert and toast:** every variant shares one neutral box, `--color-bg-surface` with a `--color-border-default` edge. The icon shape carries the variant, and the heading repeats it in `--color-status-*-text`. The alert heading is sentence case.
+- **Blockquote:** a book indent, set a step larger (`--font-size-lg`) in italic, in `--color-text-default` on the page. For an attribution, wrap the quote in a `<figure>` and put the attribution in a `<figcaption>`. It sits under the quote at body size, upright, with any `<cite>` in italic.
+- **Callout:** a plain surface panel with no side bar.
+- `--color-blockquote-bg` and `--color-blockquote-border` are removed. `--color-blockquote-text` now resolves to `--color-text-default`, and `--color-callout-bg` to `--color-bg-surface`.
+
+**Why:** a pale tinted box with a matching border, and a coloured bar down one edge, are now widely read as signs of machine-made design. Neither was doing any work. The icon was already the required second channel for the variant, and the pale error and warning fills are deltaE 4 apart, too close for anyone to tell apart (#214). The status headings and icons are measured on the surface box: headings 4.5 to 6.0 light, 5.2 to 7.0 dark, against a floor of 4.5; icons 3.0 to 3.1 light, 3.4 to 4.7 dark, against 3.0. The `--color-status-*-bg` tokens stay, because `candor-badge` and `candor-chip` use them.
+
+The same pass removed side bars from the `blog.scss` grid's text-only cards and from two stories.
+
+**Migration:**
+- Code that read `--color-blockquote-bg` or `--color-blockquote-border`: the blockquote no longer has a fill or a bar. Drop the declaration, or use `--color-bg-surface` or `--color-action-secondary` directly if you want them back in your own styles.
+- An attribution written inside the quote, such as `<blockquote>"…" — Name</blockquote>`, still renders. To set it apart, move it into a `<figcaption>` as above.
+
 ### Fixed
 
 - **`candor-tooltip` is no longer clipped by `candor-card`, `candor-toolbar`, or any scrolling ancestor (#259).** The bubble was absolutely positioned inside the tooltip's own shadow root, so any ancestor with non-`visible` overflow cut it off. In a toolbar, #175's own reproduction now showed nothing at all, and inside a card only a dark sliver was left. No `::part` or custom property could reach the clip, so a consumer's only fix was to stop using one of the two components. The bubble is now a manual popover in the top layer, placed in viewport coordinates from the trigger when it opens and re-placed on scroll and resize while open. No ancestor's overflow or stacking context reaches it. A hidden bubble is still `display: none`, so the #107/#175 scrollbar fix holds.

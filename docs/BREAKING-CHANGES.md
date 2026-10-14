@@ -176,6 +176,10 @@ Four changes, one packaging decision (#256, #257):
 
 The CHANGELOG entry for 6.0.0 has before/after examples and measured sizes.
 
+#### Tinted boxes and side bars removed; `--color-blockquote-bg` and `--color-blockquote-border` removed (#292)
+
+`candor-alert` and `candor-toast` draw every variant in one neutral surface box, with the variant carried by the icon and the heading colour. The article blockquote is a book indent with no fill or bar, and the callout is a plain surface panel. Styles that read either removed token should drop the declaration or name `--color-bg-surface` or `--color-action-secondary` directly. Attributions belong in a `<figure>` with a `<figcaption>`.
+
 ### v3.0.0
 
 #### Angular reference component library removed

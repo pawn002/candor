@@ -94,7 +94,10 @@ const fullArticleContent = html`
   <p>Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</p>
   <h2>What Slow Reading Actually Means</h2>
   <p>Slow reading does not mean reading every word at the same pace. It means granting yourself permission to pause, to re-read a paragraph, to sit with an uncomfortable idea long enough for it to change your mind.</p>
-  <blockquote>"The reading of all good books is like a conversation with the finest minds of past centuries." — René Descartes</blockquote>
+  <figure>
+    <blockquote>The reading of all good books is like a conversation with the finest minds of past centuries.</blockquote>
+    <figcaption>René Descartes, <cite>Discourse on the Method</cite></figcaption>
+  </figure>
   <h3>The Neuroscience</h3>
   <p>Research in cognitive science suggests that <strong>deep reading</strong> — the kind that involves inference, analogical reasoning, and critical analysis — activates a different neural network than the rapid decoding of text we use for social media.</p>
   <h3>A Practical Approach</h3>
@@ -334,7 +337,7 @@ export const Callout: Story = {
     docs: {
       description: {
         story:
-          "A `.callout` element inside article prose renders a tip/note panel — an indigo wash with a decorative indigo left border (`--color-callout-bg` + `--color-highlight-decorative`, the reintroduced #6969F7 anchor). Distinct from `<blockquote>` (which is a burgundy-bordered, italic pull-quote): the callout is upright, default-colour body text for guidance the reader should act on, not a quotation. Author the label in the content — the border colour is decorative, never the sole signal.",
+          "A `.callout` element inside article prose renders a tip or note as a plain surface panel (`--color-callout-bg`), with no tint and no side bar. Unlike `<blockquote>`, which is an indented italic quotation, the callout is upright, default-colour text for guidance the reader should act on. Write the label into the content (Tip., Note.), because the panel alone does not say what kind of aside it is.",
       },
     },
   },

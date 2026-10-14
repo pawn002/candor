@@ -107,7 +107,7 @@
         "message": {
           "$type": "color",
           "$value": "oklch(0.32 0 0)",
-          "$description": "Component-scoped: toast message text validated against status backgrounds — dark on light status-bgs ✅",
+          "$description": "Component-scoped: toast message text. Every toast sits on bg-surface since #292. — OKCA 8.6 on bg-surface ✅",
           "$extensions": {
             "aliasOf": "--color-text-default"
           }
@@ -362,37 +362,22 @@
         }
       },
       "blockquote": {
-        "bg": {
-          "$type": "color",
-          "$value": "oklch(0.91 0 0)",
-          "$extensions": {
-            "aliasOf": "--color-bg-surface"
-          }
-        },
-        "border": {
-          "$type": "color",
-          "$value": "oklch(0.37 0.08 347.43)",
-          "$extensions": {
-            "usage": "non-text",
-            "aliasOf": "--color-action-secondary"
-          }
-        },
         "text": {
           "$type": "color",
-          "$value": "oklch(0.44 0 0)",
-          "$description": "inherits OKCA 5.0 on bg-surface ✅ (dark resolves to 5.6)",
+          "$value": "oklch(0.32 0 0)",
+          "$description": "A book indent, set a step larger in italic, on the page itself. No wash and no side bar: that pairing reads as machine-made (#292). — OKCA 11.5 on page ✅",
           "$extensions": {
-            "aliasOf": "--color-text-subtle-on-surface"
+            "aliasOf": "--color-text-default"
           }
         }
       },
       "callout": {
         "bg": {
           "$type": "color",
-          "$value": "oklch(0.97 0.01 278.14)",
-          "$description": "Indigo wash + decorative indigo left border, tying back to the #6969F7 anchor. — light indigo wash — text-default OKCA 10.4 on this bg ✅",
+          "$value": "oklch(0.91 0 0)",
+          "$description": "A neutral panel. The indigo wash and left bar went in #292. — text-default OKCA 8.6 on this bg ✅",
           "$extensions": {
-            "aliasOf": "--indigo-50"
+            "aliasOf": "--color-bg-surface"
           }
         }
       },
@@ -514,7 +499,7 @@
         "message": {
           "$type": "color",
           "$value": "oklch(0.71 0 0)",
-          "$description": "Component-scoped: toast message text on the three dark status backgrounds. Written out per background rather than as a range — it was OKCA 5.5–5.8 across all three, and the audit's grammar has no range form, so that phrasing was unverifiable and had never once been measured (#224). — OKCA 5.8 on error-bg ✅, OKCA 5.8 on success-bg ✅, OKCA 5.5 on warning-bg ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug",
+          "$description": "Component-scoped: toast message text. Every toast sits on bg-surface since #292, where the three status backgrounds used to be. — OKCA 5.6 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug",
           "$extensions": {
             "aliasOf": "--color-text-subtle"
           }
@@ -767,35 +752,23 @@
         }
       },
       "blockquote": {
-        "bg": {
-          "$type": "color",
-          "$value": "oklch(0.24 0.03 248.99)",
-          "$extensions": {
-            "aliasOf": "--color-bg-surface"
-          }
-        },
-        "border": {
-          "$type": "color",
-          "$value": "oklch(0.76 0.06 347.43)",
-          "$extensions": {
-            "usage": "non-text",
-            "aliasOf": "--color-action-secondary"
-          }
-        },
         "text": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
-          "$description": "inherits OKCA 5.0 on bg-surface ✅ (dark resolves to 5.6)",
+          "$value": "oklch(0.88 0.01 248)",
+          "$description": "A book indent, set a step larger in italic, on the page itself. No wash and no side bar: that pairing reads as machine-made (#292). — OKCA 11.5 on page ✅",
           "$extensions": {
-            "aliasOf": "--color-text-subtle-on-surface"
+            "aliasOf": "--color-text-default"
           }
         }
       },
       "callout": {
         "bg": {
           "$type": "color",
-          "$value": "oklch(0.26 0.04 278)",
-          "$description": "dark indigo wash — text-default OKCA 10.1 on this bg ✅"
+          "$value": "oklch(0.24 0.03 248.99)",
+          "$description": "A neutral panel. The indigo wash and left bar went in #292. — text-default OKCA 8.6 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--color-bg-surface"
+          }
         }
       },
       "highlight-decorative": {

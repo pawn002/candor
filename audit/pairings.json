@@ -502,58 +502,34 @@
       "note": "Tier 1 Reading"
     },
     {
-      "id": "alert-title-success",
-      "fg": "{color.text.default}",
-      "bg": "{color.status.success-bg}",
+      "id": "status-title-success",
+      "fg": "{color.status.success-text}",
+      "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
       "tier": 1,
-      "min": 4.5
+      "min": 4.5,
+      "note": "Success heading in candor-alert and candor-toast. Since #292 every variant shares the neutral surface box, and the heading carries the status hue (semibold 600, so regular for compliance). Messages in every variant are text-default on surface, which alert-message-info and toast-message-info already measure."
     },
     {
-      "id": "alert-message-success",
-      "fg": "{color.text.default}",
-      "bg": "{color.status.success-bg}",
+      "id": "status-title-warning",
+      "fg": "{color.status.warning-text}",
+      "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
       "tier": 1,
-      "min": 4.5
+      "min": 4.5,
+      "note": "Warning heading in candor-alert and candor-toast. Since #292 every variant shares the neutral surface box, and the heading carries the status hue (semibold 600, so regular for compliance). Messages in every variant are text-default on surface, which alert-message-info and toast-message-info already measure."
     },
     {
-      "id": "alert-title-warning",
-      "fg": "{color.text.default}",
-      "bg": "{color.status.warning-bg}",
+      "id": "status-title-error",
+      "fg": "{color.status.error-text}",
+      "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
       "tier": 1,
-      "min": 4.5
-    },
-    {
-      "id": "alert-message-warning",
-      "fg": "{color.text.default}",
-      "bg": "{color.status.warning-bg}",
-      "size": 16,
-      "weight": "regular",
-      "tier": 1,
-      "min": 4.5
-    },
-    {
-      "id": "alert-title-error",
-      "fg": "{color.text.default}",
-      "bg": "{color.status.error-bg}",
-      "size": 16,
-      "weight": "regular",
-      "tier": 1,
-      "min": 4.5
-    },
-    {
-      "id": "alert-message-error",
-      "fg": "{color.text.default}",
-      "bg": "{color.status.error-bg}",
-      "size": 16,
-      "weight": "regular",
-      "tier": 1,
-      "min": 4.5
+      "min": 4.5,
+      "note": "Error heading in candor-alert and candor-toast. Since #292 every variant shares the neutral surface box, and the heading carries the status hue (semibold 600, so regular for compliance). Messages in every variant are text-default on surface, which alert-message-info and toast-message-info already measure."
     },
     {
       "id": "toast-message-info",
@@ -563,34 +539,7 @@
       "weight": "regular",
       "tier": 1,
       "min": 4.5,
-      "note": "color-toast-message resolves to color-text-default in light mode; plugin audits per mode"
-    },
-    {
-      "id": "toast-message-success",
-      "fg": "{color.toast.message}",
-      "bg": "{color.status.success-bg}",
-      "size": 16,
-      "weight": "regular",
-      "tier": 1,
-      "min": 4.5
-    },
-    {
-      "id": "toast-message-warning",
-      "fg": "{color.toast.message}",
-      "bg": "{color.status.warning-bg}",
-      "size": 16,
-      "weight": "regular",
-      "tier": 1,
-      "min": 4.5
-    },
-    {
-      "id": "toast-message-error",
-      "fg": "{color.toast.message}",
-      "bg": "{color.status.error-bg}",
-      "size": 16,
-      "weight": "regular",
-      "tier": 1,
-      "min": 4.5
+      "note": "Toast body in every variant, which all share the surface box since #292. color-toast-message resolves to text-default in light and text-subtle in dark."
     },
     {
       "id": "nav-brand",
@@ -985,12 +934,12 @@
     {
       "id": "article-blockquote",
       "fg": "{color.blockquote.text}",
-      "bg": "{color.blockquote.bg}",
-      "size": 16,
+      "bg": "{color.bg.page}",
+      "size": 20,
       "weight": "regular",
       "tier": 1,
       "min": 4.5,
-      "note": "Blockquote body (subtle-on-surface on surface bg) — Tier 1 Reading"
+      "note": "Blockquote body: a 20px italic book indent on the page, with no wash or side bar since #292. Tier 1 Reading. OKCA 11.5 light / 12.9 dark ✅"
     },
     {
       "id": "nav-badge-text",
@@ -1095,32 +1044,32 @@
     {
       "id": "status-icon-success",
       "fg": "{color.status.success}",
-      "bg": "{color.status.success-bg}",
+      "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Success icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.4 light / 4.6 dark ✅"
+      "note": "Success icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3 light / 4.5 dark ✅"
     },
     {
       "id": "status-icon-warning",
       "fg": "{color.status.warning}",
-      "bg": "{color.status.warning-bg}",
+      "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Warning icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.6 light / 4.6 dark ✅"
+      "note": "Warning icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.1 light / 4.7 dark ✅"
     },
     {
       "id": "status-icon-error",
       "fg": "{color.status.error}",
-      "bg": "{color.status.error-bg}",
+      "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Error icon in candor-alert and candor-toast (non-text, WCAG 1.4.11) — OKCA 3.6 light / 3.5 dark ✅"
+      "note": "Error icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.1 light / 3.4 dark ✅"
     },
     {
       "id": "autocomplete-suggestion",
@@ -1150,7 +1099,7 @@
       "weight": "regular",
       "tier": 1,
       "min": 4.5,
-      "note": "candor-article .callout body — text-default on the indigo wash; Tier 1 Reading. Gray-700 on indigo-50 in light, off-white on a dark indigo tint in dark — OKCA 10.4 light / 10.1 dark ✅. The --color-highlight-decorative left border is decorative only (meaning carried by the wash + authored label), not gated at 3:1."
+      "note": "candor-article .callout body: text-default on a neutral surface panel, with no wash or side bar since #292. Tier 1 Reading. OKCA 8.6 light / 10.7 dark ✅. The authored label (Tip., Note.) carries the meaning."
     },
     {
       "id": "form-control-border-on-page",

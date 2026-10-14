@@ -129,13 +129,9 @@ export const StatusMessages: Story = {
     <div style="display:flex;flex-direction:column;gap:1rem;">
       <candor-accessible-text role_="status" color="error">Error: This field is required.</candor-accessible-text>
 
-      <div style="background:var(--color-status-warning-bg);padding:0.5rem 0.75rem;border-left:3px solid var(--color-status-warning);border-radius:var(--radius-sm);">
-        <candor-accessible-text role_="message">Warning: This action cannot be undone.</candor-accessible-text>
-      </div>
+      <candor-accessible-text role_="message">Warning: This action cannot be undone.</candor-accessible-text>
 
-      <div style="background:var(--color-status-success-bg);padding:0.5rem 0.75rem;border-left:3px solid var(--color-status-success);border-radius:var(--radius-sm);">
-        <candor-accessible-text role_="message">Success: Your changes have been saved.</candor-accessible-text>
-      </div>
+      <candor-accessible-text role_="message">Success: Your changes have been saved.</candor-accessible-text>
 
       <candor-accessible-text role_="message" color="secondary">Your session will expire in 5 minutes.</candor-accessible-text>
     </div>
@@ -234,9 +230,7 @@ The test: does the user fill it in? → sentence case. Does it label a section o
             type="email"
             value="user@example.com"
           ></candor-input>
-          <div style="background:var(--color-status-success-bg);padding:var(--spacing-xs) var(--spacing-sm);border-left:var(--border-width-thick) solid var(--color-status-success);border-radius:var(--radius-sm);">
-            <candor-accessible-text role_="state" tone="success">Email verified</candor-accessible-text>
-          </div>
+          <candor-accessible-text role_="state" tone="success">Email verified</candor-accessible-text>
         </div>
       </candor-card>
     </div>

@@ -105,13 +105,6 @@
             .post-card__title {
                 font-size: var(--font-size-h3);
             }
-
-            // Text-only cards (no image sibling) get an accent border on the
-            // left to hold visual weight against image-heavy cards in the grid.
-            &:not(:has(.post-card__image-link)) .post-card__body {
-                border-left: var(--border-width-thick) solid var(--color-action-primary);
-                padding-left: var(--spacing-md);
-            }
         }
     }
 }
