@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
+import { scrollbarStyles } from '../../utils/scrollbar';
 import { observeHostAriaLabel } from '../../utils/host-aria';
 
 const FOCUSABLE_SELECTOR = [
@@ -45,7 +46,7 @@ let _nextId = 0;
  */
 @customElement('candor-toolbar')
 export class CandorToolbar extends LitElement {
-  static override styles = css`
+  static override styles = [css`
     *, ::before, ::after { box-sizing: border-box; }
     :host { display: block; }
     .toolbar {
@@ -72,9 +73,16 @@ export class CandorToolbar extends LitElement {
       align-items: stretch;
       width: fit-content;
       max-width: 100%;
-      overflow-x: visible;
+      /* A vertical toolbar taller than its space scrolls within its own bounds,
+         as the horizontal one does, instead of spilling out of its container
+         (#307). The cap is the host's height, so it only applies when the
+         consumer gives the host one, by setting it or by the toolbar being a
+         stretched flex or grid item. */
+      max-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
-  `;
+  `, scrollbarStyles('.toolbar')];
 
   @property({ attribute: 'aria-labelledby' }) ariaLabelledby = '';
   @property({ reflect: true }) orientation: 'horizontal' | 'vertical' = 'horizontal';

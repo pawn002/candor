@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property, state, query } from 'lit/decorators.js';
 import { customElement } from '../../../utils/define';
+import { scrollbarStyles } from '../../../utils/scrollbar';
 import { phPaperPlaneTiltFill } from '../../../icons';
 import { observeHostAriaLabel } from '../../../utils/host-aria';
 import type { CandorChatInputSendDetail } from '../../../events';
@@ -41,7 +42,7 @@ let _nextId = 0;
  */
 @customElement('candor-chat-input')
 export class CandorChatInput extends LitElement {
-  static override styles = css`
+  static override styles = [css`
     :host { display: block; }
     .sr-only {
       position: absolute; width: 1px; height: 1px;
@@ -97,7 +98,7 @@ export class CandorChatInput extends LitElement {
       color: var(--color-text-subtle); letter-spacing: 0.02em;
       line-height: var(--line-height-normal);
     }
-  `;
+  `, scrollbarStyles('.chat-input__textarea')];
 
   @property() label = 'Message';
   @property() placeholder = 'Type a message…';

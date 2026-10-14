@@ -1160,7 +1160,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The form-control boundary at page level — candor-input, select, combobox, autocomplete, listbox, chat-input, checkbox, radio, switch, slider, menu all draw their edge from this one token. WCAG 1.4.11 non-text, so the 3.0 floor is 1.4.11's, not a text floor. OKCA 4.4 light / 3.9 dark ✅"
+      "note": "The form-control boundary at page level — candor-input, select, combobox, autocomplete, listbox, chat-input, checkbox, radio, switch, slider, menu all draw their edge from this one token. WCAG 1.4.11 non-text, so the 3.0 floor is 1.4.11's, not a text floor. OKCA 4.4 light / 4.6 dark ✅"
     },
     {
       "id": "form-control-border-on-surface",
@@ -1170,7 +1170,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The same boundary on a surface container. This is the pairing whose absence was #217: the token was validated on page only, was OKCA 2.8 light and was OKCA 2.9 dark here, and the documented fix was a --color-border-control-on-surface override the consumer applied by hand. The colour-iterator example shipped six controls without it. 5.0.0 retired the sibling and moved the base value to a lightness safe on both backgrounds — OKCA 3.3 light / 3.2 dark ✅"
+      "note": "The same boundary on a surface container. This is the pairing whose absence was #217: the token was validated on page only, was OKCA 2.8 light and was OKCA 2.9 dark here, and the documented fix was a --color-border-control-on-surface override the consumer applied by hand. The colour-iterator example shipped six controls without it. 5.0.0 retired the sibling and moved the base value to a lightness safe on both backgrounds — OKCA 3.3 light / 3.9 dark ✅"
     },
     {
       "id": "switch-track-thumb-off",
@@ -1180,7 +1180,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-switch off-state thumb against its own track. Same two colours as form-control-border-on-surface but not the same claim: the track paints its own bg-surface fill, so no page context could rescue this one and it was below the floor in every consumer, not just on surface containers. The thumb is the sole indicator of off vs on. OKCA 3.3 light / 3.2 dark ✅"
+      "note": "candor-switch off-state thumb against its own track. Same two colours as form-control-border-on-surface but not the same claim: the track paints its own bg-surface fill, so no page context could rescue this one and it was below the floor in every consumer, not just on surface containers. The thumb is the sole indicator of off vs on. OKCA 3.3 light / 3.9 dark ✅"
     },
     {
       "id": "slider-thumb-border-on-page",
@@ -1190,7 +1190,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-slider thumb outline. Recorded separately from form-control-border-on-page because the background is a load-bearing claim rather than an incidental one: the thumb is 22px against a 4px track, so most of its outline falls on the page and not on the track. Since #247 the track is the same colour as this outline, so against the track the outline does not separate at all; it is the page that carries identifiability, which is why the track has no filled portion any more. OKCA 4.4 light / 3.9 dark ✅"
+      "note": "candor-slider thumb outline. Recorded separately from form-control-border-on-page because the background is a load-bearing claim rather than an incidental one: the thumb is 22px against a 4px track, so most of its outline falls on the page and not on the track. Since #247 the track is the same colour as this outline, so against the track the outline does not separate at all; it is the page that carries identifiability, which is why the track has no filled portion any more. OKCA 4.4 light / 4.6 dark ✅"
     },
     {
       "id": "slider-track-on-page",
@@ -1200,7 +1200,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-slider rail. Until #247 the track was a filled/unfilled split, action-primary up to the value and border-strong after it, and each mode failed a different half: light, the unfilled track against the page; dark, the boundary between the halves. No single neutral fixed both, so the fill was dropped and the whole rail is the control boundary token; the thumb carries the value. Same colours as form-control-border-on-page, recorded separately because the rail is what shows the range the thumb moves in. OKCA 4.4 light / 3.9 dark ✅"
+      "note": "candor-slider rail. Until #247 the track was a filled/unfilled split, action-primary up to the value and border-strong after it, and each mode failed a different half: light, the unfilled track against the page; dark, the boundary between the halves. No single neutral fixed both, so the fill was dropped and the whole rail is the control boundary token; the thumb carries the value. Same colours as form-control-border-on-page, recorded separately because the rail is what shows the range the thumb moves in. OKCA 4.4 light / 4.6 dark ✅"
     },
     {
       "id": "slider-track-on-surface",
@@ -1210,7 +1210,57 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The slider rail inside a surface container, as in the slider's own All variants story, where every slider sits in a candor-card. OKCA 3.3 light / 3.2 dark ✅"
+      "note": "The slider rail inside a surface container, as in the slider's own All variants story, where every slider sits in a candor-card. OKCA 3.3 light / 3.9 dark ✅"
+    },
+    {
+      "id": "form-control-border-on-elevated",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.elevated}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The form-control boundary on an elevated surface: every option panel, the drawer, the modal and the chat input, so any form inside a dialog draws its borders here. Nothing recorded this pairing until #307, and dark measured 2.6 at the L 0.58 the token then had: the #217 gap again, one background further up. The dark token moved to L 0.62 — OKCA 4.4 light / 3.1 dark ✅"
+    },
+    {
+      "id": "scrollbar-thumb-on-page",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The visible scrollbar bar from utils/scrollbar.ts on a page-level scroller, such as candor-table or candor-data-grid. The grab area around it is transparent, so the bar is drawn straight on the scroller background (#307). OKCA 4.4 light / 4.6 dark ✅"
+    },
+    {
+      "id": "scrollbar-thumb-on-surface",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The scrollbar bar in candor-toolbar, whose background is bg-surface (#307). OKCA 3.3 light / 3.9 dark ✅"
+    },
+    {
+      "id": "scrollbar-thumb-on-elevated",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.elevated}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The scrollbar bar in the listbox, combobox and autocomplete panels, the drawer and modal bodies, and the chat input, all on bg-elevated. This is the pairing that set the dark token: at L 0.58 it was 2.6 (#307). OKCA 4.4 light / 3.1 dark ✅"
+    },
+    {
+      "id": "scrollbar-thumb-on-code",
+      "fg": "{color.border.strong}",
+      "bg": "{color.bg.code}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The scrollbar bar on a candor-article code block. bg-code is navy in both modes, and the default thumb (border-control) falls below the floor on it in light, so the article overrides the thumb to border-strong (#307). OKCA 7.6 light / 3.3 dark ✅"
     }
   ]
 }

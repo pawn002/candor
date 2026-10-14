@@ -1,6 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property, state, query } from 'lit/decorators.js';
 import { customElement } from '../../../utils/define';
+import { scrollbarStyles } from '../../../utils/scrollbar';
 import { phCaretDownBold } from '../../../icons';
 import { observeHostAriaLabel } from '../../../utils/host-aria';
 
@@ -39,7 +40,7 @@ export class CandorCombobox extends LitElement {
   static formAssociated = true;
   private _internals = this.attachInternals();
 
-  static override styles = css`
+  static override styles = [css`
     :host { display: block; }
     .combobox-wrapper {
       display: flex; flex-direction: column; gap: var(--spacing-xs); position: relative;
@@ -93,7 +94,13 @@ export class CandorCombobox extends LitElement {
     }
     .combobox__option {
       display: flex; align-items: center; justify-content: space-between;
-      padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
+      /* Inset rows (#307). The highlight floats inside the panel, so it can stop
+         short of the scrollbar lane without reading as cut off. The inline
+         padding gives back the margin, keeping option text in line with the
+         trigger. */
+      margin-inline: var(--spacing-2xs);
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-input-padding-y) calc(var(--spacing-input-padding-x) - var(--spacing-2xs));
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); cursor: pointer; user-select: none; gap: var(--spacing-xs);
     }
@@ -120,7 +127,7 @@ export class CandorCombobox extends LitElement {
       min-height: calc(var(--font-size-sm) * var(--line-height-normal));
     }
     .combobox__error { color: var(--color-status-error-text); font-size: var(--font-size-md); }
-  `;
+  `, scrollbarStyles('.combobox__dropdown')];
 
   @property() label = '';
   @property() value = '';

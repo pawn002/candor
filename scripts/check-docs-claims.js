@@ -511,6 +511,52 @@ if (referencedAssets.length > 0 && !externalsSet) {
   console.log(`  ✓ ${referencedAssets.length} rendered public/ asset(s), and externals is set`);
 }
 
+// ── scrollers: every component that scrolls draws Candor's scrollbar ─────────
+//
+// A scroller left to the browser draws the UA scrollbar: a light track in dark
+// mode, a 15px bar under 32px controls, a grab area nobody chose (#307). The
+// fix is the shared style in utils/scrollbar.ts, and this check is what keeps
+// a new scroller from shipping without it.
+//
+// The subjects are derived, not listed: any component whose styles declare
+// `overflow`, `overflow-x` or `overflow-y` as `auto` or `scroll` is a scroller,
+// and must call scrollbarStyles() or scrollbarRules(). A rule block that also
+// sets `scrollbar-width: none` is exempt. It has hidden its scrollbar on
+// purpose and provides its own affordance (candor-tabs' scroll buttons), so
+// there is no bar to style. Comments are stripped first, so a sentence about
+// `overflow-x: auto` cannot make a component a scroller.
+console.log('\nScrollers — every scrolling component uses the shared scrollbar');
+
+const SCROLL_DECL = /overflow(?:-[xy])?\s*:\s*[^;{}]*\b(?:auto|scroll)\b/g;
+const scrollers = [];
+const unstyled = [];
+for (const file of componentFiles) {
+  const src = stripComments(fs.readFileSync(file, 'utf8'));
+  let scrolls = false;
+  for (const m of src.matchAll(SCROLL_DECL)) {
+    const open = src.lastIndexOf('{', m.index);
+    const close = src.indexOf('}', m.index);
+    const block = src.slice(open, close);
+    if (/scrollbar-width\s*:\s*none/.test(block)) continue;
+    scrolls = true;
+  }
+  if (!scrolls) continue;
+  scrollers.push(file);
+  if (!/\bscrollbar(?:Styles|Rules)\s*\(/.test(src)) unstyled.push(path.relative(ROOT, file));
+  // The per-axis thumb rules do not reach a host's own scrollbar, so `:host`
+  // passes this check while drawing a flat block. Seen on candor-table.
+  else if (/\bscrollbar(?:Styles|Rules)\s*\(\s*['"`]:host/.test(src)) unstyled.push(`${path.relative(ROOT, file)} (passes ':host', which the thumb rules cannot reach — scroll an inner element)`);
+}
+
+if (unstyled.length > 0) {
+  fail(
+    `component(s) scroll without the shared scrollbar — add scrollbarStyles('<scroller selector>') from utils/scrollbar.ts to static styles (#307):\n      ` +
+      unstyled.join('\n      '),
+  );
+} else {
+  console.log(`  ✓ all ${scrollers.length} scrolling components use the shared scrollbar`);
+}
+
 if (failed) {
   console.log(
     '\n✖ documentation claims do not match the build.' +
