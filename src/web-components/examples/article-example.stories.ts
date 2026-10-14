@@ -22,7 +22,7 @@ layout, not a canonical pattern. Treat them as a starting point, not a prescript
 They use \`<candor-navigation>\`, \`<candor-article>\`, \`<candor-badge>\`, \`<candor-button>\`,
 \`<candor-card>\`, and the framework-agnostic \`candor-blog.css\` post-card token layer.
 
-**BlogPost**: a full reading view: navigation shell, post metadata (tags, date, reading
+**BlogPost**: a full reading view with a navigation shell, post metadata (tags, date, reading
 time), optional hero image, and a \`<candor-article>\` body rendered in Noto Serif.
 
 **PostListing**: a featured card (large image, full excerpt) followed by standard cards.
