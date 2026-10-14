@@ -577,11 +577,44 @@ console.log('\nEm dashes — none in consumer-facing copy');
 const EM_DASH = '—';
 const DOCS_WORKING_RECORDS = new Set(['A11Y-AUDIT.md', 'LESSONS-LEARNED.md', 'CONSCIENCE.md']);
 
-// Blank comments while keeping every newline, so reported line numbers hold.
-const maskComments = (src) =>
-  src
-    .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
-    .replace(/^(\s*)\/\/.*$/gm, (m) => m.replace(/./g, ' '));
+// [start, end) of every lit `html` template body. Text inside one is rendered,
+// even when it looks like a comment: a code sample in a story renders its `//`
+// lines as visible text, and the first version of this check masked them.
+function htmlTemplateRanges(src) {
+  const ranges = [];
+  const re = /\bhtml\s*`/g;
+  let hit;
+  while ((hit = re.exec(src))) {
+    let i = re.lastIndex;
+    let depth = 0;
+    while (i < src.length) {
+      const c = src[i];
+      if (c === '\\') { i += 2; continue; }
+      if (depth === 0 && c === '`') break;
+      if (c === '$' && src[i + 1] === '{') { depth++; i += 2; continue; }
+      if (depth > 0 && c === '{') depth++;
+      else if (depth > 0 && c === '}') depth--;
+      i++;
+    }
+    ranges.push([re.lastIndex, i]);
+  }
+  return ranges;
+}
+
+// Blank what no reader sees, keeping every newline so reported line numbers
+// hold. `/* */` and `<!-- -->` never render, inside a template or out (a CSS
+// comment in a style attribute is still a comment). A `//` line is a comment
+// only outside an html template; inside one it is visible text.
+const maskComments = (src) => {
+  const ranges = htmlTemplateRanges(src);
+  const rendered = (at) => ranges.some(([a, b]) => at >= a && at < b);
+  const blankAll = (m) => m.replace(/[^\n]/g, ' ');
+  const blankOutside = (m, ...rest) => (rendered(rest[rest.length - 2]) ? m : blankAll(m));
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, blankAll)
+    .replace(/<!--[\s\S]*?-->/g, blankAll)
+    .replace(/^[ \t]*\/\/.*$/gm, blankOutside);
+};
 
 const dashLines = (text, offsetLine = 0) =>
   text.split('\n').flatMap((l, i) => (l.includes(EM_DASH) ? [offsetLine + i + 1] : []));

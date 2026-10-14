@@ -279,7 +279,7 @@ export const AIChatInterface: Story = {
                       <p>A navy starting point, every value inside sRGB:</p>
                       <div class="code-block">
                         <pre tabindex="0"><code>// Candor's 4.5 floor on the page. Chroma is at the sRGB
-// boundary for each L — raise it and the value stops
+// boundary for each L. Raise it and the value stops
 // naming a colour any display can render.
 --color-brand:        oklch(0.45 0.12 250);  // OKCA 6.4 on page ✅
 --color-brand-hover:  oklch(0.38 0.10 250);  // OKCA 8.9 on page ✅
@@ -384,7 +384,7 @@ export const AIChatInterface: Story = {
                       <p>Same hue, and chroma tapers as you climb. But note <em>why</em>:</p>
                       <div class="code-block">
                         <pre tabindex="0"><code>// Chroma is at the sRGB boundary at each L, not a
-// stylistic choice — the gamut gives you less of it
+// stylistic choice: the gamut gives you less of it
 // the lighter you go.
 --color-brand-dark:        oklch(0.76 0.12 250);  // OKCA 5.9 on dark page ✅
 --color-brand-dark-hover:  oklch(0.80 0.10 250);  // OKCA 8.0 on dark page ✅
