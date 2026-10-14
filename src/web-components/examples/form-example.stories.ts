@@ -268,7 +268,7 @@ export const FileUpload: Story = {
     <main style="max-width: 500px; padding: var(--spacing-lg);">
       <candor-heading level="h2" style="margin-bottom: var(--spacing-xs);">Upload files</candor-heading>
       <candor-text variant="body" style="display: block; margin-bottom: var(--spacing-lg); color: var(--color-text-subtle);">
-        3 files queued, uploading 1 of 3.
+        3 files queued, uploading 2 of 3.
       </candor-text>
 
       <div style="display: flex; flex-direction: column; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
