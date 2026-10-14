@@ -103,7 +103,7 @@ export const AZURE_GAMUT_ROWS = buildGamutRows(
 export const AZURE_GAMUT_HEADERS = ['C 0.039', 'C 0.086', 'C 0.133', 'C 0.180', 'C 0.227', 'C 0.274', 'C 0.321'];
 
 // ─── Indigo — H 278.14 ───────────────────────────────────────────────────────
-// Anchor: L=0.60 C=0.210 (indigo-500, brand anchor → --color-highlight)
+// Anchor: L=0.60 C=0.210 (indigo-500, brand anchor)
 export const INDIGO_GAMUT_ROWS = buildGamutRows(
   (() => {
     const L = [0.9333, 0.8222, 0.7111, 0.6000, 0.4889, 0.3778, 0.2667, 0.1556, 0.0444];

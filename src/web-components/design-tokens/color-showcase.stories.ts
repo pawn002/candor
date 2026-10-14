@@ -105,13 +105,6 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     ],
   },
   {
-    name: 'Highlight',
-    description: 'Inline code in burgundy (hue=347), clearly distinct from indigo visited links.',
-    colors: [
-      { name: 'Highlight', variable: '--color-highlight', description: 'Inline code text in burgundy, clearly distinct from indigo visited links' },
-    ],
-  },
-  {
     name: 'Status: Error',
     description: 'Orange-red (hue=25) for failure states and validation errors',
     colors: [

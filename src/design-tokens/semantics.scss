@@ -83,10 +83,6 @@
     --color-link-hover:   var(--azure-600);   // OKCA 6.4 on white ✅
     --color-link-visited: var(--indigo-700);  // OKCA 5.8 on white ✅ — honors universal :visited convention
 
-    // ─── Colors: Highlight (burgundy) ─────────────────────────────────────────
-    // Inline code — burgundy-700, clearly distinct from indigo visited links (ΔE 0 collision fixed).
-    --color-highlight: var(--burgundy-700); // OKCA 6.9 on bg-surface ✅, OKCA 9.3 on page ✅
-
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
     // A burgundy-hued tint about deltaE 11 from the page in both modes, replacing the
     // filled navy-800 panel (deltaE 79 from white), which was hard to read at length.
@@ -350,10 +346,6 @@
     --color-link:         var(--azure-300);   // OKCA 6.3 on bg-page ✅
     --color-link-hover:   var(--azure-200);   // OKCA 11.2 on bg-page ✅
     --color-link-visited: var(--indigo-300);  // OKCA 6.6 on bg-page ✅
-
-    // ─── Highlight (burgundy) ─────────────────────────────────────────────────
-    // burgundy-200 — inline code on the dark ramp.
-    --color-highlight: var(--burgundy-200); // OKCA 9.7 on bg-surface ✅, OKCA 11.6 on bg-page ✅
 
     // ─── Focus ─────────────────────────────────────────────────────────────
     --color-focus: var(--azure-300); // OKCA 6.3 on bg-page ✅

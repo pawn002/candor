@@ -913,13 +913,13 @@
     },
     {
       "id": "article-inline-code",
-      "fg": "{color.highlight}",
-      "bg": "{color.bg.surface}",
+      "fg": "{color.text.code}",
+      "bg": "{color.bg.code}",
       "size": 14,
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Inline code burgundy on surface — Tier 2 functional UI at 14px regular (6.5 floor)"
+      "note": "Inline code in candor-article: the same pair as code-inline and the code block, since inline code and blocks share one treatment. Tier 2 Functional at 14px regular. OKCA 8.2 light / 11.9 dark"
     },
     {
       "id": "article-code-block",

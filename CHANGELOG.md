@@ -66,6 +66,12 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
 
 **Migration:** replace `var(--color-highlight-decorative)` with `var(--indigo-500)` in light and `var(--indigo-400)` in dark, or with a semantic token that fits the use. It was a non-text colour; it must not be used for text.
 
+#### `--color-highlight` removed; inline code uses the code tokens
+
+**Why:** Candor had two looks for inline code. `<candor-code>` drew the `--color-bg-code` / `--color-text-code` pair, and `candor-article` drew burgundy `--color-highlight` text on a grey surface, so the same thing looked different depending on where it sat. Inline code in `candor-article` and `article.scss` now uses the code tokens, the same treatment as `<candor-code>` and code blocks. Its size is clamped to the 14px floor the way `<candor-code>` already was. That left `--color-highlight` with no consumer. Sixteen hand-rolled `<code style>` chips in the Design Tokens stories, which copied the article look and in places sized it below 14px, are now `<candor-code>`.
+
+**Migration:** replace `color: var(--color-highlight)` on inline code with `<candor-code>`, or with `background-color: var(--color-bg-code); color: var(--color-text-code);` and a `--color-border-code` border. For burgundy text on any other element, use `var(--burgundy-700)` in light and `var(--burgundy-200)` in dark.
+
 ### Fixed
 
 - **`candor-tabs`: each tab is now tied to its panel for screen readers (#333).** A tab's `aria-controls` named an id inside `candor-tab-panel`'s shadow root, which an id in another tree can never reach, so the link from tab to panel was lost. The `candor-tab-panel` element is now the `tabpanel` and the tab stop itself, and each tab points at it through element reflection (`ariaControlsElements`), which can cross into an ancestor tree where ids cannot. Selectors that targeted the inner `[role="tabpanel"]` should target `candor-tab-panel` instead.
