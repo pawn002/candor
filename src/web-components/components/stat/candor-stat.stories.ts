@@ -90,9 +90,9 @@ export const ContrastRatio: Story = {
         <div style="padding:var(--spacing-xs) 0;">
           <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning">
             <div style="display:flex;gap:var(--spacing-xs);flex-wrap:wrap;justify-content:center;">
-              <candor-badge variant="error" size="sm">AA text ✗</candor-badge>
-              <candor-badge variant="success" size="sm">Large text ✓</candor-badge>
-              <candor-badge variant="success" size="sm">Non-text ✓</candor-badge>
+              <candor-badge variant="error" size="sm">AA text: fails</candor-badge>
+              <candor-badge variant="success" size="sm">Large text: passes</candor-badge>
+              <candor-badge variant="success" size="sm">Non-text: passes</candor-badge>
             </div>
             <candor-accessible-text role_="annotation" color="secondary" style="text-align:center;display:block;">
               Needs 4.5:1 for AA · 7:1 for AAA
