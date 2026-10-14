@@ -410,6 +410,20 @@ async function openStory(page: Page, id: string) {
   await page.locator('body.sb-show-main #storybook-root > *').first().waitFor();
 }
 
+test.describe('candor-accordion-item', () => {
+  test('closing a nested item leaves its parent open', async ({ page }) => {
+    await openStory(page, 'components-accordion--hierarchy-variants');
+    const parent = page.locator('candor-accordion-item[heading="Contrast settings"]');
+    const child = page.locator('candor-accordion-item[heading="Algorithm options"]');
+    await expect(child).toHaveJSProperty('open', true);
+
+    await child.locator('summary').click();
+
+    await expect(child).toHaveJSProperty('open', false);
+    await expect(parent).toHaveJSProperty('open', true);
+  });
+});
+
 test.describe('containment', () => {
   test('a tooltip inside candor-toolbar is shown in the top layer, outside the toolbar (#259)', async ({ page }) => {
     await openStory(page, 'components-tooltip--in-toolbar');
