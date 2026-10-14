@@ -112,7 +112,7 @@ The attribute is named \`role_\` (trailing underscore) because \`role\` is a res
     },
     bold: {
       control: 'boolean',
-      description: 'Bold weight, for hierarchy/labels only, not urgency',
+      description: 'Bold weight. For hierarchy and labels, not urgency.',
     },
   },
   args: { role_: 'label', color: 'primary', tone: 'info', bold: false },
