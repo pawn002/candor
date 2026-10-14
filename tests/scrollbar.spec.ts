@@ -217,7 +217,24 @@ for (const tag of subjects) {
       void node.offsetWidth;
       node.style[prop] = was;
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      // The drawer slides in and the modal fades in. Measured mid-transition, the
+      // rect is stale by the time the screenshot is taken and the strip lands
+      // partly off the panel: this failed once in CI on the drawer, 21px
+      // "differing" instead of 6. document.getAnimations() includes animations
+      // inside shadow roots, so this waits for those too.
+      await Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined)));
       node.scrollIntoView({ block: 'center', inline: 'center' });
+      // Then wait for the position itself to hold for a few frames. The animation
+      // wait alone still let the drawer's last sub-pixel of travel through
+      // locally, 4 runs in 10.
+      let last = '';
+      for (let stable = 0, i = 0; stable < 3 && i < 120; i++) {
+        await new Promise((r) => requestAnimationFrame(r));
+        const q = node.getBoundingClientRect();
+        const key = [q.left, q.top, q.right, q.bottom].join();
+        stable = key === last ? stable + 1 : 0;
+        last = key;
+      }
       const cs = getComputedStyle(node);
       const b = (s: string) => parseFloat(cs.getPropertyValue(`border-${s}-width`)) || 0;
       const r = node.getBoundingClientRect();
@@ -255,11 +272,14 @@ for (const tag of subjects) {
       : { x: Math.round(geo.rect.left + geo.border.left + along), y: Math.round(geo.rect.bottom - geo.border.bottom - size), width: 1, height: Math.round(size) };
 
     // 3. The visible bar is the token's thickness: count pixels across the lane
-    // that differ from the outermost one, which is spacing, not bar.
+    // that differ from the middle of the outer spacing. Not the outermost pixel:
+    // that one sits on the container's edge, and a sub-pixel position blends it
+    // with whatever is beyond (the drawer's backdrop, in CI).
     const png = decodePng(await page.screenshot({ clip, scale: 'css' }));
     const across = fixture.axis === 'y' ? png.width : png.height;
     const at = (i: number) => (fixture.axis === 'y' ? png.px(i, 0) : png.px(0, i));
-    const ref = at(across - 1);
+    const outerGap = await tokenPx(page, '--scrollbar-inset-outer');
+    const ref = at(across - 1 - Math.floor(outerGap / 2));
     let barPx = 0;
     for (let i = 0; i < across; i++) {
       const p = at(i);
@@ -267,8 +287,8 @@ for (const tag of subjects) {
     }
     expect(
       Math.abs(barPx - thumbSize),
-      `${tag}: ${barPx}px across the lane differ from its outer edge, --scrollbar-thumb-size is ${thumbSize}px. ` +
-        `0 means the outer edge is bar too: the bar fills the lane, with no spacing around it`,
+      `${tag}: ${barPx}px across the lane differ from its outer spacing, --scrollbar-thumb-size is ${thumbSize}px. ` +
+        `0 means the outer spacing is bar too: the bar fills the lane, with no spacing around it`,
     ).toBeLessThanOrEqual(1.5);
 
     // 2. Dragging from 2px inside the outer edge, in the spacing, scrolls.
