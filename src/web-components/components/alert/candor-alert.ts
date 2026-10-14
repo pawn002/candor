@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
-import { phInfoFill, phCheckCircleFill, phWarningFill, phXCircleFill, phX } from '../../icons';
+import { phInfoBold, phCheckCircleBold, phWarningBold, phXCircleBold, phXBold } from '../../icons';
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 
@@ -97,10 +97,10 @@ export class CandorAlert extends LitElement {
 
   private _iconPath() {
     switch (this.variant) {
-      case 'info':    return phInfoFill;
-      case 'success': return phCheckCircleFill;
-      case 'warning': return phWarningFill;
-      case 'error':   return phXCircleFill;
+      case 'info':    return phInfoBold;
+      case 'success': return phCheckCircleBold;
+      case 'warning': return phWarningBold;
+      case 'error':   return phXCircleBold;
     }
   }
 
@@ -115,7 +115,7 @@ export class CandorAlert extends LitElement {
         </div>
         ${this.dismissible ? html`
           <button class="alert__dismiss" @click="${this._dismiss}" aria-label="Dismiss">
-            <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phX}"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phXBold}"/></svg>
           </button>
         ` : ''}
       </div>

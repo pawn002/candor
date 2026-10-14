@@ -110,15 +110,15 @@ const HELP_ROW_STYLE = 'grid-column:1 / -1;display:grid;grid-template-columns:su
 // The icon-only button pattern from Design Tokens/Icons (Pattern B): the name
 // is `aria-label` on the host, so a screen reader hears the full "About OKCA" —
 // a name that has to stand alone, since it is a separate stop — and the glyph
-// is aria-hidden. Fill weight, because the icon is the button's only content
-// and the button is an action (#296 questions whether fill is too heavy here).
-// 1.5rem rather than the pattern's 1.25rem: Phosphor's info disc fills only
-// about 80% of its em box, and the "i" inside it needs the extra size to read.
-// Padding-x is pulled to the small size's padding-y so the button is square.
+// is aria-hidden. Fill weight, because it is an action (#296). 1.75rem in the
+// subtle colour: the "i" is cut out of the disc and needs the size to read, and
+// the subtle colour keeps the disc from outweighing the radio circles beside
+// it. Padding is cut to 2px, (32px button - 28px glyph) / 2, so the button
+// stays the small size's 32px square.
 const infoButton = (topic: string) => html`
   <candor-button slot="end" variant="ghost" size="small" aria-label="About ${topic}"
-    style="--candor-button-padding-x:var(--spacing-button-padding-y-sm);">
-    <i class="ph-fill ph-info" style="font-size:1.5rem;line-height:1;" aria-hidden="true"></i>
+    style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;">
+    <i class="ph-fill ph-info" style="font-size:1.75rem;line-height:1;color:var(--color-text-subtle);" aria-hidden="true"></i>
   </candor-button>
 `;
 

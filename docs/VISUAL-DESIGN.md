@@ -231,15 +231,21 @@ Images that serve none of these are filler, and filler signals that no one made 
 
 ### Icon weight semantics
 
-Candor's icon system is **Phosphor Icons** — a humanist family (rounded, even strokes, no sharp corners) that matches the typefaces. Phosphor ships three weights, and the weight is not a stylistic choice: it encodes the icon's *role*. Reaching for the wrong weight is the same class of error as setting a form label in Noto Serif.
+Candor's icon system is **Phosphor Icons** — a humanist family (rounded, even strokes, no sharp corners) that matches the typefaces. Phosphor ships three weights, and the weight is not a stylistic choice: it tells the reader whether they can do something with the icon. Reaching for the wrong weight is the same class of error as setting a form label in Noto Serif.
+
+**The model: a filled shape means you can act on it.** Everything that is not an action is drawn as a stroke. This is what makes fill a reliable signal, so it holds without exceptions (#296).
 
 | Weight | Base class | When to use | Why |
 |---|---|---|---|
-| **Fill** | `ph-fill` | Action icons — close, dismiss, add, search, download | Solid forms read as "tappable objects" — the fill signals intent to act |
-| **Bold** | `ph-bold` | Directional affordances — carets, chevrons, arrows | A bold outline is enough for a directional cue; fill would over-weight a subtle hint |
-| **Regular** | `ph` | Informational / status — alerts, badges, metadata, decoration | The lighter weight recedes; the adjacent text or color carries the meaning |
+| **Fill** | `ph-fill` | Actions — search, download, delete, settings, help | A solid shape reads as something you can press |
+| **Bold** | `ph-bold` | Actions whose glyph is only strokes — close, add, remove, confirm, more (✕ + − ✓ ⋮). Icons that inform — status, carets and arrows, selection checks | A stroke-only glyph has no fill form: Phosphor draws it inside a box. An icon that informs is not pressable, so it is never filled; bold holds its shape at small sizes |
+| **Regular** | `ph` | Inside or beside text whose words carry the meaning — metadata, list markers | The lightest weight; it recedes into the text it accompanies |
 
-**Bold is reserved for directional affordances only** — carets, chevrons, arrows. It is not an emphasis weight. Using `ph-bold` for a dismiss control, an action button, or any icon that isn't pointing somewhere is the most common misuse (a dismiss "✕" is an action → `ph-fill`, not `ph-bold`). Bold's single job is "this points in a direction."
+**Stroke-only glyphs are decided by the glyph, not by judgement.** Look at the fill version: if it is a box or a bar with the glyph cut out (✕, +, −, ✓, ⋮), use bold. Glyphs with an enclosed shape (info, search, trash, gear, pencil) have a real fill form and stay fill.
+
+**Status icons are bold.** `candor-alert`, `candor-toast` and `candor-accessible-text role_="state"` render them bold. They are the redundant channel that lets status text sit at Tier 3, so they must keep a clear shape, but they are not pressable, and filling them would make fill mean two things. The cost was measured before it was accepted: on a tinted status background a bold outline stands out less than a filled shape, and at 14px the mark inside the circle is about 1.3px. If that proves too faint in use, the fix is to size the icon up, not to fill it.
+
+**Icon-only buttons draw the fill glyph at 1.75rem in `--color-text-subtle`, with the button padding cut to 2px.** A fill glyph's detail is cut out of the solid shape, and at 1.25rem the "i" in the info disc is about 1.3px wide. 1.75rem makes the cut-out readable; 2px padding, (32px − 28px) / 2, keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the outlined radios, checkboxes and labels beside them. An icon inside a labelled button follows the button's text size and colour instead.
 
 There is no `ph-regular` class — the regular weight's base class is simply `ph`. Never put two weight classes on one element; each weight sets `font-family: !important` and the last-imported one silently wins.
 
@@ -250,7 +256,7 @@ See the Storybook **Design Tokens → Icons** page for the full reference — in
 | Trap | What it looks like | Fix |
 |---|---|---|
 | Decorative icons on headings | A trophy icon next to "Results" | Remove it; the heading level is the signal |
-| Wrong icon weight for the role | A dismiss "✕" set in `ph-bold` | Actions are `ph-fill`; `ph-bold` is for directional cues only |
+| Wrong icon weight for the role | A status icon set in `ph-fill`, or a dismiss "✕" set in `ph-fill` (it renders as a boxed ✕) | Fill only for actions with a fill form; status and stroke-only glyphs are `ph-bold` |
 | Color-only status dots | A red circle with no label, no icon | Add a label or shape; color cannot be the sole channel |
 | Stock imagery disconnected from palette | Cool-tone hero photo on a warm-neutral page | Recolor, overlay, or replace |
 | Chart palette drift | Bar chart uses `#e74c3c` for "error" | Use `--color-status-error` or OKLCH-derived chart tokens |
