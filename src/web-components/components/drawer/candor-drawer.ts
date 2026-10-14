@@ -158,7 +158,7 @@ export class CandorDrawer extends LitElement {
       transition: background 0.15s ease, color 0.15s ease;
     }
     .drawer__close:hover {
-      background: var(--color-action-tertiary-hover);
+      background: var(--color-bg-hover);
       color: var(--color-text-default);
     }
     .drawer__close:focus-visible {

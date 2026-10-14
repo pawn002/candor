@@ -32,6 +32,14 @@
             "aliasOf": "--gray-0"
           }
         },
+        "hover": {
+          "$type": "color",
+          "$value": "oklch(0.81 0 0)",
+          "$description": "Hover fill for transparent controls: ghost buttons and close/dismiss actions. It must read on page, surface and elevated alike, which bg-subtle cannot (deltaE 3 from surface in light). deltaE 14 / 8 / 14 from page / surface / elevated (#322). — text-default OKCA 6.0 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--gray-300"
+          }
+        },
         "inverse": {
           "$type": "color",
           "$value": "oklch(0.27 0.06 245.34)",
@@ -414,6 +422,11 @@
           "$type": "color",
           "$value": "oklch(0.30 0.02 248)",
           "$description": "one step above surface — matches cool undertone"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "oklch(0.40 0.03 248.99)",
+          "$description": "Between gray-cool-700 and -600: light enough to clear deltaE 9 from elevated, dark enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#322). — text-default OKCA 5.7 on this bg ✅"
         },
         "inverse": {
           "$type": "color",

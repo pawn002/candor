@@ -93,8 +93,9 @@ export class CandorButton extends LitElement {
     .button--tertiary:hover:not(:disabled) { background-color: var(--color-action-tertiary-hover); }
     .button--tertiary:active:not(:disabled) { background-color: oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h); }
     .button--ghost { background-color: transparent; color: var(--color-text-default); }
-    .button--ghost:hover:not(:disabled) { background-color: var(--color-bg-surface); }
-    .button--ghost:active:not(:disabled) { background-color: oklch(from var(--color-bg-surface) calc(l - 0.06) c h); }
+    /* Not bg-surface: that is the colour of a card or a striped row, so the hover vanished there (#322). */
+    .button--ghost:hover:not(:disabled) { background-color: var(--color-bg-hover); }
+    .button--ghost:active:not(:disabled) { background-color: oklch(from var(--color-bg-hover) calc(l - 0.04) c h); }
   `;
 
   @property({ reflect: true }) variant: ButtonVariant = 'primary';

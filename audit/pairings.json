@@ -462,6 +462,26 @@
       "note": "Ghost button is transparent-filled too, so it has the same two backgrounds. Passes with margin in both modes — OKCA 8.6 light / 10.7 dark ✅ (#224)."
     },
     {
+      "id": "button-ghost-hover",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.hover}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Ghost button label on its hover fill. The fill was bg-surface, which vanished on cards and striped rows (#322). OKCA 6.0 light / 5.7 dark"
+    },
+    {
+      "id": "dismiss-icon-hover",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.hover}",
+      "size": 16,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "Close/dismiss glyph on hover in candor-toast, candor-alert, candor-modal and candor-drawer, which all share bg-hover (#322). OKCA 6.0 light / 5.7 dark"
+    },
+    {
       "id": "button-destructive",
       "fg": "{color.action.destructive-text}",
       "bg": "{color.bg.page}",

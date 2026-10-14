@@ -28,6 +28,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Page', variable: '--color-bg-page', description: 'Page floor' },
       { name: 'Surface', variable: '--color-bg-surface', description: 'Cards and panels' },
       { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill for hover rows, selection and hover chips. One step beyond surface; direction flips per theme' },
+      { name: 'Hover', variable: '--color-bg-hover', description: 'Hover fill for ghost buttons and close actions. Reads on page, surface and elevated alike' },
       { name: 'Elevated', variable: '--color-bg-elevated', description: 'Shadow-lifted surface' },
       { name: 'Inverse', variable: '--color-bg-inverse', description: 'Dark inverse surface. Flips in dark mode' },
     ],
