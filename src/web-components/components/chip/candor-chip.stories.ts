@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 
 import './candor-chip';
 
@@ -45,8 +45,8 @@ has the same semantics and the same payload.
     selected: { control: 'boolean', type: { name: 'boolean' }, description: 'Selected state (when selectable)' },
     linkHref: { control: 'text', type: { name: 'string' }, description: 'href; when set, renders as <a> (mutually exclusive with selectable and dismissible)' },
   },
-  args: { label: 'Tag', variant: 'default', selectable: false, dismissible: false, disabled: false, selected: false },
-  render: (args) => html`<candor-chip label="${args['label']}" variant="${args['variant']}" ?selectable=${args['selectable']} ?dismissible=${args['dismissible']} ?disabled=${args['disabled']} ?selected=${args['selected']}></candor-chip>`,
+  args: { label: 'Tag', variant: 'default', selectable: true, dismissible: false, disabled: false, selected: false, linkHref: '' },
+  render: (args) => html`<candor-chip label="${args['label']}" variant="${args['variant']}" ?selectable=${args['selectable']} ?dismissible=${args['dismissible']} ?disabled=${args['disabled']} ?selected=${args['selected']} link-href=${args['linkHref'] || nothing}></candor-chip>`,
 };
 
 export default meta;
@@ -77,12 +77,12 @@ export const Dismissible: Story = {
 export const AllVariants: Story = {
   render: () => html`
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-      <candor-chip label="Default"></candor-chip>
-      <candor-chip label="Primary" variant="primary"></candor-chip>
-      <candor-chip label="Secondary" variant="secondary"></candor-chip>
-      <candor-chip label="Success" variant="success"></candor-chip>
-      <candor-chip label="Warning" variant="warning"></candor-chip>
-      <candor-chip label="Error" variant="error"></candor-chip>
+      <candor-chip label="Default" selectable selected></candor-chip>
+      <candor-chip label="Primary" variant="primary" selectable></candor-chip>
+      <candor-chip label="Secondary" variant="secondary" selectable></candor-chip>
+      <candor-chip label="Success" variant="success" selectable></candor-chip>
+      <candor-chip label="Warning" variant="warning" selectable></candor-chip>
+      <candor-chip label="Error" variant="error" selectable></candor-chip>
     </div>
   `,
 };

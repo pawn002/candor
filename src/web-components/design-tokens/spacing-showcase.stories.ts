@@ -130,9 +130,9 @@ export const SpacingInComponents: Story = {
       <div>
         <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Tight: spacing-xs (8px)</p>
         <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
-          <candor-chip label="Item 1"></candor-chip>
-          <candor-chip label="Item 2"></candor-chip>
-          <candor-chip label="Item 3"></candor-chip>
+          <candor-chip label="Item 1" selectable></candor-chip>
+          <candor-chip label="Item 2" selectable></candor-chip>
+          <candor-chip label="Item 3" selectable></candor-chip>
         </div>
       </div>
 

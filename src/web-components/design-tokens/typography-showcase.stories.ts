@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import '../components/alert/candor-alert';
 import '../components/card/candor-card';
-import '../components/chip/candor-chip';
+import '../components/badge/candor-badge';
 import '../components/table/candor-table';
 import { allModes } from '../../../.storybook/modes';
 
@@ -62,7 +62,7 @@ const renderShowcase = () => html`
         ${FONT_FAMILIES.map(f => {
           const isInterp = f.mode === 'Interpretation';
           const accentColor = isInterp ? 'var(--color-action-secondary)' : 'var(--color-action-primary)';
-          const chipVariant = isInterp ? 'secondary' : 'primary';
+          const badgeVariant = isInterp ? 'secondary' : 'primary';
           return html`
             <candor-card variant="default" padding="none">
               <div style="height: var(--border-width-thick); background: ${accentColor};"></div>
@@ -70,8 +70,8 @@ const renderShowcase = () => html`
               <div style="padding: var(--spacing-md);">
                 <div style="font-family: var(--font-family-base); font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin-bottom: var(--spacing-xs);">${f.name}</div>
                 <div style="display: flex; gap: var(--spacing-xs); margin-bottom: var(--spacing-xs); flex-wrap: wrap; align-items: center;">
-                  <candor-chip variant="${chipVariant}" label="${f.mode}"></candor-chip>
-                  <candor-chip label="${f.voice}"></candor-chip>
+                  <candor-badge size="sm" variant="${badgeVariant}">${f.mode}</candor-badge>
+                  <candor-badge size="sm">${f.voice}</candor-badge>
                 </div>
                 <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-normal);">${f.use}</p>
                 <code style="display: block; font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm);">${f.variable}</code>
