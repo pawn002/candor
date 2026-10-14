@@ -160,7 +160,7 @@ export const RegistrationForm: Story = {
           <candor-select label="Country" placeholder="Select your country" required options='${COUNTRY_OPTIONS}'></candor-select>
 
           <fieldset style="border: none; padding: 0; margin: 0;">
-            <legend style="font-family: var(--font-family-accessible); font-weight: var(--font-weight-bold); letter-spacing: 0.02em; color: var(--color-text-default); margin-bottom: 0.75rem;">Account Type</legend>
+            <legend style="font-family: var(--font-family-accessible); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-body); color: var(--color-text-default); margin-bottom: 0.75rem;">Account Type</legend>
             <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
               <candor-radio label="Personal Account" name="accountType" value="personal" checked></candor-radio>
               <candor-radio label="Business Account" name="accountType" value="business"></candor-radio>

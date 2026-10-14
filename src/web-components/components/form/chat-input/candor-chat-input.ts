@@ -95,7 +95,7 @@ export class CandorChatInput extends LitElement {
     .chat-input__disclaimer {
       margin: 0; text-align: center;
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      color: var(--color-text-subtle); letter-spacing: 0.02em;
+      color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body);
       line-height: var(--line-height-normal);
     }
   `, scrollbarStyles('.chat-input__textarea')];

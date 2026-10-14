@@ -253,7 +253,7 @@ const renderReferenceTable = (categories: ColorCategory[]) => html`
           font-family: var(--font-family-accessible);
           font-size: var(--font-size-sm);
           color: var(--color-text-default);
-          letter-spacing: 0.02em;
+          letter-spacing: var(--letter-spacing-body);
         ">
           <thead>
             <tr>

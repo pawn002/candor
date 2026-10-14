@@ -116,7 +116,7 @@ const renderShowcase = () => html`
               <div style="font-family: var(--font-family-base); font-weight: var(--font-weight-semibold); color: var(--color-text-default); line-height: 1; text-align: right; font-optical-sizing: auto; font-size: ${s.size};">Aa</div>
               <div style="display: flex; align-items: baseline; gap: var(--spacing-sm); flex-wrap: wrap;">
                 <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.4em; border-radius: var(--radius-sm); flex-shrink: 0;">${s.token}</code>
-                <span style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; flex-shrink: 0;">${s.size} · ${s.px}</span>
+                <span style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body); flex-shrink: 0;">${s.size} · ${s.px}</span>
                 <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">${s.use}</span>
               </div>
             </div>

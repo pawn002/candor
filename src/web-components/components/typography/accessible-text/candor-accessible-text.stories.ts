@@ -188,9 +188,9 @@ export const FontComparison: Story = {
       <div style="display:flex;flex-direction:column;gap:0.75rem;font-family:var(--font-family-base);">
         <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Roboto Flex</p>
         <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;line-height:var(--line-height-tight);">FORM LABEL</span>
-        <span style="font-size:var(--font-size-md);letter-spacing:0.02em;line-height:var(--line-height-normal);">The quick brown fox jumps over the lazy dog.</span>
-        <span style="font-size:var(--font-size-sm);letter-spacing:0.02em;line-height:var(--line-height-relaxed);font-style:italic;color:var(--color-text-subtle);">Supplementary annotation for context.</span>
-        <span style="font-size:var(--font-size-md);letter-spacing:0.02em;line-height:var(--line-height-tight);color:var(--color-status-error-text);">Error: This field is required.</span>
+        <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-normal);">The quick brown fox jumps over the lazy dog.</span>
+        <span style="font-size:var(--font-size-sm);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-relaxed);font-style:italic;color:var(--color-text-subtle);">Supplementary annotation for context.</span>
+        <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-tight);color:var(--color-status-error-text);">Error: This field is required.</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.75rem;">
         <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible</p>

@@ -229,6 +229,7 @@
     --letter-spacing-relaxed: 0.03em; // moderate tracking for small body text, captions — between normal and wide
     --letter-spacing-wide:    var(--tracking-wide);
     --letter-spacing-italic: 0.02em; // italic text at body size (16px) — slant reduces apparent inter-glyph space
+    --letter-spacing-body:   0.02em; // Atkinson prose-like text (messages, hints, disclaimers): enough air that "rr" never reads as "m", little enough to read as a sentence rather than a label
 }
 
 // ─── Theme Overrides ────────────────────────────────────────────────────────

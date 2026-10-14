@@ -120,7 +120,7 @@ export const AIChatInterface: Story = {
                 font-family: var(--font-family-accessible);
                 font-size: var(--font-size-sm);
                 color: var(--color-text-subtle);
-                letter-spacing: 0.02em;
+                letter-spacing: var(--letter-spacing-body);
               ">Design token naming</a>
               <a href="#" style="
                 display: block;
@@ -131,7 +131,7 @@ export const AIChatInterface: Story = {
                 font-family: var(--font-family-accessible);
                 font-size: var(--font-size-sm);
                 color: var(--color-text-subtle);
-                letter-spacing: 0.02em;
+                letter-spacing: var(--letter-spacing-body);
               ">Tonal palette from hex</a>
               <a href="#" style="
                 display: block;
@@ -141,7 +141,7 @@ export const AIChatInterface: Story = {
                 font-family: var(--font-family-accessible);
                 font-size: var(--font-size-sm);
                 color: var(--color-text-subtle);
-                letter-spacing: 0.02em;
+                letter-spacing: var(--letter-spacing-body);
               ">Dark mode contrast strategy</a>
             </nav>
           </aside>
@@ -186,7 +186,7 @@ export const AIChatInterface: Story = {
                   font-size: var(--font-size-sm);
                   font-weight: var(--font-weight-bold);
                   color: var(--color-text-subtle);
-                  letter-spacing: 0.02em;
+                  letter-spacing: var(--letter-spacing-body);
                   margin: 0 0 0.25rem;
                   padding-right: 2.625rem;
                 ">You</p>
@@ -234,7 +234,7 @@ export const AIChatInterface: Story = {
                   font-size: var(--font-size-sm);
                   font-weight: var(--font-weight-bold);
                   color: var(--color-text-subtle);
-                  letter-spacing: 0.02em;
+                  letter-spacing: var(--letter-spacing-body);
                   margin: 0 0 0.25rem;
                   padding-left: 2.625rem;
                 ">Candor AI</p>
@@ -301,7 +301,7 @@ export const AIChatInterface: Story = {
                   font-size: var(--font-size-sm);
                   font-weight: var(--font-weight-bold);
                   color: var(--color-text-subtle);
-                  letter-spacing: 0.02em;
+                  letter-spacing: var(--letter-spacing-body);
                   margin: 0 0 0.25rem;
                   padding-right: 2.625rem;
                 ">You</p>
@@ -349,7 +349,7 @@ export const AIChatInterface: Story = {
                   font-size: var(--font-size-sm);
                   font-weight: var(--font-weight-bold);
                   color: var(--color-text-subtle);
-                  letter-spacing: 0.02em;
+                  letter-spacing: var(--letter-spacing-body);
                   margin: 0 0 0.25rem;
                   padding-left: 2.625rem;
                 ">Candor AI</p>

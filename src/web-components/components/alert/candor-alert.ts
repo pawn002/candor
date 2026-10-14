@@ -60,7 +60,7 @@ export class CandorAlert extends LitElement {
       font-size: var(--font-size-md);
       line-height: var(--line-height-tight);
       margin-bottom: var(--spacing-2xs);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
     }
     .alert--success .alert__title { color: var(--color-status-success-text); }
     .alert--warning .alert__title { color: var(--color-status-warning-text); }
@@ -69,7 +69,7 @@ export class CandorAlert extends LitElement {
       color: var(--color-text-default);
       font-size: var(--font-size-md);
       line-height: var(--line-height-normal);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
       overflow-wrap: break-word;
     }
     .alert__dismiss {

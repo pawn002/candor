@@ -71,7 +71,7 @@ export class CandorAccessibleText extends LitElement {
     }
     :host([role_="message"]) {
       font-size: var(--font-size-md);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
       line-height: var(--line-height-normal);
     }
     /* 16px, not 14px. The status role carries validation errors and state
@@ -83,7 +83,7 @@ export class CandorAccessibleText extends LitElement {
        contain no backtick characters — one would terminate the literal. */
     :host([role_="status"]) {
       font-size: var(--font-size-md);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
       line-height: var(--line-height-tight);
     }
     /* Stays at 14px, unlike status, because the component renders a tone icon
@@ -98,7 +98,7 @@ export class CandorAccessibleText extends LitElement {
       align-items: center;
       gap: var(--spacing-2xs);
       font-size: var(--font-size-sm);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
       line-height: var(--line-height-tight);
       color: var(--color-text-default);
     }
@@ -114,7 +114,7 @@ export class CandorAccessibleText extends LitElement {
 
     :host([role_="annotation"]) {
       font-size: var(--font-size-sm);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
       line-height: var(--line-height-relaxed);
       font-style: italic;
     }

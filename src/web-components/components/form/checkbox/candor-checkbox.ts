@@ -107,7 +107,7 @@ export class CandorCheckbox extends LitElement {
       font-size: var(--font-size-md);
       color: var(--color-text-default);
       user-select: none;
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
     }
   `;
 

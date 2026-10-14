@@ -50,7 +50,7 @@ export class CandorTooltip extends LitElement {
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
       line-height: var(--line-height-tight);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
       border-radius: var(--radius-sm);
       white-space: nowrap;
       pointer-events: none;

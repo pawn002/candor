@@ -60,7 +60,7 @@ export class CandorStat extends LitElement {
       font-weight: var(--font-weight-bold);
       font-optical-sizing: auto;
       line-height: 1;
-      letter-spacing: -0.02em;
+      letter-spacing: var(--letter-spacing-tight);
       color: var(--color-text-default);
     }
     :host([size='md']) .stat__value { font-size: var(--font-size-2xl); }

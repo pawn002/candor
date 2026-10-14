@@ -122,8 +122,8 @@ export const AccountSettings: Story = {
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--spacing-xs); padding: var(--spacing-sm); background: var(--color-bg-surface); border-radius: var(--radius-md);">
             <div style="min-width: 0;">
-              <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-default); letter-spacing: 0.02em;">Jane Smith</div>
-              <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em; overflow-wrap: break-word;">j.smith@example.com</div>
+              <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-default); letter-spacing: var(--letter-spacing-body);">Jane Smith</div>
+              <div style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body); overflow-wrap: break-word;">j.smith@example.com</div>
             </div>
             <candor-badge variant="success" style="flex-shrink: 0;">Verified</candor-badge>
           </div>
