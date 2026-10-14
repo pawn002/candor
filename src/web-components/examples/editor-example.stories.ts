@@ -9,6 +9,15 @@ import '../components/typography/accessible-text/candor-accessible-text';
 import '../components/typography/heading/candor-heading';
 import '../components/typography/text/candor-text';
 
+// Icon-only buttons follow the icon-weight rule (#296). A glyph with a fill form
+// is drawn filled at 1.75rem; a stroke-only glyph (text formatting, align, list,
+// link, arrows), whose fill form is a box, is drawn bold at 1.25rem. Both take
+// --color-text-subtle from the button, so a pressed toggle's own colour still wins.
+// The 2px padding keeps the button at 32px with the larger glyph inside.
+const ICON_ONLY = 'padding:0.125rem;min-width:2rem;color:var(--color-text-subtle);';
+const FILL_ICON = 'font-size:1.75rem;line-height:1;';
+const BOLD_ICON = 'font-size:1.25rem;line-height:1;';
+
 const meta: Meta = {
   title: 'Examples/Editor Example',
   tags: ['autodocs'],
@@ -83,57 +92,57 @@ export const DocumentEditor: Story = {
             <candor-toolbar-separator></candor-toolbar-separator>
 
             <button class="btn btn-ghost btn-sm" type="button" aria-label="Bold" aria-pressed="true" title="Bold"
-                    style="background: var(--color-bg-elevated); color: var(--color-action-primary);">
-              <i class="ph-bold ph-text-b" aria-hidden="true"></i>
+                    style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+              <i class="ph-bold ph-text-b" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Italic" aria-pressed="false" title="Italic">
-              <i class="ph ph-text-italic" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Italic" aria-pressed="false" title="Italic" style="${ICON_ONLY}">
+              <i class="ph-bold ph-text-italic" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Underline" aria-pressed="false" title="Underline">
-              <i class="ph ph-text-underline" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Underline" aria-pressed="false" title="Underline" style="${ICON_ONLY}">
+              <i class="ph-bold ph-text-underline" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Strikethrough" aria-pressed="false" title="Strikethrough">
-              <i class="ph ph-text-strikethrough" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Strikethrough" aria-pressed="false" title="Strikethrough" style="${ICON_ONLY}">
+              <i class="ph-bold ph-text-strikethrough" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
 
             <candor-toolbar-separator></candor-toolbar-separator>
 
             <button class="btn btn-ghost btn-sm" type="button" aria-label="Align left" aria-pressed="true" title="Align left"
-                    style="background: var(--color-bg-elevated); color: var(--color-action-primary);">
-              <i class="ph ph-text-align-left" aria-hidden="true"></i>
+                    style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+              <i class="ph-bold ph-text-align-left" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Align center" aria-pressed="false" title="Align center">
-              <i class="ph ph-text-align-center" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Align center" aria-pressed="false" title="Align center" style="${ICON_ONLY}">
+              <i class="ph-bold ph-text-align-center" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Align right" aria-pressed="false" title="Align right">
-              <i class="ph ph-text-align-right" aria-hidden="true"></i>
-            </button>
-
-            <candor-toolbar-separator></candor-toolbar-separator>
-
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Bulleted list" title="Bulleted list">
-              <i class="ph ph-list-bullets" aria-hidden="true"></i>
-            </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Numbered list" title="Numbered list">
-              <i class="ph ph-list-numbers" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Align right" aria-pressed="false" title="Align right" style="${ICON_ONLY}">
+              <i class="ph-bold ph-text-align-right" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
 
             <candor-toolbar-separator></candor-toolbar-separator>
 
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Insert link" title="Insert link">
-              <i class="ph ph-link" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Bulleted list" title="Bulleted list" style="${ICON_ONLY}">
+              <i class="ph-bold ph-list-bullets" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Insert image" title="Insert image">
-              <i class="ph ph-image" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Numbered list" title="Numbered list" style="${ICON_ONLY}">
+              <i class="ph-bold ph-list-numbers" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
 
             <candor-toolbar-separator></candor-toolbar-separator>
 
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Undo" title="Undo">
-              <i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Insert link" title="Insert link" style="${ICON_ONLY}">
+              <i class="ph-bold ph-link" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Redo" title="Redo" disabled>
-              <i class="ph ph-arrow-clockwise" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Insert image" title="Insert image" style="${ICON_ONLY}">
+              <i class="ph-fill ph-image" aria-hidden="true" style="${FILL_ICON}"></i>
+            </button>
+
+            <candor-toolbar-separator></candor-toolbar-separator>
+
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Undo" title="Undo" style="${ICON_ONLY}">
+              <i class="ph-bold ph-arrow-counter-clockwise" aria-hidden="true" style="${BOLD_ICON}"></i>
+            </button>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Redo" title="Redo" disabled style="${ICON_ONLY}">
+              <i class="ph-bold ph-arrow-clockwise" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
 
           </candor-toolbar>
@@ -199,35 +208,35 @@ export const ImageEditor: Story = {
           <candor-toolbar aria-label="Drawing tools" orientation="vertical">
 
             <button class="btn btn-ghost btn-sm" type="button" aria-label="Select" aria-pressed="true" title="Select"
-                    style="background: var(--color-bg-page); color: var(--color-action-primary);">
-              <i class="ph ph-cursor" aria-hidden="true"></i>
+                    style="${ICON_ONLY} background: var(--color-bg-page); color: var(--color-action-primary);">
+              <i class="ph-fill ph-cursor" aria-hidden="true" style="${FILL_ICON}"></i>
             </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Pan" aria-pressed="false" title="Pan">
-              <i class="ph ph-hand" aria-hidden="true"></i>
-            </button>
-
-            <candor-toolbar-separator orientation="horizontal"></candor-toolbar-separator>
-
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Crop" aria-pressed="false" title="Crop">
-              <i class="ph ph-crop" aria-hidden="true"></i>
-            </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Draw" aria-pressed="false" title="Draw">
-              <i class="ph ph-pencil" aria-hidden="true"></i>
-            </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Erase" aria-pressed="false" title="Erase">
-              <i class="ph ph-eraser" aria-hidden="true"></i>
-            </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Text" aria-pressed="false" title="Add text">
-              <i class="ph ph-text-t" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Pan" aria-pressed="false" title="Pan" style="${ICON_ONLY}">
+              <i class="ph-fill ph-hand" aria-hidden="true" style="${FILL_ICON}"></i>
             </button>
 
             <candor-toolbar-separator orientation="horizontal"></candor-toolbar-separator>
 
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Zoom in" title="Zoom in">
-              <i class="ph ph-magnifying-glass-plus" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Crop" aria-pressed="false" title="Crop" style="${ICON_ONLY}">
+              <i class="ph-bold ph-crop" aria-hidden="true" style="${BOLD_ICON}"></i>
             </button>
-            <button class="btn btn-ghost btn-sm" type="button" aria-label="Zoom out" title="Zoom out">
-              <i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Draw" aria-pressed="false" title="Draw" style="${ICON_ONLY}">
+              <i class="ph-fill ph-pencil" aria-hidden="true" style="${FILL_ICON}"></i>
+            </button>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Erase" aria-pressed="false" title="Erase" style="${ICON_ONLY}">
+              <i class="ph-fill ph-eraser" aria-hidden="true" style="${FILL_ICON}"></i>
+            </button>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Text" aria-pressed="false" title="Add text" style="${ICON_ONLY}">
+              <i class="ph-bold ph-text-t" aria-hidden="true" style="${BOLD_ICON}"></i>
+            </button>
+
+            <candor-toolbar-separator orientation="horizontal"></candor-toolbar-separator>
+
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Zoom in" title="Zoom in" style="${ICON_ONLY}">
+              <i class="ph-fill ph-magnifying-glass-plus" aria-hidden="true" style="${FILL_ICON}"></i>
+            </button>
+            <button class="btn btn-ghost btn-sm" type="button" aria-label="Zoom out" title="Zoom out" style="${ICON_ONLY}">
+              <i class="ph-fill ph-magnifying-glass-minus" aria-hidden="true" style="${FILL_ICON}"></i>
             </button>
 
           </candor-toolbar>
@@ -237,18 +246,18 @@ export const ImageEditor: Story = {
 
           <div style="border-bottom: 1px solid var(--color-border-default); background: var(--color-bg-surface); padding: 0.375rem 0.625rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
             <candor-toolbar aria-label="View controls">
-              <button class="btn btn-ghost btn-sm" type="button" aria-label="Fit to window" title="Fit to window">
-                <i class="ph ph-arrows-out" aria-hidden="true"></i>
+              <button class="btn btn-ghost btn-sm" type="button" aria-label="Fit to window" title="Fit to window" style="${ICON_ONLY}">
+                <i class="ph-bold ph-arrows-out" aria-hidden="true" style="${BOLD_ICON}"></i>
               </button>
-              <button class="btn btn-ghost btn-sm" type="button" aria-label="Actual size" title="Actual size">
-                <i class="ph ph-frame-corners" aria-hidden="true"></i>
+              <button class="btn btn-ghost btn-sm" type="button" aria-label="Actual size" title="Actual size" style="${ICON_ONLY}">
+                <i class="ph-bold ph-frame-corners" aria-hidden="true" style="${BOLD_ICON}"></i>
               </button>
               <candor-toolbar-separator></candor-toolbar-separator>
-              <button class="btn btn-ghost btn-sm" type="button" aria-label="Undo" title="Undo">
-                <i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i>
+              <button class="btn btn-ghost btn-sm" type="button" aria-label="Undo" title="Undo" style="${ICON_ONLY}">
+                <i class="ph-bold ph-arrow-counter-clockwise" aria-hidden="true" style="${BOLD_ICON}"></i>
               </button>
-              <button class="btn btn-ghost btn-sm" type="button" aria-label="Redo" title="Redo">
-                <i class="ph ph-arrow-clockwise" aria-hidden="true"></i>
+              <button class="btn btn-ghost btn-sm" type="button" aria-label="Redo" title="Redo" style="${ICON_ONLY}">
+                <i class="ph-bold ph-arrow-clockwise" aria-hidden="true" style="${BOLD_ICON}"></i>
               </button>
             </candor-toolbar>
             <div style="display: flex; align-items: center; gap: 0.375rem;">
