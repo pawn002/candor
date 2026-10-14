@@ -3,7 +3,7 @@
  *
  * These run in the `@storybook/web-components-vite` renderer, where stories are
  * authored as lit-html `html` templates. Anything that cannot be expressed as an
- * HTML attribute — most importantly **function-valued properties** — must be
+ * HTML attribute (most importantly **function-valued properties**) must be
  * applied to the rendered custom element after the fact, in a Storybook `play`
  * step.
  */
@@ -13,7 +13,7 @@
  * custom element matching `selector`, after the story has rendered.
  *
  * Use this for reactive Lit properties that take a function or other
- * non-serialisable value — e.g. `candor-slider.valueTextFn` — which cannot
+ * non-serialisable value, such as `candor-slider.valueTextFn`, which cannot
  * travel through a `template:` string. Assigning a reactive property triggers a
  * re-render, so the screen-reader-facing output (`aria-valuetext`, etc.) updates
  * to match. Scope `selector` (e.g. `candor-slider[gradient]`) when a story holds

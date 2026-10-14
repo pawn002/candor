@@ -26,7 +26,7 @@ export interface SelectOption {
  * | `candor-autocomplete` | no | yes | `string` |
  *
  * Reach for this one first. Being a real `<select>`, it gets the platform's own
- * picker — which on mobile is a native wheel or sheet that no custom popup
+ * picker, which on mobile is a native wheel or sheet that no custom popup
  * matches for usability, and which needs no focus-trap or dismiss handling.
  * Choose `candor-listbox` only when the trigger or options need styling the
  * native control does not allow.
@@ -34,11 +34,11 @@ export interface SelectOption {
  * `aria-label` on the host is supported: it is mirrored inward and stripped from
  * the host so the name is announced once.
  *
- * A disabled select must carry a `hint` explaining the lock — commonly this
+ * A disabled select must carry a `hint` explaining the lock. Commonly this
  * control is disabled because it has no options yet, which is invisible to the
  * user unless said.
  *
- * @fires change - detail: string — the selected option's `value`
+ * @fires change - detail: string (the selected option's `value`)
  */
 @customElement('candor-select')
 export class CandorSelect extends LitElement {

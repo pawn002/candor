@@ -4,14 +4,14 @@
  * Lit's decorator calls `customElements.define()` unconditionally, and the
  * registry throws on a name it already holds. Inside a barrel import that throw
  * aborts the module graph part-way, so the page is left with every element
- * before the collision registered and every element after it silently inert —
+ * before the collision registered and every element after it silently inert:
  * one error in the console and a half-upgraded UI. That is what a consumer
  * migrating off its own `candor-*` primitives hit, and it made adopting the
  * package one component at a time impossible.
  *
  * So a tag that is already registered is skipped with a warning naming it,
  * and the rest of the import carries on. The existing definition wins, because
- * it is the one the page has already upgraded elements with — replacing it is
+ * it is the one the page has already upgraded elements with. Replacing it is
  * not something the registry allows anyway.
  *
  * The same guard covers loading Candor twice, e.g. the standalone bundle on a

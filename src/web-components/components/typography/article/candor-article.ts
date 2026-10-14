@@ -209,7 +209,7 @@ if (!document.getElementById('candor-article-styles')) {
 }
 
 /**
- * Long-form prose — articles, reports, editorial content, deliberation
+ * Long-form prose: articles, reports, editorial content, deliberation
  * summaries. Style the `<p>`, `<h*>`, `<ul>` and `<blockquote>` markup you slot
  * in; this element supplies the reading typography around it.
  *
@@ -217,19 +217,19 @@ if (!document.getElementById('candor-article-styles')) {
  * justification plus hyphenation produces the clean block edge of a formal
  * produced document, where human-authored prose has a ragged right. That makes
  * AI-generated content identifiable ambiently, without a label and without the
- * reader having to look for one — which matters in high-stakes contexts
+ * reader having to look for one. That matters in high-stakes contexts
  * (planning decisions, medical summaries, legal briefs) and aligns with the
  * spirit of EU AI Act Article 52 disclosure. **Set it on AI-generated prose.**
  * It does not make the content feel cold: register signals origin, tone is a
  * separate axis, and AI output can be written warmly.
  *
- * `justify` requires `lang` on this element or an ancestor — `hyphens: auto`
+ * `justify` requires `lang` on this element or an ancestor, because `hyphens: auto`
  * needs it to find a hyphenation dictionary, and without one justification
  * produces rivers of whitespace. It applies to `<p>` only; headings stay
  * left-aligned.
  *
  * `font="serif"` (Noto Serif, the default) is for authored content, human or AI
- * alike — the serif register says "produced artifact, read carefully".
+ * alike: the serif register says "produced artifact, read carefully".
  * `font="sans"` (Noto Sans) is for UI prose that needs sentence-by-sentence
  * reading but is not authored content: help documentation, onboarding, release
  * notes.

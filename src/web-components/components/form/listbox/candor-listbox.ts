@@ -14,7 +14,7 @@ export interface ListboxOption {
 let _nextId = 0;
 
 /**
- * A styleable dropdown — a custom trigger button plus an ARIA listbox popup,
+ * A styleable dropdown: a custom trigger button plus an ARIA listbox popup,
  * rather than a native `<select>`.
  *
  * Prefer `candor-select` unless the trigger or the options need presentation the
@@ -22,7 +22,7 @@ let _nextId = 0;
  * keyboard model and dismiss behaviour that the platform would otherwise
  * provide, and on mobile it replaces the OS picker with a web one.
  *
- * **`change.detail` is the whole `ListboxOption` object, not a string** — the
+ * **`change.detail` is the whole `ListboxOption` object, not a string**. That is the
  * difference from `candor-select`, and the easiest thing to get wrong when
  * switching between them. Read `detail.value` for the value.
  *
@@ -32,7 +32,7 @@ let _nextId = 0;
  * `aria-label` on the host is supported and is mirrored inward. A disabled
  * listbox must carry a `hint` explaining the lock.
  *
- * @fires change - detail: ListboxOption — the selected option object
+ * @fires change - detail: ListboxOption (the selected option object)
  */
 @customElement('candor-listbox')
 export class CandorListbox extends LitElement {

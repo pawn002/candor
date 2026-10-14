@@ -11,7 +11,7 @@ type BadgeSize = 'sm' | 'md';
  * **The label must name the condition, not just be present.** Colour cannot be
  * the sole channel for meaning, and the tinted background does not rescue it
  * (see below). The redundant channel here is the *text*, which is structurally
- * mandatory because a badge with no content is not a badge — but it only counts
+ * mandatory because a badge with no content is not a badge. But it only counts
  * if it says what the condition is:
  *
  * ```html
@@ -20,13 +20,13 @@ type BadgeSize = 'sm' | 'md';
  * ```
  *
  * Candor cannot enforce this, so it is an authoring rule rather than a
- * constraint — which is exactly why it is written here, where the decision is
+ * constraint, which is exactly why it is written here, where the decision is
  * made.
  *
  * **Do not treat the tinted background as a variant channel.** At L 0.95 the
  * sRGB gamut permits almost no chroma at red or amber, so
  * `--color-status-error-bg` and `--color-status-warning-bg` sit about deltaE 4
- * apart — at the edge of imperceptible for everyone, not just as a CVD edge
+ * apart: at the edge of imperceptible for everyone, not just as a CVD edge
  * case. Error and warning badges are told apart by their words, not their fill.
  *
  * For an outcome that has already happened and wants an icon, consider

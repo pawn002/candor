@@ -24,7 +24,7 @@ export type MenuEntry = MenuItem | 'separator';
  * ```
  *
  * **A menu is for actions, not for choosing a value.** If the result is a value
- * bound to a field, use `candor-select` or `candor-listbox` — those are form
+ * bound to a field, use `candor-select` or `candor-listbox`. Those are form
  * controls and participate in submission; this is not.
  *
  * Setting `checked` on any item switches every item's role from `menuitem` to
@@ -35,11 +35,11 @@ export type MenuEntry = MenuItem | 'separator';
  * `select` carries the whole `MenuItem`, not an index or a label. Disabled items
  * do not emit it.
  *
- * `label` names the trigger and must describe what the menu affects — several
+ * `label` names the trigger and must describe what the menu affects. Several
  * menus all labelled "Options" are indistinguishable by voice control and in a
  * screen reader's control list.
  *
- * @fires select - detail: MenuItem — the chosen entry
+ * @fires select - detail: MenuItem (the chosen entry)
  */
 @customElement('candor-menu')
 export class CandorMenu extends LitElement {

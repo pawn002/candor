@@ -29,7 +29,7 @@ let _nextId = 0;
  * Setting `tabindex` on a slotted control will be overwritten on the next
  * slotchange or focus change; do not try to make a second child tabbable.
  *
- * Only recognised interactive elements join the rotation — buttons, links, and
+ * Only recognised interactive elements join the rotation: buttons, links, and
  * elements carrying the button, checkbox or radio roles, each excluded while
  * `aria-disabled="true"`. Slotting a control the matcher does not recognise
  * leaves it unreachable by arrow key *and* untabbable, which is worse than not
@@ -42,7 +42,7 @@ let _nextId = 0;
  * `orientation` sets both the layout and which arrow keys navigate, so it must
  * match the visual direction or the keyboard model contradicts the picture.
  *
- * Emits no custom events — the slotted controls emit their own.
+ * Emits no custom events. The slotted controls emit their own.
  */
 @customElement('candor-toolbar')
 export class CandorToolbar extends LitElement {
@@ -170,7 +170,7 @@ export class CandorToolbar extends LitElement {
  *
  * Carries `role="separator"` with an orientation, so it conveys the grouping
  * structurally as well as visually. It is not interactive and is not part of the
- * toolbar's arrow-key rotation — inserting one does not cost a stop.
+ * toolbar's arrow-key rotation, so inserting one does not cost a stop.
  *
  * Note its `orientation` is the axis of the *rule*, and therefore the opposite
  * of the toolbar's: a horizontal toolbar takes vertical separators, which is why

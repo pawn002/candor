@@ -9,7 +9,7 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  *
  * Two events, and the distinction is the usual one: `input` fires the live value
  * on every keystroke, `change` fires the committed value on blur. Both carry a
- * plain string in `detail`. There is no `changed` event — a listener bound to
+ * plain string in `detail`. There is no `changed` event. A listener bound to
  * that name never fires and nothing reports it.
  *
  * `error` renders the message in a pre-established live region and sets
@@ -20,18 +20,18 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  * over a hand-placed message, which is easy to size at 14px by accident.
  *
  * `hint` is for standing guidance (format, constraints). A **disabled** input
- * must carry one explaining the lock — permission boundary, system constraint,
- * or something the user can change elsewhere — because a greyed field with no
+ * must carry one explaining the lock (permission boundary, system constraint,
+ * or something the user can change elsewhere), because a greyed field with no
  * explanation reads as broken.
  *
- * **Prefer `label` — but `aria-label` on the host works too**, mirrored onto the
+ * **Prefer `label`, but `aria-label` on the host works too**, mirrored onto the
  * inner control and stripped from the host so the name is announced once. Where
  * both are set the `aria-label` wins outright, so make it *contain* the visible
  * label text (WCAG 2.5.3) rather than replacing it with something unrelated.
  * Setting neither leaves the control unnamed, and nothing reports that.
  *
- * @fires input - detail: string — the live value, on every keystroke
- * @fires change - detail: string — the committed value, on blur
+ * @fires input - detail: string (the live value, on every keystroke)
+ * @fires change - detail: string (the committed value, on blur)
  */
 @customElement('candor-input')
 export class CandorInput extends LitElement {

@@ -12,7 +12,7 @@ type TextSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 type TextColor = 'primary' | 'secondary' | 'disabled';
 
 /**
- * Body copy, captions, and uppercase UI labels — the *comprehension* half of
+ * Body copy, captions, and uppercase UI labels: the *comprehension* half of
  * Candor's type system, set in Roboto Flex.
  *
  * Choosing between this and `candor-accessible-text` is not a judgment about
@@ -31,7 +31,7 @@ type TextColor = 'primary' | 'secondary' | 'disabled';
  * There is no `xs` size (removed in 5.0.0). 12px is below the readable-text
  * floor, and a component whose purpose is readable text should not offer a size
  * at which its own output is disallowed. For badge chrome or icon glyphs, use
- * `--font-size-xs` directly — those are not text and are not set through here.
+ * `--font-size-xs` directly. Those are not text and are not set through here.
  *
  * `variant="label"` uppercases through CSS `text-transform`, so write the slot
  * content in sentence case: assistive technology reads the DOM text, not the

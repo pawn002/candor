@@ -12,7 +12,7 @@ type CardPadding = 'none' | 'sm' | 'md' | 'lg';
  *
  * **Do not use `<header>` or `<footer>` elements in the slotted content.** They
  * carry implicit `banner` and `contentinfo` landmark roles, and the HTML spec
- * only suppresses that inside `article`, `aside`, `main`, `nav` and `section` —
+ * only suppresses that inside `article`, `aside`, `main`, `nav` and `section`,
  * not inside a custom element. A card in a dialog or panel then contributes a
  * page-level landmark, which pollutes the landmark list assistive technology
  * navigates by. Use `<div>`, or `role="none"` if the element is required.
@@ -21,7 +21,7 @@ type CardPadding = 'none' | 'sm' | 'md' | 'lg';
  * card's content is a section, put a `candor-heading` in the `header` slot so
  * the grouping is conveyed structurally rather than only visually.
  *
- * `padding="none"` is for content that manages its own inset — a full-bleed
+ * `padding="none"` is for content that manages its own inset, such as a full-bleed
  * image or an embedded table.
  *
  * The card clips its content to its rounded corners with `overflow: clip`, which
