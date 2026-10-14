@@ -335,13 +335,13 @@
     },
     {
       "id": "badge-default",
-      "fg": "{color.text.subtle-on-surface}",
-      "bg": "{color.bg.surface}",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.muted}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
       "min": 4.5,
-      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition — not the pill shape. The shape distinguishes a badge from surrounding text; it does not distinguish an error badge from a warning one, which is the job the colour is doing. The label is non-optional in the structural sense (a badge with no content is not a badge), which is why this qualifies under the narrowed Tier 3 clause, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
+      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition, not the pill shape. The fill was bg-surface, which vanished on cards and striped rows; bg-muted reads on page, surface and elevated, and text-subtle-on-surface would fall to 3.5 on it, so the text is text-default (#321). OKCA 6.0 light / 5.7 dark. The label is non-optional in the structural sense, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
     },
     {
       "id": "badge-primary",
