@@ -9,6 +9,7 @@ import '../components/form/checkbox/candor-checkbox';
 import '../components/form/input/candor-input';
 import '../components/form/select/candor-select';
 import '../components/pagination/candor-pagination';
+import '../components/table/candor-table';
 import '../components/typography/heading/candor-heading';
 import '../components/typography/text/candor-text';
 
@@ -44,11 +45,11 @@ Demonstrates a canonical list-management UI:
 - **Disclosure** collapses the "Advanced filters" section inside the drawer
 - **Badge** on the filter button shows the count of active filters at a glance
 - **Pagination** navigates large result sets via the \`change\` CustomEvent
-- **Table** renders sortable columns and row data
+- **Table** renders the rows, with each status as a badge passed in as cell markup
 
-The filter drawer uses \`<aside>\` with an \`aria-label\`. Landmark navigation lets
-keyboard and screen reader users jump directly to filters without tabbing through the
-full table first.
+The filter drawer is a modal \`<dialog>\` named by its "Filters" heading, so a screen
+reader announces it as a dialog when it opens, and the table behind it is inert until
+it closes.
         `.trim(),
       },
     },
@@ -57,6 +58,19 @@ full table first.
 
 export default meta;
 type Story = StoryObj;
+
+// Status is a badge whose label names the condition, so the colour is never the
+// only channel. Empty values are words, not dashes: a screen reader reads a dash
+// as nothing, or as "dash".
+const SUBMISSION_HEADERS = ['Applicant', 'Status', 'Submitted', 'Reviewer', 'Score'];
+const SUBMISSION_ROWS = [
+  { cells: ['Miriam Okonkwo', html`<candor-badge variant="warning" size="sm">In review</candor-badge>`, '12 Apr 2026', 'J. Harlow', '74'] },
+  { cells: ['Thomas Brandt', html`<candor-badge variant="success" size="sm">Approved</candor-badge>`, '11 Apr 2026', 'S. Patel', '91'] },
+  { cells: ['Aiko Sato', html`<candor-badge variant="error" size="sm">Declined</candor-badge>`, '10 Apr 2026', 'J. Harlow', '38'] },
+  { cells: ['Carlos Reyes', html`<candor-badge variant="warning" size="sm">In review</candor-badge>`, '9 Apr 2026', 'M. Chen', '67'] },
+  { cells: ['Priya Nair', html`<candor-badge variant="success" size="sm">Approved</candor-badge>`, '8 Apr 2026', 'S. Patel', '88'] },
+  { cells: ['Lena Fischer', html`<candor-badge variant="default" size="sm">Pending</candor-badge>`, '7 Apr 2026', 'Unassigned', 'Not scored'] },
+];
 
 const openDrawer = () => {
   const drawer = document.querySelector('candor-drawer') as any;
@@ -97,70 +111,13 @@ export const FilterableTable: Story = {
           </div>
         </div>
 
-        <div style="overflow-x: auto; margin-bottom: 1.5rem;">
-          <table style="
-            width: 100%;
-            border-collapse: collapse;
-            font-family: var(--font-family-accessible);
-            font-size: var(--font-size-sm);
-            color: var(--color-text-default);
-            letter-spacing: var(--letter-spacing-body);
-          ">
-            <thead>
-              <tr>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Applicant</th>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Status</th>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Submitted</th>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Reviewer</th>
-                <th scope="col" style="text-align: left; padding: var(--spacing-xs) var(--spacing-sm); color: var(--color-text-subtle); font-weight: var(--font-weight-bold); border-bottom: var(--border-width-medium) solid var(--color-border-strong);">Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">Miriam Okonkwo</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);"><candor-badge variant="warning" size="sm">In review</candor-badge></td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">12 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">J. Harlow</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">74</td>
-              </tr>
-              <tr>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Thomas Brandt</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="success" size="sm">Approved</candor-badge></td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">11 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">S. Patel</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">91</td>
-              </tr>
-              <tr>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">Aiko Sato</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);"><candor-badge variant="error" size="sm">Declined</candor-badge></td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">10 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">J. Harlow</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">38</td>
-              </tr>
-              <tr>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Carlos Reyes</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="warning" size="sm">In review</candor-badge></td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">9 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">M. Chen</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">67</td>
-              </tr>
-              <tr>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">Priya Nair</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);"><candor-badge variant="success" size="sm">Approved</candor-badge></td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">8 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">S. Patel</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong);">88</td>
-              </tr>
-              <tr>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Lena Fischer</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="default" size="sm">Pending</candor-badge></td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">7 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Unassigned</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Not scored</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <candor-table
+          caption="Page 3 of 25, newest first"
+          .headers=${SUBMISSION_HEADERS}
+          .rows=${SUBMISSION_ROWS}
+          numeric-columns="[4]"
+          style="display: block; margin-bottom: 1.5rem;"
+        ></candor-table>
 
         <candor-pagination
           current-page="3"
