@@ -6,14 +6,14 @@ type StatColor = 'default' | 'success' | 'warning' | 'error' | 'info';
 type StatSize  = 'sm' | 'md' | 'lg';
 
 /**
- * A single numeric readout — a value, an optional unit, and a label naming what
+ * A single numeric readout: a value, an optional unit, and a label naming what
  * is measured.
  *
  * **`color` is not a redundant channel, and this is the one thing to get right
  * here.** Unlike `candor-alert` and `candor-accessible-text role_="state"`, this
  * component renders no icon: "847 ms" in amber and "847 ms" in green differ only
  * in hue. The value is a number and the label names the *quantity*, not whether
- * it is good — so nothing in the default rendering tells a reader who cannot use
+ * it is good, so nothing in the default rendering tells a reader who cannot use
  * colour that the figure is a problem.
  *
  * The default `<slot>` is where that channel goes, and

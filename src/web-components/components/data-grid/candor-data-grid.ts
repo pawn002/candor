@@ -19,7 +19,7 @@ export interface GridRow {
 }
 
 /**
- * A two-dimensional grid of selectable cells — a colour matrix, a seat map, a
+ * A two-dimensional grid of selectable cells: a colour matrix, a seat map, a
  * swatch picker.
  *
  * Choose against `candor-table` on interaction, not on data shape: a table is
@@ -39,7 +39,7 @@ export interface GridRow {
  *
  * `GridCell.background` and `foreground` are per-cell colour overrides for
  * matrices whose cells *are* the data. **They bypass the token system and
- * therefore the contrast audit** — nothing measures a colour supplied at
+ * therefore the contrast audit**. Nothing measures a colour supplied at
  * runtime, so the pairing is the consumer's responsibility. Do not reach for
  * them for ordinary emphasis.
  *
@@ -50,9 +50,9 @@ export interface GridRow {
  * technology, so the grid stays navigable; `show-labels` renders each cell's
  * `label` as visible text rather than leaving it as the accessible name only.
  *
- * Set `caption` — it is the grid's accessible name.
+ * Set `caption`. It is the grid's accessible name.
  *
- * @fires cell-activate - detail: CandorCellActivateDetail — `{ row, col, cell }` for the activated cell
+ * @fires cell-activate - detail: CandorCellActivateDetail (`{ row, col, cell }` for the activated cell)
  */
 @customElement('candor-data-grid')
 export class CandorDataGrid extends LitElement {

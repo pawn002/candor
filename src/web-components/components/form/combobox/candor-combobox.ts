@@ -22,7 +22,7 @@ let _nextId = 0;
  * account, a known tag); reach for autocomplete when free text is legitimate and
  * the suggestions are a convenience.
  *
- * **`change` can fire with `detail: null`** — that is the "no valid selection"
+ * **`change` can fire with `detail: null`.** That is the "no valid selection"
  * signal, emitted when the user clears or abandons a partial entry. A handler
  * that assumes an object will throw on it. `input` carries the raw filter text
  * as a string and is not a value commit.
@@ -32,8 +32,8 @@ let _nextId = 0;
  * `aria-label` on the host is supported and is mirrored inward. A disabled
  * combobox must carry a `hint` explaining the lock.
  *
- * @fires input - detail: string — the live filter text, on every keystroke
- * @fires change - detail: ComboboxOption | null — the committed option, or null when none is selected
+ * @fires input - detail: string (the live filter text, on every keystroke)
+ * @fires change - detail: ComboboxOption | null (the committed option, or null when none is selected)
  */
 @customElement('candor-combobox')
 export class CandorCombobox extends LitElement {

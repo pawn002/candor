@@ -6,7 +6,7 @@ import { phCaretDownBold } from '../../icons';
 let _nextId = 0;
 
 /**
- * A standalone "show more" — one label, one collapsible region.
+ * A standalone "show more": one label, one collapsible region.
  *
  * The choice against `candor-accordion-item` is grouping: use this when the
  * section stands alone, and the accordion item when it belongs to a stack.
@@ -15,17 +15,17 @@ let _nextId = 0;
  * `toggle` to react rather than to assign.
  *
  * `label` is a property, not a slot, because it also becomes the trigger's
- * accessible name. It must describe what is revealed — "Show more" alone tells a
+ * accessible name. It must describe what is revealed. "Show more" alone tells a
  * screen-reader user nothing about what expands.
  *
  * Content stays in the DOM when collapsed, so it is still found by in-page
  * search and still costs render time. Do not use this to defer expensive work,
- * and do not hide anything a user is likely to need — a collapsed section is
+ * and do not hide anything a user is likely to need. A collapsed section is
  * effectively invisible to someone scanning.
  *
  * `::part(trigger)` is exposed for restyling the summary row.
  *
- * @fires toggle - detail: boolean — the new open state
+ * @fires toggle - detail: boolean (the new open state)
  */
 @customElement('candor-disclosure')
 export class CandorDisclosure extends LitElement {

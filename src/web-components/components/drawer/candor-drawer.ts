@@ -15,7 +15,7 @@ type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
  *
  * Choose against `candor-modal` on interruption rather than shape: a modal
  * blocks the task until answered, a drawer sits alongside it. If the user could
- * reasonably keep working, this is the right component — and if they genuinely
+ * reasonably keep working, this is the right component, and if they genuinely
  * can, also set `modal="false"`, which uses a non-modal dialog that does not
  * trap focus or inert the page. A modal drawer that is really a side panel makes
  * the rest of the page unusable for no reason.
@@ -25,18 +25,18 @@ type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
  * typing in.
  *
  * `modal` and `dismiss-on-backdrop` both use a custom boolean converter rather
- * than `type: Boolean` — see their own comments. The short version: write
+ * than `type: Boolean`; see their own comments. The short version: write
  * `modal="false"`, not a bare attribute, and expect the string `"false"` to be
  * honoured, which Lit's default converter would not do.
  *
- * **Do not put `<header>` or `<footer>` in slotted content** — they contribute
+ * **Do not put `<header>` or `<footer>` in slotted content**. They contribute
  * `banner` and `contentinfo` landmarks that are not suppressed inside a dialog.
  * The component's own header sets `role="none"` for this reason.
  *
  * `--candor-drawer-size` and `--candor-drawer-height` override the size rungs
  * for a one-off without a new variant.
  *
- * @fires close - detail: none — the user dismissed the drawer; the consumer must clear `open`
+ * @fires close - detail: none (the user dismissed the drawer; the consumer must clear `open`)
  */
 @customElement('candor-drawer')
 export class CandorDrawer extends LitElement {
@@ -208,7 +208,7 @@ export class CandorDrawer extends LitElement {
    *
    * A custom converter (not `type: Boolean`) is required so
    * `dismiss-on-backdrop="false"` parses to `false`: Lit's boolean converter
-   * treats *any* present attribute — including the string "false" — as `true`,
+   * treats *any* present attribute, including the string "false", as `true`,
    * which would silently keep backdrop-dismiss on. Same trap as `modal` below. */
   @property({
     attribute: 'dismiss-on-backdrop',
@@ -219,12 +219,12 @@ export class CandorDrawer extends LitElement {
   })
   dismissOnBackdrop = true;
   /** Default true preserves current (modal) behavior. Set `modal="false"` for a
-   * non-modal side panel — e.g. a persistent assistant, inspector, or filter panel
-   * the user works alongside — that doesn't trap focus or dim the page.
+   * non-modal side panel (a persistent assistant, inspector, or filter panel
+   * the user works alongside) that doesn't trap focus or dim the page.
    *
    * A custom converter (not `type: Boolean`) is required so `modal="false"` parses
-   * to `false`: Lit's boolean converter treats *any* present attribute — including
-   * the string "false" — as `true`, which would make `modal="false"` silently modal.
+   * to `false`: Lit's boolean converter treats *any* present attribute, including
+   * the string "false", as `true`, which would make `modal="false"` silently modal.
    * Reflected as "true"/"false" so CSS can target the non-modal state via
    * `:host([modal='false'])`. */
   @property({

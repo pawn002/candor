@@ -16,7 +16,7 @@ const TONE_ICON: Record<AccessibleTextTone, string> = {
 };
 
 /**
- * Instructional text set in Atkinson Hyperlegible — text the reader must decode
+ * Instructional text set in Atkinson Hyperlegible: text the reader must decode
  * precisely to know what to do next.
  *
  * The test against `candor-text` is functional, not a matter of importance:
@@ -25,7 +25,7 @@ const TONE_ICON: Record<AccessibleTextTone, string> = {
  * data values, results and counters do not.
  *
  * The property is `role_`, not `role`. It reflects to an attribute, and
- * reflecting to `role` would overwrite the element's own ARIA role — so the
+ * reflecting to `role` would overwrite the element's own ARIA role, so the
  * attribute a consumer writes is `role_="status"`.
  *
  * `role_` also decides the size, and the two are not independently adjustable
@@ -36,7 +36,7 @@ const TONE_ICON: Record<AccessibleTextTone, string> = {
  * outcome. The test between them: could a reader who cannot resolve the glyphs
  * still act correctly? Yes → `state`. No → `status`.
  *
- * Because `state`'s icon carries the outcome, its text needs no colour — leave
+ * Because `state`'s icon carries the outcome, its text needs no colour. Leave
  * `color` at `primary` and let `tone` select the icon. Moving colour onto the
  * icon is what removes the contrast constraint rather than negotiating with it.
  *
@@ -44,7 +44,7 @@ const TONE_ICON: Record<AccessibleTextTone, string> = {
  * announces the character, and it is invisible to the contrast audit. Use
  * `role_="state"` when an icon is wanted.
  *
- * Bold is for hierarchy and labelling only — `role_="label"` applies it already.
+ * Bold is for hierarchy and labelling only. `role_="label"` applies it already.
  * Do not add `bold` to an error or status message: the colour carries urgency,
  * and bold on top of it is double-emphasis.
  *
@@ -139,7 +139,7 @@ export class CandorAccessibleText extends LitElement {
   @property({ reflect: true }) role_: AccessibleTextRole = 'label';
   @property({ reflect: true }) size?: AccessibleTextSize;
   @property({ reflect: true }) color: AccessibleTextColor = 'primary';
-  /** Only meaningful for role_="state" — selects the icon that carries the outcome. */
+  /** Only meaningful for role_="state": selects the icon that carries the outcome. */
   @property({ reflect: true }) tone: AccessibleTextTone = 'info';
   @property({ type: Boolean, reflect: true }) bold = false;
 

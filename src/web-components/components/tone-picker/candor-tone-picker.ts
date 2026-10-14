@@ -33,14 +33,14 @@ export interface ToneColorSelectDetail {
 }
 
 /**
- * A perceptual colour-tone picker — a grid of OKLCH swatches laid out by
+ * A perceptual colour-tone picker: a grid of OKLCH swatches laid out by
  * lightness and chroma, for choosing a tone rather than an arbitrary colour.
  *
  * The specialised sibling of `candor-data-grid`: same keyboard model, but it
  * understands the colour axes, so it reports OKLCH components alongside the
  * selection instead of leaving the consumer to parse a string.
  *
- * `selected-value` is controlled — `color-select` reports the chosen swatch and
+ * `selected-value` is controlled. `color-select` reports the chosen swatch and
  * the consumer assigns it back.
  *
  * `color-select` carries the OKLCH string plus the `l`, `c` and `h` components
@@ -55,9 +55,9 @@ export interface ToneColorSelectDetail {
  * `hide-ui` strips the surrounding controls for embedding the grid in a larger
  * tool; `size="small"` tightens the cells for dense layouts.
  *
- * Set `caption` — it is the grid's accessible name.
+ * Set `caption`. It is the grid's accessible name.
  *
- * @fires color-select - detail: ToneColorSelectDetail — `{ value, row, col, l, c, h }` for the chosen swatch
+ * @fires color-select - detail: ToneColorSelectDetail (`{ value, row, col, l, c, h }` for the chosen swatch)
  */
 @customElement('candor-tone-picker')
 export class CandorTonePicker extends LitElement {

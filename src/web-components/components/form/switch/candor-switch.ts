@@ -9,20 +9,20 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  * The choice against `candor-checkbox` is about *when* the change applies, not
  * about appearance: a switch commits on toggle, a checkbox commits when the
  * surrounding form is submitted. A switch inside a form with a Save button is
- * the wrong control — it promises immediacy the form does not deliver.
+ * the wrong control. It promises immediacy the form does not deliver.
  *
  * `aria-label` on the host **is** supported here: it is mirrored onto the inner
  * control and stripped from the host, so screen readers announce the name once
  * rather than twice. Prefer the visible `label` where the design allows one.
  *
  * `hint` is the standing explanation slot. A disabled switch must use it to say
- * why the control is locked — for a switch especially, since the off state and
+ * why the control is locked, a switch especially, since the off state and
  * the disabled state look similar and the user cannot tell whether the setting
  * is off or unavailable.
  *
  * **Two slots, and they are not interchangeable (#263).** The default slot sits
  * *inside* the `<label>`, so whatever it holds becomes part of this control's
- * accessible name — use it for label text only, as an alternative to `label`.
+ * accessible name. Use it for label text only, as an alternative to `label`.
  * Anything interactive (a help button, a link) goes in `slot="end"`, which
  * renders *beside* the label: projecting a `<button>` into the default slot
  * makes the document invalid (a `<label>` may hold only its own control) and
@@ -35,9 +35,9 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
  * </candor-switch>
  * ```
  *
- * @slot - Label text, rendered inside the `<label>` and so part of the accessible name. Text only — see above.
- * @slot end - Content beside the switch, outside its label — help buttons, links. Not part of the accessible name.
- * @fires change - detail: boolean — the new checked state, on user toggle
+ * @slot - Label text, rendered inside the `<label>` and so part of the accessible name. Text only (see above).
+ * @slot end - Content beside the switch, outside its label: help buttons, links. Not part of the accessible name.
+ * @fires change - detail: boolean (the new checked state, on user toggle)
  */
 @customElement('candor-switch')
 export class CandorSwitch extends LitElement {

@@ -7,12 +7,12 @@ import { observeHostAriaLabel } from '../../../utils/host-aria';
 let _nextId = 0;
 
 /**
- * A free-text input that offers non-binding suggestions as the user types —
+ * A free-text input that offers non-binding suggestions as the user types:
  * the web-component analogue of a native `<input list>` + `<datalist>`.
  *
  * The distinction from `candor-combobox` is the whole point of this component:
  * here the committed value is ALWAYS the raw text the user typed. Suggestions
- * are hints, never a constraint — the user may pick one or ignore them and type
+ * are hints, never a constraint. The user may pick one or ignore them and type
  * anything. `candor-combobox`, by contrast, constrains the value to its option
  * set and emits the chosen `ComboboxOption`. Reach for autocomplete when the
  * field accepts open input but a known set of values is worth surfacing (model
@@ -20,13 +20,13 @@ let _nextId = 0;
  *
  * Events follow the Candor two-event rule (see events.ts / #164): `input` fires
  * the live text on every keystroke; `change` fires the committed text on blur,
- * on Enter, and when a suggestion is chosen. Both carry a plain string — the
- * same shape as candor-input — because the value is always free text.
+ * on Enter, and when a suggestion is chosen. Both carry a plain string, the
+ * same shape as candor-input, because the value is always free text.
  *
  * See `candor-select` for the four-way comparison across all the pickers.
  *
- * @fires input - detail: string — the live text, on every keystroke
- * @fires change - detail: string — the committed text, on blur, Enter, or suggestion choice
+ * @fires input - detail: string (the live text, on every keystroke)
+ * @fires change - detail: string (the committed text, on blur, Enter, or suggestion choice)
  */
 @customElement('candor-autocomplete')
 export class CandorAutocomplete extends LitElement {
@@ -115,7 +115,7 @@ export class CandorAutocomplete extends LitElement {
   @property({ type: Boolean }) required = false;
   @property({ type: Boolean }) disabled = false;
   /** Non-binding suggestions surfaced as the user types. The value is never
-   * constrained to this list — picking one just fills the field. */
+   * constrained to this list. Picking one just fills the field. */
   @property({ type: Array }) suggestions: string[] = [];
   /** Cap on how many filtered suggestions to show at once (discovered lists can
    * be long). 0 or negative means no cap. */
@@ -167,7 +167,7 @@ export class CandorAutocomplete extends LitElement {
     this.dispatchEvent(new CustomEvent('input', { detail: this.value, bubbles: true, composed: true }));
   }
 
-  /** Native `change` (blur / Enter without an active suggestion) — composed:false,
+  /** Native `change` (blur / Enter without an active suggestion) is composed:false,
    * so it never escapes the shadow root; we re-dispatch the committed value. */
   private _onNativeChange(e: Event) {
     e.stopPropagation();

@@ -9,14 +9,14 @@ type ButtonSize = 'small' | 'medium' | 'large';
 /**
  * A button.
  *
- * **It dispatches no custom events.** Bind `@click` on the host — the inner
+ * **It dispatches no custom events.** Bind `@click` on the host. The inner
  * `<button>`'s click crosses the shadow boundary, so a host listener receives
  * it. There is no `press`, `activate` or `button-click`; a listener bound to one
  * of those never fires and nothing reports it.
  *
  * **Sizes are `small`, `medium` and `large`. There is no `size="icon"`.** An
  * unrecognised value is accepted silently, produces no class, and renders at the
- * default size — so the mistake is invisible. For an icon-only button, use a
+ * default size, so the mistake is invisible. For an icon-only button, use a
  * size and supply `aria-label`.
  *
  * `aria-label` on the host is supported: it is mirrored onto the inner button
@@ -27,12 +27,12 @@ type ButtonSize = 'small' | 'medium' | 'large';
  *
  * **A disabled button needs an adjacent explanation, and it must not be a
  * tooltip.** Native `disabled` removes the button from the tab order, so a
- * hover- or focus-gated tooltip is unreachable by keyboard and screen reader —
+ * hover- or focus-gated tooltip is unreachable by keyboard and screen reader,
  * the users most likely to need it. WCAG 1.4.3 exempts the dimmed label from
  * contrast, and that dimming does signal "unavailable"; what it can no longer
  * carry is *why*, or what would unlock it. Put that in a readable,
  * enabled-contrast element next to the button, where it sits in document order
- * and everyone meets it. There is deliberately no `hint` property — the
+ * and everyone meets it. There is deliberately no `hint` property. The
  * consumer supplies the adjacent element.
  *
  * `variant="destructive"` is for irreversible actions. It is a colour, not a

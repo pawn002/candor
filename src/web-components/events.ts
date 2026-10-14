@@ -86,7 +86,7 @@ export type CandorComboboxChangeDetail = ComboboxOption | null;
 /** candor-combobox `input`: the live filter text as the user types. */
 export type CandorComboboxInputDetail = string;
 /** candor-autocomplete `change` (committed) and `input` (live): the free-text value.
- * Always a plain string — the value is never constrained to the suggestion set. */
+ * Always a plain string: the value is never constrained to the suggestion set. */
 export type CandorAutocompleteChangeDetail = string;
 /** candor-autocomplete `input`: the live free-text value on each keystroke. */
 export type CandorAutocompleteInputDetail = string;
@@ -122,9 +122,9 @@ export type CandorToneColorSelectDetail = ToneColorSelectDetail;
 // Events with no payload use `CustomEvent<undefined>`.
 
 export interface CandorInputEventMap {
-  /** Committed value — fires on blur / Enter. */
+  /** Committed value. Fires on blur / Enter. */
   change: CustomEvent<CandorInputChangeDetail>;
-  /** Live value — fires on every keystroke. */
+  /** Live value. Fires on every keystroke. */
   input: CustomEvent<CandorInputInputDetail>;
 }
 export interface CandorSelectEventMap {
@@ -140,24 +140,24 @@ export interface CandorSwitchEventMap {
   change: CustomEvent<CandorSwitchChangeDetail>;
 }
 export interface CandorSliderEventMap {
-  /** Committed value — fires once on pointer release / keyboard commit. */
+  /** Committed value. Fires once on pointer release / keyboard commit. */
   change: CustomEvent<CandorSliderChangeDetail>;
-  /** Live value — fires on every drag tick / arrow step. */
+  /** Live value. Fires on every drag tick / arrow step. */
   input: CustomEvent<CandorSliderInputDetail>;
 }
 export interface CandorListboxEventMap {
   change: CustomEvent<CandorListboxChangeDetail>;
 }
 export interface CandorComboboxEventMap {
-  /** Committed selection — fires when an option is chosen (or `null` on clear). */
+  /** Committed selection. Fires when an option is chosen (or `null` on clear). */
   change: CustomEvent<CandorComboboxChangeDetail>;
-  /** Live filter text — fires as the user types. */
+  /** Live filter text. Fires as the user types. */
   input: CustomEvent<CandorComboboxInputDetail>;
 }
 export interface CandorAutocompleteEventMap {
-  /** Committed free text — fires on blur, on Enter, and when a suggestion is chosen. */
+  /** Committed free text. Fires on blur, on Enter, and when a suggestion is chosen. */
   change: CustomEvent<CandorAutocompleteChangeDetail>;
-  /** Live free text — fires on every keystroke. */
+  /** Live free text. Fires on every keystroke. */
   input: CustomEvent<CandorAutocompleteInputDetail>;
 }
 export interface CandorChipEventMap {
@@ -165,7 +165,7 @@ export interface CandorChipEventMap {
   dismiss: CustomEvent<undefined>;
 }
 /**
- * Deliberately empty. candor-button emits no Candor event — the inner button's
+ * Deliberately empty. candor-button emits no Candor event. The inner button's
  * native `click` retargets to the host and reaches consumers unaided, so adding
  * one would duplicate it (#201). "Emits nothing" is a real statement about the
  * API, not an omission, and declaring it is what makes a listener on the removed

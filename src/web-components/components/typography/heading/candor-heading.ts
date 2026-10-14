@@ -6,7 +6,7 @@ type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 type HeadingColor = 'primary' | 'secondary' | 'disabled';
 
 /**
- * A heading. `level` sets the visual size and the semantic level together — they
+ * A heading. `level` sets the visual size and the semantic level together. They
  * are deliberately not separable.
  *
  * The semantics are ARIA, not markup. This element renders a bare `<slot>` and
