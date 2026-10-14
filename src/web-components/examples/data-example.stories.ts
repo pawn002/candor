@@ -112,7 +112,7 @@ export const FilterableTable: Story = {
         </div>
 
         <candor-table
-          caption="Page 3 of 25, newest first"
+          caption="Submissions, newest first"
           .headers=${SUBMISSION_HEADERS}
           .rows=${SUBMISSION_ROWS}
           numeric-columns="[4]"
