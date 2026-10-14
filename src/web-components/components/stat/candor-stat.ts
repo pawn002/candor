@@ -50,7 +50,7 @@ export class CandorStat extends LitElement {
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-regular);
       color: var(--color-text-subtle-on-surface);
-      letter-spacing: var(--letter-spacing-italic);
+      letter-spacing: var(--letter-spacing-body);
       text-align: center;
     }
     .stat__value {

@@ -380,15 +380,6 @@
             "aliasOf": "--color-bg-surface"
           }
         }
-      },
-      "highlight-decorative": {
-        "$type": "color",
-        "$value": "oklch(0.60 0.21 278.14)",
-        "$description": "icon/border use — decorative accent below every text threshold; never a color: value (#132)",
-        "$extensions": {
-          "usage": "non-text",
-          "aliasOf": "--indigo-500"
-        }
       }
     }
   },
@@ -769,15 +760,6 @@
           "$extensions": {
             "aliasOf": "--color-bg-surface"
           }
-        }
-      },
-      "highlight-decorative": {
-        "$type": "color",
-        "$value": "oklch(0.68 0.17 278.14)",
-        "$description": "icon/border use — decorative accent; never a color: value (#132)",
-        "$extensions": {
-          "usage": "non-text",
-          "aliasOf": "--indigo-400"
         }
       }
     }

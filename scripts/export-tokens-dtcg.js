@@ -388,7 +388,6 @@ function checkGamut(sources) {
 const NON_TEXT_BY_ROLE = new Set([
   '--color-focus',                 // focus ring — a UI indicator, never text
   '--color-slider-thumb',          // control knob fill
-  '--color-highlight-decorative',  // decorative accent; below every text floor (#132)
 ]);
 
 function isNonText(cssVar, declared) {

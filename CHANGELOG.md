@@ -60,6 +60,12 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
 - Code that read `--color-blockquote-bg` or `--color-blockquote-border`: the blockquote no longer has a fill or a bar. Drop the declaration, or use `--color-bg-surface` or `--color-action-secondary` directly if you want them back in your own styles.
 - An attribution written inside the quote, such as `<blockquote>"…" — Name</blockquote>`, still renders. To set it apart, move it into a `<figcaption>` as above.
 
+#### `--color-highlight-decorative` removed (#292)
+
+**Why:** its only user was the article callout's left bar, which #292 removed. A token no component paints is a promise nothing keeps. The indigo primitives (`--indigo-*`) stay, so the colour is still there if a design needs it.
+
+**Migration:** replace `var(--color-highlight-decorative)` with `var(--indigo-500)` in light and `var(--indigo-400)` in dark, or with a semantic token that fits the use. It was a non-text colour; it must not be used for text.
+
 ### Fixed
 
 - **`candor-tooltip` is no longer clipped by `candor-card`, `candor-toolbar`, or any scrolling ancestor (#259).** The bubble was absolutely positioned inside the tooltip's own shadow root, so any ancestor with non-`visible` overflow cut it off. In a toolbar, #175's own reproduction now showed nothing at all, and inside a card only a dark sliver was left. No `::part` or custom property could reach the clip, so a consumer's only fix was to stop using one of the two components. The bubble is now a manual popover in the top layer, placed in viewport coordinates from the trigger when it opens and re-placed on scroll and resize while open. No ancestor's overflow or stacking context reaches it. A hidden bubble is still `display: none`, so the #107/#175 scrollbar fix holds.
@@ -102,7 +108,7 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
 
 ### Added
 
-- **`--letter-spacing-body` token, 0.02em (#292).** The tracking for prose-like Atkinson text: alert messages and headings, hints, disclaimers, tooltip text and the accessible-text body roles. It was written as a literal `0.02em` in 9 component rules, `blog.scss` and 24 story styles, so the one value the convention table documents for body roles had no name. All of them now use the token, and the rendered value is unchanged. `candor-stat`'s literal `-0.02em` became `--letter-spacing-tight`, which holds the same value.
+- **`--letter-spacing-body` token, 0.02em (#292).** The tracking for prose-like Atkinson text: alert messages and headings, hints, disclaimers, tooltip text and the accessible-text body roles. It was written as a literal `0.02em` in 9 component rules, `blog.scss` and 24 story styles, so the one value the convention table documents for body roles had no name. All of them now use the token, and the rendered value is unchanged. So do 20 upright rules that borrowed `--letter-spacing-italic` for its 0.02em: form hints and error messages, radio and switch labels, the slider value, menu items, pagination, the progress label and the stat label. `--letter-spacing-italic` is now used only on italic text. `candor-stat`'s literal `-0.02em` became `--letter-spacing-tight`, which holds the same value. The one visible change: the tone picker's monospace code sample drops its 0.02em to `--letter-spacing-normal`, matching every other code style in Candor.
 
 - **`candor-table` cells can hold markup (#258).** A cell was `string`, so a table could not hold an info button beside a label, a link or a status badge. color-pair-quick-iterator kept its own table implementation for nine such rows, its last local component. Cells are now `TableCell`: a string, a Lit `TemplateResult`, or a DOM `Node`. This is a wider type, not a change, so existing string cells and the JSON `rows` attribute work as before. Markup has to come through the `rows` property, since JSON cannot carry it. It renders inside the table's shadow root, so the page's stylesheet and icon-font classes do not reach it; the TSDoc says so and the new *Interactive cells* story uses inline SVG. Tests cover a template cell's buttons, which are named and Tab-reachable, and a `Node` cell keeping a listener attached before it was handed over.
 

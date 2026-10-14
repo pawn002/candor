@@ -130,7 +130,7 @@ export class CandorRadio extends LitElement {
       font-size: var(--font-size-md);
       color: var(--color-text-default);
       user-select: none;
-      letter-spacing: var(--letter-spacing-italic);
+      letter-spacing: var(--letter-spacing-body);
     }
   `;
 

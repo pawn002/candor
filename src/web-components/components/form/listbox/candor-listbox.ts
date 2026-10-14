@@ -53,7 +53,7 @@ export class CandorListbox extends LitElement {
     .listbox__hint {
       margin-top: calc(-1 * var(--spacing-xs));
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: var(--letter-spacing-italic); color: var(--color-text-subtle);
+      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle);
     }
     .listbox__trigger {
       appearance: none; -webkit-appearance: none;
@@ -116,7 +116,7 @@ export class CandorListbox extends LitElement {
     .listbox__error-live { display: contents; }
     .listbox__error-message {
       font-family: var(--font-family-accessible); font-size: var(--font-size-md);
-      letter-spacing: var(--letter-spacing-italic); color: var(--color-status-error-text);
+      letter-spacing: var(--letter-spacing-body); color: var(--color-status-error-text);
     }
   `, scrollbarStyles('.listbox__dropdown')];
 
