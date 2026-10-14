@@ -52,8 +52,8 @@ const renderShowcase = () => html`
       <div style="margin-bottom: var(--spacing-lg);">
         <h2 style="font-family: var(--font-family-display); font-size: var(--font-size-2xl); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-tight);">Font Families</h2>
         <p style="font-size: var(--font-size-md); color: var(--color-text-subtle); margin: 0; line-height: var(--line-height-normal);">
-          Four-voice system aligned to cognitive mode. Execution voices (navy accent) handle
-          task completion and scanning. Interpretation voices (burgundy accent) handle reading
+          Four-voice system aligned to cognitive mode. Execution voices (navy badge) handle
+          task completion and scanning. Interpretation voices (burgundy badge) handle reading
           and reflection.
         </p>
       </div>
@@ -61,11 +61,9 @@ const renderShowcase = () => html`
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-lg);">
         ${FONT_FAMILIES.map(f => {
           const isInterp = f.mode === 'Interpretation';
-          const accentColor = isInterp ? 'var(--color-action-secondary)' : 'var(--color-action-primary)';
           const badgeVariant = isInterp ? 'secondary' : 'primary';
           return html`
             <candor-card variant="default" padding="none">
-              <div style="height: var(--border-width-thick); background: ${accentColor};"></div>
               <div style="padding: var(--spacing-lg); font-family: var(${f.variable}); font-size: var(--font-size-lg); font-weight: var(--font-weight-regular); color: var(--color-text-default); line-height: var(--line-height-normal); white-space: pre-line; min-height: 112px; display: flex; align-items: center; border-bottom: var(--border-width-thin) solid var(--color-border-default);">${f.specimen}</div>
               <div style="padding: var(--spacing-md);">
                 <div style="font-family: var(--font-family-base); font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin-bottom: var(--spacing-xs);">${f.name}</div>
