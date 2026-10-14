@@ -44,24 +44,37 @@ const articleStyles = `
   }
   candor-article li { margin-bottom: var(--spacing-xs); }
 
+  /* A book indent, a step larger in italic, with no wash and no side bar
+     (#292). The indent and the size set the quote apart. Only the start
+     edge is indented: the quote is ragged right, so an end indent would only
+     shorten the line, which a phone cannot spare. */
   candor-article blockquote {
-    border-left: var(--border-width-thick) solid var(--color-blockquote-border);
-    margin: var(--spacing-lg) 0;
-    padding: var(--spacing-sm) var(--spacing-md);
+    margin-block: var(--spacing-lg);
+    margin-inline: var(--spacing-xl) 0;
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-normal);
     font-style: italic;
     letter-spacing: var(--letter-spacing-italic);
     color: var(--color-blockquote-text);
-    background-color: var(--color-blockquote-bg);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
+  /* An attributed quote is a figure: the figure takes the indent, and the
+     figcaption sits under the quote on the same left edge. The name is upright
+     at body size; a <cite> inside it is italic. */
+  candor-article figure:has(> blockquote) { margin-inline: var(--spacing-xl) 0; }
+  candor-article figure > blockquote { margin: 0; }
+  candor-article figure:has(> blockquote) > figcaption {
+    font-size: var(--font-size-md);
+    font-style: normal;
+    letter-spacing: var(--letter-spacing-normal);
+  }
+  candor-article figcaption cite { font-style: italic; }
 
   candor-article .callout {
-    border-left: var(--border-width-thick) solid var(--color-highlight-decorative);
     margin: var(--spacing-lg) 0;
     padding: var(--spacing-sm) var(--spacing-md);
     color: var(--color-text-default);
     background-color: var(--color-callout-bg);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    border-radius: var(--radius-md);
   }
   candor-article .callout > :last-child { margin-bottom: 0; }
 

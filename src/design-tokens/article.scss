@@ -52,15 +52,42 @@
     li { margin-bottom: var(--spacing-xs); }
 
     // Blockquote
+    // A book indent, a step larger in italic, with no wash and no side bar (#292).
+    // Only the start edge is indented: an end indent would only shorten a ragged line.
     blockquote {
-        border-left: var(--border-width-thick) solid var(--color-blockquote-border);
-        margin: var(--spacing-lg) 0;
-        padding: var(--spacing-sm) var(--spacing-md);
+        margin-block: var(--spacing-lg);
+        margin-inline: var(--spacing-xl) 0;
+        font-size: var(--font-size-lg);
+        line-height: var(--line-height-normal);
         font-style: italic;
         letter-spacing: var(--letter-spacing-italic);
         color: var(--color-blockquote-text);
-        background-color: var(--color-blockquote-bg);
-        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    // An attributed quote is a figure: the figure takes the indent, and the
+    // figcaption sits under the quote on the same left edge.
+    figure:has(> blockquote) {
+        margin-inline: var(--spacing-xl) 0;
+
+        > blockquote { margin: 0; }
+
+        > figcaption {
+            font-size: var(--font-size-md);
+            font-style: normal;
+            letter-spacing: var(--letter-spacing-normal);
+        }
+    }
+    figcaption cite { font-style: italic; }
+
+    // Tip / note panel: a neutral surface, no wash and no side bar (#292).
+    .callout {
+        margin: var(--spacing-lg) 0;
+        padding: var(--spacing-sm) var(--spacing-md);
+        color: var(--color-text-default);
+        background-color: var(--color-callout-bg);
+        border-radius: var(--radius-md);
+
+        > :last-child { margin-bottom: 0; }
     }
 
     // Inline code

@@ -15,8 +15,8 @@
     --color-text-subtle:            oklch(0.50 0 0);   // OKCA 5.0 on page ✅ — gray-500 (L=0.56) was OKCA 3.8; stepped to L=0.50 for OKCA compliance (#14)
     --color-text-subtle-on-surface: oklch(0.44 0 0);  // OKCA 5.0 on bg-surface ✅ — gray-600 (L=0.46) was OKCA 4.5 on gray-100; stepped to L=0.44 (#14)
     --color-text-disabled:          var(--gray-400);
-    // Component-scoped: toast message text validated against status backgrounds
-    --color-toast-message:          var(--color-text-default); // dark on light status-bgs ✅
+    // Component-scoped: toast message text. Every toast sits on bg-surface since #292.
+    --color-toast-message:          var(--color-text-default); // OKCA 8.6 on bg-surface ✅
     --color-text-inverse:           var(--gray-0);
     --color-text-subtle-on-inverse: oklch(0.75 0.02 245); // OKCA 6.0 on bg-inverse ✅ — muted links on dark nav/tabs
     --color-text-on-action:         var(--gray-0);    // white text on primary/secondary buttons
@@ -111,13 +111,13 @@
     --color-status-warning-text:  oklch(0.40 0.10 53.54); // OKCA 6.9 on warning-bg ✅ — C=0.16 was the furthest outside sRGB of any Candor colour (deltaE 11 from the nearest in-gamut form, and off-hue with it — amber becoming dark red); re-authored to the boundary, same L and H (#225)
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────
-    --color-blockquote-bg:     var(--color-bg-surface);
-    --color-blockquote-border: var(--color-action-secondary);
-    --color-blockquote-text:   var(--color-text-subtle-on-surface); // inherits OKCA 5.0 on bg-surface ✅ (dark resolves to 5.6)
+    // A book indent, set a step larger in italic, on the page itself. No wash
+    // and no side bar: that pairing reads as machine-made (#292).
+    --color-blockquote-text:   var(--color-text-default); // OKCA 11.5 on page ✅
 
     // ─── Colors: Callout (article tip/note) ────────────────────────────────────
-    // Indigo wash + decorative indigo left border, tying back to the #6969F7 anchor.
-    --color-callout-bg:           var(--indigo-50);  // light indigo wash — text-default OKCA 10.4 on this bg ✅
+    // A neutral panel. The indigo wash and left bar went in #292.
+    --color-callout-bg:           var(--color-bg-surface); // text-default OKCA 8.6 on this bg ✅
     --color-highlight-decorative: var(--indigo-500); // icon/border use — decorative accent below every text threshold; never a color: value (#132)
 
     // ─── Elevation / Shadow ────────────────────────────────────────────────────
@@ -229,6 +229,7 @@
     --letter-spacing-relaxed: 0.03em; // moderate tracking for small body text, captions — between normal and wide
     --letter-spacing-wide:    var(--tracking-wide);
     --letter-spacing-italic: 0.02em; // italic text at body size (16px) — slant reduces apparent inter-glyph space
+    --letter-spacing-body:   0.02em; // Atkinson prose-like text (messages, hints, disclaimers): enough air that "rr" never reads as "m", little enough to read as a sentence rather than a label
 }
 
 // ─── Theme Overrides ────────────────────────────────────────────────────────
@@ -261,11 +262,9 @@
     --color-text-default:           oklch(0.88 0.01 248); // OKCA 12.9 on bg-page ✅ — off-white with cool undertone; white OKCA 19.2 on bg-page is harsh
     --color-text-subtle:            var(--gray-400);      // OKCA 6.8 on bg-page ✅
     --color-text-subtle-on-surface: var(--gray-400);      // OKCA 5.6 on bg-surface ✅
-    // Component-scoped: toast message text on the three dark status backgrounds.
-    // Written out per background rather than as a range — it was OKCA 5.5–5.8
-    // across all three, and the audit's grammar has no range form, so that
-    // phrasing was unverifiable and had never once been measured (#224).
-    --color-toast-message:          var(--color-text-subtle); // OKCA 5.8 on error-bg ✅, OKCA 5.8 on success-bg ✅, OKCA 5.5 on warning-bg ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug
+    // Component-scoped: toast message text. Every toast sits on bg-surface since
+    // #292, where the three status backgrounds used to be.
+    --color-toast-message:          var(--color-text-subtle); // OKCA 5.6 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug
     --color-text-disabled:          var(--gray-600); // OKCA 2.2 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
     --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
     --color-text-subtle-on-inverse: oklch(0.40 0 0); // muted text on white inverse surface
@@ -381,7 +380,6 @@
     --color-border-code: var(--color-border-strong);
 
     // ─── Callout (article tip/note) ────────────────────────────────────────────
-    --color-callout-bg:           oklch(0.26 0.04 278); // dark indigo wash — text-default OKCA 10.1 on this bg ✅
     --color-highlight-decorative: var(--indigo-400);    // icon/border use — decorative accent; never a color: value (#132)
 }
 

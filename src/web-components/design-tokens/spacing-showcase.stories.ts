@@ -145,7 +145,7 @@ export const SpacingInComponents: Story = {
         </div>
       </div>
 
-      <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0; border-left: var(--border-width-medium) solid var(--color-border-default); padding-left: var(--spacing-sm);">Above this line, tokens govern spacing <em>within</em> components — the gap between a chip and its neighbour, the distance between buttons in a toolbar. Below, they govern spacing <em>between</em> components at layout scale: card padding, card grids, and page margins. The same token system, two distinct domains.</p>
+      <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Above this line, tokens govern spacing <em>within</em> components — the gap between a chip and its neighbour, the distance between buttons in a toolbar. Below, they govern spacing <em>between</em> components at layout scale: card padding, card grids, and page margins. The same token system, two distinct domains.</p>
 
       <div>
         <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Comfortable — spacing-md (24px)</p>

@@ -149,19 +149,17 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Blockquote',
-    description: 'Pull-quote surface — bg-surface fill with burgundy left border',
+    description: 'A book indent on the page, a step larger in italic. No fill and no side bar.',
     colors: [
-      { name: 'Blockquote Background', variable: '--color-blockquote-bg', description: 'Blockquote surface — inherits bg-surface' },
-      { name: 'Blockquote Border', variable: '--color-blockquote-border', description: 'Left accent border — burgundy (action-secondary)' },
-      { name: 'Blockquote Text', variable: '--color-blockquote-text', description: 'Blockquote prose — inherits text-subtle-on-surface' },
+      { name: 'Blockquote Text', variable: '--color-blockquote-text', description: 'Blockquote prose. Inherits text-default.' },
     ],
   },
   {
     name: 'Callout',
-    description: 'Tip / note panel — indigo wash with a decorative indigo left border. The action-oriented sibling of blockquote (a burgundy pull-quote): the callout is upright, default-colour guidance the reader should act on.',
+    description: 'Tip or note panel: a plain surface panel with no side bar. Unlike the blockquote, it is upright, default-colour guidance the reader should act on.',
     colors: [
-      { name: 'Callout Background', variable: '--color-callout-bg', description: 'Callout surface — indigo wash, theme-aware' },
-      { name: 'Highlight Decorative', variable: '--color-highlight-decorative', description: 'Left accent border — indigo #6969F7 anchor; decorative (non-text) use only, never a text colour' },
+      { name: 'Callout Background', variable: '--color-callout-bg', description: 'Callout surface. Inherits bg-surface.' },
+      { name: 'Highlight Decorative', variable: '--color-highlight-decorative', description: 'The indigo #6969F7 anchor, for decorative (non-text) use only. Never a text colour.' },
     ],
   },
 ];
@@ -255,7 +253,7 @@ const renderReferenceTable = (categories: ColorCategory[]) => html`
           font-family: var(--font-family-accessible);
           font-size: var(--font-size-sm);
           color: var(--color-text-default);
-          letter-spacing: 0.02em;
+          letter-spacing: var(--letter-spacing-body);
         ">
           <thead>
             <tr>

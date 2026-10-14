@@ -166,23 +166,31 @@ This layering is what allows dark mode, theme variants, and future palette chang
 
 ```scss
 // Do
-.alert--error {
-  background: var(--color-status-error-bg);
+.alert--error .alert__title {
   color: var(--color-status-error-text);
-  border: 1px solid var(--color-status-error);
+}
+.alert--error .alert__icon {
+  color: var(--color-status-error);
 }
 
 // Don't
-.alert--error {
-  background: oklch(0.96 0.02 25);
+.alert--error .alert__title {
   color: oklch(0.35 0.18 25);
-  border: 1px solid oklch(0.55 0.2 25);
+}
+.alert--error .alert__icon {
+  color: oklch(0.55 0.2 25);
 }
 ```
 
+### No pastel callouts, no side stripes
+
+A pale tinted box with a border in the same hue, and a coloured bar down one edge of a card, are now widely read as signs of machine-made design. Candor avoids both (#292). `candor-alert` and `candor-toast` use one neutral surface box for every variant: the icon shape carries the variant, and the heading repeats it in the status text colour. The article blockquote is a book indent, a step larger in italic, and the article callout is a plain surface panel.
+
+This costs no accessibility, because neither device was doing the work. The icon was already the required redundant channel, and the pale error and warning fills are deltaE 4 apart, too close for anyone to tell apart (#214). When a design reaches for a tint or a stripe to mark something, carry the meaning in an icon, a word or the layout instead.
+
 ### The separation of base and text status colors
 
-Status base colors — used for icons, chip backgrounds, left-edge accents — are at a lightness that works for non-text use. They are not the same colors used for text. `--color-status-error` is for non-text use; `--color-status-error-text` is for text. The contrast math is different for each. Substituting one for the other is one of the most common sources of a failed contrast audit.
+Status base colors, used for icons and chip backgrounds, are at a lightness that works for non-text use. They are not the same colors used for text. `--color-status-error` is for non-text use; `--color-status-error-text` is for text. The contrast math is different for each. Substituting one for the other is one of the most common sources of a failed contrast audit.
 
 ### The link-color discipline
 
@@ -256,7 +264,7 @@ Candor's icon system is **Phosphor Icons** — a humanist family (rounded, even 
 
 **Stroke-only glyphs are decided by the glyph, not by judgement.** Look at the fill version: if it is a box or a bar with the glyph cut out (✕, +, −, ✓, ⋮), use bold. Glyphs with an enclosed shape (info, search, trash, gear, pencil) have a real fill form and stay fill.
 
-**Status icons are bold.** `candor-alert`, `candor-toast` and `candor-accessible-text role_="state"` render them bold. They are the redundant channel that lets status text sit at Tier 3, so they must keep a clear shape, but they are not pressable, and filling them would make fill mean two things. The cost was measured before it was accepted: on a tinted status background a bold outline stands out less than a filled shape, and at 14px the mark inside the circle is about 1.3px. If that proves too faint in use, the fix is to size the icon up, not to fill it.
+**Status icons are bold.** `candor-alert`, `candor-toast` and `candor-accessible-text role_="state"` render them bold. They are the redundant channel that lets status text sit at Tier 3, so they must keep a clear shape, but they are not pressable, and filling them would make fill mean two things. The cost was measured before it was accepted: a bold outline stands out less than a filled shape, and at 14px the mark inside the circle is about 1.3px. If that proves too faint in use, the fix is to size the icon up, not to fill it.
 
 **Icon-only buttons draw the fill glyph at 1.75rem in `--color-text-subtle`, with the button padding cut to 2px.** A fill glyph's detail is cut out of the solid shape, and at 1.25rem the "i" in the info disc is about 1.3px wide. 1.75rem makes the cut-out readable; 2px padding, (32px − 28px) / 2, keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the outlined radios, checkboxes and labels beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour. It has no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. The colour belongs on the button, not the glyph, so a pressed toggle can still colour its glyph `--color-action-primary`. An icon inside a labelled button follows the button's text size and colour instead.
 

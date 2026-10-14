@@ -206,14 +206,14 @@ export class CandorTonePicker extends LitElement {
     .preview-empty {
       font-size: var(--font-size-sm);
       color: var(--color-text-subtle);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
     }
 
     .hint {
       margin-top: 0.75rem;
       font-size: var(--font-size-sm);
       color: var(--color-text-subtle);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-body);
     }
 
     /* Developer aid: show aria-label text beneath each swatch */

@@ -49,16 +49,14 @@ export class CandorToast extends LitElement {
       box-sizing: border-box;
       padding: var(--spacing-sm) var(--spacing-md);
       border-radius: var(--radius-md);
-      border: var(--border-width-thin) solid;
-      border-left-width: var(--border-width-thick);
+      /* The same neutral box as candor-alert, with no side stripe (#292). The
+         icon shape carries the variant and the heading colour repeats it. */
+      background-color: var(--color-bg-surface);
+      border: var(--border-width-thin) solid var(--color-border-default);
       font-family: var(--font-family-base);
       min-width: min(var(--candor-toast-min-width), 100%);
       max-width: min(var(--candor-toast-max-width), 100%);
     }
-    .toast--info    { background-color: var(--color-bg-surface); border-color: var(--color-border-default); }
-    .toast--success { background-color: var(--color-status-success-bg); border-color: var(--color-status-success); }
-    .toast--warning { background-color: var(--color-status-warning-bg); border-color: var(--color-status-warning); }
-    .toast--error   { background-color: var(--color-status-error-bg); border-color: var(--color-status-error); }
     .toast__icon { flex-shrink: 0; width: 1.25rem; height: 1.25rem; margin-top: 0.125rem; }
     .toast--info    .toast__icon { color: var(--color-text-subtle); }
     .toast--success .toast__icon { color: var(--color-status-success); }
@@ -72,6 +70,9 @@ export class CandorToast extends LitElement {
       line-height: var(--line-height-tight);
       margin-bottom: var(--spacing-2xs);
     }
+    .toast--success .toast__title { color: var(--color-status-success-text); }
+    .toast--warning .toast__title { color: var(--color-status-warning-text); }
+    .toast--error   .toast__title { color: var(--color-status-error-text); }
     .toast__message {
       color: var(--color-toast-message);
       font-size: var(--font-size-md);

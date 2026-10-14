@@ -129,13 +129,9 @@ export const StatusMessages: Story = {
     <div style="display:flex;flex-direction:column;gap:1rem;">
       <candor-accessible-text role_="status" color="error">Error: This field is required.</candor-accessible-text>
 
-      <div style="background:var(--color-status-warning-bg);padding:0.5rem 0.75rem;border-left:3px solid var(--color-status-warning);border-radius:var(--radius-sm);">
-        <candor-accessible-text role_="message">Warning: This action cannot be undone.</candor-accessible-text>
-      </div>
+      <candor-accessible-text role_="message">Warning: This action cannot be undone.</candor-accessible-text>
 
-      <div style="background:var(--color-status-success-bg);padding:0.5rem 0.75rem;border-left:3px solid var(--color-status-success);border-radius:var(--radius-sm);">
-        <candor-accessible-text role_="message">Success: Your changes have been saved.</candor-accessible-text>
-      </div>
+      <candor-accessible-text role_="message">Success: Your changes have been saved.</candor-accessible-text>
 
       <candor-accessible-text role_="message" color="secondary">Your session will expire in 5 minutes.</candor-accessible-text>
     </div>
@@ -192,9 +188,9 @@ export const FontComparison: Story = {
       <div style="display:flex;flex-direction:column;gap:0.75rem;font-family:var(--font-family-base);">
         <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Roboto Flex</p>
         <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;line-height:var(--line-height-tight);">FORM LABEL</span>
-        <span style="font-size:var(--font-size-md);letter-spacing:0.02em;line-height:var(--line-height-normal);">The quick brown fox jumps over the lazy dog.</span>
-        <span style="font-size:var(--font-size-sm);letter-spacing:0.02em;line-height:var(--line-height-relaxed);font-style:italic;color:var(--color-text-subtle);">Supplementary annotation for context.</span>
-        <span style="font-size:var(--font-size-md);letter-spacing:0.02em;line-height:var(--line-height-tight);color:var(--color-status-error-text);">Error: This field is required.</span>
+        <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-normal);">The quick brown fox jumps over the lazy dog.</span>
+        <span style="font-size:var(--font-size-sm);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-relaxed);font-style:italic;color:var(--color-text-subtle);">Supplementary annotation for context.</span>
+        <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-tight);color:var(--color-status-error-text);">Error: This field is required.</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.75rem;">
         <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible</p>
@@ -234,9 +230,7 @@ The test: does the user fill it in? → sentence case. Does it label a section o
             type="email"
             value="user@example.com"
           ></candor-input>
-          <div style="background:var(--color-status-success-bg);padding:var(--spacing-xs) var(--spacing-sm);border-left:var(--border-width-thick) solid var(--color-status-success);border-radius:var(--radius-sm);">
-            <candor-accessible-text role_="state" tone="success">Email verified</candor-accessible-text>
-          </div>
+          <candor-accessible-text role_="state" tone="success">Email verified</candor-accessible-text>
         </div>
       </candor-card>
     </div>

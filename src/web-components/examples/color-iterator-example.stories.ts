@@ -200,7 +200,7 @@ export const ColorPairIterator: Story = {
                 ">
                   <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #647a61; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
                   <input type="text" value="#647a61" aria-label="Foreground hex color"
-                    style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: 0.02em;"
+                    style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: var(--letter-spacing-body);"
                   />
                 </div>
 
@@ -210,7 +210,7 @@ export const ColorPairIterator: Story = {
                   gradient="${FG_TRACK}">
                 </candor-slider>
 
-                <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">
+                <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body);">
                   <span><span style="color: var(--color-text-default);">L</span> 0.55</span>
                   <span><span style="color: var(--color-text-default);">C</span> 0.065</span>
                   <span><span style="color: var(--color-text-default);">H</span> 142°</span>
@@ -247,7 +247,7 @@ export const ColorPairIterator: Story = {
                 ">
                   <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #ffe1f9; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
                   <input type="text" value="#ffe1f9" aria-label="Background hex color"
-                    style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: 0.02em;"
+                    style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: var(--letter-spacing-body);"
                   />
                 </div>
 
@@ -257,7 +257,7 @@ export const ColorPairIterator: Story = {
                   gradient="${BG_TRACK}">
                 </candor-slider>
 
-                <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: 0.02em;">
+                <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body);">
                   <span><span style="color: var(--color-text-default);">L</span> 0.94</span>
                   <span><span style="color: var(--color-text-default);">C</span> 0.054</span>
                   <span><span style="color: var(--color-text-default);">H</span> 333°</span>
@@ -338,7 +338,7 @@ export const ColorPairIterator: Story = {
                   font-family: var(--font-family-accessible);
                   font-size: 0.875rem;
                   margin: 0;
-                  letter-spacing: 0.02em;
+                  letter-spacing: var(--letter-spacing-body);
                 ">Label · Caption · Status text</p>
               </div>
             </candor-card>

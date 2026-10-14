@@ -88,7 +88,7 @@ export const BlogPost: Story = {
             font-family: var(--font-family-accessible);
             font-size: var(--font-size-sm);
             color: var(--color-text-subtle);
-            letter-spacing: 0.02em;
+            letter-spacing: var(--letter-spacing-body);
           ">
             <span>January 2026</span>
             <span aria-hidden="true">·</span>
@@ -142,13 +142,13 @@ export const BlogPost: Story = {
               font-family: var(--font-family-accessible);
               font-size: var(--font-size-sm);
               color: var(--color-link);
-              letter-spacing: 0.02em;
+              letter-spacing: var(--letter-spacing-body);
             ">← Compliance without Accommodation</a>
             <a href="#" style="
               font-family: var(--font-family-accessible);
               font-size: var(--font-size-sm);
               color: var(--color-link);
-              letter-spacing: 0.02em;
+              letter-spacing: var(--letter-spacing-body);
             ">The P+F+I+D Framework →</a>
           </nav>
         </footer>
