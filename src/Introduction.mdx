@@ -11,7 +11,7 @@
 
 **Version 5.0 · August 2026**
 
-Candor is a design system built on a single premise: *good design tells the truth about what works.* Passing a checklist and working for people are different achievements. The system is built around the second one — for the widest range of people, in the widest range of contexts.
+Candor is a design system built on a single premise: *good design tells the truth about what works.* Passing a checklist and working for people are different achievements. The system is built around the second one, for the widest range of people, in the widest range of contexts.
 
 Candor is a commitment to close the gap between nominal compliance and outcomes that work.
 
@@ -20,16 +20,16 @@ Candor is a commitment to close the gap between nominal compliance and outcomes 
 ## Design Principles
 
 ### Accessibility is the baseline, not the finish line
-WCAG compliance is where we start. Outcome-based validation — real color science, real user impact — is where we go from there. Every token, every component, every contrast decision is validated using OKCA — a contrast algorithm that addresses known issues with WCAG's luminance math while prioritizing WCAG compatibility and coherence with OKLCH, so designers can directly equate their color pickers and tonal ramps with accessibility outcomes.
+WCAG compliance is where we start. Outcome-based validation, with real color science and real user impact, is where we go from there. Every token, every component, every contrast decision is validated using OKCA, a contrast algorithm that addresses known issues with WCAG's luminance math while prioritizing WCAG compatibility and coherence with OKLCH, so designers can directly equate their color pickers and tonal ramps with accessibility outcomes.
 
 ### Perceptual truth over nominal correctness
-Colors are defined in OKLCH — a perceptually uniform color space where equal numeric changes produce equal perceived changes. This isn't an aesthetic preference; it's what makes programmatic accessibility validation reliable.
+Colors are defined in OKLCH, a perceptually uniform color space where equal numeric changes produce equal perceived changes. This isn't an aesthetic preference. It's what makes programmatic accessibility validation reliable.
 
 ### Typography as cognitive infrastructure
-The typographic system is organized around two human modes: **execution** (task completion, navigation, scanning) and **interpretation** (reading, reflecting, conversing). Font choices aren't decorative — they signal which mode a surface is designed for.
+The typographic system is organized around two human modes: **execution** (task completion, navigation, scanning) and **interpretation** (reading, reflecting, conversing). Font choices aren't decorative. They signal which mode a surface is designed for.
 
 ### No hard-coded values, ever
-All styling flows from design tokens. Components never reach past their token layer. This isn't a rule for tidiness — it's what makes the system auditable, adjustable, and honest about its own decisions.
+All styling flows from design tokens. Components never reach past their token layer. This isn't a rule for tidiness. It's what makes the system auditable, adjustable, and honest about its own decisions.
 
 ---
 
@@ -56,7 +56,7 @@ Candor uses a four-voice typographic system aligned to cognitive mode and conten
 
 ## Color Philosophy
 
-The palette draws from personal brand anchors — deep navy (`#082840`), warm burgundy (`#5F2B48`), and azure (`#1493FB`) — extended into a full OKLCH token system. Two-tier architecture keeps the system honest: primitives are raw tonal ramps, semantic tokens map those ramps to roles. Components reference semantic tokens only — never primitives directly.
+The palette draws from personal brand anchors (deep navy `#082840`, warm burgundy `#5F2B48`, and azure `#1493FB`), extended into a full OKLCH token system. Two-tier architecture keeps the system honest: primitives are raw tonal ramps, semantic tokens map those ramps to roles. Components reference semantic tokens only, never primitives directly.
 
 Every semantic color pair has a documented contrast validation against its intended background. The validation methodology is in the next section.
 
@@ -64,7 +64,7 @@ Every semantic color pair has a documented contrast validation against its inten
 
 ## Contrast Methods
 
-Regulatory exposure, outcome validation, and research comparison are different questions — no single algorithm answers all three. OKCA is the primary method: WCAG-compatible, coherent with OKLCH, and structured around a size-and-use-case tier system. See <a href="?path=/story/design-tokens-typography--okca-contrast-guidance" target="_parent">Design Tokens / Typography → Contrast Guidance</a> for the full tier table.
+Regulatory exposure, outcome validation, and research comparison are different questions, and no single algorithm answers all three. OKCA is the primary method: WCAG-compatible, coherent with OKLCH, and structured around a size-and-use-case tier system. See <a href="?path=/story/design-tokens-typography--okca-contrast-guidance" target="_parent">Design Tokens / Typography → Contrast Guidance</a> for the full tier table.
 
 <table>
   <thead>
@@ -87,14 +87,14 @@ Components communicate outward through DOM `CustomEvent`s. Every Candor event is
 
 **The naming follows the DOM's own two-event rule**, applied uniformly so there's nothing component-specific to memorise:
 
-- **`change`** — the *committed* value. Every value control emits it: input, autocomplete, select, radio, checkbox, switch, slider, listbox, combobox, and chip. This is the predictable event to reach for. Discrete controls (checkbox, radio, select, switch) commit in a single action, so `change` is the only value event they emit — exactly like their native counterparts. A selection that commits is a value change too, so `change` also covers `candor-tabs` (the newly-active tab id) and `candor-pagination` (the new page number).
-- **`input`** — the *live, mid-edit* value, fired continuously. Only controls with a real editing phase emit it: `candor-input` (per keystroke), `candor-autocomplete` (per free-text keystroke), `candor-slider` (per drag tick / arrow step), and `candor-combobox` (per filter-text keystroke) — mirroring native `<input>` and `<input type="range">`.
+- **`change`**: the *committed* value. Every value control emits it: input, autocomplete, select, radio, checkbox, switch, slider, listbox, combobox, and chip. This is the predictable event to reach for. Discrete controls (checkbox, radio, select, switch) commit in a single action, so `change` is the only value event they emit, exactly like their native counterparts. A selection that commits is a value change too, so `change` also covers `candor-tabs` (the newly-active tab id) and `candor-pagination` (the new page number).
+- **`input`**: the *live, mid-edit* value, fired continuously. Only controls with a real editing phase emit it: `candor-input` (per keystroke), `candor-autocomplete` (per free-text keystroke), `candor-slider` (per drag tick / arrow step), and `candor-combobox` (per filter-text keystroke). This mirrors native `<input>` and `<input type="range">`.
 
 Semantic, non-value events keep distinct names: `send`, `dismiss`, `close`, `select`, `toggle`, `color-select`, `cell-activate`.
 
 Two rules govern those names:
 
-1. **Present tense, matching the DOM's own vocabulary** — `close`, not `closed`; `dismiss`, not `dismissed`. Past tense read as a different *category* of event when it was only ever a different spelling.
+1. **Present tense, matching the DOM's own vocabulary**: `close`, not `closed`; `dismiss`, not `dismissed`. Past tense read as a different *category* of event when it was only ever a different spelling.
 2. **No Candor event where a native one already arrives.** `candor-button` emits nothing: the inner button's native `click` retargets to the host and reaches you unaided, and a `disabled` button suppresses it natively. Listen for `click`.
 
 **Event names are type-checked.** Each component declares `addEventListener` overloads from its own event map, so a name the component doesn't emit is a compile error rather than a listener that silently never fires:
@@ -104,12 +104,12 @@ const tabs = document.querySelector('candor-tabs')!;
 
 tabs.addEventListener('change', (e) => go(e.detail));  // ✓ detail is string
 tabs.addEventListener('click', (e) => …);              // ✓ native events still work
-tabs.addEventListener('tab-change', …);                // ✗ compile error — removed in 5.0.0
+tabs.addEventListener('tab-change', …);                // ✗ compile error: removed in 5.0.0
 ```
 
-`detail` is typed from the map, so no cast is needed. Two things this deliberately can't reach: framework template bindings (`@change=`, `(change)=`) don't go through this signature, and dispatching *your own* custom event on a Candor element needs a widening cast — `(el as HTMLElement).addEventListener('my-event', …)` — since there's no permissive fallback overload.
+`detail` is typed from the map, so no cast is needed. Two things this deliberately can't reach: framework template bindings (`@change=`, `(change)=`) don't go through this signature, and dispatching *your own* custom event on a Candor element needs a widening cast, `(el as HTMLElement).addEventListener('my-event', …)`, since there's no permissive fallback overload.
 
-Event names and their `detail` types are published in the `@candor-design/web-components` TypeScript declarations — import a `*Detail` type or a per-component `*EventMap` interface instead of hand-annotating:
+Event names and their `detail` types are published in the `@candor-design/web-components` TypeScript declarations. Import a `*Detail` type or a per-component `*EventMap` interface instead of hand-annotating:
 
 ```ts
 import type { CandorSelectChangeDetail } from '@candor-design/web-components';
@@ -119,7 +119,7 @@ el.addEventListener('change', (e) => {
 });
 ```
 
-**Removed in 5.0.0.** Three controls once used bespoke value-changed names. They were deprecated in 4.2.0 and are now gone — listeners must move to the replacement, which carries the same `detail` payload and the same semantics.
+**Removed in 5.0.0.** Three controls once used bespoke value-changed names. They were deprecated in 4.2.0 and are now gone. Listeners must move to the replacement, which carries the same `detail` payload and the same semantics.
 
 <table>
   <thead>
@@ -136,9 +136,9 @@ el.addEventListener('change', (e) => {
 
 ## Styling & overriding
 
-Design tokens (`--color-*`, `--font-*`, `--spacing-*`) pierce the shadow boundary automatically, so re-theming the whole system is just a matter of setting token values. But tokens are global — they can't reach *one* component's internals. For that, Candor exposes two per-component hooks. Both are **opt-in**: set nothing and the component renders from its tokens exactly as before.
+Design tokens (`--color-*`, `--font-*`, `--spacing-*`) pierce the shadow boundary automatically, so re-theming the whole system is just a matter of setting token values. But tokens are global. They can't reach *one* component's internals. For that, Candor exposes two per-component hooks. Both are **opt-in**: set nothing and the component renders from its tokens exactly as before.
 
-**1. Custom properties — the blessed density/shape knobs.** Named `--candor-<component>-<knob>`, each defaults to the existing token, so overriding one nudges a single dimension without forking. Reach for these first — they're a supported, stable API and don't depend on internal structure.
+**1. Custom properties: the blessed density and shape knobs.** Named `--candor-<component>-<knob>`, each defaults to the existing token, so overriding one nudges a single dimension without forking. Reach for these first. They're a supported, stable API and don't depend on internal structure.
 
 ```css
 /* Go denser than size="small" without re-implementing the button */
@@ -148,7 +148,7 @@ candor-button { --candor-button-min-height: 1.75rem; --candor-button-padding-y: 
 candor-input { --candor-input-radius: var(--radius-sm); }
 ```
 
-**2. `::part` — the escape hatch for arbitrary restyle.** Meaningful internals carry a `part` name, so any CSS property is reachable from the light DOM when there's no custom property for it.
+**2. `::part`: the escape hatch for arbitrary restyle.** Meaningful internals carry a `part` name, so any CSS property is reachable from the light DOM when there's no custom property for it.
 
 ```css
 candor-button::part(button) { letter-spacing: 0.03em; text-transform: uppercase; }
@@ -158,7 +158,7 @@ candor-button::part(button) { letter-spacing: 0.03em; text-transform: uppercase;
 candor-disclosure::part(trigger) { padding-top: 0; }
 ```
 
-**Rule of thumb:** a custom property when there's a bounded design intent (density, radius); a part when you might do anything. Part names and custom-property names are **public API** — additions are minor releases, renames/removals are major.
+**Rule of thumb:** a custom property when there's a bounded design intent (density, radius); a part when you might do anything. Part names and custom-property names are **public API**. Additions are minor releases; renames and removals are major.
 
 <table>
   <thead>
@@ -169,17 +169,17 @@ candor-disclosure::part(trigger) { padding-top: 0; }
     <tr><td>candor-input</td><td><code>input</code>, <code>label</code>, <code>hint</code>, <code>error-message</code></td><td><code>--candor-input-&#123;padding-x,padding-y,font-size,radius&#125;</code></td></tr>
     <tr><td>candor-autocomplete</td><td><code>input</code>, <code>label</code>, <code>hint</code>, <code>error-message</code></td><td><code>--candor-autocomplete-&#123;padding-x,padding-y,font-size,radius&#125;</code></td></tr>
     <tr><td>candor-disclosure</td><td><code>trigger</code>, <code>label</code>, <code>icon</code>, <code>panel</code></td><td><code>--candor-disclosure-trigger-&#123;padding-y,padding-x&#125;</code></td></tr>
-    <tr><td>candor-drawer</td><td>—</td><td><code>--candor-drawer-size</code>, <code>--candor-drawer-height</code></td></tr>
-    <tr><td>candor-code</td><td><code>code</code></td><td>—</td></tr>
-    <tr><td>candor-slider</td><td>—</td><td><code>--candor-slider-&#123;track-height,thumb-size,gradient-height&#125;</code></td></tr>
-    <tr><td>candor-modal</td><td>—</td><td><code>--candor-modal-max-width</code></td></tr>
-    <tr><td>candor-toast</td><td>—</td><td><code>--candor-toast-&#123;min-width,max-width&#125;</code></td></tr>
-    <tr><td>candor-data-grid</td><td>—</td><td><code>--candor-data-grid-cell-min-height</code></td></tr>
-    <tr><td>candor-card</td><td>—</td><td><code>--candor-card-overflow</code></td></tr>
+    <tr><td>candor-drawer</td><td>None</td><td><code>--candor-drawer-size</code>, <code>--candor-drawer-height</code></td></tr>
+    <tr><td>candor-code</td><td><code>code</code></td><td>None</td></tr>
+    <tr><td>candor-slider</td><td>None</td><td><code>--candor-slider-&#123;track-height,thumb-size,gradient-height&#125;</code></td></tr>
+    <tr><td>candor-modal</td><td>None</td><td><code>--candor-modal-max-width</code></td></tr>
+    <tr><td>candor-toast</td><td>None</td><td><code>--candor-toast-&#123;min-width,max-width&#125;</code></td></tr>
+    <tr><td>candor-data-grid</td><td>None</td><td><code>--candor-data-grid-cell-min-height</code></td></tr>
+    <tr><td>candor-card</td><td>None</td><td><code>--candor-card-overflow</code></td></tr>
   </tbody>
 </table>
 
-The last five rows were shipping and semver-protected but undocumented until 5.0.0 (#246) — `--candor-modal-max-width` and `--candor-toast-max-width` in particular are overrides you would go looking for and conclude did not exist.
+The last five rows were shipping and semver-protected but undocumented until 5.0.0 (#246). `--candor-modal-max-width` and `--candor-toast-max-width` in particular are overrides you would go looking for and conclude did not exist.
 
 More components gain these hooks as consumer demand surfaces; the convention above is what every new component follows. Eleven of the 37 components expose a hook today, and that is the intended state rather than a gap to fill: each of these came from a real override someone needed, and a part name invented without a use case is a public-API commitment made blind.
 
@@ -189,14 +189,14 @@ More components gain these hooks as consumer demand surfaces; the convention abo
 
 Use the sidebar to explore components by category:
 
-- **Design Tokens** — Color palette (light/dark), spacing scale, typography system, icon set
-- **Typography** — Heading hierarchy, body text, accessible text, article layout
-- **Components** — 37 Lit 3 components, registering 40 custom elements: accordions, alerts, badges, breadcrumbs, buttons, cards, chips, code, data grids, drawers, menus, modals, navigation, pagination, progress, stats, tables, tabs, toasts, tone picker, toolbars, tooltips
-- **Form** — Autocomplete, chat input, checkbox, combobox, input, listbox, radio, select, slider, switch
-- **Examples** — Composed stories: login, registration, settings, data table with filtering, document and image editors
+- **Design Tokens**: color palette (light/dark), spacing scale, typography system, icon set
+- **Typography**: heading hierarchy, body text, accessible text, article layout
+- **Components**: 37 Lit 3 components, registering 40 custom elements: accordions, alerts, badges, breadcrumbs, buttons, cards, chips, code, data grids, drawers, menus, modals, navigation, pagination, progress, stats, tables, tabs, toasts, tone picker, toolbars, tooltips
+- **Form**: autocomplete, chat input, checkbox, combobox, input, listbox, radio, select, slider, switch
+- **Examples**: composed stories: login, registration, settings, data table with filtering, document and image editors
 
 Every component story includes controls for all inputs and demonstrates all variants.
 
 ---
 
-*Candor is a personal design system by John Z. Rioflorido — design technologist and ethical systems designer, working at the intersection of cartography, accessibility, and AI safety.*
+*Candor is a personal design system by John Z. Rioflorido, design technologist and ethical systems designer, working at the intersection of cartography, accessibility, and AI safety.*

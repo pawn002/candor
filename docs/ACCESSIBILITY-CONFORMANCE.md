@@ -22,26 +22,26 @@ Candor 3.0.0 aims to **conform to WCAG 2.1 Level AA** for all components within 
 
 This conformance statement covers the 26 components audited in `docs/A11Y-AUDIT.md`. These were audited on the original Angular reference implementations; `@candor-design/web-components` carries the same patterns forward (see the web components note below):
 
-**Phase 1 — Custom composite widgets**
+**Phase 1: Custom composite widgets**
 TonePicker, DataGrid, Modal, Tabs, Menu, Accordion
 
-**Phase 2 — Form controls**
+**Phase 2: Form controls**
 Input, Checkbox, Radio, Switch, Slider, ChatInput
 
-**Phase 3 — Feedback & live regions**
+**Phase 3: Feedback & live regions**
 Alert, Toast, Progress
 
-**Phase 4 — Navigation & structural**
+**Phase 4: Navigation & structural**
 Navigation, Breadcrumb, Tooltip, Chip, Button
 
-**Phase 5 — Display & typography**
+**Phase 5: Display & typography**
 Badge, Stat, Table, Card, Heading, AccessibleText / Text / Article
 
 ### Web components (`@candor-design/web-components`)
 
 The **37** Lit custom elements in `@candor-design/web-components` are the canonical component surface. They implement the same ARIA patterns, keyboard contracts, live region approaches, and focus management that the 26-component audit validated, carrying those conformance targets forward by construction.
 
-This paragraph said "34" until 5.0.0, and the count was not corrected by simply bumping it: raising a number inside a conformance statement asserts that the components it newly covers meet the bar it states (#197). Of the three added since — `candor-tone-picker`, `candor-code`, `candor-autocomplete` — the first is AT-audited and passing (`docs/A11Y-AUDIT.md`), and the second is non-interactive inline text with no ARIA surface to get wrong. **`candor-autocomplete` has had no AT walkthrough.** It is a full ARIA combobox with keyboard navigation and a live-region status, which is precisely the shape that needs one, so it is included in the count as part of the surface but is **explicitly outside** the "validated by construction" claim above until it is audited. Treat its conformance as unverified.
+This paragraph said "34" until 5.0.0, and the count was not corrected by simply bumping it: raising a number inside a conformance statement asserts that the components it newly covers meet the bar it states (#197). Of the three added since (`candor-tone-picker`, `candor-code`, `candor-autocomplete`), the first is AT-audited and passing (`docs/A11Y-AUDIT.md`), and the second is non-interactive inline text with no ARIA surface to get wrong. **`candor-autocomplete` has had no AT walkthrough.** It is a full ARIA combobox with keyboard navigation and a live-region status, which is precisely the shape that needs one, so it is included in the count as part of the surface but is **explicitly outside** the "validated by construction" claim above until it is audited. Treat its conformance as unverified.
 
 A formal screen reader walkthrough of the web components package as a whole has not been conducted as of v3.0.0; the AT-snapshot audit of the Storybook example stories (see `docs/A11Y-AUDIT.md`) is the most recent WC-specific validation. The following implementation notes apply:
 
@@ -61,7 +61,7 @@ Each component exposes correct ARIA roles, states, and properties for its intera
 
 ### Accessible names
 
-Every interactive element has an accessible name — either from a visible label, associated `<label>`, `aria-label`, or `aria-labelledby`. Components that wrap a native interactive element expose an `ariaLabel` input bound directly to the inner element.
+Every interactive element has an accessible name, from a visible label, associated `<label>`, `aria-label`, or `aria-labelledby`. Components that wrap a native interactive element expose an `ariaLabel` input bound directly to the inner element.
 
 ### Keyboard navigation
 
@@ -75,21 +75,21 @@ All interactive components are fully keyboard-operable:
 
 Color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components), with the exceptions recorded below. Contrast is validated with the [klar CLI](https://github.com/pawn002/klar) 3.x against its OKCA and WCAG 2.x algorithms; OKLCH color space is used throughout to ensure perceptually accurate lightness calculations. Every pairing is enumerated in `audit/pairings.json` and re-measured by `npm run audit:contrast`.
 
-Figures are measured on the color Candor **specifies**, and that is sufficient because of a second invariant: as of [#225](https://github.com/pawn002/candor/issues/225) every authored Candor color is inside the sRGB gamut, and `npm run audit:tokens` fails the build if one is not. sRGB is the baseline gamut for digital products, so a value inside it needs no substitution by anything downstream — the specified color is the delivered color, and the conformance claim does not depend on the behavior of any particular engine or version.
+Figures are measured on the color Candor **specifies**, and that is sufficient because of a second invariant: as of [#225](https://github.com/pawn002/candor/issues/225) every authored Candor color is inside the sRGB gamut, and `npm run audit:tokens` fails the build if one is not. sRGB is the baseline gamut for digital products, so a value inside it needs no substitution by anything downstream. The specified color is the delivered color, and the conformance claim does not depend on the behavior of any particular engine or version.
 
-Previously 19 of 62 colors were outside the gamut. Such a value does not name a single color at all, and OKCA — which is established across sRGB — is not defined for it, so the figures recorded against those tokens were undefined rather than merely optimistic. Five real failures consequently sat inside a passing audit. That class of error is now structurally prevented rather than tracked.
+Previously 19 of 62 colors were outside the gamut. Such a value does not name a single color at all, and OKCA, which is established across sRGB, is not defined for it, so the figures recorded against those tokens were undefined rather than merely optimistic. Five real failures consequently sat inside a passing audit. That class of error is now structurally prevented rather than tracked.
 
-Text at 14px is additionally validated against a three-tier use-case contrast system (see `docs/archive/CONTRAST-TIERS.md` for the original proposal and `CLAUDE.md` → "OKCA Contrast Thresholds" for the thresholds in force). Tier 2 (functional UI) requires OKCA 6.5 regular / 4.5 bold; Tier 3 (supplementary, meaning redundantly coded) requires 4.5 / 4.5. Tier 1 (reading text) requires 6.5 at bold and **is not permitted at 14px regular** — see below. Across all 216 audited pairings, the OKCA score is at or below the WCAG 2.x figure for the same pair, so OKCA is the binding constraint and a pair that passes it also passes WCAG.
+Text at 14px is additionally validated against a three-tier use-case contrast system (see `docs/archive/CONTRAST-TIERS.md` for the original proposal and `CLAUDE.md` → "OKCA Contrast Thresholds" for the thresholds in force). Tier 2 (functional UI) requires OKCA 6.5 regular / 4.5 bold; Tier 3 (supplementary, meaning redundantly coded) requires 4.5 / 4.5. Tier 1 (reading text) requires 6.5 at bold and **is not permitted at 14px regular** (see below). Across all 216 audited pairings, the OKCA score is at or below the WCAG 2.x figure for the same pair, so OKCA is the binding constraint and a pair that passes it also passes WCAG.
 
-**Tier 1 regular text is required to be 16px or larger.** This replaced a 9.5 floor at 14px which no coloured text in the system could reach: measured against white, every chromatic text token returns `lightness-exhausted` at that target, and closing the gap would have required abandoning chroma — `--color-status-error-text` by deltaE 8, `--color-link` by deltaE 12. The floor did not require coloured text to be darker; it required it not to be coloured, which for status messaging is not a contrast policy but an unintended prohibition. Expressed as a size requirement it is both satisfiable and actionable: at 16px the floor is 4.5 and every status colour clears it with margin ([#240](https://github.com/pawn002/candor/issues/240)).
+**Tier 1 regular text is required to be 16px or larger.** This replaced a 9.5 floor at 14px which no coloured text in the system could reach: measured against white, every chromatic text token returns `lightness-exhausted` at that target, and closing the gap would have required abandoning chroma: `--color-status-error-text` by deltaE 8, `--color-link` by deltaE 12. The floor did not require coloured text to be darker; it required it not to be coloured, which for status messaging is not a contrast policy but an unintended prohibition. Expressed as a size requirement it is both satisfiable and actionable: at 16px the floor is 4.5 and every status colour clears it with margin ([#240](https://github.com/pawn002/candor/issues/240)).
 
-**No known exceptions.** All 212 enforced pairing measurements meet their floor in both modes. The last outstanding one — `candor-accessible-text role_="status"` in error colour — was resolved by moving that role to 16px, matching `candor-input`, which already rendered the same colour on the same background carrying the same content and passed ([#208](https://github.com/pawn002/candor/issues/208)).
+**No known exceptions.** All 212 enforced pairing measurements meet their floor in both modes. The last outstanding one, `candor-accessible-text role_="status"` in error colour, was resolved by moving that role to 16px, matching `candor-input`, which already rendered the same colour on the same background carrying the same content and passed ([#208](https://github.com/pawn002/candor/issues/208)).
 
 Six exceptions were resolved in the 5.0.0 token re-authoring: five under [#222](https://github.com/pawn002/candor/issues/222), which shared a single cause (dark `--color-status-error-text` was specified outside the sRGB gamut, so it named no single color and its recorded figures were undefined), and the `candor-button` destructive variant under [#209](https://github.com/pawn002/candor/issues/209).
 
 ### Live regions
 
-Components that produce dynamic feedback — form errors, status messages, send confirmations, activation results — use pre-established live regions (`role="status"` with `aria-live="polite"` or `role="alert"` with `aria-live="assertive"`). Regions are present in the DOM before content arrives so assistive technology registers the mutation.
+Components that produce dynamic feedback (form errors, status messages, send confirmations, activation results) use pre-established live regions (`role="status"` with `aria-live="polite"` or `role="alert"` with `aria-live="assertive"`). Regions are present in the DOM before content arrives so assistive technology registers the mutation.
 
 ### Focus visibility
 
@@ -103,15 +103,15 @@ Components are tested at up to 200% browser zoom without loss of content or func
 
 ## Consumer responsibilities
 
-Candor components are building blocks. Several accessibility requirements are architectural — they depend on how the consumer assembles components, not on the component implementation itself. The library cannot enforce these, but the Storybook stories for each component demonstrate the correct patterns.
+Candor components are building blocks. Several accessibility requirements are architectural. They depend on how the consumer assembles components, not on the component implementation itself. The library cannot enforce these, but the Storybook stories for each component demonstrate the correct patterns.
 
 | Pattern | Consumer responsibility | Reference story |
 |---|---|---|
-| Radio group labeling | Wrap `<app-radio>` groups in `<fieldset>` + `<legend>` | Components/Form/Radio — `RadioGroup`, `MultipleGroups` |
-| Form field association | Associate labels with inputs via `for` / `id` when not using `<app-input>` | Components/Form/Alert — `InlineFormValidation` |
-| Table headers and caption | Supply `<caption>` and `<th scope="row">` for key/value tables | Components/Table — `Default`, `Compact` |
-| Badge context | Supply `badgeLabel` on `NavItem` to replace bare numbers with meaningful text | Components/Navigation — `WithBadges` |
-| Slider value text | Supply `valueTextFn` when a slider's axis has domain-specific units or dynamic bounds | Components/Form/Slider — `GradientTrack` |
+| Radio group labeling | Wrap `<app-radio>` groups in `<fieldset>` + `<legend>` | Components/Form/Radio: `RadioGroup`, `MultipleGroups` |
+| Form field association | Associate labels with inputs via `for` / `id` when not using `<app-input>` | Components/Form/Alert: `InlineFormValidation` |
+| Table headers and caption | Supply `<caption>` and `<th scope="row">` for key/value tables | Components/Table: `Default`, `Compact` |
+| Badge context | Supply `badgeLabel` on `NavItem` to replace bare numbers with meaningful text | Components/Navigation: `WithBadges` |
+| Slider value text | Supply `valueTextFn` when a slider's axis has domain-specific units or dynamic bounds | Components/Form/Slider: `GradientTrack` |
 | Page structure | Supply `<main>`, `<nav>`, and landmark regions at the page level | Consumer application |
 | Language declaration | Set `lang` attribute on `<html>` | Consumer application |
 
@@ -119,17 +119,17 @@ Candor components are building blocks. Several accessibility requirements are ar
 
 ## Known limitations
 
-### `:visited` link state — double-underline indicator (WCAG 1.4.1)
+### `:visited` link state: double-underline indicator (WCAG 1.4.1)
 
 **Criterion:** 1.4.1 Use of Color (Level A)
-**Status:** Partial — platform-limited; mitigated with structural cue
+**Status:** Partial. Platform-limited; mitigated with a structural cue
 
 Browsers only allow color-value CSS properties inside `:visited` rules (`color`, `border-color`,
 `outline-color`, etc.). Width, style, and layout properties are silently ignored to prevent
 navigation-history side-channel attacks. `text-decoration-style: double` cannot be set in `:visited`.
 
 **The mitigation:** Article links pre-declare `border-bottom: 1px solid transparent` in the base
-rule. On `:visited`, only `border-bottom-color` changes (an allowed color property) — but the effect
+rule. On `:visited`, only `border-bottom-color` changes (an allowed color property), but the effect
 is a second underline appearing beneath the existing `text-decoration` underline. The structural
 signal is: single underline = unvisited, double underline = visited. This cue persists under
 deuteranopia and protanopia (red-green CVD), where hue shift alone may be ambiguous.
@@ -157,8 +157,8 @@ OKLCH color values are not supported in all browsers. The design system currentl
 ### AT snapshot scope
 
 The screen reader audit was conducted using NVDA 2024.x with Chrome (latest stable). VoiceOver (macOS/iOS), JAWS, TalkBack, and Narrator were not tested in the v1.0.0 audit cycle. Known divergences between NVDA+Chrome and other AT+browser combinations may exist, particularly for:
-- The `<details>`/`<summary>` pattern (Accordion) — AT support varies by browser
-- `role="grid"` keyboard model (DataGrid, TonePicker) — JAWS handles this differently than NVDA
+- The `<details>`/`<summary>` pattern (Accordion): AT support varies by browser
+- `role="grid"` keyboard model (DataGrid, TonePicker): JAWS handles this differently than NVDA
 
 ### Composite widget complexity
 
@@ -170,10 +170,10 @@ Custom composite widgets (TonePicker, DataGrid, Modal, Tabs, Menu) required the 
 
 All 26 components were audited in the following sequence:
 
-1. **Static analysis** — markup read against ARIA authoring practices; role ownership rules, name computation, and state attribute correctness verified
-2. **Live AT snapshot** — Playwright MCP `browser_snapshot` against the Storybook story iframe, capturing the accessibility tree as Chrome's DevTools protocol exposes it
-3. **Attribute verification** — ARIA attributes not surfaced in the snapshot (e.g. `aria-valuetext`) verified via `browser_evaluate`
-4. **Fix and re-snapshot** — issues resolved and snapshot re-taken to confirm the fix
+1. **Static analysis**: markup read against ARIA authoring practices; role ownership rules, name computation, and state attribute correctness verified
+2. **Live AT snapshot**: Playwright MCP `browser_snapshot` against the Storybook story iframe, capturing the accessibility tree as Chrome's DevTools protocol exposes it
+3. **Attribute verification**: ARIA attributes not surfaced in the snapshot (e.g. `aria-valuetext`) verified via `browser_evaluate`
+4. **Fix and re-snapshot**: issues resolved and snapshot re-taken to confirm the fix
 
 Audit findings and per-component results are in `docs/A11Y-AUDIT.md`. Cross-cutting trends and authoring conventions derived from both the Angular-era and WC-era audits are in `docs/archive/A11Y-ANALYSIS.md`.
 
