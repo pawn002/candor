@@ -264,7 +264,7 @@ export const AIChatInterface: Story = {
                   <div style="flex: 1; min-width: 0;">
                     <candor-article font="serif" justify lang="en">
                       <p>
-                        Related but not the same, and the difference matters here. Candor's floors are OKCA, which is WCAG-compatible but not identical. Across all 216 pairings Candor audits, the OKCA score comes in at or below the WCAG 2.x figure for the same pair, so OKCA is the binding constraint. Build to 4.5:1 in WCAG and you can still miss Candor's 4.5; the gap is widest on dark backgrounds, where WCAG 2.x compresses hardest.
+                        Related but not the same, and the difference matters here. Candor's floors are OKCA, which is WCAG-compatible but not identical. Across every pairing Candor audits, in both modes, the OKCA score comes in at or below the WCAG 2.x figure for the same pair, so OKCA is the binding constraint. Build to 4.5:1 in WCAG and you can still miss Candor's 4.5; the gap is widest on dark backgrounds, where WCAG 2.x compresses hardest.
                       </p>
                       <p>
                         There also isn't a single lightness answer, and a threshold that ignores chroma will mislead you. Two things set the cutoff together: contrast is bought with lightness, but the sRGB gamut narrows as lightness falls, so the chroma available falls with it. At Candor's azure hue the most sRGB holds is C&nbsp;0.09 at L&nbsp;0.32 and C&nbsp;0.15 at L&nbsp;0.55, so "saturated" is not a constant you get to choose independently.
