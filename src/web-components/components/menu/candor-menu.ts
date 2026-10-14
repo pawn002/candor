@@ -113,7 +113,7 @@ export class CandorMenu extends LitElement {
       padding: var(--spacing-xs) 0.75em;
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
-      letter-spacing: var(--letter-spacing-italic);
+      letter-spacing: var(--letter-spacing-body);
       color: var(--color-text-default);
       background: none;
       border: none;

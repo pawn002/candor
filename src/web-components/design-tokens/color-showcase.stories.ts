@@ -159,7 +159,6 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     description: 'Tip or note panel: a plain surface panel with no side bar. Unlike the blockquote, it is upright, default-colour guidance the reader should act on.',
     colors: [
       { name: 'Callout Background', variable: '--color-callout-bg', description: 'Callout surface. Inherits bg-surface.' },
-      { name: 'Highlight Decorative', variable: '--color-highlight-decorative', description: 'The indigo #6969F7 anchor, for decorative (non-text) use only. Never a text colour.' },
     ],
   },
 ];

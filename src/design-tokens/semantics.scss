@@ -118,7 +118,6 @@
     // ─── Colors: Callout (article tip/note) ────────────────────────────────────
     // A neutral panel. The indigo wash and left bar went in #292.
     --color-callout-bg:           var(--color-bg-surface); // text-default OKCA 8.6 on this bg ✅
-    --color-highlight-decorative: var(--indigo-500); // icon/border use — decorative accent below every text threshold; never a color: value (#132)
 
     // ─── Elevation / Shadow ────────────────────────────────────────────────────
     // Lives in the light mixin (not just :root) so [data-theme="light"] correctly
@@ -229,7 +228,7 @@
     --letter-spacing-relaxed: 0.03em; // moderate tracking for small body text, captions — between normal and wide
     --letter-spacing-wide:    var(--tracking-wide);
     --letter-spacing-italic: 0.02em; // italic text at body size (16px) — slant reduces apparent inter-glyph space
-    --letter-spacing-body:   0.02em; // Atkinson prose-like text (messages, hints, disclaimers): enough air that "rr" never reads as "m", little enough to read as a sentence rather than a label
+    --letter-spacing-body:   0.02em; // upright text that needs a little air: Atkinson messages, hints and labels (so "rr" never reads as "m"), and small UI text. Italic text uses --letter-spacing-italic
 }
 
 // ─── Theme Overrides ────────────────────────────────────────────────────────
@@ -378,9 +377,6 @@
     --color-bg-code:     oklch(0.20 0.04 248); // text-default OKCA 11.9 on this bg ✅ — code text inherits it
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
-
-    // ─── Callout (article tip/note) ────────────────────────────────────────────
-    --color-highlight-decorative: var(--indigo-400);    // icon/border use — decorative accent; never a color: value (#132)
 }
 
 @media (prefers-color-scheme: dark) {

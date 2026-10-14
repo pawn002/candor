@@ -180,6 +180,8 @@ The CHANGELOG entry for 6.0.0 has before/after examples and measured sizes.
 
 `candor-alert` and `candor-toast` draw every variant in one neutral surface box, with the variant carried by the icon and the heading colour. The article blockquote is a book indent with no fill or bar, and the callout is a plain surface panel. Styles that read either removed token should drop the declaration or name `--color-bg-surface` or `--color-action-secondary` directly. Attributions belong in a `<figure>` with a `<figcaption>`.
 
+`--color-highlight-decorative` is removed too: no component paints it any more. Use `--indigo-500` (light) or `--indigo-400` (dark) directly.
+
 ### v3.0.0
 
 #### Angular reference component library removed

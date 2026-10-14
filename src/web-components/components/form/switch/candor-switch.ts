@@ -107,13 +107,13 @@ export class CandorSwitch extends LitElement {
       font-size: var(--font-size-md);
       color: var(--color-text-default);
       user-select: none;
-      letter-spacing: var(--letter-spacing-italic);
+      letter-spacing: var(--letter-spacing-body);
     }
     .switch-hint {
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
       color: var(--color-text-subtle);
-      letter-spacing: var(--letter-spacing-italic);
+      letter-spacing: var(--letter-spacing-body);
     }
   `;
 

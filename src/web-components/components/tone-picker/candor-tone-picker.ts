@@ -200,7 +200,7 @@ export class CandorTonePicker extends LitElement {
       background: var(--color-bg-surface);
       padding: 0.2em 0.5em;
       border-radius: var(--radius-sm);
-      letter-spacing: 0.02em;
+      letter-spacing: var(--letter-spacing-normal);
     }
 
     .preview-empty {

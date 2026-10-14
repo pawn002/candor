@@ -52,7 +52,7 @@ in the repo's `docs/` doesn't. These five rules are the ones that keep output on
    `--font-size-xs` / `--text-xs` (12px) is for decorative, non-text chrome only (badge frames,
    icon sizing) — never body, labels, or values.
 3. **Don't use non-text color tokens as text colour.** `--color-status-error`,
-   `--color-status-success`, `--color-status-warning`, and `--color-highlight-decorative` are
+   `--color-status-success` and `--color-status-warning` are
    contrast-validated for icons/borders only; their contrast is below every text threshold. For
    coloured text use the paired `-text` variants — `--color-status-error-text`, etc. (In the JSON,
    these carry `"$extensions": { "usage": "non-text" }`.)

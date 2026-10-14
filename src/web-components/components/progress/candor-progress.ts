@@ -34,7 +34,7 @@ export class CandorProgress extends LitElement {
   static override styles = css`
     :host { display: block; }
     .progress-bar-wrapper { display: flex; flex-direction: column; gap: var(--spacing-2xs); }
-    .progress-bar__label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-italic); }
+    .progress-bar__label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body); }
     .progress-bar {
       height: var(--spacing-xs);
       background-color: var(--color-bg-surface);

@@ -152,7 +152,7 @@ export class CandorSlider extends LitElement {
       color: var(--color-text-subtle);
       min-width: 3ch;
       text-align: right;
-      letter-spacing: var(--letter-spacing-italic);
+      letter-spacing: var(--letter-spacing-body);
     }
   `;
 
