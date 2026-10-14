@@ -123,7 +123,7 @@ The tone picker renders an OKLCH gamut as a color grid; the slider sweeps lightn
 while holding chroma and hue constant. Selecting a cell dispatches a \`color-select\`
 CustomEvent carrying the formatted oklch string and L/C/H components.
 
-This example is also a stress-test for the design system itself — every component
+This example is also a stress-test for the design system itself: every component
 is under real conditions with live data rather than static props.
         `.trim(),
       },
@@ -219,7 +219,7 @@ export const ColorPairIterator: Story = {
                 <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
                   <candor-accordion-item heading="LCH Limits">
                     <candor-tone-picker
-                      aria-label="Foreground tones — olive H 142"
+                      aria-label="Foreground tones, olive H 142"
                       size="small"
                       selected-value="oklch(0.55 0.065 142)"
                       rows='${FG_ROWS}'
@@ -266,7 +266,7 @@ export const ColorPairIterator: Story = {
                 <div style="background: var(--color-bg-page); border-radius: var(--radius-md); padding: 0 0.75rem;">
                   <candor-accordion-item heading="LCH Limits">
                     <candor-tone-picker
-                      aria-label="Background tones — pink H 333"
+                      aria-label="Background tones, pink H 333"
                       size="small"
                       selected-value="oklch(0.94 0.04 333)"
                       rows='${BG_ROWS}'
@@ -332,7 +332,7 @@ export const ColorPairIterator: Story = {
                   font-size: var(--font-size-base);
                   margin: 0;
                   line-height: var(--line-height-relaxed);
-                ">Body copy — the quick brown fox jumps over the lazy dog. Color, readability, and rhythm.</p>
+                ">Body copy: the quick brown fox jumps over the lazy dog. Color, readability, and rhythm.</p>
                 <p style="
                   color: #647a61;
                   font-family: var(--font-family-accessible);

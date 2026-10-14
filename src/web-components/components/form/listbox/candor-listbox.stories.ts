@@ -34,8 +34,8 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-listbox>\` — custom select alternative using \`role="listbox"\` + \`role="option"\`.
-Use when native \`<select>\` styling is insufficient — custom option rendering, visual
+\`<candor-listbox>\`: a custom select alternative using \`role="listbox"\` + \`role="option"\`.
+Use when native \`<select>\` styling is insufficient: custom option rendering, visual
 coherence with other Candor form components, or complex option layouts.
 
 **Which picker to use**
@@ -44,7 +44,7 @@ coherence with other Candor form components, or complex option layouts.
 |---|---|
 | \`candor-select\` | Simple lists (≤ ~15 options), forms requiring maximum AT compatibility, mobile contexts where the OS native picker is preferable |
 | \`candor-listbox\` | Moderate lists (≤ ~15 options) needing visual coherence or the checkmark indicator; options must be scannable without scrolling |
-| \`candor-combobox\` | Large lists (16+ options) where users must search rather than scan — filter-as-you-type makes the list tractable |
+| \`candor-combobox\` | Large lists (16+ options) where users must search rather than scan. Filter-as-you-type makes the list tractable |
 
 **Keyboard:** ArrowDown/Up navigate options; Home/End jump to first/last; Enter or Space
 selects; Escape closes; Tab closes without selecting.
@@ -127,7 +127,7 @@ export const LongList: Story = {
     docs: {
       description: {
         story: '12-item list (all 12 months) shown at its scrollable limit. This is the practical ceiling for ' +
-          'a listbox — the complete, bounded set fits without user search. ' +
+          'a listbox: the complete, bounded set fits without user search. ' +
           'For lists of 16+ options, or any list that is a subset of a larger dataset (e.g. countries), ' +
           'use `<candor-combobox>` with filter-as-you-type instead.',
       },
@@ -169,5 +169,5 @@ export const WithError: Story = {
 };
 
 export const Disabled: Story = {
-  args: { disabled: true, hint: 'Language is managed by your organisation — contact an administrator to change it.' },
+  args: { disabled: true, hint: 'Language is managed by your organisation. Contact an administrator to change it.' },
 };

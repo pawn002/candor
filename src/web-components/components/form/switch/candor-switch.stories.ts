@@ -12,18 +12,18 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-switch>\` — toggle for a boolean setting that takes effect immediately on flip. The
-visual metaphor is a physical on/off switch — no submit required.
+\`<candor-switch>\`: a toggle for a boolean setting that takes effect immediately on flip. The
+visual metaphor is a physical on/off switch, with no submit required.
 
 **Switch vs. Checkbox:** Use a switch when the change is applied immediately (dark mode,
 notifications, live filter toggles). Use a checkbox when the value is collected and submitted
 as part of a form.
 
 Set \`aria-label\` on the custom element when the switch has no adjacent visible label. The
-component reflects it onto the inner \`<input type="checkbox" role="switch">\` — relying on
+component reflects it onto the inner \`<input type="checkbox" role="switch">\`. Relying on
 attribute inheritance from the host alone does not work.
 
-Set \`hint\` whenever the switch is disabled — a disabled control with no explanation reads as
+Set \`hint\` whenever the switch is disabled. A disabled control with no explanation reads as
 broken. The hint is the only channel for telling the user whether the lock is a permission
 boundary, a system constraint, or a state they can change elsewhere.
 
@@ -63,8 +63,8 @@ export const NoLabel: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Use `aria-label` when the visible label comes from surrounding context — ' +
-          'a table row, a settings list, or a data grid cell — rather than from the ' +
+        story: 'Use `aria-label` when the visible label comes from surrounding context ' +
+          '(a table row, a settings list, or a data grid cell) rather than from the ' +
           'component itself. The label is stripped from the host and forwarded to the ' +
           'inner `<input role="switch">` so screen readers hear it exactly once. ' +
           'See **FeatureTable** for a real-world example of this pattern.',
@@ -80,7 +80,7 @@ export const FeatureTable: Story = {
     docs: {
       description: {
         story: 'When switches appear in a table or settings list, the row label provides ' +
-          'the accessible name — no visible label is needed on the switch itself. ' +
+          'the accessible name. No visible label is needed on the switch itself. ' +
           'Pass `aria-label` matching the row label so screen readers announce the ' +
           'correct name without repeating it.',
       },

@@ -11,7 +11,7 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-pagination>\` — page navigator for paged data sets. Shows the current page,
+\`<candor-pagination>\`: a page navigator for paged data sets. Shows the current page,
 adjacent pages, first/last anchors, and an ellipsis when the page count is large.
 Previous/Next buttons always present.
 
@@ -42,7 +42,7 @@ to give screen readers a unique landmark name (e.g. \`"Documents pagination"\`,
     },
     compact: {
       control: 'boolean',
-      description: 'Compact layout: ‹ Prev · Page X of Y · Next › — drops the numbered buttons. Opt-in for narrow viewports.',
+      description: 'Compact layout: ‹ Prev · Page X of Y · Next ›, without the numbered buttons. Opt-in for narrow viewports.',
     },
   },
   args: { currentPage: 3, totalPages: 10, compact: false },
@@ -81,7 +81,7 @@ export const Compact: Story = {
     docs: {
       description: {
         story:
-          'Compact layout for narrow viewports — Prev/Next flank a plain-text "Page X of Y" position ' +
+          'Compact layout for narrow viewports. Prev/Next flank a plain-text "Page X of Y" position ' +
           'indicator instead of numbered buttons. Set `compact` from a media/container query in a ' +
           'responsive app. The position text is a polite live region, so screen readers announce the ' +
           'new page after Prev/Next (focus stays on the button).',
@@ -136,7 +136,7 @@ export const Controlled: Story = {
     docs: {
       description: {
         story:
-          'Click any page — a `change` CustomEvent fires with the new page number as `event.detail`. ' +
+          'Click any page. A `change` CustomEvent fires with the new page number as `event.detail`. ' +
           'Wire it to your data layer:\n\n' +
           '```js\n' +
           "const pager = document.querySelector('candor-pagination');\n" +

@@ -22,8 +22,8 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-toolbar>\` — horizontal or vertical strip of related controls. Implements the APG
-Toolbar pattern — the entire toolbar is a **single tab stop**; arrow keys move focus
+\`<candor-toolbar>\`: a horizontal or vertical strip of related controls. Implements the APG
+Toolbar pattern: the entire toolbar is a **single tab stop**; arrow keys move focus
 between controls inside it.
 
 **ARIA contract:** \`role="toolbar"\` on the container; \`aria-label\` or
@@ -33,24 +33,24 @@ between controls inside it.
 **Roving tabindex:** On first Tab into the toolbar, focus lands on the last-active item
 (or the first item on initial visit). Arrow keys (Left/Right for horizontal, Up/Down for
 vertical) move focus; Home/End jump to first/last. Tab moves focus out of the toolbar
-entirely — not to the next item within it.
+entirely, not to the next item within it.
 
 **Toggle buttons:** Use \`aria-pressed\` on \`<button>\` elements for on/off state (Bold,
-Italic, active filter). The toolbar does not manage pressed state — that is the consumer's
+Italic, active filter). The toolbar does not manage pressed state. That is the consumer's
 responsibility.
 
 **Separator:** Use \`<candor-toolbar-separator>\` between logical groups. In a horizontal
 toolbar use the default \`orientation="vertical"\`; in a vertical toolbar set
 \`orientation="horizontal"\`.
 
-> **Story authoring note — the \`btn btn-ghost btn-sm\` classes are Storybook-only.**
+> **Story authoring note: the \`btn btn-ghost btn-sm\` classes are Storybook-only.**
 > These stories style their toolbar buttons with utility classes that exist in the
 > Storybook harness but are **not** shipped in \`@candor-design/tokens\`. Don't copy them
-> into an app — they'll render as unstyled browser buttons. The toolbar is a generic
+> into an app, or they'll render as unstyled browser buttons. The toolbar is a generic
 > container: it supplies structure, ARIA, and roving focus for whatever \`<button>\`s you
 > put inside. For plain controls use \`<candor-button variant="ghost" size="small">\`; for
 > **toggle** controls (Bold/Italic with \`aria-pressed\`) supply your own \`<button>\` and
-> style it — \`candor-button\` has no pressed state.
+> style it, because \`candor-button\` has no pressed state.
         `.trim(),
       },
     },
@@ -98,7 +98,7 @@ export const WithSeparators: Story = {
         story:
           'Use `<candor-toolbar-separator>` between logical groups of controls. ' +
           'In a horizontal toolbar the default `orientation="vertical"` produces a thin vertical rule. ' +
-          'Arrow key navigation crosses separators — they are presentational only and are not focusable.',
+          'Arrow key navigation crosses separators. They are presentational only and are not focusable.',
       },
     },
   },
@@ -146,7 +146,7 @@ export const WithToggleButtons: Story = {
       description: {
         story:
           'Toggle buttons carry `aria-pressed="true"` when active. ' +
-          'The toolbar does not manage pressed state — the consumer toggles `aria-pressed` and applies an active visual style on each click. ' +
+          'The toolbar does not manage pressed state. The consumer toggles `aria-pressed` and applies an active visual style on each click. ' +
           'Bold and Align Left are shown pre-pressed here; clicking does not toggle state in this static demo.',
       },
     },
@@ -264,7 +264,7 @@ export const DataTableActions: Story = {
       description: {
         story:
           'Toolbars above data tables typically mix icon-only and icon+text buttons. ' +
-          'Buttons with visible text labels do not need `aria-label` — the visible text is already the accessible name. ' +
+          'Buttons with visible text labels do not need `aria-label`. The visible text is already the accessible name. ' +
           'Icon-only buttons always need `aria-label`.',
       },
     },

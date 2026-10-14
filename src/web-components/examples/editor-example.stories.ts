@@ -30,12 +30,12 @@ Document editor layout using \`<candor-toolbar>\`, \`<candor-toolbar-separator>\
 \`<candor-toast>\`.
 
 The toolbar implements the [ARIA Toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/)
-with roving tabindex — Tab moves focus into/out of the toolbar, arrow keys navigate between
+with roving tabindex. Tab moves focus into/out of the toolbar, arrow keys navigate between
 controls inside it. Toolbar buttons use native \`<button>\` elements, not
 \`<candor-button>\`, because roving tabindex requires direct focus management on the
 element itself.
 
-> **The \`btn btn-ghost btn-sm\` classes on these buttons are Storybook-only** — they
+> **The \`btn btn-ghost btn-sm\` classes on these buttons are Storybook-only.** They
 > exist in the Storybook harness but are not shipped in \`@candor-design/tokens\`. Don't
 > copy them into an app; style your own \`<button>\`s instead. See the Toolbar story for
 > the full note.
@@ -152,7 +152,7 @@ export const DocumentEditor: Story = {
              role="region" aria-label="Document content">
 
           <p style="font-family: var(--font-family-base); font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); color: var(--color-text-default); margin: 0 0 1rem; line-height: var(--line-height-tight);">
-            Q2 Design Review — Summary
+            Q2 Design Review: Summary
           </p>
 
           <p style="font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-default); margin: 0 0 1rem; line-height: var(--line-height-normal);">
@@ -165,7 +165,7 @@ export const DocumentEditor: Story = {
 
           <ul style="font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-default); margin: 0 0 1rem; padding-left: 1.5rem; line-height: var(--line-height-normal);">
             <li>26 components shipped, all with Storybook stories and A11Y audit notes</li>
-            <li>Token system migrated to OKLCH — all contrast ratios re-validated</li>
+            <li>Token system migrated to OKLCH, with all contrast ratios re-validated</li>
             <li>Dark mode parity achieved across the full component set</li>
           </ul>
 
@@ -280,7 +280,7 @@ export const ImageEditor: Story = {
                 align-items: center;
                 justify-content: center;
               ">
-              <candor-text variant="body" style="color: var(--color-text-subtle);">hero-banner.png — 1440 × 480</candor-text>
+              <candor-text variant="body" style="color: var(--color-text-subtle);">hero-banner.png, 1440 × 480</candor-text>
             </div>
           </div>
 

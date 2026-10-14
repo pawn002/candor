@@ -48,27 +48,27 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-table>\` — semantic data table with consistent typography, zebra striping, and a
+\`<candor-table>\`: a semantic data table with consistent typography, zebra striping, and a
 \`compact\` density variant. In compact mode, row padding tightens and the zebra pattern
 inverts (odd rows receive the surface background) so the first row is highlighted rather
 than the second.
 
-Set \`caption\` to render a visible \`<caption>\` element above the table — this is the
+Set \`caption\` to render a visible \`<caption>\` element above the table. This is the
 primary accessible name for the table and should always be provided. Screen readers
 announce it when the user enters the table.
 
 Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: TableCell[], isHeader?: boolean }[]\`
-via JS properties (or JSON-encoded as attributes). A cell is a string, or markup — a Lit
-template or a DOM node — set through the \`rows\` property; see *Interactive cells*. Set \`isHeader: true\` on a row for
+via JS properties (or JSON-encoded as attributes). A cell is a string, or markup (a Lit
+template or a DOM node) set through the \`rows\` property; see *Interactive cells*. Set \`isHeader: true\` on a row for
 key/value tables where the first cell of each row is a row-header.
 
 **Monospace columns.** Two column-index props (zero-based JSON arrays) apply Candor's
-mono face where *character position is load-bearing* — never for flavour or to signal
+mono face where *character position is load-bearing*, never for flavour or to signal
 "technical content" generically (see VISUAL-DESIGN.md §2):
 
-- \`numeric-columns\` — mono + \`tabular-nums\` + **right-aligned**, for magnitudes you scan
+- \`numeric-columns\`: mono + \`tabular-nums\` + **right-aligned**, for magnitudes you scan
   and compare down the column: revenue, scores, counts, measurements.
-- \`mono-columns\` — mono + \`tabular-nums\` + **left-aligned**, for codes you read
+- \`mono-columns\`: mono + \`tabular-nums\` + **left-aligned**, for codes you read
   left-to-right as text: version strings, timestamps/dates, IDs, commit hashes, coordinates.
   These are position-sensitive but aren't quantities, so right-aligning them would be wrong.
 
@@ -85,7 +85,7 @@ in a container with \`overflow-x: auto\` to expose a horizontal scrollbar.
     },
   },
   argTypes: {
-    caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption — rendered as a visible <caption> element and announced by screen readers on entry' },
+    caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption, rendered as a visible <caption> element and announced by screen readers on entry' },
     headers: { control: 'object', description: 'Column header labels rendered in <thead>' },
     rows: { control: 'object', description: 'Array of { cells: string[], isHeader?: boolean }. Set isHeader: true for key/value rows where the first cell is a row-header.' },
     compact: { control: 'boolean', type: { name: 'boolean' }, description: 'Tighter row padding; inverts zebra pattern so odd rows receive the surface background' },
@@ -118,9 +118,9 @@ export const MonoColumns: Story = {
     docs: {
       description: {
         story:
-          'Both mono props on one table. **Version** and **Released** use `mono-columns` — ' +
+          'Both mono props on one table. **Version** and **Released** use `mono-columns`: ' +
           'codes read left-to-right, so they stay left-aligned; `tabular-nums` still lines the ' +
-          'digits up column-to-column. **Size (kB)** uses `numeric-columns` — a magnitude, so it ' +
+          'digits up column-to-column. **Size (kB)** uses `numeric-columns`: a magnitude, so it ' +
           'is right-aligned for down-column comparison. The **Package** column is prose, left in ' +
           "the base sans face. This is the distinction to copy: mono marks character-position, " +
           'alignment marks whether the value is a code or a quantity.',

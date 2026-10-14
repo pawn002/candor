@@ -10,14 +10,14 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-chip>\` — small pill-shaped element for tags, filters, and selections. Three
+\`<candor-chip>\`: a small pill-shaped element for tags, filters, and selections. Three
 interaction modes:
 
-- **Selectable** (\`selectable\`) — toggles an active state; use for filter chips where the user turns options on and off
-- **Dismissible** (\`dismissible\`) — shows a close button; use for input chips that can be removed (tags on a post, applied filters)
-- **Link** (\`link-href="/tags/foo"\`) — renders as \`<a>\`; use when the chip navigates to another page (taxonomy archive, tag cloud). Mutually exclusive with selectable and dismissible.
+- **Selectable** (\`selectable\`) toggles an active state; use for filter chips where the user turns options on and off
+- **Dismissible** (\`dismissible\`) shows a close button; use for input chips that can be removed (tags on a post, applied filters)
+- **Link** (\`link-href="/tags/foo"\`) renders as \`<a>\`; use when the chip navigates to another page (taxonomy archive, tag cloud). Mutually exclusive with selectable and dismissible.
 
-**Chip vs. Badge:** Badges are static indicators (status, count). Chips are interactive —
+**Chip vs. Badge:** Badges are static indicators (status, count). Chips are interactive:
 they respond to clicks and can be removed. If the element has no interaction, use a Badge.
 
 Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warning\`,
@@ -25,7 +25,7 @@ Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warn
 
 **Events.** \`change\` fires on select/deselect, carrying the new selected state as a
 \`boolean\` in \`detail\`; \`dismiss\` fires when the remove button is activated, with no
-payload. The legacy \`selected-change\` was removed in 5.0.0 (#201) — use \`change\`, which
+payload. The legacy \`selected-change\` was removed in 5.0.0 (#201). Use \`change\`, which
 has the same semantics and the same payload.
         `.trim(),
       },

@@ -32,7 +32,7 @@ and fills it with \`<candor-heading>\`, \`<candor-text>\`, \`<candor-button>\`, 
 \`<candor-stat>\`, \`<candor-menu>\`, and \`<candor-tooltip>\` for content and actions.
 
 For image-topped cards, use \`padding="none"\` on \`<candor-card>\` and add a padded wrapper
-div inside the slot — the card's \`overflow: hidden\` clips the image corners automatically.
+div inside the slot. The card's \`overflow: hidden\` clips the image corners automatically.
         `.trim(),
       },
     },

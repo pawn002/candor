@@ -46,7 +46,7 @@ Demonstrates a canonical list-management UI:
 - **Pagination** navigates large result sets via the \`change\` CustomEvent
 - **Table** renders sortable columns and row data
 
-The filter drawer uses \`<aside>\` with an \`aria-label\` — landmark navigation lets
+The filter drawer uses \`<aside>\` with an \`aria-label\`. Landmark navigation lets
 keyboard and screen reader users jump directly to filters without tabbing through the
 full table first.
         `.trim(),
@@ -155,8 +155,8 @@ export const FilterableTable: Story = {
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Lena Fischer</td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);"><candor-badge variant="default" size="sm">Pending</candor-badge></td>
                 <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">7 Apr 2026</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">—</td>
-                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">—</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Unassigned</td>
+                <td style="padding: var(--spacing-xs) var(--spacing-sm); border-bottom: var(--border-width-thin) solid var(--color-border-strong); background: var(--color-bg-surface);">Not scored</td>
               </tr>
             </tbody>
           </table>

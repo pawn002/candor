@@ -71,8 +71,8 @@ const meta: Meta = {
       ),
       description: {
         component: `
-Candor's spacing scale is built on an **8px grid**. Every step is a named semantic token —
-use these instead of raw pixel or rem values in components and layouts.
+Candor's spacing scale is built on an **8px grid**. Every step is a named semantic token.
+Use these instead of raw pixel or rem values in components and layouts.
 
 | Token | Value | px |
 |---|---|---|
@@ -90,9 +90,9 @@ sizes, input heights, button heights) land naturally on 8px multiples. A shared 
 components visually aligned without manual negotiation.
 
 **Why these steps?** The scale has two distinct zones. The compact end (2xs → xs → sm)
-doubles at each step — fine-grained control for internal component spacing like gaps between
-an icon and its label. The large end (md → lg → xl → 2xl → 3xl) grows more gradually —
-these are layout-scale values for section padding, card gaps, and page margins where the
+doubles at each step, for fine-grained control for internal component spacing like gaps between
+an icon and its label. The large end (md → lg → xl → 2xl → 3xl) grows more gradually.
+These are layout-scale values for section padding, card gaps, and page margins where the
 difference between adjacent steps needs to feel intentional rather than incremental.
         `.trim(),
       },
@@ -108,7 +108,7 @@ export const SpacingScale: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Full spacing scale — token name, rem value, and pixel equivalent. Bar widths are proportional to the spacing value.',
+        story: 'Full spacing scale: token name, rem value, and pixel equivalent. Bar widths are proportional to the spacing value.',
       },
     },
   },
@@ -128,7 +128,7 @@ export const SpacingInComponents: Story = {
     <div style="max-width: 600px; display: flex; flex-direction: column; gap: var(--spacing-xl);">
 
       <div>
-        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Tight — spacing-xs (8px)</p>
+        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Tight: spacing-xs (8px)</p>
         <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
           <candor-chip label="Item 1"></candor-chip>
           <candor-chip label="Item 2"></candor-chip>
@@ -137,7 +137,7 @@ export const SpacingInComponents: Story = {
       </div>
 
       <div>
-        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Compact — spacing-sm (16px)</p>
+        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Compact: spacing-sm (16px)</p>
         <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap;">
           <candor-button variant="primary">Save changes</candor-button>
           <candor-button variant="secondary">Preview</candor-button>
@@ -145,10 +145,10 @@ export const SpacingInComponents: Story = {
         </div>
       </div>
 
-      <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Above this line, tokens govern spacing <em>within</em> components — the gap between a chip and its neighbour, the distance between buttons in a toolbar. Below, they govern spacing <em>between</em> components at layout scale: card padding, card grids, and page margins. The same token system, two distinct domains.</p>
+      <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Above this line, tokens govern spacing <em>within</em> components: the gap between a chip and its neighbour, the distance between buttons in a toolbar. Below, they govern spacing <em>between</em> components at layout scale: card padding, card grids, and page margins. The same token system, two distinct domains.</p>
 
       <div>
-        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Comfortable — spacing-md (24px)</p>
+        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Comfortable: spacing-md (24px)</p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr)); gap: var(--spacing-md);">
           <candor-card variant="default" padding="md">
             <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
@@ -163,7 +163,7 @@ export const SpacingInComponents: Story = {
       </div>
 
       <div>
-        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Loose — spacing-xl (48px)</p>
+        <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-xs);">Loose: spacing-xl (48px)</p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr)); gap: var(--spacing-xl);">
           <candor-card variant="default" padding="lg">
             <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
