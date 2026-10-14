@@ -14,9 +14,9 @@ const meta: Meta = {
         component: `
 \`<candor-code>\` renders **inline code** with the \`--color-bg-code\` / \`--color-text-code\`
 token pair applied together, plus the mono font, padding, radius, and border. It exists to
-remove a footgun (#170): \`--color-bg-code\` is a dark navy, so setting it on a raw \`<code>\`
-without also setting \`--color-text-code\` yields invisible dark-on-dark text. This element
-can't be half-applied.
+remove a footgun (#170): setting \`--color-bg-code\` on a raw \`<code>\` without also setting
+\`--color-text-code\` leaves the text colour to whatever the context inherits, which nothing
+has measured against the code background. This element can't be half-applied.
 
 The inner \`<code>\` is exposed as \`::part(code)\` for consumer restyle. For multiline / block
 code, wrap in a \`<pre>\` rather than using this inline element.

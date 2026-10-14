@@ -214,7 +214,7 @@ A scrollbar left to the browser is a default, not a decision. It draws a light t
 - **Thin to look at, full size to grab.** The visible bar is 6px (`--scrollbar-thumb-size`) inside a 24px lane (`--scrollbar-size`, the AA target size). The rest of the lane is a transparent border on the thumb, so the whole lane can be dragged. This is the accessible choice made to look right, not a trade between the two.
 - **More space on the content side.** 12px between the bar and the content, 6px between the bar and the outer edge. Measured, the gaps are unequal; seen, they are even, because the eye measures from the content and the outer edge is a hard line.
 - **Inset from the ends** by `--radius-md`, so the bar clears a rounded corner instead of running into it.
-- **The rail grey.** The bar is `--color-border-control`, the same grey as a slider rail and a form-control border, so all three read as one family of inert edges. It darkens to `--color-text-subtle` on hover. On a code block, whose background is navy in both modes, it is `--color-border-strong`.
+- **The rail grey.** The bar is `--color-border-control`, the same grey as a slider rail and a form-control border, so all three read as one family of inert edges. It darkens to `--color-text-subtle` on hover.
 - **Full-width rows need inset highlights.** A highlight that runs edge to edge stops short of the lane and looks cut off. Inset it by `--spacing-2xs` with `--radius-sm` corners, as the option panels do, and the gap reads as deliberate.
 
 Use `scrollbarStyles('<selector>')` from `src/web-components/utils/scrollbar.ts` on any element that scrolls, never on `:host`. `npm run audit:docs` fails on a component that scrolls without it.
@@ -323,7 +323,7 @@ Likely causes, in order of frequency:
 
 ### Symptom: "The technical content sits outside the design"
 
-- **Mono font used without a container.** A raw monospace block dropped into serif prose with no background, padding, or border radius reads as an intrusion. Fix: wrap it in `--color-bg-code` with padding and a border radius. In dark mode `--color-bg-code` resolves to `oklch(0.20 0.04 248)`, a deep cool navy. Never use `background: #000`.
+- **Mono font used without a container.** A raw monospace block dropped into serif prose with no background, padding, or border radius reads as an intrusion. Fix: wrap it in `--color-bg-code` with padding and a border radius. `--color-bg-code` is a warm burgundy tint about ΔE 11 from the page: `oklch(0.90 0.02 347.43)` in light and `oklch(0.20 0.02 347.43)` in dark. Never use `background: #000`.
 - **Tabular numerals not enabled.** Numbers wobble in columns. Fix: `font-variant-numeric: tabular-nums` on numeric columns.
 - **No typographic treatment of technical content.** Function names, types, and keywords all look identical. Fix: use syntax tokens. Even a two-color treatment (identifier vs. keyword) is enough to bring code inside the system.
 

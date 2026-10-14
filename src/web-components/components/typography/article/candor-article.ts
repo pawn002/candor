@@ -99,11 +99,6 @@ const articleStyles = `
     border-radius: var(--radius-md);
     overflow-x: auto;
     margin-bottom: var(--spacing-md);
-    /* The code background is navy in both modes, and the default grey thumb does
-       not clear 3.0 on it in light. border-strong does, in both modes: see
-       scrollbar-thumb-on-code in audit/pairings.json (#307). */
-    --_candor-scrollbar-thumb: var(--color-border-strong);
-    --_candor-scrollbar-thumb-hover: var(--color-text-code);
   }
   candor-article pre:focus { outline: none; }
   candor-article pre:focus-visible {

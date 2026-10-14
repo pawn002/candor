@@ -88,11 +88,13 @@
     --color-highlight: var(--burgundy-700); // OKCA 6.9 on bg-surface ✅, OKCA 9.3 on page ✅
 
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
-    // In light mode: dark navy block (inverted) — no border needed, bg does the work.
-    // In dark mode: deep navy tint + explicit border — bg alone can't delineate at low L.
-    --color-bg-code:     var(--color-bg-inverse);  // navy-800 on white page
-    --color-text-code:   var(--color-text-inverse); // white on navy
-    --color-border-code: transparent; // deliberate: the code block is a filled navy panel with no rule around it; dark mode adds one (#242)
+    // A burgundy-hued tint about deltaE 11 from the page in both modes, replacing the
+    // filled navy-800 panel (deltaE 79 from white), which was hard to read at length.
+    // Burgundy is the only warm brand hue; #318 asks whether it is the right one.
+    // Text is the ordinary body colour, so the pair needs no inverse.
+    --color-bg-code:     oklch(0.90 0.02 347.43); // text-default OKCA 8.2 on this bg ✅
+    --color-text-code:   var(--color-text-default);
+    --color-border-code: transparent; // deliberate: the tint separates the block from the page on its own; dark mode adds a rule (#242)
 
     // ─── Colors: Focus ─────────────────────────────────────────────────────────
     --color-focus: var(--azure-400); // high-visibility ring on dark/white backgrounds
@@ -372,9 +374,10 @@
     --color-status-warning-text:  oklch(0.82 0.11 53.54);  // OKCA 6.8 on warning-bg ✅ — C=0.16 exceeded what sRGB holds at this L and H; re-authored to the boundary, same L and H (#225)
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
-    // Deep navy tint — hue-distinct from gray-900 page but not light-inverted.
-    // Border required: bg-to-page contrast is ~1:1 at these low L values.
-    --color-bg-code:     oklch(0.20 0.04 248); // text-default OKCA 11.9 on this bg ✅ — code text inherits it
+    // Burgundy tint, deltaE 11 from the cool page: the hue change carries the
+    // separation, so the block stays nearly as dark as the page. Border still
+    // required, since lightness alone barely differs at these low L values.
+    --color-bg-code:     oklch(0.20 0.02 347.43); // text-default OKCA 11.9 on this bg ✅ — code text inherits it
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
 }

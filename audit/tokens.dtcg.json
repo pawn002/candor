@@ -41,11 +41,8 @@
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.27 0.06 245.34)",
-          "$description": "In light mode: dark navy block (inverted) — no border needed, bg does the work. In dark mode: deep navy tint + explicit border — bg alone can't delineate at low L. — navy-800 on white page",
-          "$extensions": {
-            "aliasOf": "--color-bg-inverse"
-          }
+          "$value": "oklch(0.90 0.02 347.43)",
+          "$description": "A burgundy-hued tint about deltaE 11 from the page in both modes, replacing the filled navy-800 panel (deltaE 79 from white), which was hard to read at length. Burgundy is the only warm brand hue; #318 asks whether it is the right one. Text is the ordinary body colour, so the pair needs no inverse. — text-default OKCA 8.2 on this bg ✅"
         }
       },
       "text": {
@@ -96,10 +93,9 @@
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(1 0 0)",
-          "$description": "white on navy",
+          "$value": "oklch(0.32 0 0)",
           "$extensions": {
-            "aliasOf": "--color-text-inverse"
+            "aliasOf": "--color-text-default"
           }
         }
       },
@@ -150,7 +146,7 @@
         "code": {
           "$type": "color",
           "$value": "transparent",
-          "$description": "deliberate: the code block is a filled navy panel with no rule around it; dark mode adds one (#242)",
+          "$description": "deliberate: the tint separates the block from the page on its own; dark mode adds a rule (#242)",
           "$extensions": {
             "usage": "non-text"
           }
@@ -425,8 +421,8 @@
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.20 0.04 248)",
-          "$description": "Deep navy tint — hue-distinct from gray-900 page but not light-inverted. Border required: bg-to-page contrast is ~1:1 at these low L values. — text-default OKCA 11.9 on this bg ✅ — code text inherits it"
+          "$value": "oklch(0.20 0.02 347.43)",
+          "$description": "Burgundy tint, deltaE 11 from the cool page: the hue change carries the separation, so the block stays nearly as dark as the page. Border still required, since lightness alone barely differs at these low L values. — text-default OKCA 11.9 on this bg ✅ — code text inherits it"
         }
       },
       "text": {

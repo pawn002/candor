@@ -140,7 +140,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Code Blocks',
-    description: 'Dark navy surface for code blocks, always visually distinct from ambient backgrounds. Border required when the ambient background is also dark.',
+    description: 'A warm burgundy tint for code blocks, about deltaE 11 from the page in both modes. Border required in dark mode, where lightness alone barely separates the block.',
     colors: [
       { name: 'Code Background', variable: '--color-bg-code', description: 'Code block surface' },
       { name: 'Code Text', variable: '--color-text-code', description: 'Text on code bg' },
