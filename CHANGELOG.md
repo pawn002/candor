@@ -60,6 +60,8 @@ The UMD build is gone, because Lit has no global build for a UMD file with Lit e
 
 ### Added (tooling)
 
+- **`tests/scrollbar.spec.ts` checks the scrollbar's grab area at runtime (#309).** Nothing else can see a scrollbar. Playwright launches headless Chromium with `--hide-scrollbars`, and Chromatic's captures of #308 showed none, so the #307 design was guarded only by `audit:docs` (the component uses the shared style) and `audit:contrast` (the bar's colour). Neither checks the 24px grab area the design exists for. The spec turns `--hide-scrollbars` off for itself and checks every scrolling component: the lane is `--scrollbar-size`; the visible bar is `--scrollbar-thumb-size`, counted from pixels across the lane; and dragging 2px inside the outer edge, in the spacing rather than the bar, scrolls. Subjects come from the same source scan as `audit:docs`, and a scroller with no fixture fails. Two breakages were tried on purpose and each failed all 11 scrollers: a lane shrunk to the bar's width, and a bar filling the whole lane, the flat block `candor-table` drew in #308 before review caught it. It adds no Chromatic snapshots.
+
 - **`npm run audit:packaging` checks the `exports` map (#257).** The map is generated from `src/web-components/index.ts` by `npm run sync:wc-exports`. The audit fails in three cases: the committed map is stale, so a new component would have no entry point; an export points at a file the build did not emit; or the standalone bundle contains a bare import, which would make it unloadable from a `<script>` tag. All three failures were checked by breaking each one on purpose.
 
 ### Fixed
