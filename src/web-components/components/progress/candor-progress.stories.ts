@@ -11,7 +11,7 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-progress>\`: a progress indicator in two forms: a horizontal bar or a circular
+\`<candor-progress>\`: a progress indicator with two forms, a horizontal bar or a circular
 spinner.
 
 - **Bar** (\`type="bar"\`): for determinate progress with a known percentage (file upload, multi-step form)
