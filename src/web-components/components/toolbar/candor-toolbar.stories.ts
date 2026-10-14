@@ -5,6 +5,15 @@ import './candor-toolbar';
 
 const BTN = 'btn btn-ghost btn-sm';
 
+// Icon-only buttons follow the icon-weight rule (#296). A glyph with a fill form
+// is drawn filled at 1.75rem; a stroke-only glyph (text formatting, align, list,
+// link, arrows), whose fill form is a box, is drawn bold at 1.25rem. Both take
+// --color-text-subtle from the button, so a pressed toggle's own colour still wins.
+// The 2px padding keeps the button at 32px with the larger glyph inside.
+const ICON_ONLY = 'padding:0.125rem;min-width:2rem;color:var(--color-text-subtle);';
+const FILL_ICON = 'font-size:1.75rem;line-height:1;';
+const BOLD_ICON = 'font-size:1.25rem;line-height:1;';
+
 const meta: Meta = {
   title: 'Components/Toolbar',
   tags: ['autodocs'],
@@ -58,17 +67,17 @@ toolbar use the default \`orientation="vertical"\`; in a vertical toolbar set
   args: { 'aria-label': 'Text formatting', orientation: 'horizontal' },
   render: (args) => html`
     <candor-toolbar aria-label="${args['aria-label']}" orientation="${args['orientation']}">
-      <button class="${BTN}" type="button" aria-label="Bold" title="Bold">
-        <i class="ph-bold ph-text-b" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Bold" title="Bold" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-b" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Italic" title="Italic">
-        <i class="ph ph-text-italic" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Italic" title="Italic" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-italic" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Underline" title="Underline">
-        <i class="ph ph-text-underline" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Underline" title="Underline" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-underline" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Strikethrough" title="Strikethrough">
-        <i class="ph ph-text-strikethrough" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Strikethrough" title="Strikethrough" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-strikethrough" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
     </candor-toolbar>
   `,
@@ -94,35 +103,35 @@ export const WithSeparators: Story = {
   },
   render: () => html`
     <candor-toolbar aria-label="Text formatting">
-      <button class="${BTN}" type="button" aria-label="Bold" title="Bold">
-        <i class="ph-bold ph-text-b" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Bold" title="Bold" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-b" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Italic" title="Italic">
-        <i class="ph ph-text-italic" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Italic" title="Italic" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-italic" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Underline" title="Underline">
-        <i class="ph ph-text-underline" aria-hidden="true"></i>
-      </button>
-
-      <candor-toolbar-separator></candor-toolbar-separator>
-
-      <button class="${BTN}" type="button" aria-label="Align left" title="Align left">
-        <i class="ph ph-text-align-left" aria-hidden="true"></i>
-      </button>
-      <button class="${BTN}" type="button" aria-label="Align center" title="Align center">
-        <i class="ph ph-text-align-center" aria-hidden="true"></i>
-      </button>
-      <button class="${BTN}" type="button" aria-label="Align right" title="Align right">
-        <i class="ph ph-text-align-right" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Underline" title="Underline" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-underline" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
 
       <candor-toolbar-separator></candor-toolbar-separator>
 
-      <button class="${BTN}" type="button" aria-label="Bulleted list" title="Bulleted list">
-        <i class="ph ph-list-bullets" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Align left" title="Align left" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-align-left" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Numbered list" title="Numbered list">
-        <i class="ph ph-list-numbers" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Align center" title="Align center" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-align-center" aria-hidden="true" style="${BOLD_ICON}"></i>
+      </button>
+      <button class="${BTN}" type="button" aria-label="Align right" title="Align right" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-align-right" aria-hidden="true" style="${BOLD_ICON}"></i>
+      </button>
+
+      <candor-toolbar-separator></candor-toolbar-separator>
+
+      <button class="${BTN}" type="button" aria-label="Bulleted list" title="Bulleted list" style="${ICON_ONLY}">
+        <i class="ph-bold ph-list-bullets" aria-hidden="true" style="${BOLD_ICON}"></i>
+      </button>
+      <button class="${BTN}" type="button" aria-label="Numbered list" title="Numbered list" style="${ICON_ONLY}">
+        <i class="ph-bold ph-list-numbers" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
     </candor-toolbar>
   `,
@@ -144,25 +153,25 @@ export const WithToggleButtons: Story = {
   render: () => html`
     <candor-toolbar aria-label="Text formatting">
       <button class="${BTN}" type="button" aria-label="Bold" aria-pressed="true" title="Bold (active)"
-              style="background: var(--color-bg-elevated); color: var(--color-action-primary);">
-        <i class="ph-bold ph-text-b" aria-hidden="true"></i>
+              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+        <i class="ph-bold ph-text-b" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Italic" aria-pressed="false" title="Italic">
-        <i class="ph ph-text-italic" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Italic" aria-pressed="false" title="Italic" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-italic" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Underline" aria-pressed="false" title="Underline">
-        <i class="ph ph-text-underline" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Underline" aria-pressed="false" title="Underline" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-underline" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
       <candor-toolbar-separator></candor-toolbar-separator>
       <button class="${BTN}" type="button" aria-label="Align left" aria-pressed="true" title="Align left (active)"
-              style="background: var(--color-bg-elevated); color: var(--color-action-primary);">
-        <i class="ph ph-text-align-left" aria-hidden="true"></i>
+              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+        <i class="ph-bold ph-text-align-left" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Align center" aria-pressed="false" title="Align center">
-        <i class="ph ph-text-align-center" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Align center" aria-pressed="false" title="Align center" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-align-center" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Align right" aria-pressed="false" title="Align right">
-        <i class="ph ph-text-align-right" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Align right" aria-pressed="false" title="Align right" style="${ICON_ONLY}">
+        <i class="ph-bold ph-text-align-right" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
     </candor-toolbar>
   `,
@@ -183,21 +192,21 @@ export const Vertical: Story = {
   render: () => html`
     <candor-toolbar aria-label="Drawing tools" orientation="vertical">
       <button class="${BTN}" type="button" aria-label="Select" aria-pressed="true" title="Select"
-              style="background: var(--color-bg-elevated); color: var(--color-action-primary);">
-        <i class="ph ph-cursor" aria-hidden="true"></i>
+              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+        <i class="ph-fill ph-cursor" aria-hidden="true" style="${FILL_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Pan" aria-pressed="false" title="Pan">
-        <i class="ph ph-hand" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Pan" aria-pressed="false" title="Pan" style="${ICON_ONLY}">
+        <i class="ph-fill ph-hand" aria-hidden="true" style="${FILL_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Pencil" aria-pressed="false" title="Pencil">
-        <i class="ph ph-pencil" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Pencil" aria-pressed="false" title="Pencil" style="${ICON_ONLY}">
+        <i class="ph-fill ph-pencil" aria-hidden="true" style="${FILL_ICON}"></i>
       </button>
       <candor-toolbar-separator orientation="horizontal"></candor-toolbar-separator>
-      <button class="${BTN}" type="button" aria-label="Zoom in" title="Zoom in">
-        <i class="ph ph-magnifying-glass-plus" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Zoom in" title="Zoom in" style="${ICON_ONLY}">
+        <i class="ph-fill ph-magnifying-glass-plus" aria-hidden="true" style="${FILL_ICON}"></i>
       </button>
-      <button class="${BTN}" type="button" aria-label="Zoom out" title="Zoom out">
-        <i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>
+      <button class="${BTN}" type="button" aria-label="Zoom out" title="Zoom out" style="${ICON_ONLY}">
+        <i class="ph-fill ph-magnifying-glass-minus" aria-hidden="true" style="${FILL_ICON}"></i>
       </button>
     </candor-toolbar>
   `,

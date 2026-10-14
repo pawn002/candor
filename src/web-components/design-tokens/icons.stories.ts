@@ -76,7 +76,7 @@ without adjacent text, add a visually-hidden \`<span class="sr-only">\` label in
 
 **Status icons are bold, not fill**, including the ones \`candor-alert\`, \`candor-toast\` and \`candor-accessible-text role_="state"\` render. They inform, and keeping fill for actions is what lets a filled shape mean "press this" without exceptions (#296).
 
-**Icon-only buttons: 1.75rem in \`--color-text-subtle\`, padding cut to 2px.** In a fill glyph the detail is cut out of the solid shape (the "i" in the info disc), and at 1.25rem that cut-out is about 1.3px wide. 1.75rem makes it readable; trimming the padding to (32px − 28px) / 2 keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the controls beside them. Icons inside a labelled button follow the button's text size and colour instead.
+**Icon-only buttons: 1.75rem in \`--color-text-subtle\`, padding cut to 2px.** In a fill glyph the detail is cut out of the solid shape (the "i" in the info disc), and at 1.25rem that cut-out is about 1.3px wide. 1.75rem makes it readable; trimming the padding to (32px − 28px) / 2 keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the controls beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour: there is no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. Set the colour on the button, not the glyph, so a pressed toggle can still colour its glyph \`--color-action-primary\`. Icons inside a labelled button follow the button's text size and colour instead.
 
 ## Sizing
 
