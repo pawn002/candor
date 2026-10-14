@@ -144,7 +144,7 @@ const PH_INFO_FILL = 'M512 96c-229.75 0-416 186.25-416 416s186.25 416 416 416c22
 const aboutButton = (topic: string) => html`
   <candor-button variant="ghost" size="small" aria-label="About ${topic}"
     style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;vertical-align:middle;margin-inline-start:var(--spacing-2xs);">
-    <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor" style="width:1.75rem;height:1.75rem;display:block;"><path d="${PH_INFO_FILL}"/></svg>
+    <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor" style="width:1.75rem;height:1.75rem;display:block;color:var(--color-text-subtle);"><path d="${PH_INFO_FILL}"/></svg>
   </candor-button>
 `;
 
