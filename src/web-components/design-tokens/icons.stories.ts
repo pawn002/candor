@@ -48,14 +48,15 @@ Import the three weights in your global stylesheet:
 Each weight has its own base class. Use one base class per icon element:
 
 \`\`\`html
-<!-- Fill — action icon -->
-<i class="ph-fill ph-x" aria-hidden="true"></i>
+<!-- Fill — an action -->
+<i class="ph-fill ph-trash" aria-hidden="true"></i>
 
-<!-- Bold — directional affordance -->
+<!-- Bold — a stroke-only action, or an icon that informs -->
+<i class="ph-bold ph-x" aria-hidden="true"></i>
 <i class="ph-bold ph-caret-down" aria-hidden="true"></i>
 
-<!-- Regular — informational -->
-<i class="ph ph-info" aria-hidden="true"></i>
+<!-- Regular — beside text that carries the meaning -->
+<i class="ph ph-calendar" aria-hidden="true"></i>
 \`\`\`
 
 > **There is no \`ph-regular\` class.** The regular weight's base class is simply \`ph\`.
@@ -63,13 +64,19 @@ Each weight has its own base class. Use one base class per icon element:
 Always add \`aria-hidden="true"\` to decorative icons. For icons that carry meaning
 without adjacent text, add a visually-hidden \`<span class="sr-only">\` label instead.
 
-## Three-tier weight convention
+## Weight convention: a filled shape means you can act
 
 | Weight | Base class | When to use | Why |
 |---|---|---|---|
-| **Fill** | \`ph-fill\` | Action icons — close, dismiss, add, search, download | Solid forms read as "tappable objects" — the fill signals intent to act |
-| **Bold** | \`ph-bold\` | Directional affordances — carets, chevrons, arrows | Bold outline is enough for directional cues; fill would over-weight a subtle hint |
-| **Regular** | \`ph\` | Informational / status — alerts, badges, metadata, decorative | Lighter weight recedes; the adjacent text or color carries the meaning |
+| **Fill** | \`ph-fill\` | Actions — search, download, delete, settings, help | A solid shape reads as something you can press |
+| **Bold** | \`ph-bold\` | Actions whose glyph is only strokes — close, add, remove, confirm, more (✕ + − ✓ ⋮). Icons that inform — status, carets and arrows, selection checks | A stroke-only glyph has no fill form: Phosphor draws it inside a box. An icon that informs is not pressable, so it is never filled; bold holds its shape at small sizes |
+| **Regular** | \`ph\` | Inside or beside text whose words carry the meaning — metadata, list markers | The lightest weight; it recedes into the text it accompanies |
+
+**To tell whether a glyph is stroke-only**, look at its fill version: if it is a box or a bar with the glyph cut out of it, use bold.
+
+**Status icons are bold, not fill**, including the ones \`candor-alert\`, \`candor-toast\` and \`candor-accessible-text role_="state"\` render. They inform, and keeping fill for actions is what lets a filled shape mean "press this" without exceptions (#296).
+
+**Icon-only buttons: 1.75rem in \`--color-text-subtle\`, padding cut to 2px.** In a fill glyph the detail is cut out of the solid shape (the "i" in the info disc), and at 1.25rem that cut-out is about 1.3px wide. 1.75rem makes it readable; trimming the padding to (32px − 28px) / 2 keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the controls beside them. Icons inside a labelled button follow the button's text size and colour instead.
 
 ## Sizing
 
@@ -78,7 +85,7 @@ the surrounding text. When you need a specific size, set it explicitly — and a
 with \`line-height: 1\` to prevent baseline shift:
 
 \`\`\`html
-<i class="ph-fill ph-x" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
+<i class="ph-fill ph-trash" style="font-size: 1.75rem; line-height: 1;" aria-hidden="true"></i>
 \`\`\`
 
 ## Using icons inside shadow DOM
@@ -138,7 +145,7 @@ export const WeightComparison: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The same icon (`ph-bell`) at all three Phosphor weights. Fill reads as a solid object — use for primary interactive affordances. Bold reads as an emphatic stroke — use for directional affordances like carets and arrows. Regular recedes into context — use for status indicators and ambient decoration.',
+        story: 'The same icon (`ph-bell`) at all three Phosphor weights. Fill reads as a solid object, so it is kept for actions. Bold is a firm stroke: it is used for actions whose glyph has no fill form, and for icons that inform, such as status and direction. Regular recedes into the text beside it.',
       },
     },
   },
@@ -150,7 +157,7 @@ export const WeightComparison: Story = {
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
             <h3 id="icon-weight-fill" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Fill</h3>
             <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph-fill</code>
-            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">High-salience interactions — buttons, toggles, active states</p>
+            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Actions — something you can press</p>
           </div>
           <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
             <i class="ph-fill ph-bell" style="font-size: 3rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
@@ -163,7 +170,7 @@ export const WeightComparison: Story = {
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
             <h3 id="icon-weight-bold" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Bold</h3>
             <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph-bold</code>
-            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Directional affordances — carets, arrows, interactive indicators</p>
+            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Stroke-only actions; status, direction and selection</p>
           </div>
           <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
             <i class="ph-bold ph-bell" style="font-size: 3rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
@@ -176,7 +183,7 @@ export const WeightComparison: Story = {
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
             <h3 id="icon-weight-regular" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Regular</h3>
             <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph</code>
-            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Ambient and informational — status indicators, metadata, decoration</p>
+            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Beside text that carries the meaning — metadata</p>
           </div>
           <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
             <i class="ph ph-bell" style="font-size: 3rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
@@ -193,11 +200,12 @@ export const InContext: Story = {
     docs: {
       description: {
         story: `
-Icons in realistic UI contexts demonstrating all three tiers.
+Icons in realistic UI contexts demonstrating all three weights.
 
-- **Buttons** use fill — solid forms signal action intent
-- **Accordion / dropdown carets** use bold — a directional hint, not an action object
-- **Metadata icons** use regular — informational content, the colour carries the meaning
+- **Search** uses fill — an action with a fill form
+- **Add** uses bold — an action, but \`plus\` is stroke-only and its fill form is a box
+- **The alert's status icon and the accordion caret** use bold — they inform rather than act
+- **Metadata icons** use regular — the words beside them carry the meaning
         `.trim(),
       },
     },
@@ -207,7 +215,7 @@ Icons in realistic UI contexts demonstrating all three tiers.
 
       <div style="display: flex; gap: var(--spacing-sm);">
         <candor-button variant="primary">
-          <i class="ph-fill ph-plus" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
+          <i class="ph-bold ph-plus" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
           Add item
         </candor-button>
         <candor-button variant="secondary">
@@ -286,11 +294,13 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
           <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">No visible text — the accessible name must be provided via <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-label</code> on <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;candor-button&gt;</code>, which reflects it onto the inner <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;button&gt;</code>.</p>
-          <candor-button variant="ghost" aria-label="Notifications" style="align-self: flex-start;">
-            <i class="ph-fill ph-bell" style="font-size: 1.25rem; line-height: 1;" aria-hidden="true"></i>
+          <candor-button variant="ghost" size="small" aria-label="Notifications" style="align-self: flex-start; --candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;">
+            <i class="ph-fill ph-bell" style="font-size: 1.75rem; line-height: 1; color: var(--color-text-subtle);" aria-hidden="true"></i>
           </candor-button>
-          <pre style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="ghost" aria-label="Notifications"&gt;
-  &lt;i class="ph-fill ph-bell" aria-hidden="true"&gt;&lt;/i&gt;
+          <pre style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="ghost" size="small" aria-label="Notifications"
+  style="--candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;"&gt;
+  &lt;i class="ph-fill ph-bell" aria-hidden="true"
+    style="font-size: 1.75rem; line-height: 1; color: var(--color-text-subtle);"&gt;&lt;/i&gt;
 &lt;/candor-button&gt;</pre>
         </div>
       </candor-card>

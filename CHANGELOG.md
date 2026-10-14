@@ -106,6 +106,14 @@ The UMD build is gone, because Lit has no global build for a UMD file with Lit e
 
 ### Changed
 
+- **Icon weight now says one thing: a filled shape means you can act on it (#296).** The rule tied fill to actions, bold to direction and regular to status. Neither the components nor the stories followed it, and for good reason. Fill ✕ and fill + are boxes, not heavier strokes. Filled status icons contradicted "regular for status". And a fill info icon at the recommended 1.25rem cuts its "i" about 1.3px wide.
+
+  - **Fill** is for actions. An icon-only button draws it at 1.75rem in `--color-text-subtle`, with its padding cut to 2px so a small button stays 32px. The size makes the cut-out detail readable, and the colour keeps a row of solid shapes from outweighing what is beside them.
+  - **Bold** is for actions whose glyph is only strokes (✕ + − ✓ ⋮, whose fill form is a box), and for icons that inform: status, direction and selection.
+  - **Regular** is for icons beside text whose words carry the meaning.
+
+  **Visual change:** `candor-alert`, `candor-toast` and `candor-accessible-text role_="state"` draw their status icons in bold instead of fill. The dismiss ✕ in `candor-alert`, `candor-toast`, `candor-modal`, `candor-drawer` and `candor-chip` is bold instead of regular, at the same size. The bundled glyphs are internal chrome (#260), so nothing exported changes. The guidance in `docs/VISUAL-DESIGN.md` and the Icons story is rewritten. The toolbar, editor and tooltip stories still use the old weights; they are a separate follow-up.
+
 - **`candor-slider`'s track is one grey rail with no filled portion (#247).** It was split at the value: `--color-action-primary` up to the thumb, `--color-border-strong` after it. That split looked like a second way of reading the value, and it could not be made legible in both modes at once. In light the unfilled track was OKCA 1.3 against the page, so the range was barely visible; in dark the boundary between the halves was 1.5, so the fill showed where the value was only faintly. Measured, no single grey fixes both. The rail now uses `--color-border-control`, the form-control boundary token, at OKCA 4.4 light / 3.9 dark on the page and 3.3 / 3.2 on a surface. The thumb carries the value, as its outline already did against the page.
 
   The fill also had a cost the measurements did not show: in a group of sliders, a coloured fill on every one competes for attention. **Visual change:** the light rail is noticeably heavier than before and no slider shows a fill. The gradient track is unchanged. No `emphasis` option was added; one can be added later without breaking anything if a real need for a single emphasised slider turns up.

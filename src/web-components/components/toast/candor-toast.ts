@@ -1,7 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
-import { phInfoFill, phCheckCircleFill, phWarningFill, phXCircleFill, phX } from '../../icons';
+import { phInfoBold, phCheckCircleBold, phWarningBold, phXCircleBold, phXBold } from '../../icons';
 
 type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 
@@ -109,10 +109,10 @@ export class CandorToast extends LitElement {
 
   private _iconPath() {
     switch (this.variant) {
-      case 'info':    return phInfoFill;
-      case 'success': return phCheckCircleFill;
-      case 'warning': return phWarningFill;
-      case 'error':   return phXCircleFill;
+      case 'info':    return phInfoBold;
+      case 'success': return phCheckCircleBold;
+      case 'warning': return phWarningBold;
+      case 'error':   return phXCircleBold;
     }
   }
 
@@ -127,7 +127,7 @@ export class CandorToast extends LitElement {
         </div>
         ${this.dismissible ? html`
           <button class="toast__dismiss" aria-label="Dismiss notification" @click="${this._dismiss}">
-            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phX}"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phXBold}"/></svg>
           </button>
         ` : nothing}
       </div>

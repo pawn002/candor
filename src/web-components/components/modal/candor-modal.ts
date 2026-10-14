@@ -1,7 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
-import { phX } from '../../icons';
+import { phXBold } from '../../icons';
 
 type ModalSize = 'sm' | 'md' | 'lg';
 
@@ -217,7 +217,7 @@ export class CandorModal extends LitElement {
           <header class="modal__header" role="none">
             <h2 class="modal__title" id="${this._titleId}">${this.heading}</h2>
             <button class="modal__close" type="button" aria-label="Close" @click="${this._close}">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phX}"/></svg>
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phXBold}"/></svg>
             </button>
           </header>
           <div class="modal__body" tabindex="0" aria-label="Dialog content"><slot></slot></div>

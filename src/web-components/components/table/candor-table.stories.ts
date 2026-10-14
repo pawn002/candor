@@ -4,7 +4,6 @@ import { html } from 'lit';
 import './candor-table';
 import '../button/candor-button';
 import '../badge/candor-badge';
-import { phInfoFill } from '../../icons';
 import { allModes } from '../../../../.storybook/modes';
 
 const FINANCE_HEADERS = JSON.stringify(['Quarter', 'Revenue', 'Expenses', 'Net']);
@@ -137,10 +136,15 @@ export const MonoColumns: Story = {
 // the cell renders inside the table's shadow root, where icon-font classes do
 // not reach. Consumers take the path data from @phosphor-icons/core; the story
 // borrows Candor's own copy of the same glyph.
+// Phosphor info, fill weight. An icon-only action is filled (#296), so this is
+// not the bold status glyph from icons.ts. Inline SVG rather than a font class
+// because the cell renders in the table's shadow root (#171).
+const PH_INFO_FILL = 'M512 96c-229.75 0-416 186.25-416 416s186.25 416 416 416c229.75 0 416-186.25 416-416v0c-0.25-229.65-186.35-415.75-415.976-416l-0.024-0zM496 288c26.51 0 48 21.49 48 48s-21.49 48-48 48c-26.51 0-48-21.49-48-48v0c0-26.51 21.49-48 48-48v0zM544 736c-35.346 0-64-28.654-64-64v0-160c-17.673 0-32-14.327-32-32s14.327-32 32-32v0c35.346 0 64 28.654 64 64v0 160c17.673 0 32 14.327 32 32s-14.327 32-32 32v0z';
+
 const aboutButton = (topic: string) => html`
   <candor-button variant="ghost" size="small" aria-label="About ${topic}"
-    style="--candor-button-padding-x:var(--spacing-button-padding-y-sm);vertical-align:middle;margin-inline-start:var(--spacing-2xs);">
-    <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor" style="width:1.25rem;height:1.25rem;display:block;"><path d="${phInfoFill}"/></svg>
+    style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;vertical-align:middle;margin-inline-start:var(--spacing-2xs);">
+    <svg aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor" style="width:1.75rem;height:1.75rem;display:block;color:var(--color-text-subtle);"><path d="${PH_INFO_FILL}"/></svg>
   </candor-button>
 `;
 

@@ -1,7 +1,7 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { customElement } from '../../../utils/define';
-import { phCheckCircleFill, phWarningFill, phXCircleFill, phInfoFill } from '../../../icons';
+import { phCheckCircleBold, phWarningBold, phXCircleBold, phInfoBold } from '../../../icons';
 
 type AccessibleTextRole = 'label' | 'message' | 'status' | 'state' | 'annotation';
 type AccessibleTextSize = 'sm' | 'md' | 'lg';
@@ -9,10 +9,10 @@ type AccessibleTextColor = 'primary' | 'secondary' | 'disabled' | 'error';
 type AccessibleTextTone = 'success' | 'warning' | 'error' | 'info';
 
 const TONE_ICON: Record<AccessibleTextTone, string> = {
-  success: phCheckCircleFill,
-  warning: phWarningFill,
-  error: phXCircleFill,
-  info: phInfoFill,
+  success: phCheckCircleBold,
+  warning: phWarningBold,
+  error: phXCircleBold,
+  info: phInfoBold,
 };
 
 /**
