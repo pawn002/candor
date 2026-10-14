@@ -675,6 +675,36 @@ if (scanned.tsdoc === 0 || scanned.stories === 0 || guides.length === 0) {
   );
 }
 
+// ── blockquotes: no Markdown blockquote in what a story renders ──────────────
+//
+// Storybook's docs theme draws a Markdown blockquote with a bar down its left
+// edge: the side-stripe tell #292 removed from the components (#324). Restyling
+// it in `.storybook/` would recapture every snapshot (CLAUDE.md), so the rule is
+// at the source instead: a note in a story description is a bold lead-in
+// paragraph, not a `> ` quote. A line starting `>` and then a space or nothing
+// is a blockquote; one starting `></tag>` is markup and is left alone. Fenced
+// code is skipped, since a sample may legitimately show a quote.
+
+const quoteHits = [];
+for (const file of [...storyFiles, ...mdx]) {
+  let fenced = false;
+  fs.readFileSync(file, 'utf8')
+    .replace(/\r\n/g, '\n')
+    .split('\n')
+    .forEach((l, i) => {
+      if (/^\s*(?:\\`){3}|^\s*`{3}/.test(l)) fenced = !fenced;
+      else if (!fenced && /^>(?: |$)/.test(l)) quoteHits.push(`${path.relative(ROOT, file)}:${i + 1}`);
+    });
+}
+if (quoteHits.length > 0) {
+  fail(
+    `${quoteHits.length} Markdown blockquote line(s) in story or MDX copy; Storybook draws them with a side bar. Use a bold lead-in paragraph instead (#324):\n      ` +
+      quoteHits.join('\n      '),
+  );
+} else {
+  console.log(`  ✓ no Markdown blockquotes in ${storyFiles.length} stories or ${mdx.length} MDX files`);
+}
+
 if (failed) {
   console.log(
     '\n✖ documentation claims do not match the build.' +

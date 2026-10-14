@@ -39,9 +39,9 @@ Import the three weights in your global stylesheet:
 @import '@phosphor-icons/web/regular/style.css';
 \`\`\`
 
-> **Import order matters.** Each weight sets \`font-family: !important\` on its base class.
-> Never put two weight classes on the same element. The last-imported stylesheet wins
-> and the other is silently ignored.
+**Import order matters.** Each weight sets \`font-family: !important\` on its base class.
+Never put two weight classes on the same element. The last-imported stylesheet wins
+and the other is silently ignored.
 
 ## Usage
 
@@ -59,7 +59,7 @@ Each weight has its own base class. Use one base class per icon element:
 <i class="ph ph-calendar" aria-hidden="true"></i>
 \`\`\`
 
-> **There is no \`ph-regular\` class.** The regular weight's base class is simply \`ph\`.
+**There is no \`ph-regular\` class.** The regular weight's base class is simply \`ph\`.
 
 Always add \`aria-hidden="true"\` to decorative icons. For icons that carry meaning
 without adjacent text, add a visually-hidden \`<span class="sr-only">\` label instead.

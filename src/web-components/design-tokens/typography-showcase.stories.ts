@@ -279,8 +279,8 @@ floor; short labels and pattern-matched status text, which the eye recognises ra
 reads, carry lower ones. Three tiers set the 14px threshold accordingly. At 16px and above
 every tier has the same floor.
 
-> OKCA is polarity-aware and chroma-compressed, so passing OKCA also passes WCAG (zero
-> false-pass guarantee).
+OKCA is polarity-aware and chroma-compressed, so passing OKCA also passes WCAG (zero
+false-pass guarantee).
         `.trim(),
       },
     },
