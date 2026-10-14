@@ -90,7 +90,7 @@ sizes, input heights, button heights) land naturally on 8px multiples. A shared 
 components visually aligned without manual negotiation.
 
 **Why these steps?** The scale has two distinct zones. The compact end (2xs → xs → sm)
-doubles at each step, for fine-grained control for internal component spacing like gaps between
+doubles at each step, giving fine-grained control over internal component spacing like gaps between
 an icon and its label. The large end (md → lg → xl → 2xl → 3xl) grows more gradually.
 These are layout-scale values for section padding, card gaps, and page margins where the
 difference between adjacent steps needs to feel intentional rather than incremental.
