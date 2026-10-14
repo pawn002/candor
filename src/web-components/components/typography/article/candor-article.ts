@@ -45,11 +45,12 @@ const articleStyles = `
   candor-article li { margin-bottom: var(--spacing-xs); }
 
   /* A book indent, a step larger in italic, with no wash and no side bar
-     (#292). The indent and the size set the quote apart. The indent is
-     spacing-xl, or a tenth of the column when that is narrower, so a phone
-     keeps a readable line. */
+     (#292). The indent and the size set the quote apart. Only the start
+     edge is indented: the quote is ragged right, so an end indent would only
+     shorten the line, which a phone cannot spare. */
   candor-article blockquote {
-    margin: var(--spacing-lg) min(var(--spacing-xl), 10%);
+    margin-block: var(--spacing-lg);
+    margin-inline: var(--spacing-xl) 0;
     font-size: var(--font-size-lg);
     line-height: var(--line-height-normal);
     font-style: italic;
@@ -59,12 +60,12 @@ const articleStyles = `
   /* An attributed quote is a figure: the figure takes the indent, and the
      figcaption sits under the quote on the same left edge. The name is upright
      at body size; a <cite> inside it is italic. */
-  candor-article figure:has(> blockquote) { margin-inline: min(var(--spacing-xl), 10%); }
+  candor-article figure:has(> blockquote) { margin-inline: var(--spacing-xl) 0; }
   candor-article figure > blockquote { margin: 0; }
   candor-article figure:has(> blockquote) > figcaption {
     font-size: var(--font-size-md);
     font-style: normal;
-    letter-spacing: normal;
+    letter-spacing: var(--letter-spacing-normal);
   }
   candor-article figcaption cite { font-style: italic; }
 

@@ -169,7 +169,7 @@ export const DocumentEditor: Story = {
             <li>Dark mode parity achieved across the full component set</li>
           </ul>
 
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-subtle); margin: 0 var(--spacing-xl); line-height: var(--line-height-normal); font-style: italic;">
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-subtle); margin: 0; margin-inline-start: var(--spacing-xl); line-height: var(--line-height-normal); font-style: italic;">
             "The bar for 'done' is: any engineer on the team could pick up a component, read the story, and use it correctly without asking anyone."
           </p>
 

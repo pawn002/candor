@@ -53,9 +53,10 @@
 
     // Blockquote
     // A book indent, a step larger in italic, with no wash and no side bar (#292).
-    // The indent is spacing-xl, or a tenth of the column when that is narrower.
+    // Only the start edge is indented: an end indent would only shorten a ragged line.
     blockquote {
-        margin: var(--spacing-lg) min(var(--spacing-xl), 10%);
+        margin-block: var(--spacing-lg);
+        margin-inline: var(--spacing-xl) 0;
         font-size: var(--font-size-lg);
         line-height: var(--line-height-normal);
         font-style: italic;
@@ -66,14 +67,14 @@
     // An attributed quote is a figure: the figure takes the indent, and the
     // figcaption sits under the quote on the same left edge.
     figure:has(> blockquote) {
-        margin-inline: min(var(--spacing-xl), 10%);
+        margin-inline: var(--spacing-xl) 0;
 
         > blockquote { margin: 0; }
 
         > figcaption {
             font-size: var(--font-size-md);
             font-style: normal;
-            letter-spacing: normal;
+            letter-spacing: var(--letter-spacing-normal);
         }
     }
     figcaption cite { font-style: italic; }
