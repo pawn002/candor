@@ -295,12 +295,12 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
           <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">No visible text, so the accessible name must be provided via <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-label</code> on <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;candor-button&gt;</code>, which reflects it onto the inner <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;button&gt;</code>.</p>
           <candor-button variant="ghost" size="small" aria-label="Notifications" style="align-self: flex-start; --candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;">
-            <i class="ph-fill ph-bell" style="font-size: 1.75rem; line-height: 1; color: var(--color-text-subtle);" aria-hidden="true"></i>
+            <i class="ph-fill ph-bell" style="font-size: 1.75rem; line-height: 1;" aria-hidden="true"></i>
           </candor-button>
           <pre tabindex="0" style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="ghost" size="small" aria-label="Notifications"
   style="--candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;"&gt;
   &lt;i class="ph-fill ph-bell" aria-hidden="true"
-    style="font-size: 1.75rem; line-height: 1; color: var(--color-text-subtle);"&gt;&lt;/i&gt;
+    style="font-size: 1.75rem; line-height: 1;"&gt;&lt;/i&gt;
 &lt;/candor-button&gt;</pre>
         </div>
       </candor-card>

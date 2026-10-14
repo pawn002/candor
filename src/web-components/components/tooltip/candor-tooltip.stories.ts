@@ -121,12 +121,12 @@ export const IconButton: Story = {
     <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-sm);">
       <candor-tooltip text="Edit item" position="top">
         <candor-button variant="ghost" size="small" aria-label="Edit" style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;">
-          <i class="ph-fill ph-pencil-simple" aria-hidden="true" style="font-size:1.75rem;line-height:1;color:var(--color-text-subtle);"></i>
+          <i class="ph-fill ph-pencil-simple" aria-hidden="true" style="font-size:1.75rem;line-height:1;"></i>
         </candor-button>
       </candor-tooltip>
       <candor-tooltip text="Duplicate" position="top">
         <candor-button variant="ghost" size="small" aria-label="Duplicate" style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;">
-          <i class="ph-fill ph-copy" aria-hidden="true" style="font-size:1.75rem;line-height:1;color:var(--color-text-subtle);"></i>
+          <i class="ph-fill ph-copy" aria-hidden="true" style="font-size:1.75rem;line-height:1;"></i>
         </candor-button>
       </candor-tooltip>
       <candor-tooltip text="Delete permanently" position="top">
@@ -190,22 +190,22 @@ export const InToolbar: Story = {
       <candor-toolbar aria-label="Document actions">
         <candor-tooltip text="View documents" position="bottom">
           <candor-button variant="ghost" size="small" aria-label="Documents" style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;">
-            <i class="ph-fill ph-files" aria-hidden="true" style="font-size:1.75rem;line-height:1;color:var(--color-text-subtle);"></i>
+            <i class="ph-fill ph-files" aria-hidden="true" style="font-size:1.75rem;line-height:1;"></i>
           </candor-button>
         </candor-tooltip>
         <candor-tooltip text="Open settings" position="bottom">
           <candor-button variant="ghost" size="small" aria-label="Settings" style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;">
-            <i class="ph-fill ph-gear" aria-hidden="true" style="font-size:1.75rem;line-height:1;color:var(--color-text-subtle);"></i>
+            <i class="ph-fill ph-gear" aria-hidden="true" style="font-size:1.75rem;line-height:1;"></i>
           </candor-button>
         </candor-tooltip>
         <candor-tooltip text="Share with your team" position="bottom">
           <candor-button variant="ghost" size="small" aria-label="Share" style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;">
-            <i class="ph-fill ph-share-network" aria-hidden="true" style="font-size:1.75rem;line-height:1;color:var(--color-text-subtle);"></i>
+            <i class="ph-fill ph-share-network" aria-hidden="true" style="font-size:1.75rem;line-height:1;"></i>
           </candor-button>
         </candor-tooltip>
         <candor-tooltip text="Notification preferences" position="bottom">
           <candor-button variant="ghost" size="small" aria-label="Notifications" style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;">
-            <i class="ph-fill ph-bell" aria-hidden="true" style="font-size:1.75rem;line-height:1;color:var(--color-text-subtle);"></i>
+            <i class="ph-fill ph-bell" aria-hidden="true" style="font-size:1.75rem;line-height:1;"></i>
           </candor-button>
         </candor-tooltip>
       </candor-toolbar>
