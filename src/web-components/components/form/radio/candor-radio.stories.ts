@@ -117,8 +117,8 @@ const HELP_ROW_STYLE = 'grid-column:1 / -1;display:grid;grid-template-columns:su
 // stays the small size's 32px square.
 const infoButton = (topic: string) => html`
   <candor-button slot="end" variant="ghost" size="small" aria-label="About ${topic}"
-    style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;">
-    <i class="ph-fill ph-info" style="font-size:1.75rem;line-height:1;color:var(--color-text-subtle);" aria-hidden="true"></i>
+    style="--candor-button-padding-x:0.125rem;--candor-button-padding-y:0.125rem;--candor-button-ghost-color:var(--color-text-subtle);">
+    <i class="ph-fill ph-info" style="font-size:1.75rem;line-height:1;" aria-hidden="true"></i>
   </candor-button>
 `;
 

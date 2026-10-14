@@ -181,7 +181,7 @@ export const Overriding: Story = {
     docs: {
       description: {
         story:
-          'Two opt-in hooks restyle a button without forking. **Custom properties** (`--candor-button-{padding-x,padding-y,font-size,min-height,radius}`) are the blessed density knobs, each defaulting to the size token. Here one button is made denser than `size="small"`. **`::part(button)`** is the escape hatch for arbitrary CSS the knobs do not cover (letter-spacing, text-transform).',
+          'Two opt-in hooks restyle a button without forking. **Custom properties** (`--candor-button-{padding-x,padding-y,font-size,min-height,radius}`) are the blessed density knobs, each defaulting to the size token. `--candor-button-ghost-color` sets the resting colour of a ghost button; hover always returns it to `--color-text-default`. Here one button is made denser than `size="small"`. **`::part(button)`** is the escape hatch for arbitrary CSS the knobs do not cover (letter-spacing, text-transform).',
       },
     },
   },

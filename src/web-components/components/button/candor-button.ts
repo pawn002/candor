@@ -92,9 +92,12 @@ export class CandorButton extends LitElement {
     .button--tertiary { background-color: var(--color-action-tertiary); color: var(--color-action-tertiary-text); }
     .button--tertiary:hover:not(:disabled) { background-color: var(--color-action-tertiary-hover); }
     .button--tertiary:active:not(:disabled) { background-color: oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h); }
-    .button--ghost { background-color: transparent; color: var(--color-text-default); }
+    /* --candor-button-ghost-color sets the resting colour, so an icon-only button
+       can rest at --color-text-subtle (#296). Hover always lands on text-default:
+       a subtle glyph on bg-hover is OKCA 2.6 in light, under the 3.0 icon floor. */
+    .button--ghost { background-color: transparent; color: var(--candor-button-ghost-color, var(--color-text-default)); }
     /* Not bg-surface: that is the colour of a card or a striped row, so the hover vanished there (#322). */
-    .button--ghost:hover:not(:disabled) { background-color: var(--color-bg-hover); }
+    .button--ghost:hover:not(:disabled) { background-color: var(--color-bg-hover); color: var(--color-text-default); }
     .button--ghost:active:not(:disabled) { background-color: oklch(from var(--color-bg-hover) calc(l - 0.04) c h); }
   `;
 

@@ -482,6 +482,16 @@
       "note": "Close/dismiss glyph on hover in candor-toast, candor-alert, candor-modal and candor-drawer, which all share bg-hover (#322). OKCA 6.0 light / 5.7 dark"
     },
     {
+      "id": "button-ghost-subtle-icon",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "Icon-only ghost button glyph at rest, set through --candor-button-ghost-color (#296). Surface is the harder of its two backgrounds. On hover it returns to text-default, since text-subtle on bg-hover falls under 3.0 in light (#322)."
+    },
+    {
       "id": "button-destructive",
       "fg": "{color.action.destructive-text}",
       "bg": "{color.bg.page}",
