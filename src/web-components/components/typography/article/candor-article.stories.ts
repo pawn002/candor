@@ -158,7 +158,7 @@ export const SansSerif: Story = {
     <h2>What's included</h2>
     <ul>
       <li><strong>Tokens</strong>: OKLCH colours, spacing scale, and typography in one CSS file.</li>
-      <li><strong>Web Components</strong>: 34 custom elements that work in any framework.</li>
+      <li><strong>Web Components</strong>: 40 custom elements that work in any framework.</li>
     </ul>
     <h2>Where to start</h2>
     <p>If you're new to Candor, begin with the Introduction page. If you're integrating into an existing project, go straight to the token installation guide.</p>
