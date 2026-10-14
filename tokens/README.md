@@ -1,6 +1,6 @@
 # Candor Design Tokens
 
-**This package ships design tokens only — CSS custom properties, a JSON map, and nothing else.**
+**This package ships design tokens only: CSS custom properties, a JSON map, and nothing else.**
 It does not include component markup, component JavaScript, icon assets, or font files.
 See the [Candor Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) for the live token
 reference (color ramps, semantic swatches, spacing, type scale) and component examples.
@@ -12,14 +12,14 @@ npm install @candor-design/tokens
 ```
 
 Import the fonts, then the tokens, once at your app's entry (a bundler such as Vite or webpack
-is assumed — it resolves the bare specifiers):
+is assumed, since it resolves the bare specifiers):
 
 ```css
-@import "@candor-design/tokens/candor-fonts.css";   /* optional but recommended — else fonts fall back silently */
+@import "@candor-design/tokens/candor-fonts.css";   /* optional but recommended, or fonts fall back silently */
 @import "@candor-design/tokens/candor-tokens.css";
 ```
 
-Every token is now a CSS custom property, in scope everywhere — including inside any shadow root:
+Every token is now a CSS custom property, in scope everywhere, including inside any shadow root:
 
 ```css
 .card {
@@ -31,7 +31,7 @@ Every token is now a CSS custom property, in scope everywhere — including insi
 }
 ```
 
-Dark mode is built in — it follows the OS preference automatically, or force it with
+Dark mode is built in. It follows the OS preference automatically, or force it with
 `data-theme="dark"` / `data-theme="light"` on `<html>`. No extra stylesheet, no JS.
 
 That's the whole setup. The sections below are reference; the **"Using the tokens correctly"**
@@ -39,49 +39,49 @@ rules just under here are worth two minutes before you start.
 
 ## Using the tokens correctly
 
-This package is the *only* thing that travels to a tokens-only consumer — the design rationale
+This package is the *only* thing that travels to a tokens-only consumer. The design rationale
 in the repo's `docs/` doesn't. These five rules are the ones that keep output on-system; the
 [Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) is the visual companion.
 
 1. **Reach for semantic roles, not primitives.** Use `--color-text-default`, not `--navy-800`;
    `--spacing-md`, not `--space-3`. The semantic layer (`--color-*`, `--spacing-*`, `--font-*`,
    `--radius-*`) carries meaning *and* dark-mode behaviour. The primitives (`--navy-*`, `--gray-*`,
-   `--space-*`, `--text-*`) are raw values with no mode-awareness — a component built on them
+   `--space-*`, `--text-*`) are raw values with no mode-awareness, so a component built on them
    breaks in dark mode.
 2. **14px is the readable-text floor.** Don't set readable text below `--font-size-sm` (14px).
    `--font-size-xs` / `--text-xs` (12px) is for decorative, non-text chrome only (badge frames,
-   icon sizing) — never body, labels, or values.
+   icon sizing), never body, labels, or values.
 3. **Don't use non-text color tokens as text colour.** `--color-status-error`,
    `--color-status-success` and `--color-status-warning` are
    contrast-validated for icons/borders only; their contrast is below every text threshold. For
-   coloured text use the paired `-text` variants — `--color-status-error-text`, etc. (In the JSON,
+   coloured text use the paired `-text` variants: `--color-status-error-text`, etc. (In the JSON,
    these carry `"$extensions": { "usage": "non-text" }`.)
-4. **The values are already tuned — don't drag them back to extremes.** Colours sit deliberately
+4. **The values are already tuned. Don't drag them back to extremes.** Colours sit deliberately
    off the raw extremes: text is a deep near-black, not `#000`; dark mode is deep navy, not pure
    black; primaries aren't at max chroma. Overriding a token to a raw extreme undoes the contrast
-   and humanist tuning baked in. If a value looks "not contrasty enough," it was measured — trust it.
-5. **Monospace is for content where character position is load-bearing** — code, IDs, version
-   strings, timestamps, coordinates — not a flavour to signal "technical". `--font-family-mono`
+   and humanist tuning baked in. If a value looks "not contrasty enough," it was measured. Trust it.
+5. **Monospace is for content where character position is load-bearing**: code, IDs, version
+   strings, timestamps, coordinates. It is not a flavour to signal "technical". `--font-family-mono`
    with `font-variant-numeric: tabular-nums`.
 
 ---
 
-Auto-generated distribution artifacts. Do not edit these files directly — run `npm run build:tokens` to regenerate from source (`src/design-tokens/`).
+Auto-generated distribution artifacts. Do not edit these files directly. Run `npm run build:tokens` to regenerate from source (`src/design-tokens/`).
 
 ## Files
 
 | File | Description |
 |---|---|
-| `candor-tokens.css` | Full expanded CSS — readable, for dev / CDN use |
-| `candor-tokens.min.css` | Minified CSS — for production `<link>` |
-| `candor-tokens.json` | Structured JSON — for Figma plugins / tooling |
-| `candor-fonts.css` | Optional font convenience imports — pulls the five Fontsource faces so text doesn't fall back silently (bundler required) |
-| `candor-article.css` | Article prose styles — framework-agnostic, readable |
-| `candor-article.min.css` | Minified article prose styles — for production `<link>` |
-| `candor-syntax.css` | Prism.js syntax highlighting theme — readable |
-| `candor-syntax.min.css` | Minified syntax highlighting theme — for production `<link>` |
-| `candor-blog.css` | Post card and post listing styles — for blog index pages |
-| `candor-blog.min.css` | Minified post listing styles — for production `<link>` |
+| `candor-tokens.css` | Full expanded CSS, readable, for dev / CDN use |
+| `candor-tokens.min.css` | Minified CSS for production `<link>` |
+| `candor-tokens.json` | Structured JSON for Figma plugins / tooling |
+| `candor-fonts.css` | Optional font convenience imports. Pulls the five Fontsource faces so text doesn't fall back silently (bundler required) |
+| `candor-article.css` | Article prose styles, framework-agnostic and readable |
+| `candor-article.min.css` | Minified article prose styles for production `<link>` |
+| `candor-syntax.css` | Prism.js syntax highlighting theme, readable |
+| `candor-syntax.min.css` | Minified syntax highlighting theme for production `<link>` |
+| `candor-blog.css` | Post card and post listing styles for blog index pages |
+| `candor-blog.min.css` | Minified post listing styles for production `<link>` |
 
 ## Usage
 
@@ -108,14 +108,14 @@ All tokens are then available as CSS custom properties:
 @import url("candor-tokens.css");
 ```
 
-### Peer dependencies — fonts and icons
+### Peer dependencies: fonts and icons
 
-`candor-tokens.css` *names* the font families but does not load them — a consumer who
+`candor-tokens.css` *names* the font families but does not load them. A consumer who
 forgets to import the faces gets a silent fallback to Georgia / system-ui with no error.
 Candor uses [Fontsource](https://fontsource.org/) self-hosted packages (no Google Fonts CDN
 link needed), which ship as runtime dependencies of this package.
 
-**Recommended — the convenience stylesheet.** `candor-fonts.css` does the five Fontsource
+**Recommended: the convenience stylesheet.** `candor-fonts.css` does the five Fontsource
 `@import`s for you. Import it once, before the tokens, and you're done:
 
 ```css
@@ -124,7 +124,7 @@ link needed), which ship as runtime dependencies of this package.
 ```
 
 This requires a bundler that resolves bare `node_modules` specifiers in CSS `@import`
-(Vite, webpack, etc.) — the Fontsource packages are installed automatically as deps of this
+(Vite, webpack, etc.). The Fontsource packages are installed automatically as deps of this
 package, so there's nothing extra to add. It loads exactly the faces the design system was
 validated against.
 
@@ -161,22 +161,22 @@ npm install @phosphor-icons/web
 > **Shadow-DOM caveat:** the Phosphor font classes are global CSS and do not cross shadow
 > boundaries. They work for icons in the main document (including content you slot into a
 > Candor component from the document), but **not** for icons you author inside your own web
-> component's shadow root — there the `<i>` renders blank. If you build your own components,
+> component's shadow root, where the `<i>` renders blank. If you build your own components,
 > render icons as inline `<svg>` with `fill="currentColor"` instead. See Storybook →
 > Design Tokens → Icons ("Using icons inside shadow DOM") for the full pattern.
 
 > **Font name note:** The Fontsource variable packages register fonts with a "Variable" suffix in their
 > internal `font-family` name (e.g. `'Roboto Flex Variable'`). Candor's tokens handle this for Roboto
-> Flex by listing both names in the stack — `'Roboto Flex Variable', 'Roboto Flex'`.
+> Flex by listing both names in the stack: `'Roboto Flex Variable', 'Roboto Flex'`.
 >
 > For **Noto Serif and Noto Sans**, the tokens reference `"Noto Serif"` and `"Noto Sans"` (no "Variable"
-> suffix). If you are writing your own `@font-face` declarations, you **must** use these exact names —
+> suffix). If you are writing your own `@font-face` declarations, you **must** use these exact names,
 > not `'Noto Serif Variable'` or `'Noto Sans Variable'`. A mismatch produces a silent fallback to Georgia
 > or system-ui with no console error. The Fontsource `@import` path approach above avoids this entirely.
 
 ### Article prose styles (framework-agnostic)
 
-`candor-article.css` is a standalone prose stylesheet compiled from `src/design-tokens/article.scss` — the same prose styling carried by the `<candor-article>` web component. It works in any framework — 11ty, Astro, Next.js, or plain HTML.
+`candor-article.css` is a standalone prose stylesheet compiled from `src/design-tokens/article.scss`, the same prose styling carried by the `<candor-article>` web component. It works in any framework: 11ty, Astro, Next.js, or plain HTML.
 
 ```html
 <link rel="stylesheet" href="path/to/candor-tokens.min.css">
@@ -193,10 +193,10 @@ Wrap post content in a `div` with the `.article` class:
 ```
 
 **Font modifiers:**
-- `article--font-serif` — Noto Serif (`--font-family-serif`); recommended default for editorial/blog prose
-- `article--font-sans` — Noto Sans; utility or syndication contexts
+- `article--font-serif`: Noto Serif (`--font-family-serif`), the recommended default for editorial and blog prose
+- `article--font-sans`: Noto Sans, for utility or syndication contexts
 
-**End-of-content spacing:** The article stylesheet does not impose bottom padding on its container — that is the responsibility of the page layout. For long-form reading contexts (blog posts, documentation), use at least `--spacing-3xl` (6rem) of bottom padding to give readers a sense of resolution rather than compression at the end of the piece:
+**End-of-content spacing:** The article stylesheet does not impose bottom padding on its container. That is the responsibility of the page layout. For long-form reading contexts (blog posts, documentation), use at least `--spacing-3xl` (6rem) of bottom padding to give readers a sense of resolution rather than compression at the end of the piece:
 
 ```css
 .post-container {
@@ -204,11 +204,11 @@ Wrap post content in a `div` with the `.article` class:
 }
 ```
 
-The stylesheet covers headings (h1–h6), paragraphs, lists, blockquotes, inline code, fenced code blocks (`<pre><code>`), figures with captions, tables, links with `:visited` double-underline indicator, and horizontal rules. All values resolve from `candor-tokens.css` — dark mode is inherited automatically.
+The stylesheet covers headings (h1–h6), paragraphs, lists, blockquotes, inline code, fenced code blocks (`<pre><code>`), figures with captions, tables, links with `:visited` double-underline indicator, and horizontal rules. All values resolve from `candor-tokens.css`, so dark mode is inherited automatically.
 
 > **Syntax highlighting:** `candor-article.css` styles the code block *container* (background, border, font) but does not include language-aware token colors. Add `candor-syntax.css` after `candor-article.css` for Prism.js-based highlighting (see below).
 
-### Syntax highlighting — Prism.js (framework-agnostic)
+### Syntax highlighting: Prism.js (framework-agnostic)
 
 `candor-syntax.css` is a Prism.js token color theme built from Candor's palette. It targets the dark code-block background that `candor-article.css` sets, with all token colors meeting OKCA ≥ 4.5.
 
@@ -263,7 +263,7 @@ Override any role without forking the file:
 }
 ```
 
-> **Shiki users:** Shiki uses inline styles or its own class system — `candor-syntax.css` does not apply. Use Shiki's theme API with the token color values above.
+> **Shiki users:** Shiki uses inline styles or its own class system, so `candor-syntax.css` does not apply. Use Shiki's theme API with the token color values above.
 
 ---
 
@@ -304,9 +304,9 @@ Override any role without forking the file:
 ```
 
 **Modifiers:**
-- `.post-list--grid` — two-column responsive grid (collapses to one column below ~28rem per column)
-- `.post-card--featured` — larger title (`h2` scale) and taller image (`16/7` ratio); for the lead post
-- `.post-card--compact` — no image, tighter padding, 2-line excerpt; for sidebars and dense archives
+- `.post-list--grid`: two-column responsive grid (collapses to one column below ~28rem per column)
+- `.post-card--featured`: larger title (`h2` scale) and taller image (`16/7` ratio), for the lead post
+- `.post-card--compact`: no image, tighter padding, 2-line excerpt, for sidebars and dense archives
 
 ---
 
@@ -314,8 +314,8 @@ Override any role without forking the file:
 
 Tokens include automatic dark mode support via two mechanisms:
 
-1. **OS preference** — respects `@media (prefers-color-scheme: dark)` automatically
-2. **Manual override** — set `data-theme="dark"` or `data-theme="light"` on `<html>` to force a theme
+1. **OS preference**: respects `@media (prefers-color-scheme: dark)` automatically
+2. **Manual override**: set `data-theme="dark"` or `data-theme="light"` on `<html>` to force a theme
 
 ```html
 <!-- Force dark mode -->
@@ -329,7 +329,7 @@ Tokens include automatic dark mode support via two mechanisms:
 
 ### Primitives (in `:root`)
 
-Raw values — color ramps, type scale, spacing scale. Prefixed by family:
+Raw values: color ramps, type scale, spacing scale. Prefixed by family:
 
 - `--navy-{50–900}`, `--burgundy-{50–900}`, `--azure-{50–900}`, `--indigo-{50–900}`, `--gray-{0–900}`
 - `--space-{1–12}`, `--text-{xs–3xl}`
@@ -339,11 +339,11 @@ Raw values — color ramps, type scale, spacing scale. Prefixed by family:
 
 Role-based aliases that components consume. Always prefer these over primitives:
 
-- **Color** — `--color-bg-*`, `--color-text-*`, `--color-border-*`, `--color-action-*`, `--color-status-*`, `--color-link`, `--color-focus`
-- **Spacing** — `--spacing-{xs–3xl}`, `--spacing-button-*`, `--spacing-input-*`, `--spacing-card-*`
-- **Shape** — `--radius-{sm,md,lg,full}`, `--border-width-{thin,medium,thick}`, `--focus-ring-*`
-- **Typography** — `--font-family-*`, `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`
-- **Elevation** — `--shadow-{sm,md,lg,modal}`
+- **Color**: `--color-bg-*`, `--color-text-*`, `--color-border-*`, `--color-action-*`, `--color-status-*`, `--color-link`, `--color-focus`
+- **Spacing**: `--spacing-{xs–3xl}`, `--spacing-button-*`, `--spacing-input-*`, `--spacing-card-*`
+- **Shape**: `--radius-{sm,md,lg,full}`, `--border-width-{thin,medium,thick}`, `--focus-ring-*`
+- **Typography**: `--font-family-*`, `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`
+- **Elevation**: `--shadow-{sm,md,lg,modal}`
 
 ### JSON format
 
