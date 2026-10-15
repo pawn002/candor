@@ -68,6 +68,13 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
 
 ### Fixed
 
+- **`npm run storybook` starts without warnings (#312).** Three sources of terminal noise are gone:
+  - **Sass `@import` deprecation, four times.** `src/styles.scss` imported the four variable Fontsource packages by bare name, so Sass resolved them as Sass imports, the path Dart Sass 3 removes. Naming the file (`@fontsource-variable/roboto-flex/index.css`) makes Sass pass each through as a plain CSS import, as it already did for Phosphor and Atkinson. `candor-fonts.css` and the README snippet name the file the same way, so all three stay identical and a consumer pasting the snippet into SCSS gets no warning either.
+  - **"Multiple versions of Lit loaded."** There was only one Lit installed, but Storybook's renderer imports `lit/directive-helpers.js`, which Vite did not pre-bundle, so it loaded a second copy of lit-html. `.storybook/main.ts` now pre-bundles that subpath.
+  - **"Lit is in dev mode."** Storybook is always a development build, so the notice said nothing. `preview-head.html` marks only that warning as already issued; every other Lit warning still fires.
+
+  All five font families still load, and each story still runs one copy of lit-html.
+
 - **`tokens/README.md` no longer documents stylesheets the package stopped shipping in 4.0.0 (#320).** It still listed `candor-article.css`, `candor-syntax.css` and `candor-blog.css`, with their minified forms, under Files. It also gave `<link>` tags, an 11ty setup and a palette table for them, so following it produced 404s. Those sections are replaced by a short note: use `<candor-article>` from `@candor-design/web-components` for prose, and copy `syntax.scss` or `blog.scss` from the repository if you need Prism colours or post listings.
 
 - **`candor-tooltip` is no longer clipped by `candor-card`, `candor-toolbar`, or any scrolling ancestor (#259).** The bubble was absolutely positioned inside the tooltip's own shadow root, so any ancestor with non-`visible` overflow cut it off. In a toolbar, #175's own reproduction now showed nothing at all, and inside a card only a dark sliver was left. No `::part` or custom property could reach the clip, so a consumer's only fix was to stop using one of the two components. The bubble is now a manual popover in the top layer, placed in viewport coordinates from the trigger when it opens and re-placed on scroll and resize while open. No ancestor's overflow or stacking context reaches it. A hidden bubble is still `display: none`, so the #107/#175 scrollbar fix holds.
