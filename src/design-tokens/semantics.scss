@@ -84,11 +84,12 @@
     --color-link-visited: var(--indigo-700);  // OKCA 5.8 on white ✅ — honors universal :visited convention
 
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
-    // A burgundy-hued tint about deltaE 11 from the page in both modes, replacing the
+    // A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the
     // filled navy-800 panel (deltaE 79 from white), which was hard to read at length.
-    // Burgundy is the only warm brand hue; #318 asks whether it is the right one.
+    // Teal at hue 195 is clear of every brand and status hue in both modes (#318);
+    // the burgundy tint it replaced sat deltaE 5.6 from error-bg.
     // Text is the ordinary body colour, so the pair needs no inverse.
-    --color-bg-code:     oklch(0.90 0.02 347.43); // text-default OKCA 8.2 on this bg ✅
+    --color-bg-code:     oklch(0.92 0.018 195); // text-default OKCA 8.8 on this bg ✅
     --color-text-code:   var(--color-text-default);
     --color-border-code: transparent; // deliberate: the tint separates the block from the page on its own; dark mode adds a rule (#242)
 
@@ -366,10 +367,10 @@
     --color-status-warning-text:  oklch(0.82 0.11 53.54);  // OKCA 6.8 on warning-bg ✅ — C=0.16 exceeded what sRGB holds at this L and H; re-authored to the boundary, same L and H (#225)
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
-    // Burgundy tint, deltaE 11 from the cool page: the hue change carries the
+    // Teal tint, deltaE 8 from the cool page: the hue change carries the
     // separation, so the block stays nearly as dark as the page. Border still
     // required, since lightness alone barely differs at these low L values.
-    --color-bg-code:     oklch(0.20 0.02 347.43); // text-default OKCA 11.9 on this bg ✅ — code text inherits it
+    --color-bg-code:     oklch(0.22 0.02 195); // text-default OKCA 11.3 on this bg ✅ — code text inherits it
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
 }

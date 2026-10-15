@@ -133,7 +133,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Code Blocks',
-    description: 'A warm burgundy tint for code blocks, about deltaE 11 from the page in both modes. Border required in dark mode, where lightness alone barely separates the block.',
+    description: 'A quiet teal tint for code blocks, about deltaE 8 to 9 from the page in both modes. Border required in dark mode, where lightness alone barely separates the block.',
     colors: [
       { name: 'Code Background', variable: '--color-bg-code', description: 'Code block surface' },
       { name: 'Code Text', variable: '--color-text-code', description: 'Text on code bg' },

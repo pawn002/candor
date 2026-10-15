@@ -323,7 +323,7 @@ Likely causes, in order of frequency:
 
 ### Symptom: "The technical content sits outside the design"
 
-- **Mono font used without a container.** A raw monospace block dropped into serif prose with no background, padding, or border radius reads as an intrusion. Fix: wrap it in `--color-bg-code` with padding and a border radius. `--color-bg-code` is a warm burgundy tint about ΔE 11 from the page: `oklch(0.90 0.02 347.43)` in light and `oklch(0.20 0.02 347.43)` in dark. Never use `background: #000`.
+- **Mono font used without a container.** A raw monospace block dropped into serif prose with no background, padding, or border radius reads as an intrusion. Fix: wrap it in `--color-bg-code` with padding and a border radius. `--color-bg-code` is a quiet teal tint about ΔE 8 to 9 from the page: `oklch(0.92 0.018 195)` in light and `oklch(0.22 0.02 195)` in dark. Never use `background: #000`.
 - **Tabular numerals not enabled.** Numbers wobble in columns. Fix: `font-variant-numeric: tabular-nums` on numeric columns.
 - **No typographic treatment of technical content.** Function names, types, and keywords all look identical. Fix: use syntax tokens. Even a two-color treatment (identifier vs. keyword) is enough to bring code inside the system.
 

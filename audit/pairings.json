@@ -919,7 +919,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Inline code in candor-article: the same pair as code-inline and the code block, since inline code and blocks share one treatment. Tier 2 Functional at 14px regular. OKCA 8.2 light / 11.9 dark"
+      "note": "Inline code in candor-article: the same pair as code-inline and the code block, since inline code and blocks share one treatment. Tier 2 Functional at 14px regular. OKCA 8.8 light / 11.3 dark"
     },
     {
       "id": "article-code-block",
@@ -929,7 +929,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Code block text on the burgundy code tint, 14px regular Tier 2 Functional. OKCA 8.2 light / 11.9 dark"
+      "note": "Code block text on the teal code tint, 14px regular Tier 2 Functional. OKCA 8.8 light / 11.3 dark"
     },
     {
       "id": "article-blockquote",
@@ -1089,7 +1089,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "candor-code inline code: text-code on bg-code; Tier 2 Functional (character position load-bearing). Body text on the burgundy code tint in both modes. OKCA 8.2 light / 11.9 dark ✅"
+      "note": "candor-code inline code: text-code on bg-code; Tier 2 Functional (character position load-bearing). Body text on the teal code tint in both modes. OKCA 8.8 light / 11.3 dark ✅"
     },
     {
       "id": "callout-body",
@@ -1209,7 +1209,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The scrollbar bar on a candor-article code block. Since the code tint replaced the navy panel, the default thumb (border-control) clears the floor in both modes, so the article no longer overrides it. OKCA 3.1 light / 4.3 dark ✅"
+      "note": "The scrollbar bar on a candor-article code block. Since the code tint replaced the navy panel, the default thumb (border-control) clears the floor in both modes, so the article no longer overrides it. OKCA 3.4 light / 4.1 dark ✅"
     }
   ]
 }
