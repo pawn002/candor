@@ -24,6 +24,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build:tokens
+      # The four outputs are committed, and package.json names
+      # tokens/candor-tokens.css as the entry point, so the copy on GitHub is
+      # what readers and agents open. publish.yml rebuilds before publishing, so
+      # npm always got fresh CSS, but nothing checked the committed copy and it
+      # drifted: it still declared tokens #292 removed and lacked the #307
+      # scrollbar tokens (#331). Same rule as the DTCG artifact and the manifest:
+      # a token change must commit its rebuilt output.
+      - name: tokens/ build outputs are up to date
+        run: git diff --exit-code -- tokens/candor-tokens.css tokens/candor-tokens.min.css tokens/candor-tokens.json tokens/candor-fonts.css
 
   typecheck:
     runs-on: ubuntu-latest
