@@ -79,15 +79,14 @@ export const LabelCarriesTheMeaning: Story = {
 A badge's **colour is not a channel** — its label is. This is the authoring rule the
 component cannot enforce, so it is demonstrated rather than only stated.
 
-The reason is measurable, and it is not primarily about colour vision. Candor's status
-background tokens sit at lightness 0.95, and the sRGB gamut permits only about 0.02 chroma
-at the red and amber hues up there — green has more room, which is why success reads as
-distinct and the other two do not. \`--color-status-error-bg\` and
-\`--color-status-warning-bg\` are consequently **deltaE 4 apart in normal vision** (2 under
-deuteranopia), where Candor's own scale calls anything under 3 imperceptible.
+The reason is measurable. Candor's status background tokens sit at lightness 0.95, and
+the sRGB gamut permits only about 0.02 chroma at red up there. Until warning moved from amber
+to gold, \`--color-status-error-bg\` and \`--color-status-warning-bg\` were **deltaE 4
+apart in normal vision**, where Candor's own scale calls anything under 3 imperceptible. Gold
+has more room, so the two are now deltaE 14 apart, but a pale fill still fades on a washed-out
+screen and still does nothing for a reader who cannot tell the hues apart.
 
-It cannot be fixed by adding chroma, because there is none to add at that lightness. So the
-badge fill is decoration on top of the label, and the label has to do the work.
+So the badge fill is decoration on top of the label, and the label has to do the work.
 
 **The test:** cover the badge's colour with your thumb. Does the sentence still tell you what
 happened? If not, the badge is relying on a channel that isn't there (#214).

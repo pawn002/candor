@@ -182,6 +182,24 @@ The CHANGELOG entry for 6.0.0 has before/after examples and measured sizes.
 
 `--color-highlight-decorative` is removed too: no component paints it any more. Use `--indigo-500` (light) or `--indigo-400` (dark) directly.
 
+#### Grey primitives re-stepped into three ramps (#318)
+
+Neutral `--gray-*`, cool `--gray-cool-*` and warm `--gray-warm-*` now share 14 steps: 0 (neutral only), 25, 100, 200, 300, 400, 500, 550, 600, 650, 700, 800, 850 and 900. Semantic tokens keep their names. If you reference a grey primitive directly, check it against this table, because several names now resolve to a different lightness:
+
+| Was | Was lightness | Use now | Note |
+|---|---|---|---|
+| `--gray-50` | 0.97 | `--gray-25` (0.985) | removed |
+| `--gray-200` | 0.88, faintly warm | `--gray-200` | now pure neutral |
+| `--gray-500` | 0.56 | `--gray-550` | **the name now means 0.62** |
+| `--gray-600` | 0.46 | `--gray-600` (0.50) or `--gray-650` (0.44) | **the name now means 0.50** |
+| `--gray-700` | 0.32 | `--gray-800` (0.30) | **the name now means 0.40** |
+| `--gray-800` | 0.24, cool | `--gray-cool-850` | **the name now means neutral 0.30** |
+| `--gray-900` | 0.16, cool | `--gray-cool-900` | **the name now means neutral 0.16** |
+| `--gray-cool-600` | 0.46 | `--gray-cool-650` (0.44) | **the name now means 0.50** |
+| `--gray-cool-700` | 0.32 | `--gray-cool-800` (0.30) | **the name now means 0.40** |
+
+`--gray-0`, `--gray-100`, `--gray-300` and `--gray-400` are unchanged.
+
 ### v3.0.0
 
 #### Angular reference component library removed

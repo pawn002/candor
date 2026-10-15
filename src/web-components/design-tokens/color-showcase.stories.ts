@@ -52,7 +52,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Subtle on Surface', variable: '--color-text-subtle-on-surface', description: 'Secondary text on bg-surface' },
       { name: 'Disabled', variable: '--color-text-disabled', description: 'Disabled state — intentionally below AA' },
       { name: 'Inverse', variable: '--color-text-inverse', description: 'Text on inverse surface — white in light mode, near-black in dark mode' },
-      { name: 'Subtle on Inverse', variable: '--color-text-subtle-on-inverse', description: 'Muted text on inverse surface — OKCA 6.0 on bg-inverse' },
+      { name: 'Subtle on Inverse', variable: '--color-text-subtle-on-inverse', description: 'Muted text on inverse surface — OKCA 7.6 on bg-inverse' },
       { name: 'On Action', variable: '--color-text-on-action', description: 'Text on primary/secondary button fills' },
       { name: 'Toast Message', variable: '--color-toast-message', description: 'Toast body text — text-default in light, text-subtle in dark' },
     ],
@@ -131,7 +131,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Status — Warning',
-    description: 'Amber (hue=53) — caution and non-blocking issues',
+    description: 'Gold (hue=88) — caution and non-blocking issues',
     colors: [
       { name: 'Warning', variable: '--color-status-warning', description: 'Icon / border use' },
       { name: 'Warning Background', variable: '--color-status-warning-bg', description: 'Toast and alert fill' },

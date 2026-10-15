@@ -219,8 +219,8 @@ Role-based aliases that components consume. Always prefer these over primitives:
 
 ```json
 {
-  "root": { "--color-bg-page": "var(--gray-0)", ... },
-  "dark":  { "--color-bg-page": "var(--gray-900)", ... }
+  "root": { "--color-bg-page": "var(--gray-cool-25)", ... },
+  "dark":  { "--color-bg-page": "var(--gray-cool-900)", ... }
 }
 ```
 

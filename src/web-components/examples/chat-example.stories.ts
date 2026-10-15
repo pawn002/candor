@@ -270,7 +270,7 @@ export const AIChatInterface: Story = {
                         There also isn't a single lightness answer, and a threshold that ignores chroma will mislead you. Two things set the cutoff together: contrast is bought with lightness, but the sRGB gamut narrows as lightness falls, so the chroma available falls with it. At Candor's azure hue the most sRGB holds is C&nbsp;0.09 at L&nbsp;0.32 and C&nbsp;0.15 at L&nbsp;0.55 — so "saturated" is not a constant you get to choose independently.
                       </p>
                       <p>
-                        Measured at that hue, holding each step at the highest chroma sRGB renders, Candor's 4.5 floor puts the ceiling near <strong>L&nbsp;≤&nbsp;0.52</strong>: <code>oklch(0.50 0.14 250)</code> reaches OKCA 5.0 on page, while <code>oklch(0.55 0.15 250)</code> reaches OKCA 4.0 on page and misses. Check your own hue rather than borrowing that number:
+                        Measured at that hue, holding each step at the highest chroma sRGB renders, Candor's 4.5 floor puts the ceiling near <strong>L&nbsp;≤&nbsp;0.51</strong>: <code>oklch(0.50 0.14 250)</code> reaches OKCA 4.8 on page, while <code>oklch(0.55 0.15 250)</code> reaches OKCA 3.8 on page and misses. Check your own hue rather than borrowing that number:
                       </p>
                       <div class="code-block">
                         <pre tabindex="0"><code>klar find "#fff" "oklch(0.55 0.15 250)" --target 4.5</code></pre>
@@ -281,9 +281,9 @@ export const AIChatInterface: Story = {
                         <pre tabindex="0"><code>// Candor's 4.5 floor on the page. Chroma is at the sRGB
 // boundary for each L — raise it and the value stops
 // naming a colour any display can render.
---color-brand:        oklch(0.45 0.12 250);  // OKCA 6.4 on page ✅
---color-brand-hover:  oklch(0.38 0.10 250);  // OKCA 8.9 on page ✅
---color-brand-active: oklch(0.32 0.09 250);  // OKCA 11.5 on page ✅</code></pre>
+--color-brand:        oklch(0.45 0.12 250);  // OKCA 6.1 on page ✅
+--color-brand-hover:  oklch(0.38 0.10 250);  // OKCA 8.4 on page ✅
+--color-brand-active: oklch(0.32 0.09 250);  // OKCA 11.0 on page ✅</code></pre>
                         <candor-button variant="ghost" size="small">Copy</candor-button>
                       </div>
                       <p>

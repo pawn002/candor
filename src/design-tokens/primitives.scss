@@ -77,27 +77,61 @@
     --indigo-800: oklch(0.37 0.17 278.14);
     --indigo-900: oklch(0.27 0.13 278.14);
 
-    // Gray  (neutral — brand anchors preserved)
-    --gray-0:   oklch(1 0 0);             // #FFFFFF
-    --gray-50:  oklch(0.97 0 0);
-    --gray-100: oklch(0.91 0 0);          // #E0E0E0
-    --gray-200: oklch(0.88 0.005 17.2);   // #DAD8D8 — slightly warm
-    --gray-300: oklch(0.81 0 0);          // #C0C0C0
-    --gray-400: oklch(0.71 0 0);
-    --gray-500: oklch(0.56 0 0);          // #757575 — OKCA 3.8 on white (WCAG 2.x 4.7); non-text/border use. 0.57 renders as #777777 = WCAG 4.47 in browser, fails axe
-    --gray-600: oklch(0.46 0 0);
-    --gray-700: oklch(0.32 0 0);          // #333333 — OKCA 11.5 on white ✅ (WCAG 2.x 12.7)
-    --gray-800: oklch(0.24 0.03 248.99);  // #15202B — dark bg (slight blue)
-    --gray-900: oklch(0.16 0.02 248.99);
+    // ─── Greys ──────────────────────────────────────────────────────────────────
+    // Three ramps on one lightness scale, so a step number means the same
+    // lightness in every temperature and only the temperature changes (#318).
+    //   neutral  --gray-*       chroma 0
+    //   cool     --gray-cool-*  H=248.99, the navy undertone of the dark page
+    //   warm     --gray-warm-*  H=69, the hue opposite cool
+    // Hierarchy comes from temperature as well as lightness: warm on cool comes
+    // forward, cool on cool recedes. Cool and warm share one chroma profile, 0.005
+    // near white rising to 0.03 through the dark mid-tones and easing to 0.02 at
+    // 900, so the two are mirror images. The steps are uneven on purpose: each sits
+    // where a contrast-tuned Candor token needs it (550, 600 and 650 are the subtle
+    // text and control-border lightnesses), so no grey in use is off a ramp.
+    // Pure white is --gray-0 only; a tinted ramp starts at 25.
+    --gray-0:    oklch(1 0 0);
+    --gray-25:   oklch(0.985 0 0);
+    --gray-100:  oklch(0.91 0 0);
+    --gray-200:  oklch(0.88 0 0);
+    --gray-300:  oklch(0.81 0 0);
+    --gray-400:  oklch(0.71 0 0);
+    --gray-500:  oklch(0.62 0 0);
+    --gray-550:  oklch(0.56 0 0);
+    --gray-600:  oklch(0.5 0 0);
+    --gray-650:  oklch(0.44 0 0);
+    --gray-700:  oklch(0.4 0 0);
+    --gray-800:  oklch(0.30 0 0);
+    --gray-850:  oklch(0.24 0 0);
+    --gray-900:  oklch(0.16 0 0);
 
-    // Gray — cool (neutral with a navy undertone — H=248.99, C=0.03)
-    // The plain --gray ramp is pure-neutral through its mid-tones, which read
-    // warm (advancing) against the cool-navy dark surfaces. These are the cooled
-    // counterparts at the same lightness, for quiet fills that must recede on
-    // dark (warm advances / cool recedes). Note --gray-800/900 already carry this
-    // same undertone — they are effectively the dark end of this ramp.
-    --gray-cool-600: oklch(0.46 0.03 248.99);  // cooled counterpart of --gray-600
-    --gray-cool-700: oklch(0.32 0.03 248.99);  // cooled counterpart of --gray-700
+    --gray-cool-25:   oklch(0.985 0.005 248.99);
+    --gray-cool-100:  oklch(0.91 0.008 248.99);
+    --gray-cool-200:  oklch(0.88 0.01 248.99);
+    --gray-cool-300:  oklch(0.81 0.015 248.99);
+    --gray-cool-400:  oklch(0.71 0.02 248.99);
+    --gray-cool-500:  oklch(0.62 0.02 248.99);
+    --gray-cool-550:  oklch(0.56 0.025 248.99);
+    --gray-cool-600:  oklch(0.5 0.025 248.99);
+    --gray-cool-650:  oklch(0.44 0.03 248.99);
+    --gray-cool-700:  oklch(0.4 0.03 248.99);
+    --gray-cool-800:  oklch(0.30 0.03 248.99);
+    --gray-cool-850:  oklch(0.24 0.03 248.99);
+    --gray-cool-900:  oklch(0.16 0.02 248.99);
+
+    --gray-warm-25:   oklch(0.985 0.005 69);
+    --gray-warm-100:  oklch(0.91 0.008 69);
+    --gray-warm-200:  oklch(0.88 0.01 69);
+    --gray-warm-300:  oklch(0.81 0.015 69);
+    --gray-warm-400:  oklch(0.71 0.02 69);
+    --gray-warm-500:  oklch(0.62 0.02 69);
+    --gray-warm-550:  oklch(0.56 0.025 69);
+    --gray-warm-600:  oklch(0.5 0.025 69);
+    --gray-warm-650:  oklch(0.44 0.03 69);
+    --gray-warm-700:  oklch(0.4 0.03 69);
+    --gray-warm-800:  oklch(0.30 0.03 69);
+    --gray-warm-850:  oklch(0.24 0.03 69);
+    --gray-warm-900:  oklch(0.16 0.02 69);
 
     // ─── Spacing Scale (8px base) ──────────────────────────────────────────────
     --space-1:  0.5rem;   //  8px

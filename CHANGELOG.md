@@ -8,6 +8,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Breaking changes
 
+#### `@candor-design/tokens`: three grey ramps on one lightness scale; several grey primitives change value (#318)
+
+Candor's greys were one ramp holding three temperatures (neutral, a faintly warm 200, and a cool 800 and 900) plus a two-step cool ramp, and 13 greys in use sat on no ramp at all. There are now three ramps, `--gray-*` (neutral), `--gray-cool-*` (hue 248.99) and `--gray-warm-*` (hue 69), with the same 14 steps: 0 (neutral only), 25, 100, 200, 300, 400, 500, 550, 600, 650, 700, 800, 850 and 900. A step number means the same lightness in every ramp, so changing temperature never changes contrast much. Every grey semantic token now names a step.
+
+Semantic tokens are what components and most consumers use, and their names are unchanged. If you reference grey **primitives** directly, some names now mean a different colour:
+
+| Was | Was lightness | Use now | Note |
+|---|---|---|---|
+| `--gray-50` | 0.97 | `--gray-25` (0.985) | removed |
+| `--gray-200` | 0.88, faintly warm | `--gray-200` | now pure neutral |
+| `--gray-500` | 0.56 | `--gray-550` | **the name now means 0.62** |
+| `--gray-600` | 0.46 | `--gray-600` (0.50) or `--gray-650` (0.44) | **the name now means 0.50** |
+| `--gray-700` | 0.32 | `--gray-800` (0.30) | **the name now means 0.40** |
+| `--gray-800` | 0.24, cool | `--gray-cool-850` | **the name now means neutral 0.30** |
+| `--gray-900` | 0.16, cool | `--gray-cool-900` | **the name now means neutral 0.16** |
+| `--gray-cool-600` | 0.46 | `--gray-cool-650` (0.44) | **the name now means 0.50** |
+| `--gray-cool-700` | 0.32 | `--gray-cool-800` (0.30) | **the name now means 0.40** |
+
+`--gray-0`, `--gray-100`, `--gray-300` and `--gray-400` are unchanged.
+
 #### `@candor-design/web-components`: Lit is a peer dependency, per-component entry points, no CommonJS/UMD build (#256, #257)
 
 **Before:**
@@ -137,6 +157,12 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
   Deliberately **not** added: a dev-mode `console.warn` for an unnamed control, the obvious third remedy. React and Angular attach an element and then set its attributes, so it would fire on every correctly-named control in those frameworks and train people to ignore the console.
 
 ### Changed
+
+- **The light page is a cool off-white, warning is gold, and text is neutral in both modes (#318).** `--color-bg-page` in light is `--gray-cool-25`, `oklch(0.985 0.005 248.99)`, the undertone dark mode already had. Cards and modals stay pure white, so they lift slightly off the page. Every contrast figure on the page drops by 0.2 to 0.5 and all still clear their floors: the lowest is `--color-text-subtle` at 4.8 against 4.5.
+
+  Warning moves from amber (hue 53.5) to gold (hue 88). Amber had almost no chroma available in a pale tint, so the error and warning tints were only ΔE 4 apart; gold has room, and they are now ΔE 14 apart in light and 11 in dark. Caution reading as yellow also matches convention. In light mode, warning text and icons read olive-brown, because yellow loses the most chroma as it darkens and they must be dark enough to clear their floors on `--color-bg-surface`.
+
+  Dark `--color-text-default`, `-text-inverse` and `-text-on-action`, and light `--color-text-subtle-on-inverse`, move from cool greys to the neutral step at the same lightness, so text can be pushed warmer or cooler from a neutral default.
 
 - **Destructive actions take the error red, and the dark primary button is a pale navy (#318).** Two pairs of colours did different jobs and looked almost the same.
 

@@ -190,7 +190,7 @@ const renderContrastGuidance = () => html`
 
     <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
       <candor-alert variant="warning" heading="Tier 2 authoring constraint" style="display: block;"
-        message="--color-text-subtle (OKCA 5.0 on page) fails the 6.5 regular threshold. Functional 14px text using this token must be bold (wght ≥ 700) — the same score clears the 4.5 bold floor.">
+        message="--color-text-subtle (OKCA 4.8 on page) fails the 6.5 regular threshold. Functional 14px text using this token must be bold (wght ≥ 700) — the same score clears the 4.5 bold floor.">
       </candor-alert>
       <candor-alert variant="info" heading="Tier 3 condition" style="display: block;"
         message="Redundancy must be verified per component. Color-alone does not qualify — the redundant channel must be shape, icon, or spatial context so it holds under colorblindness. This tier is assigned by the system; it is not a consumer opt-in.">
@@ -271,7 +271,7 @@ measurements of legibility.
 
 **14px is the only sub-16px size that carries text**, so it is the only row. 12px is decorative
 and carries no floor. The 14px regular figure, 9.5, is what a neutral reading passage needs
-there. Neutral text reaches it (\`--color-text-default\` is OKCA 11.5 on page), but no
+there. Neutral text reaches it (\`--color-text-default\` is OKCA 11.9 on page), but no
 coloured text in the system can (#240). That is why Tier 1 regular text must be 16px or larger
 rather than held to 9.5: a floor only near-black text can meet would quietly ban colour from
 must-read text.
