@@ -1,0 +1,26 @@
+[
+  {
+    "rule": "aria-valid-attr-value",
+    "stories": [
+      "components-tabs--controlled",
+      "components-tabs--default",
+      "components-tabs--inverse",
+      "components-tabs--many-tabs",
+      "components-tabs--pre-selected",
+      "components-tabs--vertical",
+      "components-tabs--vertical-sidebar",
+      "examples-settings-example--tabbed-settings"
+    ],
+    "reason": "Each tab's aria-controls names a panel id that lives in candor-tab-panel's shadow root, so the reference cannot resolve. The panel keeps its own aria-label, so it stays named.",
+    "issue": 333
+  },
+  {
+    "rule": "scrollable-region-focusable",
+    "stories": [
+      "design-tokens-icons--accessibility-patterns",
+      "design-tokens-typography--okca-contrast-guidance"
+    ],
+    "reason": "candor-table's .table__scroll and a story <pre> overflow with no keyboard access.",
+    "issue": 334
+  }
+]

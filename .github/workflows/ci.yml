@@ -166,6 +166,12 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:playwright
+      # tests/axe.spec.ts gates WCAG 2.2 A/AA. What axe could not decide, and
+      # its best-practice findings, are the human review list: summarised on the
+      # job page, never gating (#252).
+      - name: axe-core review list
+        if: always()
+        run: node scripts/axe-report.js >> "$GITHUB_STEP_SUMMARY"
 
   chromatic:
     runs-on: ubuntu-latest
