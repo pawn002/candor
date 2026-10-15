@@ -77,17 +77,29 @@ test('every story passes axe-core (WCAG 2.2 A/AA)', async ({ page, request }) =>
 
   for (const story of stories) {
     await test.step(story.id, async () => {
-      await page.goto(`/iframe.html?id=${story.id}&viewMode=story`);
+      // a11y.manual stops Storybook's own a11y addon from running axe on render,
+      // which would otherwise collide with this run ("Axe is already running").
+      await page.goto(`/iframe.html?id=${story.id}&viewMode=story&globals=a11y.manual:!true`);
       await page.waitForSelector('#storybook-root > *', { timeout: 10_000 }).catch(() => {});
       await page.waitForTimeout(300);
       await page.addScriptTag({ content: AXE_SOURCE });
       const result = await page.evaluate(async (tags) => {
         // @ts-expect-error axe is injected above
-        const r = await window.axe.run('#storybook-root', {
+        const axe = window.axe;
+        const options = {
           runOnly: { type: 'tag', values: tags },
           rules: { 'color-contrast': { enabled: false } },
           resultTypes: ['violations', 'incomplete'],
-        });
+        };
+        // Safety net if another axe run is still in flight on this page.
+        let r;
+        for (let attempt = 0; ; attempt++) {
+          try { r = await axe.run('#storybook-root', options); break; }
+          catch (e: any) {
+            if (attempt >= 5 || !String(e?.message).includes('already running')) throw e;
+            await new Promise((done) => setTimeout(done, 500));
+          }
+        }
         const slim = (v: any) => ({ id: v.id, impact: v.impact, tags: v.tags, help: v.help, helpUrl: v.helpUrl, nodes: v.nodes.map((n: any) => ({ target: n.target })) });
         return { violations: r.violations.map(slim), incomplete: r.incomplete.map(slim) };
       }, RUN_TAGS) as { violations: AxeResult[]; incomplete: AxeResult[] };

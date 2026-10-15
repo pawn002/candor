@@ -18,9 +18,10 @@
     "rule": "scrollable-region-focusable",
     "stories": [
       "design-tokens-icons--accessibility-patterns",
-      "design-tokens-typography--okca-contrast-guidance"
+      "design-tokens-typography--okca-contrast-guidance",
+      "typography-article--sans-with-code"
     ],
-    "reason": "candor-table's .table__scroll and a story <pre> overflow with no keyboard access.",
+    "reason": "candor-table's .table__scroll, a story <pre> and a candor-article code block overflow with no keyboard access. The article block only overflows with the real fonts loaded, so it shows in CI and not in a worktree Storybook, which falls back to system fonts.",
     "issue": 334
   }
 ]
