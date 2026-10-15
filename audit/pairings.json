@@ -1210,6 +1210,46 @@
       "tier": "non-text",
       "min": 3,
       "note": "The scrollbar bar on a candor-article code block. bg-code is navy in both modes, and the default thumb (border-control) falls below the floor on it in light, so the article overrides the thumb to border-strong (#307). OKCA 7.6 light / 3.3 dark ✅"
+    },
+    {
+      "id": "text-on-bg-forward",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.forward}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 1,
+      "min": 4.5,
+      "note": "Body text on the warm forward surface. Temperature changes, lightness does not, so this tracks text on page."
+    },
+    {
+      "id": "text-subtle-on-bg-forward",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.forward}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "note": "Secondary text on the forward surface: hints, timestamps."
+    },
+    {
+      "id": "text-on-bg-recede",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.recede}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 1,
+      "min": 4.5,
+      "note": "Body text on the cool recede surface."
+    },
+    {
+      "id": "text-subtle-on-surface-on-bg-recede",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.recede}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "note": "Secondary text on the recede surface. Light recede sits at bg-surface lightness, where plain text-subtle falls below 4.5, so it takes the on-surface variant."
     }
   ]
 }

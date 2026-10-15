@@ -12,6 +12,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Candor's greys were one ramp holding three temperatures (neutral, a faintly warm 200, and a cool 800 and 900) plus a two-step cool ramp, and 13 greys in use sat on no ramp at all. There are now three ramps, `--gray-*` (neutral), `--gray-cool-*` (hue 248.99) and `--gray-warm-*` (hue 69), with the same 14 steps: 0 (neutral only), 25, 100, 200, 300, 400, 500, 550, 600, 650, 700, 800, 850 and 900. A step number means the same lightness in every ramp, so changing temperature never changes contrast much. Every grey semantic token now names a step.
 
+Chroma in the two tinted ramps comes from one curve rather than per-step values: `C(L) = K · (4u(1 − u))^0.44` with `u = L^g`, rounded inward. Warm uses K 0.0174 and g 1, so it peaks at mid-lightness and reads about as strong in dark mode as in light, rather than turning brown. Cool uses K 0.0266 and g 0.595, peaking at L 0.31 for the navy cast of the dark surfaces; it was fitted to the hand-set values it replaces, and every step is within ΔE 2 of them.
+
 Semantic tokens are what components and most consumers use, and their names are unchanged. If you reference grey **primitives** directly, some names now mean a different colour:
 
 | Was | Was lightness | Use now | Note |
@@ -157,6 +159,8 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
   Deliberately **not** added: a dev-mode `console.warn` for an unnamed control, the obvious third remedy. React and Angular attach an element and then set its attributes, so it would fire on every correctly-named control in those frameworks and train people to ignore the console.
 
 ### Changed
+
+- **New: `--color-bg-forward` and `--color-bg-recede` rank surfaces by temperature (#318).** Forward is warm, for the one thing a screen should lead with; recede is cool, for chrome that should step back. Both keep the lightness of the surface they replace (light forward `--gray-warm-25`, light recede `--gray-cool-100`, dark forward `--gray-warm-800`), except dark recede, which steps down to `--gray-cool-900` because dark surfaces are already cool. Text on each is measured in `audit/pairings.json`; on light recede, use `--color-text-subtle-on-surface` for secondary text. Ranking by temperature guides the eye but never carries meaning on its own.
 
 - **The light page is a cool off-white, warning is gold, and text is neutral in both modes (#318).** `--color-bg-page` in light is `--gray-cool-25`, `oklch(0.985 0.005 248.99)`, the undertone dark mode already had. Cards and modals stay pure white, so they lift slightly off the page. Every contrast figure on the page drops by 0.2 to 0.5 and all still clear their floors: the lowest is `--color-text-subtle` at 4.8 against 4.5.
 

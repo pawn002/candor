@@ -8,6 +8,14 @@
     --color-bg-surface:  var(--gray-100);
     --color-bg-subtle:   var(--gray-200);  // subtle interactive fill — one step darker than surface (hover rows, selection, hover chips); mirrors --color-text-subtle (#174)
     --color-bg-elevated: var(--gray-0);   // white — floats above surface (gray-100) via shadow
+    // Intent surfaces (#318). Use these to rank surfaces by temperature: forward
+    // for the one thing a screen should lead with, recede for chrome that should
+    // step back. They change temperature, not lightness, so contrast barely moves.
+    // Ranking by temperature is a tertiary affordance: it guides the eye but never
+    // carries meaning on its own, since a deltaE 5 to 15 shift is lost on a
+    // washed-out screen or to a reader who cannot tell the hues apart.
+    --color-bg-forward:  var(--gray-warm-25);  // same lightness as the page, warm
+    --color-bg-recede:   var(--gray-cool-100); // same lightness as bg-surface, cool; use text-subtle-on-surface on it
     --color-bg-inverse:  var(--navy-800);
 
     // ─── Colors: Text ──────────────────────────────────────────────────────────
@@ -252,6 +260,10 @@
     --color-bg-surface:  var(--gray-cool-850);           // oklch(0.24 0.03 248.99) — cards/panels
     --color-bg-subtle:   var(--gray-cool-800);      // subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.
     --color-bg-elevated: var(--gray-cool-800);      // one step above surface; shares gray-cool-800 with bg-subtle
+    // Intent surfaces (#318). Dark surfaces are already cool, so recede steps down
+    // toward the page; forward keeps the card lightness and turns warm.
+    --color-bg-forward:  var(--gray-warm-800);
+    --color-bg-recede:   var(--gray-cool-900);
     --color-bg-inverse:  var(--gray-0);             // white — flipped from dark navy
 
     // ─── Elevation / Shadow (dark mode) ────────────────────────────────────
@@ -334,7 +346,7 @@
     --color-action-destructive-border: var(--color-status-error-text); // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
-    // ⚠️  fill is only OKCA 1.0 on page — intentionally subtle in dark mode.
+    // ⚠️  fill is only OKCA 1.1 on page — intentionally subtle in dark mode.
     // Text (gray-0) on tertiary bg remains readable. Uses the cool-gray ramp
     // (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead
     // of advancing and competing with the primary button (warm advances / cool

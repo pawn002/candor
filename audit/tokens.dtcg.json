@@ -4,7 +4,7 @@
       "bg": {
         "page": {
           "$type": "color",
-          "$value": "oklch(0.985 0.005 248.99)",
+          "$value": "oklch(0.985 0.006 248.99)",
           "$extensions": {
             "aliasOf": "--gray-cool-25"
           }
@@ -30,6 +30,22 @@
           "$description": "white — floats above surface (gray-100) via shadow",
           "$extensions": {
             "aliasOf": "--gray-0"
+          }
+        },
+        "forward": {
+          "$type": "color",
+          "$value": "oklch(0.985 0.005 69)",
+          "$description": "Intent surfaces (#318). Use these to rank surfaces by temperature: forward for the one thing a screen should lead with, recede for chrome that should step back. They change temperature, not lightness, so contrast barely moves. Ranking by temperature is a tertiary affordance: it guides the eye but never carries meaning on its own, since a deltaE 5 to 15 shift is lost on a washed-out screen or to a reader who cannot tell the hues apart. — same lightness as the page, warm",
+          "$extensions": {
+            "aliasOf": "--gray-warm-25"
+          }
+        },
+        "recede": {
+          "$type": "color",
+          "$value": "oklch(0.91 0.013 248.99)",
+          "$description": "same lightness as bg-surface, cool; use text-subtle-on-surface on it",
+          "$extensions": {
+            "aliasOf": "--gray-cool-100"
           }
         },
         "inverse": {
@@ -142,7 +158,7 @@
         },
         "on-inverse": {
           "$type": "color",
-          "$value": "oklch(0.4 0.03 248.99)",
+          "$value": "oklch(0.4 0.026 248.99)",
           "$description": "subtle divider on navy-800 inverse surface",
           "$extensions": {
             "usage": "non-text",
@@ -403,7 +419,7 @@
       "bg": {
         "page": {
           "$type": "color",
-          "$value": "oklch(0.16 0.02 248.99)",
+          "$value": "oklch(0.16 0.025 248.99)",
           "$description": "oklch(0.16 0.02 248.99) — deepest surface",
           "$extensions": {
             "aliasOf": "--gray-cool-900"
@@ -411,7 +427,7 @@
         },
         "surface": {
           "$type": "color",
-          "$value": "oklch(0.24 0.03 248.99)",
+          "$value": "oklch(0.24 0.026 248.99)",
           "$description": "oklch(0.24 0.03 248.99) — cards/panels",
           "$extensions": {
             "aliasOf": "--gray-cool-850"
@@ -419,7 +435,7 @@
         },
         "subtle": {
           "$type": "color",
-          "$value": "oklch(0.30 0.03 248.99)",
+          "$value": "oklch(0.30 0.026 248.99)",
           "$description": "subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.",
           "$extensions": {
             "aliasOf": "--gray-cool-800"
@@ -427,10 +443,25 @@
         },
         "elevated": {
           "$type": "color",
-          "$value": "oklch(0.30 0.03 248.99)",
+          "$value": "oklch(0.30 0.026 248.99)",
           "$description": "one step above surface; shares gray-cool-800 with bg-subtle",
           "$extensions": {
             "aliasOf": "--gray-cool-800"
+          }
+        },
+        "forward": {
+          "$type": "color",
+          "$value": "oklch(0.30 0.016 69)",
+          "$description": "Intent surfaces (#318). Dark surfaces are already cool, so recede steps down toward the page; forward keeps the card lightness and turns warm.",
+          "$extensions": {
+            "aliasOf": "--gray-warm-800"
+          }
+        },
+        "recede": {
+          "$type": "color",
+          "$value": "oklch(0.16 0.025 248.99)",
+          "$extensions": {
+            "aliasOf": "--gray-cool-900"
           }
         },
         "inverse": {
@@ -664,8 +695,8 @@
         },
         "tertiary": {
           "$type": "color",
-          "$value": "oklch(0.30 0.03 248.99)",
-          "$description": "⚠️  fill is only OKCA 1.0 on page — intentionally subtle in dark mode. Text (gray-0) on tertiary bg remains readable. Uses the cool-gray ramp (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead of advancing and competing with the primary button (warm advances / cool recedes); L preserved, so white OKCA 13.0 on this bg ✅. Revisit if buttons need more prominence in dark.",
+          "$value": "oklch(0.30 0.026 248.99)",
+          "$description": "⚠️  fill is only OKCA 1.1 on page — intentionally subtle in dark mode. Text (gray-0) on tertiary bg remains readable. Uses the cool-gray ramp (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead of advancing and competing with the primary button (warm advances / cool recedes); L preserved, so white OKCA 13.0 on this bg ✅. Revisit if buttons need more prominence in dark.",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-cool-800"
@@ -673,7 +704,7 @@
         },
         "tertiary-hover": {
           "$type": "color",
-          "$value": "oklch(0.44 0.03 248.99)",
+          "$value": "oklch(0.44 0.025 248.99)",
           "$extensions": {
             "aliasOf": "--gray-cool-650"
           }
@@ -796,7 +827,7 @@
       "callout": {
         "bg": {
           "$type": "color",
-          "$value": "oklch(0.24 0.03 248.99)",
+          "$value": "oklch(0.24 0.026 248.99)",
           "$description": "A neutral panel. The indigo wash and left bar went in #292. — text-default OKCA 9.3 on this bg ✅",
           "$extensions": {
             "aliasOf": "--color-bg-surface"

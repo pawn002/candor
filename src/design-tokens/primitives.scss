@@ -84,9 +84,23 @@
     //   cool     --gray-cool-*  H=248.99, the navy undertone of the dark page
     //   warm     --gray-warm-*  H=69, the hue opposite cool
     // Hierarchy comes from temperature as well as lightness: warm on cool comes
-    // forward, cool on cool recedes. Cool and warm share one chroma profile, 0.005
-    // near white rising to 0.03 through the dark mid-tones and easing to 0.02 at
-    // 900, so the two are mirror images. The steps are uneven on purpose: each sits
+    // forward, cool on cool recedes.
+    //
+    // Chroma is not set step by step. Both tinted ramps follow one curve, so a
+    // ramp stays smooth and any step can be recomputed:
+    //   u = L ^ g
+    //   C(L) = K * (4 * u * (1 - u)) ^ 0.44, rounded inward
+    // 4u(1 - u) is a hump, zero at black and white. The shared exponent 0.44 keeps
+    // a trace of chroma close to white, which the tinted light page depends on.
+    // Each ramp has two dials: K sets the peak height, g moves the peak.
+    //   warm  K 0.0174  g 1      peak at L 0.50, 0.005 at the light forward fill
+    //                            and 0.015 in the dark, so warm reads about as
+    //                            strong in either mode instead of turning brown
+    //   cool  K 0.0266  g 0.595  peak at L 0.31, carrying the navy cast of the dark
+    //                            surfaces; fitted to the per-step values it replaced,
+    //                            every step within deltaE 2 of them
+    //
+    // The steps are uneven on purpose: each sits
     // where a contrast-tuned Candor token needs it (550, 600 and 650 are the subtle
     // text and control-border lightnesses), so no grey in use is off a ramp.
     // Pure white is --gray-0 only; a tinted ramp starts at 25.
@@ -105,33 +119,33 @@
     --gray-850:  oklch(0.24 0 0);
     --gray-900:  oklch(0.16 0 0);
 
-    --gray-cool-25:   oklch(0.985 0.005 248.99);
-    --gray-cool-100:  oklch(0.91 0.008 248.99);
-    --gray-cool-200:  oklch(0.88 0.01 248.99);
-    --gray-cool-300:  oklch(0.81 0.015 248.99);
-    --gray-cool-400:  oklch(0.71 0.02 248.99);
-    --gray-cool-500:  oklch(0.62 0.02 248.99);
-    --gray-cool-550:  oklch(0.56 0.025 248.99);
+    --gray-cool-25:   oklch(0.985 0.006 248.99);
+    --gray-cool-100:  oklch(0.91 0.013 248.99);
+    --gray-cool-200:  oklch(0.88 0.014 248.99);
+    --gray-cool-300:  oklch(0.81 0.018 248.99);
+    --gray-cool-400:  oklch(0.71 0.021 248.99);
+    --gray-cool-500:  oklch(0.62 0.023 248.99);
+    --gray-cool-550:  oklch(0.56 0.024 248.99);
     --gray-cool-600:  oklch(0.5 0.025 248.99);
-    --gray-cool-650:  oklch(0.44 0.03 248.99);
-    --gray-cool-700:  oklch(0.4 0.03 248.99);
-    --gray-cool-800:  oklch(0.30 0.03 248.99);
-    --gray-cool-850:  oklch(0.24 0.03 248.99);
-    --gray-cool-900:  oklch(0.16 0.02 248.99);
+    --gray-cool-650:  oklch(0.44 0.025 248.99);
+    --gray-cool-700:  oklch(0.4 0.026 248.99);
+    --gray-cool-800:  oklch(0.30 0.026 248.99);
+    --gray-cool-850:  oklch(0.24 0.026 248.99);
+    --gray-cool-900:  oklch(0.16 0.025 248.99);
 
     --gray-warm-25:   oklch(0.985 0.005 69);
-    --gray-warm-100:  oklch(0.91 0.008 69);
-    --gray-warm-200:  oklch(0.88 0.01 69);
-    --gray-warm-300:  oklch(0.81 0.015 69);
-    --gray-warm-400:  oklch(0.71 0.02 69);
-    --gray-warm-500:  oklch(0.62 0.02 69);
-    --gray-warm-550:  oklch(0.56 0.025 69);
-    --gray-warm-600:  oklch(0.5 0.025 69);
-    --gray-warm-650:  oklch(0.44 0.03 69);
-    --gray-warm-700:  oklch(0.4 0.03 69);
-    --gray-warm-800:  oklch(0.30 0.03 69);
-    --gray-warm-850:  oklch(0.24 0.03 69);
-    --gray-warm-900:  oklch(0.16 0.02 69);
+    --gray-warm-100:  oklch(0.91 0.010 69);
+    --gray-warm-200:  oklch(0.88 0.011 69);
+    --gray-warm-300:  oklch(0.81 0.014 69);
+    --gray-warm-400:  oklch(0.71 0.015 69);
+    --gray-warm-500:  oklch(0.62 0.016 69);
+    --gray-warm-550:  oklch(0.56 0.017 69);
+    --gray-warm-600:  oklch(0.5 0.017 69);
+    --gray-warm-650:  oklch(0.44 0.017 69);
+    --gray-warm-700:  oklch(0.4 0.017 69);
+    --gray-warm-800:  oklch(0.30 0.016 69);
+    --gray-warm-850:  oklch(0.24 0.015 69);
+    --gray-warm-900:  oklch(0.16 0.013 69);
 
     // ─── Spacing Scale (8px base) ──────────────────────────────────────────────
     --space-1:  0.5rem;   //  8px
