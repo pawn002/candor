@@ -11,16 +11,21 @@
     // can actually render at that lightness — see the sRGB invariant in
     // CLAUDE.md. `npm run audit:tokens` fails if a step drifts back out (#225).
 
-    // Navy  (H=245.34  C=0.06 through the mid-tones)
+    // Navy  (H=245.34 at the anchor, C=0.06 through the mid-tones)
     // Anchor: navy-800 = #082840
-    --navy-50:  oklch(0.97 0.01 245.34);
-    --navy-100: oklch(0.93 0.02 245.34);
-    --navy-200: oklch(0.86 0.04 245.34);
-    --navy-300: oklch(0.76 0.05 245.34);
-    --navy-400: oklch(0.64 0.06 245.34);
-    --navy-500: oklch(0.53 0.06 245.34);
-    --navy-600: oklch(0.44 0.06 245.34);
-    --navy-700: oklch(0.35 0.06 245.34);
+    // The hue warms with lightness: 800 and 900 hold the anchor hue, and each
+    // lighter step turns toward violet in proportion to its lightness, reaching
+    // +7.5 degrees at 50 (H = 245.34 + 7.5 * (L - 0.27) / 0.70). Chroma is unchanged.
+    // At one hue the pale steps read as grey-cyan; the turn keeps them reading as
+    // navy without adding a ramp. No step moves more than deltaE 2 (#318).
+    --navy-50:  oklch(0.97 0.01 252.84);
+    --navy-100: oklch(0.93 0.02 252.41);
+    --navy-200: oklch(0.86 0.04 251.66);
+    --navy-300: oklch(0.76 0.05 250.59);
+    --navy-400: oklch(0.64 0.06 249.3);
+    --navy-500: oklch(0.53 0.06 248.13);
+    --navy-600: oklch(0.44 0.06 247.16);
+    --navy-700: oklch(0.35 0.06 246.2);
     --navy-800: oklch(0.27 0.06 245.34); // #082840 — on white: OKCA 13.9 ✅ (WCAG 2.x 15.0)
     --navy-900: oklch(0.19 0.04 245.34);
 

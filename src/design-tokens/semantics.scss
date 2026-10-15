@@ -60,15 +60,19 @@
     --color-action-secondary-hover:  var(--burgundy-800);
     --color-action-secondary-active: var(--burgundy-900);
 
-    // ─── Colors: Action — Destructive (crimson burgundy, H=347) ───────────────
-    // Boosted chroma from the existing burgundy hue — signals irreversibility.
-    // Distinct from error (H=25 orange-red): destructive = a chosen action, not a failure state.
-    // Both modes: outlined — transparent bg, crimson border+text. Hierarchy mirrors dark mode.
+    // ─── Colors: Action — Destructive (error red, H=25) ──────────────────────
+    // Takes the error red. It was a boosted burgundy (H=347), kept apart from
+    // error on the reasoning that destructive is a chosen action, not a failure.
+    // That put it deltaE 8 from --color-action-secondary, the burgundy that fills
+    // badges, chips and the current nav item, so a "Featured" badge matched the
+    // delete button. Error and destructive both mean "take care", so sharing red
+    // misleads no one; deltaE to secondary is now 24 light / 17 dark (#318).
+    // Both modes: outlined — transparent bg, red border+text.
     --color-action-destructive:        transparent;
-    --color-action-destructive-hover:  oklch(0.37 0.15 347 / 0.08); // subtle crimson tint on hover
-    --color-action-destructive-active: oklch(0.37 0.15 347 / 0.15); // stronger tint on active
-    --color-action-destructive-text:   oklch(0.37 0.15 347);         // OKCA 9.3 on page ✅, OKCA 6.9 on bg-surface ✅ — outlined, so both backgrounds are real placements (#224)
-    --color-action-destructive-border: oklch(0.37 0.15 347);         // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
+    --color-action-destructive-hover:  oklch(0.45 0.18 25 / 0.08); // subtle red tint on hover
+    --color-action-destructive-active: oklch(0.45 0.18 25 / 0.15); // stronger tint on active
+    --color-action-destructive-text:   var(--color-status-error-text); // outlined, so page and bg-surface are both real placements (#224); figures on the pairings
+    --color-action-destructive-border: var(--color-status-error-text); // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
 
     // ─── Colors: Action — Tertiary ─────────────────────────────────────────────
     // No border — structural identity is the fill (distinct from secondary's outline).
@@ -267,7 +271,7 @@
     --color-text-disabled:          var(--gray-600); // OKCA 2.2 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
     --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
     --color-text-subtle-on-inverse: oklch(0.40 0 0); // muted text on white inverse surface
-    --color-text-on-action:         oklch(0.16 0.02 248.99); // OKCA 7.0 on action-primary ✅ — same as bg-page; gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5
+    --color-text-on-action:         oklch(0.16 0.02 248.99); // OKCA 11.2 on action-primary ✅ — same as bg-page; was OKCA 7.0 on the sky-blue primary (#318); gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5
 
     // ─── Borders ───────────────────────────────────────────────────────────
     --color-border-default:    var(--gray-600); // subtle separator — non-text, decorative
@@ -295,11 +299,11 @@
     --color-slider-thumb: var(--gray-100); // oklch(0.91) light knob in dark — icon/border use
 
     // ─── Action — Primary (navy) ───────────────────────────────────────────
-    // Direct OKLCH values instead of navy-* scale refs — the navy palette is
-    // intentionally low-chroma (C≤0.06) which reads as muted gray-blue at
-    // light steps. Boosted chroma (C=0.11 — the most sRGB renders at this L and
-    // hue) makes the primary button read as a confident blue without changing
-    // hue or breaking contrast targets.
+    // A pale navy from the brand ramp, so dark mode reads as the same navy as
+    // light. It was a boosted sky blue, oklch(0.79 0.11 245), deltaE 3 from
+    // --color-link (2 between their hovers), so a primary button and a link
+    // beside it were the same colour. navy-200 is deltaE 14 from the link and 6
+    // from its hover, and a quiet fill lets the content around it lead (#318).
     // Deliberately no figures here. Both that this comment used to carry were
     // duplicates recorded better elsewhere, and one had gone stale unnoticed
     // because the export discarded this comment entirely (#224): it credited the
@@ -307,9 +311,9 @@
     // gray-800 when --color-text-on-action moved to the bg-page navy for exactly
     // that reason — it fails the 14px bold floor of 6.5. That token's own comment
     // records the change and is audited; this one restated it and rotted.
-    --color-action-primary:        oklch(0.79 0.11 245); // OKCA 7.3 on bg-page ✅
-    --color-action-primary-hover:  oklch(0.87 0.06 245); // OKCA 11.9 on bg-page ✅
-    --color-action-primary-active: oklch(0.87 0.06 245);
+    --color-action-primary:        var(--navy-200); // OKCA 11.7 on bg-page ✅
+    --color-action-primary-hover:  var(--navy-100); // OKCA 15.2 on bg-page ✅
+    --color-action-primary-active: var(--navy-100);
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
     // Label on the secondary fill: bg-page OKCA 7.3 on this bg ✅
@@ -318,20 +322,15 @@
     --color-action-secondary-active: var(--burgundy-200);
 
     // ─── Action — Destructive ─────────────────────────────────────────────────
-    // Outlined — same pattern as light mode, lighter crimson-rose for dark bg.
-    // H=347 at high lightness reads as pink filled; outlined avoids the fill entirely.
+    // Outlined — same pattern as light mode, and the same error red (#318).
     --color-action-destructive:        transparent;
-    --color-action-destructive-hover:  oklch(0.72 0.15 347 / 0.12); // subtle rose tint on hover
-    --color-action-destructive-active: oklch(0.72 0.15 347 / 0.22); // stronger tint on active
-    // Stepped L=0.75 → 0.78 so the label clears its floor on BOTH backgrounds, not
-    // only the page. The button is outlined (transparent fill), so its effective
-    // background is whatever sits behind it — and a destructive confirmation most
-    // often sits in a modal or card, i.e. on bg-surface. L=0.75 measured 3.9 there
-    // against a 4.5 floor while passing on page at 4.7, so the variant failed in its
-    // commonest placement and the single page-only pairing could not see it (#224).
-    // deltaE 3 from L=0.75 — at the edge of imperceptible.
-    --color-action-destructive-text:   oklch(0.78 0.15 347);         // OKCA 5.6 on bg-page ✅, OKCA 4.7 on bg-surface ✅ — Tier 2 floor 4.5; L=0.74 was OKCA 4.4 on bg-page (#209), L=0.75 was OKCA 3.9 on bg-surface (#224)
-    --color-action-destructive-border: oklch(0.78 0.15 347);         // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
+    --color-action-destructive-hover:  oklch(0.79 0.12 25 / 0.12); // subtle red tint on hover
+    --color-action-destructive-active: oklch(0.79 0.12 25 / 0.22); // stronger tint on active
+    // Was oklch(0.78 0.15 347), stepped from L=0.75 so the label cleared its floor on
+    // bg-surface as well as the page — a delete confirmation usually sits in a modal
+    // or card (#224). The error red clears both with more margin; figures on the pairings.
+    --color-action-destructive-text:   var(--color-status-error-text);
+    --color-action-destructive-border: var(--color-status-error-text); // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
     // ⚠️  fill is only OKCA 1.1 on page — intentionally subtle in dark mode.

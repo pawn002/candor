@@ -138,6 +138,14 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
 
 ### Changed
 
+- **Destructive actions take the error red, and the dark primary button is a pale navy (#318).** Two pairs of colours did different jobs and looked almost the same.
+
+  `--color-action-destructive-text` and `-border` were a boosted burgundy at hue 347, ΔE 8 from `--color-action-secondary`, the burgundy that fills the secondary badge, outlines the secondary chip and fills the current navigation item. A "Featured" badge matched the delete button. Both now alias `--color-status-error-text`, and the hover and active tints move to the same red. Destructive and error both mean "take care", so sharing a colour misleads no one. ΔE to secondary is now 24 in light and 17 in dark. The button stays outlined. Its label measures OKCA 6.4 on the page and 4.8 on `--color-bg-surface` in light, and 6.9 and 5.8 in dark, all above the 4.5 floor.
+
+  In dark mode `--color-action-primary` was a boosted sky blue, `oklch(0.79 0.11 245)`, ΔE 3 from `--color-link` and 2 between their hovers, so a primary button and a link beside it were the same colour. It also looked nothing like the light-mode navy. It is now `--navy-200`, with `--navy-100` for hover and active: ΔE 14 from the link, 6 from the link hover, and a label contrast of 11.2, up from 7.0.
+
+  The navy ramp warms as it gets lighter. `--navy-800` and `--navy-900` are unchanged, and each lighter step turns toward violet in proportion to its lightness, up to 7.5 degrees at `--navy-50`. Chroma is unchanged, and no step moves more than ΔE 2. At a single hue the pale steps read grey-cyan; the turn keeps them reading as navy without adding a ramp. No token is renamed.
+
 - **Every scroller draws Candor's scrollbar: a thin bar in a grab area the size of an AA target (#307).** No component styled its scrollbars, so each one drew the browser's default. In dark mode that was a light track across a dark panel, because nothing declared `color-scheme`. In `candor-toolbar` it was a 15px bar with arrow buttons under 32px controls, running into the rounded corners. On macOS it hid until scrolled, so nothing showed that the row overflowed.
 
   The new bar is 6px, drawn in `--color-border-control` inside a 24px lane. The whole lane can be grabbed, not just the bar, so the drag target meets WCAG 2.5.8 at AA while the bar stays light. The gap is 12px on the content side and 6px on the outer edge, which reads as even spacing: the eye measures from the content, and the outer edge is a hard line. The bar is inset from the scroller's ends by `--radius-md` so it clears rounded corners, and darkens to `--color-text-subtle` on hover. Three new tokens set the geometry: `--scrollbar-size` (`var(--hit-target-aa)`), `--scrollbar-thumb-size` and `--scrollbar-inset-outer`. The content-side gap is what remains, so a change to `--hit-target-aa` widens the lane without changing the bar.

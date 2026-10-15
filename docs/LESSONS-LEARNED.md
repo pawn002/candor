@@ -233,6 +233,8 @@ At H=347, the sRGB gamut only permits chroma C≤0.15 across most of the lightne
 
 **Rule:** For any hue where the light-mode fill requires dark-bg lightness (L<0.40), always prototype the dark-mode version separately rather than assuming a brightened fill will work.
 
+*Since #318 the destructive action uses the error red (H=25) rather than H=347, because the crimson sat deltaE 8 from the burgundy secondary. The outlined pattern carried over unchanged, and the lesson still holds for H=347.*
+
 ---
 
 ### Tokens that vary by theme must live in the theme mixin, not just `:root`
