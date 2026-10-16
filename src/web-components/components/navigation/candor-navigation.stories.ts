@@ -26,17 +26,17 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-navigation>\` — site or section navigation bar. Two orientations: \`horizontal\`
+\`<candor-navigation>\`: a site or section navigation bar. Two orientations: \`horizontal\`
 (top header) and \`vertical\` (sidebar). Two themes: \`default\` and \`inverse\` (dark/navy
 background).
 
 Pass \`items\` as an array of \`{ label, href, active?, badge?, badgeLabel? }\` objects via
 the JS property (or JSON-encoded as an attribute in static markup). The \`active\` flag
 applies \`aria-current="page"\` and the active link style. Optional \`badge\` renders a
-numeric indicator — set \`badgeLabel\` to a descriptive string (e.g. "12 unread") so screen
+numeric indicator. Set \`badgeLabel\` to a descriptive string (e.g. "12 unread") so screen
 readers announce a meaningful name rather than just the count.
 
-Set \`label\` when a page has more than one \`<candor-navigation>\` — each \`<nav>\` must
+Set \`label\` when a page has more than one \`<candor-navigation>\`. Each \`<nav>\` must
 have a unique accessible name to satisfy WCAG 2.4.1. Defaults to \`"Main navigation"\`.
 
 **Responsive behaviour (horizontal):** Below 640px the brand and item list wrap to two
@@ -84,7 +84,7 @@ export const WithBadges: Story = {
     docs: {
       description: {
         story: 'Use `badge` for a numeric count and `badgeLabel` for a descriptive accessible name. ' +
-          'Without `badgeLabel`, a screen reader announces only the number — "12" with no context. ' +
+          'Without `badgeLabel`, a screen reader announces only the number: "12" with no context. ' +
           'With it, the announcement is "Inbox, 12 unread" (the badge `aria-label` supplements the link text).',
       },
     },

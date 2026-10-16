@@ -12,14 +12,14 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-card>\` — versatile surface container. Three variants cover the standard layering
+\`<candor-card>\`: a versatile surface container. Three variants cover the standard layering
 hierarchy: \`default\` (surface), \`elevated\` (floats above surface), \`outlined\` (page
 background with border).
 
 **Light-mode surface layering**
 
 In light mode \`--color-bg-page\` and \`--color-bg-elevated\` are both near-white. Colour
-alone cannot create visible depth — the \`elevated\` variant relies on \`box-shadow\` for
+alone cannot create visible depth, so the \`elevated\` variant relies on \`box-shadow\` for
 its lift signal. If you are building a card-on-card layout, the inner card should be
 \`outlined\` or \`default\` (surface tint) rather than another \`elevated\`.
 
@@ -33,7 +33,7 @@ its lift signal. If you are building a card-on-card layout, the inner card shoul
 </candor-card>
 \`\`\`
 
-Empty header and footer slots collapse — no leftover border or padding when unused.
+Empty header and footer slots collapse, leaving no border or padding when unused.
 
 **Semantic grouping**
 
@@ -55,7 +55,7 @@ to a heading inside the card, or \`aria-label\` for a concise inline name:
 \`\`\`
 
 \`role\`, \`aria-label\`, and \`aria-labelledby\` are native HTML attributes and work directly
-on \`<candor-card>\` without any special wiring — the browser exposes them on the host
+on \`<candor-card>\` without any special wiring. The browser exposes them on the host
 element's accessibility node.
         `.trim(),
       },
@@ -95,7 +95,7 @@ export const WithHeaderAndFooter: Story = {
     <candor-card variant="outlined" padding="md">
       <div slot="header">Card Header</div>
       <p style="margin:0">Card body content goes here. This card has both a header and footer slot populated.</p>
-      <div slot="footer">Card Footer — Additional info or actions</div>
+      <div slot="footer">Card Footer: additional info or actions</div>
     </candor-card>
   `,
 };
@@ -135,7 +135,7 @@ export const CardGrid: Story = {
         <p style="margin:0">Page background with a thin border.</p>
       </candor-card>
       <candor-card variant="elevated" padding="lg">
-        <div slot="header">Elevated — Large Padding</div>
+        <div slot="header">Elevated, Large Padding</div>
         <p style="margin:0">Same elevated style with larger internal spacing.</p>
         <div slot="footer">Footer content</div>
       </candor-card>

@@ -15,19 +15,19 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-badge>\` — small labeled indicator for status, category, or count. Use badges to
-annotate list items, headings, or nav items — not as standalone elements.
+\`<candor-badge>\`: a small labeled indicator for status, category, or count. Use badges to
+annotate list items, headings, or nav items, not as standalone elements.
 
 Six color variants map to semantic intent: \`default\` (neutral), \`primary\` (brand),
 \`secondary\` (supporting), \`success\`, \`warning\`, \`error\`. Two sizes: \`sm\` (14px,
 default) and \`md\` (16px).
 
-Both sizes use **Atkinson Hyperlegible**. \`sm\` (14px) is bold — small text needs the
-heavier stroke for legibility and contrast. \`md\` (16px) is regular — the contrast floor
+Both sizes use **Atkinson Hyperlegible**. \`sm\` (14px) is bold, because small text needs the
+heavier stroke for legibility and contrast. \`md\` (16px) is regular, because the contrast floor
 is identical for both weights at 16px, so the lighter stroke is preferred.
 
 **The label must name the condition, not just be present.** A badge's fill is decoration on
-top of its text, not a second channel — see *Rule: the label carries the meaning* for the
+top of its text, not a second channel. See *Rule: the label carries the meaning* for the
 measurement behind that.
         `.trim(),
       },
@@ -76,7 +76,7 @@ export const LabelCarriesTheMeaning: Story = {
     docs: {
       description: {
         story: `
-A badge's **colour is not a channel** — its label is. This is the authoring rule the
+A badge's **colour is not a channel**; its label is. This is the authoring rule the
 component cannot enforce, so it is demonstrated rather than only stated.
 
 The reason is measurable. Candor's status background tokens sit at lightness 0.95, and
@@ -97,7 +97,7 @@ happened? If not, the badge is relying on a channel that isn't there (#214).
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:560px;padding:var(--spacing-md);">
       <div>
-        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Insufficient — the number says nothing</p>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Insufficient: the number says nothing</p>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
           <candor-badge variant="error">3</candor-badge>
           <candor-badge variant="warning">12</candor-badge>
@@ -107,7 +107,7 @@ happened? If not, the badge is relying on a channel that isn't there (#214).
       </div>
       ${divider}
       <div>
-        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Sufficient — the label names the condition</p>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Sufficient: the label names the condition</p>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
           <candor-badge variant="error">3 failed</candor-badge>
           <candor-badge variant="warning">12 need review</candor-badge>
@@ -117,7 +117,7 @@ happened? If not, the badge is relying on a channel that isn't there (#214).
       </div>
       ${divider}
       <div>
-        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Also fine — no status meaning to carry</p>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Also fine: no status meaning to carry</p>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
           <candor-badge variant="primary">3 new</candor-badge>
           <candor-badge variant="secondary">Beta</candor-badge>
@@ -148,7 +148,7 @@ export const OrdinalSeverity: Story = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:560px;padding:var(--spacing-md);">
       <div style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);line-height:var(--line-height-relaxed);display:flex;flex-direction:column;gap:var(--spacing-xs);">
-        <p style="margin:0;">Use the existing status token triplets to express ordered severity scales. The label is read as a semantic term — Atkinson bold ensures it is legible at small sizes.</p>
+        <p style="margin:0;">Use the existing status token triplets to express ordered severity scales. The label is read as a semantic term, and Atkinson bold ensures it is legible at small sizes.</p>
         <p style="margin:0;"><strong style="color:var(--color-text-default);font-weight:var(--font-weight-semibold);">Mapping rule:</strong> low/minor/suggestion → success (green) · medium/moderate/recommendation → warning (amber) · high/critical/fundamental → error (red)</p>
       </div>
       ${divider}

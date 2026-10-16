@@ -52,7 +52,9 @@ export class CandorBadge extends LitElement {
     }
     .badge--sm { font-size: var(--font-size-sm); padding: 0.2rem 0.5rem; }
     .badge--md { font-size: var(--font-size-md); font-weight: var(--font-weight-regular); padding: 0.25rem 0.65rem; }
-    .badge--default   { background-color: var(--color-bg-surface); color: var(--color-text-subtle-on-surface); }
+    /* Not bg-surface: on a card or a striped row the pill matched its background and
+       only bold text was left (#321). bg-muted reads on page, surface and elevated. */
+    .badge--default   { background-color: var(--color-bg-muted); color: var(--color-text-default); }
     .badge--primary   { background-color: var(--color-action-primary); color: var(--color-text-on-action); }
     .badge--secondary { background-color: var(--color-action-secondary); color: var(--color-text-on-action); }
     .badge--success   { background-color: var(--color-status-success-bg); color: var(--color-status-success-text); }

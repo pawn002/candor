@@ -11,12 +11,12 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-toast>\` — ephemeral notification that floats over content. Use for transient
-feedback that doesn't require acknowledgement — file saved, action completed, background
+\`<candor-toast>\`: an ephemeral notification that floats over content. Use for transient
+feedback that doesn't require acknowledgement: file saved, action completed, background
 task finished.
 
 **Toast vs. Alert:** Toasts are for events the user triggered but doesn't need to act on.
-Alerts are for persistent conditions the user must read — validation errors, system warnings,
+Alerts are for persistent conditions the user must read: validation errors, system warnings,
 confirmation requirements.
 
 **Announcement.** Inside a \`candor-toast-container\`, the container announces each toast
@@ -106,7 +106,7 @@ export const Triggered: Story = {
     <candor-toast-container position="top-right"></candor-toast-container>
     <candor-button onclick="(function(el){
       var variants=['success','info','warning','error'];
-      var messages=['Changes saved successfully.','Background sync complete.','Storage at 95% capacity.','Upload failed — please retry.'];
+      var messages=['Changes saved successfully.','Background sync complete.','Storage at 95% capacity.','Upload failed. Please retry.'];
       el._n = el._n === undefined ? 0 : el._n;
       var i = el._n % 4; el._n++;
       var c = document.querySelector('candor-toast-container');
@@ -132,7 +132,7 @@ export const Dismissible: Story = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
       <candor-toast variant="success" heading="File uploaded" message="Your file has been uploaded successfully." dismissible></candor-toast>
-      <candor-toast variant="info" message="Read-only notice — no dismiss button. Remove this toast programmatically when the condition it describes ends."></candor-toast>
+      <candor-toast variant="info" message="Read-only notice with no dismiss button. Remove this toast programmatically when the condition it describes ends."></candor-toast>
     </div>
   `,
 };

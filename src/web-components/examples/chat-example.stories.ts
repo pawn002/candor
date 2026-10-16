@@ -29,11 +29,11 @@ Demonstrates the expected shell structure for an AI chat product: a fixed naviga
 a sidebar listing conversation history grouped by time, and a main pane with message turns
 and the ChatInput anchored to the bottom.
 
-Both sides use Noto Serif — the serif register signals a considered exchange on both ends.
+Both sides use Noto Serif. The serif register signals a considered exchange on both ends.
 AI turns use \`<candor-article font="serif" justify>\`; full justification is the sole ambient
 signal distinguishing AI output from human input. Turn labels ("You" / "Candor AI") above
 each message follow the convention established by ChatGPT and Claude. Code blocks include
-a Copy button — universally expected and the first thing developers notice if absent.
+a Copy button, universally expected and the first thing developers notice if absent.
         `.trim(),
       },
     },
@@ -202,7 +202,7 @@ export const AIChatInterface: Story = {
                     font-size: var(--font-size-md);
                     line-height: var(--line-height-normal);
                   ">
-                    What lightness should I target in OKLCH if a brand primary needs to clear Candor's contrast floor on the page? I know WCAG AA as 4.5:1 — is that the same thing?
+                    What lightness should I target in OKLCH if a brand primary needs to clear Candor's contrast floor on the page? I know WCAG AA as 4.5:1. Is that the same thing?
                   </div>
                   <div
                     aria-hidden="true"
@@ -264,10 +264,10 @@ export const AIChatInterface: Story = {
                   <div style="flex: 1; min-width: 0;">
                     <candor-article font="serif" justify lang="en">
                       <p>
-                        Related but not the same, and the difference matters here. Candor's floors are OKCA, which is WCAG-compatible but not identical — across all 216 pairings Candor audits, the OKCA score comes in at or below the WCAG 2.x figure for the same pair, so OKCA is the binding constraint. Build to 4.5:1 in WCAG and you can still miss Candor's 4.5; the gap is widest on dark backgrounds, where WCAG 2.x compresses hardest.
+                        Related but not the same, and the difference matters here. Candor's floors are OKCA, which is WCAG-compatible but not identical. Across every pairing Candor audits, in both modes, the OKCA score comes in at or below the WCAG 2.x figure for the same pair, so OKCA is the binding constraint. Build to 4.5:1 in WCAG and you can still miss Candor's 4.5; the gap is widest on dark backgrounds, where WCAG 2.x compresses hardest.
                       </p>
                       <p>
-                        There also isn't a single lightness answer, and a threshold that ignores chroma will mislead you. Two things set the cutoff together: contrast is bought with lightness, but the sRGB gamut narrows as lightness falls, so the chroma available falls with it. At Candor's azure hue the most sRGB holds is C&nbsp;0.09 at L&nbsp;0.32 and C&nbsp;0.15 at L&nbsp;0.55 — so "saturated" is not a constant you get to choose independently.
+                        There also isn't a single lightness answer, and a threshold that ignores chroma will mislead you. Two things set the cutoff together: contrast is bought with lightness, but the sRGB gamut narrows as lightness falls, so the chroma available falls with it. At Candor's azure hue the most sRGB holds is C&nbsp;0.09 at L&nbsp;0.32 and C&nbsp;0.15 at L&nbsp;0.55, so "saturated" is not a constant you get to choose independently.
                       </p>
                       <p>
                         Measured at that hue, holding each step at the highest chroma sRGB renders, Candor's 4.5 floor puts the ceiling near <strong>L&nbsp;≤&nbsp;0.51</strong>: <code>oklch(0.50 0.14 250)</code> reaches OKCA 4.8 on page, while <code>oklch(0.55 0.15 250)</code> reaches OKCA 3.8 on page and misses. Check your own hue rather than borrowing that number:
@@ -279,7 +279,7 @@ export const AIChatInterface: Story = {
                       <p>A navy starting point, every value inside sRGB:</p>
                       <div class="code-block">
                         <pre tabindex="0"><code>// Candor's 4.5 floor on the page. Chroma is at the sRGB
-// boundary for each L — raise it and the value stops
+// boundary for each L. Raise it and the value stops
 // naming a colour any display can render.
 --color-brand:        oklch(0.45 0.12 250);  // OKCA 6.1 on page ✅
 --color-brand-hover:  oklch(0.38 0.10 250);  // OKCA 8.4 on page ✅
@@ -287,7 +287,7 @@ export const AIChatInterface: Story = {
                         <candor-button variant="ghost" size="small">Copy</candor-button>
                       </div>
                       <p>
-                        Holding H constant keeps the colour recognisably itself across rest, hover, and active. C cannot be held with it — each step down in lightness gives up a little chroma, because that is where the gamut boundary is, not because the design asked for it.
+                        Holding H constant keeps the colour recognisably itself across rest, hover, and active. C cannot be held with it. Each step down in lightness gives up a little chroma, because that is where the gamut boundary is, not because the design asked for it.
                       </p>
                     </candor-article>
                   </div>
@@ -379,12 +379,12 @@ export const AIChatInterface: Story = {
                   <div style="flex: 1; min-width: 0;">
                     <candor-article font="serif" justify lang="en">
                       <p>
-                        Dark mode inverts the direction — now you need lightness <em>above</em> the background — and it needs much more of it than feels right. On Candor's page colour (<code>oklch(0.16 0.02 249)</code>), the 4.5 floor sits near <strong>L&nbsp;≥&nbsp;0.74</strong>: <code>oklch(0.72 0.15 250)</code> reaches OKCA 3.9 on dark page and misses, while <code>oklch(0.76 0.12 250)</code> reaches OKCA 5.9 on dark page. Four hundredths of lightness is the whole margin.
+                        Dark mode inverts the direction: now you need lightness <em>above</em> the background, and it needs much more of it than feels right. On Candor's page colour (<code>oklch(0.16 0.02 249)</code>), the 4.5 floor sits near <strong>L&nbsp;≥&nbsp;0.74</strong>: <code>oklch(0.72 0.15 250)</code> reaches OKCA 3.9 on dark page and misses, while <code>oklch(0.76 0.12 250)</code> reaches OKCA 5.9 on dark page. Four hundredths of lightness is the whole margin.
                       </p>
-                      <p>Same hue, and chroma tapers as you climb — but note <em>why</em>:</p>
+                      <p>Same hue, and chroma tapers as you climb. But note <em>why</em>:</p>
                       <div class="code-block">
                         <pre tabindex="0"><code>// Chroma is at the sRGB boundary at each L, not a
-// stylistic choice — the gamut gives you less of it
+// stylistic choice: the gamut gives you less of it
 // the lighter you go.
 --color-brand-dark:        oklch(0.76 0.12 250);  // OKCA 5.9 on dark page ✅
 --color-brand-dark-hover:  oklch(0.80 0.10 250);  // OKCA 8.0 on dark page ✅
@@ -392,7 +392,7 @@ export const AIChatInterface: Story = {
                         <candor-button variant="ghost" size="small">Copy</candor-button>
                       </div>
                       <p>
-                        The taper is usually explained as taste — high C at high L reads electric against a very dark surface, which is true and is why Candor's dark status colours are muted. But at this hue the boundary is stricter than taste would be: sRGB holds C&nbsp;0.12 at L&nbsp;0.76 and only C&nbsp;0.07 by L&nbsp;0.85. A ramp that keeps chroma constant while raising lightness leaves the gamut near the top, and a value outside sRGB specifies nothing — every display resolves it differently, and no contrast figure measured against it is defined.
+                        The taper is usually explained as taste: high C at high L reads electric against a very dark surface, which is true and is why Candor's dark status colours are muted. But at this hue the boundary is stricter than taste would be: sRGB holds C&nbsp;0.12 at L&nbsp;0.76 and only C&nbsp;0.07 by L&nbsp;0.85. A ramp that keeps chroma constant while raising lightness leaves the gamut near the top, and a value outside sRGB specifies nothing. Every display resolves it differently, and no contrast figure measured against it is defined.
                       </p>
                     </candor-article>
                   </div>

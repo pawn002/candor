@@ -11,13 +11,13 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-progress>\` — progress indicator in two forms: a horizontal bar or a circular
+\`<candor-progress>\`: a progress indicator with two forms, a horizontal bar or a circular
 spinner.
 
-- **Bar** (\`type="bar"\`) — for determinate progress with a known percentage (file upload, multi-step form)
-- **Spinner** (\`type="spinner"\`) — for indeterminate loading (waiting on a response, background task)
+- **Bar** (\`type="bar"\`): for determinate progress with a known percentage (file upload, multi-step form)
+- **Spinner** (\`type="spinner"\`): for indeterminate loading (waiting on a response, background task)
 
-Set \`indeterminate\` when the duration is unknown — this renders an animated loop rather
+Set \`indeterminate\` when the duration is unknown. This renders an animated loop rather
 than a static bar at 0%. Always provide a \`label\` for screen readers; the visual bar
 conveys no information to assistive technology without it.
         `.trim(),

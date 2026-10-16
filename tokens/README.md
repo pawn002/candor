@@ -132,10 +132,10 @@ npm install @fontsource-variable/roboto-flex @fontsource-variable/roboto-mono \
 ```
 
 ```css
-@import '@fontsource-variable/roboto-flex';
-@import '@fontsource-variable/roboto-mono';
-@import '@fontsource-variable/noto-sans';
-@import '@fontsource-variable/noto-serif';
+@import '@fontsource-variable/roboto-flex/index.css';
+@import '@fontsource-variable/roboto-mono/index.css';
+@import '@fontsource-variable/noto-sans/index.css';
+@import '@fontsource-variable/noto-serif/index.css';
 @import '@fontsource/atkinson-hyperlegible/400.css';
 @import '@fontsource/atkinson-hyperlegible/700.css';
 ```

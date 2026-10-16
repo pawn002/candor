@@ -335,13 +335,13 @@
     },
     {
       "id": "badge-default",
-      "fg": "{color.text.subtle-on-surface}",
-      "bg": "{color.bg.surface}",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.muted}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
       "min": 4.5,
-      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition — not the pill shape. The shape distinguishes a badge from surrounding text; it does not distinguish an error badge from a warning one, which is the job the colour is doing. The label is non-optional in the structural sense (a badge with no content is not a badge), which is why this qualifies under the narrowed Tier 3 clause, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
+      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition, not the pill shape. The fill was bg-surface, which vanished on cards and striped rows; bg-muted reads on page, surface and elevated, and text-subtle-on-surface would fall to 3.5 on it, so the text is text-default (#321). OKCA 6.5 light / 5.7 dark. The label is non-optional in the structural sense, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
     },
     {
       "id": "badge-primary",
@@ -460,6 +460,36 @@
       "tier": 2,
       "min": 4.5,
       "note": "Ghost button is transparent-filled too, so it has the same two backgrounds. Passes with margin in both modes — OKCA 9.3 light / 10.7 dark ✅ (#224)."
+    },
+    {
+      "id": "button-ghost-hover",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.hover}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Ghost button label on its hover fill. The fill was bg-surface, which vanished on cards and striped rows (#322). OKCA 6.5 light / 5.7 dark"
+    },
+    {
+      "id": "dismiss-icon-hover",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.hover}",
+      "size": 16,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "Close/dismiss glyph on hover in candor-toast, candor-alert, candor-modal and candor-drawer, which all share bg-hover (#322). OKCA 6.5 light / 5.7 dark"
+    },
+    {
+      "id": "button-ghost-subtle-icon",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "Icon-only ghost button glyph at rest, set through --candor-button-ghost-color (#296). Surface is the harder of its two backgrounds. On hover it returns to text-default, since text-subtle on bg-hover falls under 3.0 in light (#322)."
     },
     {
       "id": "button-destructive",
@@ -913,13 +943,13 @@
     },
     {
       "id": "article-inline-code",
-      "fg": "{color.highlight}",
-      "bg": "{color.bg.surface}",
+      "fg": "{color.text.code}",
+      "bg": "{color.bg.code}",
       "size": 14,
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Inline code burgundy on surface — Tier 2 functional UI at 14px regular (6.5 floor)"
+      "note": "Inline code in candor-article: the same pair as code-inline and the code block, since inline code and blocks share one treatment. Tier 2 Functional at 14px regular. OKCA 9.6 light / 11.4 dark"
     },
     {
       "id": "article-code-block",
@@ -929,7 +959,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Code block text (white on navy) — 14px regular Tier 2 Functional"
+      "note": "Code block text on the teal code tint, 14px regular Tier 2 Functional. OKCA 9.6 light / 11.4 dark"
     },
     {
       "id": "article-blockquote",
@@ -1089,7 +1119,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "candor-code inline code — text-code on bg-code; Tier 2 Functional (character position load-bearing). White on navy-800 in light, off-white text-default on deep navy in dark — OKCA 14.5 light / 11.9 dark ✅"
+      "note": "candor-code inline code: text-code on bg-code; Tier 2 Functional (character position load-bearing). Body text on the teal code tint in both modes. OKCA 9.6 light / 11.4 dark ✅"
     },
     {
       "id": "callout-body",
@@ -1203,13 +1233,13 @@
     },
     {
       "id": "scrollbar-thumb-on-code",
-      "fg": "{color.border.strong}",
+      "fg": "{color.border.control}",
       "bg": "{color.bg.code}",
       "size": 14,
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The scrollbar bar on a candor-article code block. bg-code is navy in both modes, and the default thumb (border-control) falls below the floor on it in light, so the article overrides the thumb to border-strong (#307). OKCA 7.6 light / 3.3 dark ✅"
+      "note": "The scrollbar bar on a candor-article code block. Since the code tint replaced the navy panel, the default thumb (border-control) clears the floor in both modes, so the article no longer overrides it. OKCA 3.9 light / 4.1 dark ✅"
     },
     {
       "id": "text-on-bg-forward",

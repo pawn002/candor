@@ -50,19 +50,19 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-menu>\` — dropdown list of actions triggered by a button. Implements the
+\`<candor-menu>\`: a dropdown list of actions triggered by a button. Implements the
 [ARIA Menu Button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/):
 Arrow keys navigate items, Enter/Space activate, Escape closes and returns focus.
 
 Use a menu when a single button would otherwise need 3+ secondary actions alongside it.
 If you have 1–2 secondary actions, use separate \`<candor-button>\` elements instead.
 
-Supports separators between logical groups (\`'separator'\` entry — rendered with
+Supports separators between logical groups (a \`'separator'\` entry, rendered with
 \`role="separator"\` so screen readers hear a grouping break) and disabled states on
 individual items (\`{ label, disabled: true }\`). The trigger label becomes the accessible
-name for the menu button — make it descriptive, not just "More" or "Options".
+name for the menu button. Make it descriptive, not just "More" or "Options".
 
-**Icon-only trigger:** omit \`label\` and set \`aria-label\` on the host element — the
+**Icon-only trigger:** omit \`label\` and set \`aria-label\` on the host element. The
 component strips the attribute from the host and forwards it to the inner trigger button,
 so screen readers announce it exactly once. The trigger renders a three-dot icon instead
 of text + chevron.
@@ -72,8 +72,8 @@ switch all items to \`menuitemradio\` role with \`aria-checked\`. A checkmark ap
 beside the selected item; a fixed-width spacer keeps text aligned across all items.
 Use this for sort/view options where exactly one item is active at a time.
 
-**Panel alignment:** \`align="right"\` anchors the panel to the right edge of the trigger —
-use this when the trigger is near the right edge of the viewport to prevent overflow.
+**Panel alignment:** \`align="right"\` anchors the panel to the right edge of the trigger.
+Use this when the trigger is near the right edge of the viewport to prevent overflow.
 
 Pass \`entries\` as a JSON-encoded \`entries\` attribute (\`entries='${'$'}{JSON.stringify(...)}'\`)
 or as the JS \`entries\` property. Emits a \`select\` CustomEvent with the chosen entry.
@@ -108,7 +108,7 @@ export const MoreActions: Story = {
     docs: {
       description: {
         story: 'When the trigger sits inside a table row, card, or data grid cell, a labelled ' +
-          'text button is too wide — use an icon-only trigger instead. Omit `label` and set ' +
+          'text button is too wide. Use an icon-only trigger instead. Omit `label` and set ' +
           '`aria-label` on the host: the component strips the attribute from the host and ' +
           'forwards it to the inner `<button>` so screen readers hear the name exactly once.',
       },
@@ -129,7 +129,7 @@ export const ShortList: Story = {
         story: 'When entries carry a `checked` property, the component switches to ' +
           '`role="menuitemradio"` with `aria-checked` on every item. A checkmark ' +
           'appears beside the active item; a fixed-width spacer keeps text aligned ' +
-          'across all items. The `select` event still fires on activation — update ' +
+          'across all items. The `select` event still fires on activation. Update ' +
           '`checked` in the entries array to reflect the new selection.',
       },
     },
@@ -146,7 +146,7 @@ export const InToolbar: Story = {
     docs: {
       description: {
         story: 'The rightmost menu uses `align="right"` so its panel anchors to the ' +
-          'right edge of the trigger instead of the left — preventing overflow when ' +
+          'right edge of the trigger instead of the left, preventing overflow when ' +
           'the trigger is near the viewport edge.',
       },
     },

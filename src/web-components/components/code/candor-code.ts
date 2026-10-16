@@ -4,8 +4,9 @@ import { customElement } from '../../utils/define';
 /**
  * Inline code: the drop-in that bundles the `--color-bg-code` / `--color-text-code`
  * token pair (plus mono font, padding, radius, border) so they can't be
- * half-applied. Using `--color-bg-code` alone yields invisible dark-on-dark text
- * (#170); this element renders the pair correctly by construction.
+ * half-applied. Using `--color-bg-code` alone leaves the text colour to whatever
+ * the context inherits, which nothing has measured against the code background
+ * (#170); this element renders the measured pair by construction.
  *
  * For block/multiline code, wrap in a `<pre>` or use a syntax-highlighting
  * surface. This element is for inline spans within prose.

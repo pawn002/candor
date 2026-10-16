@@ -106,7 +106,7 @@ export class CandorModal extends LitElement {
       transition: background-color 0.15s ease, color 0.15s ease;
     }
     .modal__close:hover {
-      background-color: var(--color-action-tertiary-hover);
+      background-color: var(--color-bg-hover);
       color: var(--color-text-default);
     }
     .modal__close:focus-visible {

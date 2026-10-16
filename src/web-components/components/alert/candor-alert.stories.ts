@@ -17,20 +17,20 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-alert>\` — inline status message for page-level feedback. Use for form submission
+\`<candor-alert>\`: an inline status message for page-level feedback. Use for form submission
 results, system notices, validation summaries. Four variants: \`info\`, \`success\`,
 \`warning\`, \`error\`.
 
-**Alert vs. Toast:** Alerts are persistent and inline — they live in the document flow and
+**Alert vs. Toast:** Alerts are persistent and inline. They live in the document flow and
 remain visible until dismissed or the state changes. Toasts are ephemeral and float over
-content — use them for transient feedback that doesn't require acknowledgement.
+content. Use them for transient feedback that doesn't require acknowledgement.
 
 **Every variant shares one neutral box.** The icon shape carries the variant, and the
 heading repeats it in the status text colour. The message is always default text. A pale
 status fill used to sit behind each variant; it was dropped because the error and warning
 tints are too close to tell apart, and because a pastel box reads as machine-made (#292).
 
-Renders \`role="status"\` for info/success and \`role="alert"\` for warning/error — screen
+Renders \`role="status"\` for info/success and \`role="alert"\` for warning/error, so screen
 readers announce error/warning content automatically when the element appears.
         `.trim(),
       },
@@ -121,7 +121,7 @@ export const InlineFormValidation: Story = {
   render: () => html`
     <div style="padding:var(--spacing-md);max-width:480px;">
       <candor-card variant="outlined">
-        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Error — invalid input</p>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Error: invalid input</p>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
           <div>
             <label for="story-email" style="display:block;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;color:var(--color-text-subtle);margin-bottom:0.5rem;">Email address</label>

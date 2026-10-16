@@ -200,6 +200,10 @@ Neutral `--gray-*`, cool `--gray-cool-*` and warm `--gray-warm-*` now share 14 s
 
 `--gray-0`, `--gray-100`, `--gray-300` and `--gray-400` are unchanged.
 
+#### `--color-highlight` removed; inline code uses the code tokens
+
+Inline code in `candor-article` now draws the same `--color-bg-code` / `--color-text-code` pair as `<candor-code>` and code blocks, so `--color-highlight` has no consumer and is removed. Use `<candor-code>` for inline code. For burgundy text elsewhere, use `--burgundy-700` (light) or `--burgundy-200` (dark) directly.
+
 ### v3.0.0
 
 #### Angular reference component library removed
