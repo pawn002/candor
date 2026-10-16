@@ -205,7 +205,7 @@ Dark mode is where clinical defaults are most tempting and most destructive.
 - **Status backgrounds at identical lightness are indistinguishable.** Differentiating success, warning, error, and info requires varying both L and hue. A four-color row all at L=0.25 will read as one color with different tints.
 - **High L plus high chroma equals neon glow.** A saturated status color that looked muted on a light page glows uncomfortably on a dark one. Reduce L and C together.
 - **Dark surface delineation needs borders, not just L-steps.** The WCAG contrast formula compresses at the dark end; a 0.05 L difference that reads clearly on white vanishes on near-black. Use `--color-border-*` tokens on elevated surfaces.
-- **H=347 (crimson) has no in-gamut medium that reads as dangerous.** The outlined pattern (thin border, transparent fill, colored text) is the working solution for destructive affordances in dark mode.
+- **A filled red or crimson at dark-mode lightness reads as pink, not danger.** Destructive actions take the error red and stay outlined in both modes (thin border, transparent fill, colored text), which keeps them reading as a warning.
 
 ### Scrollbars
 

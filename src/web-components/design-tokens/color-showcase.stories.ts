@@ -88,12 +88,12 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Action: Destructive',
-    description: 'Crimson (hue=347), outlined only. Signals irreversibility. Distinct from error (hue=25).',
+    description: 'The error red (hue=25), outlined only. Signals irreversibility; the outline and the label, not a fill, set it apart from an error message (#318).',
     colors: [
       { name: 'Destructive', variable: '--color-action-destructive', description: 'Button fill, transparent (outlined variant)' },
-      { name: 'Destructive Hover', variable: '--color-action-destructive-hover', description: 'Subtle crimson tint on hover' },
-      { name: 'Destructive Active', variable: '--color-action-destructive-active', description: 'Stronger crimson tint on press' },
-      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label, OKCA 9.3 on white' },
+      { name: 'Destructive Hover', variable: '--color-action-destructive-hover', description: 'Subtle red tint on hover' },
+      { name: 'Destructive Active', variable: '--color-action-destructive-active', description: 'Stronger red tint on press' },
+      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label, the error red: OKCA 6.4 on white' },
       { name: 'Destructive Border', variable: '--color-action-destructive-border', description: 'Outline, matching the destructive text' },
     ],
   },

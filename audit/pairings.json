@@ -431,7 +431,7 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Outlined button on a card/panel/modal. Passes with margin in both modes — OKCA 10.3 light / 6.1 dark ✅. Recorded because it was previously unmeasured, not because it was close (#224)."
+      "note": "Outlined button on a card/panel/modal. Passes with margin in both modes — OKCA 10.3 light / 9.8 dark ✅. Recorded because it was previously unmeasured, not because it was close (#224)."
     },
     {
       "id": "button-tertiary",
@@ -509,7 +509,7 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "The placement that actually matters for a destructive action — delete confirmations live in modals. This is the pairing that was missing: it was OKCA 3.9 dark here against a 4.5 floor while passing on page, so the variant failed in its commonest position and nothing could see it. Dark --color-action-destructive-text stepped L 0.75 -> 0.78 to clear both — OKCA 6.9 light / 4.7 dark ✅ (#224)."
+      "note": "The placement that actually matters for a destructive action — delete confirmations live in modals. It was missing until #224, when it was OKCA 3.9 dark against a 4.5 floor while passing on page, so the variant failed in its commonest position and nothing could see it. Destructive now takes the error red (#318): OKCA 4.8 light / 5.8 dark ✅."
     },
     {
       "id": "alert-title-info",
