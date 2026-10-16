@@ -288,7 +288,8 @@ export class CandorAutocomplete extends LitElement {
                   role="option"
                   class="autocomplete__option ${i === this._activeIndex ? 'autocomplete__option--active' : ''}"
                   aria-selected="${i === this._activeIndex}"
-                  @mousedown="${(e: Event) => { e.preventDefault(); this._select(s); }}"
+                  @mousedown="${(e: Event) => e.preventDefault()}"
+                  @click="${() => this._select(s)}"
                   @mouseenter="${() => this._activeIndex = i}"
                 >
                   <span class="autocomplete__option-label">${s}</span>
