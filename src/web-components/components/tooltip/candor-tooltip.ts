@@ -28,6 +28,10 @@ type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
  * `position` is a preference, not collision detection: the bubble does not flip
  * to stay on screen.
  *
+ * It meets WCAG 1.4.13 (#339). The pointer can move from the trigger onto the
+ * bubble without it closing, Escape closes it wherever focus is, and it stays
+ * until the pointer or focus leaves or Escape is pressed. There is no timer.
+ *
  * Emits no custom events.
  */
 @customElement('candor-tooltip')
@@ -53,7 +57,6 @@ export class CandorTooltip extends LitElement {
       letter-spacing: var(--letter-spacing-body);
       border-radius: var(--radius-sm);
       white-space: nowrap;
-      pointer-events: none;
       /* A closed popover is display:none, so a hidden bubble adds nothing to
          the host's scrollWidth (#107, #175). The display and overlay
          transitions keep the fade on both the way in and the way out. */
@@ -72,6 +75,16 @@ export class CandorTooltip extends LitElement {
       position: absolute;
       border: 5px solid transparent;
     }
+    /* An invisible bridge across the --spacing-xs gap to the trigger, so the
+       pointer never crosses empty space on its way onto the bubble (#339). */
+    .tooltip__bubble::before {
+      content: '';
+      position: absolute;
+    }
+    .tooltip__bubble--top::before    { top: 100%;    left: 0; right: 0;  height: var(--spacing-xs); }
+    .tooltip__bubble--bottom::before { bottom: 100%; left: 0; right: 0;  height: var(--spacing-xs); }
+    .tooltip__bubble--left::before   { left: 100%;   top: 0; bottom: 0;  width: var(--spacing-xs); }
+    .tooltip__bubble--right::before  { right: 100%;  top: 0; bottom: 0;  width: var(--spacing-xs); }
 
     .tooltip__bubble--top {
       top: calc(var(--_anchor-top) - var(--spacing-xs));
@@ -127,10 +140,25 @@ export class CandorTooltip extends LitElement {
   @state() private _visible = false;
   @query('.tooltip__bubble') private _bubble!: HTMLElement;
 
+  // Hover is tracked on the host rather than the slot. The bubble is in this
+  // shadow root, so moving onto it is not leaving the host, and the tooltip
+  // stays while the pointer is over it (WCAG 1.4.13 hoverable, #339).
+  constructor() {
+    super();
+    this.addEventListener('mouseenter', () => { this._visible = true; });
+    this.addEventListener('mouseleave', () => { this._visible = false; });
+  }
+
   override disconnectedCallback() {
     this._stopTracking();
     super.disconnectedCallback();
   }
+
+  // Escape closes the tooltip wherever focus is. A tooltip shown by hover,
+  // with focus elsewhere, must be dismissible without moving either (#339).
+  private _onDocumentKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') this._visible = false;
+  };
 
   override updated(changed: PropertyValues<this>) {
     if (!changed.has('_visible' as keyof CandorTooltip)) return;
@@ -140,6 +168,7 @@ export class CandorTooltip extends LitElement {
       if (!bubble.matches(':popover-open')) bubble.showPopover();
       window.addEventListener('scroll', this._place, { capture: true, passive: true });
       window.addEventListener('resize', this._place, { passive: true });
+      document.addEventListener('keydown', this._onDocumentKeydown);
     } else {
       this._stopTracking();
       if (bubble.matches(':popover-open')) bubble.hidePopover();
@@ -161,16 +190,14 @@ export class CandorTooltip extends LitElement {
   private _stopTracking() {
     window.removeEventListener('scroll', this._place, { capture: true });
     window.removeEventListener('resize', this._place);
+    document.removeEventListener('keydown', this._onDocumentKeydown);
   }
 
   override render() {
     return html`
       <slot
-        @mouseenter="${() => this._visible = true}"
-        @mouseleave="${() => this._visible = false}"
         @focusin="${() => this._visible = true}"
         @focusout="${() => this._visible = false}"
-        @keydown="${(e: KeyboardEvent) => e.key === 'Escape' && (this._visible = false)}"
       ></slot>
       <div aria-hidden="true" popover="manual" class="tooltip__bubble tooltip__bubble--${this.position}">${this.text}</div>
     `;

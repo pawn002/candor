@@ -14,8 +14,8 @@ Candor 6.0.0 does **not** claim full WCAG 2.2 AA conformance. Of the 55 Level A 
 
 | Status | Criteria |
 |---|---|
-| Supports | 26 |
-| Partially supports | 2 |
+| Supports | 27 |
+| Partially supports | 1 |
 | Not evaluated | 6 |
 
 WCAG judges pages, not component libraries, so no design system can conform on its own. What Candor can state is which criteria its components meet, what evidence shows it, and what the page around them must add. That is what this document does, one criterion at a time.
@@ -71,7 +71,7 @@ Every row in the tables below cites one or more of these sources.
 | 1.4.10 Reflow | AA | Not evaluated | Stories are checked at 320px as a manual design step, not systematically. Tables and code blocks scroll sideways by design, which the criterion allows for two-dimensional content. |
 | 1.4.11 Non-text Contrast | AA | Supports | **klar**: borders, icons, the focus ring and the scrollbar thumb at 3.0 or above. A state missing from `audit/pairings.json` is unmeasured. |
 | 1.4.12 Text Spacing | AA | Not evaluated | Not tested. Fixed-height chrome (badges, chips, buttons) is where it would fail first. |
-| 1.4.13 Content on Hover or Focus | AA | Partially supports | **source**: `candor-tooltip` is dismissible (Escape) and persistent, but not hoverable: the bubble hides when the pointer moves onto it ([#339](https://github.com/pawn002/candor/issues/339)). |
+| 1.4.13 Content on Hover or Focus | AA | Supports | **spec**: `candor-tooltip` stays open while the pointer moves from the trigger onto the bubble, Escape closes it whether it was shown by hover or by focus, and it stays until the pointer or focus leaves. It was not hoverable until [#339](https://github.com/pawn002/candor/issues/339). |
 
 ## Operable
 
@@ -160,10 +160,6 @@ Some requirements depend on how the page assembles components. Candor cannot enf
 ### Visited links (1.4.1)
 
 Browsers allow only colour properties in `:visited` rules, to stop pages reading a visitor's history, so a visited link cannot gain a new decoration. `candor-article` links pre-declare a transparent bottom border and colour it on `:visited`, which reads as a second underline: single underline unvisited, double underline visited. That cue survives red-green colour blindness, and both link colours meet contrast. It is still delivered by a colour change, so a strict reading of 1.4.1 is not met. A consumer who needs a fully colour-independent cue can record visited URLs in script and add a class, which has no such restriction.
-
-### Tooltip hover (1.4.13)
-
-See [#339](https://github.com/pawn002/candor/issues/339).
 
 ### No live screen-reader session
 
