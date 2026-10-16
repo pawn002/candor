@@ -83,16 +83,15 @@
     --color-link-hover:   var(--azure-600);   // OKCA 6.4 on white ✅
     --color-link-visited: var(--indigo-700);  // OKCA 5.8 on white ✅ — honors universal :visited convention
 
-    // ─── Colors: Highlight (burgundy) ─────────────────────────────────────────
-    // Inline code — burgundy-700, clearly distinct from indigo visited links (ΔE 0 collision fixed).
-    --color-highlight: var(--burgundy-700); // OKCA 6.9 on bg-surface ✅, OKCA 9.3 on page ✅
-
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
-    // In light mode: dark navy block (inverted) — no border needed, bg does the work.
-    // In dark mode: deep navy tint + explicit border — bg alone can't delineate at low L.
-    --color-bg-code:     var(--color-bg-inverse);  // navy-800 on white page
-    --color-text-code:   var(--color-text-inverse); // white on navy
-    --color-border-code: transparent; // deliberate: the code block is a filled navy panel with no rule around it; dark mode adds one (#242)
+    // A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the
+    // filled navy-800 panel (deltaE 79 from white), which was hard to read at length.
+    // Teal at hue 195 is clear of every brand and status hue in both modes (#318);
+    // the burgundy tint it replaced sat deltaE 5.6 from error-bg.
+    // Text is the ordinary body colour, so the pair needs no inverse.
+    --color-bg-code:     oklch(0.92 0.018 195); // text-default OKCA 8.8 on this bg ✅
+    --color-text-code:   var(--color-text-default);
+    --color-border-code: transparent; // deliberate: the tint separates the block from the page on its own; dark mode adds a rule (#242)
 
     // ─── Colors: Focus ─────────────────────────────────────────────────────────
     --color-focus: var(--azure-400); // high-visibility ring on dark/white backgrounds
@@ -349,10 +348,6 @@
     --color-link-hover:   var(--azure-200);   // OKCA 11.2 on bg-page ✅
     --color-link-visited: var(--indigo-300);  // OKCA 6.6 on bg-page ✅
 
-    // ─── Highlight (burgundy) ─────────────────────────────────────────────────
-    // burgundy-200 — inline code on the dark ramp.
-    --color-highlight: var(--burgundy-200); // OKCA 9.7 on bg-surface ✅, OKCA 11.6 on bg-page ✅
-
     // ─── Focus ─────────────────────────────────────────────────────────────
     --color-focus: var(--azure-300); // OKCA 6.3 on bg-page ✅
 
@@ -372,9 +367,10 @@
     --color-status-warning-text:  oklch(0.82 0.11 53.54);  // OKCA 6.8 on warning-bg ✅ — C=0.16 exceeded what sRGB holds at this L and H; re-authored to the boundary, same L and H (#225)
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
-    // Deep navy tint — hue-distinct from gray-900 page but not light-inverted.
-    // Border required: bg-to-page contrast is ~1:1 at these low L values.
-    --color-bg-code:     oklch(0.20 0.04 248); // text-default OKCA 11.9 on this bg ✅ — code text inherits it
+    // Teal tint, deltaE 8 from the cool page: the hue change carries the
+    // separation, so the block stays nearly as dark as the page. Border still
+    // required, since lightness alone barely differs at these low L values.
+    --color-bg-code:     oklch(0.22 0.02 195); // text-default OKCA 11.3 on this bg ✅ — code text inherits it
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
 }

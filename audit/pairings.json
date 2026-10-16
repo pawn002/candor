@@ -913,13 +913,13 @@
     },
     {
       "id": "article-inline-code",
-      "fg": "{color.highlight}",
-      "bg": "{color.bg.surface}",
+      "fg": "{color.text.code}",
+      "bg": "{color.bg.code}",
       "size": 14,
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Inline code burgundy on surface — Tier 2 functional UI at 14px regular (6.5 floor)"
+      "note": "Inline code in candor-article: the same pair as code-inline and the code block, since inline code and blocks share one treatment. Tier 2 Functional at 14px regular. OKCA 8.8 light / 11.3 dark"
     },
     {
       "id": "article-code-block",
@@ -929,7 +929,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Code block text (white on navy) — 14px regular Tier 2 Functional"
+      "note": "Code block text on the teal code tint, 14px regular Tier 2 Functional. OKCA 8.8 light / 11.3 dark"
     },
     {
       "id": "article-blockquote",
@@ -1089,7 +1089,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "candor-code inline code — text-code on bg-code; Tier 2 Functional (character position load-bearing). White on navy-800 in light, off-white text-default on deep navy in dark — OKCA 14.5 light / 11.9 dark ✅"
+      "note": "candor-code inline code: text-code on bg-code; Tier 2 Functional (character position load-bearing). Body text on the teal code tint in both modes. OKCA 8.8 light / 11.3 dark ✅"
     },
     {
       "id": "callout-body",
@@ -1203,13 +1203,13 @@
     },
     {
       "id": "scrollbar-thumb-on-code",
-      "fg": "{color.border.strong}",
+      "fg": "{color.border.control}",
       "bg": "{color.bg.code}",
       "size": 14,
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The scrollbar bar on a candor-article code block. bg-code is navy in both modes, and the default thumb (border-control) falls below the floor on it in light, so the article overrides the thumb to border-strong (#307). OKCA 7.6 light / 3.3 dark ✅"
+      "note": "The scrollbar bar on a candor-article code block. Since the code tint replaced the navy panel, the default thumb (border-control) clears the floor in both modes, so the article no longer overrides it. OKCA 3.4 light / 4.1 dark ✅"
     }
   ]
 }

@@ -182,6 +182,10 @@ The CHANGELOG entry for 6.0.0 has before/after examples and measured sizes.
 
 `--color-highlight-decorative` is removed too: no component paints it any more. Use `--indigo-500` (light) or `--indigo-400` (dark) directly.
 
+#### `--color-highlight` removed; inline code uses the code tokens
+
+Inline code in `candor-article` now draws the same `--color-bg-code` / `--color-text-code` pair as `<candor-code>` and code blocks, so `--color-highlight` has no consumer and is removed. Use `<candor-code>` for inline code. For burgundy text elsewhere, use `--burgundy-700` (light) or `--burgundy-200` (dark) directly.
+
 ### v3.0.0
 
 #### Angular reference component library removed

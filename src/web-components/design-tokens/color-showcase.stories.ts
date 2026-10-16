@@ -105,13 +105,6 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     ],
   },
   {
-    name: 'Highlight',
-    description: 'Inline code in burgundy (hue=347), clearly distinct from indigo visited links.',
-    colors: [
-      { name: 'Highlight', variable: '--color-highlight', description: 'Inline code text in burgundy, clearly distinct from indigo visited links' },
-    ],
-  },
-  {
     name: 'Status: Error',
     description: 'Orange-red (hue=25) for failure states and validation errors',
     colors: [
@@ -140,7 +133,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Code Blocks',
-    description: 'Dark navy surface for code blocks, always visually distinct from ambient backgrounds. Border required when the ambient background is also dark.',
+    description: 'A quiet teal tint for code blocks, about deltaE 8 to 9 from the page in both modes. Border required in dark mode, where lightness alone barely separates the block.',
     colors: [
       { name: 'Code Background', variable: '--color-bg-code', description: 'Code block surface' },
       { name: 'Code Text', variable: '--color-text-code', description: 'Text on code bg' },

@@ -79,13 +79,16 @@ const articleStyles = `
   }
   candor-article .callout > :last-child { margin-bottom: 0; }
 
+  /* Same treatment as <candor-code>: inline code and code blocks share one
+     token pair, so code reads as code wherever it sits. */
   candor-article code {
     font-family: var(--font-family-mono);
-    font-size: 0.875em;
-    background-color: var(--color-bg-surface);
+    font-size: max(0.9em, var(--font-size-sm));
+    background-color: var(--color-bg-code);
+    color: var(--color-text-code);
+    border: var(--border-width-thin) solid var(--color-border-code);
     padding: 0.1em 0.35em;
     border-radius: var(--radius-sm);
-    color: var(--color-highlight);
   }
 
   candor-article pre {
@@ -99,11 +102,6 @@ const articleStyles = `
     border-radius: var(--radius-md);
     overflow-x: auto;
     margin-bottom: var(--spacing-md);
-    /* The code background is navy in both modes, and the default grey thumb does
-       not clear 3.0 on it in light. border-strong does, in both modes: see
-       scrollbar-thumb-on-code in audit/pairings.json (#307). */
-    --_candor-scrollbar-thumb: var(--color-border-strong);
-    --_candor-scrollbar-thumb-hover: var(--color-text-code);
   }
   candor-article pre:focus { outline: none; }
   candor-article pre:focus-visible {
@@ -112,6 +110,7 @@ const articleStyles = `
   }
   candor-article pre code {
     background: none;
+    border: none;
     padding: 0;
     font-size: 1em;
     color: inherit;

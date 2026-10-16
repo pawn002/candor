@@ -66,6 +66,12 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
 
 **Migration:** replace `var(--color-highlight-decorative)` with `var(--indigo-500)` in light and `var(--indigo-400)` in dark, or with a semantic token that fits the use. It was a non-text colour; it must not be used for text.
 
+#### `--color-highlight` removed; inline code uses the code tokens
+
+**Why:** Candor had two looks for inline code. `<candor-code>` drew the `--color-bg-code` / `--color-text-code` pair, and `candor-article` drew burgundy `--color-highlight` text on a grey surface, so the same thing looked different depending on where it sat. Inline code in `candor-article` and `article.scss` now uses the code tokens, the same treatment as `<candor-code>` and code blocks. Its size is clamped to the 14px floor the way `<candor-code>` already was. That left `--color-highlight` with no consumer. Sixteen hand-rolled `<code style>` chips in the Design Tokens stories, which copied the article look and in places sized it below 14px, are now `<candor-code>`.
+
+**Migration:** replace `color: var(--color-highlight)` on inline code with `<candor-code>`, or with `background-color: var(--color-bg-code); color: var(--color-text-code);` and a `--color-border-code` border. For burgundy text on any other element, use `var(--burgundy-700)` in light and `var(--burgundy-200)` in dark.
+
 ### Fixed
 
 - **The article font comparison story no longer skips a heading level (#252).** It went from `<h2>` straight to `<h4>`, which axe reports as a best-practice finding and which breaks heading navigation for screen-reader users. An `<h3>` section now sits between them, so the story still shows every level from `<h1>` to `<h6>`.
@@ -163,11 +169,15 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
 
 ### Changed
 
+- **Code blocks are a quiet teal tint instead of a navy panel.** In light mode `--color-bg-code` was `--navy-800`, ΔE 79 from the white page, with white text: a dark slab that was hard to read at any length. It is now `oklch(0.92 0.018 195)` in light and `oklch(0.22 0.02 195)` in dark, ΔE 9 and 8 from the page. `--color-text-code` is now `--color-text-default` in both modes, at OKCA 8.8 light and 11.3 dark. Navy was tried first and rejected: at that distance its tint is a bright sky blue that pushes forward. A burgundy tint came next and was dropped because it sat ΔE 5.6 from the error background. Warm papers were tried too, but every warm hue lands on either Candor's warning tint or Anthropic's palette. Teal at hue 195 is clear of every brand and status colour in both modes (#318).
+
+  Three things follow. `candor-article` no longer overrides the scrollbar colour on code blocks, because the default bar now clears 3.0 in both modes. `syntax.scss` had only light-on-dark colours and gains a dark-on-light palette for light mode; its red for deleted diff lines moves toward orange there. `<candor-code>` still bundles the pair. It no longer guards against unreadable dark-on-dark text, but it keeps the text colour that was measured against the code background, not whatever the context passes down. No token is renamed.
+
 - **Every scroller draws Candor's scrollbar: a thin bar in a grab area the size of an AA target (#307).** No component styled its scrollbars, so each one drew the browser's default. In dark mode that was a light track across a dark panel, because nothing declared `color-scheme`. In `candor-toolbar` it was a 15px bar with arrow buttons under 32px controls, running into the rounded corners. On macOS it hid until scrolled, so nothing showed that the row overflowed.
 
   The new bar is 6px, drawn in `--color-border-control` inside a 24px lane. The whole lane can be grabbed, not just the bar, so the drag target meets WCAG 2.5.8 at AA while the bar stays light. The gap is 12px on the content side and 6px on the outer edge, which reads as even spacing: the eye measures from the content, and the outer edge is a hard line. The bar is inset from the scroller's ends by `--radius-md` so it clears rounded corners, and darkens to `--color-text-subtle` on hover. Three new tokens set the geometry: `--scrollbar-size` (`var(--hit-target-aa)`), `--scrollbar-thumb-size` and `--scrollbar-inset-outer`. The content-side gap is what remains, so a change to `--hit-target-aa` widens the lane without changing the bar.
 
-  It applies to the toolbar, table, data grid, tone picker, modal and drawer bodies, the listbox, combobox and autocomplete panels, the chat input, and code blocks in `candor-article`. Code blocks draw the bar in `--color-border-strong`, because their background is navy in both modes. `npm run audit:docs` now fails on any component whose styles scroll without the shared style. It finds them from source: any `overflow` set to `auto` or `scroll`, unless the same rule hides the scrollbar on purpose, as `candor-tabs` does.
+  It applies to the toolbar, table, data grid, tone picker, modal and drawer bodies, the listbox, combobox and autocomplete panels, the chat input, and code blocks in `candor-article`. `npm run audit:docs` now fails on any component whose styles scroll without the shared style. It finds them from source: any `overflow` set to `auto` or `scroll`, unless the same rule hides the scrollbar on purpose, as `candor-tabs` does.
 
   Chromium and WebKit draw it through `::-webkit-scrollbar`, the only way to make the grab area larger than the bar. Firefox has no equivalent, so it gets the same colours through the standard `scrollbar-color`, at the platform's width. A consumer who sets `scrollbar-color` on an ancestor turns the shaped bar off in Chromium, and their colours win.
 
