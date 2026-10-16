@@ -232,17 +232,25 @@ export class CandorCombobox extends LitElement {
           this.dispatchEvent(new CustomEvent('change', { detail: null, bubbles: true, composed: true }));
         }
         break;
+      case 'Tab':
+        // Leaving by keyboard closes the list, as a click outside does. Left
+        // open, it covers whatever takes focus next (WCAG 2.4.11).
+        if (this._open) this._dismiss();
+        break;
     }
   }
 
   private _onDocumentClick = (e: MouseEvent) => {
-    if (this._open && !this.contains(e.target as Node)) {
-      this._open = false;
-      this._filtering = false;
-      const opt = this.options.find(o => o.value === this.value);
-      this._inputValue = opt ? opt.label : '';
-    }
+    if (this._open && !this.contains(e.target as Node)) this._dismiss();
   };
+
+  /** Close without choosing, and put back the label of the committed value. */
+  private _dismiss() {
+    this._open = false;
+    this._filtering = false;
+    const opt = this.options.find(o => o.value === this.value);
+    this._inputValue = opt ? opt.label : '';
+  }
 
   override updated(changed: Map<string, unknown>) {
     if (changed.has('value') || changed.has('options')) {
@@ -316,7 +324,7 @@ export class CandorCombobox extends LitElement {
             ><path d="${phCaretDownBold}"/></svg>
           </div>
           ${this._open && filtered.length > 0 ? html`
-            <ul id="${this._listId}" role="listbox" class="combobox__dropdown">
+            <ul id="${this._listId}" role="listbox" class="combobox__dropdown" tabindex="-1">
               ${filtered.map((opt, i) => html`
                 <li
                   id="candor-combobox-opt-${this._id}-${i}"

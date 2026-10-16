@@ -17,6 +17,8 @@ type PageItem = number | 'ellipsis';
  * `compact` swaps the numbered buttons for a "Page N of M" readout in a live
  * region, appropriate for narrow viewports and for large page counts where a
  * numbered strip is more noise than navigation.
+ * Without it, the numbered strip wraps onto a second line when it does not fit,
+ * so it never makes a 320px screen scroll sideways (WCAG 1.4.10).
  *
  * `aria-label` on the host is supported and names the nav landmark. Set it when
  * a page has more than one paginated region, so the two are distinguishable in
@@ -32,6 +34,7 @@ export class CandorPagination extends LitElement {
     :host { display: block; }
     .pagination {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: var(--spacing-2xs);
     }

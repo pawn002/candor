@@ -36,6 +36,17 @@ import { test, expect } from '@playwright/test';
  * An exception that no longer matches a violation also fails, so the list cannot
  * outlive the bugs it records.
  *
+ * **Label in name (2.5.3) is gated too, though axe calls its rule experimental.**
+ * `label-content-name-mismatch` checks that a control whose name comes from
+ * `aria-label` still contains its visible text. It is the one experimental rule
+ * enabled, because without it the criterion had no check at all, and it found
+ * nothing on the stories when it was switched on. It only looks at controls
+ * that show their own text, such as buttons and links. A form field's visible
+ * text is its `<label>`, so a second check covers fields: one that carries an
+ * `aria-label` and also has a label must keep the label's words in its name.
+ * That is the failure a host `aria-label` can cause, since the component
+ * forwards it to the field and it replaces the label.
+ *
  * **One test, one step per story.** Playwright collects tests before it starts
  * Storybook, so the story list cannot be read at collection time. Each story is a
  * named step with soft assertions instead, so a failure still names its story and
@@ -88,7 +99,7 @@ test('every story passes axe-core (WCAG 2.2 A/AA)', async ({ page, request }) =>
         const axe = window.axe;
         const options = {
           runOnly: { type: 'tag', values: tags },
-          rules: { 'color-contrast': { enabled: false } },
+          rules: { 'color-contrast': { enabled: false }, 'label-content-name-mismatch': { enabled: true } },
           resultTypes: ['violations', 'incomplete'],
         };
         // Safety net if another axe run is still in flight on this page.
@@ -103,6 +114,27 @@ test('every story passes axe-core (WCAG 2.2 A/AA)', async ({ page, request }) =>
         const slim = (v: any) => ({ id: v.id, impact: v.impact, tags: v.tags, help: v.help, helpUrl: v.helpUrl, nodes: v.nodes.map((n: any) => ({ target: n.target })) });
         return { violations: r.violations.map(slim), incomplete: r.incomplete.map(slim) };
       }, RUN_TAGS) as { violations: AxeResult[]; incomplete: AxeResult[] };
+
+      // 2.5.3 for fields: an aria-label must not drop the words of the visible label.
+      const dropped = await page.evaluate(() => {
+        const norm = (t: string) => t.replace(/[*:]/g, ' ').replace(/s+/g, ' ').trim().toLowerCase();
+        const out: string[] = [];
+        const walk = (root: Document | ShadowRoot) => {
+          for (const el of root.querySelectorAll('input, select, textarea')) {
+            const name = el.getAttribute('aria-label');
+            const labels = (el as HTMLInputElement).labels;
+            if (!name || !labels?.length) continue;
+            for (const label of labels) {
+              const text = norm(label.textContent || '');
+              if (text && !norm(name).includes(text)) out.push(`aria-label "${name}" replaces the visible label "${text}"`);
+            }
+          }
+          for (const el of root.querySelectorAll('*')) if (el.shadowRoot) walk(el.shadowRoot);
+        };
+        walk(document);
+        return out;
+      });
+      for (const d of dropped) expect.soft(d, `${story.id}: label in name (2.5.3)`).toBeUndefined();
 
       for (const v of result.violations.filter(isGated)) {
         const ex = EXCEPTIONS.find((e) => e.rule === v.id && e.stories.includes(story.id));

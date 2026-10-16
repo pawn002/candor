@@ -206,6 +206,11 @@ export class CandorAutocomplete extends LitElement {
         // Close the list but keep the typed value — free text is never discarded.
         if (this._open) { e.stopPropagation(); this._open = false; this._activeIndex = -1; }
         break;
+      case 'Tab':
+        // Leaving by keyboard closes the list, keeping the typed value. Left
+        // open, it covers whatever takes focus next (WCAG 2.4.11).
+        this._open = false; this._activeIndex = -1;
+        break;
     }
   }
 
@@ -281,7 +286,7 @@ export class CandorAutocomplete extends LitElement {
             >
           </div>
           ${open ? html`
-            <ul id="${this._listId}" role="listbox" class="autocomplete__dropdown">
+            <ul id="${this._listId}" role="listbox" class="autocomplete__dropdown" tabindex="-1">
               ${filtered.map((s, i) => html`
                 <li
                   id="candor-autocomplete-opt-${this._id}-${i}"
