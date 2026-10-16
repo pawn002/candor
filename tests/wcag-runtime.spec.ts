@@ -207,9 +207,13 @@ test('2.4.7 Focus Visible and 2.4.11 Focus Not Obscured: every Tab stop', async 
             while (h?.shadowRoot) { const d = h.shadowRoot.elementFromPoint(x, y); if (!d || d === h) break; h = d; }
             return h as Element | null;
           };
+          // A link that wraps has one box per line, and its bounding box is
+          // mostly the paragraph around it, so sample the middle of each line.
+          const lines = [...a.getClientRects()] as DOMRect[];
           const box = r1.width >= 4 && r1.height >= 4 ? r1 : r2;
-          const pts = [[0.5, 0.5], [0.2, 0.2], [0.8, 0.2], [0.2, 0.8], [0.8, 0.8]]
-            .map(([fx, fy]) => [box.left + box.width * fx, box.top + box.height * fy])
+          const pts = (lines.length > 1
+            ? lines.slice(0, 4).map((l) => [l.left + l.width / 2, l.top + l.height / 2])
+            : [[0.5, 0.5], [0.2, 0.2], [0.8, 0.2], [0.2, 0.8], [0.8, 0.8]].map(([fx, fy]) => [box.left + box.width * fx, box.top + box.height * fy]))
             .filter(([x, y]) => x >= 0 && y >= 0 && x < innerWidth && y < innerHeight);
           const covers = pts.map(([x, y]) => deepHit(x, y)).filter((h) => !inside(h));
           const coveredBy = pts.length && covers.length === pts.length && covers[0]
