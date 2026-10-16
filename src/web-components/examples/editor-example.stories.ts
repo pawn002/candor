@@ -262,7 +262,7 @@ export const ImageEditor: Story = {
             </candor-toolbar>
             <div style="display: flex; align-items: center; gap: 0.375rem;">
               <candor-accessible-text role_="annotation">Zoom</candor-accessible-text>
-              <candor-badge variant="default" aria-label="Zoom: 75%">75%</candor-badge>
+              <candor-badge variant="default">75%</candor-badge>
             </div>
           </div>
 

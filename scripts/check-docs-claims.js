@@ -705,6 +705,55 @@ if (quoteHits.length > 0) {
   console.log(`  ✓ no Markdown blockquotes in ${storyFiles.length} stories or ${mdx.length} MDX files`);
 }
 
+// ── package files: every tokens stylesheet the docs name is one the package ships ──
+//
+// tokens/README.md documented candor-article.css, candor-syntax.css and
+// candor-blog.css, with <link> tags and an 11ty setup, for two major versions
+// after 4.0.0 stopped shipping them (#320). Following the README gave 404s.
+// A filename in published docs is a promise that the file exists, so the set
+// to check against is the tokens package's `exports` map: what a consumer can
+// actually import. Prose may still name a removed stylesheet without its
+// extension, which is how the README explains what went away.
+
+const TOKENS_PKG = require(path.join(ROOT, 'package.json'));
+const shipped = new Set(
+  Object.keys(TOKENS_PKG.exports || {})
+    .map((k) => path.posix.basename(k))
+    .filter((b) => /\.(css|json)$/.test(b)),
+);
+const PACKAGE_DOCS = [
+  ROOT_README,
+  path.join(ROOT, 'tokens', 'README.md'),
+  WC_README,
+  path.join(ROOT, 'src', 'Introduction.mdx'),
+  ...fs.readdirSync(path.join(ROOT, 'docs'))
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => path.join(ROOT, 'docs', f)),
+];
+let namedFiles = 0;
+const unshipped = [];
+for (const file of PACKAGE_DOCS) {
+  if (!fs.existsSync(file)) continue;
+  const text = fs.readFileSync(file, 'utf8');
+  for (const m of text.matchAll(/\bcandor-[a-z0-9-]+(?:\.min)?\.(?:css|json)\b/g)) {
+    namedFiles++;
+    if (!shipped.has(m[0])) {
+      const line = text.slice(0, m.index).split('\n').length;
+      unshipped.push(`${path.relative(ROOT, file)}:${line} names ${m[0]}`);
+    }
+  }
+}
+if (shipped.size === 0) {
+  fail('the tokens package exports no .css or .json files — the scan is broken, not the docs');
+} else if (unshipped.length > 0) {
+  fail(
+    `docs name stylesheet(s) @candor-design/tokens does not ship (#320) — remove the reference, or export the file:\n      ` +
+      [...new Set(unshipped)].join('\n      '),
+  );
+} else {
+  console.log(`  ✓ all ${namedFiles} tokens filenames named in the docs are files the package ships`);
+}
+
 if (failed) {
   console.log(
     '\n✖ documentation claims do not match the build.' +

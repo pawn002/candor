@@ -29,18 +29,17 @@ reliable pattern.
 
 Use \`<candor-toast-container position="top-right">\` (or \`top-left\`, \`bottom-right\`,
 \`bottom-left\`) to fix a stack to a corner of the viewport. Add and remove toasts
-programmatically. Auto-dismissal is the consumer's responsibility:
+programmatically. Leave each toast until the user dismisses it. A toast that removes itself on a timer fails WCAG 2.2.1 Timing Adjustable for anyone who reads slowly or looks away, unless they can turn the timer off or extend it:
 
 \`\`\`js
 const container = document.querySelector('candor-toast-container');
 
-function showToast(message, variant = 'info', autoDismissMs = 4000) {
+function showToast(message, variant = 'info') {
   const toast = Object.assign(document.createElement('candor-toast'), {
     message, variant, dismissible: true,
   });
   container.appendChild(toast);
-  const timer = setTimeout(() => toast.remove(), autoDismissMs);
-  toast.addEventListener('dismiss', () => { clearTimeout(timer); toast.remove(); });
+  toast.addEventListener('dismiss', () => toast.remove());
 }
 
 showToast('Your changes have been saved.', 'success');
@@ -99,7 +98,7 @@ export const Triggered: Story = {
       description: {
         story:
           'Click the button to add a toast. Each click cycles through the four variants so you can see them stack. ' +
-          'Toasts auto-dismiss after 4 s; the dismiss button clears the timer and removes immediately.',
+          'Each toast stays until its dismiss button is pressed. There is no timer, because a message that disappears on a clock fails WCAG 2.2.1 for slower readers.',
       },
     },
   },
@@ -113,8 +112,7 @@ export const Triggered: Story = {
       var c = document.querySelector('candor-toast-container');
       var t = Object.assign(document.createElement('candor-toast'), { variant: variants[i], message: messages[i], dismissible: true });
       c.appendChild(t);
-      var timer = setTimeout(function(){ t.remove(); }, 4000);
-      t.addEventListener('dismiss', function(){ clearTimeout(timer); t.remove(); });
+      t.addEventListener('dismiss', function(){ t.remove(); });
     })(this)">Trigger notification</candor-button>
   `,
 };
@@ -134,7 +132,7 @@ export const Dismissible: Story = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
       <candor-toast variant="success" heading="File uploaded" message="Your file has been uploaded successfully." dismissible></candor-toast>
-      <candor-toast variant="info" message="Read-only notice with no dismiss button. Remove this toast programmatically via setTimeout or a user action."></candor-toast>
+      <candor-toast variant="info" message="Read-only notice with no dismiss button. Remove this toast programmatically when the condition it describes ends."></candor-toast>
     </div>
   `,
 };

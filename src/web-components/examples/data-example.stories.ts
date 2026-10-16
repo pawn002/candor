@@ -97,15 +97,14 @@ export const FilterableTable: Story = {
               style="flex: 1; min-width: 120px; max-width: 220px;">
             </candor-input>
             <div style="position: relative; display: inline-flex; align-items: center;">
-              <candor-button id="open-filters" variant="secondary" aria-describedby="filter-count" @click=${openDrawer}>
+              <candor-button id="open-filters" variant="secondary" @click=${openDrawer}>
                 Filters
               </candor-button>
               <candor-badge
                 id="filter-count"
                 variant="primary"
-                style="position: absolute; top: -6px; right: 0; min-width: 1.25rem; text-align: center;"
-                aria-label="3 active filters">
-                3
+                style="position: absolute; top: -6px; right: 0; min-width: 1.25rem; text-align: center;">
+                3<span class="sr-only"> active filters</span>
               </candor-badge>
             </div>
           </div>
