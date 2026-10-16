@@ -68,6 +68,7 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
 
 ### Fixed
 
+- **The article font comparison story no longer skips a heading level (#252).** It went from `<h2>` straight to `<h4>`, which axe reports as a best-practice finding and which breaks heading navigation for screen-reader users. An `<h3>` section now sits between them, so the story still shows every level from `<h1>` to `<h6>`.
 - **`npm run storybook` starts without warnings (#312).** Three sources of terminal noise are gone:
   - **Sass `@import` deprecation, four times.** `src/styles.scss` imported the four variable Fontsource packages by bare name, so Sass resolved them as Sass imports, the path Dart Sass 3 removes. Naming the file (`@fontsource-variable/roboto-flex/index.css`) makes Sass pass each through as a plain CSS import, as it already did for Phosphor and Atkinson. `candor-fonts.css` and the README snippet name the file the same way, so all three stay identical and a consumer pasting the snippet into SCSS gets no warning either.
   - **"Multiple versions of Lit loaded."** There was only one Lit installed, but Storybook's renderer imports `lit/directive-helpers.js`, which Vite did not pre-bundle, so it loaded a second copy of lit-html. `.storybook/main.ts` now pre-bundles that subpath.
