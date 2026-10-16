@@ -86,7 +86,7 @@ export class CandorToast extends LitElement {
       line-height: 1;
       transition: color 0.15s ease, background-color 0.15s ease;
     }
-    .toast__dismiss:hover { color: var(--color-text-default); background-color: var(--color-bg-surface); }
+    .toast__dismiss:hover { color: var(--color-text-default); background-color: var(--color-bg-hover); }
     .toast__dismiss:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
   `;
 

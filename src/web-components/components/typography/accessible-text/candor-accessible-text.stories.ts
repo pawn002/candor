@@ -13,26 +13,26 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-**Atkinson Hyperlegible** — the designated typeface for instructional UI text.
+**Atkinson Hyperlegible**, the designated typeface for instructional UI text.
 
 Use \`<candor-accessible-text>\` to apply Atkinson with automatic role-based sizing, tracking, and color.
 
 ### Instruction vs. comprehension
 
-The core authoring decision is not "is this text important?" — all text in a well-designed UI is important. The question is: **does the user need to read this precisely to know what to do next?**
+The core authoring decision is not "is this text important?" All text in a well-designed UI is important. The question is: **does the user need to read this precisely to know what to do next?**
 
 - **Use \`<candor-accessible-text>\`** for instructional text: form field labels, validation errors, status changes, action-required hints. The user must read these correctly to take the right action.
 - **Use Roboto Flex** (\`--font-family-base\`) for comprehension text: data values, classification results, section headings that organise data, body prose. The user reads these to form a judgment, not to follow an instruction.
 
 \`\`\`html
-<!-- ✓ Instructional — user must read this precisely to fix their input -->
+<!-- ✓ Instructional: the user must read this precisely to fix their input -->
 <candor-accessible-text role_="status" color="error">Enter a valid National Insurance number.</candor-accessible-text>
 
-<!-- ✗ Wrong — "87% confidence" is a data value the user reads to understand, not to act.
+<!-- ✗ Wrong: "87% confidence" is a data value the user reads to understand, not to act.
      The annotation role is for instructional hints (e.g. format guidance), not data values. -->
 <candor-accessible-text role_="annotation">87% confidence</candor-accessible-text>
 
-<!-- ✓ Correct — comprehension data uses Roboto Flex with token styles -->
+<!-- ✓ Correct: comprehension data uses Roboto Flex with token styles -->
 <span style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);">87%</span>
 \`\`\`
 
@@ -43,34 +43,34 @@ The core authoring decision is not "is this text important?" — all text in a w
 | Role | Use case | Size | Weight | Style | Tier |
 |---|---|---|---|---|---|
 | \`label\` | Form field labels, structural anchors in instructional contexts | 14px | bold | uppercase | 2 |
-| \`message\` | System messages, body-length guidance the user must act on | 16px | regular | — | 1 |
-| \`status\` | Validation errors and action-required text — what the user must **do next** | 16px | regular | — | 1 |
-| \`state\` | Outcomes that have **already happened** — renders a tone icon | 14px | regular | — | 3 |
+| \`message\` | System messages, body-length guidance the user must act on | 16px | regular | None | 1 |
+| \`status\` | Validation errors and action-required text: what the user must **do next** | 16px | regular | None | 1 |
+| \`state\` | Outcomes that have **already happened**; renders a tone icon | 14px | regular | None | 3 |
 | \`annotation\` | Hints, constraints, legal small print that guide an action | 14px | regular | italic | 3 |
 
 **The tier decides the size, and the split between \`status\` and \`state\` is the clearest case of it.**
 
-\`status\` is Tier 1: the text is the *sole* channel for an instruction. An icon beside "Enter a valid National Insurance number" can say that something is wrong, but not which field or what format — so nothing makes 14px sufficient, and Tier 1 regular is required to be 16px. At 14px the old 9.5 floor was unreachable by any chromatic text colour in the system, which made validation errors the one place where the mandated size and the required contrast could not both be met (#208).
+\`status\` is Tier 1: the text is the *sole* channel for an instruction. An icon beside "Enter a valid National Insurance number" can say that something is wrong, but not which field or what format. So nothing makes 14px sufficient, and Tier 1 regular is required to be 16px. At 14px the old 9.5 floor was unreachable by any chromatic text colour in the system, which made validation errors the one place where the mandated size and the required contrast could not both be met (#208).
 
-\`state\` is Tier 3: the component renders an \`aria-hidden\` tone icon, so the outcome genuinely *is* redundantly coded and 14px is fine. The redundancy is structural — you cannot forget it — which is what makes the lower floor honest rather than asserted.
+\`state\` is Tier 3: the component renders an \`aria-hidden\` tone icon, so the outcome genuinely *is* redundantly coded and 14px is fine. The redundancy is structural (you cannot forget it), which is what makes the lower floor honest rather than asserted.
 
 A useful test: **could a reader who cannot resolve the glyphs still act correctly?** For "All responses processed" beside a green check, yes. For "Enter a valid National Insurance number", no. The first is \`state\`; the second is \`status\`.
 
-Note also what \`state\` does with colour. The icon carries the tone using the \`--color-status-*\` tokens — which are validated for non-text use and must never be used as text colour — while the text stays at \`--color-text-default\` (OKCA 11.5 on page). Moving the colour burden onto the icon is what removes the contrast problem entirely rather than negotiating with it.
+Note also what \`state\` does with colour. The icon carries the tone using the \`--color-status-*\` tokens (validated for non-text use, and never to be used as text colour), while the text stays at \`--color-text-default\` (OKCA 11.5 on page). Moving the colour burden onto the icon is what removes the contrast problem entirely rather than negotiating with it.
 
-**Section headings that label data** (not instructional) should use \`<candor-text variant="label">\` instead — same visual treatment, Roboto Flex.
+**Section headings that label data** (not instructional) should use \`<candor-text variant="label">\` instead: the same visual treatment, in Roboto Flex.
 
 ---
 
 ### Bold rule
 
-**Bold is for hierarchy, not urgency.** \`role_="label"\` always renders bold. Do not set \`bold\` on \`role="status"\` for error states — the error color carries the urgency signal. Bold on top of error color reads as double-emphasis and disrupts hierarchy.
+**Bold is for hierarchy, not urgency.** \`role_="label"\` always renders bold. Do not set \`bold\` on \`role="status"\` for error states. The error color carries the urgency signal. Bold on top of error color reads as double-emphasis and disrupts hierarchy.
 
 \`\`\`html
-<!-- ✓ Regular for status — color carries urgency -->
+<!-- ✓ Regular for status: color carries urgency -->
 <candor-accessible-text role_="status" color="error">Enter a valid number.</candor-accessible-text>
 
-<!-- ✗ Wrong — bold + error color is double-emphasis -->
+<!-- ✗ Wrong: bold + error color is double-emphasis -->
 <candor-accessible-text role_="status" color="error" bold>Enter a valid number.</candor-accessible-text>
 \`\`\`
 
@@ -78,7 +78,7 @@ Note also what \`state\` does with colour. The icon carries the tone using the \
 
 ### Tracking
 
-Atkinson requires positive letter-spacing to prevent glyph clustering (adjacent glyphs like "rr" reading as "m"). Spacing is applied automatically per role — never override to \`letter-spacing: 0\`.
+Atkinson requires positive letter-spacing to prevent glyph clustering (adjacent glyphs like "rr" reading as "m"). Spacing is applied automatically per role. Never override to \`letter-spacing: 0\`.
 
 ---
 
@@ -98,7 +98,7 @@ The attribute is named \`role_\` (trailing underscore) because \`role\` is a res
     tone: {
       control: 'select',
       options: ['success', 'warning', 'error', 'info'],
-      description: 'Outcome tone — selects the icon. Only applies to role_="state".',
+      description: 'Outcome tone. Selects the icon. Only applies to role_="state".',
     },
     size: {
       control: 'select',
@@ -112,7 +112,7 @@ The attribute is named \`role_\` (trailing underscore) because \`role\` is a res
     },
     bold: {
       control: 'boolean',
-      description: 'Bold weight — for hierarchy/labels only, not urgency',
+      description: 'Bold weight. For hierarchy and labels, not urgency.',
     },
   },
   args: { role_: 'label', color: 'primary', tone: 'info', bold: false },
@@ -141,7 +141,7 @@ export const StatusMessages: Story = {
       description: {
         story:
           'No glyph is typed into the text. A literal `✕` or `⚠` in content is announced by a screen ' +
-          'reader ("multiplication sign"), so the state is carried in words — "Error:", "Warning:" — ' +
+          'reader ("multiplication sign"), so the state is carried in words ("Error:", "Warning:"), ' +
           'which every user receives. Where an *icon* is wanted as a redundant visual channel, use ' +
           '`role_="state"`, which renders an `aria-hidden` one for you.',
       },
@@ -152,9 +152,9 @@ export const StatusMessages: Story = {
 export const StateOutcomes: Story = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:1rem;max-width:520px;">
-      <candor-accessible-text role_="state" tone="success">All responses processed — no flags raised</candor-accessible-text>
+      <candor-accessible-text role_="state" tone="success">All responses processed. No flags raised.</candor-accessible-text>
       <candor-accessible-text role_="state" tone="warning">3 responses flagged for review</candor-accessible-text>
-      <candor-accessible-text role_="state" tone="error">Sync failed — last synced 14 minutes ago</candor-accessible-text>
+      <candor-accessible-text role_="state" tone="error">Sync failed. Last synced 14 minutes ago.</candor-accessible-text>
       <candor-accessible-text role_="state" tone="info">Draft saved automatically</candor-accessible-text>
     </div>
   `,
@@ -162,15 +162,15 @@ export const StateOutcomes: Story = {
     docs: {
       description: {
         story:
-          '`role_="state"` reports an **outcome** — something that has happened — as opposed to ' +
+          '`role_="state"` reports an **outcome**, something that has happened, as opposed to ' +
           '`role_="status"`, which tells the user what they must do next.\n\n' +
           'That difference is why this role stays at 14px while `status` is 16px. The icon is a ' +
-          'genuine redundant channel for the outcome, so the text is Tier 3 — OKCA 4.5 floor — rather ' +
-          'than Tier 1. The redundancy is structural — the component renders the icon, so it cannot ' +
+          'genuine redundant channel for the outcome, so the text is Tier 3 (an OKCA 4.5 floor) rather ' +
+          'than Tier 1. The redundancy is structural: the component renders the icon, so it cannot ' +
           'be forgotten.\n\n' +
           'Note what the icon does **not** do: it carries the outcome, not an instruction. A ' +
           'validation error stays `role_="status"` at 16px, because there an icon can only say ' +
-          '"something is wrong" while the text has to say *which field and what format* — and no ' +
+          '"something is wrong" while the text has to say *which field and what format*, and no ' +
           'icon makes that readable.\n\n' +
           'The text needs no colour of its own. The icon carries the state in the ' +
           '`--color-status-*` tokens, which are validated for non-text use, so the text stays at ' +
@@ -207,8 +207,8 @@ export const CriticalFormContext: Story = {
   parameters: {
     docs: {
       description: {
-        story: `**Label casing rule:** form field labels use sentence case ("National Insurance number", "Email address") — they name what the user fills in.
-Structural UI anchors — \`<candor-accessible-text role_="label">\` used to head a region or column — render uppercase via CSS ("PAGE BACKGROUND", "SURFACE BACKGROUND").
+        story: `**Label casing rule:** form field labels use sentence case ("National Insurance number", "Email address"). They name what the user fills in.
+Structural UI anchors (\`<candor-accessible-text role_="label">\` used to head a region or column) render uppercase via CSS ("PAGE BACKGROUND", "SURFACE BACKGROUND").
 The test: does the user fill it in? → sentence case. Does it label a section of the interface? → uppercase Atkinson anchor.`,
       },
     },
@@ -242,7 +242,7 @@ export const AllRoles: Story = {
     docs: {
       description: {
         story:
-          'All five roles, with the size each one mandates. The size is not a style choice — it ' +
+          'All five roles, with the size each one mandates. The size is not a style choice. It ' +
           'follows from the tier, which follows from what the text does. `status` and `state` are ' +
           'the pair worth reading together: both report something about system state, but `status` ' +
           'is Tier 1 at 16px because the text is the only channel for an instruction, while `state` ' +
@@ -266,13 +266,13 @@ export const AllRoles: Story = {
       </candor-card>
       <candor-card>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="status" · 16px · Tier 1 — what you must do next</p>
-          <candor-accessible-text role_="status" color="error">Validation failed — 3 fields require attention</candor-accessible-text>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="status" · 16px · Tier 1: what you must do next</p>
+          <candor-accessible-text role_="status" color="error">Validation failed. 3 fields require attention.</candor-accessible-text>
         </div>
       </candor-card>
       <candor-card>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="state" · 14px · Tier 3 — what already happened</p>
+          <p style="font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:0;font-family:var(--font-family-mono);">role_="state" · 14px · Tier 3: what already happened</p>
           <candor-accessible-text role_="state" tone="warning">3 responses flagged for review</candor-accessible-text>
         </div>
       </candor-card>
@@ -325,7 +325,7 @@ export const AIConfidenceScores: Story = {
           <span style="font-family:var(--font-family-base);font-size:var(--font-size-md);font-weight:var(--font-weight-semibold);">Neutral / Ambiguous</span>
           <candor-accessible-text role_="annotation" color="secondary">43% confidence</candor-accessible-text>
         </div>
-        <candor-accessible-text role_="state" tone="warning">Requires human review — confidence below threshold</candor-accessible-text>
+        <candor-accessible-text role_="state" tone="warning">Requires human review: confidence is below the threshold.</candor-accessible-text>
       </div>
       <candor-card padding="sm">
         <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
@@ -354,7 +354,7 @@ export const AIStressContextCounters: Story = {
       <candor-card padding="sm">
         <div slot="header" style="display:flex;justify-content:space-between;align-items:center;">
           Review queue
-          <!-- A data readout, not an instruction — the user reads it to form a
+          <!-- A data readout, not an instruction. The user reads it to form a
                judgment, so it is comprehension text in Roboto Flex, not Atkinson.
                The progress bar below is its redundant channel. -->
           <candor-text variant="body" size="sm" color="secondary">14 of 47 reviewed</candor-text>
@@ -367,7 +367,7 @@ export const AIStressContextCounters: Story = {
         <candor-accessible-text role_="state" tone="warning">3 responses flagged for review</candor-accessible-text>
       </div>
       <candor-card padding="sm">
-        <candor-accessible-text role_="state" tone="success">All responses processed — no flags raised</candor-accessible-text>
+        <candor-accessible-text role_="state" tone="success">All responses processed. No flags raised.</candor-accessible-text>
       </candor-card>
     </div>
   `,

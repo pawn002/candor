@@ -68,7 +68,13 @@ export class CandorAccordionItem extends LitElement {
   // reading el.open get stale state. The native <details> `toggle` event is
   // bubbles:false, composed:false, so we re-dispatch a composed `toggle` —
   // parity with candor-disclosure — so consumers outside the shadow root hear it.
+  //
+  // Only the native event from our own <details> counts. A nested item is
+  // slotted inside this <details>, so its composed `toggle` bubbles through it
+  // too, with the nested host as target. Reading that host's `open` here closed
+  // the parent whenever a child closed.
   private _onToggle = (e: Event) => {
+    if (e.target !== e.currentTarget) return;
     const next = (e.target as HTMLDetailsElement).open;
     if (this.open !== next) {
       this.open = next;

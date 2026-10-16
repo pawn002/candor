@@ -10,7 +10,7 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-tabs>\` — tabbed interface for switching between related panel views. Implements
+\`<candor-tabs>\`: a tabbed interface for switching between related panel views. Implements
 the [ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) with keyboard
 navigation: Arrow keys move between tabs, Home/End jump to first/last.
 
@@ -26,12 +26,12 @@ are slotted in document order.
 </candor-tabs>
 \`\`\`
 
-Set \`aria-label\` on the host element to label the tab list for screen readers — always
+Set \`aria-label\` on the host element to label the tab list for screen readers. It is always
 required. Two themes: \`default\` and \`inverse\`. Two orientations: \`horizontal\` (tabs above
 panels) and \`vertical\` (tabs left, panels right). Emits a \`change\` CustomEvent.
 
-When the horizontal tab row overflows, chevron scroll buttons appear at the edges —
-clicking scrolls the list by 200px. A fade gradient behind each button reinforces
+When the horizontal tab row overflows, chevron scroll buttons appear at the edges.
+Clicking scrolls the list by 200px. A fade gradient behind each button reinforces
 the direction. The buttons are intentionally excluded from Tab order (mouse/touch
 only); keyboard users arrow through tabs and the list scrolls to keep the focused
 tab in view automatically.
@@ -40,8 +40,8 @@ tab in view automatically.
     },
   },
   argTypes: {
-    'aria-label': { control: 'text', description: 'Required. Labels the tab list for screen readers. Set on the host — forwarded to [role="tablist"] internally.' },
-    tabs: { control: 'object', description: 'Array of { id: string, label: string } — drives the tab row. Panels are matched by panel-id.' },
+    'aria-label': { control: 'text', description: 'Required. Labels the tab list for screen readers. Set on the host; it is forwarded to [role="tablist"] internally.' },
+    tabs: { control: 'object', description: 'Array of { id: string, label: string }. Drives the tab row. Panels are matched by panel-id.' },
     activeId: { control: 'text', type: { name: 'string' }, description: 'Id of the initially selected tab. Defaults to the first tab.' },
     theme: {
       control: 'select',
@@ -62,7 +62,7 @@ tab in view automatically.
     aria-label="Product details"
     tabs='[{"id":"overview","label":"Overview"},{"id":"specs","label":"Specifications"},{"id":"reviews","label":"Reviews"}]'>
     <candor-tab-panel panel-id="overview" active>
-      <p style="margin:0">Overview content — rendered when the Overview tab is selected.</p>
+      <p style="margin:0">Overview content, rendered when the Overview tab is selected.</p>
     </candor-tab-panel>
     <candor-tab-panel panel-id="specs">
       <p style="margin:0">Specifications content.</p>
@@ -85,7 +85,7 @@ export const Inverse: Story = {
     theme="inverse"
     tabs='[{"id":"overview","label":"Overview"},{"id":"details","label":"Details"},{"id":"history","label":"History"}]'>
     <candor-tab-panel panel-id="overview" active>
-      <p style="margin:0;padding-top:var(--spacing-sm);">Inverse tabs sit on a dark surface — common in app shells with dark headers.</p>
+      <p style="margin:0;padding-top:var(--spacing-sm);">Inverse tabs sit on a dark surface, common in app shells with dark headers.</p>
     </candor-tab-panel>
     <candor-tab-panel panel-id="details">
       <p style="margin:0;padding-top:var(--spacing-sm);">The tab list uses --color-bg-inverse; the panels render on the page background below.</p>
@@ -191,7 +191,7 @@ export const Controlled: Story = {
     docs: {
       description: {
         story:
-          'Select a tab — a `change` CustomEvent fires with the new tab id as `event.detail`. ' +
+          'Select a tab. A `change` CustomEvent fires with the new tab id as `event.detail`. ' +
           'Wire it to your data layer or router:\n\n' +
           '```js\n' +
           "const tabs = document.querySelector('candor-tabs');\n" +

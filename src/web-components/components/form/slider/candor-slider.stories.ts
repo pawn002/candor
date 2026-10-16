@@ -13,11 +13,11 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-slider>\` — range input with optional gradient track visualization. Designed for
-continuous numeric values where the position on a spectrum matters — lightness, opacity,
+\`<candor-slider>\`: a range input with optional gradient track visualization. Designed for
+continuous numeric values where the position on a spectrum matters: lightness, opacity,
 threshold, volume.
 
-**\`valueTextFn\` — JavaScript property only.** Functions cannot travel through HTML
+**\`valueTextFn\` is a JavaScript property only.** Functions cannot travel through HTML
 attributes, so this cannot be set via markup. Set it on the element reference instead:
 
 \`\`\`js
@@ -33,7 +33,7 @@ control the announcement ("L=0.65", "70%", "−12 dB"). Required whenever the ra
 not self-describing.
 
 The \`gradient\` attribute accepts a CSS \`linear-gradient()\` string rendered behind the
-track — use it to show the lightness or hue spectrum the slider is traversing:
+track. Use it to show the lightness or hue spectrum the slider is traversing:
 
 \`\`\`html
 <candor-slider
@@ -46,11 +46,11 @@ track — use it to show the lightness or hue spectrum the slider is traversing:
 ></candor-slider>
 \`\`\`
 
-Set \`min\` and \`max\` to the actual sRGB gamut limits for the chosen hue and chroma — these
+Set \`min\` and \`max\` to the actual sRGB gamut limits for the chosen hue and chroma. These
 differ per colour (use \`klar lightness\` to find them). Staying within gamut means the thumb
 never reaches an out-of-gamut value that the browser would silently clamp.
 
-Keep C and H constant across the stops so only lightness varies — the thumb position then
+Keep C and H constant across the stops so only lightness varies. The thumb position then
 directly encodes the L value. The numeric display is hidden in gradient mode; set
 \`valueTextFn\` via JS to give the screen reader a meaningful announcement (e.g. \`"L=0.55"\`).
 
@@ -59,7 +59,7 @@ Form-associated (\`ElementInternals\`): the current value participates in form s
 **Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
 live value on every drag tick and arrow-key step; \`change\` fires once on pointer release or
 keyboard commit. Both carry the value as a \`number\` in \`detail\`. The legacy \`value-change\`
-was removed in 5.0.0 (#201) — use \`input\`, which has the same live semantics and the same
+was removed in 5.0.0 (#201). Use \`input\`, which has the same live semantics and the same
 payload.
 
 **Sizing:** Override track and thumb geometry per-instance via CSS custom properties.
@@ -104,22 +104,22 @@ export const Percentage: Story = {
 };
 
 export const GradientTrack: Story = {
-  name: 'Gradient track — OKLCH lightness axis',
+  name: 'Gradient track: OKLCH lightness axis',
   parameters: {
     docs: {
       description: {
         story: '**`valueTextFn` is required for this variant.** Without it, the screen reader ' +
           'announces the raw decimal ("0.65") with no indication it is an L value. Set it via ' +
           'the JavaScript property: `slider.valueTextFn = (v) => \`L=${v.toFixed(2)}\``.\n\n' +
-          'Set `min` and `max` to the sRGB gamut limits for the chosen hue and chroma — ' +
-          'use `klar lightness "oklch(L C H)"` to find them. Different chromas produce ' +
+          'Set `min` and `max` to the sRGB gamut limits for the chosen hue and chroma. ' +
+          'Use `klar lightness "oklch(L C H)"` to find them. Different chromas produce ' +
           'different gamut limits: C=0.12 (vivid green) cannot go below L=0.36, while ' +
           'C=0.054 (muted rose) reaches as low as L=0.12. Staying within gamut prevents ' +
           'the browser from silently clamping out-of-gamut values.',
       },
     },
   },
-  render: () => html`<candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.11 142))"></candor-slider>`,
+  render: () => html`<candor-slider label="Lightness, holding C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.11 142))"></candor-slider>`,
   // Gradient mode hides the numeric display; valueTextFn gives the screen reader the
   // L value it otherwise couldn't infer from the raw decimal. Function → set in play.
   play: setElementProps('candor-slider', { valueTextFn: (v: number) => `L=${v.toFixed(2)}` }),
@@ -133,12 +133,12 @@ export const AllVariants: Story = {
         <candor-slider label="Opacity" min="0" max="100" step="1" value="40"></candor-slider>
       </candor-card>
       <candor-card>
-        <span slot="header">Vivid green — C 0.12, gamut L 0.36–0.94</span>
-        <candor-slider label="Lightness — hold C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.11 142))"></candor-slider>
+        <span slot="header">Vivid green: C 0.12, gamut L 0.36–0.94</span>
+        <candor-slider label="Lightness, holding C and H" min="0.36" max="0.94" step="0.001" value="0.65" gradient="linear-gradient(to right, oklch(0.36 0.12 142), oklch(0.65 0.12 142), oklch(0.94 0.11 142))"></candor-slider>
       </candor-card>
       <candor-card>
-        <span slot="header">Muted rose — C 0.054, gamut L 0.12–0.93</span>
-        <candor-slider label="Lightness — hold C and H" min="0.12" max="0.93" step="0.001" value="0.53" gradient="linear-gradient(to right, oklch(0.12 0.054 333), oklch(0.53 0.054 333), oklch(0.93 0.054 333))"></candor-slider>
+        <span slot="header">Muted rose: C 0.054, gamut L 0.12–0.93</span>
+        <candor-slider label="Lightness, holding C and H" min="0.12" max="0.93" step="0.001" value="0.53" gradient="linear-gradient(to right, oklch(0.12 0.054 333), oklch(0.53 0.054 333), oklch(0.93 0.054 333))"></candor-slider>
       </candor-card>
       <candor-card>
         <span slot="header">Disabled</span>

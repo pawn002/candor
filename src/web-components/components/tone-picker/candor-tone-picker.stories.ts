@@ -26,14 +26,14 @@ const meta: Meta = {
   title: 'Components/TonePicker',
   tags: ['autodocs'],
   argTypes: {
-    'aria-label': { control: 'text', description: 'Required. Labels the grid for screen readers. Set on the host — forwarded to [role="grid"] internally.' },
+    'aria-label': { control: 'text', description: 'Required. Labels the grid for screen readers. Set on the host; it is forwarded to [role="grid"] internally.' },
     caption: { control: 'text', type: { name: 'string' }, description: 'Fallback accessible label when no aria-label is set. Does not render a visible caption element.' },
     rows: { control: 'object', description: 'Array of { rowHeader?, cells: ToneCell[] }. Each cell: { label, value?: { l, c, h }, background?, disabled? }.' },
     columnHeaders: { control: 'object', description: 'Array of column header strings (C-axis labels). Attribute: column-headers.' },
     hideHeaders: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide row/column headers while keeping them in the DOM for AT' },
     hideUi: { control: 'boolean', type: { name: 'boolean' }, description: 'Visually hide the preview swatch and hint text (live region stays in DOM for AT)' },
-    showLabels: { control: 'boolean', type: { name: 'boolean' }, description: 'Show aria-label text beneath each cell — developer aid for validating AT labels on custom gamut data.' },
-    size: { control: 'radio', options: ['normal', 'small'], type: { name: 'string' }, description: 'Button size — normal: 44px square, small: 22px square' },
+    showLabels: { control: 'boolean', type: { name: 'boolean' }, description: 'Show aria-label text beneath each cell. A developer aid for validating AT labels on custom gamut data.' },
+    size: { control: 'radio', options: ['normal', 'small'], type: { name: 'string' }, description: 'Button size. normal: 44px square, small: 22px square' },
     selectedValue: { control: 'text', type: { name: 'string' }, description: 'Pre-select a cell by oklch string (e.g. from a parent color state)' },
     'color-select': { control: false, description: 'CustomEvent fired on cell activation. detail: { value: string, row, col, l, c, h }.' },
   },
@@ -42,7 +42,7 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-tone-picker>\` — keyboard-navigable OKLCH gamut grid. Each cell represents a point in L × C space
+\`<candor-tone-picker>\`: a keyboard-navigable OKLCH gamut grid. Each cell represents a point in L × C space
 at a fixed hue. In-gamut cells render as selectable color buttons; out-of-sRGB-gamut cells are blank.
 
 **Keyboard interaction**
@@ -56,7 +56,7 @@ at a fixed hue. In-gamut cells render as selectable color buttons; out-of-sRGB-g
 
 **ARIA roles:** \`role="grid"\` wraps \`role="radio"\` cells inside a \`role="group"\`. Each radio carries
 \`aria-setsize\` and \`aria-posinset\` based on the in-gamut count, so assistive technology (AT) reads positional context that
-matches what sighted users see. Set \`aria-label\` on the host to name the grid — the value is forwarded to
+matches what sighted users see. Set \`aria-label\` on the host to name the grid. The value is forwarded to
 \`role="grid"\` and stripped from the host to prevent double-announcement. Use \`caption\` as a fallback when
 setting JS properties rather than HTML attributes; \`aria-label\` takes precedence if both are supplied.
 
@@ -67,7 +67,7 @@ anchor (\`ΔE N from anchor\`); disabled cells are \`out of gamut\`. The row and
 context, so labels omit those values. To see the label text beneath each swatch during development, add \`show-labels\`.
 
 **Passing data:** Pass \`rows\` and \`column-headers\` as JSON-encoded attributes (or set the \`rows\` /
-\`columnHeaders\` JS properties directly). Each cell: \`{ label, value?: { l, c, h }, background?, foreground?, disabled? }\` —
+\`columnHeaders\` JS properties directly). Each cell: \`{ label, value?: { l, c, h }, background?, foreground?, disabled? }\`.
 \`disabled: true\` marks out-of-sRGB-gamut cells, which render as blank but stay in the DOM for grid semantics.
 
 For the four Candor brand hues, import the pre-built data directly:
@@ -76,7 +76,7 @@ For the four Candor brand hues, import the pre-built data directly:
 import { NAVY_GAMUT_ROWS, NAVY_GAMUT_HEADERS } from '@candor-design/web-components/tone-data';
 \`\`\`
 
-For custom hues, use \`buildGamutRows\` — it accepts the raw L × C grid and the anchor coordinates, and
+For custom hues, use \`buildGamutRows\`. It accepts the raw L × C grid and the anchor coordinates, and
 returns a \`ToneRow[]\` whose labels carry the CIEDE2000 distance from the anchor. culori computes those
 distances and is **not** bundled into the \`/tone-data\` entry, so the entry imports it at runtime; it is a
 declared \`dependency\` of \`@candor-design/web-components\` and needs no action from you (#254):
@@ -84,12 +84,10 @@ declared \`dependency\` of \`@candor-design/web-components\` and needs no action
 \`\`\`ts
 import { buildGamutRows } from '@candor-design/web-components/tone-data';
 
-import '../card/candor-card';
-import './candor-tone-picker';
 const rows = buildGamutRows(grid, anchorL, anchorC, anchorH);
 \`\`\`
 
-**Selection:** Dispatches a \`color-select\` CustomEvent with \`{ value, row, col, l, c, h }\` in \`detail\` —
+**Selection:** Dispatches a \`color-select\` CustomEvent with \`{ value, row, col, l, c, h }\` in \`detail\`;
 \`value\` is the formatted \`oklch(L C H)\` string. Pass \`selected-value\` to pre-select a cell by oklch
 string (matched on L and C, hue is implicit per grid).
         `.trim(),
@@ -104,7 +102,7 @@ type Story = StoryObj;
 export const Default: Story = {
   render: () => html`
     <candor-tone-picker
-      aria-label="Navy H 245.34 — sRGB gamut"
+      aria-label="Navy H 245.34, sRGB gamut"
       rows='${NAVY_ROWS}'
       column-headers='${NAVY_HEADERS}'>
     </candor-tone-picker>
@@ -121,13 +119,13 @@ export const Caption: Story = {
           'Demonstrates `caption` as the accessible grid label when no `aria-label` attribute is set on the host. ' +
           'Use `caption` when constructing the component programmatically (setting JS properties rather than HTML attributes), ' +
           'or as a static fallback label when the right `aria-label` value is not known at render time. ' +
-          'Both reach the same `aria-label` on the inner `role="grid"` — `aria-label` takes precedence if both are supplied.',
+          'Both reach the same `aria-label` on the inner `role="grid"`. `aria-label` takes precedence if both are supplied.',
       },
     },
   },
   render: () => html`
     <candor-tone-picker
-      caption="Navy H 245.34 — sRGB gamut"
+      caption="Navy H 245.34, sRGB gamut"
       rows='${NAVY_ROWS}'
       column-headers='${NAVY_HEADERS}'>
     </candor-tone-picker>
@@ -141,13 +139,13 @@ export const PreSelected: Story = {
     docs: {
       description: {
         story:
-          'Demonstrates `selected-value` — pass an oklch string from a parent to mark the matching cell as selected without moving keyboard focus. Here navy-800 (`--color-action-primary`) is pre-selected on mount.',
+          'Demonstrates `selected-value`: pass an oklch string from a parent to mark the matching cell as selected without moving keyboard focus. Here navy-800 (`--color-action-primary`) is pre-selected on mount.',
       },
     },
   },
   render: () => html`
     <candor-tone-picker
-      aria-label="Navy H 245.34 — sRGB gamut"
+      aria-label="Navy H 245.34, sRGB gamut"
       selected-value="oklch(0.27 0.060 245.34)"
       rows='${NAVY_ROWS}'
       column-headers='${NAVY_HEADERS}'>
@@ -161,13 +159,13 @@ export const SmallSize: Story = {
     controls: { disable: true },
     docs: {
       description: {
-        story: 'Compact 22px buttons via `size="small"` — useful inside accordions, side panels, or examples where the picker is one element among many.',
+        story: 'Compact 22px buttons via `size="small"`, useful inside accordions, side panels, or examples where the picker is one element among many.',
       },
     },
   },
   render: () => html`
     <candor-tone-picker
-      aria-label="Indigo H 278.14 — compact"
+      aria-label="Indigo H 278.14, compact"
       size="small"
       hide-headers
       hide-ui
@@ -185,14 +183,14 @@ export const AtLabels: Story = {
       description: {
         story:
           'Shows the `aria-label` value beneath each swatch via `show-labels`. ' +
-          'Use this when validating that custom gamut data produces meaningful AT labels — ' +
+          'Use this when validating that custom gamut data produces meaningful AT labels: ' +
           'the text each cell announces is exactly what a screen reader user hears.',
       },
     },
   },
   render: () => html`
     <candor-tone-picker
-      aria-label="Navy H 245.34 — AT label audit"
+      aria-label="Navy H 245.34, AT label audit"
       show-labels
       rows='${NAVY_ROWS}'
       column-headers='${NAVY_HEADERS}'>
@@ -208,7 +206,7 @@ export const BrandGamuts: Story = {
       description: {
         story:
           'All four Candor brand hues at `size="small"`. The in-sRGB-gamut region (the filled cells) ' +
-          'varies meaningfully per hue — Indigo has the widest mid-range gamut, Burgundy the narrowest. ' +
+          'varies meaningfully per hue. Indigo has the widest mid-range gamut, Burgundy the narrowest. ' +
           'Supply your own gamut data to the component for non-brand hues.',
       },
     },

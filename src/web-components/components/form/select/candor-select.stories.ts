@@ -18,7 +18,7 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-select>\` — dropdown built on a native \`<select>\` element. The open-picker UI is
+\`<candor-select>\`: a dropdown built on a native \`<select>\` element. The open-picker UI is
 intentionally OS-controlled: on mobile, that means the platform's drum picker (iOS) or
 bottom-sheet (Android), which are optimised for touch and deeply familiar to users. On
 desktop, the browser's built-in picker handles keyboard navigation, type-ahead, and
@@ -26,7 +26,7 @@ accessibility tree integration automatically. Browser autofill also works becaus
 recognise \`<select name="…">\` semantically.
 
 The deliberate trade-off: Candor styles the *closed* state fully; the *open* state belongs
-to the OS. Reach for \`candor-listbox\` when you need a fully Candor-styled open picker —
+to the OS. Reach for \`candor-listbox\` when you need a fully Candor-styled open picker:
 checkmark indicator, custom option layout, consistent visual language throughout. The cost
 is a hand-rolled keyboard handler and no OS picker on mobile.
 
@@ -35,7 +35,7 @@ is a hand-rolled keyboard handler and no OS picker on mobile.
 | Component | When |
 |---|---|
 | \`candor-select\` | Short, stable option lists (≤ 15 items); mobile contexts where the OS picker is preferable; plain-text options with no custom rendering needed |
-| \`candor-listbox\` | Same length lists needing full visual coherence — Candor-styled open state, checkmark indicator, or non-text option content |
+| \`candor-listbox\` | Same length lists needing full visual coherence: Candor-styled open state, checkmark indicator, or non-text option content |
 | \`candor-combobox\` | Long or dynamic lists (16+ options) where users must search rather than scan |
 
 Accepts an array of \`{ value, label }\` option objects via the \`options\` JS property (or

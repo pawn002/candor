@@ -14,7 +14,7 @@ const meta: Meta = {
       description: {
         component: `
 \`<candor-accordion-item>\` renders a collapsible section using native \`<details>\`/\`<summary>\`.
-Use it as the right choice when sections are **parallel and coordinate as a set** — a FAQ
+Use it as the right choice when sections are **parallel and coordinate as a set**: a FAQ
 list, a settings panel, a table of contents.
 
 **Accordion vs. Disclosure**
@@ -22,10 +22,10 @@ list, a settings panel, a table of contents.
 | Use | When |
 |---|---|
 | \`candor-accordion-item\` | Two or more parallel sections at the same heading level. Users may want to compare across items or scan headings. |
-| \`candor-disclosure\` | A single, contextual reveal — one toggle standing alone. An expandable filter, a "read more", an inline help tip. |
+| \`candor-disclosure\` | A single, contextual reveal: one toggle standing alone. An expandable filter, a "read more", an inline help tip. |
 
 If you have several independent disclosures near each other but opening one should **not**
-close another, use multiple \`<candor-disclosure>\` instances — not a group of accordion items.
+close another, use multiple \`<candor-disclosure>\` instances, not a group of accordion items.
         `.trim(),
       },
     },
@@ -37,7 +37,7 @@ close another, use multiple \`<candor-disclosure>\` instances — not a group of
       control: 'select',
       options: ['default', 'subtle', 'quiet'],
       type: { name: 'string' },
-      description: 'Visual weight of the heading — use to express hierarchy in nested accordion groups',
+      description: 'Visual weight of the heading. Use it to express hierarchy in nested accordion groups',
     },
   },
   args: { heading: 'What is OKLCH?', open: false, variant: 'default' },
@@ -46,7 +46,7 @@ close another, use multiple \`<candor-disclosure>\` instances — not a group of
       <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:0 1rem;">
         <candor-accordion-item heading="${args['heading']}" ?open=${args['open']} variant="${args['variant']}">
           OKLCH is a perceptual color space with three axes: Lightness (L), Chroma (C), and Hue (H).
-          Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences —
+          Unlike RGB or HSL, equal numeric steps in OKLCH correspond to equal perceived differences,
           making it ideal for programmatic color manipulation.
         </candor-accordion-item>
       </div>
@@ -100,7 +100,7 @@ export const SingleOpen: Story = {
     controls: { disable: true },
     docs: {
       description: {
-        story: '`candor-accordion-item` instances are independent by construction — each lives in its own shadow root, so there is no native way for one item to close its siblings. Single-open behavior is coordinated at the consumer level: listen for the composed `toggle` event on a wrapping element and, when `event.detail` is `true`, set `open = false` on the sibling items.',
+        story: '`candor-accordion-item` instances are independent by construction. Each lives in its own shadow root, so there is no native way for one item to close its siblings. Single-open behavior is coordinated at the consumer level: listen for the composed `toggle` event on a wrapping element and, when `event.detail` is `true`, set `open = false` on the sibling items.',
       },
     },
   },

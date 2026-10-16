@@ -32,6 +32,22 @@
             "aliasOf": "--gray-0"
           }
         },
+        "muted": {
+          "$type": "color",
+          "$value": "oklch(0.81 0 0)",
+          "$description": "Neutral fill that reads on page, surface and elevated alike, which bg-subtle cannot (deltaE 3 from surface in light). deltaE 14 / 8 / 14 from page / surface / elevated. Used at rest by the default badge (#321) and on hover by bg-hover (#322). — text-default OKCA 6.0 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--gray-300"
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "oklch(0.81 0 0)",
+          "$description": "Hover fill for transparent controls: ghost buttons and close/dismiss actions (#322).",
+          "$extensions": {
+            "aliasOf": "--color-bg-muted"
+          }
+        },
         "inverse": {
           "$type": "color",
           "$value": "oklch(0.27 0.06 245.34)",
@@ -41,11 +57,8 @@
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.27 0.06 245.34)",
-          "$description": "In light mode: dark navy block (inverted) — no border needed, bg does the work. In dark mode: deep navy tint + explicit border — bg alone can't delineate at low L. — navy-800 on white page",
-          "$extensions": {
-            "aliasOf": "--color-bg-inverse"
-          }
+          "$value": "oklch(0.92 0.018 195)",
+          "$description": "A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the filled navy-800 panel (deltaE 79 from white), which was hard to read at length. Teal at hue 195 is clear of every brand and status hue in both modes (#318); the burgundy tint it replaced sat deltaE 5.6 from error-bg. Text is the ordinary body colour, so the pair needs no inverse. — text-default OKCA 8.8 on this bg ✅"
         }
       },
       "text": {
@@ -96,10 +109,9 @@
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(1 0 0)",
-          "$description": "white on navy",
+          "$value": "oklch(0.32 0 0)",
           "$extensions": {
-            "aliasOf": "--color-text-inverse"
+            "aliasOf": "--color-text-default"
           }
         }
       },
@@ -150,7 +162,7 @@
         "code": {
           "$type": "color",
           "$value": "transparent",
-          "$description": "deliberate: the code block is a filled navy panel with no rule around it; dark mode adds one (#242)",
+          "$description": "deliberate: the tint separates the block from the page on its own; dark mode adds a rule (#242)",
           "$extensions": {
             "usage": "non-text"
           }
@@ -292,14 +304,6 @@
           "aliasOf": "--indigo-700"
         }
       },
-      "highlight": {
-        "$type": "color",
-        "$value": "oklch(0.37 0.08 347.43)",
-        "$description": "Inline code — burgundy-700, clearly distinct from indigo visited links (ΔE 0 collision fixed). — OKCA 6.9 on bg-surface ✅, OKCA 9.3 on page ✅",
-        "$extensions": {
-          "aliasOf": "--burgundy-700"
-        }
-      },
       "focus": {
         "$type": "color",
         "$value": "oklch(0.65 0.18 250.80)",
@@ -419,6 +423,18 @@
           "$value": "oklch(0.30 0.02 248)",
           "$description": "one step above surface — matches cool undertone"
         },
+        "muted": {
+          "$type": "color",
+          "$value": "oklch(0.40 0.03 248.99)",
+          "$description": "Between gray-cool-700 and -600: light enough to clear deltaE 9 from elevated, dark enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322). — text-default OKCA 5.7 on this bg ✅"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "oklch(0.40 0.03 248.99)",
+          "$extensions": {
+            "aliasOf": "--color-bg-muted"
+          }
+        },
         "inverse": {
           "$type": "color",
           "$value": "oklch(1 0 0)",
@@ -429,8 +445,8 @@
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.20 0.04 248)",
-          "$description": "Deep navy tint — hue-distinct from gray-900 page but not light-inverted. Border required: bg-to-page contrast is ~1:1 at these low L values. — text-default OKCA 11.9 on this bg ✅ — code text inherits it"
+          "$value": "oklch(0.22 0.02 195)",
+          "$description": "Teal tint, deltaE 8 from the cool page: the hue change carries the separation, so the block stays nearly as dark as the page. Border still required, since lightness alone barely differs at these low L values. — text-default OKCA 11.3 on this bg ✅ — code text inherits it"
         }
       },
       "text": {
@@ -684,14 +700,6 @@
         "$description": "OKCA 6.6 on bg-page ✅",
         "$extensions": {
           "aliasOf": "--indigo-300"
-        }
-      },
-      "highlight": {
-        "$type": "color",
-        "$value": "oklch(0.86 0.05 347.43)",
-        "$description": "burgundy-200 — inline code on the dark ramp. — OKCA 9.7 on bg-surface ✅, OKCA 11.6 on bg-page ✅",
-        "$extensions": {
-          "aliasOf": "--burgundy-200"
         }
       },
       "focus": {

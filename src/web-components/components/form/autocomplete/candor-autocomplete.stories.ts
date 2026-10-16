@@ -17,32 +17,32 @@ const meta: Meta = {
       description: {
         component: `
 \`<candor-autocomplete>\` is a **free-text** field that offers non-binding suggestions
-as the user types — the web-component analogue of a native \`<input list>\` + \`<datalist>\`.
+as the user types: the web-component analogue of a native \`<input list>\` + \`<datalist>\`.
 The committed value is **always the raw text the user typed**; suggestions are hints, not
 a constraint. There is deliberately no persistent dropdown caret: the control should read
 as a text field that *offers help*, not a menu you must pick from.
 
-**Which text control? — the value model is the deciding line**
+**Which text control? The value model is the deciding line**
 
 | Component | Value model | Reach for it when |
 |---|---|---|
-| \`candor-input\` | Free text, no suggestions | Open input with no known value set — a person's name, a description, an arbitrary string. |
-| \`candor-autocomplete\` | **Free text + non-binding suggestions** | Open input where a *known set is worth surfacing* but any value is valid — a model name discovered from a \`/v1\` endpoint, a tag, a city. The user may pick a suggestion or type something entirely new. |
+| \`candor-input\` | Free text, no suggestions | Open input with no known value set: a person's name, a description, an arbitrary string. |
+| \`candor-autocomplete\` | **Free text + non-binding suggestions** | Open input where a *known set is worth surfacing* but any value is valid: a model name discovered from a \`/v1\` endpoint, a tag, a city. The user may pick a suggestion or type something entirely new. |
 | \`candor-combobox\` | **Constrained to an option set** | The value *must* be one of a fixed set; free text is invalid. Emits the chosen \`ComboboxOption\`, or \`null\` when cleared. |
 
 The trap is reaching for \`candor-combobox\` when the field is really open-ended. If a user
 could legitimately enter a value you didn't list, that field is an **autocomplete**, not a
-combobox — a combobox would reject or silently drop their input.
+combobox. A combobox would reject or silently drop their input.
 
 **Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
 live text on every keystroke; \`change\` fires the committed text on blur, on Enter, and when
-a suggestion is chosen. Both carry a plain \`string\` — the same shape as \`candor-input\` —
+a suggestion is chosen. Both carry a plain \`string\`, the same shape as \`candor-input\`,
 because the value is always free text (unlike \`candor-combobox\`, whose \`change\` carries an option object).
 
-**Styling hooks.** Override density without forking via custom properties —
+**Styling hooks.** Override density without forking via custom properties:
 \`--candor-autocomplete-{padding-x,padding-y,font-size,radius}\`, each defaulting to its token.
 For arbitrary restyle, the internals expose \`::part(input)\`, \`::part(label)\`, \`::part(hint)\`,
-and \`::part(error-message)\` — the same surface as \`candor-input\`. See the Introduction →
+and \`::part(error-message)\`, the same surface as \`candor-input\`. See the Introduction →
 "Styling & overriding" section.
         `.trim(),
       },
@@ -50,7 +50,7 @@ and \`::part(error-message)\` — the same surface as \`candor-input\`. See the 
   },
   argTypes: {
     label: { control: 'text', description: 'Field label (Atkinson, sentence case)' },
-    value: { control: 'text', description: 'The free-text value — always what the user typed' },
+    value: { control: 'text', description: 'The free-text value, always what the user typed' },
     placeholder: { control: 'text' },
     hint: { control: 'text', description: 'Guidance shown below the label' },
     error: { control: 'text', description: 'Error message; sets aria-invalid' },
@@ -62,7 +62,7 @@ and \`::part(error-message)\` — the same surface as \`candor-input\`. See the 
     label: 'Model',
     value: '',
     placeholder: 'e.g. gpt-4o',
-    hint: 'Type any model your endpoint serves — suggestions are discovered names.',
+    hint: 'Type any model your endpoint serves. Suggestions are discovered names.',
     error: '',
     required: false,
     disabled: false,
@@ -109,20 +109,20 @@ export const NoMatchStillValid: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Typing a value that matches no suggestion is completely valid — the list simply hides. This is the behavioural line against `candor-combobox`, which would show "No results" and refuse the value.',
+        story: 'Typing a value that matches no suggestion is completely valid. The list simply hides. This is the behavioural line against `candor-combobox`, which would show "No results" and refuse the value.',
       },
     },
   },
   args: {
     value: 'my-local-finetune-v3',
-    hint: 'Custom model IDs are fine — suggestions are optional.',
+    hint: 'Custom model IDs are fine. Suggestions are optional.',
   },
 };
 
 export const Required: Story = {
   args: {
     required: true,
-    hint: 'Required — pick a suggestion or enter your own model ID.',
+    hint: 'Required. Pick a suggestion or enter your own model ID.',
   },
 };
 
@@ -149,7 +149,7 @@ export const Overriding: Story = {
     docs: {
       description: {
         story:
-          'The same two opt-in hooks as `candor-input`. **Custom properties** (`--candor-autocomplete-{padding-x,padding-y,font-size,radius}`) are the blessed density/shape knobs, each defaulting to its token — here one field is made denser and squared-off. **`::part(input)`**, `::part(label)`, `::part(hint)`, and `::part(error-message)` are the escape hatch for arbitrary CSS the knobs do not cover (here the label is upper-cased and tracked).',
+          'The same two opt-in hooks as `candor-input`. **Custom properties** (`--candor-autocomplete-{padding-x,padding-y,font-size,radius}`) are the blessed density/shape knobs, each defaulting to its token. Here one field is made denser and squared-off. **`::part(input)`**, `::part(label)`, `::part(hint)`, and `::part(error-message)` are the escape hatch for arbitrary CSS the knobs do not cover (here the label is upper-cased and tracked).',
       },
     },
   },
