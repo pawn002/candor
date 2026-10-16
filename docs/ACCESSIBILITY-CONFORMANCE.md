@@ -1,197 +1,197 @@
 # Accessibility Conformance Statement
 
 **Product:** Candor Design System (`@candor-design/tokens` + `@candor-design/web-components`)
-**Version:** 3.0.0
-**Date:** 2026-05-13
-**Standard:** Web Content Accessibility Guidelines (WCAG) 2.1, Level AA
-**Evaluation methodology:** Manual screen reader walkthrough (NVDA + Chrome) + Playwright accessibility tree snapshots across the 26-component audit set; the `@candor-design/web-components` library carries the same patterns and guarantees by construction (see note below)
-
-> **3.0.0 note:** The original audit (2026-05-13) was conducted against the 26-component Angular reference library, which defined the minimum accessible feature set. That library has since been removed; `@candor-design/web-components` is now the sole, canonical component surface and carries the audited patterns forward. The audit findings below are retained as the validation record for those patterns.
+**Covers:** 6.0.0
+**Last reviewed:** 2026-10-16. This is the date the statement was last checked against the code. Each source of evidence below carries its own date.
+**Standard:** Web Content Accessibility Guidelines (WCAG) 2.2, Levels A and AA
+**Format:** modelled on the VPAT conformance terms (Supports, Partially supports, Not applicable), with two additions explained below
 
 ---
 
-## Conformance level
+## Summary
 
-Candor 3.0.0 aims to **conform to WCAG 2.1 Level AA** for all components within scope, subject to the consumer responsibilities and known limitations described below.
+Candor 6.0.0 does **not** claim full WCAG 2.2 AA conformance. Of the 55 Level A and AA success criteria, 17 belong to the page that uses Candor rather than to Candor (captions, page titles, form flows), and 4 do not apply to anything Candor ships. Of the remaining 34:
 
----
+| Status | Criteria |
+|---|---|
+| Supports | 26 |
+| Partially supports | 2 |
+| Not evaluated | 6 |
 
-## Scope
+WCAG judges pages, not component libraries, so no design system can conform on its own. What Candor can state is which criteria its components meet, what evidence shows it, and what the page around them must add. That is what this document does, one criterion at a time.
 
-### Audited component set
-
-This conformance statement covers the 26 components audited in `docs/A11Y-AUDIT.md`. These were audited on the original Angular reference implementations; `@candor-design/web-components` carries the same patterns forward (see the web components note below):
-
-**Phase 1: Custom composite widgets**
-TonePicker, DataGrid, Modal, Tabs, Menu, Accordion
-
-**Phase 2: Form controls**
-Input, Checkbox, Radio, Switch, Slider, ChatInput
-
-**Phase 3: Feedback & live regions**
-Alert, Toast, Progress
-
-**Phase 4: Navigation & structural**
-Navigation, Breadcrumb, Tooltip, Chip, Button
-
-**Phase 5: Display & typography**
-Badge, Stat, Table, Card, Heading, AccessibleText / Text / Article
-
-### Web components (`@candor-design/web-components`)
-
-The **37** Lit custom elements in `@candor-design/web-components` are the canonical component surface. They implement the same ARIA patterns, keyboard contracts, live region approaches, and focus management that the 26-component audit validated, carrying those conformance targets forward by construction.
-
-This paragraph said "34" until 5.0.0, and the count was not corrected by simply bumping it: raising a number inside a conformance statement asserts that the components it newly covers meet the bar it states (#197). Of the three added since (`candor-tone-picker`, `candor-code`, `candor-autocomplete`), the first is AT-audited and passing (`docs/A11Y-AUDIT.md`), and the second is non-interactive inline text with no ARIA surface to get wrong. **`candor-autocomplete` has had no AT walkthrough.** It is a full ARIA combobox with keyboard navigation and a live-region status, which is precisely the shape that needs one, so it is included in the count as part of the surface but is **explicitly outside** the "validated by construction" claim above until it is audited. Treat its conformance as unverified.
-
-A formal screen reader walkthrough of the web components package as a whole has not been conducted as of v3.0.0; the AT-snapshot audit of the Storybook example stories (see `docs/A11Y-AUDIT.md`) is the most recent WC-specific validation. The following implementation notes apply:
-
-- **Shadow DOM isolation:** ARIA relationships that cross shadow boundaries (e.g. `aria-labelledby` pointing to an element in light DOM) are not used; all ARIA relationships are contained within each component's shadow root or host element.
-- **Form participation:** Form controls use the `ElementInternals` API, so values appear in `FormData` and the native validation APIs with no framework dependency.
-- **`candor-article` light DOM:** The article component renders in light DOM (`createRenderRoot()`) so projected prose content is reachable by AT without any Shadow DOM wrapping.
-
-Consumers who require a formal web components AT audit should conduct their own walkthrough using the Storybook `Components/`, `Typography/`, `Form/`, and `Examples/` stories as the test surface.
+**Why it names a version.** Most of the evidence is a check that runs on every pull request and blocks the merge when it fails, so it holds for the release it ships in. Raising this version is an assertion that those checks passed for that release and that every row below was re-read against the code. It is not a find-and-replace ([#197](https://github.com/pawn002/candor/issues/197), [#252](https://github.com/pawn002/candor/issues/252)).
 
 ---
 
-## What Candor guarantees
+## Evidence
 
-### Semantics and roles
+Every row in the tables below cites one or more of these sources.
 
-Each component exposes correct ARIA roles, states, and properties for its interaction model. Custom widgets use the ARIA authoring practices patterns appropriate to their function (radio group, grid, dialog, tablist, menu, etc.).
+| Source | What it is | Runs | Covers |
+|---|---|---|---|
+| **axe** | axe-core 4.11 (pinned) against WCAG 2.2 A and AA rules, contrast rule off. Any violation fails the build. `tests/axe.spec.ts` | Every pull request; blocks merge | All 251 stories, light theme |
+| **klar** | `npm run audit:contrast`: every foreground/background pairing in `audit/pairings.json`, both themes, against Candor's tiered OKCA floors | Every pull request; blocks merge | 129 pairings, 254 enforced measurements |
+| **spec** | Playwright runtime tests: keyboard behaviour, ARIA wiring, host `aria-label` forwarding, live regions, scrollbars. `tests/accessibility.spec.ts`, `tests/host-aria-label.spec.ts`, `tests/events.spec.ts`, `tests/scrollbar.spec.ts` | Every pull request; blocks merge | Named components |
+| **audit** | Screen-reader and keyboard-only audit in `docs/A11Y-AUDIT.md`. The screen-reader pass inspected the accessibility tree through Playwright, as NVDA with Chrome would expose it. It was **not** a session with a live screen reader. The keyboard pass operated each component with real key presses and checked visible focus | Once, 2026; findings fixed | 28 of 37 components |
+| **source** | The component source read against the criterion on 2026-10-16 | At this review | Named components |
 
-### Accessible names
+"Blocks merge" means the check is in the required-status list on `main`. An administrator can still merge past a red check.
 
-Every interactive element has an accessible name, from a visible label, associated `<label>`, `aria-label`, or `aria-labelledby`. Components that wrap a native interactive element expose an `ariaLabel` input bound directly to the inner element.
+**What the audit does not cover.** Nine components were added or rebuilt after the audit and have had neither pass: `candor-autocomplete`, `candor-code`, `candor-combobox`, `candor-disclosure`, `candor-drawer`, `candor-listbox`, `candor-pagination`, `candor-select` and `candor-toolbar`. Every row below still applies to them through **axe**, **klar** and **spec**, where those sources are cited, but a row that rests on **audit** alone does not extend to them. Treat those rows as unverified for these nine.
 
-### Keyboard navigation
+**What none of the sources show** is what a person using a screen reader actually hears. Rows that depend on it (4.1.2 and 4.1.3 above all) say so.
 
-All interactive components are fully keyboard-operable:
-- Focusable via Tab / Shift+Tab
-- Composite widgets (grids, tab sets, menus) implement the roving tabindex pattern with arrow key navigation
-- Dialogs trap focus on open and restore it on close
-- No keyboard traps outside of intentional modal dialogs
+### Status terms
 
-### Contrast
+- **Supports:** the evidence cited shows the criterion is met, within the scope above.
+- **Partially supports:** some of the criterion is met; the row says what is not.
+- **Not evaluated:** no evidence either way for 6.0.0. This is not a VPAT term for Level AA; it is used here because claiming support without evidence is the mistake this document exists to avoid.
+- **Not applicable:** Candor ships nothing the criterion governs.
+- **Consumer:** the criterion is about the page, its content or its media, and the consumer meets it. Where Candor helps, the row says how.
 
-Color combinations meet WCAG 2.1 AA contrast requirements (≥ 4.5:1 for text, ≥ 3:1 for large text and UI components), with the exceptions recorded below. Contrast is validated with the [klar CLI](https://github.com/pawn002/klar) 3.x against its OKCA and WCAG 2.x algorithms; OKLCH color space is used throughout to ensure perceptually accurate lightness calculations. Every pairing is enumerated in `audit/pairings.json` and re-measured by `npm run audit:contrast`.
+---
 
-Figures are measured on the color Candor **specifies**, and that is sufficient because of a second invariant: as of [#225](https://github.com/pawn002/candor/issues/225) every authored Candor color is inside the sRGB gamut, and `npm run audit:tokens` fails the build if one is not. sRGB is the baseline gamut for digital products, so a value inside it needs no substitution by anything downstream. The specified color is the delivered color, and the conformance claim does not depend on the behavior of any particular engine or version.
+## Perceivable
 
-Previously 19 of 62 colors were outside the gamut. Such a value does not name a single color at all, and OKCA, which is established across sRGB, is not defined for it, so the figures recorded against those tokens were undefined rather than merely optimistic. Five real failures consequently sat inside a passing audit. That class of error is now structurally prevented rather than tracked.
+| Criterion | Level | Status | Evidence and notes |
+|---|---|---|---|
+| 1.1.1 Non-text Content | A | Supports | **axe** (image, SVG, role-img, progressbar and meter names), **audit**. Decorative icons are `aria-hidden`; icon-only controls carry a name. Alt text for the consumer's own images is the consumer's. |
+| 1.2.1 to 1.2.5 Time-based Media | A, AA | Consumer | Candor ships no audio or video component. |
+| 1.3.1 Info and Relationships | A | Supports | **axe** (lists, table headers, required ARIA parents and children), **audit**, **spec**. Each tab is tied to its panel ([#333](https://github.com/pawn002/candor/issues/333)). Radio groups and table captions need consumer markup (see Consumer responsibilities). |
+| 1.3.2 Meaningful Sequence | A | Supports | **audit**: reading order walked for each audited component. |
+| 1.3.3 Sensory Characteristics | A | Consumer | Instructions are consumer content. Candor's own built-in instructions (the data grid's keyboard hint) do not rely on shape or position. |
+| 1.3.4 Orientation | AA | Supports | **source**: no component restricts orientation. |
+| 1.3.5 Identify Input Purpose | AA | Supports | **axe** (`autocomplete-valid`), **source**: `candor-input` passes `autocomplete` to its native input. The consumer sets the value. |
+| 1.4.1 Use of Color | A | Partially supports | Status variants carry meaning in an icon shape or in words (`candor-alert`, `candor-toast`, `candor-accessible-text role_="state"`). A badge's text must name the condition, and `candor-stat` needs its slot filled to carry status: both are documented authoring rules Candor cannot enforce. Visited links fall short (see Known limitations). |
+| 1.4.2 Audio Control | A | Consumer | No component plays audio. |
+| 1.4.3 Contrast (Minimum) | AA | Supports | **klar**, against floors stricter than WCAG's (see Contrast). Re-measured with the WCAG 2.x algorithm on 2026-10-16: all 258 measurements meet the AA minimum. |
+| 1.4.4 Resize Text | AA | Not evaluated | Type and spacing are in `rem`, so they follow browser text size. 200% zoom has not been re-tested for 6.0.0. |
+| 1.4.5 Images of Text | AA | Not applicable | Candor renders no images of text. The wordmark is a logo, which the criterion exempts. |
+| 1.4.10 Reflow | AA | Not evaluated | Stories are checked at 320px as a manual design step, not systematically. Tables and code blocks scroll sideways by design, which the criterion allows for two-dimensional content. |
+| 1.4.11 Non-text Contrast | AA | Supports | **klar**: borders, icons, the focus ring and the scrollbar thumb at 3.0 or above. A state missing from `audit/pairings.json` is unmeasured. |
+| 1.4.12 Text Spacing | AA | Not evaluated | Not tested. Fixed-height chrome (badges, chips, buttons) is where it would fail first. |
+| 1.4.13 Content on Hover or Focus | AA | Partially supports | **source**: `candor-tooltip` is dismissible (Escape) and persistent, but not hoverable: the bubble hides when the pointer moves onto it ([#339](https://github.com/pawn002/candor/issues/339)). |
 
-Text at 14px is additionally validated against a three-tier use-case contrast system (see `docs/archive/CONTRAST-TIERS.md` for the original proposal and `CLAUDE.md` → "OKCA Contrast Thresholds" for the thresholds in force). Tier 2 (functional UI) requires OKCA 6.5 regular / 4.5 bold; Tier 3 (supplementary, meaning redundantly coded) requires 4.5 / 4.5. Tier 1 (reading text) requires 6.5 at bold and **is not permitted at 14px regular** (see below). Across all 216 audited pairings, the OKCA score is at or below the WCAG 2.x figure for the same pair, so OKCA is the binding constraint and a pair that passes it also passes WCAG.
+## Operable
 
-**Tier 1 regular text is required to be 16px or larger.** This replaced a 9.5 floor at 14px which no coloured text in the system could reach: measured against white, every chromatic text token returns `lightness-exhausted` at that target, and closing the gap would have required abandoning chroma: `--color-status-error-text` by deltaE 8, `--color-link` by deltaE 12. The floor did not require coloured text to be darker; it required it not to be coloured, which for status messaging is not a contrast policy but an unintended prohibition. Expressed as a size requirement it is both satisfiable and actionable: at 16px the floor is 4.5 and every status colour clears it with margin ([#240](https://github.com/pawn002/candor/issues/240)).
+| Criterion | Level | Status | Evidence and notes |
+|---|---|---|---|
+| 2.1.1 Keyboard | A | Supports | **audit** (keyboard pass), **spec** (Tab order, radio arrow keys, checkbox Space, table cells), **axe** (`scrollable-region-focusable`: a scrolling table or code block takes focus, [#334](https://github.com/pawn002/candor/issues/334)). |
+| 2.1.2 No Keyboard Trap | A | Supports | **audit**: a modal keeps focus inside by design and Escape closes it; the menu closes on Escape or Tab. Focus returns to the trigger in both. |
+| 2.1.4 Character Key Shortcuts | A | Not applicable | **source**: no component defines a character-key shortcut. |
+| 2.2.1 Timing Adjustable | A | Supports | **source**: no component imposes a time limit. `candor-toast` never dismisses itself, and its stories no longer teach a timer. |
+| 2.2.2 Pause, Stop, Hide | A | Supports | **source**: the only moving content is indeterminate `candor-progress`, a loading indicator, which the criterion treats as essential. |
+| 2.3.1 Three Flashes or Below Threshold | A | Supports | **source**: nothing flashes. |
+| 2.4.1 Bypass Blocks | A | Consumer | Skip links and landmarks belong to the page. |
+| 2.4.2 Page Titled | A | Consumer | |
+| 2.4.3 Focus Order | A | Supports | **audit**, **spec**: a radio group is one tab stop; a modal or drawer whose body scrolls focuses the body, otherwise the close button ([#265](https://github.com/pawn002/candor/issues/265)); focus returns to the trigger when an overlay closes. |
+| 2.4.4 Link Purpose (In Context) | A | Supports | **axe** (`link-name`), **audit** (breadcrumb, pagination, navigation). Link text is otherwise the consumer's. |
+| 2.4.5 Multiple Ways | AA | Consumer | |
+| 2.4.6 Headings and Labels | AA | Supports | **audit**: Candor's built-in labels (Close, Dismiss notification, Scroll tabs left) describe their purpose. Headings and labels the consumer writes are the consumer's. |
+| 2.4.7 Focus Visible | AA | Supports | **audit**: visible focus checked on every audited component. **klar** measures the focus ring. Not automated, so a regression would not fail the build. |
+| 2.4.11 Focus Not Obscured (Minimum) | AA | Not evaluated | Sticky table headers, toasts and a non-modal drawer could cover the focused element. |
+| 2.5.1 Pointer Gestures | A | Not applicable | **source**: no path-based or multipoint gestures. |
+| 2.5.2 Pointer Cancellation | A | Supports | **spec**: actions run on release, so pressing and dragging away cancels. Combobox and autocomplete options fired on press until [#338](https://github.com/pawn002/candor/pull/338). |
+| 2.5.3 Label in Name | A | Not evaluated | A host `aria-label` replaces a visible label on several controls, and nothing checks that the visible words stay inside it. axe's rule for this is experimental, so the gate does not run it. |
+| 2.5.4 Motion Actuation | A | Not applicable | **source**: nothing responds to device motion. |
+| 2.5.7 Dragging Movements | AA | Supports | **source**: `candor-slider` is a native range, so clicking the track sets the value. Nothing else requires dragging. |
+| 2.5.8 Target Size (Minimum) | AA | Supports | **axe** (`target-size`). Controls are sized from the hit-target tokens. |
 
-**No known exceptions.** All 212 enforced pairing measurements meet their floor in both modes. The last outstanding one, `candor-accessible-text role_="status"` in error colour, was resolved by moving that role to 16px, matching `candor-input`, which already rendered the same colour on the same background carrying the same content and passed ([#208](https://github.com/pawn002/candor/issues/208)).
+## Understandable
 
-Six exceptions were resolved in the 5.0.0 token re-authoring: five under [#222](https://github.com/pawn002/candor/issues/222), which shared a single cause (dark `--color-status-error-text` was specified outside the sRGB gamut, so it named no single color and its recorded figures were undefined), and the `candor-button` destructive variant under [#209](https://github.com/pawn002/candor/issues/209).
+| Criterion | Level | Status | Evidence and notes |
+|---|---|---|---|
+| 3.1.1 Language of Page | A | Consumer | Set `lang` on `<html>`. |
+| 3.1.2 Language of Parts | AA | Consumer | `candor-article` needs `lang` on itself or an ancestor for hyphenation anyway. |
+| 3.2.1 On Focus | A | Supports | **source**: focus opens a combobox list, which is not a change of context. Nothing navigates or submits on focus. |
+| 3.2.2 On Input | A | Supports | **spec**: `change` fires on commit, not per keystroke. No component submits a form or navigates on input. |
+| 3.2.3 Consistent Navigation | AA | Consumer | |
+| 3.2.4 Consistent Identification | AA | Not evaluated | Whether the same action carries the same name across components has not been reviewed. |
+| 3.2.6 Consistent Help | A | Consumer | |
+| 3.3.1 Error Identification | A | Supports | **spec**: `aria-invalid` is set on error and the error is announced politely and atomically. The wording is the consumer's. |
+| 3.3.2 Labels or Instructions | A | Supports | **axe** (label rules), **spec** (host `aria-label` forwarding). Form controls take `label` and `hint`. |
+| 3.3.3 Error Suggestion | AA | Consumer | The error text is the consumer's. |
+| 3.3.4 Error Prevention (Legal, Financial, Data) | AA | Consumer | |
+| 3.3.7 Redundant Entry | A | Consumer | |
+| 3.3.8 Accessible Authentication (Minimum) | AA | Supports | **source**: no component blocks paste, and `candor-input` passes `autocomplete` through, so password managers work. |
 
-### Live regions
+## Robust
 
-Components that produce dynamic feedback (form errors, status messages, send confirmations, activation results) use pre-established live regions (`role="status"` with `aria-live="polite"` or `role="alert"` with `aria-live="assertive"`). Regions are present in the DOM before content arrives so assistive technology registers the mutation.
+| Criterion | Level | Status | Evidence and notes |
+|---|---|---|---|
+| 4.1.2 Name, Role, Value | A | Supports | **axe** (27 rules on names, roles, ARIA validity, nested controls), **spec** (host `aria-label` forwarding in both insertion orders; combobox, radio and popup wiring), **audit**. Not confirmed with a live screen reader. |
+| 4.1.3 Status Messages | AA | Supports | **spec**: live regions exist before their content arrives ([#266](https://github.com/pawn002/candor/issues/266)); form errors announce politely. **audit**. Not confirmed with a live screen reader. |
 
-### Focus visibility
+Criterion 4.1.1 Parsing is obsolete in WCAG 2.2 and is not listed.
 
-Focus indicators are visible on all interactive elements. Focus styles use the design system's token-based outline pattern and meet WCAG 2.1 AA focus visibility requirements.
+---
 
-### Responsive and zoom
+## Contrast
 
-Components are tested at up to 200% browser zoom without loss of content or functionality.
+Candor's contrast floors are stricter than WCAG's, and they are enforced on every pull request.
+
+- **Two axes.** Each pairing's floor depends on its size and on what the text does. At 14px, functional UI text needs OKCA 6.5 regular or 4.5 bold, supplementary text 4.5, and reading text is not permitted at regular weight at all: it must be 16px or larger ([#240](https://github.com/pawn002/candor/issues/240)). `CLAUDE.md`, "OKCA Contrast Thresholds", has the table.
+- **Measured on the colour Candor specifies.** Every authored colour is inside the sRGB gamut, and `npm run audit:tokens` fails the build if one is not ([#225](https://github.com/pawn002/candor/issues/225)). A colour outside sRGB names no single colour, so a contrast figure for it means nothing. Because nothing is left for a browser to substitute, the specified colour is the delivered colour.
+- **OKCA is the binding constraint.** On 2026-10-16 every pairing was measured with both OKCA and the WCAG 2.x algorithm. In all 258 measurements OKCA was at or below the WCAG 2.x figure, so a pairing that meets its OKCA floor also meets WCAG.
+- **No known exceptions.** All 254 enforced measurements meet their floor in both themes. Two pairings are exempt: the value of a disabled input, which WCAG 1.4.3 exempts, and input placeholder text, which is never the only channel for its meaning.
 
 ---
 
 ## Consumer responsibilities
 
-Candor components are building blocks. Several accessibility requirements are architectural. They depend on how the consumer assembles components, not on the component implementation itself. The library cannot enforce these, but the Storybook stories for each component demonstrate the correct patterns.
+Some requirements depend on how the page assembles components. Candor cannot enforce them; the stories show the correct markup.
 
-| Pattern | Consumer responsibility | Reference story |
+| Pattern | What the consumer does | Story |
 |---|---|---|
-| Radio group labeling | Wrap `<app-radio>` groups in `<fieldset>` + `<legend>` | Components/Form/Radio: `RadioGroup`, `MultipleGroups` |
-| Form field association | Associate labels with inputs via `for` / `id` when not using `<app-input>` | Components/Form/Alert: `InlineFormValidation` |
-| Table headers and caption | Supply `<caption>` and `<th scope="row">` for key/value tables | Components/Table: `Default`, `Compact` |
-| Badge context | Supply `badgeLabel` on `NavItem` to replace bare numbers with meaningful text | Components/Navigation: `WithBadges` |
-| Slider value text | Supply `valueTextFn` when a slider's axis has domain-specific units or dynamic bounds | Components/Form/Slider: `GradientTrack` |
-| Page structure | Supply `<main>`, `<nav>`, and landmark regions at the page level | Consumer application |
-| Language declaration | Set `lang` attribute on `<html>` | Consumer application |
+| Radio group labelling | Wrap `candor-radio` groups in `<fieldset>` and `<legend>` | Components/Form/Radio: Group, Multiple Groups |
+| Table names and row headers | Set `caption` on `candor-table`; use a header row or first-column headers for key/value tables | Components/Table: Default, Key Value |
+| Badge context | Write badge text that names the condition ("3 failed", not "3"); give navigation badges a `badgeLabel` | Components/Badge: Label Carries The Meaning; Components/Navigation: With Badges |
+| Slider value text | Supply `valueTextFn` when the value needs units or depends on other state | Components/Form/Slider: Percentage, Gradient Track |
+| Disabled controls | Put the reason a control is disabled in adjacent text, not a tooltip | Components/Button: Disabled With Reason |
+| Status on a stat | Put a `candor-accessible-text role_="state"` in `candor-stat`'s slot when the value carries good or bad | Components/Stat: Colour Is Not The Channel |
+| Toasts | Leave each toast until the user dismisses it | Components/Toast |
+| Page structure and language | Supply landmarks, a page title and `lang` on `<html>` | The consumer's application |
 
 ---
 
 ## Known limitations
 
-### `:visited` link state: double-underline indicator (WCAG 1.4.1)
+### Visited links (1.4.1)
 
-**Criterion:** 1.4.1 Use of Color (Level A)
-**Status:** Partial. Platform-limited; mitigated with a structural cue
+Browsers allow only colour properties in `:visited` rules, to stop pages reading a visitor's history, so a visited link cannot gain a new decoration. `candor-article` links pre-declare a transparent bottom border and colour it on `:visited`, which reads as a second underline: single underline unvisited, double underline visited. That cue survives red-green colour blindness, and both link colours meet contrast. It is still delivered by a colour change, so a strict reading of 1.4.1 is not met. A consumer who needs a fully colour-independent cue can record visited URLs in script and add a class, which has no such restriction.
 
-Browsers only allow color-value CSS properties inside `:visited` rules (`color`, `border-color`,
-`outline-color`, etc.). Width, style, and layout properties are silently ignored to prevent
-navigation-history side-channel attacks. `text-decoration-style: double` cannot be set in `:visited`.
+### Tooltip hover (1.4.13)
 
-**The mitigation:** Article links pre-declare `border-bottom: 1px solid transparent` in the base
-rule. On `:visited`, only `border-bottom-color` changes (an allowed color property), but the effect
-is a second underline appearing beneath the existing `text-decoration` underline. The structural
-signal is: single underline = unvisited, double underline = visited. This cue persists under
-deuteranopia and protanopia (red-green CVD), where hue shift alone may be ambiguous.
+See [#339](https://github.com/pawn002/candor/issues/339).
 
-**What the system provides:**
-- Double-underline structural indicator (not purely color-dependent)
-- Hue shift: azure (unvisited) → indigo (visited)
-- Both colors independently pass contrast against their backgrounds (light and dark)
+### No live screen-reader session
 
-**Remaining limitation:** The indicator is still ultimately delivered via a color property change
-(`border-bottom-color: transparent → visible`). A strict WCAG 1.4.1 interpretation requires
-non-color means; the double-underline is a structural *effect* of a color change rather than a
-truly independent non-color property. Consumers who need a fully color-independent indicator
-should implement a JS-assisted pattern: intercept clicks, store visited URLs in `localStorage`,
-apply a class (e.g. `.is-visited`). Class selectors have no `:visited` color restriction.
+The screen-reader evidence is an inspection of the accessibility tree, not a session with NVDA, JAWS, VoiceOver, TalkBack or Narrator. Announcements can differ from what the tree implies, most likely for `<details>`/`<summary>` (`candor-accordion-item`, `candor-disclosure`), the grid keyboard model (`candor-data-grid`, `candor-tone-picker`), and element references that cross a shadow boundary (`candor-tabs`). The composite widgets carry the most risk.
 
-**Affected component:** Article (`app-article`) links only. No other component exposes `:visited` state.
+### Nine components outside the audit
+
+See Evidence, above.
+
+### OKLCH colour
+
+Candor's colours are OKLCH only, with no hex fallback. Browsers without OKLCH support (Chrome and Edge before 111, Safari before 15.4, Firefox before 113) render the affected properties without colour.
 
 ---
 
-### OKLCH browser support
+## Reporting an issue
 
-OKLCH color values are not supported in all browsers. The design system currently targets modern Chromium-based browsers and Firefox 113+. Safari 15.4+. Older Chromium versions (pre-111), Samsung Internet, and IE do not support OKLCH. Hex fallback tokens are not yet provided. See roadmap.
+Report accessibility issues as GitHub issues with the `a11y` label, and include:
 
-### AT snapshot scope
-
-The screen reader audit was conducted using NVDA 2024.x with Chrome (latest stable). VoiceOver (macOS/iOS), JAWS, TalkBack, and Narrator were not tested in the v1.0.0 audit cycle. Known divergences between NVDA+Chrome and other AT+browser combinations may exist, particularly for:
-- The `<details>`/`<summary>` pattern (Accordion): AT support varies by browser
-- `role="grid"` keyboard model (DataGrid, TonePicker): JAWS handles this differently than NVDA
-
-### Composite widget complexity
-
-Custom composite widgets (TonePicker, DataGrid, Modal, Tabs, Menu) required the most remediation during the audit and carry the highest ongoing risk. They are correct for the tested AT+browser combination but should be re-validated when the AT environment changes (major NVDA release, Chrome AT API changes).
+- the component and story
+- the assistive technology and browser
+- what was announced or happened, and what was expected
 
 ---
 
-## Testing methodology
+## Keeping this statement true
 
-All 26 components were audited in the following sequence:
-
-1. **Static analysis**: markup read against ARIA authoring practices; role ownership rules, name computation, and state attribute correctness verified
-2. **Live AT snapshot**: Playwright MCP `browser_snapshot` against the Storybook story iframe, capturing the accessibility tree as Chrome's DevTools protocol exposes it
-3. **Attribute verification**: ARIA attributes not surfaced in the snapshot (e.g. `aria-valuetext`) verified via `browser_evaluate`
-4. **Fix and re-snapshot**: issues resolved and snapshot re-taken to confirm the fix
-
-Audit findings and per-component results are in `docs/A11Y-AUDIT.md`. Cross-cutting trends and authoring conventions derived from both the Angular-era and WC-era audits are in `docs/archive/A11Y-ANALYSIS.md`.
-
----
-
-## Feedback and issue reporting
-
-Accessibility issues should be reported via GitHub Issues with the label `a11y`. When reporting:
-
-- Identify the component and story
-- Identify the AT + browser combination
-- Describe what was announced vs. what was expected
-- If possible, include a Playwright AT snapshot
-
----
-
-## Commitment to future conformance
-
-The PR checklist in `.github/PULL_REQUEST_TEMPLATE.md` requires a screen reader walkthrough for any new composite widget before merge. This ensures the audit's findings become a gate, not a one-time event.
-
-The breaking change policy in `docs/BREAKING-CHANGES.md` classifies ARIA structure changes as major version bumps, ensuring consumers are notified when the AT contract changes.
+- **New composite widgets** need a screen-reader walkthrough before merge (`.github/PULL_REQUEST_TEMPLATE.md`).
+- **ARIA structure changes are breaking** and ship in a major version (`docs/BREAKING-CHANGES.md`).
+- **The axe gate** fails on any new A or AA violation, and on an exception in `tests/axe-exceptions.json` that no longer matches anything.
+- **A row moves from Not evaluated to Supports** only when it can cite evidence. A check that runs on every pull request is preferred to a one-off review, because a review is only true on the day it was done.

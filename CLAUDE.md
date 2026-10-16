@@ -938,7 +938,7 @@ Detailed workflow documentation in `docs/`:
 - `archive/A11Y-ANALYSIS.md`: Cross-cutting trend analysis from the Angular-era audit
 - `archive/WORKFLOW.md`: Complete design iteration workflow guide
 - `archive/PLAYWRIGHT-WORKFLOW.md`: Playwright MCP usage patterns
-- `ACCESSIBILITY-CONFORMANCE.md`: WCAG 2.1 AA conformance statement
+- `ACCESSIBILITY-CONFORMANCE.md`: WCAG 2.2 A/AA conformance statement, one row per criterion with its evidence. Raising its `Covers` version is an assertion that every row was re-read against the code (#252)
 - `BREAKING-CHANGES.md`: Breaking change policy and migration note template
 
 ## Node Version Requirements
