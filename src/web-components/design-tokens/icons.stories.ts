@@ -280,7 +280,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
             <i class="ph-fill ph-download-simple" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
             Download
           </candor-button>
-          <pre style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="primary"&gt;
+          <pre tabindex="0" style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="primary"&gt;
   &lt;i class="ph-fill ph-download-simple" aria-hidden="true"&gt;&lt;/i&gt;
   Download
 &lt;/candor-button&gt;</pre>
@@ -297,7 +297,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
           <candor-button variant="ghost" size="small" aria-label="Notifications" style="align-self: flex-start; --candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;">
             <i class="ph-fill ph-bell" style="font-size: 1.75rem; line-height: 1; color: var(--color-text-subtle);" aria-hidden="true"></i>
           </candor-button>
-          <pre style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="ghost" size="small" aria-label="Notifications"
+          <pre tabindex="0" style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="ghost" size="small" aria-label="Notifications"
   style="--candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;"&gt;
   &lt;i class="ph-fill ph-bell" aria-hidden="true"
     style="font-size: 1.75rem; line-height: 1; color: var(--color-text-subtle);"&gt;&lt;/i&gt;

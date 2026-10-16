@@ -247,7 +247,7 @@ export class CandorMenu extends LitElement {
         id="${this._triggerId}"
         aria-haspopup="menu"
         aria-expanded="${this._open}"
-        aria-controls="${this._menuId}"
+        aria-controls="${this._open ? this._menuId : nothing}"
         aria-label="${this._ariaLabel || nothing}"
         @click="${this._toggle}"
         @keydown="${this._onTriggerKeydown}"

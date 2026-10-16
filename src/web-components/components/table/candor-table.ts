@@ -1,7 +1,8 @@
 import { LitElement, css, html, nothing, type TemplateResult } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { customElement } from '../../utils/define';
 import { scrollbarStyles } from '../../utils/scrollbar';
+import { observeOverflow } from '../../utils/overflow';
 
 /**
  * One cell's content. A string is text. A Lit `TemplateResult` or a DOM `Node`
@@ -55,6 +56,11 @@ export class CandorTable extends LitElement {
     /* The scroller is an inner element, not the host: per-axis scrollbar rules
        (::-webkit-scrollbar-thumb:horizontal) do not apply to :host (#307). */
     .table__scroll { overflow-x: auto; }
+    .table__scroll:focus { outline: none; }
+    .table__scroll:focus-visible {
+      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline-offset: calc(-1 * var(--focus-ring-offset));
+    }
     table {
       min-width: 100%;
       width: max-content;
@@ -128,6 +134,34 @@ export class CandorTable extends LitElement {
   @property({ type: Array, attribute: 'numeric-columns' }) numericColumns: number[] = [];
   @property({ type: Array, attribute: 'mono-columns' }) monoColumns: number[] = [];
 
+  // A table wider than its container scrolls sideways, and keyboard users can
+  // only scroll what they can focus (#334). The wrapper becomes a tab stop only
+  // while it overflows, so a table that fits adds no stop. With a caption it is
+  // also a region named by it; without one it stays unnamed, because several
+  // regions all called "table" are landmarks nobody can tell apart.
+  @state() private _scrolls = false;
+  private _stopOverflow?: () => void;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    if (this.hasUpdated) this._observeOverflow();
+  }
+
+  override firstUpdated() {
+    this._observeOverflow();
+  }
+
+  override disconnectedCallback() {
+    this._stopOverflow?.();
+    super.disconnectedCallback();
+  }
+
+  private _observeOverflow() {
+    this._stopOverflow?.();
+    const scroller = this.renderRoot.querySelector('.table__scroll');
+    if (scroller) this._stopOverflow = observeOverflow(scroller, (o) => { this._scrolls = o; });
+  }
+
   // A column is at most one of numeric (mono + right-aligned, for magnitudes) or
   // mono (mono + left-aligned, for codes read as text). numeric wins if a column
   // is listed in both.
@@ -139,7 +173,12 @@ export class CandorTable extends LitElement {
 
   override render() {
     return html`
-      <div class="table__scroll"><table>
+      <div
+        class="table__scroll"
+        tabindex=${this._scrolls ? '0' : nothing}
+        role=${this._scrolls && this.caption ? 'region' : nothing}
+        aria-label=${this._scrolls && this.caption ? this.caption : nothing}
+      ><table>
         ${this.caption ? html`<caption>${this.caption}</caption>` : nothing}
         ${this.headers.length ? html`
           <thead>
