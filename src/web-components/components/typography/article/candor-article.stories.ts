@@ -109,6 +109,8 @@ const fullArticleContent = html`
   </ul>
   <h2>What You Stand to Gain</h2>
   <p>The case for slow reading is ultimately a case for depth over breadth. Not everything worth knowing fits in a tweet.</p>
+  <h3>Setting Up to Read</h3>
+  <p>Two practical matters follow: the room you read in, and what you read on.</p>
   <h4>A Note on Environment</h4>
   <p>Where you read matters almost as much as how. A quiet room, a single open tab, and no notifications are not luxuries — they are prerequisites for the kind of attention slow reading demands.</p>
   <h5>Recommended conditions</h5>
