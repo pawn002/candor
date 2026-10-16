@@ -56,7 +56,7 @@ The core authoring decision is not "is this text important?" All text in a well-
 
 A useful test: **could a reader who cannot resolve the glyphs still act correctly?** For "All responses processed" beside a green check, yes. For "Enter a valid National Insurance number", no. The first is \`state\`; the second is \`status\`.
 
-Note also what \`state\` does with colour. The icon carries the tone using the \`--color-status-*\` tokens (validated for non-text use, and never to be used as text colour), while the text stays at \`--color-text-default\` (OKCA 11.5 on page). Moving the colour burden onto the icon is what removes the contrast problem entirely rather than negotiating with it.
+Note also what \`state\` does with colour. The icon carries the tone using the \`--color-status-*\` tokens (validated for non-text use, and never to be used as text colour), while the text stays at \`--color-text-default\` (OKCA 11.9 on page). Moving the colour burden onto the icon is what removes the contrast problem entirely rather than negotiating with it.
 
 **Section headings that label data** (not instructional) should use \`<candor-text variant="label">\` instead: the same visual treatment, in Roboto Flex.
 
@@ -174,7 +174,7 @@ export const StateOutcomes: Story = {
           'icon makes that readable.\n\n' +
           'The text needs no colour of its own. The icon carries the state in the ' +
           '`--color-status-*` tokens, which are validated for non-text use, so the text stays at ' +
-          '`--color-text-default` (OKCA 11.5 on page) and clears every floor with margin. The icon is ' +
+          '`--color-text-default` (OKCA 11.9 on page) and clears every floor with margin. The icon is ' +
           '`aria-hidden`; screen-reader users get the outcome from the wording, which is why each ' +
           'line reads correctly on its own.',
       },

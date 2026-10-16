@@ -4,27 +4,35 @@
 
 @mixin light-color-tokens {
     // ─── Colors: Backgrounds ───────────────────────────────────────────────────
-    --color-bg-page:     var(--gray-0);
+    --color-bg-page:     var(--gray-cool-25);
     --color-bg-surface:  var(--gray-100);
     --color-bg-subtle:   var(--gray-200);  // subtle interactive fill — one step darker than surface (hover rows, selection, hover chips); mirrors --color-text-subtle (#174)
     --color-bg-elevated: var(--gray-0);   // white — floats above surface (gray-100) via shadow
+    // Intent surfaces (#318). Use these to rank surfaces by temperature: forward
+    // for the one thing a screen should lead with, recede for chrome that should
+    // step back. They change temperature, not lightness, so contrast barely moves.
+    // Ranking by temperature is a tertiary affordance: it guides the eye but never
+    // carries meaning on its own, since a deltaE 5 to 15 shift is lost on a
+    // washed-out screen or to a reader who cannot tell the hues apart.
+    --color-bg-forward:  var(--gray-warm-25);  // same lightness as the page, warm
+    --color-bg-recede:   var(--gray-cool-100); // same lightness as bg-surface, cool; use text-subtle-on-surface on it
     // Neutral fill that reads on page, surface and elevated alike, which bg-subtle
-    // cannot (deltaE 3 from surface in light). deltaE 14 / 8 / 14 from page / surface /
+    // cannot (deltaE 3 from surface in light). deltaE 13 / 8 / 14 from page / surface /
     // elevated. Used at rest by the default badge (#321) and on hover by bg-hover (#322).
-    --color-bg-muted:    var(--gray-300);  // text-default OKCA 6.0 on this bg ✅
+    --color-bg-muted:    var(--gray-300);  // text-default OKCA 6.5 on this bg ✅
     // Hover fill for transparent controls: ghost buttons and close/dismiss actions (#322).
     --color-bg-hover:    var(--color-bg-muted);
     --color-bg-inverse:  var(--navy-800);
 
     // ─── Colors: Text ──────────────────────────────────────────────────────────
-    --color-text-default:           var(--gray-700);  // OKCA 11.5 on page ✅
-    --color-text-subtle:            oklch(0.50 0 0);   // OKCA 5.0 on page ✅ — gray-500 (L=0.56) was OKCA 3.8; stepped to L=0.50 for OKCA compliance (#14)
-    --color-text-subtle-on-surface: oklch(0.44 0 0);  // OKCA 5.0 on bg-surface ✅ — gray-600 (L=0.46) was OKCA 4.5 on gray-100; stepped to L=0.44 (#14)
+    --color-text-default:           var(--gray-800);  // OKCA 11.9 on page ✅
+    --color-text-subtle:            var(--gray-600);   // OKCA 4.8 on page ✅ — gray-500 (L=0.56) was OKCA 3.8; stepped to L=0.50 for OKCA compliance (#14)
+    --color-text-subtle-on-surface: var(--gray-650);  // OKCA 5.0 on bg-surface ✅ — gray-600 (L=0.46) was OKCA 4.5 on gray-100; stepped to L=0.44 (#14)
     --color-text-disabled:          var(--gray-400);
     // Component-scoped: toast message text. Every toast sits on bg-surface since #292.
-    --color-toast-message:          var(--color-text-default); // OKCA 8.6 on bg-surface ✅
+    --color-toast-message:          var(--color-text-default); // OKCA 9.3 on bg-surface ✅
     --color-text-inverse:           var(--gray-0);
-    --color-text-subtle-on-inverse: oklch(0.75 0.02 245); // OKCA 6.0 on bg-inverse ✅ — muted links on dark nav/tabs
+    --color-text-subtle-on-inverse: var(--gray-300); // OKCA 7.6 on bg-inverse ✅ — muted links on dark nav/tabs
     --color-text-on-action:         var(--gray-0);    // white text on primary/secondary buttons
 
     // ─── Colors: Borders ───────────────────────────────────────────────────────
@@ -34,11 +42,12 @@
     // candor-slider used it for the unfilled half of its track, the one place
     // the figure was load-bearing; since #247 the slider rail is border-control.
     --color-border-strong:     var(--gray-300);
-    --color-border-on-inverse: oklch(0.40 0.05 245); // subtle divider on navy-800 inverse surface
+    --color-border-on-inverse: var(--gray-cool-700); // subtle divider on navy-800 inverse surface
     // Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA),
     // and must meet it on *every* background a control can sit on — not just the
-    // page. L=0.53 is the lightest value that clears 3.0 against the worst of
-    // them: OKCA 4.4 on page ✅, OKCA 3.3 on bg-surface ✅.
+    // page. L=0.53 is the lightest value that clears 3.0 against the worst of them;
+    // it sits on gray-600 (L=0.50), the nearest ramp step on the safe side (#318):
+    // OKCA 4.8 on page ✅, OKCA 3.8 on bg-surface ✅.
     //
     // This used to be gray-500 (L=0.56) with a --color-border-control-on-surface
     // sibling the consumer applied by hand on surface containers. That token is
@@ -51,7 +60,7 @@
     // that is safe everywhere removes the failure mode instead of documenting
     // it; it lands deltaE 3 from the old base and deltaE 3 from the sibling it
     // replaces, i.e. imperceptibly between the two colours it supersedes.
-    --color-border-control:            oklch(0.53 0 0);
+    --color-border-control:            var(--gray-600);
     // Form-control knob fill (slider/switch thumb) — a light puck; pairs with
     // --color-border-control (darker) for the edge. icon/border use (non-text UI).
     --color-slider-thumb:              var(--gray-0); // white knob in light — icon/border use
@@ -99,7 +108,7 @@
     // Teal at hue 195 is clear of every brand and status hue in both modes (#318);
     // the burgundy tint it replaced sat deltaE 5.6 from error-bg.
     // Text is the ordinary body colour, so the pair needs no inverse.
-    --color-bg-code:     oklch(0.92 0.018 195); // text-default OKCA 8.8 on this bg ✅
+    --color-bg-code:     oklch(0.92 0.018 195); // text-default OKCA 9.6 on this bg ✅
     --color-text-code:   var(--color-text-default);
     --color-border-code: transparent; // deliberate: the tint separates the block from the page on its own; dark mode adds a rule (#242)
 
@@ -110,23 +119,23 @@
     // Base colors: non-text use only (icons, borders, indicators).
     // For text on light status-bg, use --color-status-*-text (contrast-validated below).
     --color-status-error:         oklch(0.54 0.21 25);    // icon/border use — OKCA 3.6 on error-bg ✅ (WCAG 1.4.11)
-    --color-status-error-bg:      oklch(0.95 0.02 25);    // at the sRGB chroma ceiling for this L and H (0.03 is out of gamut), so it cannot get redder without getting darker. Only deltaE 4 from warning-bg: a pale tint is not a variant channel (#214, #242)
+    --color-status-error-bg:      oklch(0.95 0.02 25);    // at the sRGB chroma ceiling for this L and H (0.03 is out of gamut), so it cannot get redder without getting darker. deltaE 14 from warning-bg since warning moved to gold (it was 4 against amber), but a pale tint is still not a variant channel (#214, #242, #318)
     --color-status-error-text:    oklch(0.45 0.18 25);    // OKCA 5.4 on error-bg ✅ — C=0.22 exceeded what sRGB holds at this L and H, so the token specified no single colour and its recorded 4.6 was undefined; re-authored to the boundary, same L and H (#225)
     --color-status-success:       oklch(0.55 0.15 144.2); // icon/border use — OKCA 3.4 on success-bg ✅ (WCAG 1.4.11)
-    --color-status-success-bg:    oklch(0.95 0.05 145);   // green has more chroma room at L 0.95 than red or amber, which is why it alone is above 0.02 (#242)
+    --color-status-success-bg:    oklch(0.95 0.05 145);   // green and gold have more chroma room at L 0.95 than red, which is why error alone sits at 0.02 (#242)
     --color-status-success-text:  oklch(0.46 0.14 144.2); // OKCA 5.1 on success-bg ✅ — L=0.50 was OKCA 4.2; stepped to L=0.46 (#14)
-    --color-status-warning:       oklch(0.54 0.13 53.54); // icon/border use — OKCA 3.6 on warning-bg ✅ (WCAG 1.4.11)
-    --color-status-warning-bg:    oklch(0.95 0.02 53);    // at the sRGB chroma ceiling for this L and H (0.03 is out of gamut). Only deltaE 4 from error-bg: a pale tint is not a variant channel (#214, #242)
-    --color-status-warning-text:  oklch(0.40 0.10 53.54); // OKCA 6.9 on warning-bg ✅ — C=0.16 was the furthest outside sRGB of any Candor colour (deltaE 11 from the nearest in-gamut form, and off-hue with it — amber becoming dark red); re-authored to the boundary, same L and H (#225)
+    --color-status-warning:       oklch(0.54 0.105 88); // gold since #318; OKCA 3.1 on bg-surface ✅, the lightest gold that clears the non-text floor there — icon/border use — OKCA 3.5 on warning-bg ✅ (WCAG 1.4.11)
+    --color-status-warning-bg:    oklch(0.95 0.05 88);    // gold has chroma room at L 0.95 that amber did not (amber topped out at 0.02), so this tint is deltaE 14 from error-bg; still not a variant channel (#214, #242, #318)
+    --color-status-warning-text:  oklch(0.42 0.085 88); // OKCA 6.2 on warning-bg ✅ — gold since #318 (was amber, H=53.54). Reads olive-brown at this lightness: yellow loses the most chroma as it darkens, and the text has to be this dark to clear its floor on bg-surface
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────
     // A book indent, set a step larger in italic, on the page itself. No wash
     // and no side bar: that pairing reads as machine-made (#292).
-    --color-blockquote-text:   var(--color-text-default); // OKCA 11.5 on page ✅
+    --color-blockquote-text:   var(--color-text-default); // OKCA 11.9 on page ✅
 
     // ─── Colors: Callout (article tip/note) ────────────────────────────────────
     // A neutral panel. The indigo wash and left bar went in #292.
-    --color-callout-bg:           var(--color-bg-surface); // text-default OKCA 8.6 on this bg ✅
+    --color-callout-bg:           var(--color-bg-surface); // text-default OKCA 9.3 on this bg ✅
 
     // ─── Elevation / Shadow ────────────────────────────────────────────────────
     // Lives in the light mixin (not just :root) so [data-theme="light"] correctly
@@ -252,13 +261,17 @@
 
 @mixin dark-color-tokens {
     // ─── Backgrounds ───────────────────────────────────────────────────────
-    --color-bg-page:     var(--gray-900);           // oklch(0.16 0.02 248.99) — deepest surface
-    --color-bg-surface:  var(--gray-800);           // oklch(0.24 0.03 248.99) — cards/panels
-    --color-bg-subtle:   var(--gray-cool-700);      // subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.
-    --color-bg-elevated: oklch(0.30 0.02 248);      // one step above surface — matches cool undertone
-    // Between gray-cool-700 and -600: light enough to clear deltaE 9 from elevated,
-    // dark enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322).
-    --color-bg-muted:    oklch(0.40 0.03 248.99);   // text-default OKCA 5.7 on this bg ✅
+    --color-bg-page:     var(--gray-cool-900);           // oklch(0.16 0.02 248.99) — deepest surface
+    --color-bg-surface:  var(--gray-cool-850);           // oklch(0.24 0.03 248.99) — cards/panels
+    --color-bg-subtle:   var(--gray-cool-800);      // subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.
+    --color-bg-elevated: var(--gray-cool-800);      // one step above surface; shares gray-cool-800 with bg-subtle
+    // Intent surfaces (#318). Dark surfaces are already cool, so recede steps down
+    // toward the page; forward keeps the card lightness and turns warm.
+    --color-bg-forward:  var(--gray-warm-800);
+    --color-bg-recede:   var(--gray-cool-900);
+    // gray-cool-700: deltaE 18 / 13 / 8 from page / surface / elevated, and dark
+    // enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322).
+    --color-bg-muted:    var(--gray-cool-700);      // text-default OKCA 5.7 on this bg ✅
     --color-bg-hover:    var(--color-bg-muted);
     --color-bg-inverse:  var(--gray-0);             // white — flipped from dark navy
 
@@ -271,26 +284,26 @@
     --shadow-modal: 0 20px 48px rgba(255, 255, 255, 0.10), 0 8px 16px rgba(255, 255, 255, 0.06);
 
     // ─── Text ──────────────────────────────────────────────────────────────
-    --color-text-default:           oklch(0.88 0.01 248); // OKCA 12.9 on bg-page ✅ — off-white with cool undertone; white OKCA 19.2 on bg-page is harsh
+    --color-text-default:           var(--gray-200); // OKCA 12.9 on bg-page ✅ — off-white with cool undertone; white OKCA 19.2 on bg-page is harsh
     --color-text-subtle:            var(--gray-400);      // OKCA 6.8 on bg-page ✅
     --color-text-subtle-on-surface: var(--gray-400);      // OKCA 5.6 on bg-surface ✅
     // Component-scoped: toast message text. Every toast sits on bg-surface since
     // #292, where the three status backgrounds used to be.
     --color-toast-message:          var(--color-text-subtle); // OKCA 5.6 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug
-    --color-text-disabled:          var(--gray-600); // OKCA 2.2 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
-    --color-text-inverse:           var(--gray-800); // dark text for inverse (light) surfaces
-    --color-text-subtle-on-inverse: oklch(0.40 0 0); // muted text on white inverse surface
-    --color-text-on-action:         oklch(0.16 0.02 248.99); // OKCA 11.2 on action-primary ✅ — same as bg-page; was OKCA 7.0 on the sky-blue primary (#318); gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5
+    --color-text-disabled:          var(--gray-650); // OKCA 2.0 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
+    --color-text-inverse:           var(--gray-850); // dark text for inverse (light) surfaces
+    --color-text-subtle-on-inverse: var(--gray-700); // muted text on white inverse surface
+    --color-text-on-action:         var(--gray-900); // OKCA 11.2 on action-primary ✅ — same as bg-page; was OKCA 7.0 on the sky-blue primary (#318); gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5
 
     // ─── Borders ───────────────────────────────────────────────────────────
-    --color-border-default:    var(--gray-600); // subtle separator — non-text, decorative
+    --color-border-default:    var(--gray-650); // subtle separator — non-text, decorative
     // OKCA 3.5 on bg-page. Reads as a 1.4.11 pass and is one, but do not read it
     // as a property of the token: the light value of the same token clears barely
     // a third of that against its own page, and it is the same separator in both
     // modes. The token is decorative; dark simply clears a bar the light mode
     // misses, which is a fact about two greys and not a guarantee (#247).
-    --color-border-strong:     var(--gray-500);
-    --color-border-on-inverse: oklch(0.85 0 0); // subtle divider on white inverse surface
+    --color-border-strong:     var(--gray-550);
+    --color-border-on-inverse: var(--gray-200); // subtle divider on white inverse surface
     // Dark needs its own value: contrast here means a *lighter* edge, so the light
     // mode's L=0.53 would move the wrong way against a dark surface. The worst dark
     // background is bg-elevated, which is lighter than surface. It holds every
@@ -302,7 +315,7 @@
     // OKCA 3.9 on dark bg-surface ✅, OKCA 4.6 on dark page ✅. Replaces the dark
     // --color-border-control-on-surface (L=0.60) — see the light-mode note above
     // for why the sibling is gone.
-    --color-border-control:    oklch(0.62 0 0);
+    --color-border-control:    var(--gray-500);
     // Light puck on the dark track — fill stays light (border-control 0.62 is the
     // darker edge). icon/border use (non-text UI).
     --color-slider-thumb: var(--gray-100); // oklch(0.91) light knob in dark — icon/border use
@@ -346,10 +359,10 @@
     // Text (gray-0) on tertiary bg remains readable. Uses the cool-gray ramp
     // (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead
     // of advancing and competing with the primary button (warm advances / cool
-    // recedes); L preserved, so white OKCA 12.0 on this bg ✅. Revisit if buttons
+    // recedes); L preserved, so white OKCA 13.0 on this bg ✅. Revisit if buttons
     // need more prominence in dark.
-    --color-action-tertiary:       var(--gray-cool-700); // cooled counterpart of gray-700
-    --color-action-tertiary-hover: var(--gray-cool-600); // cooled counterpart of gray-600
+    --color-action-tertiary:       var(--gray-cool-800);
+    --color-action-tertiary-hover: var(--gray-cool-650);
     --color-action-tertiary-text:  var(--gray-0);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────
@@ -371,15 +384,15 @@
     --color-status-success:       oklch(0.70 0.08 144.2);  // icon/border use — not required to pass text contrast
     --color-status-success-bg:    oklch(0.23 0.02 144);    // near-neutral dark — barely green tint
     --color-status-success-text:  oklch(0.80 0.15 144.2);  // OKCA 5.4 on success-bg ✅
-    --color-status-warning:       oklch(0.72 0.09 53.54);  // icon/border use — not required to pass text contrast
-    --color-status-warning-bg:    oklch(0.25 0.02 68);     // near-neutral dark — barely warm tint
-    --color-status-warning-text:  oklch(0.82 0.11 53.54);  // OKCA 6.8 on warning-bg ✅ — C=0.16 exceeded what sRGB holds at this L and H; re-authored to the boundary, same L and H (#225)
+    --color-status-warning:       oklch(0.74 0.10 88);  // icon/border use — not required to pass text contrast
+    --color-status-warning-bg:    oklch(0.25 0.03 88);     // dark gold tint (#318)
+    --color-status-warning-text:  oklch(0.82 0.10 88);  // OKCA 7.1 on warning-bg ✅ — gold since #318 (was amber, H=53.54)
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
     // Teal tint, deltaE 8 from the cool page: the hue change carries the
     // separation, so the block stays nearly as dark as the page. Border still
     // required, since lightness alone barely differs at these low L values.
-    --color-bg-code:     oklch(0.22 0.02 195); // text-default OKCA 11.3 on this bg ✅ — code text inherits it
+    --color-bg-code:     oklch(0.22 0.02 195); // text-default OKCA 11.4 on this bg ✅ — code text inherits it
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
 }

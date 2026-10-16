@@ -127,7 +127,7 @@ export const OnSurface: Story = {
       description: {
         story: 'Side-by-side comparison of input borders on page background vs surface background. ' +
           'Both containers are plain: no override, nothing for the consumer to remember. ' +
-          '`--color-border-control` reaches OKCA 4.4 on page and OKCA 3.3 on bg-surface, ' +
+          '`--color-border-control` reaches OKCA 4.8 on page and OKCA 3.8 on bg-surface, ' +
           'clearing the 3.0 non-text floor on either. ' +
           'Until 5.0.0 the surface case needed a hand-applied `--color-border-control-on-surface` ' +
           'override, and this story was the only place in the repo that applied it correctly; ' +

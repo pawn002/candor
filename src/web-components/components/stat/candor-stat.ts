@@ -11,7 +11,7 @@ type StatSize  = 'sm' | 'md' | 'lg';
  *
  * **`color` is not a redundant channel, and this is the one thing to get right
  * here.** Unlike `candor-alert` and `candor-accessible-text role_="state"`, this
- * component renders no icon: "847 ms" in amber and "847 ms" in green differ only
+ * component renders no icon: "847 ms" in gold and "847 ms" in green differ only
  * in hue. The value is a number and the label names the *quantity*, not whether
  * it is good, so nothing in the default rendering tells a reader who cannot use
  * colour that the figure is a problem.

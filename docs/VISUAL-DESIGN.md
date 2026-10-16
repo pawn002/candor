@@ -115,7 +115,7 @@ The floor is not only a legibility rule, which is why it is now gated by the *co
 | 2: Functional UI | Recognition: text is the sole channel for meaning | **6.5** | **4.5** | Pagination numbers and position readouts, breadcrumb links, table cell data, chip labels, button labels |
 | 3: Supplementary | Pattern match: meaning redundantly coded by shape, icon, or position | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata |
 
-The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 5.0. It fails Tier 2 regular but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change.
+The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 4.8. It fails Tier 2 regular but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change.
 
 **Tier 1 regular text is required to be 16px.** It used to carry a 9.5 floor at 14px, and that floor was not merely strict. It was unreachable by every colored text token in the system. Contrast on a light background is bought by lowering lightness, and the sRGB gamut narrows toward black, so chroma falls with it. Past a hue's ceiling, contrast can only be purchased with color, and the end of that trade is pure black.
 
@@ -124,13 +124,13 @@ Measured maximums on white, at the darkest lightness sRGB allows for each chroma
 | hue | C=0.18 | C=0.14 | C=0.10 | C=0.06 | C=0 |
 |---|---|---|---|---|---|
 | error (red) | **6.6** | 10.3 | 15.0 | 18.7 | 20 |
-| warning (amber) | 1.9 | 3.9 | **8.2** | 15.4 | 20 |
+| warning (gold) | not renderable | 2.2 | 5.3 | 12.7 | 20 |
 | success (green) | 3.8 | **6.9** | 11.9 | 17.5 | 20 |
 | link (blue) | 2.9 | **5.4** | 10.3 | 16.7 | 20 |
 
-Bold values are the chroma each token is authored at, so those are its hard ceilings, not its current scores with room above. A 9.5 floor asked every one of them to desaturate.
+Bold values are the chroma each token is authored at, so those are its hard ceilings, not its current scores with room above. Warning text is authored at C=0.085, between two columns. A 9.5 floor asked every one of them to desaturate.
 
-Two things a designer should take from this table. **A contrast floor is a saturation budget**, so read the row before choosing a number. And **the same floor is a different demand at every hue**: at C=0.18 red reaches 6.6 while amber reaches 1.9, because the gamut is far larger in red down there. That asymmetry is why amber is authored at lower chroma than red; it was found by hitting the wall, not chosen.
+Two things a designer should take from this table. **A contrast floor is a saturation budget**, so read the row before choosing a number. And **the same floor is a different demand at every hue**: at C=0.18 red reaches 6.6 while gold cannot be rendered at all, because the gamut is far larger in red down there. That asymmetry is why warning is authored at lower chroma than red; it was found by hitting the wall, not chosen.
 
 It is also the arithmetic behind this document's opening argument. "Maximum contrast" is not a strong color decision. At OKCA 20 the chroma is exactly zero. It is the absence of a decision, which is precisely the clinical default described in *The core tension*.
 
@@ -186,7 +186,7 @@ This layering is what allows dark mode, theme variants, and future palette chang
 
 A pale tinted box with a border in the same hue, and a coloured bar down one edge of a card, are now widely read as signs of machine-made design. Candor avoids both (#292). `candor-alert` and `candor-toast` use one neutral surface box for every variant: the icon shape carries the variant, and the heading repeats it in the status text colour. The article blockquote is a book indent, a step larger in italic, and the article callout is a plain surface panel.
 
-This costs no accessibility, because neither device was doing the work. The icon was already the required redundant channel, and the pale error and warning fills are deltaE 4 apart, too close for anyone to tell apart (#214). When a design reaches for a tint or a stripe to mark something, carry the meaning in an icon, a word or the layout instead.
+This costs no accessibility, because neither device was doing the work. The icon was already the required redundant channel, and the pale error and warning fills were deltaE 4 apart, too close for anyone to tell apart (#214). Moving warning to gold widened that to 14, but a pale fill still fades on a washed-out screen. When a design reaches for a tint or a stripe to mark something, carry the meaning in an icon, a word or the layout instead.
 
 ### The separation of base and text status colors
 

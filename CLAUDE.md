@@ -465,7 +465,7 @@ This replaces the former 9.5 floor at 14px, which was **unreachable by any colou
 | `--color-status-success-text` | 6.1 | chroma 0.14 → 0.116, deltaE 9 |
 | `--color-link` | 5.3 | chroma 0.14 → 0.104, deltaE 12 |
 
-The floor did not ask coloured text to be darker; it asked it to stop being coloured. Only near-neutral text could satisfy it (`--color-text-default` is 11.5).
+The floor did not ask coloured text to be darker; it asked it to stop being coloured. Only near-neutral text could satisfy it (`--color-text-default` is 11.9).
 
 Stated as a size requirement it becomes actionable and self-consistent: **a Tier 1 element at 14px is a sizing bug, and the fix is the size.** At 16px the floor is 4.5 and every status colour clears it with margin. The system already worked this way in practice — `candor-input` renders its validation errors at 16px (`form-error-message`, floor 4.5, measures 6.4 ✅) while the generic `candor-accessible-text role_="status"` rendered identical content at 14px and could not pass (#208).
 
@@ -482,7 +482,7 @@ Maximum OKCA on white at each chroma, measured at the darkest lightness sRGB per
 | hue | C=0.18 | C=0.14 | C=0.10 | C=0.06 | C=0.03 | C=0 |
 |---|---|---|---|---|---|---|
 | error (red, H 25) | **6.6\*** | 10.3 | 15.0 | 18.7 | 20.0 | 20 |
-| warning (amber, H 53.5) | 1.9 | 3.9 | **8.2\*** | 15.4 | 19.3 | 20 |
+| warning (gold, H 88) | — | 2.2 | 5.3 | 12.7 | 18.7 | 20 |
 | success (green, H 144.2) | 3.8 | **6.9\*** | 11.9 | 17.5 | 20.0 | 20 |
 | link (blue, H 250.8) | 2.9 | **5.4\*** | 10.3 | 16.7 | 19.5 | 20 |
 
@@ -490,7 +490,7 @@ Three consequences for anyone setting or meeting a threshold:
 
 1. **A contrast floor is a saturation budget.** Requiring 9.5 does not only say "make it darker" — it says "spend most of your chroma." Read the row before choosing a number.
 
-2. **The same floor is a different demand at every hue.** At C=0.18 red reaches 6.6 while amber reaches 1.9, because the gamut is far larger in red at low lightness. A uniform floor silently taxes yellows and oranges hardest — which is why `--color-status-warning-text` is authored at C=0.10 while `--color-status-error-text` sits at 0.18. That was discovered by hitting the boundary, not by choice.
+2. **The same floor is a different demand at every hue.** At C=0.18 red reaches 6.6 while gold cannot be rendered at all, because the gamut is far larger in red at low lightness. A uniform floor silently taxes yellows and oranges hardest — which is why `--color-status-warning-text` is authored at C=0.085 while `--color-status-error-text` sits at 0.18. That was discovered by hitting the boundary, not by choice.
 
 3. **Past roughly OKCA 15 the text is achromatic in practice.** Chroma is under 0.06 there, which at those lightnesses reads as black with a cast rather than as a colour.
 
@@ -514,20 +514,20 @@ Candor's status background tokens sit at L 0.95. The maximum chroma sRGB permits
 | hue | max chroma at L 0.95 | authored |
 |---|---|---|
 | error (red, H 25) | ~0.02 | 0.02 |
-| warning (amber, H 53) | ~0.02 | 0.02 |
+| warning (gold, H 88, since #318) | ~0.05 | 0.05 |
 | success (green, H 145) | >0.05 | 0.05 |
 
-Red and amber are pinned to near-white; green has room. The result is that **`--color-status-error-bg` and `--color-status-warning-bg` are deltaE 4 apart in normal vision** — at the edge of imperceptible, and closer than Candor's own "acceptable drift" band starts. Not a CVD edge case: nobody can reliably tell them apart.
+Red is pinned to near-white; gold and green have room. Until #318 warning was amber (H 53), pinned like red at ~0.02, and **`--color-status-error-bg` and `--color-status-warning-bg` were deltaE 4 apart in normal vision** — at the edge of imperceptible, and closer than Candor's own "acceptable drift" band starts. Not a CVD edge case: nobody could reliably tell them apart. Moving warning to gold (H 88) took the gap to deltaE 14 light and 11 dark.
 
 Two things follow:
 
-1. **It cannot be fixed by adding chroma.** There is none to add at that lightness and hue. Making those two tints distinguishable means lowering their lightness, which is a different design (tinted fills become mid-tones) and a change to every pairing measured against them.
+1. **It could not be fixed by adding chroma.** There was none to add at that lightness and hue. The options were lowering the lightness, which is a different design (tinted fills become mid-tones), or moving a hue to where the gamut has room. #318 took the second: warning moved to gold, which also brings it closer to the convention that caution is yellow.
 2. **Therefore a pale tinted background is not a variant channel**, and a component must not be credited with one for having it. `candor-badge` was: its recorded justification claimed "badge shape always provides redundant coding", which is true of *badge vs. surrounding text* and false of *error badge vs. warning badge* — two different jobs, conflated in one note (#214).
 
 Worth noting **this got worse in #225 and nobody measured it**: error-bg was authored at C 0.05, out of gamut at L 0.95, and pulling it to the boundary halved the separation from deltaE 8 to 4. The re-authoring was correct — the old value never named a deliverable colour — but "every pairing was re-measured and nothing regressed" was a statement about *contrast*, and this is not a contrast property. It is the same lesson as the rest of this release: a guard reports what it measures, and silence outside its scope is not a pass.
 
 **Key audit rules:**
-- `--color-text-subtle` (OKCA 5.0 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
+- `--color-text-subtle` (OKCA 4.8 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
 - Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight (wght ≥ 700)**, not a color change or size bump.
 - **Tier 1 regular at 14px is not a contrast failure to fix with colour — it is a size to change.** Bump to 16px.
 - Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position). The channel must be **non-optional** — something the reader cannot end up without. There are two ways to achieve that, and only the first was recognised until #214:
@@ -536,7 +536,7 @@ Worth noting **this got worse in #225 and nobody measured it**: error-bg was aut
 
   **The precondition, which is what makes this a real distinction rather than a loophole:** the label must *name the condition*, not merely be present. `<candor-badge variant="error">3</candor-badge>` has no channel — "3" says nothing about being an error, so colour is carrying it alone. `<candor-badge variant="error">3 failed</candor-badge>` does. Candor cannot enforce this, so it is a documented authoring rule, taught by worked example in the badge story rather than only asserted here.
 
-  What does **not** count: variant differentiation carried by colour alone. `candor-stat` is the case — `.stat__value` is a number and the label names what is measured, not whether the value is good. "847 ms" in amber and "847 ms" in green differ only in hue. Stat's `<slot>` is where the channel goes; `<candor-accessible-text role_="state" tone="warning">` is the intended occupant, since its icon is component-rendered and therefore non-optional.
+  What does **not** count: variant differentiation carried by colour alone. `candor-stat` is the case — `.stat__value` is a number and the label names what is measured, not whether the value is good. "847 ms" in gold and "847 ms" in green differ only in hue. Stat's `<slot>` is where the channel goes; `<candor-accessible-text role_="state" tone="warning">` is the intended occupant, since its icon is component-rendered and therefore non-optional.
 - **Classify by what the text does, not by which component renders it.** A validation error is Tier 1 whether it comes from `candor-input`'s built-in slot or from a hand-placed `candor-accessible-text`. Two pairings with the same fg, bg, size and purpose must carry the same floor; where they differ, one of them is misclassified.
 - **Variable font weight axis**: "bold" means `wght ≥ 700`. Non-`wght` axes — `GRAD`, `opsz`, `wdth` — affect perceived stroke weight visually but do not change the compliance column. A component at `font-weight: 500` with `GRAD: -150` is regular for compliance purposes regardless of visual appearance.
 

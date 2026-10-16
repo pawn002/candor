@@ -331,7 +331,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. This figure is now structural rather than a default: the label carries its own opaque plate and does not inherit --cell-fg, so a consumer's cell colours cannot move it — OKCA 11.5 light / 12.9 dark ✅ against the 6.5 floor. Before the plate it was consumer-determined and unauditable, and six cells in this component's own demos sat between 2.7 and 5.9 (#229)."
+      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. This figure is now structural rather than a default: the label carries its own opaque plate and does not inherit --cell-fg, so a consumer's cell colours cannot move it — OKCA 11.9 light / 12.9 dark ✅ against the 6.5 floor. Before the plate it was consumer-determined and unauditable, and six cells in this component's own demos sat between 2.7 and 5.9 (#229)."
     },
     {
       "id": "badge-default",
@@ -341,7 +341,7 @@
       "weight": "bold",
       "tier": 3,
       "min": 4.5,
-      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition, not the pill shape. The fill was bg-surface, which vanished on cards and striped rows; bg-muted reads on page, surface and elevated, and text-subtle-on-surface would fall to 3.5 on it, so the text is text-default (#321). OKCA 6.0 light / 5.7 dark. The label is non-optional in the structural sense, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
+      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition, not the pill shape. The fill was bg-surface, which vanished on cards and striped rows; bg-muted reads on page, surface and elevated, and text-subtle-on-surface would fall to 3.5 on it, so the text is text-default (#321). OKCA 6.5 light / 5.7 dark. The label is non-optional in the structural sense, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
     },
     {
       "id": "badge-primary",
@@ -459,7 +459,7 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Ghost button is transparent-filled too, so it has the same two backgrounds. Passes with margin in both modes — OKCA 8.6 light / 10.7 dark ✅ (#224)."
+      "note": "Ghost button is transparent-filled too, so it has the same two backgrounds. Passes with margin in both modes — OKCA 9.3 light / 10.7 dark ✅ (#224)."
     },
     {
       "id": "button-ghost-hover",
@@ -469,7 +469,7 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Ghost button label on its hover fill. The fill was bg-surface, which vanished on cards and striped rows (#322). OKCA 6.0 light / 5.7 dark"
+      "note": "Ghost button label on its hover fill. The fill was bg-surface, which vanished on cards and striped rows (#322). OKCA 6.5 light / 5.7 dark"
     },
     {
       "id": "dismiss-icon-hover",
@@ -479,7 +479,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Close/dismiss glyph on hover in candor-toast, candor-alert, candor-modal and candor-drawer, which all share bg-hover (#322). OKCA 6.0 light / 5.7 dark"
+      "note": "Close/dismiss glyph on hover in candor-toast, candor-alert, candor-modal and candor-drawer, which all share bg-hover (#322). OKCA 6.5 light / 5.7 dark"
     },
     {
       "id": "button-ghost-subtle-icon",
@@ -773,7 +773,7 @@
       "weight": "regular",
       "tier": 3,
       "min": 4.5,
-      "note": "Table caption — Tier 3 Supplementary (position is redundant channel); OKCA 5.0 light / 6.8 dark"
+      "note": "Table caption — Tier 3 Supplementary (position is redundant channel); OKCA 4.8 light / 6.8 dark"
     },
     {
       "id": "tabs-inactive",
@@ -880,7 +880,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "compact-mode 'Page X of Y' — Tier 2 Functional UI: it is the sole channel for position, which is Tier 2's definition, not Tier 1's (it is recognised, not read sequentially to act). Previously filed as Tier 1 while described in Tier 2's own words. text-default clears either (OKCA 11.5 light / 12.9 dark)."
+      "note": "compact-mode 'Page X of Y' — Tier 2 Functional UI: it is the sole channel for position, which is Tier 2's definition, not Tier 1's (it is recognised, not read sequentially to act). Previously filed as Tier 1 while described in Tier 2's own words. text-default clears either (OKCA 11.9 light / 12.9 dark)."
     },
     {
       "id": "chip-default",
@@ -949,7 +949,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Inline code in candor-article: the same pair as code-inline and the code block, since inline code and blocks share one treatment. Tier 2 Functional at 14px regular. OKCA 8.8 light / 11.3 dark"
+      "note": "Inline code in candor-article: the same pair as code-inline and the code block, since inline code and blocks share one treatment. Tier 2 Functional at 14px regular. OKCA 9.6 light / 11.4 dark"
     },
     {
       "id": "article-code-block",
@@ -959,7 +959,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Code block text on the teal code tint, 14px regular Tier 2 Functional. OKCA 8.8 light / 11.3 dark"
+      "note": "Code block text on the teal code tint, 14px regular Tier 2 Functional. OKCA 9.6 light / 11.4 dark"
     },
     {
       "id": "article-blockquote",
@@ -969,7 +969,7 @@
       "weight": "regular",
       "tier": 1,
       "min": 4.5,
-      "note": "Blockquote body: a 20px italic book indent on the page, with no wash or side bar since #292. Tier 1 Reading. OKCA 11.5 light / 12.9 dark ✅"
+      "note": "Blockquote body: a 20px italic book indent on the page, with no wash or side bar since #292. Tier 1 Reading. OKCA 11.9 light / 12.9 dark ✅"
     },
     {
       "id": "nav-badge-text",
@@ -1039,7 +1039,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 5.3 light / 6.3 dark ✅ (tight — tightest use of this color)"
+      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 5.0 light / 6.3 dark ✅ (tight — tightest use of this color)"
     },
     {
       "id": "article-link-visited",
@@ -1049,7 +1049,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.8 light / 6.6 dark ✅"
+      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.5 light / 6.6 dark ✅"
     },
     {
       "id": "article-link-hover",
@@ -1059,7 +1059,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 6.4 light / 11.2 dark ✅"
+      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 6.1 light / 11.2 dark ✅"
     },
     {
       "id": "alert-icon-info",
@@ -1089,7 +1089,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Warning icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.1 light / 4.7 dark ✅"
+      "note": "Warning icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.1 light / 5.0 dark ✅"
     },
     {
       "id": "status-icon-error",
@@ -1119,7 +1119,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "candor-code inline code: text-code on bg-code; Tier 2 Functional (character position load-bearing). Body text on the teal code tint in both modes. OKCA 8.8 light / 11.3 dark ✅"
+      "note": "candor-code inline code: text-code on bg-code; Tier 2 Functional (character position load-bearing). Body text on the teal code tint in both modes. OKCA 9.6 light / 11.4 dark ✅"
     },
     {
       "id": "callout-body",
@@ -1129,7 +1129,7 @@
       "weight": "regular",
       "tier": 1,
       "min": 4.5,
-      "note": "candor-article .callout body: text-default on a neutral surface panel, with no wash or side bar since #292. Tier 1 Reading. OKCA 8.6 light / 10.7 dark ✅. The authored label (Tip., Note.) carries the meaning."
+      "note": "candor-article .callout body: text-default on a neutral surface panel, with no wash or side bar since #292. Tier 1 Reading. OKCA 9.3 light / 10.7 dark ✅. The authored label (Tip., Note.) carries the meaning."
     },
     {
       "id": "form-control-border-on-page",
@@ -1139,7 +1139,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The form-control boundary at page level — candor-input, select, combobox, autocomplete, listbox, chat-input, checkbox, radio, switch, slider, menu all draw their edge from this one token. WCAG 1.4.11 non-text, so the 3.0 floor is 1.4.11's, not a text floor. OKCA 4.4 light / 4.6 dark ✅"
+      "note": "The form-control boundary at page level — candor-input, select, combobox, autocomplete, listbox, chat-input, checkbox, radio, switch, slider, menu all draw their edge from this one token. WCAG 1.4.11 non-text, so the 3.0 floor is 1.4.11's, not a text floor. OKCA 4.8 light / 4.6 dark ✅"
     },
     {
       "id": "form-control-border-on-surface",
@@ -1149,7 +1149,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The same boundary on a surface container. This is the pairing whose absence was #217: the token was validated on page only, was OKCA 2.8 light and was OKCA 2.9 dark here, and the documented fix was a --color-border-control-on-surface override the consumer applied by hand. The colour-iterator example shipped six controls without it. 5.0.0 retired the sibling and moved the base value to a lightness safe on both backgrounds — OKCA 3.3 light / 3.9 dark ✅"
+      "note": "The same boundary on a surface container. This is the pairing whose absence was #217: the token was validated on page only, was OKCA 2.8 light and was OKCA 2.9 dark here, and the documented fix was a --color-border-control-on-surface override the consumer applied by hand. The colour-iterator example shipped six controls without it. 5.0.0 retired the sibling and moved the base value to a lightness safe on both backgrounds — OKCA 3.8 light / 3.9 dark ✅"
     },
     {
       "id": "switch-track-thumb-off",
@@ -1159,7 +1159,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-switch off-state thumb against its own track. Same two colours as form-control-border-on-surface but not the same claim: the track paints its own bg-surface fill, so no page context could rescue this one and it was below the floor in every consumer, not just on surface containers. The thumb is the sole indicator of off vs on. OKCA 3.3 light / 3.9 dark ✅"
+      "note": "candor-switch off-state thumb against its own track. Same two colours as form-control-border-on-surface but not the same claim: the track paints its own bg-surface fill, so no page context could rescue this one and it was below the floor in every consumer, not just on surface containers. The thumb is the sole indicator of off vs on. OKCA 3.8 light / 3.9 dark ✅"
     },
     {
       "id": "slider-thumb-border-on-page",
@@ -1169,7 +1169,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-slider thumb outline. Recorded separately from form-control-border-on-page because the background is a load-bearing claim rather than an incidental one: the thumb is 22px against a 4px track, so most of its outline falls on the page and not on the track. Since #247 the track is the same colour as this outline, so against the track the outline does not separate at all; it is the page that carries identifiability, which is why the track has no filled portion any more. OKCA 4.4 light / 4.6 dark ✅"
+      "note": "candor-slider thumb outline. Recorded separately from form-control-border-on-page because the background is a load-bearing claim rather than an incidental one: the thumb is 22px against a 4px track, so most of its outline falls on the page and not on the track. Since #247 the track is the same colour as this outline, so against the track the outline does not separate at all; it is the page that carries identifiability, which is why the track has no filled portion any more. OKCA 4.8 light / 4.6 dark ✅"
     },
     {
       "id": "slider-track-on-page",
@@ -1179,7 +1179,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-slider rail. Until #247 the track was a filled/unfilled split, action-primary up to the value and border-strong after it, and each mode failed a different half: light, the unfilled track against the page; dark, the boundary between the halves. No single neutral fixed both, so the fill was dropped and the whole rail is the control boundary token; the thumb carries the value. Same colours as form-control-border-on-page, recorded separately because the rail is what shows the range the thumb moves in. OKCA 4.4 light / 4.6 dark ✅"
+      "note": "candor-slider rail. Until #247 the track was a filled/unfilled split, action-primary up to the value and border-strong after it, and each mode failed a different half: light, the unfilled track against the page; dark, the boundary between the halves. No single neutral fixed both, so the fill was dropped and the whole rail is the control boundary token; the thumb carries the value. Same colours as form-control-border-on-page, recorded separately because the rail is what shows the range the thumb moves in. OKCA 4.8 light / 4.6 dark ✅"
     },
     {
       "id": "slider-track-on-surface",
@@ -1189,7 +1189,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The slider rail inside a surface container, as in the slider's own All variants story, where every slider sits in a candor-card. OKCA 3.3 light / 3.9 dark ✅"
+      "note": "The slider rail inside a surface container, as in the slider's own All variants story, where every slider sits in a candor-card. OKCA 3.8 light / 3.9 dark ✅"
     },
     {
       "id": "form-control-border-on-elevated",
@@ -1199,7 +1199,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The form-control boundary on an elevated surface: every option panel, the drawer, the modal and the chat input, so any form inside a dialog draws its borders here. Nothing recorded this pairing until #307, and dark measured 2.6 at the L 0.58 the token then had: the #217 gap again, one background further up. The dark token moved to L 0.62 — OKCA 4.4 light / 3.1 dark ✅"
+      "note": "The form-control boundary on an elevated surface: every option panel, the drawer, the modal and the chat input, so any form inside a dialog draws its borders here. Nothing recorded this pairing until #307, and dark measured 2.6 at the L 0.58 the token then had: the #217 gap again, one background further up. The dark token moved to L 0.62 — OKCA 5.0 light / 3.1 dark ✅"
     },
     {
       "id": "scrollbar-thumb-on-page",
@@ -1209,7 +1209,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The visible scrollbar bar from utils/scrollbar.ts on a page-level scroller, such as candor-table or candor-data-grid. The grab area around it is transparent, so the bar is drawn straight on the scroller background (#307). OKCA 4.4 light / 4.6 dark ✅"
+      "note": "The visible scrollbar bar from utils/scrollbar.ts on a page-level scroller, such as candor-table or candor-data-grid. The grab area around it is transparent, so the bar is drawn straight on the scroller background (#307). OKCA 4.8 light / 4.6 dark ✅"
     },
     {
       "id": "scrollbar-thumb-on-surface",
@@ -1219,7 +1219,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The scrollbar bar in candor-toolbar, whose background is bg-surface (#307). OKCA 3.3 light / 3.9 dark ✅"
+      "note": "The scrollbar bar in candor-toolbar, whose background is bg-surface (#307). OKCA 3.8 light / 3.9 dark ✅"
     },
     {
       "id": "scrollbar-thumb-on-elevated",
@@ -1229,7 +1229,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The scrollbar bar in the listbox, combobox and autocomplete panels, the drawer and modal bodies, and the chat input, all on bg-elevated. This is the pairing that set the dark token: at L 0.58 it was 2.6 (#307). OKCA 4.4 light / 3.1 dark ✅"
+      "note": "The scrollbar bar in the listbox, combobox and autocomplete panels, the drawer and modal bodies, and the chat input, all on bg-elevated. This is the pairing that set the dark token: at L 0.58 it was 2.6 (#307). OKCA 5.0 light / 3.1 dark ✅"
     },
     {
       "id": "scrollbar-thumb-on-code",
@@ -1239,7 +1239,47 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The scrollbar bar on a candor-article code block. Since the code tint replaced the navy panel, the default thumb (border-control) clears the floor in both modes, so the article no longer overrides it. OKCA 3.4 light / 4.1 dark ✅"
+      "note": "The scrollbar bar on a candor-article code block. Since the code tint replaced the navy panel, the default thumb (border-control) clears the floor in both modes, so the article no longer overrides it. OKCA 3.9 light / 4.1 dark ✅"
+    },
+    {
+      "id": "text-on-bg-forward",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.forward}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 1,
+      "min": 4.5,
+      "note": "Body text on the warm forward surface. Temperature changes, lightness does not, so this tracks text on page."
+    },
+    {
+      "id": "text-subtle-on-bg-forward",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.forward}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "note": "Secondary text on the forward surface: hints, timestamps."
+    },
+    {
+      "id": "text-on-bg-recede",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.recede}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 1,
+      "min": 4.5,
+      "note": "Body text on the cool recede surface."
+    },
+    {
+      "id": "text-subtle-on-surface-on-bg-recede",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.recede}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "note": "Secondary text on the recede surface. Light recede sits at bg-surface lightness, where plain text-subtle falls below 4.5, so it takes the on-surface variant."
     }
   ]
 }

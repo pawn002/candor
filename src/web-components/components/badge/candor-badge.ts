@@ -24,10 +24,10 @@ type BadgeSize = 'sm' | 'md';
  * made.
  *
  * **Do not treat the tinted background as a variant channel.** At L 0.95 the
- * sRGB gamut permits almost no chroma at red or amber, so
- * `--color-status-error-bg` and `--color-status-warning-bg` sit about deltaE 4
- * apart: at the edge of imperceptible for everyone, not just as a CVD edge
- * case. Error and warning badges are told apart by their words, not their fill.
+ * sRGB gamut permits almost no chroma at red, and pale tints fade on washed-out
+ * screens and for readers who cannot tell the hues apart. The error and warning
+ * fills were once only deltaE 4 apart; they are farther apart now, but error and
+ * warning badges are still told apart by their words, not their fill.
  *
  * For an outcome that has already happened and wants an icon, consider
  * `candor-accessible-text role_="state"`, whose icon is component-rendered and
