@@ -265,6 +265,14 @@ export class CandorTabs extends LitElement {
       p.active = p.panelId === this.activeId;
       const tab = this.tabs.find(t => t.id === p.panelId);
       if (tab) p.tabLabel = tab.label;
+      // The tab lives in this shadow root and the panel in the light DOM, so an
+      // aria-controls id cannot reach it: ids resolve within one tree (#333).
+      // Element reflection can, because the panel's tree is an ancestor of the
+      // tab's. Where it is unsupported the tab simply has no controls relation,
+      // which is better than one that points at nothing.
+      const button = this.renderRoot.querySelector(`#tab-${CSS.escape(p.panelId)}`) as
+        (HTMLElement & { ariaControlsElements?: Element[] | null }) | null;
+      if (button && 'ariaControlsElements' in button) button.ariaControlsElements = [p];
     });
     this._updateScrollState();
   }
@@ -304,7 +312,6 @@ export class CandorTabs extends LitElement {
                 role="tab"
                 id="tab-${tab.id}"
                 aria-selected="${tab.id === this.activeId}"
-                aria-controls="panel-${tab.id}"
                 aria-setsize="${this.tabs.length}"
                 aria-posinset="${i + 1}"
                 tabindex="${tab.id === this.activeId ? '0' : '-1'}"
@@ -335,9 +342,10 @@ export class CandorTabs extends LitElement {
  * `panel-id` must match the `id` of a `TabItem` in the parent's `tabs` array.
  * That pairing is what binds tab to panel, and a mismatch fails silently.
  *
- * `active` is managed by the parent; do not set it by hand. The host is a
- * styling wrapper and the real `role="tabpanel"` lives inside it, so slotted
- * content sits in the panel rather than beside it.
+ * `active` is managed by the parent; do not set it by hand. The host itself is
+ * the `role="tabpanel"` and the tab stop, because a tab can only point at an
+ * element in its own tree or an ancestor tree, never into this element's
+ * shadow root.
  *
  * All panels stay in the DOM; inactive ones are hidden. Content is therefore
  * still findable by in-page search and still costs render time. Do not use tabs
@@ -358,15 +366,21 @@ export class CandorTabPanel extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    // The host is a styling wrapper; the actual role="tabpanel" lives in the
-    // shadow root. Setting role="presentation" on the host makes that
-    // deterministic — without it, Chrome happens to collapse the empty host
-    // in the AT tree today but the behavior isn't guaranteed.
-    if (!this.hasAttribute('role')) this.setAttribute('role', 'presentation');
+    // The host is the panel (#333). Until then the role sat on a <div> in this
+    // shadow root, where the tab's aria-controls could never resolve it.
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'tabpanel');
+    if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '0');
+  }
+
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has('tabLabel')) {
+      if (this.tabLabel) this.setAttribute('aria-label', this.tabLabel);
+      else this.removeAttribute('aria-label');
+    }
   }
 
   override render() {
-    return html`<div role="tabpanel" id="panel-${this.panelId}" aria-label="${this.tabLabel || nothing}" tabindex="0"><slot></slot></div>`;
+    return html`<slot></slot>`;
   }
 }
 
