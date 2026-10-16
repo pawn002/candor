@@ -297,7 +297,7 @@ export class CandorCombobox extends LitElement {
               aria-label="${this._ariaLabel || nothing}"
               aria-autocomplete="list"
               aria-expanded="${this._open}"
-              aria-controls="${this._listId}"
+              aria-controls="${this._open && filtered.length > 0 ? this._listId : nothing}"
               aria-activedescendant="${this._activeOptionId || nothing}"
               aria-required="${this.required || nothing}"
               aria-invalid="${this.error ? 'true' : nothing}"

@@ -1,0 +1,8 @@
+[
+  {
+    "rule": "aria-valid-attr-value",
+    "stories": ["components-form-listbox--open", "components-menu--open"],
+    "verdict": "axe asks for review of aria-controls on every aria-haspopup trigger without checking the id. Closed, the trigger names no popup; open, it names the rendered popup with the right role.",
+    "evidence": "tests/accessibility.spec.ts, 'popup triggers point aria-controls at a popup that exists (#252)'."
+  }
+]

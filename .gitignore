@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+# axe-core report written by tests/axe.spec.ts
+/axe-report
+
 # Node
 /node_modules
 npm-debug.log
