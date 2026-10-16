@@ -13,13 +13,13 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-modal>\` — centered dialog that interrupts the current flow for confirmation,
+\`<candor-modal>\`: a centered dialog that interrupts the current flow for confirmation,
 detail views, or focused tasks. Implements the
 [ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/): focus is
 trapped inside while open (via native \`<dialog>\`), Escape closes it, and focus returns to
 the trigger on close.
 
-**When to use a modal vs. a drawer:** Modals are for short, decisive interactions — confirm
+**When to use a modal vs. a drawer:** Modals are for short, decisive interactions: confirm
 delete, enter a PIN, view a summary. Drawers are for richer tasks that benefit from a side
 panel without fully leaving the current page.
 
@@ -33,11 +33,11 @@ panel without fully leaving the current page.
 </candor-modal>
 \`\`\`
 
-**Footer buttons:** use \`size="small"\` — medium buttons overpower the modal's compact panel. The
+**Footer buttons:** use \`size="small"\`. Medium buttons overpower the modal's compact panel. The
 component cannot enforce this (slot content is consumer-owned), so every footer should set it
 explicitly.
 
-Emits a \`close\` CustomEvent when dismissed — exactly once per close, whichever
+Emits a \`close\` CustomEvent when dismissed, exactly once per close, whichever
 path closed it (button, backdrop, or Escape). Backdrop uses \`backdrop-filter: blur(2px)\`.
 
 **Sizing:** The \`size\` attribute selects a preset max-width via \`--candor-modal-max-width\`.
@@ -61,7 +61,7 @@ candor-modal#detail-view { --candor-modal-max-width: 700px; }
       control: 'select',
       options: ['sm', 'md', 'lg'],
       type: { name: 'string' },
-      description: 'Sets `--candor-modal-max-width` — sm: 400px, md: 560px, lg: 768px. Override with the CSS custom property for non-preset widths.',
+      description: 'Sets `--candor-modal-max-width`. sm: 400px, md: 560px, lg: 768px. Override with the CSS custom property for non-preset widths.',
     },
   },
   args: { open: false, heading: 'Confirm action', size: 'md' },
@@ -117,7 +117,7 @@ export const Large: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Long content overflows the body — the panel caps at 90 vh and the body region scrolls independently. Header and footer stay fixed.',
+        story: 'Long content overflows the body. The panel caps at 90 vh and the body region scrolls independently. Header and footer stay fixed.',
       },
     },
   },

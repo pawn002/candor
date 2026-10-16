@@ -557,6 +557,154 @@ if (unstyled.length > 0) {
   console.log(`  ✓ all ${scrollers.length} scrolling components use the shared scrollbar`);
 }
 
+// ── em dashes: none in what a consumer reads ──────────────────────────────────
+//
+// An em dash in published copy is now widely read as a sign of machine
+// writing, and Candor's readers include people primed to dismiss it on that
+// basis (#292). So nothing a consumer reads carries one: the READMEs, the MDX
+// pages, the public guides in docs/, the unreleased CHANGELOG entries, every
+// TSDoc block (it ships in dist/*.d.ts and the manifest), and everything a
+// story renders or describes.
+//
+// Ordinary code comments are exempt: they are internal, and the project is
+// open about using AI to help maintain it. So are released CHANGELOG entries,
+// which are history, and the docs/ files that are working records rather than
+// guides. Every other docs/*.md is covered by default, so a new guide is
+// checked without anyone remembering to add it. En dashes in ranges
+// (h1–h6, 02:00–04:00) are correct typography and are not matched.
+console.log('\nEm dashes — none in consumer-facing copy');
+
+const EM_DASH = '—';
+const DOCS_WORKING_RECORDS = new Set(['A11Y-AUDIT.md', 'LESSONS-LEARNED.md', 'CONSCIENCE.md']);
+
+// [start, end) of every lit `html` template body. Text inside one is rendered,
+// even when it looks like a comment: a code sample in a story renders its `//`
+// lines as visible text, and the first version of this check masked them.
+function htmlTemplateRanges(src) {
+  const ranges = [];
+  const re = /\bhtml\s*`/g;
+  let hit;
+  while ((hit = re.exec(src))) {
+    let i = re.lastIndex;
+    let depth = 0;
+    while (i < src.length) {
+      const c = src[i];
+      if (c === '\\') { i += 2; continue; }
+      if (depth === 0 && c === '`') break;
+      if (c === '$' && src[i + 1] === '{') { depth++; i += 2; continue; }
+      if (depth > 0 && c === '{') depth++;
+      else if (depth > 0 && c === '}') depth--;
+      i++;
+    }
+    ranges.push([re.lastIndex, i]);
+  }
+  return ranges;
+}
+
+// Blank what no reader sees, keeping every newline so reported line numbers
+// hold. `/* */` and `<!-- -->` never render, inside a template or out (a CSS
+// comment in a style attribute is still a comment). A `//` line is a comment
+// only outside an html template; inside one it is visible text.
+const maskComments = (src) => {
+  const ranges = htmlTemplateRanges(src);
+  const rendered = (at) => ranges.some(([a, b]) => at >= a && at < b);
+  const blankAll = (m) => m.replace(/[^\n]/g, ' ');
+  const blankOutside = (m, ...rest) => (rendered(rest[rest.length - 2]) ? m : blankAll(m));
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, blankAll)
+    .replace(/<!--[\s\S]*?-->/g, blankAll)
+    .replace(/^[ \t]*\/\/.*$/gm, blankOutside);
+};
+
+const dashLines = (text, offsetLine = 0) =>
+  text.split('\n').flatMap((l, i) => (l.includes(EM_DASH) ? [offsetLine + i + 1] : []));
+
+const dashHits = [];
+const scanned = { markdown: 0, tsdoc: 0, stories: 0 };
+const record = (file, lines) => {
+  for (const line of lines) dashHits.push(`${path.relative(ROOT, file)}:${line}`);
+};
+
+const docsDir = path.join(ROOT, 'docs');
+const guides = fs
+  .readdirSync(docsDir)
+  .filter((f) => f.endsWith('.md') && !DOCS_WORKING_RECORDS.has(f))
+  .map((f) => path.join(docsDir, f));
+const mdx = walk(path.join(ROOT, 'src')).filter((f) => f.endsWith('.mdx'));
+for (const file of [ROOT_README, WC_README, path.join(ROOT, 'tokens', 'README.md'), ...mdx, ...guides]) {
+  record(file, dashLines(fs.readFileSync(file, 'utf8')));
+  scanned.markdown++;
+}
+
+const changelogPath = path.join(ROOT, 'CHANGELOG.md');
+const changelog = fs.readFileSync(changelogPath, 'utf8').replace(/\r\n/g, '\n');
+const unreleasedAt = changelog.indexOf('## [Unreleased]');
+if (unreleasedAt === -1) {
+  fail('CHANGELOG.md has no [Unreleased] section — this check has nothing to verify');
+} else {
+  const nextRelease = changelog.indexOf('\n## [', unreleasedAt + 1);
+  const unreleased = changelog.slice(unreleasedAt, nextRelease === -1 ? undefined : nextRelease);
+  record(changelogPath, dashLines(unreleased, changelog.slice(0, unreleasedAt).split('\n').length - 1));
+  scanned.markdown++;
+}
+
+const tsSources = walk(path.join(ROOT, 'src')).filter((f) => f.endsWith('.ts') && !f.endsWith('.stories.ts'));
+for (const file of tsSources) {
+  const src = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
+  for (const m of src.matchAll(/\/\*\*[\s\S]*?\*\//g)) {
+    record(file, dashLines(m[0], src.slice(0, m.index).split('\n').length - 1));
+  }
+  scanned.tsdoc++;
+}
+
+for (const file of storyFiles) {
+  record(file, dashLines(maskComments(fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n'))));
+  scanned.stories++;
+}
+
+if (scanned.tsdoc === 0 || scanned.stories === 0 || guides.length === 0) {
+  fail('the em-dash scan found no TSDoc sources, stories or guides — the scan is broken, not the copy');
+} else if (dashHits.length > 0) {
+  fail(
+    `${dashHits.length} em dash(es) in consumer-facing copy — rewrite each as a comma, colon, parentheses or a new sentence (#292):\n      ` +
+      dashHits.join('\n      '),
+  );
+} else {
+  console.log(
+    `  ✓ none in ${scanned.markdown} Markdown/MDX files, TSDoc across ${scanned.tsdoc} sources, or ${scanned.stories} stories`,
+  );
+}
+
+// ── blockquotes: no Markdown blockquote in what a story renders ──────────────
+//
+// Storybook's docs theme draws a Markdown blockquote with a bar down its left
+// edge: the side-stripe tell #292 removed from the components (#324). Restyling
+// it in `.storybook/` would recapture every snapshot (CLAUDE.md), so the rule is
+// at the source instead: a note in a story description is a bold lead-in
+// paragraph, not a `> ` quote. A line starting `>` and then a space or nothing
+// is a blockquote; one starting `></tag>` is markup and is left alone. Fenced
+// code is skipped, since a sample may legitimately show a quote.
+
+const quoteHits = [];
+for (const file of [...storyFiles, ...mdx]) {
+  let fenced = false;
+  fs.readFileSync(file, 'utf8')
+    .replace(/\r\n/g, '\n')
+    .split('\n')
+    .forEach((l, i) => {
+      if (/^\s*(?:\\`){3}|^\s*`{3}/.test(l)) fenced = !fenced;
+      else if (!fenced && /^>(?: |$)/.test(l)) quoteHits.push(`${path.relative(ROOT, file)}:${i + 1}`);
+    });
+}
+if (quoteHits.length > 0) {
+  fail(
+    `${quoteHits.length} Markdown blockquote line(s) in story or MDX copy; Storybook draws them with a side bar. Use a bold lead-in paragraph instead (#324):\n      ` +
+      quoteHits.join('\n      '),
+  );
+} else {
+  console.log(`  ✓ no Markdown blockquotes in ${storyFiles.length} stories or ${mdx.length} MDX files`);
+}
+
 // ── package files: every tokens stylesheet the docs name is one the package ships ──
 //
 // tokens/README.md documented candor-article.css, candor-syntax.css and

@@ -14,18 +14,18 @@ const meta: Meta = {
         component: `
 \`<candor-disclosure>\` renders a single show/hide toggle following the
 [APG Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/). It is the
-right choice for a **contextual, standalone reveal** — one toggle that stands alone
+right choice for a **contextual, standalone reveal**: one toggle that stands alone
 without coordinating with siblings.
 
 **Disclosure vs. Accordion**
 
 | Use | When |
 |---|---|
-| \`candor-disclosure\` | A single, contextual reveal — an expandable filter section, a "read more" beneath a summary, an inline help tip. It stands alone. |
-| \`candor-accordion-item\` | Two or more parallel sections at the same heading level that form a group — a FAQ list, a settings panel. |
+| \`candor-disclosure\` | A single, contextual reveal: an expandable filter section, a "read more" beneath a summary, an inline help tip. It stands alone. |
+| \`candor-accordion-item\` | Two or more parallel sections at the same heading level that form a group: a FAQ list, a settings panel. |
 
 If you have several independent disclosures near each other and opening one should **not**
-close another, use multiple \`<candor-disclosure>\` instances — not a coordinated accordion.
+close another, use multiple \`<candor-disclosure>\` instances, not a coordinated accordion.
 
 Emits a \`toggle\` CustomEvent with \`{ detail: open }\` on each transition.
         `.trim(),
@@ -90,7 +90,7 @@ export const OverridingTriggerPadding: Story = {
     </style>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1rem;">
       <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:1rem;">
-        <p style="margin:0 0 0.5rem;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Default — top inset stacks on the card padding</p>
+        <p style="margin:0 0 0.5rem;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);color:var(--color-text-subtle);">Default: top inset stacks on the card padding</p>
         <candor-disclosure label="Details"><candor-text>Panel content.</candor-text></candor-disclosure>
       </div>
       <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:1rem;">

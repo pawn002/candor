@@ -10,14 +10,14 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-chat-input>\` — expanding text input with a send button, purpose-built for AI chat
+\`<candor-chat-input>\`: an expanding text input with a send button, purpose-built for AI chat
 interfaces. Auto-grows vertically as the user types; submits on Enter (Shift+Enter for
 newline).
 
-The optional \`disclaimer\` attribute renders a small footnote below the input — use it for
+The optional \`disclaimer\` attribute renders a small footnote below the input. Use it for
 AI safety/quality notices ("AI responses may be inaccurate. Verify important information.").
 
-**Accessible label is required.** The input has no visible label by default — pass \`label\`
+**Accessible label is required.** The input has no visible label by default. Pass \`label\`
 (visually hidden) or the consuming page must supply one. Screen reader users need to know
 what the input is for before they start typing.
 

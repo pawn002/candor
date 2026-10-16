@@ -21,7 +21,7 @@ Tooltips in Candor are **intentionally invisible to assistive technology (AT)**.
 The tooltip bubble carries \`aria-hidden="true"\` and is never wired via
 \`aria-describedby\`. This is a deliberate design system position, not an oversight.
 
-**The reasoning:** Tooltips solve a sighted-user problem — persistent label text isn't
+**The reasoning:** Tooltips solve a sighted-user problem: persistent label text isn't
 always visible. AT users already receive context through the accessible name, label, and
 surrounding content of the trigger element, without needing a tooltip. Wiring tooltips to
 AT creates double-announcements in browse mode and makes the tooltip a crutch that masks
@@ -30,7 +30,7 @@ under-specified element names.
 **The contract this creates for consumers:**
 
 - Every trigger element must be self-describing. An icon-only button needs \`aria-label\`. A truncated label needs a full visible text alternative elsewhere.
-- If the tooltip text is essential to understand the action, it belongs in the element's accessible name or a visible label — not in a tooltip.
+- If the tooltip text is essential to understand the action, it belongs in the element's accessible name or a visible label, not in a tooltip.
 - Use tooltips as a last resort for supplementary pointer-user context, never as the primary channel for critical information.
         `.trim(),
       },
@@ -86,7 +86,7 @@ export const TriggerTypes: Story = {
           'Tooltips work on any focusable element. Three common trigger types: ' +
           'a link (tooltip adds context the visible label omits), ' +
           'a destructive button (tooltip reinforces irreversibility), ' +
-          'and a text button (tooltip surfaces a keyboard shortcut — ideal tooltip content, since shortcuts do not belong in the accessible name).',
+          'and a text button (tooltip surfaces a keyboard shortcut, ideal tooltip content, since shortcuts do not belong in the accessible name).',
       },
     },
   },
@@ -112,7 +112,7 @@ export const IconButton: Story = {
     docs: {
       description: {
         story:
-          'Icon-only buttons always require an `aria-label` on the trigger — the tooltip bubble is `aria-hidden` and cannot substitute for it. ' +
+          'Icon-only buttons always require an `aria-label` on the trigger. The tooltip bubble is `aria-hidden` and cannot substitute for it. ' +
           'The `aria-label` is the accessible name for keyboard and screen reader users; the tooltip is supplementary visual context for pointer users only.',
       },
     },
@@ -145,7 +145,7 @@ export const AllPositions: Story = {
     docs: {
       description: {
         story:
-          'All four tooltip positions. The consumer chooses the position based on available viewport space — ' +
+          'All four tooltip positions. The consumer chooses the position based on available viewport space. ' +
           'each `<candor-tooltip>` is an independent instance with no auto-flip behaviour.',
       },
     },
@@ -180,7 +180,7 @@ export const InToolbar: Story = {
           'tooltip bubble is `display:none`, so it adds nothing to the toolbar’s content width and ' +
           'never trips its `overflow-x:auto` scrollbar. When shown, it opens in the top layer, so the ' +
           'toolbar cannot clip it either (#259). This story pins the toolbar in a 320px ' +
-          'container — before the #107/#175 fix, the hidden bubbles’ leaked width produced stray ' +
+          'container. Before the #107/#175 fix, the hidden bubbles’ leaked width produced stray ' +
           'horizontal and vertical scrollbars on the toolbar here.',
       },
     },

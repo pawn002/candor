@@ -10,11 +10,11 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-**Roboto Flex** — the display and body typeface, used here at heading scale.
+**Roboto Flex**, the display and body typeface, used here at heading scale.
 
 \`<candor-heading>\` maps a semantic level (\`h1\`–\`h6\`) to the correct token from the
 Major Third type scale (1.25× ratio from a 16px base). Use it any time a heading needs to
-live outside of \`<candor-article>\`'s prose context — page titles, section headers, card
+live outside of \`<candor-article>\`'s prose context: page titles, section headers, card
 headings, dashboard panels.
 
 ---
@@ -30,14 +30,14 @@ headings, dashboard panels.
 | h5 | \`--font-size-h5\` | 16px |
 | h6 | \`--font-size-h6\` | 14px |
 
-**h6** follows the Major Third scale to ~13px but is floored at \`--font-size-sm\` (14px) — Candor's minimum for any readable text.
+**h6** follows the Major Third scale to ~13px but is floored at \`--font-size-sm\` (14px), Candor's minimum for any readable text.
 
 ---
 
 ### Roboto Flex variable axes
 
 Roboto Flex is a **variable font**. The component sets \`font-optical-sizing: auto\`, which
-instructs the browser to activate the \`opsz\` axis — stroke weight adapts to the computed
+instructs the browser to activate the \`opsz\` axis, so stroke weight adapts to the computed
 font size automatically. A rendered h1 gets heavier strokes than an h4 without any manual
 \`font-weight\` adjustment.
 
@@ -46,7 +46,7 @@ font size automatically. A rendered h1 gets heavier strokes than an h4 without a
 ### Semantic vs. visual level
 
 The \`level\` attribute controls both the visual size and the ARIA heading level
-(\`role="heading"\` + \`aria-level\`). These must match the document outline — do not use
+(\`role="heading"\` + \`aria-level\`). These must match the document outline. Do not use
 \`h1\` for visual impact when the content is a subsection.
         `.trim(),
       },
