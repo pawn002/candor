@@ -8,6 +8,10 @@
     --color-bg-surface:  var(--gray-100);
     --color-bg-subtle:   var(--gray-200);  // subtle interactive fill — one step darker than surface (hover rows, selection, hover chips); mirrors --color-text-subtle (#174)
     --color-bg-elevated: var(--gray-0);   // white — floats above surface (gray-100) via shadow
+    // Hover fill for transparent controls: ghost buttons and close/dismiss actions.
+    // It must read on page, surface and elevated alike, which bg-subtle cannot
+    // (deltaE 3 from surface in light). deltaE 14 / 8 / 14 from page / surface / elevated (#322).
+    --color-bg-hover:    var(--gray-300);  // text-default OKCA 6.0 on this bg ✅
     --color-bg-inverse:  var(--navy-800);
 
     // ─── Colors: Text ──────────────────────────────────────────────────────────
@@ -246,6 +250,9 @@
     --color-bg-surface:  var(--gray-800);           // oklch(0.24 0.03 248.99) — cards/panels
     --color-bg-subtle:   var(--gray-cool-700);      // subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.
     --color-bg-elevated: oklch(0.30 0.02 248);      // one step above surface — matches cool undertone
+    // Between gray-cool-700 and -600: light enough to clear deltaE 9 from elevated,
+    // dark enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#322).
+    --color-bg-hover:    oklch(0.40 0.03 248.99);   // text-default OKCA 5.7 on this bg ✅
     --color-bg-inverse:  var(--gray-0);             // white — flipped from dark navy
 
     // ─── Elevation / Shadow (dark mode) ────────────────────────────────────

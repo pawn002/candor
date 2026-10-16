@@ -445,6 +445,9 @@
               "name": "--candor-button-font-size"
             },
             {
+              "name": "--candor-button-ghost-color"
+            },
+            {
               "name": "--candor-button-min-height"
             },
             {

@@ -77,7 +77,7 @@ without adjacent text, add a visually-hidden \`<span class="sr-only">\` label in
 
 **Status icons are bold, not fill**, including the ones \`candor-alert\`, \`candor-toast\` and \`candor-accessible-text role_="state"\` render. They inform, and keeping fill for actions is what lets a filled shape mean "press this" without exceptions (#296).
 
-**Icon-only buttons: 1.75rem in \`--color-text-subtle\`, padding cut to 2px.** In a fill glyph the detail is cut out of the solid shape (the "i" in the info disc), and at 1.25rem that cut-out is about 1.3px wide. 1.75rem makes it readable; trimming the padding to (32px − 28px) / 2 keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the controls beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour: there is no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. Set the colour on the button, not the glyph, so a pressed toggle can still colour its glyph \`--color-action-primary\`. Icons inside a labelled button follow the button's text size and colour instead.
+**Icon-only buttons: 1.75rem in \`--color-text-subtle\`, padding cut to 2px.** In a fill glyph the detail is cut out of the solid shape (the "i" in the info disc), and at 1.25rem that cut-out is about 1.3px wide. 1.75rem makes it readable; trimming the padding to (32px − 28px) / 2 keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the controls beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour: there is no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. Set the colour on the button, not the glyph, so a pressed toggle can still colour its glyph \`--color-action-primary\`. On \`<candor-button variant="ghost">\` that is \`--candor-button-ghost-color\`, and hover darkens the glyph to \`--color-text-default\`, since a subtle glyph on the hover fill would fall below 3.0. Icons inside a labelled button follow the button's text size and colour instead.
 
 ## Sizing
 
@@ -295,13 +295,14 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
           <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">No visible text, so the accessible name must be provided via <candor-code>aria-label</candor-code> on <candor-code>&lt;candor-button&gt;</candor-code>, which reflects it onto the inner <candor-code>&lt;button&gt;</candor-code>.</p>
-          <candor-button variant="ghost" size="small" aria-label="Notifications" style="align-self: flex-start; --candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;">
-            <i class="ph-fill ph-bell" style="font-size: 1.75rem; line-height: 1; color: var(--color-text-subtle);" aria-hidden="true"></i>
+          <candor-button variant="ghost" size="small" aria-label="Notifications" style="align-self: flex-start; --candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem; --candor-button-ghost-color: var(--color-text-subtle);">
+            <i class="ph-fill ph-bell" style="font-size: 1.75rem; line-height: 1;" aria-hidden="true"></i>
           </candor-button>
           <pre tabindex="0" style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-md); border-radius: var(--radius-md); margin: 0; overflow-x: auto; line-height: var(--line-height-normal);">&lt;candor-button variant="ghost" size="small" aria-label="Notifications"
-  style="--candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;"&gt;
+  style="--candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;
+         --candor-button-ghost-color: var(--color-text-subtle);"&gt;
   &lt;i class="ph-fill ph-bell" aria-hidden="true"
-    style="font-size: 1.75rem; line-height: 1; color: var(--color-text-subtle);"&gt;&lt;/i&gt;
+    style="font-size: 1.75rem; line-height: 1;"&gt;&lt;/i&gt;
 &lt;/candor-button&gt;</pre>
         </div>
       </candor-card>
