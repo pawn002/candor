@@ -171,6 +171,47 @@ test.describe('pointer cancellation (WCAG 2.5.2, #252)', () => {
   }
 });
 
+test.describe('candor-tooltip: content on hover or focus (WCAG 1.4.13, #339)', () => {
+  const open = (page: import('@playwright/test').Page) =>
+    page.locator('candor-tooltip').first().evaluate((el) =>
+      Boolean(el.shadowRoot!.querySelector('.tooltip__bubble')!.matches(':popover-open')));
+
+  test('hoverable: the pointer can move from the trigger onto the bubble', async ({ page }) => {
+    await page.goto(gotoStory('components-tooltip--default'));
+    const tooltip = page.locator('candor-tooltip').first();
+    const trigger = (await tooltip.boundingBox())!;
+    await page.mouse.move(trigger.x + trigger.width / 2, trigger.y + trigger.height / 2);
+    await expect.poll(() => open(page)).toBe(true);
+    const bubble = (await tooltip.locator('.tooltip__bubble').boundingBox())!;
+    // Walk across the gap in small steps, as a hand would, ending on the text.
+    await page.mouse.move(bubble.x + bubble.width / 2, bubble.y + bubble.height / 2, { steps: 12 });
+    await page.waitForTimeout(200);
+    expect(await open(page)).toBe(true);
+    // Leaving both closes it.
+    await page.mouse.move(0, 0, { steps: 4 });
+    await expect.poll(() => open(page)).toBe(false);
+  });
+
+  test('dismissible: Escape closes a hover-shown tooltip while focus is elsewhere', async ({ page }) => {
+    await page.goto(gotoStory('components-tooltip--default'));
+    const tooltip = page.locator('candor-tooltip').first();
+    const trigger = (await tooltip.boundingBox())!;
+    await page.mouse.move(trigger.x + trigger.width / 2, trigger.y + trigger.height / 2);
+    await expect.poll(() => open(page)).toBe(true);
+    expect(await page.evaluate(() => document.activeElement === document.body)).toBe(true);
+    await page.keyboard.press('Escape');
+    await expect.poll(() => open(page)).toBe(false);
+  });
+
+  test('dismissible: Escape closes a focus-shown tooltip', async ({ page }) => {
+    await page.goto(gotoStory('components-tooltip--default'));
+    await page.locator('candor-tooltip').first().locator('button').first().focus();
+    await expect.poll(() => open(page)).toBe(true);
+    await page.keyboard.press('Escape');
+    await expect.poll(() => open(page)).toBe(false);
+  });
+});
+
 test.describe('candor-checkbox', () => {
   test('toggles with the space key', async ({ page }) => {
     await page.goto(gotoStory('components-form-checkbox--default'));
