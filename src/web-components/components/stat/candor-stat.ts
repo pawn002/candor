@@ -69,6 +69,11 @@ export class CandorStat extends LitElement {
     :host([color='warning']) .stat__value { color: var(--color-status-warning-text); }
     :host([color='error'])   .stat__value { color: var(--color-status-error-text); }
     :host([color='info'])    .stat__value { color: var(--color-link); }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0;
+      overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%);
+      white-space: nowrap;
+    }
     .stat__unit {
       font-size: var(--font-size-lg);
       font-weight: var(--font-weight-regular);
@@ -86,8 +91,13 @@ export class CandorStat extends LitElement {
   override render() {
     return html`
       ${this.label ? html`<p class="stat__label">${this.label}</p>` : nothing}
-      <p class="stat__value" aria-label="${this.unit ? `${this.value} ${this.unit}` : nothing}">
-        ${this.value}${this.unit ? html`<span class="stat__unit">${this.unit}</span>` : nothing}
+      <p class="stat__value">
+        ${this.unit
+          // aria-label is not allowed on a <p>, so screen readers ignored it and
+          // read "847ms" run together (#252). The visible value is hidden from
+          // them and a spaced copy is read instead.
+          ? html`<span aria-hidden="true">${this.value}<span class="stat__unit">${this.unit}</span></span><span class="sr-only">${this.value} ${this.unit}</span>`
+          : this.value}
       </p>
       <slot></slot>
     `;

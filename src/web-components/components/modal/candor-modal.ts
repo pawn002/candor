@@ -221,7 +221,7 @@ export class CandorModal extends LitElement {
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phXBold}"/></svg>
             </button>
           </header>
-          <div class="modal__body" tabindex="0" aria-label="Dialog content"><slot></slot></div>
+          <div class="modal__body" tabindex="0" role="region" aria-label="Dialog content"><slot></slot></div>
           <div class="modal__footer ${this._hasFooter ? '' : 'modal__footer--empty'}">
             <slot name="footer" @slotchange="${this._onFooterSlotChange}"></slot>
           </div>
