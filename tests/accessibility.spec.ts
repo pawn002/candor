@@ -137,6 +137,29 @@ test.describe('popup triggers point aria-controls at a popup that exists (#252)'
   }
 });
 
+test.describe('Tab closes a suggestion list (WCAG 2.4.11)', () => {
+  // Left open, the list covers whatever takes focus next. Found by the
+  // focus-not-obscured check in wcag-runtime.spec.ts on the settings example.
+  for (const [tag, story, typed] of [
+    ['candor-combobox', 'components-form-combobox--default', ''],
+    ['candor-autocomplete', 'components-form-autocomplete--default', 'gpt'],
+  ] as const) {
+    test(`${tag}: Tab moves on with the list closed, not into it`, async ({ page }) => {
+      await page.goto(gotoStory(story));
+      const input = page.locator(`${tag} input`);
+      await input.focus();
+      if (typed) await input.pressSequentially(typed);
+      await page.keyboard.press('ArrowDown');
+      await expect(input).toHaveAttribute('aria-expanded', 'true');
+      await page.keyboard.press('Tab');
+      await expect(input).toHaveAttribute('aria-expanded', 'false');
+      await expect(page.locator(`${tag} [role="listbox"]`)).toHaveCount(0);
+      // Focus left the component rather than landing on the list.
+      expect(await page.evaluate((t) => document.activeElement?.tagName.toLowerCase() === t, tag)).toBe(false);
+    });
+  }
+});
+
 test.describe('pointer cancellation (WCAG 2.5.2, #252)', () => {
   // An option is chosen on release, not on press, so pressing it and dragging
   // away cancels. A press that selected on mousedown could not be taken back.

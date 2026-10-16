@@ -14,9 +14,9 @@ Candor 6.0.0 does **not** claim full WCAG 2.2 AA conformance. Of the 55 Level A 
 
 | Status | Criteria |
 |---|---|
-| Supports | 27 |
+| Supports | 31 |
 | Partially supports | 1 |
-| Not evaluated | 6 |
+| Not evaluated | 2 |
 
 WCAG judges pages, not component libraries, so no design system can conform on its own. What Candor can state is which criteria its components meet, what evidence shows it, and what the page around them must add. That is what this document does, one criterion at a time.
 
@@ -33,6 +33,7 @@ Every row in the tables below cites one or more of these sources.
 | **axe** | axe-core 4.11 (pinned) against WCAG 2.2 A and AA rules, contrast rule off. Any violation fails the build. `tests/axe.spec.ts` | Every pull request; blocks merge | All 251 stories, light theme |
 | **klar** | `npm run audit:contrast`: every foreground/background pairing in `audit/pairings.json`, both themes, against Candor's tiered OKCA floors | Every pull request; blocks merge | 129 pairings, 254 enforced measurements |
 | **spec** | Playwright runtime tests: keyboard behaviour, ARIA wiring, host `aria-label` forwarding, live regions, scrollbars. `tests/accessibility.spec.ts`, `tests/host-aria-label.spec.ts`, `tests/events.spec.ts`, `tests/scrollbar.spec.ts` | Every pull request; blocks merge | Named components |
+| **sweep** | Playwright on every story for what axe cannot decide: the page at 320px wide, the text with WCAG text spacing applied, and every Tab stop compared focused and unfocused in pixels, and checked for being covered. `tests/wcag-runtime.spec.ts` | Every pull request; blocks merge | All 251 stories, light theme, up to 12 Tab stops each |
 | **audit** | Screen-reader and keyboard-only audit in `docs/A11Y-AUDIT.md`. The screen-reader pass inspected the accessibility tree through Playwright, as NVDA with Chrome would expose it. It was **not** a session with a live screen reader. The keyboard pass operated each component with real key presses and checked visible focus | Once, 2026; findings fixed | 28 of 37 components |
 | **source** | The component source read against the criterion on 2026-10-16 | At this review | Named components |
 
@@ -68,9 +69,9 @@ Every row in the tables below cites one or more of these sources.
 | 1.4.3 Contrast (Minimum) | AA | Supports | **klar**, against floors stricter than WCAG's (see Contrast). Re-measured with the WCAG 2.x algorithm on 2026-10-16: all 258 measurements meet the AA minimum. |
 | 1.4.4 Resize Text | AA | Not evaluated | Type and spacing are in `rem`, so they follow browser text size. 200% zoom has not been re-tested for 6.0.0. |
 | 1.4.5 Images of Text | AA | Not applicable | Candor renders no images of text. The wordmark is a logo, which the criterion exempts. |
-| 1.4.10 Reflow | AA | Not evaluated | Stories are checked at 320px as a manual design step, not systematically. Tables and code blocks scroll sideways by design, which the criterion allows for two-dimensional content. |
+| 1.4.10 Reflow | AA | Supports | **sweep**: no story makes the page scroll sideways at 320px. Tables, grids and code blocks scroll inside their own box, which the criterion allows for two-dimensional content. The numbered `candor-pagination` strip was 16px too wide until it learned to wrap. |
 | 1.4.11 Non-text Contrast | AA | Supports | **klar**: borders, icons, the focus ring and the scrollbar thumb at 3.0 or above. A state missing from `audit/pairings.json` is unmeasured. |
-| 1.4.12 Text Spacing | AA | Not evaluated | Not tested. Fixed-height chrome (badges, chips, buttons) is where it would fail first. |
+| 1.4.12 Text Spacing | AA | Supports | **sweep**: with the criterion's line, paragraph, letter and word spacing applied in every shadow root, no box that hides its overflow hides more text than before. One exception, recorded in the spec: the blog example clamps its teaser excerpts to a set number of lines by design, and the full text is the linked post. Text that spills out of a box without being hidden is not checked, since it is only a loss when it lands on other content. |
 | 1.4.13 Content on Hover or Focus | AA | Supports | **spec**: `candor-tooltip` stays open while the pointer moves from the trigger onto the bubble, Escape closes it whether it was shown by hover or by focus, and it stays until the pointer or focus leaves. It was not hoverable until [#339](https://github.com/pawn002/candor/issues/339). |
 
 ## Operable
@@ -89,11 +90,11 @@ Every row in the tables below cites one or more of these sources.
 | 2.4.4 Link Purpose (In Context) | A | Supports | **axe** (`link-name`), **audit** (breadcrumb, pagination, navigation). Link text is otherwise the consumer's. |
 | 2.4.5 Multiple Ways | AA | Consumer | |
 | 2.4.6 Headings and Labels | AA | Supports | **audit**: Candor's built-in labels (Close, Dismiss notification, Scroll tabs left) describe their purpose. Headings and labels the consumer writes are the consumer's. |
-| 2.4.7 Focus Visible | AA | Supports | **audit**: visible focus checked on every audited component. **klar** measures the focus ring. Not automated, so a regression would not fail the build. |
-| 2.4.11 Focus Not Obscured (Minimum) | AA | Not evaluated | Sticky table headers, toasts and a non-modal drawer could cover the focused element. |
+| 2.4.7 Focus Visible | AA | Supports | **sweep**: every Tab stop on every story looks different focused and unfocused. **klar** measures the focus ring. **audit**: checked by hand on every audited component. Text fields signal focus with a border change and a faint ring rather than the focus ring the other controls use, which meets this criterion but not the stricter AAA 2.4.13. |
+| 2.4.11 Focus Not Obscured (Minimum) | AA | Supports | **sweep**: at every Tab stop, some of the focused component is still showing. **spec**: Tab closes the combobox and autocomplete lists, which stayed open over the next field until this check found them. A sticky header or banner the page adds is the consumer's. |
 | 2.5.1 Pointer Gestures | A | Not applicable | **source**: no path-based or multipoint gestures. |
 | 2.5.2 Pointer Cancellation | A | Supports | **spec**: actions run on release, so pressing and dragging away cancels. Combobox and autocomplete options fired on press until [#338](https://github.com/pawn002/candor/pull/338). |
-| 2.5.3 Label in Name | A | Not evaluated | A host `aria-label` replaces a visible label on several controls, and nothing checks that the visible words stay inside it. axe's rule for this is experimental, so the gate does not run it. |
+| 2.5.3 Label in Name | A | Supports | **axe**: the experimental `label-content-name-mismatch` rule is switched on for buttons and links, and a second check in the same spec covers form fields: a field with a visible label and an `aria-label` must keep the label's words in its name. A host `aria-label` replaces the visible label on the field it is forwarded to, so a consumer who sets one must include the label's words. |
 | 2.5.4 Motion Actuation | A | Not applicable | **source**: nothing responds to device motion. |
 | 2.5.7 Dragging Movements | AA | Supports | **source**: `candor-slider` is a native range, so clicking the track sets the value. Nothing else requires dragging. |
 | 2.5.8 Target Size (Minimum) | AA | Supports | **axe** (`target-size`). Controls are sized from the hit-target tokens. |
@@ -151,6 +152,7 @@ Some requirements depend on how the page assembles components. Candor cannot enf
 | Disabled controls | Put the reason a control is disabled in adjacent text, not a tooltip | Components/Button: Disabled With Reason |
 | Status on a stat | Put a `candor-accessible-text role_="state"` in `candor-stat`'s slot when the value carries good or bad | Components/Stat: Colour Is Not The Channel |
 | Toasts | Leave each toast until the user dismisses it | Components/Toast |
+| Naming a labelled field | If you set `aria-label` on a field that shows a label, include the label's words in it | Components/Form/Input |
 | Page structure and language | Supply landmarks, a page title and `lang` on `<html>` | The consumer's application |
 
 ---
@@ -190,4 +192,5 @@ Report accessibility issues as GitHub issues with the `a11y` label, and include:
 - **New composite widgets** need a screen-reader walkthrough before merge (`.github/PULL_REQUEST_TEMPLATE.md`).
 - **ARIA structure changes are breaking** and ship in a major version (`docs/BREAKING-CHANGES.md`).
 - **The axe gate** fails on any new A or AA violation, and on an exception in `tests/axe-exceptions.json` that no longer matches anything.
+- **The sweep** fails on any story that scrolls sideways at 320px, clips text under wider spacing, or has a Tab stop that does not change when focused or is covered. Its one exception fails too once it stops matching.
 - **A row moves from Not evaluated to Supports** only when it can cite evidence. A check that runs on every pull request is preferred to a one-off review, because a review is only true on the day it was done.
