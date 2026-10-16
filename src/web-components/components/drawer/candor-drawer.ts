@@ -312,7 +312,7 @@ export class CandorDrawer extends LitElement {
                 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phXBold}"/></svg>
               </button>
             </header>
-            <div class="drawer__body" tabindex="0" aria-label="Drawer content"><slot></slot></div>
+            <div class="drawer__body" tabindex="0" role="region" aria-label="Drawer content"><slot></slot></div>
             <div class="drawer__footer ${this._hasFooter ? '' : 'drawer__footer--empty'}">
               <slot name="footer" @slotchange="${this._onFooterSlotChange}"></slot>
             </div>

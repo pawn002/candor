@@ -23,13 +23,13 @@ interface ColorCategory {
 const COLOR_CATEGORIES: ColorCategory[] = [
   {
     name: 'Backgrounds',
-    description: 'Surface hierarchy — page floor, card surface, subtle interactive fill, elevated (shadow-lifted), and inverse',
+    description: 'Surface hierarchy: page floor, card surface, subtle interactive fill, elevated (shadow-lifted), and inverse',
     colors: [
       { name: 'Page', variable: '--color-bg-page', description: 'Page floor' },
       { name: 'Surface', variable: '--color-bg-surface', description: 'Cards and panels' },
-      { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill — hover rows, selection, hover chips. One step beyond surface; direction flips per theme' },
+      { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill for hover rows, selection and hover chips. One step beyond surface; direction flips per theme' },
       { name: 'Elevated', variable: '--color-bg-elevated', description: 'Shadow-lifted surface' },
-      { name: 'Inverse', variable: '--color-bg-inverse', description: 'Dark inverse surface — flips in dark mode' },
+      { name: 'Inverse', variable: '--color-bg-inverse', description: 'Dark inverse surface. Flips in dark mode' },
     ],
   },
   {
@@ -37,10 +37,10 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     description: 'Separators, control outlines, and focus indicators',
     colors: [
       { name: 'Default', variable: '--color-border-default', description: 'Subtle separator' },
-      { name: 'Strong', variable: '--color-border-strong', description: 'Emphasized separator — table rules, card edges' },
-      { name: 'Control', variable: '--color-border-control', description: 'Form control outlines — clears 3:1 non-text on page and surface alike' },
+      { name: 'Strong', variable: '--color-border-strong', description: 'Emphasized separator: table rules, card edges' },
+      { name: 'Control', variable: '--color-border-control', description: 'Form control outlines. Clears 3:1 non-text on page and surface alike' },
       { name: 'On Inverse', variable: '--color-border-on-inverse', description: 'Divider on inverse (navy) surface' },
-      { name: 'Focus', variable: '--color-focus', description: 'Focus ring — high-visibility azure' },
+      { name: 'Focus', variable: '--color-focus', description: 'Focus ring in high-visibility azure' },
     ],
   },
   {
@@ -50,16 +50,16 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Default', variable: '--color-text-default', description: 'Body text' },
       { name: 'Subtle', variable: '--color-text-subtle', description: 'Secondary / supporting text' },
       { name: 'Subtle on Surface', variable: '--color-text-subtle-on-surface', description: 'Secondary text on bg-surface' },
-      { name: 'Disabled', variable: '--color-text-disabled', description: 'Disabled state — intentionally below AA' },
-      { name: 'Inverse', variable: '--color-text-inverse', description: 'Text on inverse surface — white in light mode, near-black in dark mode' },
-      { name: 'Subtle on Inverse', variable: '--color-text-subtle-on-inverse', description: 'Muted text on inverse surface — OKCA 6.0 on bg-inverse' },
+      { name: 'Disabled', variable: '--color-text-disabled', description: 'Disabled state, intentionally below AA' },
+      { name: 'Inverse', variable: '--color-text-inverse', description: 'Text on inverse surface: white in light mode, near-black in dark mode' },
+      { name: 'Subtle on Inverse', variable: '--color-text-subtle-on-inverse', description: 'Muted text on inverse surface, OKCA 6.0 on bg-inverse' },
       { name: 'On Action', variable: '--color-text-on-action', description: 'Text on primary/secondary button fills' },
-      { name: 'Toast Message', variable: '--color-toast-message', description: 'Toast body text — text-default in light, text-subtle in dark' },
+      { name: 'Toast Message', variable: '--color-toast-message', description: 'Toast body text: text-default in light, text-subtle in dark' },
     ],
   },
   {
-    name: 'Action — Primary',
-    description: 'Navy — main interactive color',
+    name: 'Action: Primary',
+    description: 'Navy, the main interactive color',
     colors: [
       { name: 'Primary', variable: '--color-action-primary', description: 'Primary button and action fill' },
       { name: 'Primary Hover', variable: '--color-action-primary-hover', description: 'Hover state' },
@@ -67,8 +67,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     ],
   },
   {
-    name: 'Action — Secondary',
-    description: 'Burgundy — supporting action color',
+    name: 'Action: Secondary',
+    description: 'Burgundy, the supporting action color',
     colors: [
       { name: 'Secondary', variable: '--color-action-secondary', description: 'Secondary button fill' },
       { name: 'Secondary Hover', variable: '--color-action-secondary-hover', description: 'Hover state' },
@@ -76,8 +76,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     ],
   },
   {
-    name: 'Action — Tertiary',
-    description: 'Neutral fill — no border, low-hierarchy action',
+    name: 'Action: Tertiary',
+    description: 'Neutral fill with no border, for low-hierarchy actions',
     colors: [
       { name: 'Tertiary', variable: '--color-action-tertiary', description: 'Tertiary button fill' },
       { name: 'Tertiary Hover', variable: '--color-action-tertiary-hover', description: 'Hover state' },
@@ -85,35 +85,35 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     ],
   },
   {
-    name: 'Action — Destructive',
-    description: 'Crimson (hue=347) — outlined only; signals irreversibility. Distinct from error (hue=25).',
+    name: 'Action: Destructive',
+    description: 'Crimson (hue=347), outlined only. Signals irreversibility. Distinct from error (hue=25).',
     colors: [
-      { name: 'Destructive', variable: '--color-action-destructive', description: 'Button fill — transparent (outlined variant)' },
+      { name: 'Destructive', variable: '--color-action-destructive', description: 'Button fill, transparent (outlined variant)' },
       { name: 'Destructive Hover', variable: '--color-action-destructive-hover', description: 'Subtle crimson tint on hover' },
       { name: 'Destructive Active', variable: '--color-action-destructive-active', description: 'Stronger crimson tint on press' },
-      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label — OKCA 9.3 on white' },
-      { name: 'Destructive Border', variable: '--color-action-destructive-border', description: 'Outline — matches destructive text' },
+      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label, OKCA 9.3 on white' },
+      { name: 'Destructive Border', variable: '--color-action-destructive-border', description: 'Outline, matching the destructive text' },
     ],
   },
   {
     name: 'Links',
-    description: 'Azure — #1493FB brand anchor. Accessible steps lighten in dark mode.',
+    description: 'Azure, the #1493FB brand anchor. Accessible steps lighten in dark mode.',
     colors: [
       { name: 'Link', variable: '--color-link', description: 'Body link color' },
       { name: 'Link Hover', variable: '--color-link-hover', description: 'Link hover state' },
-      { name: 'Link Visited', variable: '--color-link-visited', description: 'Visited link — purple, universal convention' },
+      { name: 'Link Visited', variable: '--color-link-visited', description: 'Visited link, purple by universal convention' },
     ],
   },
   {
     name: 'Highlight',
-    description: 'Inline code — burgundy (hue=347), clearly distinct from indigo visited links.',
+    description: 'Inline code in burgundy (hue=347), clearly distinct from indigo visited links.',
     colors: [
-      { name: 'Highlight', variable: '--color-highlight', description: 'Inline code text — burgundy, clearly distinct from indigo visited links' },
+      { name: 'Highlight', variable: '--color-highlight', description: 'Inline code text in burgundy, clearly distinct from indigo visited links' },
     ],
   },
   {
-    name: 'Status — Error',
-    description: 'Orange-red (hue=25) — failure states and validation errors',
+    name: 'Status: Error',
+    description: 'Orange-red (hue=25) for failure states and validation errors',
     colors: [
       { name: 'Error', variable: '--color-status-error', description: 'Icon / border use' },
       { name: 'Error Background', variable: '--color-status-error-bg', description: 'Toast and alert fill' },
@@ -121,8 +121,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     ],
   },
   {
-    name: 'Status — Success',
-    description: 'Green (hue=144) — confirmation and completion',
+    name: 'Status: Success',
+    description: 'Green (hue=144) for confirmation and completion',
     colors: [
       { name: 'Success', variable: '--color-status-success', description: 'Icon / border use' },
       { name: 'Success Background', variable: '--color-status-success-bg', description: 'Toast and alert fill' },
@@ -130,8 +130,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     ],
   },
   {
-    name: 'Status — Warning',
-    description: 'Amber (hue=53) — caution and non-blocking issues',
+    name: 'Status: Warning',
+    description: 'Amber (hue=53) for caution and non-blocking issues',
     colors: [
       { name: 'Warning', variable: '--color-status-warning', description: 'Icon / border use' },
       { name: 'Warning Background', variable: '--color-status-warning-bg', description: 'Toast and alert fill' },
@@ -140,11 +140,11 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Code Blocks',
-    description: 'Dark navy surface for code blocks — always visually distinct from ambient backgrounds. Border required when the ambient background is also dark.',
+    description: 'Dark navy surface for code blocks, always visually distinct from ambient backgrounds. Border required when the ambient background is also dark.',
     colors: [
       { name: 'Code Background', variable: '--color-bg-code', description: 'Code block surface' },
       { name: 'Code Text', variable: '--color-text-code', description: 'Text on code bg' },
-      { name: 'Code Border', variable: '--color-border-code', description: 'Border required in dark mode — transparent in light' },
+      { name: 'Code Border', variable: '--color-border-code', description: 'Border required in dark mode, transparent in light' },
     ],
   },
   {
@@ -297,30 +297,30 @@ Colors use **OKLCH** (Lightness, Chroma, Hue) for perceptual uniformity and pred
 manipulation.
 
 ## Two-tier architecture
-- **Primitives** — raw named values (color ramps, type scale, spacing, borders) in \`primitives.scss\`
-- **Semantics** — role-based tokens (--color-action-primary, --color-text-default, …) in \`semantics.scss\`
+- **Primitives**: raw named values (color ramps, type scale, spacing, borders) in \`primitives.scss\`
+- **Semantics**: role-based tokens (--color-action-primary, --color-text-default, …) in \`semantics.scss\`
 
 Components reference semantic tokens only. CSS custom properties pierce shadow DOM, so a
 single \`candor-tokens.css\` load at the document level reaches into every web component's (WC)
 internals.
 
 ## Brand palette
-Figures are OKCA on white — the algorithm Candor's thresholds are written against.
-These measure the **brand hex** — the anchor the palette was derived from — and not
+Figures are OKCA on white, the algorithm Candor's thresholds are written against.
+These measure the **brand hex** (the anchor the palette was derived from) and not
 the token derived from it. Converting a hex to OKLCH rounds, so a token's score can
 sit a tenth away from its own anchor's. Both numbers are correct about different
 colours, so a figure here and the one in the token's comment are not expected to
 agree, and reconciling them makes one of them wrong.
 
-- **Navy** \`#082840\` — primary action (OKCA 14.0 on white)
-- **Burgundy** \`#5F2B48\` — secondary action (OKCA 9.3 on white)
-- **Azure** \`#1493FB\` — accent / link; decorative at OKCA 2.5 on white, so \`--color-link\` steps to \`L=0.49\` for OKCA 5.3 on white
-- **Indigo** \`#6969F7\` — visited link anchor; decorative at OKCA 3.2 on white, so \`--color-link-visited\` uses indigo-700 for OKCA 5.8 on white
+- **Navy** \`#082840\`: primary action (OKCA 14.0 on white)
+- **Burgundy** \`#5F2B48\`: secondary action (OKCA 9.3 on white)
+- **Azure** \`#1493FB\`: accent / link; decorative at OKCA 2.5 on white, so \`--color-link\` steps to \`L=0.49\` for OKCA 5.3 on white
+- **Indigo** \`#6969F7\`: visited link anchor; decorative at OKCA 3.2 on white, so \`--color-link-visited\` uses indigo-700 for OKCA 5.8 on white
 
 ## Accessibility
 Action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components) and the
 stricter Candor OKCA tier floors, with the tracked exceptions listed in
-\`docs/ACCESSIBILITY-CONFORMANCE.md\`. Every authored colour is renderable in sRGB —
+\`docs/ACCESSIBILITY-CONFORMANCE.md\`. Every authored colour is renderable in sRGB, and
 \`npm run audit:tokens\` fails the build if one is not. Validated with
 \`klar contrast\` 3.x; re-measure with \`npm run audit:contrast\`.
         `,
@@ -364,7 +364,7 @@ export const TokenReference: Story = {
     layout: 'padded',
     docs: {
       description: {
-        story: 'Full token reference — OKLCH values for both light and dark mode. Source of truth is `src/design-tokens/semantics.scss`.',
+        story: 'Full token reference: OKLCH values for both light and dark mode. Source of truth is `src/design-tokens/semantics.scss`.',
       },
     },
   },

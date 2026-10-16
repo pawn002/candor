@@ -265,7 +265,7 @@ export class CandorAutocomplete extends LitElement {
               aria-label="${this._ariaLabel || nothing}"
               aria-autocomplete="list"
               aria-expanded="${open}"
-              aria-controls="${this._listId}"
+              aria-controls="${open ? this._listId : nothing}"
               aria-activedescendant="${this._activeOptionId || nothing}"
               aria-required="${this.required || nothing}"
               aria-invalid="${this.error ? 'true' : nothing}"

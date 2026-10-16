@@ -13,11 +13,11 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-input>\` — single-line or multiline text field with label, optional hint, and error
+\`<candor-input>\`: a single-line or multiline text field with label, optional hint, and error
 state. Covers text, email, password, and number input types, plus a textarea mode via
 \`multiline\`.
 
-The label is always rendered — never omit it for visual reasons. If the design calls for a
+The label is always rendered. Never omit it for visual reasons. If the design calls for a
 labelless input, set \`aria-label\` on the host element so the field remains accessible: the
 component mirrors it onto the inner control and strips it from the host, so the name is
 announced once rather than twice. Where both are set the \`aria-label\` wins outright, so make
@@ -25,7 +25,7 @@ it contain the visible label text (WCAG 2.5.3) rather than replacing it.
 
 **Hint and error are shown simultaneously.** The hint appears above the input (between label
 and field); the error appears below. Both are associated with the field via \`aria-describedby\`
-so screen readers announce them on focus. Keep hint text focused on format guidance — it
+so screen readers announce them on focus. Keep hint text focused on format guidance. It
 remains visible when an error is shown, giving the user the context they need to correct
 their input.
 
@@ -34,9 +34,9 @@ Form-associated (\`ElementInternals\`): the value appears in \`FormData\` keyed 
 **Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
 live value on every keystroke; \`change\` fires the committed value on blur and on Enter. Both
 carry the value as a plain \`string\` in \`detail\`. The legacy \`input-change\` was removed in
-5.0.0 (#201) — use \`input\`, which has the same live semantics and the same payload.
+5.0.0 (#201). Use \`input\`, which has the same live semantics and the same payload.
 
-**Styling hooks.** Override density without forking via custom properties —
+**Styling hooks.** Override density without forking via custom properties:
 \`--candor-input-{padding-x,padding-y,font-size,radius}\`, each defaulting to its token.
 For arbitrary restyle, the internals expose \`::part(input)\`, \`::part(label)\`, \`::part(hint)\`,
 and \`::part(error-message)\`. See the Introduction → "Styling & overriding" section.
@@ -94,7 +94,7 @@ export const MultilineWithError: Story = {
 };
 
 export const MultilineResizeNone: Story = {
-  args: { label: 'Notes', multiline: true, placeholder: 'Fixed height — no resize handle', resize: 'none' },
+  args: { label: 'Notes', multiline: true, placeholder: 'Fixed height, no resize handle', resize: 'none' },
 };
 
 export const AllStates: Story = {
@@ -126,7 +126,7 @@ export const OnSurface: Story = {
     docs: {
       description: {
         story: 'Side-by-side comparison of input borders on page background vs surface background. ' +
-          'Both containers are plain — no override, nothing for the consumer to remember. ' +
+          'Both containers are plain: no override, nothing for the consumer to remember. ' +
           '`--color-border-control` reaches OKCA 4.4 on page and OKCA 3.3 on bg-surface, ' +
           'clearing the 3.0 non-text floor on either. ' +
           'Until 5.0.0 the surface case needed a hand-applied `--color-border-control-on-surface` ' +
@@ -166,7 +166,7 @@ export const Overriding: Story = {
     docs: {
       description: {
         story:
-          'Two opt-in hooks restyle an input without forking. **Custom properties** (`--candor-input-{padding-x,padding-y,font-size,radius}`) are the blessed density/shape knobs, each defaulting to its token — here one field is made denser and squared-off. **`::part(input)`**, `::part(label)`, `::part(hint)`, and `::part(error-message)` are the escape hatch for arbitrary CSS the knobs do not cover (here the label is upper-cased and tracked).',
+          'Two opt-in hooks restyle an input without forking. **Custom properties** (`--candor-input-{padding-x,padding-y,font-size,radius}`) are the blessed density/shape knobs, each defaulting to its token. Here one field is made denser and squared-off. **`::part(input)`**, `::part(label)`, `::part(hint)`, and `::part(error-message)` are the escape hatch for arbitrary CSS the knobs do not cover (here the label is upper-cased and tracked).',
       },
     },
   },

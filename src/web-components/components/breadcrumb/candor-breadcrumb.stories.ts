@@ -10,13 +10,13 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-breadcrumb>\` — navigation trail showing the current page's location within the
+\`<candor-breadcrumb>\`: a navigation trail showing the current page's location within the
 site hierarchy.
 
 - Ancestor items render as \`<a>\` links; current location renders as \`<span aria-current="page">\`
-- All text is bold weight — required to meet Tier 2 contrast at 14px (OKCA 4.5 bold threshold)
+- All text is bold weight, as required to meet Tier 2 contrast at 14px (OKCA 4.5 bold threshold)
 - Separators use \`--color-text-subtle\` at Tier 3 (meaning is redundantly coded by position)
-- The \`/\` separator uses CSS \`content: '/' / ''\` to mark itself decorative — screen readers skip it
+- The \`/\` separator uses CSS \`content: '/' / ''\` to mark itself decorative, so screen readers skip it
 
 Pass \`items\` as a \`{ label, href? }[]\` array via the JS property (or JSON-encoded as an
 attribute). The last item is treated as the current page and rendered without a link.

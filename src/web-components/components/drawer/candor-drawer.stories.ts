@@ -22,19 +22,19 @@ for native focus trapping and Escape key handling.
 
 | Use | When |
 |---|---|
-| \`candor-drawer\` | The panel **overlays** content without navigating away — filters, inspector details, contextual toolbars. |
-| \`candor-tabs orientation="vertical"\` | The panel **replaces** content — settings categories, sidebar nav where the left list selects the main content. |
+| \`candor-drawer\` | The panel **overlays** content without navigating away: filters, inspector details, contextual toolbars. |
+| \`candor-tabs orientation="vertical"\` | The panel **replaces** content: settings categories, sidebar nav where the left list selects the main content. |
 
 **Modal vs. non-modal:** The \`modal\` attribute (default \`true\`) controls whether the
 drawer blocks the rest of the page.
 
 | Mode | Opens via | Backdrop | Focus | Rest of page | Use for |
 |---|---|---|---|---|---|
-| \`modal="true"\` (default) | \`dialog.showModal()\` | Yes, dims via \`--color-overlay\` | Trapped, auto-focused | Inert | Blocking tasks — filters that must be applied/cancelled, forms, confirmations |
-| \`modal="false"\` | \`dialog.show()\` | None | Not stolen, not trapped | Fully interactive | Persistent assistants, inspectors, or filters the user works **alongside** — read and select page content while the panel stays open |
+| \`modal="true"\` (default) | \`dialog.showModal()\` | Yes, dims via \`--color-overlay\` | Trapped, auto-focused | Inert | Blocking tasks: filters that must be applied/cancelled, forms, confirmations |
+| \`modal="false"\` | \`dialog.show()\` | None | Not stolen, not trapped | Fully interactive | Persistent assistants, inspectors, or filters the user works **alongside**, reading and selecting page content while the panel stays open |
 
 In non-modal mode the drawer relies on its close button or a consumer-supplied
-control to dismiss — clicking outside does not close it (there's no backdrop to click).
+control to dismiss. Clicking outside does not close it (there's no backdrop to click).
 
 **Dismissal:** The drawer emits a \`close\` CustomEvent on Escape, backdrop click (when
 \`dismissOnBackdrop\` is true, modal mode only), and the built-in close button. The parent
@@ -48,8 +48,8 @@ to instant appearance on unsupported browsers. Honors \`prefers-reduced-motion\`
 
 | Property | Default | Controls |
 |---|---|---|
-| \`--candor-drawer-size\` | \`480px\` (md) | Panel width — left/right positions |
-| \`--candor-drawer-height\` | \`50vh\` (md) | Panel height — bottom position |
+| \`--candor-drawer-size\` | \`480px\` (md) | Panel width for left/right positions |
+| \`--candor-drawer-height\` | \`50vh\` (md) | Panel height for the bottom position |
 
 \`\`\`css
 candor-drawer#filters-panel { --candor-drawer-size: 400px; }
@@ -106,7 +106,7 @@ export const Open: Story = {
   render: () => html`
     <candor-drawer heading="Settings" position="right" size="md" open>
       <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
-        <p style="margin:0">Drawer content goes here — filters, inspector details, or a contextual panel.</p>
+        <p style="margin:0">Drawer content goes here: filters, inspector details, or a contextual panel.</p>
         <candor-button variant="secondary">An action</candor-button>
       </div>
     </candor-drawer>
@@ -155,12 +155,12 @@ export const NonModal: Story = {
         story: `
 Set \`modal="false"\` for a side panel the user works **alongside** rather than one
 that blocks the page. It opens via \`dialog.show()\` instead of \`showModal()\`: no
-backdrop, no focus trap, and the rest of the page stays fully interactive — the
+backdrop, no focus trap, and the rest of the page stays fully interactive. The
 \`<candor-text>\` to the left of the panel remains selectable and readable while the
 panel is open.
 
-Use \`modal="true"\` (the default) for blocking tasks — a filter that must be applied
-or cancelled, a form, a confirmation. Use \`modal="false"\` for persistent companions —
+Use \`modal="true"\` (the default) for blocking tasks: a filter that must be applied
+or cancelled, a form, a confirmation. Use \`modal="false"\` for persistent companions:
 an AI assistant panel, an inspector, or filters that refine a view in place without
 interrupting it.
         `.trim(),
@@ -173,13 +173,13 @@ interrupting it.
         <candor-heading level="h3">Page content</candor-heading>
         <candor-text variant="body" size="md" style="margin-top:var(--spacing-sm);">
           This paragraph stays fully readable and selectable while the non-modal drawer
-          is open — try selecting this text or clicking the button below. A modal drawer
+          is open. Try selecting this text or clicking the button below. A modal drawer
           would trap focus and dim this content; a non-modal drawer does neither.
         </candor-text>
         <candor-button variant="secondary" style="margin-top:var(--spacing-md);">Still clickable</candor-button>
       </div>
       <candor-drawer heading="Assistant" position="right" size="sm" modal="false" open>
-        <p style="margin:0">This panel coexists with the page instead of blocking it — suited to a persistent AI assistant, inspector, or filter panel you work alongside.</p>
+        <p style="margin:0">This panel coexists with the page instead of blocking it, suited to a persistent AI assistant, inspector, or filter panel you work alongside.</p>
       </candor-drawer>
     </div>
   `,

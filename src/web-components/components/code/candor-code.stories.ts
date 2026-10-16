@@ -13,7 +13,7 @@ const meta: Meta = {
       description: {
         component: `
 \`<candor-code>\` renders **inline code** with the \`--color-bg-code\` / \`--color-text-code\`
-token pair applied together — plus the mono font, padding, radius, and border. It exists to
+token pair applied together, plus the mono font, padding, radius, and border. It exists to
 remove a footgun (#170): \`--color-bg-code\` is a dark navy, so setting it on a raw \`<code>\`
 without also setting \`--color-text-code\` yields invisible dark-on-dark text. This element
 can't be half-applied.
