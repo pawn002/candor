@@ -38,6 +38,18 @@ const config: StorybookConfig = {
   // snapshot would pass with nothing reporting it. So the condition is checked
   // rather than trusted: `npm run audit:docs` fails if any story, MDX page or
   // preview file references a public/ asset by path while this stays unset.
+  // Pre-bundle the Lit subpath Storybook's web-components renderer imports.
+  // Vite pre-bundles `lit` and `lit/decorators.js`, which bring their own
+  // lit-html, but not `lit/directive-helpers.js`, so that one loaded a second,
+  // unbundled lit-html and Lit warned "Multiple versions of Lit loaded" (#312).
+  viteFinal: async (viteConfig) => {
+    viteConfig.optimizeDeps = viteConfig.optimizeDeps ?? {};
+    viteConfig.optimizeDeps.include = [
+      ...(viteConfig.optimizeDeps.include ?? []),
+      'lit/directive-helpers.js',
+    ];
+    return viteConfig;
+  },
   managerHead: (head) =>
     `${head}\n<link rel="icon" type="image/png" sizes="32x32" href="./favicon.png" />`,
 };

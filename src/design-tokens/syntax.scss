@@ -1,12 +1,18 @@
 // Candor — Prism.js syntax highlighting theme
 //
-// All token colors validated against the lighter code-block background:
-// light-mode navy-800 = oklch(0.27 0.06 245.34). Dark-mode code blocks
-// (oklch(0.20 0.04 248)) are even darker so contrast only improves there.
+// Two palettes, one per mode, each measured against that mode's code-block
+// background: the teal tint, oklch(0.92 0.018 195) in light and
+// oklch(0.22 0.02 195) in dark. Until the tint replaced the filled navy
+// panel, one light-on-dark palette served both modes.
 //
 // Token coloring is a Tier 3 recognition task — meaning is also encoded by
 // position and the reader's language knowledge. All foreground values meet
 // OKCA ≥ 4.5 (Tier 3 minimum at 14px, per docs/CONTRAST-TIERS.md).
+//
+// Contrast is not salience. A syntax colour near the background's hue clears
+// the floor without standing out. The tint sits at teal (hue 195), so the
+// nearest is --syntax-inserted's green at 144. Light deleted keeps its push
+// toward orange (hue 30) from the burgundy tint it was first measured on (#318).
 //
 // Six of these were authored outside the sRGB gamut and were re-authored to the
 // boundary at their original L and H in #225. `npm run audit:tokens` gates every
@@ -23,18 +29,50 @@
 // Exposed as CSS custom properties so consumers can override individual roles
 // without forking the file.
 
+@mixin light-syntax-tokens {
+    // OKCA against the light code bg, oklch(0.92 0.018 195):
+    --syntax-comment:   oklch(0.438 0.040 248);   // OKCA 5.2 ✅ — muted cool gray-blue; italic
+    --syntax-keyword:   oklch(0.422 0.110 250.8); // OKCA 5.6 ✅ — azure; language control flow
+    --syntax-string:    oklch(0.405 0.084 78);    // OKCA 6.1 ✅ — warm amber; string literals
+    --syntax-number:    oklch(0.406 0.100 278);   // OKCA 6.0 ✅ — purple; numerics, booleans
+    --syntax-function:  oklch(0.328 0.050 250);   // OKCA 8.5 ✅ — near-ink azure; callsites
+    --syntax-property:  oklch(0.406 0.100 347);   // OKCA 6.0 ✅ — rose; CSS props, attr names
+    --syntax-operator:  oklch(0.422 0.030 248);   // OKCA 5.6 ✅ — muted cool; operators, punctuation
+    --syntax-deleted:   oklch(0.40 0.15 30);      // OKCA 6.2 ✅ — red pushed toward orange, away from the bg hue; diff removed
+    --syntax-inserted:  oklch(0.425 0.136 144.2); // OKCA 5.5 ✅ — success green; diff added
+    --syntax-regex:     oklch(0.405 0.102 53.54); // OKCA 6.1 ✅ — amber; regex, template literals
+}
+
+@mixin dark-syntax-tokens {
+    // OKCA against the dark code bg, oklch(0.22 0.02 195):
+    --syntax-comment:   oklch(0.72 0.04 248);     // OKCA 6.0 ✅ — muted cool gray-blue; italic
+    --syntax-keyword:   oklch(0.79 0.11 250.80);  // OKCA 6.4 ✅ — azure; language control flow
+    --syntax-string:    oklch(0.85 0.13 78);      // OKCA 8.0 ✅ — warm amber; string literals
+    --syntax-number:    oklch(0.80 0.10 278);     // OKCA 7.0 ✅ — purple; numerics, booleans
+    --syntax-function:  oklch(0.90 0.05 250);     // OKCA 11.9 ✅ — near-white azure; callsites
+    --syntax-property:  oklch(0.83 0.10 347);     // OKCA 8.1 ✅ — rose; CSS props, attr names
+    --syntax-operator:  oklch(0.75 0.03 248);     // OKCA 6.9 ✅ — muted cool; operators, punctuation
+    --syntax-deleted:   oklch(0.79 0.12 25);      // OKCA 6.1 ✅ — error red; diff removed
+    --syntax-inserted:  oklch(0.80 0.15 144.2);   // OKCA 5.5 ✅ — success green; diff added
+    --syntax-regex:     oklch(0.82 0.11 53.54);   // OKCA 7.4 ✅ — amber; regex, template literals
+}
+
 :root {
-    // OKCA against light-mode code bg (navy-800 = oklch(0.27 0.06 245.34)):
-    --syntax-comment:   oklch(0.72 0.04 248);     // OKCA 5.1 ✅ — muted cool gray-blue; italic
-    --syntax-keyword:   oklch(0.79 0.11 250.80);  // OKCA 5.5 ✅ — azure; language control flow
-    --syntax-string:    oklch(0.85 0.13 78);      // OKCA 6.9 ✅ — warm amber; string literals
-    --syntax-number:    oklch(0.80 0.10 278);     // OKCA 6.0 ✅ — purple; numerics, booleans
-    --syntax-function:  oklch(0.90 0.05 250);     // OKCA 10.2 ✅ — near-white azure; callsites
-    --syntax-property:  oklch(0.83 0.10 347);     // OKCA 6.9 ✅ — rose; CSS props, attr names
-    --syntax-operator:  oklch(0.75 0.03 248);     // OKCA 5.9 ✅ — muted cool; operators, punctuation
-    --syntax-deleted:   oklch(0.79 0.12 25);      // OKCA 5.3 ✅ — error red; diff removed
-    --syntax-inserted:  oklch(0.80 0.15 144.2);   // OKCA 4.8 ✅ — success green; diff added
-    --syntax-regex:     oklch(0.82 0.11 53.54);   // OKCA 6.4 ✅ — amber; regex, template literals
+    @include light-syntax-tokens;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        @include dark-syntax-tokens;
+    }
+}
+
+[data-theme="dark"] {
+    @include dark-syntax-tokens;
+}
+
+[data-theme="light"] {
+    @include light-syntax-tokens;
 }
 
 // ── Token styles ──────────────────────────────────────────────────────────

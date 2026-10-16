@@ -744,7 +744,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Inline code: the drop-in that bundles the `--color-bg-code` / `--color-text-code`\ntoken pair (plus mono font, padding, radius, border) so they can't be\nhalf-applied. Using `--color-bg-code` alone yields invisible dark-on-dark text\n(#170); this element renders the pair correctly by construction.\n\nFor block/multiline code, wrap in a `<pre>` or use a syntax-highlighting\nsurface. This element is for inline spans within prose.\n\nEmits no custom events.",
+          "description": "Inline code: the drop-in that bundles the `--color-bg-code` / `--color-text-code`\ntoken pair (plus mono font, padding, radius, border) so they can't be\nhalf-applied. Using `--color-bg-code` alone leaves the text colour to whatever\nthe context inherits, which nothing has measured against the code background\n(#170); this element renders the measured pair by construction.\n\nFor block/multiline code, wrap in a `<pre>` or use a syntax-highlighting\nsurface. This element is for inline spans within prose.\n\nEmits no custom events.",
           "name": "CandorCode",
           "superclass": {
             "name": "LitElement",

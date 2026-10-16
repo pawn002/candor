@@ -7,6 +7,7 @@ import '../components/accordion/candor-accordion-item';
 import '../components/alert/candor-alert';
 import '../components/button/candor-button';
 import '../components/card/candor-card';
+import '../components/code/candor-code';
 
 const meta: Meta = {
   title: 'Design Tokens/Icons',
@@ -156,7 +157,7 @@ export const WeightComparison: Story = {
         <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
             <h3 id="icon-weight-fill" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Fill</h3>
-            <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph-fill</code>
+            <candor-code>ph-fill</candor-code>
             <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Actions: something you can press</p>
           </div>
           <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
@@ -169,7 +170,7 @@ export const WeightComparison: Story = {
         <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
             <h3 id="icon-weight-bold" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Bold</h3>
-            <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph-bold</code>
+            <candor-code>ph-bold</candor-code>
             <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Stroke-only actions; status, direction and selection</p>
           </div>
           <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
@@ -182,7 +183,7 @@ export const WeightComparison: Story = {
         <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
             <h3 id="icon-weight-regular" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Regular</h3>
-            <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph</code>
+            <candor-code>ph</candor-code>
             <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Beside text that carries the meaning: metadata</p>
           </div>
           <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
@@ -275,7 +276,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
           <h3 id="pattern-a-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Decorative icon</h3>
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Icon is paired with visible text, so the text label is the accessible name. Add <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-hidden="true"</code> to remove the icon from the accessibility tree.</p>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Icon is paired with visible text, so the text label is the accessible name. Add <candor-code>aria-hidden="true"</candor-code> to remove the icon from the accessibility tree.</p>
           <candor-button variant="primary" style="align-self: flex-start;">
             <i class="ph-fill ph-download-simple" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
             Download
@@ -293,7 +294,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
           <h3 id="pattern-b-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Icon-only button</h3>
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">No visible text, so the accessible name must be provided via <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-label</code> on <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;candor-button&gt;</code>, which reflects it onto the inner <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;button&gt;</code>.</p>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">No visible text, so the accessible name must be provided via <candor-code>aria-label</candor-code> on <candor-code>&lt;candor-button&gt;</candor-code>, which reflects it onto the inner <candor-code>&lt;button&gt;</candor-code>.</p>
           <candor-button variant="ghost" size="small" aria-label="Notifications" style="align-self: flex-start; --candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem; --candor-button-ghost-color: var(--color-text-subtle);">
             <i class="ph-fill ph-bell" style="font-size: 1.75rem; line-height: 1;" aria-hidden="true"></i>
           </candor-button>

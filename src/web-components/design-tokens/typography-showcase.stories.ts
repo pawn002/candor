@@ -7,6 +7,7 @@ import '../components/alert/candor-alert';
 import '../components/card/candor-card';
 import '../components/badge/candor-badge';
 import '../components/table/candor-table';
+import '../components/code/candor-code';
 import { allModes } from '../../../.storybook/modes';
 
 interface FontFamily {
@@ -72,7 +73,7 @@ const renderShowcase = () => html`
                   <candor-badge size="sm">${f.voice}</candor-badge>
                 </div>
                 <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-normal);">${f.use}</p>
-                <code style="display: block; font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-code); color: var(--color-text-code); border: var(--border-width-thin) solid var(--color-border-code); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm);">${f.variable}</code>
+                <candor-code>${f.variable}</candor-code>
               </div>
             </candor-card>
           `;
@@ -85,20 +86,20 @@ const renderShowcase = () => html`
         <h2 style="font-family: var(--font-family-display); font-size: var(--font-size-2xl); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0 0 var(--spacing-xs) 0; line-height: var(--line-height-tight);">Type Scale</h2>
         <p style="font-size: var(--font-size-md); color: var(--color-text-subtle); margin: 0; line-height: var(--line-height-normal);">
           Major Third ratio (1.25×) from a 1rem (16px) base. The 14px floor
-          (<code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">--font-size-sm</code>) is the minimum for readable
-          text. <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">--font-size-xs</code> (12px) is for decorative
+          (<candor-code>--font-size-sm</candor-code>) is the minimum for readable
+          text. <candor-code>--font-size-xs</candor-code> (12px) is for decorative
           and non-text use only.
         </p>
         <p style="font-size: var(--font-size-md); color: var(--color-text-subtle); margin: var(--spacing-sm) 0 0; line-height: var(--line-height-normal);">
           Reaching for the 12px row has two conditions attached. It is <strong style="color: var(--color-text-default); font-weight: var(--font-weight-semibold);">not reachable through
-          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">&lt;candor-text&gt;</code></strong>.
+          <candor-code>&lt;candor-text&gt;</candor-code></strong>.
           That component's scale stops at 14px, because a component for readable text should not
           offer a size at which text is not permitted. Set the token directly on the element that
           needs it. And <strong style="color: var(--color-text-default); font-weight: var(--font-weight-semibold);">the audit will fail the build</strong> unless the declaration
           declares why, with a
-          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">12px-ok: badge-chrome</code>
+          <candor-code>12px-ok: badge-chrome</candor-code>
           or
-          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">12px-ok: icon</code>
+          <candor-code>12px-ok: icon</candor-code>
           comment, because 12px carries no contrast floor in either axis, so using it silently
           removed the text from contrast auditing altogether (#230).
         </p>
@@ -113,7 +114,7 @@ const renderShowcase = () => html`
             <div style="display: grid; grid-template-columns: 5rem 1fr; align-items: center; padding: var(--spacing-sm) var(--spacing-md); ${isLast ? '' : 'border-bottom: var(--border-width-thin) solid var(--color-border-strong);'} gap: var(--spacing-md); ${floorStyle} opacity: ${opacity};">
               <div style="font-family: var(--font-family-base); font-weight: var(--font-weight-semibold); color: var(--color-text-default); line-height: 1; text-align: right; font-optical-sizing: auto; font-size: ${s.size};">Aa</div>
               <div style="display: flex; align-items: baseline; gap: var(--spacing-sm); flex-wrap: wrap;">
-                <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.4em; border-radius: var(--radius-sm); flex-shrink: 0;">${s.token}</code>
+                <candor-code>${s.token}</candor-code>
                 <span style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body); flex-shrink: 0;">${s.size} · ${s.px}</span>
                 <span style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle);">${s.use}</span>
               </div>
@@ -131,7 +132,7 @@ const renderShowcase = () => html`
           grows with the size; large type wants proportionally less of it, or a wrapped heading
           reads as separate phrases rather than one line that broke (#264). Leading only shows when
           a heading wraps, so check headings at narrow widths.
-          <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">candor-heading</code> and <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: var(--radius-sm);">candor-article</code>
+          <candor-code>candor-heading</candor-code> and <candor-code>candor-article</candor-code>
           apply the heading rows below by level.
         </p>
       </div>
