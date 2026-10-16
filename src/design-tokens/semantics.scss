@@ -113,7 +113,10 @@
     --color-border-code: transparent; // deliberate: the tint separates the block from the page on its own; dark mode adds a rule (#242)
 
     // ─── Colors: Focus ─────────────────────────────────────────────────────────
-    --color-focus: var(--azure-400); // high-visibility ring on dark/white backgrounds
+    // The ring every component draws, offset so it sits on the background behind
+    // the control. azure-400 fell under the 1.4.11 floor of 3 on all three light
+    // backgrounds, and nothing measured it until the focus-ring pairings existed.
+    --color-focus: var(--azure-500); // OKCA 3.3 on bg-surface ✅
 
     // ─── Colors: Status ────────────────────────────────────────────────────────
     // Base colors: non-text use only (icons, borders, indicators).

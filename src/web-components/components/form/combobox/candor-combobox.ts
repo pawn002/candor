@@ -66,8 +66,8 @@ export class CandorCombobox extends LitElement {
     .combobox__input::placeholder { color: var(--color-text-subtle); }
     .combobox__input:hover:not(:disabled) { border-color: var(--color-text-subtle); }
     .combobox__input:focus {
-      outline: none; border-color: var(--color-action-primary);
-      box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-action-primary) l c h / 0.2);
+      border-color: var(--color-action-primary);
+      outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset);
     }
     .combobox__input:disabled {
       background-color: var(--color-bg-surface); color: var(--color-text-disabled);
@@ -76,7 +76,6 @@ export class CandorCombobox extends LitElement {
     .combobox__control--error .combobox__input { border-color: var(--color-status-error); }
     .combobox__control--error .combobox__input:focus {
       border-color: var(--color-status-error);
-      box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2);
     }
     .combobox__caret {
       position: absolute; right: var(--spacing-input-padding-x);

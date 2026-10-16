@@ -69,13 +69,12 @@ export class CandorListbox extends LitElement {
     }
     .listbox__trigger:hover:not(:disabled) { --_border-color: var(--color-text-subtle); }
     .listbox__trigger:focus-visible {
-      outline: none; --_border-color: var(--color-action-primary);
-      box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-action-primary) l c h / 0.2);
+      --_border-color: var(--color-action-primary);
+      outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset);
     }
     .listbox__trigger.listbox__trigger--error { --_border-color: var(--color-status-error); }
     .listbox__trigger.listbox__trigger--error:focus-visible {
       --_border-color: var(--color-status-error);
-      box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2);
     }
     .listbox__trigger:disabled {
       background-color: var(--color-bg-surface); color: var(--color-text-disabled);

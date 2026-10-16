@@ -1280,6 +1280,36 @@
       "tier": 3,
       "min": 4.5,
       "note": "Secondary text on the recede surface. Light recede sits at bg-surface lightness, where plain text-subtle falls below 4.5, so it takes the on-surface variant."
+    },
+    {
+      "id": "focus-ring-on-page",
+      "fg": "{color.focus}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The focus outline every interactive component draws, offset from the control so it sits on the page. Non-text, so the WCAG 1.4.11 floor of 3.0. Until the field focus fix, input, select, combobox, autocomplete and listbox drew a 20%-opacity ring instead, and no pairing measured any focus indicator."
+    },
+    {
+      "id": "focus-ring-on-surface",
+      "fg": "{color.focus}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The focus outline every interactive component draws, offset from the control so it sits on a card or panel. Non-text, so the WCAG 1.4.11 floor of 3.0. Until the field focus fix, input, select, combobox, autocomplete and listbox drew a 20%-opacity ring instead, and no pairing measured any focus indicator."
+    },
+    {
+      "id": "focus-ring-on-elevated",
+      "fg": "{color.focus}",
+      "bg": "{color.bg.elevated}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The focus outline every interactive component draws, offset from the control so it sits on a modal, drawer or menu. Non-text, so the WCAG 1.4.11 floor of 3.0. Until the field focus fix, input, select, combobox, autocomplete and listbox drew a 20%-opacity ring instead, and no pairing measured any focus indicator."
     }
   ]
 }

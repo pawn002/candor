@@ -333,11 +333,11 @@
       },
       "focus": {
         "$type": "color",
-        "$value": "oklch(0.65 0.18 250.80)",
-        "$description": "high-visibility ring on dark/white backgrounds",
+        "$value": "oklch(0.53 0.15 250.80)",
+        "$description": "The ring every component draws, offset so it sits on the background behind the control. azure-400 fell under the 1.4.11 floor of 3 on all three light backgrounds, and nothing measured it until the focus-ring pairings existed. — OKCA 3.3 on bg-surface ✅",
         "$extensions": {
           "usage": "non-text",
-          "aliasOf": "--azure-400"
+          "aliasOf": "--azure-500"
         }
       },
       "status": {

@@ -172,7 +172,7 @@
   --color-bg-code: oklch(0.92 0.018 195);
   --color-text-code: var(--color-text-default);
   --color-border-code: transparent;
-  --color-focus: var(--azure-400);
+  --color-focus: var(--azure-500);
   --color-status-error: oklch(0.54 0.21 25);
   --color-status-error-bg: oklch(0.95 0.02 25);
   --color-status-error-text: oklch(0.45 0.18 25);
@@ -421,7 +421,7 @@
   --color-bg-code: oklch(0.92 0.018 195);
   --color-text-code: var(--color-text-default);
   --color-border-code: transparent;
-  --color-focus: var(--azure-400);
+  --color-focus: var(--azure-500);
   --color-status-error: oklch(0.54 0.21 25);
   --color-status-error-bg: oklch(0.95 0.02 25);
   --color-status-error-text: oklch(0.45 0.18 25);
