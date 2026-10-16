@@ -248,7 +248,7 @@ export class CandorListbox extends LitElement {
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="${this._open}"
-            aria-controls="${this._listId}"
+            aria-controls="${this._open ? this._listId : nothing}"
             aria-labelledby="${this.label ? this._triggerId + '-label' : nothing}"
             aria-label="${this._ariaLabel || nothing}"
             aria-required="${this.required || nothing}"
