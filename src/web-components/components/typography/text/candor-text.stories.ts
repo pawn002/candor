@@ -15,15 +15,15 @@ const meta: Meta = {
 
 | Variant | Typeface | Use case |
 |---|---|---|
-| \`body\` | Noto Sans | UI body text — descriptions, help copy, onboarding paragraphs |
+| \`body\` | Noto Sans | UI body text: descriptions, help copy, onboarding paragraphs |
 | \`caption\` | Noto Sans italic | Supplementary context, figure captions, timestamps |
-| \`label\` | Roboto Flex | UI chrome — button text, tab labels, field annotations |
+| \`label\` | Roboto Flex | UI chrome: button text, tab labels, field annotations |
 
-**Text vs. AccessibleText:** Use \`<candor-text>\` for body content and UI chrome labels in Noto Sans or Roboto Flex. Use \`<candor-accessible-text>\` (Atkinson Hyperlegible) for instructional text — form labels, error messages, status indicators — where the user must read precisely to know what to do next.
+**Text vs. AccessibleText:** Use \`<candor-text>\` for body content and UI chrome labels in Noto Sans or Roboto Flex. Use \`<candor-accessible-text>\` (Atkinson Hyperlegible) for instructional text (form labels, error messages, status indicators) where the user must read precisely to know what to do next.
 
 **Text vs. Article:** Use \`<candor-article>\` for long-form authored prose (human or AI-generated) rendered in Noto Serif. \`<candor-text variant="body">\` is for shorter UI paragraphs in Noto Sans.
 
-\`<candor-heading>\` + \`<candor-text>\` cannot substitute for \`<candor-article>\`. The combination gives you a **UI-register content block** (Roboto Flex heading, Noto Sans body) — correct for feature descriptions, onboarding panels, and help cards where the content *explains* the UI. \`<candor-article>\` gives you a **prose-register reading surface** (Noto Serif body, full semantic HTML styling, 65ch reading measure) — correct when the content *is* the subject. The font difference between the two is intentional, not a gap.
+\`<candor-heading>\` + \`<candor-text>\` cannot substitute for \`<candor-article>\`. The combination gives you a **UI-register content block** (Roboto Flex heading, Noto Sans body). It is correct for feature descriptions, onboarding panels, and help cards where the content *explains* the UI. \`<candor-article>\` gives you a **prose-register reading surface** (Noto Serif body, full semantic HTML styling, 65ch reading measure). It is correct when the content *is* the subject. The font difference between the two is intentional, not a gap.
         `.trim(),
       },
     },
@@ -32,12 +32,12 @@ const meta: Meta = {
     variant: {
       control: 'select',
       options: ['body', 'caption', 'label'],
-      description: 'Text style variant — body (Noto Sans, UI paragraphs), caption (italic supplementary), label (Roboto Flex, UI chrome)',
+      description: 'Text style variant: body (Noto Sans, UI paragraphs), caption (italic supplementary), label (Roboto Flex, UI chrome)',
     },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg', 'xl', '2xl', '3xl'],
-      description: 'Text size. sm (14px) is the floor — 12px is not offered here (#230).',
+      description: 'Text size. sm (14px) is the floor; 12px is not offered here (#230).',
     },
     color: {
       control: 'select',
@@ -46,7 +46,7 @@ const meta: Meta = {
     },
     bold: {
       control: 'boolean',
-      description: 'Bold weight — for label: use only for structural hierarchy, not urgency.',
+      description: 'Bold weight. For label, use only for structural hierarchy, not urgency.',
     },
   },
   args: { variant: 'body', size: 'md', color: 'primary', bold: false },
@@ -67,7 +67,7 @@ export const Sizes: Story = {
           'floor, and this component exists to render readable text, so the size was removed in ' +
           '5.0.0 rather than documented as forbidden (#230).\n\n' +
           'The old story rendered a full sentence at 12px in order to explain that 12px is not for ' +
-          'sentences — and stories are what developers copy. 12px is still available as ' +
+          'sentences, and stories are what developers copy. 12px is still available as ' +
           '`--font-size-xs` for badge chrome and icon glyphs, which are not text and are not set ' +
           'through this component.',
       },
@@ -93,11 +93,11 @@ export const Sizes: Story = {
       </div>
       <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
         <candor-text variant="label" size="sm" color="secondary" style="min-width:10ch;">2xl · 31px</candor-text>
-        <candor-text variant="body" size="2xl">Display scale — use &lt;candor-heading&gt; (h2) for semantic heading use.</candor-text>
+        <candor-text variant="body" size="2xl">Display scale. Use &lt;candor-heading&gt; (h2) for semantic heading use.</candor-text>
       </div>
       <div style="display:flex;align-items:baseline;gap:var(--spacing-md);">
         <candor-text variant="label" size="sm" color="secondary" style="min-width:10ch;">3xl · 39px</candor-text>
-        <candor-text variant="body" size="3xl">Hero display — use &lt;candor-heading&gt; (h1) for semantic heading use.</candor-text>
+        <candor-text variant="body" size="3xl">Hero display. Use &lt;candor-heading&gt; (h1) for semantic heading use.</candor-text>
       </div>
     </div>
   `,
@@ -106,9 +106,9 @@ export const Sizes: Story = {
 export const ColorVariants: Story = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
-      <candor-text variant="body">Primary — default body color</candor-text>
-      <candor-text variant="body" color="secondary">Secondary — subtle, for supporting content</candor-text>
-      <candor-text variant="body" color="disabled">Disabled — for inactive or unavailable text</candor-text>
+      <candor-text variant="body">Primary: default body color</candor-text>
+      <candor-text variant="body" color="secondary">Secondary: subtle, for supporting content</candor-text>
+      <candor-text variant="body" color="disabled">Disabled: for inactive or unavailable text</candor-text>
     </div>
   `,
 };
@@ -122,14 +122,14 @@ export const AllVariants: Story = {
       </candor-card>
       <candor-card>
         <candor-text variant="label" size="sm" color="secondary">Caption</candor-text><br>
-        <candor-text variant="caption" size="sm" color="secondary">Figure 1. Optical sizing in Roboto Flex means stroke weight adapts to the rendered size — larger text naturally carries heavier strokes.</candor-text>
+        <candor-text variant="caption" size="sm" color="secondary">Figure 1. Optical sizing in Roboto Flex means stroke weight adapts to the rendered size, so larger text naturally carries heavier strokes.</candor-text>
       </candor-card>
       <candor-card>
         <candor-text variant="label" size="sm" color="secondary">Label</candor-text><br>
         <candor-text variant="label">Section title</candor-text>
       </candor-card>
       <candor-card>
-        <candor-text variant="label" size="sm" color="secondary">Label — bold (structural hierarchy)</candor-text><br>
+        <candor-text variant="label" size="sm" color="secondary">Label: bold (structural hierarchy)</candor-text><br>
         <candor-text variant="label" bold>Column header</candor-text>
       </candor-card>
     </div>

@@ -11,11 +11,11 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          '`<candor-button>` — five variants covering the full hierarchy of actions. ' +
+          '`<candor-button>`: five variants covering the full hierarchy of actions. ' +
           'Listen for the standard DOM `click` event: the inner button\'s native click ' +
           'retargets to the host and reaches you unaided, so there is no Candor-specific ' +
           'event to learn. (A `disabled` button suppresses it natively.) The bespoke ' +
-          '`clicked` event was removed in 5.0.0 — it only ever duplicated `click` (#201).',
+          '`clicked` event was removed in 5.0.0. It only ever duplicated `click` (#201).',
       },
     },
   },
@@ -61,7 +61,7 @@ export const DisabledStates: Story = {
     docs: {
       description: {
         story:
-          'Visual reference for the disabled treatment across variants. **In real usage, a disabled button whose label is the only cue to the unavailable action must be paired with an adjacent readable reason** — see **Disabled with reason**. The bare buttons here are a treatment showcase, not a usage template.',
+          'Visual reference for the disabled treatment across variants. **In real usage, a disabled button whose label is the only cue to the unavailable action must be paired with an adjacent readable reason**. See **Disabled with reason**. The bare buttons here are a treatment showcase, not a usage template.',
       },
     },
   },
@@ -83,8 +83,8 @@ export const DisabledWithReason: Story = {
     docs: {
       description: {
         story:
-          'A disabled label carries meaning ("Delete 3 records") that a low-vision user must still be able to read — but the dimmed label is intentionally below the contrast floor (WCAG 1.4.3 exempts inactive components). ' +
-          "Candor's convention (#134): the dim label signals *unavailable*, and the **actionable** meaning is carried by a readable, enabled-contrast explanation **adjacent** to the control — here a `candor-accessible-text role_=\"annotation\"` that stays at full opacity. " +
+          'A disabled label carries meaning ("Delete 3 records") that a low-vision user must still be able to read, but the dimmed label is intentionally below the contrast floor (WCAG 1.4.3 exempts inactive components). ' +
+          "Candor's convention (#134): the dim label signals *unavailable*, and the **actionable** meaning is carried by a readable, enabled-contrast explanation **adjacent** to the control: here a `candor-accessible-text role_=\"annotation\"` that stays at full opacity. " +
           'Do **not** move the reason into a tooltip: native `disabled` buttons are removed from the tab order, so a focus- or hover-gated tooltip never reaches keyboard or screen-reader users. Adjacent text is encountered in document order by everyone.',
       },
     },
@@ -181,7 +181,7 @@ export const Overriding: Story = {
     docs: {
       description: {
         story:
-          'Two opt-in hooks restyle a button without forking. **Custom properties** (`--candor-button-{padding-x,padding-y,font-size,min-height,radius}`) are the blessed density knobs, each defaulting to the size token — here one button is made denser than `size="small"`. **`::part(button)`** is the escape hatch for arbitrary CSS the knobs do not cover (letter-spacing, text-transform).',
+          'Two opt-in hooks restyle a button without forking. **Custom properties** (`--candor-button-{padding-x,padding-y,font-size,min-height,radius}`) are the blessed density knobs, each defaulting to the size token. Here one button is made denser than `size="small"`. **`::part(button)`** is the escape hatch for arbitrary CSS the knobs do not cover (letter-spacing, text-transform).',
       },
     },
   },

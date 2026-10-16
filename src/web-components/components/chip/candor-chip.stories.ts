@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 
 import './candor-chip';
 
@@ -10,14 +10,14 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-chip>\` — small pill-shaped element for tags, filters, and selections. Three
+\`<candor-chip>\`: a small pill-shaped element for tags, filters, and selections. Three
 interaction modes:
 
-- **Selectable** (\`selectable\`) — toggles an active state; use for filter chips where the user turns options on and off
-- **Dismissible** (\`dismissible\`) — shows a close button; use for input chips that can be removed (tags on a post, applied filters)
-- **Link** (\`link-href="/tags/foo"\`) — renders as \`<a>\`; use when the chip navigates to another page (taxonomy archive, tag cloud). Mutually exclusive with selectable and dismissible.
+- **Selectable** (\`selectable\`) toggles an active state; use for filter chips where the user turns options on and off
+- **Dismissible** (\`dismissible\`) shows a close button; use for input chips that can be removed (tags on a post, applied filters)
+- **Link** (\`link-href="/tags/foo"\`) renders as \`<a>\`; use when the chip navigates to another page (taxonomy archive, tag cloud). Mutually exclusive with selectable and dismissible.
 
-**Chip vs. Badge:** Badges are static indicators (status, count). Chips are interactive —
+**Chip vs. Badge:** Badges are static indicators (status, count). Chips are interactive:
 they respond to clicks and can be removed. If the element has no interaction, use a Badge.
 
 Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warning\`,
@@ -25,7 +25,7 @@ Six color variants: \`default\`, \`primary\`, \`secondary\`, \`success\`, \`warn
 
 **Events.** \`change\` fires on select/deselect, carrying the new selected state as a
 \`boolean\` in \`detail\`; \`dismiss\` fires when the remove button is activated, with no
-payload. The legacy \`selected-change\` was removed in 5.0.0 (#201) — use \`change\`, which
+payload. The legacy \`selected-change\` was removed in 5.0.0 (#201). Use \`change\`, which
 has the same semantics and the same payload.
         `.trim(),
       },
@@ -45,8 +45,8 @@ has the same semantics and the same payload.
     selected: { control: 'boolean', type: { name: 'boolean' }, description: 'Selected state (when selectable)' },
     linkHref: { control: 'text', type: { name: 'string' }, description: 'href; when set, renders as <a> (mutually exclusive with selectable and dismissible)' },
   },
-  args: { label: 'Tag', variant: 'default', selectable: false, dismissible: false, disabled: false, selected: false },
-  render: (args) => html`<candor-chip label="${args['label']}" variant="${args['variant']}" ?selectable=${args['selectable']} ?dismissible=${args['dismissible']} ?disabled=${args['disabled']} ?selected=${args['selected']}></candor-chip>`,
+  args: { label: 'Tag', variant: 'default', selectable: true, dismissible: false, disabled: false, selected: false, linkHref: '' },
+  render: (args) => html`<candor-chip label="${args['label']}" variant="${args['variant']}" ?selectable=${args['selectable']} ?dismissible=${args['dismissible']} ?disabled=${args['disabled']} ?selected=${args['selected']} link-href=${args['linkHref'] || nothing}></candor-chip>`,
 };
 
 export default meta;
@@ -77,12 +77,12 @@ export const Dismissible: Story = {
 export const AllVariants: Story = {
   render: () => html`
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-      <candor-chip label="Default"></candor-chip>
-      <candor-chip label="Primary" variant="primary"></candor-chip>
-      <candor-chip label="Secondary" variant="secondary"></candor-chip>
-      <candor-chip label="Success" variant="success"></candor-chip>
-      <candor-chip label="Warning" variant="warning"></candor-chip>
-      <candor-chip label="Error" variant="error"></candor-chip>
+      <candor-chip label="Default" selectable selected></candor-chip>
+      <candor-chip label="Primary" variant="primary" selectable></candor-chip>
+      <candor-chip label="Secondary" variant="secondary" selectable></candor-chip>
+      <candor-chip label="Success" variant="success" selectable></candor-chip>
+      <candor-chip label="Warning" variant="warning" selectable></candor-chip>
+      <candor-chip label="Error" variant="error" selectable></candor-chip>
     </div>
   `,
 };

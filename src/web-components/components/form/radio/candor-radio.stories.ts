@@ -11,8 +11,8 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-radio>\` — single-select option within a mutually exclusive group. Radios work in
-groups — a standalone radio button is almost always a mistake; use a checkbox instead.
+\`<candor-radio>\`: a single-select option within a mutually exclusive group. Radios work in
+groups. A standalone radio button is almost always a mistake; use a checkbox instead.
 
 **Always wrap radio groups in a \`<fieldset>\` with a \`<legend>\`.** The legend is announced
 before each option by screen readers, providing the question context. Without it, a user
@@ -31,12 +31,12 @@ Form-associated (\`ElementInternals\`): the selected value appears in \`FormData
 
 **Secondary content goes in \`slot="end"\`, not the default slot.** The default slot renders
 inside the option's \`<label>\`, so anything in it becomes part of the option's accessible
-name — a help button there is announced as part of the option ("OKCA About OKCA, radio
+name. A help button there is announced as part of the option ("OKCA About OKCA, radio
 button") and makes the label invalid HTML. \`slot="end"\` renders beside the label instead;
 see *With Adjacent Help*. The same two slots exist on \`candor-checkbox\` and \`candor-switch\`.
 
 **Events.** \`change\` fires on the newly selected radio, carrying its \`value\` as a
-\`string\` in \`detail\`. There is no live \`input\` event — a radio has no mid-edit phase.
+\`string\` in \`detail\`. There is no live \`input\` event, because a radio has no mid-edit phase.
         `.trim(),
       },
     },

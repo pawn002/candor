@@ -13,18 +13,18 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-stat>\` — numeric display for metrics, KPIs, and profile stats.
+\`<candor-stat>\`: numeric display for metrics, KPIs, and profile stats.
 
 **Three sizes** for different hierarchy levels:
-- \`size="sm"\` (25px value) — compact stats inside cards, profile panels, sidebars
-- \`size="md"\` (31px value, default) — standard dashboard metrics and section-level KPIs
-- \`size="lg"\` (39px value) — hero KPIs and prominent page-level statistics
+- \`size="sm"\` (25px value): compact stats inside cards, profile panels, sidebars
+- \`size="md"\` (31px value, default): standard dashboard metrics and section-level KPIs
+- \`size="lg"\` (39px value): hero KPIs and prominent page-level statistics
 
 Five semantic color variants signal the metric's state: \`default\`, \`success\`,
 \`warning\`, \`error\`, \`info\`. The color applies to the value and unit, not the label.
 
 **When you use a status colour, put the verdict in the slot too.** A stat's label names *what
-is measured*, not whether the number is good — so unlike a badge, colour here can end up as
+is measured*, not whether the number is good. So unlike a badge, colour here can end up as
 the only thing saying "this is a problem". \`<candor-accessible-text role_="state">\` is the
 intended occupant: its icon is rendered by the component, so the redundancy cannot be
 forgotten. See *Rule: colour is not the channel* (#214).
@@ -49,7 +49,7 @@ Compose with \`<candor-badge>\` for trend indicators (↑ 12% vs. last month) an
       control: 'select',
       options: ['sm', 'md', 'lg'],
       type: { name: 'string' },
-      description: 'Value font size — sm (25px), md (31px, default), lg (39px)',
+      description: 'Value font size: sm (25px), md (31px, default), lg (39px)',
     },
   },
   args: { value: '1,284', unit: '', label: 'Monthly active users', color: 'default', size: 'md' },
@@ -82,7 +82,7 @@ export const AllSizes: Story = {
 };
 
 export const ContrastRatio: Story = {
-  name: 'Contrast ratio — warning state',
+  name: 'Contrast ratio: warning state',
   parameters: { controls: { disable: true } },
   render: () => html`
     <div style="max-width:320px;padding:var(--spacing-sm);">
@@ -90,9 +90,9 @@ export const ContrastRatio: Story = {
         <div style="padding:var(--spacing-xs) 0;">
           <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning">
             <div style="display:flex;gap:var(--spacing-xs);flex-wrap:wrap;justify-content:center;">
-              <candor-badge variant="error" size="sm">AA text ✗</candor-badge>
-              <candor-badge variant="success" size="sm">Large text ✓</candor-badge>
-              <candor-badge variant="success" size="sm">Non-text ✓</candor-badge>
+              <candor-badge variant="error" size="sm">AA text: fails</candor-badge>
+              <candor-badge variant="success" size="sm">Large text: passes</candor-badge>
+              <candor-badge variant="success" size="sm">Non-text: passes</candor-badge>
             </div>
             <candor-accessible-text role_="annotation" color="secondary" style="text-align:center;display:block;">
               Needs 4.5:1 for AA · 7:1 for AAA
@@ -125,7 +125,7 @@ export const ColourIsNotTheChannel: Story = {
         story: `
 Stat differs from badge, and the difference decides the rule.
 
-A badge's label states the condition — "3 failed" — so the text carries the meaning and the
+A badge's label states the condition ("3 failed"), so the text carries the meaning and the
 fill is decoration. A stat's label states **what is measured**, not the verdict. "Response
 time 847 ms" is the same sentence whether that number is excellent or alarming; only the
 colour says which. That makes colour the sole channel, which is exactly what the Tier 3
@@ -133,11 +133,11 @@ discount is not allowed to rest on.
 
 The fix is already in the component: \`<candor-stat>\` has a default slot. Put
 \`<candor-accessible-text role_="state">\` in it. Its tone icon is rendered by that component
-rather than hand-placed, so the redundant channel cannot be omitted by accident — and its
+rather than hand-placed, so the redundant channel cannot be omitted by accident, and its
 text stays \`--color-text-default\`, so it clears every floor with margin while the icon does
 the colour work.
 
-Note the first row is not *wrong* in every context — a reader who knows the thresholds can
+Note the first row is not *wrong* in every context. A reader who knows the thresholds can
 read it. It is wrong as a **default**, because it makes correct interpretation conditional on
 knowledge the interface never supplied.
         `.trim(),
@@ -147,7 +147,7 @@ knowledge the interface never supplied.
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:620px;padding:var(--spacing-md);">
       <div>
-        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-md);">Colour alone — the verdict is unstated</p>
+        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-md);">Colour alone: the verdict is unstated</p>
         <div style="display:flex;gap:var(--spacing-xl);flex-wrap:wrap;justify-content:center;">
           <candor-stat value="847" unit="ms" label="Response time" color="warning" size="lg"></candor-stat>
           <candor-stat value="99.2" unit="%" label="Uptime" color="success" size="lg"></candor-stat>

@@ -21,8 +21,8 @@ const meta: Meta = {
       ),
       description: {
         component: `
-Candor uses **Phosphor Icons** as its icon system. Phosphor is a humanist icon family —
-rounded, consistent stroke weights, no sharp corners — which aligns with Candor's
+Candor uses **Phosphor Icons** as its icon system. Phosphor is a humanist icon family
+(rounded, consistent stroke weights, no sharp corners), which aligns with Candor's
 typeface choices (Roboto Flex, Noto Serif, Atkinson Hyperlegible).
 
 ## Installation
@@ -39,27 +39,27 @@ Import the three weights in your global stylesheet:
 @import '@phosphor-icons/web/regular/style.css';
 \`\`\`
 
-> **Import order matters.** Each weight sets \`font-family: !important\` on its base class.
-> Never put two weight classes on the same element — the last-imported stylesheet wins
-> and the other is silently ignored.
+**Import order matters.** Each weight sets \`font-family: !important\` on its base class.
+Never put two weight classes on the same element. The last-imported stylesheet wins
+and the other is silently ignored.
 
 ## Usage
 
 Each weight has its own base class. Use one base class per icon element:
 
 \`\`\`html
-<!-- Fill — an action -->
+<!-- Fill: an action -->
 <i class="ph-fill ph-trash" aria-hidden="true"></i>
 
-<!-- Bold — a stroke-only action, or an icon that informs -->
+<!-- Bold: a stroke-only action, or an icon that informs -->
 <i class="ph-bold ph-x" aria-hidden="true"></i>
 <i class="ph-bold ph-caret-down" aria-hidden="true"></i>
 
-<!-- Regular — beside text that carries the meaning -->
+<!-- Regular: beside text that carries the meaning -->
 <i class="ph ph-calendar" aria-hidden="true"></i>
 \`\`\`
 
-> **There is no \`ph-regular\` class.** The regular weight's base class is simply \`ph\`.
+**There is no \`ph-regular\` class.** The regular weight's base class is simply \`ph\`.
 
 Always add \`aria-hidden="true"\` to decorative icons. For icons that carry meaning
 without adjacent text, add a visually-hidden \`<span class="sr-only">\` label instead.
@@ -68,9 +68,9 @@ without adjacent text, add a visually-hidden \`<span class="sr-only">\` label in
 
 | Weight | Base class | When to use | Why |
 |---|---|---|---|
-| **Fill** | \`ph-fill\` | Actions — search, download, delete, settings, help | A solid shape reads as something you can press |
-| **Bold** | \`ph-bold\` | Actions whose glyph is only strokes — close, add, remove, confirm, more (✕ + − ✓ ⋮). Icons that inform — status, carets and arrows, selection checks | A stroke-only glyph has no fill form: Phosphor draws it inside a box. An icon that informs is not pressable, so it is never filled; bold holds its shape at small sizes |
-| **Regular** | \`ph\` | Inside or beside text whose words carry the meaning — metadata, list markers | The lightest weight; it recedes into the text it accompanies |
+| **Fill** | \`ph-fill\` | Actions: search, download, delete, settings, help | A solid shape reads as something you can press |
+| **Bold** | \`ph-bold\` | Actions whose glyph is only strokes: close, add, remove, confirm, more (✕ + − ✓ ⋮). Icons that inform: status, carets and arrows, selection checks | A stroke-only glyph has no fill form: Phosphor draws it inside a box. An icon that informs is not pressable, so it is never filled; bold holds its shape at small sizes |
+| **Regular** | \`ph\` | Inside or beside text whose words carry the meaning: metadata, list markers | The lightest weight; it recedes into the text it accompanies |
 
 **To tell whether a glyph is stroke-only**, look at its fill version: if it is a box or a bar with the glyph cut out of it, use bold.
 
@@ -81,7 +81,7 @@ without adjacent text, add a visually-hidden \`<span class="sr-only">\` label in
 ## Sizing
 
 Icons inherit \`font-size\` from their container, which works when the icon should match
-the surrounding text. When you need a specific size, set it explicitly — and always pair
+the surrounding text. When you need a specific size, set it explicitly, and always pair
 with \`line-height: 1\` to prevent baseline shift:
 
 \`\`\`html
@@ -97,16 +97,16 @@ apply:
 | Where the \`<i class="ph-…">\` is authored | Font classes work? |
 |---|---|
 | Main document (light DOM) | ✅ Yes |
-| Slotted into a Candor component **from the main document** | ✅ Yes — slotted content stays in the document's light DOM, so global rules reach it |
-| Inside **your own** web component's shadow root (incl. slotting into a Candor component from *within* your component) | ❌ No — global \`.ph-*\` rules never enter a shadow root |
+| Slotted into a Candor component **from the main document** | ✅ Yes. Slotted content stays in the document's light DOM, so global rules reach it |
+| Inside **your own** web component's shadow root (incl. slotting into a Candor component from *within* your component) | ❌ No. Global \`.ph-*\` rules never enter a shadow root |
 
 So if you are building your own web components (Candor's own model), the font-class path
-**silently fails** — the \`@font-face\` is global so the font loads, but the \`.ph-*\` class
+**silently fails**. The \`@font-face\` is global so the font loads, but the \`.ph-*\` class
 rules that set \`font-family\` / \`::before { content }\` don't reach into your shadow root, and
 the \`<i>\` renders nothing.
 
-**Fix — inline the SVG path.** Render the glyph as an inline \`<svg>\` with \`currentColor\`,
-which lives in your shadow DOM and needs no external stylesheet — exactly what Candor's own
+**Fix: inline the SVG path.** Render the glyph as an inline \`<svg>\` with \`currentColor\`,
+which lives in your shadow DOM and needs no external stylesheet, exactly what Candor's own
 components do:
 
 \`\`\`html
@@ -120,18 +120,18 @@ Candor's bundled set for the handful it uses internally (below).
 
 ## Bundled Phosphor SVG paths
 
-The WC components that need icons internally — \`candor-accordion-item\`, \`candor-menu\`,
+The WC components that need icons internally (\`candor-accordion-item\`, \`candor-menu\`,
 \`candor-select\`, \`candor-pagination\`, \`candor-listbox\`, \`candor-combobox\`,
 \`candor-alert\`, \`candor-toast\`, \`candor-drawer\`, \`candor-modal\`, \`candor-chip\`,
-\`candor-chat-input\`, \`candor-disclosure\` — ship the SVG path data inline (see \`src/web-components/icons.ts\`)
+\`candor-chat-input\`, \`candor-disclosure\`) ship the SVG path data inline (see \`src/web-components/icons.ts\`)
 so they don't depend on the \`@phosphor-icons/web\` stylesheet being loaded. This is the
 same inline-SVG approach shadow-DOM consumers should use for their own icons (see above).
-\`src/web-components/icons.ts\` exports only the ~9 glyphs the components use — it is not a
+\`src/web-components/icons.ts\` exports only the ~9 glyphs the components use. It is not a
 general icon library; for anything else, take the path from \`@phosphor-icons/core\`.
 
 ## Full icon reference
 
-[phosphoricons.com](https://phosphoricons.com) — search by name, preview all weights.
+[phosphoricons.com](https://phosphoricons.com): search by name, preview all weights.
         `.trim(),
       },
     },
@@ -157,7 +157,7 @@ export const WeightComparison: Story = {
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
             <h3 id="icon-weight-fill" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Fill</h3>
             <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph-fill</code>
-            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Actions — something you can press</p>
+            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Actions: something you can press</p>
           </div>
           <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
             <i class="ph-fill ph-bell" style="font-size: 3rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
@@ -183,7 +183,7 @@ export const WeightComparison: Story = {
           <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
             <h3 id="icon-weight-regular" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Regular</h3>
             <code style="font-family: var(--font-family-mono); font-size: var(--font-size-sm); background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px; align-self: flex-start;">ph</code>
-            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Beside text that carries the meaning — metadata</p>
+            <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Beside text that carries the meaning: metadata</p>
           </div>
           <div style="display: flex; justify-content: center; align-items: center; padding: var(--spacing-md) 0;">
             <i class="ph ph-bell" style="font-size: 3rem; line-height: 1; color: var(--color-text-default);" aria-hidden="true"></i>
@@ -202,10 +202,10 @@ export const InContext: Story = {
         story: `
 Icons in realistic UI contexts demonstrating all three weights.
 
-- **Search** uses fill — an action with a fill form
-- **Add** uses bold — an action, but \`plus\` is stroke-only and its fill form is a box
-- **The alert's status icon and the accordion caret** use bold — they inform rather than act
-- **Metadata icons** use regular — the words beside them carry the meaning
+- **Search** uses fill: an action with a fill form
+- **Add** uses bold: an action, but \`plus\` is stroke-only and its fill form is a box
+- **The alert's status icon and the accordion caret** use bold, because they inform rather than act
+- **Metadata icons** use regular, because the words beside them carry the meaning
         `.trim(),
       },
     },
@@ -259,9 +259,9 @@ export const AccessibilityPatterns: Story = {
         story: `
 Correct accessibility patterns for icon usage with \`<candor-button>\`.
 
-- **Decorative icons** (adjacent visible text): \`aria-hidden="true"\` only — the button's text label is the accessible name
-- **Icon-only buttons** (no visible text): \`aria-hidden="true"\` on the icon + \`aria-label\` on \`<candor-button>\` — the component reflects it onto the inner \`<button>\`
-- Never put \`aria-label\` on the \`<i>\` element — icon fonts are not semantically meaningful elements
+- **Decorative icons** (adjacent visible text): \`aria-hidden="true"\` only. The button's text label is the accessible name
+- **Icon-only buttons** (no visible text): \`aria-hidden="true"\` on the icon + \`aria-label\` on \`<candor-button>\`. The component reflects it onto the inner \`<button>\`
+- Never put \`aria-label\` on the \`<i>\` element. Icon fonts are not semantically meaningful elements
         `.trim(),
       },
     },
@@ -275,7 +275,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
           <h3 id="pattern-a-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Decorative icon</h3>
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Icon is paired with visible text — the text label is the accessible name. Add <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-hidden="true"</code> to remove the icon from the accessibility tree.</p>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">Icon is paired with visible text, so the text label is the accessible name. Add <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-hidden="true"</code> to remove the icon from the accessibility tree.</p>
           <candor-button variant="primary" style="align-self: flex-start;">
             <i class="ph-fill ph-download-simple" style="font-size: 1rem; line-height: 1; margin-right: 0.35em;" aria-hidden="true"></i>
             Download
@@ -293,7 +293,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
           <h3 id="pattern-b-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Icon-only button</h3>
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
-          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">No visible text — the accessible name must be provided via <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-label</code> on <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;candor-button&gt;</code>, which reflects it onto the inner <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;button&gt;</code>.</p>
+          <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0;">No visible text, so the accessible name must be provided via <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">aria-label</code> on <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;candor-button&gt;</code>, which reflects it onto the inner <code style="font-family: var(--font-family-mono); font-size: 0.9em; background: var(--color-bg-surface); color: var(--color-highlight); padding: 0.1em 0.35em; border-radius: 3px;">&lt;button&gt;</code>.</p>
           <candor-button variant="ghost" size="small" aria-label="Notifications" style="align-self: flex-start; --candor-button-padding-x: 0.125rem; --candor-button-padding-y: 0.125rem;">
             <i class="ph-fill ph-bell" style="font-size: 1.75rem; line-height: 1; color: var(--color-text-subtle);" aria-hidden="true"></i>
           </candor-button>

@@ -18,18 +18,18 @@ const meta: Meta = {
       description: {
         component: `
 These stories are one possible composition of Candor primitives into a blog or article
-layout — not a canonical pattern. Treat them as a starting point, not a prescription.
+layout, not a canonical pattern. Treat them as a starting point, not a prescription.
 They use \`<candor-navigation>\`, \`<candor-article>\`, \`<candor-badge>\`, \`<candor-button>\`,
 \`<candor-card>\`, and the framework-agnostic \`candor-blog.css\` post-card token layer.
 
-**BlogPost** — a full reading view: navigation shell, post metadata (tags, date, reading
+**BlogPost**: a full reading view with a navigation shell, post metadata (tags, date, reading
 time), optional hero image, and a \`<candor-article>\` body rendered in Noto Serif.
 
-**PostListing** — a featured card (large image, full excerpt) followed by standard cards.
+**PostListing**: a featured card (large image, full excerpt) followed by standard cards.
 Cards that lack an image render with a left accent border via
 the \`:not(:has(.post-card__image-link))\` CSS selector in \`candor-blog.css\`.
 
-**PostListingGrid** — a two-column responsive grid variant for category or tag archive pages.
+**PostListingGrid**: a two-column responsive grid variant for category or tag archive pages.
 
 Tag pills are separated by a mid-dot CSS \`::before\` pseudo-element so they do not run
 together as a sentence when read aloud by screen readers.
@@ -77,7 +77,7 @@ export const BlogPost: Story = {
             color: var(--color-text-subtle);
             line-height: var(--line-height-normal);
             margin: 0 0 1.5rem;
-          ">LLMs produce technically-valid outputs that fail to serve disabled users. Context is the intervention — examining prompt engineering patterns that shift burden from systems to users.</p>
+          ">LLMs produce technically-valid outputs that fail to serve disabled users. Context is the intervention: examining prompt engineering patterns that shift burden from systems to users.</p>
 
           <div style="
             display: flex;
@@ -107,7 +107,7 @@ export const BlogPost: Story = {
         <candor-article font="serif">
           <p>A screen reader user asks an AI assistant to summarize a research paper. The assistant returns five bullet points. Each bullet is a complete sentence, unpunctuated, beginning with a capital letter. The screen reader announces them as a single run-on utterance. The information is all there. The output is inaccessible.</p>
 
-          <p>This is not an edge case. It is the default behavior of every major LLM when accessibility context is absent from the prompt. The model produces output that is technically correct and structurally broken — because no one told it otherwise.</p>
+          <p>This is not an edge case. It is the default behavior of every major LLM when accessibility context is absent from the prompt. The model produces output that is technically correct and structurally broken, because no one told it otherwise.</p>
 
           <blockquote>
             The accessibility failure is not in the model. It is in the prompt. The model will do exactly what you ask. The question is whether what you asked includes the needs of the person receiving the output.
@@ -115,19 +115,19 @@ export const BlogPost: Story = {
 
           <h2>The compliance gap</h2>
 
-          <p>WCAG 2.1 was written for static content. It defines requirements for images, color contrast, keyboard navigation, and semantic structure — all properties of a document that exists before a user arrives. LLM output is none of these things. It is generated at request time, shaped entirely by context, and structurally unconstrained by default.</p>
+          <p>WCAG 2.1 was written for static content. It defines requirements for images, color contrast, keyboard navigation, and semantic structure: all properties of a document that exists before a user arrives. LLM output is none of these things. It is generated at request time, shaped entirely by context, and structurally unconstrained by default.</p>
 
           <p>This creates a compliance gap that organizations are not yet accounting for. A product can pass a WCAG audit and still deliver inaccessible AI-generated content to every user who relies on assistive technology.</p>
 
           <h2>Context as intervention</h2>
 
-          <p>The intervention is prompt engineering — specifically, injecting accessibility context at the system level so that every generation inherits it without the end user having to ask. A system prompt that instructs the model to use semantic punctuation, avoid markdown in voice contexts, and structure lists as actual lists produces output that works for screen reader users without requiring any change to the user-facing interface.</p>
+          <p>The intervention is prompt engineering, specifically injecting accessibility context at the system level so that every generation inherits it without the end user having to ask. A system prompt that instructs the model to use semantic punctuation, avoid markdown in voice contexts, and structure lists as actual lists produces output that works for screen reader users without requiring any change to the user-facing interface.</p>
 
           <p>The pattern is straightforward. The resistance is organizational: this requires product and AI teams to treat accessibility as a constraint on generation, not a post-processing filter on output. Those are different architectural positions.</p>
 
           <h2>Shifting the burden</h2>
 
-          <p>The current state places the burden on the disabled user: they must prompt the AI in ways that elicit accessible output, often without knowing which patterns work or why. This is the digital equivalent of asking a wheelchair user to request a ramp — technically possible, fundamentally wrong.</p>
+          <p>The current state places the burden on the disabled user: they must prompt the AI in ways that elicit accessible output, often without knowing which patterns work or why. This is the digital equivalent of asking a wheelchair user to request a ramp. Technically possible, fundamentally wrong.</p>
 
           <p>System-level prompt engineering moves the constraint to the right place. The user gets accessible output because the system was built to produce it, not because they knew the right words to ask for it.</p>
         </candor-article>
@@ -164,7 +164,7 @@ export const PostListing: Story = {
     docs: {
       description: {
         story: `
-Post listing page pattern — blog index, tag archive, or "more posts" section.
+Post listing page pattern: blog index, tag archive, or "more posts" section.
 
 Styles live in \`tokens/candor-blog.css\` (compiled from \`src/design-tokens/blog.scss\`).
 Works in any framework; no Angular dependency. Load order:
@@ -175,14 +175,14 @@ Works in any framework; no Angular dependency. Load order:
 \`\`\`
 
 **Variants:**
-- \`.post-list--grid\` — two-column responsive grid (auto-collapses to one column)
-- \`.post-card--featured\` — larger title and taller image; for the lead post
-- \`.post-card--compact\` — no image, tighter padding, 2-line excerpt; for sidebars / archives
+- \`.post-list--grid\`: two-column responsive grid (auto-collapses to one column)
+- \`.post-card--featured\`: larger title and taller image, for the lead post
+- \`.post-card--compact\`: no image, tighter padding, 2-line excerpt, for sidebars / archives
 
 **Accessibility notes:**
-- Cover image link: set \`tabindex="-1"\` and \`aria-hidden="true"\` — the title \`<a>\` is the canonical keyboard target
+- Cover image link: set \`tabindex="-1"\` and \`aria-hidden="true"\`. The title \`<a>\` is the canonical keyboard target
 - Use \`<ul role="list">\` with \`<li>\` + \`<article>\` for correct list semantics
-- Each \`<article>\` is self-contained — screen readers can navigate by landmark
+- Each \`<article>\` is self-contained, so screen readers can navigate by landmark
         `.trim(),
       },
     },
@@ -233,7 +233,7 @@ Works in any framework; no Angular dependency. Load order:
                 </h2>
                 <p class="post-card__excerpt">
                   LLMs produce technically-valid outputs that fail to serve disabled users.
-                  Context is the intervention — examining prompt engineering patterns that
+                  Context is the intervention: examining prompt engineering patterns that
                   shift burden from users to systems.
                 </p>
                 <div class="post-card__meta">
@@ -258,7 +258,7 @@ Works in any framework; no Angular dependency. Load order:
                 </h2>
                 <p class="post-card__excerpt">
                   Standards calcify. Accessibility governance spent 25 years learning what happens
-                  when compliance diverges from outcomes — AI safety is setting up the same dynamic,
+                  when compliance diverges from outcomes. AI safety is setting up the same dynamic,
                   with those lessons available in advance.
                 </p>
                 <div class="post-card__meta">
@@ -282,7 +282,7 @@ Works in any framework; no Angular dependency. Load order:
                 </h2>
                 <p class="post-card__excerpt">
                   How WCAG's legal codification has created a paradox where organizations face risk
-                  when adopting better solutions — leaving disabled users underserved despite apparent compliance.
+                  when adopting better solutions, leaving disabled users underserved despite apparent compliance.
                 </p>
                 <div class="post-card__meta">
                   <time datetime="2026-01-20">January 2026</time>
@@ -332,7 +332,7 @@ Works in any framework; no Angular dependency. Load order:
                   <a href="#">Building a Privacy-First Transcription Tool with Claude Code</a>
                 </h2>
                 <p class="post-card__excerpt">
-                  How I used AI to build an offline transcription app that protects user privacy —
+                  How I used AI to build an offline transcription app that protects user privacy,
                   and what it reveals about the democratization of software development.
                 </p>
                 <div class="post-card__meta">
@@ -351,7 +351,7 @@ Works in any framework; no Angular dependency. Load order:
 };
 
 export const PostListingGrid: Story = {
-  name: 'Post Listing — Grid',
+  name: 'Post Listing: Grid',
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -453,7 +453,7 @@ export const PostListingGrid: Story = {
               <div class="post-card__body">
                 <div class="post-card__tags"><span class="post-card__tag">AI</span><span class="post-card__tag">Portfolio</span></div>
                 <h2 class="post-card__title"><a href="#">Building a Privacy-First Transcription Tool with Claude Code</a></h2>
-                <p class="post-card__excerpt">How I used AI to build an offline transcription app that protects user privacy — and what it reveals about the democratization of software development.</p>
+                <p class="post-card__excerpt">How I used AI to build an offline transcription app that protects user privacy, and what it reveals about the democratization of software development.</p>
                 <div class="post-card__meta"><time datetime="2025-11-19">November 2025</time><span aria-hidden="true">·</span><span>5 min read</span></div>
               </div>
             </article>

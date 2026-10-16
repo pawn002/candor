@@ -42,12 +42,12 @@ Form composition examples using \`<candor-input>\`, \`<candor-checkbox>\`,
 \`<candor-progress>\`, \`<candor-heading>\`, \`<candor-text>\`, and \`<candor-button>\`.
 
 Demonstrates the canonical patterns for accessible forms in Candor:
-- Every field must have a visible **label** — never rely on placeholder text alone
+- Every field must have a visible **label**. Never rely on placeholder text alone
 - **Radio groups** must be wrapped in \`<fieldset>\`/\`<legend>\` so screen readers
   announce the group question before each option
 - **Switch** is for settings that take immediate effect; **Checkbox** is for values
   submitted with the form
-- **Alert** (not Toast) communicates persistent form-level errors — it stays visible
+- **Alert** (not Toast) communicates persistent form-level errors. It stays visible
   until the user corrects the problem
 - **Progress** tracks multi-step form completion when steps cannot fit on one screen
 
@@ -268,7 +268,7 @@ export const FileUpload: Story = {
     <main style="max-width: 500px; padding: var(--spacing-lg);">
       <candor-heading level="h2" style="margin-bottom: var(--spacing-xs);">Upload files</candor-heading>
       <candor-text variant="body" style="display: block; margin-bottom: var(--spacing-lg); color: var(--color-text-subtle);">
-        3 files queued — uploading 1 of 3.
+        3 files queued, uploading 2 of 3.
       </candor-text>
 
       <div style="display: flex; flex-direction: column; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">

@@ -27,20 +27,20 @@ const COUNTRIES_JSON = JSON.stringify([
 ]);
 
 const TIMEZONES_JSON = JSON.stringify([
-  { value: 'UTC-12', label: 'UTC−12:00 — Baker Island' },
-  { value: 'UTC-8', label: 'UTC−08:00 — Pacific Time (US)' },
-  { value: 'UTC-7', label: 'UTC−07:00 — Mountain Time (US)' },
-  { value: 'UTC-6', label: 'UTC−06:00 — Central Time (US)' },
-  { value: 'UTC-5', label: 'UTC−05:00 — Eastern Time (US)' },
-  { value: 'UTC+0', label: 'UTC±00:00 — London, Dublin' },
-  { value: 'UTC+1', label: 'UTC+01:00 — Berlin, Paris, Amsterdam' },
-  { value: 'UTC+2', label: 'UTC+02:00 — Cairo, Helsinki, Kiev' },
-  { value: 'UTC+3', label: 'UTC+03:00 — Moscow, Istanbul' },
-  { value: 'UTC+5.5', label: 'UTC+05:30 — Mumbai, New Delhi' },
-  { value: 'UTC+8', label: 'UTC+08:00 — Beijing, Singapore, Perth' },
-  { value: 'UTC+9', label: 'UTC+09:00 — Tokyo, Seoul' },
-  { value: 'UTC+10', label: 'UTC+10:00 — Sydney, Brisbane' },
-  { value: 'UTC+12', label: 'UTC+12:00 — Auckland, Fiji' },
+  { value: 'UTC-12', label: 'UTC−12:00 (Baker Island)' },
+  { value: 'UTC-8', label: 'UTC−08:00 (Pacific Time, US)' },
+  { value: 'UTC-7', label: 'UTC−07:00 (Mountain Time, US)' },
+  { value: 'UTC-6', label: 'UTC−06:00 (Central Time, US)' },
+  { value: 'UTC-5', label: 'UTC−05:00 (Eastern Time, US)' },
+  { value: 'UTC+0', label: 'UTC±00:00 (London, Dublin)' },
+  { value: 'UTC+1', label: 'UTC+01:00 (Berlin, Paris, Amsterdam)' },
+  { value: 'UTC+2', label: 'UTC+02:00 (Cairo, Helsinki, Kyiv)' },
+  { value: 'UTC+3', label: 'UTC+03:00 (Moscow, Istanbul)' },
+  { value: 'UTC+5.5', label: 'UTC+05:30 (Mumbai, New Delhi)' },
+  { value: 'UTC+8', label: 'UTC+08:00 (Beijing, Singapore, Perth)' },
+  { value: 'UTC+9', label: 'UTC+09:00 (Tokyo, Seoul)' },
+  { value: 'UTC+10', label: 'UTC+10:00 (Sydney, Brisbane)' },
+  { value: 'UTC+12', label: 'UTC+12:00 (Auckland, Fiji)' },
 ]);
 
 const meta: Meta = {
@@ -50,11 +50,11 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-combobox>\` — text input + filterable listbox dropdown. Implements the APG \`list\`
-autocomplete pattern — the user can type freely and suggestions filter in real time.
+\`<candor-combobox>\`: text input + filterable listbox dropdown. Implements the APG \`list\`
+autocomplete pattern: the user can type freely and suggestions filter in real time.
 
 **ARIA contract:** \`role="combobox"\` on the input with \`aria-expanded\` and
-\`aria-controls\` pointing to the listbox. DOM focus stays on the input at all times —
+\`aria-controls\` pointing to the listbox. DOM focus stays on the input at all times, and
 \`aria-activedescendant\` on the input tracks the keyboard-highlighted option.
 
 **Keyboard:** ArrowDown/Up navigate options; Enter selects the active option; Escape closes
@@ -73,7 +73,7 @@ submission.
 
 **Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
 live filter text as the user types; \`change\` fires on selection, carrying the chosen
-\`ComboboxOption\` — or \`null\` when the selection is cleared.
+\`ComboboxOption\`, or \`null\` when the selection is cleared.
         `.trim(),
       },
     },
@@ -147,7 +147,7 @@ export const LongLabels: Story = {
 
 export const NoLabel: Story = {
   parameters: {
-    docs: { description: { story: 'When no visible label is provided, supply `aria-label` on the host — the component forwards it to the inner input and strips it from the host to avoid double-naming in the AT tree.' } }
+    docs: { description: { story: 'When no visible label is provided, supply `aria-label` on the host. The component forwards it to the inner input and strips it from the host to avoid double-naming in the AT tree.' } }
   },
   render: () => html`<candor-combobox
     aria-label="Country"
