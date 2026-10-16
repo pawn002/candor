@@ -137,6 +137,40 @@ test.describe('popup triggers point aria-controls at a popup that exists (#252)'
   }
 });
 
+test.describe('pointer cancellation (WCAG 2.5.2, #252)', () => {
+  // An option is chosen on release, not on press, so pressing it and dragging
+  // away cancels. A press that selected on mousedown could not be taken back.
+  for (const [tag, story] of [
+    ['candor-combobox', 'components-form-combobox--default'],
+    ['candor-autocomplete', 'components-form-autocomplete--default'],
+  ] as const) {
+    test(`${tag}: pressing an option and releasing elsewhere selects nothing`, async ({ page }) => {
+      await page.goto(gotoStory(story));
+      const input = page.locator(`${tag} input`).first();
+      await input.click();
+      if (tag === 'candor-autocomplete') await input.pressSequentially('g');
+      const option = page.locator(`${tag} [role="option"]`).first();
+      await expect(option).toBeVisible();
+      const before = await input.inputValue();
+      const box = (await option.boundingBox())!;
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await page.mouse.down();
+      await page.mouse.move(box.x + box.width / 2, box.y - 200);
+      await page.mouse.up();
+      await expect(input).toHaveValue(before);
+      // Positive control: a full click on the same option does select it. The
+      // list may have closed, since a press and release on different elements
+      // fires click on their common ancestor, so open it again first.
+      if (!(await option.isVisible())) {
+        await input.click();
+        if (tag === 'candor-autocomplete') await input.press('End');
+      }
+      await option.click();
+      await expect(input).not.toHaveValue(before);
+    });
+  }
+});
+
 test.describe('candor-checkbox', () => {
   test('toggles with the space key', async ({ page }) => {
     await page.goto(gotoStory('components-form-checkbox--default'));

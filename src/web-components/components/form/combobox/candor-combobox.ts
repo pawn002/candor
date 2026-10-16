@@ -311,7 +311,8 @@ export class CandorCombobox extends LitElement {
               @keydown="${this._onKeydown}"
             >
             <svg class="combobox__caret ${this._open ? 'combobox__caret--open' : ''}" aria-hidden="true" viewBox="0 0 1024 1024" fill="currentColor"
-              @mousedown="${(e: MouseEvent) => { if (this.disabled) return; e.preventDefault(); const wasOpen = this._open; this._input.focus(); this._open = !wasOpen; this._filtering = false; }}"
+              @mousedown="${(e: MouseEvent) => e.preventDefault()}"
+              @click="${() => { if (this.disabled) return; const wasOpen = this._open; this._input.focus(); this._open = !wasOpen; this._filtering = false; }}"
             ><path d="${phCaretDownBold}"/></svg>
           </div>
           ${this._open && filtered.length > 0 ? html`
@@ -324,7 +325,8 @@ export class CandorCombobox extends LitElement {
                     ${i === this._activeIndex ? 'combobox__option--active' : ''}
                     ${opt.value === this.value ? 'combobox__option--selected' : ''}"
                   aria-selected="${opt.value === this.value}"
-                  @mousedown="${(e: Event) => { e.preventDefault(); this._select(opt); }}"
+                  @mousedown="${(e: Event) => e.preventDefault()}"
+                  @click="${() => this._select(opt)}"
                   @mouseenter="${() => this._activeIndex = i}"
                 >
                   <span class="combobox__option-label">${opt.label}</span>
