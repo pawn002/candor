@@ -68,6 +68,13 @@ The same pass removed side bars from the `blog.scss` grid's text-only cards and 
 
 ### Fixed
 
+- **`npm run storybook` starts without warnings (#312).** Three sources of terminal noise are gone:
+  - **Sass `@import` deprecation, four times.** `src/styles.scss` imported the four variable Fontsource packages by bare name, so Sass resolved them as Sass imports, the path Dart Sass 3 removes. Naming the file (`@fontsource-variable/roboto-flex/index.css`) makes Sass pass each through as a plain CSS import, as it already did for Phosphor and Atkinson. `candor-fonts.css` and the README snippet name the file the same way, so all three stay identical and a consumer pasting the snippet into SCSS gets no warning either.
+  - **"Multiple versions of Lit loaded."** There was only one Lit installed, but Storybook's renderer imports `lit/directive-helpers.js`, which Vite did not pre-bundle, so it loaded a second copy of lit-html. `.storybook/main.ts` now pre-bundles that subpath.
+  - **"Lit is in dev mode."** Storybook is always a development build, so the notice said nothing. `preview-head.html` marks only that warning as already issued; every other Lit warning still fires.
+
+  All five font families still load, and each story still runs one copy of lit-html.
+
 - **`candor-tabs`: each tab is now tied to its panel for screen readers (#333).** A tab's `aria-controls` named an id inside `candor-tab-panel`'s shadow root, which an id in another tree can never reach, so the link from tab to panel was lost. The `candor-tab-panel` element is now the `tabpanel` and the tab stop itself, and each tab points at it through element reflection (`ariaControlsElements`), which can cross into an ancestor tree where ids cannot. Selectors that targeted the inner `[role="tabpanel"]` should target `candor-tab-panel` instead.
 - **Tables and article code blocks that scroll sideways can now be reached by keyboard (#334).** Keyboard users can only scroll what they can focus. `candor-table` makes its scroll wrapper a tab stop while the table is wider than its container, and a region named by the caption when there is one. `candor-article` does the same for each `<pre>` that overflows, leaving any `tabindex` the author set alone. A table or code block that fits adds no tab stop.
 - **Popup triggers no longer point `aria-controls` at a popup that is not there (#252).** `candor-listbox`, `candor-menu`, `candor-combobox` and `candor-autocomplete` named their list's id while it was closed and not rendered. They now set `aria-controls` only while the popup is in the DOM.
