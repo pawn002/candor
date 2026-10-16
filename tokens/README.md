@@ -76,12 +76,6 @@ Auto-generated distribution artifacts. Do not edit these files directly. Run `np
 | `candor-tokens.min.css` | Minified CSS for production `<link>` |
 | `candor-tokens.json` | Structured JSON for Figma plugins / tooling |
 | `candor-fonts.css` | Optional font convenience imports. Pulls the five Fontsource faces so text doesn't fall back silently (bundler required) |
-| `candor-article.css` | Article prose styles, framework-agnostic and readable |
-| `candor-article.min.css` | Minified article prose styles for production `<link>` |
-| `candor-syntax.css` | Prism.js syntax highlighting theme, readable |
-| `candor-syntax.min.css` | Minified syntax highlighting theme for production `<link>` |
-| `candor-blog.css` | Post card and post listing styles for blog index pages |
-| `candor-blog.min.css` | Minified post listing styles for production `<link>` |
 
 ## Usage
 
@@ -174,141 +168,17 @@ npm install @phosphor-icons/web
 > not `'Noto Serif Variable'` or `'Noto Sans Variable'`. A mismatch produces a silent fallback to Georgia
 > or system-ui with no console error. The Fontsource `@import` path approach above avoids this entirely.
 
-### Article prose styles (framework-agnostic)
+### Prose, syntax and blog styles
 
-`candor-article.css` is a standalone prose stylesheet compiled from `src/design-tokens/article.scss`, the same prose styling carried by the `<candor-article>` web component. It works in any framework: 11ty, Astro, Next.js, or plain HTML.
+This package contains only the files listed above. The class-based stylesheets that earlier releases
+shipped alongside the tokens (`candor-article`, `candor-syntax` and `candor-blog`) were removed in 4.0.0,
+because they styled markup rather than defining tokens.
 
-```html
-<link rel="stylesheet" href="path/to/candor-tokens.min.css">
-<link rel="stylesheet" href="path/to/candor-article.min.css">
-```
-
-Wrap post content in a `div` with the `.article` class:
-
-```html
-<div class="article article--font-serif">
-  <h1>Post title</h1>
-  <p>Body copy...</p>
-</div>
-```
-
-**Font modifiers:**
-- `article--font-serif`: Noto Serif (`--font-family-serif`), the recommended default for editorial and blog prose
-- `article--font-sans`: Noto Sans, for utility or syndication contexts
-
-**End-of-content spacing:** The article stylesheet does not impose bottom padding on its container. That is the responsibility of the page layout. For long-form reading contexts (blog posts, documentation), use at least `--spacing-3xl` (6rem) of bottom padding to give readers a sense of resolution rather than compression at the end of the piece:
-
-```css
-.post-container {
-  padding: var(--spacing-2) var(--spacing-2) var(--spacing-3xl);
-}
-```
-
-The stylesheet covers headings (h1–h6), paragraphs, lists, blockquotes, inline code, fenced code blocks (`<pre><code>`), figures with captions, tables, links with `:visited` double-underline indicator, and horizontal rules. All values resolve from `candor-tokens.css`, so dark mode is inherited automatically.
-
-> **Syntax highlighting:** `candor-article.css` styles the code block *container* (background, border, font) but does not include language-aware token colors. Add `candor-syntax.css` after `candor-article.css` for Prism.js-based highlighting (see below).
-
-### Syntax highlighting: Prism.js (framework-agnostic)
-
-`candor-syntax.css` is a Prism.js token color theme built from Candor's palette. It targets the dark code-block background that `candor-article.css` sets, with all token colors meeting OKCA ≥ 4.5.
-
-```html
-<link rel="stylesheet" href="path/to/candor-tokens.min.css">
-<link rel="stylesheet" href="path/to/candor-article.min.css">
-<link rel="stylesheet" href="path/to/candor-syntax.min.css">
-```
-
-For 11ty, install and register the syntax highlight plugin:
-
-```bash
-npm install @11ty/eleventy-plugin-syntaxhighlight
-```
-
-```js
-// .eleventy.js
-const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
-module.exports = function(eleventyConfig) {
-  eleventyConfig.addPlugin(syntaxHighlight);
-};
-```
-
-Fenced code blocks in Markdown then output Prism-annotated HTML automatically:
-
-````md
-```js
-const color = "oklch(0.49 0.18 250.80)";
-```
-````
-
-**Token color palette** (all validated OKCA ≥ 4.5 on the navy-800 code block background):
-
-| CSS variable | Color | Assigned to |
-|---|---|---|
-| `--syntax-comment` | Muted cool gray-blue | Comments, doctype, CDATA |
-| `--syntax-keyword` | Azure | Keywords, @-rules, HTML tags |
-| `--syntax-string` | Warm amber | Strings, attribute values, URLs |
-| `--syntax-number` | Purple | Numbers, booleans, constants |
-| `--syntax-function` | Near-white azure | Functions, class names, builtins |
-| `--syntax-property` | Rose | CSS properties, selectors, attribute names |
-| `--syntax-operator` | Muted cool | Operators, punctuation |
-| `--syntax-deleted` | Error red | Diff removed lines |
-| `--syntax-inserted` | Success green | Diff added lines |
-| `--syntax-regex` | Amber | Regex literals, template expressions |
-
-Override any role without forking the file:
-
-```css
-:root {
-  --syntax-keyword: oklch(0.82 0.12 160); /* swap azure keywords to teal */
-}
-```
-
-> **Shiki users:** Shiki uses inline styles or its own class system, so `candor-syntax.css` does not apply. Use Shiki's theme API with the token color values above.
-
----
-
-### Blog post listing (framework-agnostic)
-
-`candor-blog.css` provides `.post-card` and `.post-list` patterns for blog index pages, tag archives, and "more posts" sections.
-
-```html
-<link rel="stylesheet" href="path/to/candor-tokens.min.css">
-<link rel="stylesheet" href="path/to/candor-blog.min.css">
-```
-
-```html
-<ul class="post-list" role="list">
-  <li>
-    <article class="post-card">
-      <!-- optional cover image (tabindex="-1" aria-hidden="true" on the link) -->
-      <a class="post-card__image-link" href="/slug/" tabindex="-1" aria-hidden="true">
-        <img class="post-card__image" src="cover.jpg" alt="">
-      </a>
-      <div class="post-card__body">
-        <div class="post-card__tags">
-          <span class="post-card__tag">Design Systems</span>
-        </div>
-        <h2 class="post-card__title">
-          <a href="/slug/">Post title</a>  <!-- primary keyboard focus target -->
-        </h2>
-        <p class="post-card__excerpt">One or two sentences...</p>
-        <div class="post-card__meta">
-          <time>March 2026</time>
-          <span aria-hidden="true">·</span>
-          <span>6 min read</span>
-        </div>
-      </div>
-    </article>
-  </li>
-</ul>
-```
-
-**Modifiers:**
-- `.post-list--grid`: two-column responsive grid (collapses to one column below ~28rem per column)
-- `.post-card--featured`: larger title (`h2` scale) and taller image (`16/7` ratio), for the lead post
-- `.post-card--compact`: no image, tighter padding, 2-line excerpt, for sidebars and dense archives
-
----
+- **Long-form prose:** use `<candor-article>` from `@candor-design/web-components`. It carries the same
+  prose styling, works in any framework, and adds the `font` and `justify` attributes.
+- **Prism syntax colours and blog post listings:** the source SCSS still lives in the repository
+  (`src/design-tokens/syntax.scss` and `src/design-tokens/blog.scss`). Copy it into your own build if you
+  need it. It reads the same custom properties this package defines, so dark mode follows automatically.
 
 ### Dark mode
 

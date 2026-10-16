@@ -3960,7 +3960,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "One panel in a `candor-tabs` set. Meaningless on its own.\n\n`panel-id` must match the `id` of a `TabItem` in the parent's `tabs` array.\nThat pairing is what binds tab to panel, and a mismatch fails silently.\n\n`active` is managed by the parent; do not set it by hand. The host is a\nstyling wrapper and the real `role=\"tabpanel\"` lives inside it, so slotted\ncontent sits in the panel rather than beside it.\n\nAll panels stay in the DOM; inactive ones are hidden. Content is therefore\nstill findable by in-page search and still costs render time. Do not use tabs\nto defer expensive work.\n\nEmits no custom events. `candor-tabs` emits `change` for the whole set.",
+          "description": "One panel in a `candor-tabs` set. Meaningless on its own.\n\n`panel-id` must match the `id` of a `TabItem` in the parent's `tabs` array.\nThat pairing is what binds tab to panel, and a mismatch fails silently.\n\n`active` is managed by the parent; do not set it by hand. The host itself is\nthe `role=\"tabpanel\"` and the tab stop, because a tab can only point at an\nelement in its own tree or an ancestor tree, never into this element's\nshadow root.\n\nAll panels stay in the DOM; inactive ones are hidden. Content is therefore\nstill findable by in-page search and still costs render time. Do not use tabs\nto defer expensive work.\n\nEmits no custom events. `candor-tabs` emits `change` for the whole set.",
           "name": "CandorTabPanel",
           "members": [
             {

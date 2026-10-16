@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js';
+import { observeOverflow } from '../../../utils/overflow';
 import { customElement } from '../../../utils/define';
 import { scrollbarRules } from '../../../utils/scrollbar';
 
@@ -103,6 +104,11 @@ const articleStyles = `
        scrollbar-thumb-on-code in audit/pairings.json (#307). */
     --_candor-scrollbar-thumb: var(--color-border-strong);
     --_candor-scrollbar-thumb-hover: var(--color-text-code);
+  }
+  candor-article pre:focus { outline: none; }
+  candor-article pre:focus-visible {
+    outline: var(--focus-ring-width) solid var(--color-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   candor-article pre code {
     background: none;
@@ -249,10 +255,43 @@ export class CandorArticle extends LitElement {
 
   override createRenderRoot() { return this; }
 
+  // A code block wider than the column scrolls sideways, and keyboard users can
+  // only scroll what they can focus (#334). Each <pre> that overflows gets
+  // tabindex="0" while it does. A tabindex the author set is left alone; the
+  // data attribute marks the ones this element added, so only those come off.
+  private _stopCodeBlocks: Array<() => void> = [];
+  private _contentObserver?: MutationObserver;
+
   override connectedCallback() {
     super.connectedCallback();
     this.classList.add('article');
     this._updateFontClass();
+    this._contentObserver = new MutationObserver(() => this._watchCodeBlocks());
+    this._contentObserver.observe(this, { childList: true, subtree: true });
+    this._watchCodeBlocks();
+  }
+
+  override disconnectedCallback() {
+    this._contentObserver?.disconnect();
+    this._stopCodeBlocks.forEach((stop) => stop());
+    this._stopCodeBlocks = [];
+    super.disconnectedCallback();
+  }
+
+  private _watchCodeBlocks() {
+    this._stopCodeBlocks.forEach((stop) => stop());
+    this._stopCodeBlocks = Array.from(this.querySelectorAll('pre')).map((pre) =>
+      observeOverflow(pre, (overflows) => {
+        const added = pre.hasAttribute('data-candor-scroll-focus');
+        if (pre.hasAttribute('tabindex') && !added) return;
+        if (overflows) {
+          pre.setAttribute('tabindex', '0');
+          pre.setAttribute('data-candor-scroll-focus', '');
+        } else if (added) {
+          pre.removeAttribute('tabindex');
+          pre.removeAttribute('data-candor-scroll-focus');
+        }
+      }));
   }
 
   override updated(changed: Map<string, unknown>) {

@@ -80,8 +80,8 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-\`<candor-data-grid>\` — W3C APG-compliant data grid with full keyboard navigation
-(Pattern 2 — gridcell is the interactive unit).
+\`<candor-data-grid>\`: a W3C APG-compliant data grid with full keyboard navigation
+(Pattern 2: gridcell is the interactive unit).
 
 **Keyboard interaction**
 
@@ -98,11 +98,11 @@ const meta: Meta = {
 **ARIA roles:** \`role="grid"\` → \`role="row"\` → \`role="gridcell"\` /
 \`role="columnheader"\` / \`role="rowheader"\`
 
-Focus management uses the **roving tabindex** pattern — one cell holds \`tabindex="0"\` at
+Focus management uses the **roving tabindex** pattern: one cell holds \`tabindex="0"\` at
 a time; arrow keys move the tab stop.
 
 Pass \`rows\` and \`columnheaders\` via JS properties (or JSON-encoded as attributes). Each
-cell has \`{ label, background, foreground, selected?, disabled? }\` — well-suited to
+cell has \`{ label, background, foreground, selected?, disabled? }\`, well suited to
 color-grid and heat-map use cases.
         `.trim(),
       },

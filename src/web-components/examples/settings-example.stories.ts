@@ -45,18 +45,18 @@ const LANGUAGE_OPTIONS = JSON.stringify([
 ]);
 
 const TIMEZONE_OPTIONS = JSON.stringify([
-  { value: 'utc-12', label: 'UTC−12:00 — Baker Island' },
-  { value: 'utc-08', label: 'UTC−08:00 — Pacific Time' },
-  { value: 'utc-07', label: 'UTC−07:00 — Mountain Time' },
-  { value: 'utc-06', label: 'UTC−06:00 — Central Time' },
-  { value: 'utc-05', label: 'UTC−05:00 — Eastern Time' },
-  { value: 'utc+00', label: 'UTC+00:00 — London' },
-  { value: 'utc+01', label: 'UTC+01:00 — Paris, Berlin' },
-  { value: 'utc+05:30', label: 'UTC+05:30 — India' },
-  { value: 'utc+08', label: 'UTC+08:00 — Singapore, Hong Kong' },
-  { value: 'utc+09', label: 'UTC+09:00 — Tokyo' },
-  { value: 'utc+10', label: 'UTC+10:00 — Sydney' },
-  { value: 'utc+12', label: 'UTC+12:00 — Auckland' },
+  { value: 'utc-12', label: 'UTC−12:00 (Baker Island)' },
+  { value: 'utc-08', label: 'UTC−08:00 (Pacific Time)' },
+  { value: 'utc-07', label: 'UTC−07:00 (Mountain Time)' },
+  { value: 'utc-06', label: 'UTC−06:00 (Central Time)' },
+  { value: 'utc-05', label: 'UTC−05:00 (Eastern Time)' },
+  { value: 'utc+00', label: 'UTC+00:00 (London)' },
+  { value: 'utc+01', label: 'UTC+01:00 (Paris, Berlin)' },
+  { value: 'utc+05:30', label: 'UTC+05:30 (India)' },
+  { value: 'utc+08', label: 'UTC+08:00 (Singapore, Hong Kong)' },
+  { value: 'utc+09', label: 'UTC+09:00 (Tokyo)' },
+  { value: 'utc+10', label: 'UTC+10:00 (Sydney)' },
+  { value: 'utc+12', label: 'UTC+12:00 (Auckland)' },
 ]);
 
 const TAB_DEFS = JSON.stringify([
@@ -305,7 +305,7 @@ export const DeleteConfirmation: Story = {
       <candor-modal heading="Delete account" size="sm" alert>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
           <candor-text variant="body">
-            This will permanently delete your account and all associated data — projects, settings, billing history, and team memberships. This action cannot be undone.
+            This will permanently delete your account and all associated data: projects, settings, billing history, and team memberships. This action cannot be undone.
           </candor-text>
           <candor-alert
             variant="warning"

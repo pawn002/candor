@@ -82,6 +82,9 @@ test.describe('candor-autocomplete', () => {
     await expect(input).toHaveAttribute('role', 'combobox');
     await expect(input).toHaveAttribute('aria-autocomplete', 'list');
     await expect(input).toHaveAttribute('aria-expanded', 'false');
+    // No list is rendered while collapsed, so aria-controls must not name one
+    // (#252: axe flagged the dangling id on 17 stories).
+    expect(await input.getAttribute('aria-controls')).toBeNull();
     expect(await input.getAttribute('aria-invalid')).toBeNull();
   });
 
@@ -94,6 +97,8 @@ test.describe('candor-autocomplete', () => {
     await page.keyboard.press('ArrowDown');
 
     await expect(input).toHaveAttribute('aria-expanded', 'true');
+    const controls = await input.getAttribute('aria-controls');
+    await expect(page.locator(`#${controls}`)).toHaveAttribute('role', 'listbox');
     const active = await input.getAttribute('aria-activedescendant');
     expect(active).toBeTruthy();
     // The referenced option actually exists in the listbox.
@@ -105,6 +110,31 @@ test.describe('candor-autocomplete', () => {
     const input = page.locator('candor-autocomplete input');
     await expect(input).toHaveAttribute('aria-invalid', 'true');
   });
+});
+
+test.describe('popup triggers point aria-controls at a popup that exists (#252)', () => {
+  // axe always asks a person to review aria-controls on an aria-haspopup
+  // trigger, whatever the id resolves to. This is that review, as a check:
+  // closed, the trigger names nothing; open, it names the rendered popup in
+  // its own shadow root, with the popup's role.
+  for (const [tag, trigger, role] of [
+    ['candor-listbox', '.listbox__trigger', 'listbox'],
+    ['candor-menu', '.menu-trigger', 'menu'],
+  ] as const) {
+    test(tag, async ({ page }) => {
+      await page.goto(gotoStory(`components-${tag === 'candor-listbox' ? 'form-listbox' : 'menu'}--default`));
+      const button = page.locator(`${tag} ${trigger}`).first();
+      expect(await button.getAttribute('aria-controls')).toBeNull();
+      await button.click();
+      await expect(button).toHaveAttribute('aria-expanded', 'true');
+      const resolved = await button.evaluate((el) => {
+        const id = el.getAttribute('aria-controls');
+        const target = id ? (el.getRootNode() as ShadowRoot).getElementById(id) : null;
+        return target?.getAttribute('role') ?? null;
+      });
+      expect(resolved).toBe(role);
+    });
+  }
 });
 
 test.describe('candor-checkbox', () => {
@@ -318,6 +348,38 @@ for (const component of ['input', 'select', 'listbox', 'combobox', 'autocomplete
 
 // #258 — a table cell can hold markup, not only text. The cells are set as a
 // property; strings still go through the JSON attribute as before.
+test.describe('candor-table scrolling (#334)', () => {
+  // axe proves an overflowing table is reachable; this proves the other half,
+  // that a table which fits adds no tab stop, and that the region takes its
+  // name from the caption.
+  test('a tab stop and a named region only while the table overflows', async ({ page }) => {
+    await page.goto(gotoStory('components-table--default'));
+    // Overflow is measured by a ResizeObserver and applied on Lit's next
+    // update, so poll rather than read once.
+    const state = () => page.evaluate(() => {
+      const s = document.querySelector('#probe')?.shadowRoot?.querySelector('.table__scroll');
+      return s ? { tabindex: s.getAttribute('tabindex'), role: s.getAttribute('role'), label: s.getAttribute('aria-label') } : null;
+    });
+    await page.evaluate(() => {
+      const box = document.createElement('div');
+      box.id = 'box';
+      box.style.width = '40px';
+      const t = document.createElement('candor-table') as HTMLElement & { headers: string[]; rows: unknown[]; caption: string };
+      t.id = 'probe';
+      t.caption = 'Probe';
+      t.headers = ['A', 'B'];
+      t.rows = [{ cells: ['1', '2'] }];
+      box.append(t);
+      document.body.append(box);
+    });
+    // Overflowing first, then fitting: an empty state at the start would pass
+    // before the observer had run at all, so the removal is what proves it.
+    await expect.poll(state).toEqual({ tabindex: '0', role: 'region', label: 'Probe' });
+    await page.evaluate(() => { (document.querySelector('#box') as HTMLElement).style.width = '800px'; });
+    await expect.poll(state).toEqual({ tabindex: null, role: null, label: null });
+  });
+});
+
 test.describe('candor-table cells', () => {
   test('markup in a cell renders, is reachable by Tab, and keeps its handlers', async ({ page }) => {
     await page.goto(gotoStory('components-table--interactive-cells'));
