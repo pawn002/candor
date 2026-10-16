@@ -64,10 +64,10 @@ const fontsCss =
   ' *   @import "@candor-design/tokens/candor-fonts.css";\n' +
   ' *   @import "@candor-design/tokens/candor-tokens.css";\n' +
   ' */\n' +
-  "@import '@fontsource-variable/roboto-flex';\n" +
-  "@import '@fontsource-variable/roboto-mono';\n" +
-  "@import '@fontsource-variable/noto-sans';\n" +
-  "@import '@fontsource-variable/noto-serif';\n" +
+  "@import '@fontsource-variable/roboto-flex/index.css';\n" +
+  "@import '@fontsource-variable/roboto-mono/index.css';\n" +
+  "@import '@fontsource-variable/noto-sans/index.css';\n" +
+  "@import '@fontsource-variable/noto-serif/index.css';\n" +
   "@import '@fontsource/atkinson-hyperlegible/400.css';\n" +
   "@import '@fontsource/atkinson-hyperlegible/700.css';\n";
 
