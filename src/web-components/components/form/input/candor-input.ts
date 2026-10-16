@@ -58,9 +58,9 @@ export class CandorInput extends LitElement {
     }
     .input::placeholder { color: var(--color-text-disabled); }
     .input:hover:not(:disabled) { border-color: var(--color-text-subtle); }
-    .input:focus { outline: none; border-color: var(--color-action-primary); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-action-primary) l c h / 0.2); }
+    .input:focus { border-color: var(--color-action-primary); outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
     .input--error { border-color: var(--color-status-error); }
-    .input--error:focus { border-color: var(--color-status-error); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2); }
+    .input--error:focus { border-color: var(--color-status-error); }
     .input--textarea { min-height: unset; line-height: var(--line-height-normal); }
     .input:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
     .input-hint { margin-top: calc(-1 * var(--spacing-xs)); font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle); }

@@ -57,8 +57,8 @@ export class CandorAutocomplete extends LitElement {
     .autocomplete__input::placeholder { color: var(--color-text-subtle); }
     .autocomplete__input:hover:not(:disabled) { border-color: var(--color-text-subtle); }
     .autocomplete__input:focus {
-      outline: none; border-color: var(--color-action-primary);
-      box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-action-primary) l c h / 0.2);
+      border-color: var(--color-action-primary);
+      outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset);
     }
     .autocomplete__input:disabled {
       background-color: var(--color-bg-surface); color: var(--color-text-disabled);
@@ -67,7 +67,6 @@ export class CandorAutocomplete extends LitElement {
     .autocomplete__control--error .autocomplete__input { border-color: var(--color-status-error); }
     .autocomplete__control--error .autocomplete__input:focus {
       border-color: var(--color-status-error);
-      box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2);
     }
     .autocomplete__dropdown {
       position: absolute; top: calc(100% + var(--spacing-2xs)); left: 0; right: 0; z-index: 200;

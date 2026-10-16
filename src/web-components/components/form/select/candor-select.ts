@@ -72,9 +72,9 @@ export class CandorSelect extends LitElement {
       min-height: var(--hit-target-aaa);
     }
     .select:hover:not(:disabled) { border-color: var(--color-text-subtle); }
-    .select:focus { outline: none; border-color: var(--color-action-primary); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-action-primary) l c h / 0.2); }
+    .select:focus { border-color: var(--color-action-primary); outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
     .select--error { border-color: var(--color-status-error); }
-    .select--error:focus { border-color: var(--color-status-error); box-shadow: 0 0 0 var(--focus-ring-width) oklch(from var(--color-status-error) l c h / 0.2); }
+    .select--error:focus { border-color: var(--color-status-error); }
     .select:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
     .select__caret {
       position: absolute;

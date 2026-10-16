@@ -17,7 +17,7 @@ import './candor-data-grid';
 //   `#ffffff` reaches OKCA 4.4 on status-error
 //   `#ffffff` reaches OKCA 4.2 on status-success
 //   `#ffffff` reaches OKCA 4.4 on status-warning
-// `--color-focus` is worse than close. klar reports `unreachable`: no colour
+// `--color-focus` was worse than close, as azure-400. klar reported `unreachable`: no colour
 // whatsoever clears even 4.5 against it, at black or white, so there was never
 // a label colour to pick. The label now carries its own opaque plate from the
 // component, so its contrast no longer depends on the swatch at all (#229).
