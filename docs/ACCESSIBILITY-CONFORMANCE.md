@@ -18,6 +18,8 @@ Candor 6.0.0 does **not** claim full WCAG 2.2 AA conformance. Of the 55 Level A 
 | Partially supports | 1 |
 | Not evaluated | 0 |
 
+Every row now cites evidence. The gap that remains is a kind of evidence rather than a criterion: nobody has yet listened to Candor with a running screen reader. That pass is planned for after 6.0.0 ([#345](https://github.com/pawn002/candor/issues/345)); see Known limitations.
+
 WCAG judges pages, not component libraries, so no design system can conform on its own. What Candor can state is which criteria its components meet, what evidence shows it, and what the page around them must add. That is what this document does, one criterion at a time.
 
 **Why it names a version.** Most of the evidence is a check that runs on every pull request and blocks the merge when it fails, so it holds for the release it ships in. Raising this version is an assertion that those checks passed for that release and that every row below was re-read against the code. It is not a find-and-replace ([#197](https://github.com/pawn002/candor/issues/197), [#252](https://github.com/pawn002/candor/issues/252)).
@@ -42,7 +44,7 @@ Every row in the tables below cites one or more of these sources.
 
 **What the audit does not cover.** Nine components were added or rebuilt after the audit and have had neither pass: `candor-autocomplete`, `candor-code`, `candor-combobox`, `candor-disclosure`, `candor-drawer`, `candor-listbox`, `candor-pagination`, `candor-select` and `candor-toolbar`. Every row below still applies to them through **axe**, **klar** and **spec**, where those sources are cited, but a row that rests on **audit** alone does not extend to them. Treat those rows as unverified for these nine.
 
-**What none of the sources show** is what a person using a screen reader actually hears. Rows that depend on it (4.1.2 and 4.1.3 above all) say so.
+**What none of the sources show** is what a person using a screen reader actually hears. Rows that depend on it (4.1.2 and 4.1.3 above all) say so. A live pass is planned for after 6.0.0 ([#345](https://github.com/pawn002/candor/issues/345)).
 
 ### Status terms
 
@@ -122,8 +124,8 @@ Every row in the tables below cites one or more of these sources.
 
 | Criterion | Level | Status | Evidence and notes |
 |---|---|---|---|
-| 4.1.2 Name, Role, Value | A | Supports | **axe** (27 rules on names, roles, ARIA validity, nested controls), **spec** (host `aria-label` forwarding in both insertion orders; combobox, radio and popup wiring), **audit**. Not confirmed with a live screen reader. |
-| 4.1.3 Status Messages | AA | Supports | **spec**: live regions exist before their content arrives ([#266](https://github.com/pawn002/candor/issues/266)); form errors announce politely. **audit**. Not confirmed with a live screen reader. |
+| 4.1.2 Name, Role, Value | A | Supports | **axe** (27 rules on names, roles, ARIA validity, nested controls), **spec** (host `aria-label` forwarding in both insertion orders; combobox, radio and popup wiring), **audit**. Not confirmed with a live screen reader ([#345](https://github.com/pawn002/candor/issues/345)). |
+| 4.1.3 Status Messages | AA | Supports | **spec**: live regions exist before their content arrives ([#266](https://github.com/pawn002/candor/issues/266)); form errors announce politely. **audit**. Not confirmed with a live screen reader ([#345](https://github.com/pawn002/candor/issues/345)). |
 
 Criterion 4.1.1 Parsing is obsolete in WCAG 2.2 and is not listed.
 
@@ -168,9 +170,13 @@ Browsers allow only colour properties in `:visited` rules, to stop pages reading
 
 The screen-reader evidence is an inspection of the accessibility tree, not a session with NVDA, JAWS, VoiceOver, TalkBack or Narrator. Announcements can differ from what the tree implies, most likely for `<details>`/`<summary>` (`candor-accordion-item`, `candor-disclosure`), the grid keyboard model (`candor-data-grid`, `candor-tone-picker`), and element references that cross a shadow boundary (`candor-tabs`). The composite widgets carry the most risk.
 
+**Planned.** A pass with NVDA and Chrome on Windows, and VoiceOver and Safari on iOS, is tracked in [#345](https://github.com/pawn002/candor/issues/345). It is deferred past 6.0.0 and covers the composite widgets first, then the nine components below. Its findings will go in `docs/A11Y-AUDIT.md`, and this statement will be updated row by row when it lands.
+
+**Until then**, a row marked Supports that cites **audit** means the accessibility tree is what it should be, not that the announcement has been heard. If your product depends on screen-reader use in a critical workflow, test Candor's components with the screen readers your users rely on, and report what you find (see Reporting an issue).
+
 ### Nine components outside the audit
 
-See Evidence, above.
+See Evidence, above. All nine are in the scope of [#345](https://github.com/pawn002/candor/issues/345).
 
 ### OKLCH colour
 
