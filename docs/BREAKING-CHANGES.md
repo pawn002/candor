@@ -204,6 +204,23 @@ Neutral `--gray-*`, cool `--gray-cool-*` and warm `--gray-warm-*` now share 14 s
 
 Inline code in `candor-article` now draws the same `--color-bg-code` / `--color-text-code` pair as `<candor-code>` and code blocks, so `--color-highlight` has no consumer and is removed. Use `<candor-code>` for inline code. For burgundy text elsewhere, use `--burgundy-700` (light) or `--burgundy-200` (dark) directly.
 
+#### Accessibility tree changes (#252, #262, #266, #333)
+
+Several components now expose a different accessibility tree. Each is a fix, but consumer screen-reader tests and tree snapshots built on the old structure will need re-running.
+
+| Component | 5.x | 6.0.0 |
+|---|---|---|
+| `candor-toast` | Dismiss button named "Dismiss notification" | Named "Dismiss", as in `candor-alert` |
+| `candor-tabs` | The `tabpanel` role and tab stop were an inner `<div>` in `candor-tab-panel`'s shadow root; each tab's `aria-controls` named an id that did not resolve | `candor-tab-panel` itself is the `tabpanel` and the tab stop; each tab points at it through `ariaControlsElements` |
+| `candor-listbox`, `candor-menu`, `candor-combobox`, `candor-autocomplete` | `aria-controls` present while the popup was closed | `aria-controls` present only while the popup is open |
+| `candor-modal`, `candor-drawer` | Scrolling body was a generic element | A `region` named "Dialog content" or "Drawer content" |
+| `candor-radio` | Each option a separate tab stop, with no set position | One tab stop per group; each option has `aria-posinset` and `aria-setsize`; a `<fieldset>` holding exactly one group gains `role="radiogroup"` |
+| `candor-toast-container` | Each toast carried its own `role="status"` or `role="alert"` | The container holds a persistent polite and assertive region; a toast inside it drops its own live role |
+| `candor-stat` | Value and unit read together ("847ms") | Read with a space ("847 ms") from visually hidden text |
+| `candor-combobox`, `candor-autocomplete` | The open list was a Tab stop | Tab closes the list and moves on |
+
+Selectors that targeted the inner `[role="tabpanel"]` in `candor-tab-panel` should target `candor-tab-panel`. Anything that found the toast's dismiss button by "Dismiss notification" should use "Dismiss".
+
 ### v3.0.0
 
 #### Angular reference component library removed
