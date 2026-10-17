@@ -59,7 +59,7 @@ const renderShowcase = () => html`
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-lg);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18.75rem), 1fr)); gap: var(--spacing-lg);">
         ${FONT_FAMILIES.map(f => {
           const isInterp = f.mode === 'Interpretation';
           const badgeVariant = isInterp ? 'secondary' : 'primary';

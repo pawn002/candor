@@ -205,15 +205,15 @@ export class CandorDataGrid extends LitElement {
     .data-grid__cell-label {
       font-family: var(--font-family-mono);
       font-size: var(--font-size-sm);
-      line-height: 1;
+      line-height: var(--line-height-tight);
       color: var(--color-text-default);
       background: var(--color-bg-page);
       padding: 0.15rem 0.3rem;
       border-radius: var(--radius-sm);
       max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      /* Wraps rather than truncating, so a long token name stays readable at
+         200% text (WCAG 1.4.4). */
+      overflow-wrap: anywhere;
     }
     .data-grid__check {
       font-size: var(--font-size-sm);

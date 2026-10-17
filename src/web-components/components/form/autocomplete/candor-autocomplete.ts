@@ -89,7 +89,9 @@ export class CandorAutocomplete extends LitElement {
       color: var(--color-text-default); cursor: pointer; user-select: none;
     }
     .autocomplete__option--active { background-color: var(--color-bg-surface); }
-    .autocomplete__option-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* Wraps rather than truncating: an ellipsis hides text a sighted user cannot
+       get back, at any text size (WCAG 1.4.4). */
+    .autocomplete__option-label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
     .autocomplete__hint {
       margin-top: calc(-1 * var(--spacing-xs));
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);

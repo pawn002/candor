@@ -127,7 +127,7 @@ export class CandorToast extends LitElement {
           <div class="toast__message">${this.message}</div>
         </div>
         ${this.dismissible ? html`
-          <button class="toast__dismiss" aria-label="Dismiss notification" @click="${this._dismiss}">
+          <button class="toast__dismiss" aria-label="Dismiss" @click="${this._dismiss}">
             <svg aria-hidden="true" width="14" height="14" viewBox="0 0 1024 1024" fill="currentColor"><path d="${phXBold}"/></svg>
           </button>
         ` : nothing}
