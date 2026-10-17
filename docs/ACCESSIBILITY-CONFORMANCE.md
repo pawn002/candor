@@ -50,7 +50,7 @@ Every row in the tables below cites one or more of these sources.
 
 - **Supports:** the evidence cited shows the criterion is met, within the scope above.
 - **Partially supports:** some of the criterion is met; the row says what is not.
-- **Not evaluated:** no evidence either way for 6.0.0. This is not a VPAT term for Level AA; it is used here because claiming support without evidence is the mistake this document exists to avoid.
+- **Not evaluated:** no evidence either way for 6.0.0. This is not a VPAT term for Level AA; it is used here so that the statement only claims support it can show evidence for.
 - **Not applicable:** Candor ships nothing the criterion governs.
 - **Consumer:** the criterion is about the page, its content or its media, and the consumer meets it. Where Candor helps, the row says how.
 

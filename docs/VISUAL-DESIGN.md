@@ -6,7 +6,7 @@ Candor is a humanist design system: every surface, including technical and machi
 
 Technical content has real legibility requirements. Code must be scannable. Data tables must differentiate rows. Form errors must be impossible to miss. Meeting those requirements is mandatory; the question is always whether they can be met while preserving warmth, coherence, and considered choices at every surface.
 
-The failure mode is always the same: reaching for the clinical default because it is the easy answer. Pure white on pure black. `font-weight: bold` on every state that needs attention. A single 1px hairline between rows. Maximum contrast. These choices are legible, but they are not designed. They interrupt the system's character and betray that no one stopped to think.
+The pull is always toward the clinical default, because it is the quickest answer. Pure white on pure black. `font-weight: bold` on every state that needs attention. A single 1px hairline between rows. Maximum contrast. These choices are legible, but they are not designed: they interrupt the system's character, and the reader feels the difference even without naming it.
 
 **Every component needs two answers: is this legible, and does it feel like it was made by the same hand as everything around it?** If you can only get one, the component is not finished.
 
@@ -241,7 +241,7 @@ Candor is primarily a UI system, so "imagery" here covers the full visual-substa
 3. **Providing navigation or recognition** (an avatar, a product thumbnail, an icon that speeds wayfinding).
 4. **Expressing brand presence** where a page would otherwise be uncharacterized.
 
-Images that serve none of these are filler, and filler signals that no one made a deliberate choice about that surface.
+An image that serves none of these is worth leaving out. The surface reads as more deliberate without it.
 
 ### What this means in Candor
 
