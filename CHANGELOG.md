@@ -6,6 +6,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **`Design Tokens/Grey Ramps` shows the 6.0.0 grey ramps beside the 5.x greys they replaced.** Four stories: the three ramps on one lightness scale, step by step; each 5.x grey primitive next to what its name means now and the step that holds its old colour; the greys that were written as one-off values in 5.x and the ramp step each uses now; and the chroma curve the tinted ramps share. The 6.0.0 values are read from `primitives.scss` and `audit/tokens.dtcg.json` rather than copied, through a new `primitive-values.ts` and a `requireTokenAlias` helper; the 5.x values are a fixed record of what shipped.
+
 ## [6.0.0] - 2026-10-17
 
 ### Breaking changes
