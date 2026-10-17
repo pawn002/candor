@@ -44,7 +44,7 @@ type Story = StoryObj;
 
 export const ProductCard: Story = {
   render: () => html`
-    <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 350px;">
+    <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 22rem;">
       <div style="width: 100%; height: 200px; background: linear-gradient(135deg, oklch(0.75 0.13 250), oklch(0.60 0.16 250));"></div>
 
       <div style="padding: var(--spacing-card-padding);">
@@ -61,7 +61,7 @@ export const ProductCard: Story = {
           30-hour battery life and premium comfort for all-day listening.
         </candor-text>
 
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
           <div>
             <candor-text variant="caption" style="display: block; text-decoration: line-through; color: var(--color-text-subtle);">
               <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Was </span>$299.99
@@ -73,7 +73,7 @@ export const ProductCard: Story = {
           <candor-badge variant="success">Save 17%</candor-badge>
         </div>
 
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
           <candor-button variant="primary" size="medium" style="flex: 1;">
             Add to Cart
           </candor-button>
@@ -86,7 +86,7 @@ export const ProductCard: Story = {
 
 export const ArticleCard: Story = {
   render: () => html`
-    <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 400px;">
+    <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 25rem;">
       <div style="width: 100%; height: 180px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.09 200));"></div>
 
       <div style="padding: var(--spacing-card-padding);">
@@ -135,7 +135,7 @@ export const ProfileCard: Story = {
           }
         }
       </style>
-      <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="lg" style="max-width: 300px; text-align: center;">
+      <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="lg" style="max-width: 19rem; text-align: center;">
         <div style="width: 100px; height: 100px; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
 
         <candor-heading level="h2" style="margin-bottom: 0.25rem;">

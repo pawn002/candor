@@ -180,7 +180,7 @@ export const ColorPairIterator: Story = {
           </div>
         </candor-card>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 1.25rem; align-items: start;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21.25rem), 1fr)); gap: 1.25rem; align-items: start;">
 
           <div style="display: flex; flex-direction: column; gap: 1rem;">
 

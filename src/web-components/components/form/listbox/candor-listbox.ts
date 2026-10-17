@@ -80,7 +80,9 @@ export class CandorListbox extends LitElement {
       background-color: var(--color-bg-surface); color: var(--color-text-disabled);
       --_border-color: var(--color-border-default); cursor: not-allowed;
     }
-    .listbox__trigger-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* The chosen value and the options wrap rather than truncating: an ellipsis
+       hides text a sighted user cannot get back, at any text size (WCAG 1.4.4). */
+    .listbox__trigger-text { flex: 1; min-width: 0; overflow-wrap: anywhere; text-align: start; }
     .listbox__caret {
       flex-shrink: 0; width: 1rem; height: 1rem; color: var(--color-text-subtle);
       transition: transform 200ms ease, color 200ms ease;
@@ -110,7 +112,7 @@ export class CandorListbox extends LitElement {
     .listbox__option--selected { color: var(--color-action-primary); font-weight: var(--font-weight-medium); }
     .listbox__option--active.listbox__option--selected { background-color: var(--color-bg-surface); }
     .listbox__option--disabled { color: var(--color-text-disabled); cursor: not-allowed; pointer-events: none; }
-    .listbox__option-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .listbox__option-label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
     .listbox__option-check { flex-shrink: 0; color: var(--color-action-primary); font-size: 1rem; }
     .listbox__error-live { display: contents; }
     .listbox__error-message {

@@ -2,10 +2,13 @@ import { test, expect, type APIRequestContext, type Page } from '@playwright/tes
 import { decodePng } from './support/png';
 
 /**
- * Four WCAG 2.2 AA criteria that axe-core cannot decide, measured on every story
+ * Five WCAG 2.2 AA criteria that axe-core cannot decide, measured on every story
  * (#252). Each was "Not evaluated" in `docs/ACCESSIBILITY-CONFORMANCE.md`, or
  * supported only by a review that nothing re-checked.
  *
+ * - **1.4.4 Resize Text.** In a 1280px window with the root font size doubled,
+ *   as a browser's text size setting does, every piece of text doubles and none
+ *   is newly clipped. Text sized in px would not grow, and is reported.
  * - **1.4.10 Reflow.** At 320 CSS px wide, the page does not scroll sideways.
  *   Tables, grids and code blocks may scroll inside their own box, which the
  *   criterion allows for two-dimensional content, so only the page is measured.
@@ -59,16 +62,103 @@ async function injectEverywhere(page: Page, css: string) {
 }
 
 /**
- * Known losses, each with its reason. One that stops matching fails, so the list
- * cannot outlive what it records.
+ * Text that a stylesheet newly hides. Records how far every box in the story
+ * already overflows, adds `css` everywhere, and lists the boxes that hide
+ * overflow and now hide more of their text. Also reports how much each piece of
+ * text grew, for 1.4.4.
  */
-const SPACING_EXCEPTIONS: { story: string; element: string; reason: string }[] = [
-  ...['examples-article-example--post-listing', 'examples-article-example--post-listing-grid'].map((story) => ({
-    story,
-    element: 'p.post-card__excerpt',
-    reason: 'A teaser clamped to a set number of lines by design. Wider spacing clamps it sooner; the full text is the linked post.',
-  })),
+async function newlyClipped(page: Page, css: string): Promise<{ clipped: string[]; growth: { el: string; ratio: number }[] }> {
+  // Record how far each box already overflows, apply the CSS, then compare.
+  await page.evaluate(() => {
+    const els: Element[] = [];
+    const scope = document.getElementById('storybook-root');
+    const walk = (root: Element | ShadowRoot) => {
+      for (const el of root.querySelectorAll('*')) { els.push(el); if (el.shadowRoot) walk(el.shadowRoot); }
+    };
+    if (scope) walk(scope);
+    const state = (el: Element) => {
+      const cs = getComputedStyle(el);
+      if (['inline', 'contents', 'none'].includes(cs.display)) return null;
+      return { x: el.scrollWidth - el.clientWidth, y: el.scrollHeight - el.clientHeight, ox: cs.overflowX, oy: cs.overflowY };
+    };
+    // Each element's own text size too, for checking that text grew. Slotted
+    // text renders at the size of its slot, not of the host it is written in,
+    // so it is measured at the slot and skipped on the host.
+    const ownText = (nodes: Node[]) => nodes.some((n) => n.nodeType === 3 && n.textContent?.trim());
+    const size = (el: Element) => {
+      const text = el instanceof HTMLSlotElement ? ownText(el.assignedNodes()) : !el.shadowRoot && ownText([...el.childNodes]);
+      return text ? parseFloat(getComputedStyle(el).fontSize) : 0;
+    };
+    (window as any).__clip = { els, before: els.map(state), sizes: els.map(size), state, size };
+  });
+  await injectEverywhere(page, css);
+  await page.waitForTimeout(100);
+  return page.evaluate(() => {
+    const { els, before, sizes, state, size } = (window as any).__clip as { els: Element[]; before: any[]; sizes: number[]; state: (el: Element) => any; size: (el: Element) => number };
+    const clips = (o: string) => o === 'hidden' || o === 'clip';
+    // Text as rendered: through shadow roots and into what slots show, since
+    // a shadow element's textContent leaves out slotted text.
+    const hasText = (n: Node): boolean => {
+      if (n.nodeType === 3) return !!n.textContent?.trim();
+      if (n instanceof HTMLSlotElement) return n.assignedNodes({ flatten: true }).some(hasText);
+      const kids = [...((n as Element).shadowRoot?.childNodes ?? []), ...n.childNodes];
+      return kids.some(hasText);
+    };
+    // Text no one sees is outside the criterion: the 1px screen-reader-only
+    // pattern clips by design, and so does anything inside it.
+    const unseen = (el: Element) => {
+      for (let m: any = el; m && m.nodeType === 1; m = m.parentNode instanceof ShadowRoot ? m.parentNode.host : m.parentNode) {
+        // A slot and anything else with display: contents has no box of its own.
+        if (getComputedStyle(m).display === 'contents') continue;
+        const r = m.getBoundingClientRect();
+        if (r.width <= 1 || r.height <= 1) return true;
+      }
+      return false;
+    };
+    const where = (el: Element) => {
+      let n: Node | null = el;
+      while (n && !(n instanceof ShadowRoot)) n = n.parentNode;
+      return `${n ? (n as ShadowRoot).host.tagName.toLowerCase() + ' >> ' : ''}${el.tagName.toLowerCase()}${[...el.classList].map((c) => '.' + c).join('')}`;
+    };
+    const out: string[] = [];
+    const growth: { el: string; ratio: number }[] = [];
+    els.forEach((el, i) => {
+      if (sizes[i] && !unseen(el)) growth.push({ el: where(el), ratio: size(el) / sizes[i] });
+      const a = state(el);
+      const b = before[i];
+      if (!a || !b || !hasText(el) || unseen(el)) return;
+      // More hidden than before, by over a pixel. A box that already clipped a
+      // little is not excused from clipping more.
+      if ((a.x - b.x > 1 && clips(a.ox)) || (a.y - b.y > 1 && clips(a.oy))) out.push(where(el));
+    });
+    return { clipped: [...new Set(out)], growth };
+  });
+}
+
+/**
+ * Known clipping, each with its reason and the criteria whose check it excuses.
+ * One that stops matching fails, so the list cannot outlive what it records.
+ */
+const TEASER = 'A teaser clamped to a set number of lines by design. More spacing or larger text clamps it sooner; the full text is the linked post.';
+const CLIP_EXCEPTIONS: { story: string; element: string; criteria: string[]; reason: string }[] = [
+  { story: 'examples-article-example--post-listing', element: 'p.post-card__excerpt', criteria: ['1.4.12', '1.4.4'], reason: TEASER },
+  { story: 'examples-article-example--post-listing-grid', element: 'p.post-card__excerpt', criteria: ['1.4.12'], reason: TEASER },
 ];
+
+/** Assert nothing is newly clipped, apart from listed exceptions, which are recorded as used. */
+function expectNoClipping(id: string, criterion: string, clipped: string[], used: Set<string>, what: string) {
+  for (const el of clipped) {
+    const ex = CLIP_EXCEPTIONS.find((e) => e.story === id && e.criteria.includes(criterion) && el.endsWith(e.element));
+    if (ex) { used.add(`${criterion}|${id}|${ex.element}`); continue; }
+    expect.soft(el, `${id}: text in ${el} is clipped ${what} (${criterion})`).toBeUndefined();
+  }
+}
+
+function expectExceptionsUsed(criterion: string, used: Set<string>) {
+  for (const ex of CLIP_EXCEPTIONS.filter((e) => e.criteria.includes(criterion))) {
+    expect.soft(used.has(`${criterion}|${ex.story}|${ex.element}`), `stale exception: ${ex.element} is no longer clipped on ${ex.story} for ${criterion}; remove it`).toBe(true);
+  }
+}
 
 test('1.4.10 Reflow: no story scrolls sideways at 320px', async ({ page, request }) => {
   test.setTimeout(30 * 60_000);
@@ -103,70 +193,34 @@ test('1.4.12 Text Spacing: no text is clipped under the criterion\'s spacing', a
   for (const id of await storyIds(request)) {
     await test.step(id, async () => {
       await load(page, id);
-      // Record how far each box already overflows, apply the spacing, then compare.
-      await page.evaluate(() => {
-        const els: Element[] = [];
-        const scope = document.getElementById('storybook-root');
-        const walk = (root: Element | ShadowRoot) => {
-          for (const el of root.querySelectorAll('*')) { els.push(el); if (el.shadowRoot) walk(el.shadowRoot); }
-        };
-        if (scope) walk(scope);
-        const state = (el: Element) => {
-          const cs = getComputedStyle(el);
-          if (['inline', 'contents', 'none'].includes(cs.display)) return null;
-          return { x: el.scrollWidth - el.clientWidth, y: el.scrollHeight - el.clientHeight, ox: cs.overflowX, oy: cs.overflowY };
-        };
-        (window as any).__spacing = { els, before: els.map(state), state };
-      });
-      await injectEverywhere(page,
+      const { clipped } = await newlyClipped(page,
         '*, *::before, *::after { line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important; }' +
         ' p { margin-bottom: 2em !important; }');
-      await page.waitForTimeout(100);
-      const clipped = await page.evaluate(() => {
-        const { els, before, state } = (window as any).__spacing as { els: Element[]; before: any[]; state: (el: Element) => any };
-        const clips = (o: string) => o === 'hidden' || o === 'clip';
-        // Text no one sees is outside the criterion: the 1px screen-reader-only
-        // pattern clips by design, and so does anything inside it.
-        // Text as rendered: through shadow roots and into what slots show, since
-        // a shadow element's textContent leaves out slotted text.
-        const hasText = (n: Node): boolean => {
-          if (n.nodeType === 3) return !!n.textContent?.trim();
-          if (n instanceof HTMLSlotElement) return n.assignedNodes({ flatten: true }).some(hasText);
-          const kids = [...((n as Element).shadowRoot?.childNodes ?? []), ...n.childNodes];
-          return kids.some(hasText);
-        };
-        const unseen = (el: Element) => {
-          for (let m: any = el; m && m.nodeType === 1; m = m.parentNode instanceof ShadowRoot ? m.parentNode.host : m.parentNode) {
-            const r = m.getBoundingClientRect();
-            if (r.width <= 1 || r.height <= 1) return true;
-          }
-          return false;
-        };
-        const out: string[] = [];
-        els.forEach((el, i) => {
-          const a = state(el);
-          const b = before[i];
-          if (!a || !b || !hasText(el) || unseen(el)) return;
-          // More hidden than before, by over a pixel. A box that already clipped a
-          // little is not excused from clipping more.
-          if ((a.x - b.x > 1 && clips(a.ox)) || (a.y - b.y > 1 && clips(a.oy))) {
-            let n: Node | null = el;
-            while (n && !(n instanceof ShadowRoot)) n = n.parentNode;
-            out.push(`${n ? (n as ShadowRoot).host.tagName.toLowerCase() + ' >> ' : ''}${el.tagName.toLowerCase()}${[...el.classList].map((c) => '.' + c).join('')}`);
-          }
-        });
-        return [...new Set(out)];
-      });
-      for (const el of clipped) {
-        const ex = SPACING_EXCEPTIONS.find((e) => e.story === id && el.endsWith(e.element));
-        if (ex) { used.add(`${id}|${ex.element}`); continue; }
-        expect.soft(el, `${id}: text in ${el} is clipped once text spacing is increased`).toBeUndefined();
+      expectNoClipping(id, '1.4.12', clipped, used, 'once text spacing is increased');
+    });
+  }
+  expectExceptionsUsed('1.4.12', used);
+});
+
+test('1.4.4 Resize Text: text doubles and nothing is clipped at 200%', async ({ page, request }) => {
+  test.setTimeout(30 * 60_000);
+  // A 1280px window, the width the 320px reflow check is a quarter of. Raising
+  // the root size is what a browser's text size setting does; Candor sizes text
+  // in rem, so all of it should double. Browser zoom is covered by the reflow
+  // check, which is 400% zoom of the same window.
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const used = new Set<string>();
+  for (const id of await storyIds(request)) {
+    await test.step(id, async () => {
+      await load(page, id);
+      const { clipped, growth } = await newlyClipped(page, 'html { font-size: 200% !important; }');
+      expectNoClipping(id, '1.4.4', clipped, used, 'at 200% text size');
+      for (const g of growth.filter((g) => g.ratio < 1.9)) {
+        expect.soft(g.ratio, `${id}: text in ${g.el} grew ${g.ratio.toFixed(2)}x, not 2x; it is sized in a unit that ignores text size`).toBeGreaterThanOrEqual(1.9);
       }
     });
   }
-  for (const ex of SPACING_EXCEPTIONS) {
-    expect.soft(used.has(`${ex.story}|${ex.element}`), `stale exception: ${ex.element} is no longer clipped on ${ex.story}; remove it`).toBe(true);
-  }
+  expectExceptionsUsed('1.4.4', used);
 });
 
 test('2.4.7 Focus Visible and 2.4.11 Focus Not Obscured: every Tab stop', async ({ page, request }) => {

@@ -105,7 +105,9 @@ export class CandorCombobox extends LitElement {
     }
     .combobox__option--active { background-color: var(--color-bg-surface); }
     .combobox__option--selected { color: var(--color-action-primary); font-weight: var(--font-weight-medium); }
-    .combobox__option-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* Wraps rather than truncating: an ellipsis hides text a sighted user cannot
+       get back, at any text size (WCAG 1.4.4). */
+    .combobox__option-label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
     .combobox__option-check { flex-shrink: 0; color: var(--color-action-primary); font-size: 1rem; }
     .combobox__no-results {
       padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);

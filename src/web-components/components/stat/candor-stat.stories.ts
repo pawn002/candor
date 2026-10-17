@@ -85,7 +85,7 @@ export const ContrastRatio: Story = {
   name: 'Contrast ratio: warning state',
   parameters: { controls: { disable: true } },
   render: () => html`
-    <div style="max-width:320px;padding:var(--spacing-sm);">
+    <div style="max-width:20rem;padding:var(--spacing-sm);">
       <candor-card variant="elevated">
         <div style="padding:var(--spacing-xs) 0;">
           <candor-stat value="3.9" unit=":1" label="WCAG 2.1 contrast ratio" color="warning">

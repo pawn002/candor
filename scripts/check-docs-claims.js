@@ -705,6 +705,65 @@ if (quoteHits.length > 0) {
   console.log(`  ✓ no Markdown blockquotes in ${storyFiles.length} stories or ${mdx.length} MDX files`);
 }
 
+// ── built-in names: one name per function, across every component ──────────
+//
+// WCAG 3.2.4 asks that controls doing the same thing are named the same way
+// everywhere. Consumers name most controls, but some names are Candor's own,
+// written into a component's template. Each one must be in this vocabulary,
+// which says what the name does. A new name is then a decision someone made,
+// and a second name for a function already listed shows up in review rather
+// than in a screen reader. `candor-alert` said "Dismiss" and `candor-toast`
+// said "Dismiss notification" for the same action until this check (#252).
+// Read from `aria-label` attributes in the source, comments stripped: a plain
+// value, or the quoted fallbacks inside an `${...}` expression.
+
+const BUILT_IN_NAMES = {
+  Close: 'closes a dialog or drawer (modal, drawer)',
+  Dismiss: 'removes the message the button sits in (alert, toast)',
+  'Previous page': 'pagination',
+  'Next page': 'pagination',
+  'Scroll tabs left': 'scrolls an overflowing tab strip (tabs)',
+  'Scroll tabs right': 'scrolls an overflowing tab strip (tabs)',
+  'Send message': 'submits the chat input (chat-input)',
+  Breadcrumb: 'names the breadcrumb landmark',
+  Loading: 'names an unlabelled progress indicator',
+  'Data grid': 'names an uncaptioned data grid',
+  'Dialog content': 'names the scrolling body of a modal',
+  'Drawer content': 'names the scrolling body of a drawer',
+  Drawer: 'names a drawer that has no heading',
+  'Out of gamut': 'marks a tone-picker cell sRGB cannot render',
+};
+
+const nameHits = [];
+const unknownNames = [];
+for (const file of componentFiles) {
+  const raw = fs.readFileSync(file, 'utf8');
+  const src = stripComments(raw);
+  for (const m of src.matchAll(/aria-label="((?:\$\{[^}]*\}|[^"])*)"/g)) {
+    const value = m[1];
+    const names = value.includes('${') ? [...value.matchAll(/'([^']+)'/g)].map((q) => q[1]) : [value];
+    for (const name of names) {
+      nameHits.push(name);
+      if (!(name in BUILT_IN_NAMES)) {
+        // Line from the file as written: stripping comments moves every line.
+        const line = raw.slice(0, raw.indexOf(m[0])).split('\n').length;
+        unknownNames.push(`${path.relative(ROOT, file)}:${line}: "${name}"`);
+      }
+    }
+  }
+}
+const unusedNames = Object.keys(BUILT_IN_NAMES).filter((n) => !nameHits.includes(n));
+if (nameHits.length < 10) {
+  fail('found fewer than 10 built-in aria-label names; the scan is broken, not the components');
+} else if (unknownNames.length > 0 || unusedNames.length > 0) {
+  fail(
+    'built-in control names must come from BUILT_IN_NAMES in this script (WCAG 3.2.4). Reuse the name an existing control with the same function has, or add the new one with what it does:\n      ' +
+      [...unknownNames, ...unusedNames.map((n) => `"${n}" is listed but no component uses it; remove it`)].join('\n      '),
+  );
+} else {
+  console.log(`  ✓ ${nameHits.length} built-in control names, all from a vocabulary of ${Object.keys(BUILT_IN_NAMES).length}`);
+}
+
 // ── package files: every tokens stylesheet the docs name is one the package ships ──
 //
 // tokens/README.md documented candor-article.css, candor-syntax.css and
