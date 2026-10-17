@@ -82,3 +82,14 @@ export function requireTokenValue(mode: TokenMode, cssVar: string): string {
   }
   return v;
 }
+
+/**
+ * The primitive a token is declared as (`--color-bg-surface` → `--gray-100`),
+ * from `$extensions.aliasOf`. Throws if the token is missing or is not an alias.
+ */
+export function requireTokenAlias(mode: TokenMode, cssVar: string): string {
+  const node = TOKENS[mode].get(cssVar) as { $extensions?: { aliasOf?: string } } | undefined;
+  const alias = node?.$extensions?.aliasOf;
+  if (!alias) throw new Error(`${cssVar} (${mode}) has no aliasOf in audit/tokens.dtcg.json`);
+  return alias;
+}
