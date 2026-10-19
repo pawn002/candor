@@ -71,7 +71,7 @@
     "@storybook/addon-themes": "^10.6.1",
     "@storybook/web-components-vite": "^10.6.1",
     "@types/node": "^26.4.1",
-    "axe-core": "4.11.0",
+    "axe-core": "4.14.0",
     "chromatic": "^18.7.2",
     "culori": "^4.0.2",
     "lit": "^3.3.2",
