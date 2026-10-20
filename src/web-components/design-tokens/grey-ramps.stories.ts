@@ -24,8 +24,8 @@ const OLD_PRIMITIVES: { name: string; value: string; useNow: string; note?: stri
   { name: '--gray-500', value: 'oklch(0.56 0 0)', useNow: '--gray-550', note: 'name now means a lighter grey' },
   { name: '--gray-600', value: 'oklch(0.46 0 0)', useNow: '--gray-650', note: 'name now means a lighter grey' },
   { name: '--gray-700', value: 'oklch(0.32 0 0)', useNow: '--gray-800', note: 'name now means a lighter grey' },
-  { name: '--gray-800', value: 'oklch(0.24 0.03 248.99)', useNow: '--gray-cool-850', note: 'was cool, name now means neutral' },
-  { name: '--gray-900', value: 'oklch(0.16 0.02 248.99)', useNow: '--gray-cool-900', note: 'was cool, name now means neutral' },
+  { name: '--gray-800', value: 'oklch(0.24 0.03 248.99)', useNow: '--gray-cool-850', note: 'was cool, name now means a lighter neutral' },
+  { name: '--gray-900', value: 'oklch(0.16 0.02 248.99)', useNow: '--gray-cool-900', note: 'was cool, same lightness, now neutral' },
   { name: '--gray-cool-600', value: 'oklch(0.46 0.03 248.99)', useNow: '--gray-cool-650', note: 'name now means a lighter grey' },
   { name: '--gray-cool-700', value: 'oklch(0.32 0.03 248.99)', useNow: '--gray-cool-800', note: 'name now means a lighter grey' },
 ];
@@ -116,7 +116,7 @@ const renderBeforeAfter = () => {
     };
   });
   return html`
-    ${intro('Semantic token names did not change. Grey primitive names did: seven 5.x names now resolve to a different lightness, and --gray-200 lost its faint warmth. The last column is the 6.0.0 step that holds the 5.x colour, for anyone who referenced a primitive directly.')}
+    ${intro('Semantic token names did not change. Grey primitive names did: eight 5.x names now resolve to a different colour. Six of them changed lightness; --gray-200 lost its faint warmth and --gray-900 its cool cast at the same lightness. --gray-50 is removed. The last column is the 6.0.0 step that holds the 5.x colour, for anyone who referenced a primitive directly.')}
     ${table('Grey primitives in 5.x and what the names mean in 6.0.0', ['Primitive', '5.x value', 'Same name in 6.0.0', 'Use for the 5.x colour'], rows)}
   `;
 };
