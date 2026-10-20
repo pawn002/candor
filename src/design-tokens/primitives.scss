@@ -102,7 +102,7 @@
     //
     // The steps are uneven on purpose: each sits
     // where a contrast-tuned Candor token needs it (550, 600 and 650 are the subtle
-    // text and control-border lightnesses), so no grey in use is off a ramp.
+    // text and border lightnesses), so no grey in use is off a ramp.
     // Pure white is --gray-0 only; a tinted ramp starts at 25.
     --gray-0:    oklch(1 0 0);
     --gray-25:   oklch(0.985 0 0);
