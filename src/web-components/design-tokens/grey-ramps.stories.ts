@@ -134,7 +134,7 @@ const renderOffRamp = () => {
     };
   });
   return html`
-    ${intro('In 5.x, many greys in use were written as one-off values tuned for contrast, at lightnesses no ramp had, and the cool undertone was spread across hues 245, 248 and 248.99. In 6.0.0 every grey semantic token names a ramp step. The steps are uneven on purpose: 550, 600 and 650 exist because subtle text and control borders need those lightnesses.')}
+    ${intro('In 5.x, many greys in use were written as one-off values tuned for contrast, at lightnesses no ramp had, and the cool undertone was spread across hues 245, 248 and 248.99. In 6.0.0 every grey semantic token names a ramp step. The steps are uneven on purpose: 550, 600 and 650 exist because subtle text and borders need those lightnesses.')}
     ${table('Greys that sat off the 5.x ramps, and the step each uses now', ['Token', 'Mode', '5.x value', '6.0.0 step'], rows)}
   `;
 };
