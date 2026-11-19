@@ -6,6 +6,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **Contrast re-audited under klar 4.0.** klar 4.0.0 upgraded to okca 3.0, which scores both polarities on one scale: black on white is now 20.9 rather than 20, and most light-on-dark pairs score lower than before. Every recorded figure in `semantics.scss`, `audit/pairings.json` and story prose was re-measured. In light mode figures moved by a few tenths in either direction and no pairing crossed its floor. In dark mode seven pairings fell below their floor, and two dark tokens change value to restore them:
+  - `--color-border-control` (dark) moves from `--gray-500` to `--gray-400`. Under klar 4 the old value measured 2.5 on `--color-bg-elevated` and 2.9 on `--color-bg-surface`, against the 3.0 non-text floor, which affected form-control borders, the switch track, the slider track and scrollbar thumbs. It now measures 3.6, 4.5 and 5.3 on elevated, surface and page. Dark form borders are visibly brighter, and the token is now the same grey as dark `--color-text-subtle`, matching light mode, where both are `--gray-600`.
+  - `--color-bg-forward` (dark) moves from `--gray-warm-800` to `--gray-warm-850`, the lightness of `--color-bg-surface`. `--color-text-subtle` measured 3.7 on the old value against a floor of 4.5, and measures 4.6 on the new one.
+- The contrast and gamut audits now require klar 4.x, and CI installs `klar-cli@4`.
+
 ### Added
 
 - **`Design Tokens/Grey Ramps` shows the 6.0.0 grey ramps beside the 5.x greys they replaced.** Four stories: the three ramps on one lightness scale, step by step; each 5.x grey primitive next to what its name means now and the step that holds its old colour; the greys that were written as one-off values in 5.x and the ramp step each uses now; and the chroma curve the tinted ramps share. The 6.0.0 values are read from `primitives.scss` and `audit/tokens.dtcg.json` rather than copied, through a new `primitive-values.ts` and a `requireTokenAlias` helper; the 5.x values are a fixed record of what shipped.

@@ -22,7 +22,7 @@
  * pairings.json.
  *
  * Usage: node scripts/export-tokens-dtcg.js [--skip-gamut]
- * The gamut gate runs by default and needs klar 3.x on PATH; --skip-gamut
+ * The gamut gate runs by default and needs klar 4.x on PATH; --skip-gamut
  * exports without it. Nothing in the repo passes that flag.
  */
 
@@ -308,16 +308,16 @@ function sourceFiles() {
 function checkGamut(sources) {
   try {
     const v = execSync('klar --version', { encoding: 'utf8' }).trim();
-    if (!/^3\./.test(v)) {
+    if (!/^4\./.test(v)) {
       console.error(
-        `✗  klar ${v} found — the gamut gate needs 3.x.\n` +
+        `✗  klar ${v} found — the gamut gate needs 4.x.\n` +
           '   Run `npm run audit:contrast`: its version guard carries the full checklist\n' +
           '   for what to verify in klar\'s docs before widening either range.'
       );
       process.exit(2);
     }
   } catch {
-    console.error('✗  klar is not on PATH. Install klar 3.x, or re-run with --skip-gamut.');
+    console.error('✗  klar is not on PATH. Install klar 4.x, or re-run with --skip-gamut.');
     process.exit(2);
   }
 

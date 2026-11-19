@@ -51,7 +51,7 @@
  * guard, because absence of failure reads as validation (#218).
  *
  * Usage: node scripts/check-contrast.js [--verbose]
- * Requires klar 3.x on PATH.
+ * Requires klar 4.x on PATH.
  *
  * GAMUT: this script measures the colour Candor specifies, full stop. It does
  * not model, predict, or track what any engine does with a colour outside
@@ -128,12 +128,12 @@ function assertKlar3() {
   try {
     v = execSync('klar --version', { encoding: 'utf8' }).trim();
   } catch {
-    console.error('✗  klar is not on PATH. Install klar 3.x — see CLAUDE.md → Integration Points.');
+    console.error('✗  klar is not on PATH. Install klar 4.x — see CLAUDE.md → Integration Points.');
     process.exit(2);
   }
-  if (!/^3\./.test(v)) {
+  if (!/^4\./.test(v)) {
     console.error(
-      `✗  klar ${v} found, but every figure in this repo assumes 3.x.\n` +
+      `✗  klar ${v} found, but every figure in this repo assumes 4.x.\n` +
         '\n' +
         '   This guard is deliberately a hard stop rather than a warning, because it is\n' +
         '   the only thing in the repo that forces klar\'s docs to be re-read. A linked\n' +
@@ -144,7 +144,9 @@ function assertKlar3() {
         '     https://github.com/pawn002/klar/blob/main/AGENT_PLAYBOOK.md  (worked examples)\n' +
         '   and verify the claims against the installed CLI — on the 2.x→3.x bump the\n' +
         '   release notes and the issue-resolution comment disagreed about the shipped\n' +
-        '   default, and only testing the binary settled it.\n' +
+        '   default, and only testing the binary settled it. On the 3.x→4.x bump it\n' +
+        '   was item 1: okca 3.0 rescored both polarities, and seven dark pairings\n' +
+        '   fell below their floor.\n' +
         '\n' +
         '   Then check each of these, which is what actually changed last time:\n' +
         '     1. Did the default algorithm recalibrate? (2.0.0 moved OKCA +0.4 in the 3-7\n' +

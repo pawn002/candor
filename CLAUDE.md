@@ -42,7 +42,7 @@ npx playwright show-report # View test results
 ### Building
 ```bash
 npm run audit:tokens       # Re-export audit/tokens.dtcg.json from the SCSS
-npm run audit:contrast     # Re-measure every pairing + every recorded OKCA figure (needs klar 3.x)
+npm run audit:contrast     # Re-measure every pairing + every recorded OKCA figure (needs klar 4.x)
 npm run build:tokens       # Build @candor-design/tokens → tokens/
 npm run build:wc           # Build @candor-design/web-components → web-components/dist/
 npm run build-storybook    # Build static Storybook
@@ -201,9 +201,9 @@ Two limits on what that buys, because the list overstates itself otherwise. `enf
 
 **Do not record a token's *value* in a story.** A figure is an argument and has to be written down; a value is a fact the artifact already holds. Stories that display token colours import `requireTokenValue` from `src/web-components/design-tokens/token-values.ts`, which reads `audit/tokens.dtcg.json` — so the swatch cannot disagree with the stylesheet, and a renamed token throws at build time instead of rendering a blank. Copying `oklch(…)` into a story is how the data-grid demo spent months painting a colour the system had stopped using, under that colour's token name, with nothing to catch it.
 
-**A brand hex and the token derived from it are different colours.** Converting hex → OKLCH rounds, so their OKCA scores can differ by a tenth (`#082840` is 14.0 on white; `--color-action-primary` is 13.9). Both figures are correct about their own colour. Do not "reconcile" them — that necessarily makes one wrong, which is a mistake this repo has already made once.
+**A brand hex and the token derived from it are different colours.** Converting hex → OKLCH rounds, so their OKCA scores can differ by a tenth (`#082840` is 14.2 on white; `--color-action-primary` is 14.1). Both figures are correct about their own colour. Do not "reconcile" them — that necessarily makes one wrong, which is a mistake this repo has already made once.
 
-Recorded figures are re-baselined to klar 3.0. Any figure you add must be measured with klar 3.x — prefer `npm run audit:contrast` over a bare `klar contrast`, since it measures exactly as the audit does. A number carried over from an older tool or an older note will be wrong twice over: 2.0.0 recalibrated OKCA (+0.4 in the 3–7 band), and 3.0.0 both scored at full precision (±0.1) and stopped silently substituting a different colour for out-of-gamut input.
+Recorded figures are re-baselined to klar 4.0. Any figure you add must be measured with klar 4.x — prefer `npm run audit:contrast` over a bare `klar contrast`, since it measures exactly as the audit does. A number carried over from an older tool or an older note will be wrong several times over: 2.0.0 recalibrated OKCA (+0.4 in the 3–7 band); 3.0.0 scored at full precision (±0.1) and stopped silently substituting a different colour for out-of-gamut input; and 4.0.0 (okca 3.0) put both polarities on one scale, which moved light-mode figures by a few tenths either way and dropped most dark-mode figures by far more (`--color-text-default` on dark page went 12.9 → 11.0).
 
 **`web-components/custom-elements.json`** — auto-generated, do not edit by hand, and **committed** (unlike `web-components/dist`, which is gitignored).
 - Produced by `npm run build:cem`, configured in `custom-elements-manifest.config.mjs`. Regenerate after any change to a component's source or its TSDoc; CI runs `build:cem` and fails on a diff, the same gate `audit/tokens.dtcg.json` carries.
@@ -237,7 +237,7 @@ Recorded figures are re-baselined to klar 3.0. Any figure you add must be measur
 
 ### Integration Points
 
-**klar CLI** — requires **3.x** (`klar --version`). Every contrast figure recorded in this repo assumes it. On 2.x the numbers in `audit/` and the tier tables are wrong: 2.x scored through an 8-bit hex round-trip *and* silently substituted a different color for any out-of-gamut input, reporting a figure for a color nobody had asked about. Under the sRGB invariant (#225) that substitution can no longer arise, but the precision difference still makes 2.x figures wrong.
+**klar CLI** — requires **4.x** (`klar --version`). Every contrast figure recorded in this repo assumes it. On 3.x the figures are wrong because 4.0.0 upgraded to okca 3.0, which scores both polarities on one scale. That moved light-mode figures by a few tenths in both directions and lowered most light-on-dark figures sharply, and it put seven dark pairings below their floor until two dark tokens were re-assigned. On 2.x they are wrong for older reasons too: 2.x scored through an 8-bit hex round-trip *and* silently substituted a different color for any out-of-gamut input, reporting a figure for a color nobody had asked about. The 3→4 bump changed nothing else the audit relies on, verified on the binary: `--gamut-map`, `--allow-out-of-gamut`, the 0/1/2 exit codes and full-precision scoring all behave as before.
 All klar commands accept both `<hex>` and `oklch(L C H)` CSS color strings as inputs — pass OKLCH values directly without converting to hex first.
 
 ```bash
@@ -259,7 +259,7 @@ Flags worth knowing that aren't in the one-liners above: `find` takes `--toleran
 
 **klar key rules:**
 - **OKCA is the default** — WCAG 2.x-compatible ratio, no `--type` flag needed
-- **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Light-on-dark caps at **20.9**; dark-on-light at **20**; the same chromatic pair returns different numbers when swapped. Never reuse a reversed measurement
+- **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Since klar 4 both polarities cap at **20.9** (black on white was 20), and a pair scores the same either way round unless the darker colour is darker than `#767676`, in which case light-on-dark scores lower (`#3a7d44` is 4.5 on white, white is 4.3 on it). Never reuse a reversed measurement
 - **deltaE is the art director's metric** — answers "did it change much?"; < 3 imperceptible, 5–10 acceptable drift, 11+ clearly different
 - **Built-in `--type` values**: `okca` (default), `wcag2`, `deltaE`. Any other `--type` comes from a plugin installed in the environment — plugins are independent of klar-cli and not guaranteed present. Run `klar plugins list` to see what's registered.
 - **Gate `find`/`match` captures on the exit code** — grep-style contract: `0` success, `1` soft failure (`find` target unachievable / `match` infeasible — the closest value is *still printed to stdout*), `2` usage error. An unchecked `ADJUSTED=$(klar find …)` silently assigns a non-compliant color on exit `1`. Use `if ADJUSTED=$(klar find <bg> <color> --target 4.5 -q); then …; else handle_no_compliant_color; fi`. On exit 1, read `.reason` from `--json` (`lightness-exhausted` / `unreachable` / `chroma-exhausted`) rather than the printed message — `lightness-exhausted` means the fix requires giving up chroma, which is a brand decision, and `.resolvableBy` quotes what that would cost
@@ -461,11 +461,13 @@ This replaces the former 9.5 floor at 14px, which was **unreachable by any colou
 | token | measures | to reach 9.5 |
 |---|---|---|
 | `--color-status-error-text` | 6.4 | chroma 0.18 → 0.146, deltaE 8 |
-| `--color-status-warning-text` | 8.1 | chroma 0.10 → 0.092, deltaE 3 |
-| `--color-status-success-text` | 6.1 | chroma 0.14 → 0.116, deltaE 9 |
-| `--color-link` | 5.3 | chroma 0.14 → 0.104, deltaE 12 |
+| `--color-status-warning-text` | 7.7 | chroma 0.085 → 0.075, deltaE 5 |
+| `--color-status-success-text` | 6.2 | chroma 0.14 → 0.118, deltaE 9 |
+| `--color-link` | 5.0 | chroma 0.14 → 0.102, deltaE 13 |
 
-The floor did not ask coloured text to be darker; it asked it to stop being coloured. Only near-neutral text could satisfy it (`--color-text-default` is 11.9).
+(Re-measured under klar 4 against the current tokens.)
+
+The floor did not ask coloured text to be darker; it asked it to stop being coloured. Only near-neutral text could satisfy it (`--color-text-default` is 12.4).
 
 Stated as a size requirement it becomes actionable and self-consistent: **a Tier 1 element at 14px is a sizing bug, and the fix is the size.** At 16px the floor is 4.5 and every status colour clears it with margin. The system already worked this way in practice — `candor-input` renders its validation errors at 16px (`form-error-message`, floor 4.5, measures 6.4 ✅) while the generic `candor-accessible-text role_="status"` rendered identical content at 14px and could not pass (#208).
 
@@ -475,16 +477,16 @@ Tier 1 **bold** at 14px keeps its 6.5 floor: bold is a genuine perceptual compen
 
 The reason a floor can be unreachable is geometric, and it is worth understanding before setting any threshold.
 
-On a light background, more contrast means lower lightness. The sRGB gamut narrows as it descends toward black, so the chroma available falls with it. **Contrast and saturation are therefore not independent axes**: past a hue's ceiling, every increment of contrast is paid for in colour, and the limit of that trade is pure black — OKCA 20, chroma exactly 0.
+On a light background, more contrast means lower lightness. The sRGB gamut narrows as it descends toward black, so the chroma available falls with it. **Contrast and saturation are therefore not independent axes**: past a hue's ceiling, every increment of contrast is paid for in colour, and the limit of that trade is pure black — OKCA 20.9, chroma exactly 0.
 
-Maximum OKCA on white at each chroma, measured at the darkest lightness sRGB permits for that chroma (`*` marks the chroma the token is authored at):
+Maximum OKCA on white at each chroma, measured under klar 4 at the darkest lightness sRGB permits for that chroma (`*` marks the chroma the token is authored at):
 
 | hue | C=0.18 | C=0.14 | C=0.10 | C=0.06 | C=0.03 | C=0 |
 |---|---|---|---|---|---|---|
-| error (red, H 25) | **6.6\*** | 10.3 | 15.0 | 18.7 | 20.0 | 20 |
-| warning (gold, H 88) | — | 2.2 | 5.3 | 12.7 | 18.7 | 20 |
-| success (green, H 144.2) | 3.8 | **6.9\*** | 11.9 | 17.5 | 20.0 | 20 |
-| link (blue, H 250.8) | 2.9 | **5.4\*** | 10.3 | 16.7 | 19.5 | 20 |
+| error (red, H 25) | **6.6\*** | 10.5 | 15.4 | 19.5 | 20.9 | 20.9 |
+| warning (gold, H 88) | — | 2.3 | 5.5 | 13.3 | 19.5 | 20.9 |
+| success (green, H 144.2) | 3.9 | **7.0\*** | 12.3 | 18.2 | 20.9 | 20.9 |
+| link (blue, H 250.8) | 2.7 | **5.1\*** | 10.1 | 17.1 | 20.4 | 20.9 |
 
 Three consequences for anyone setting or meeting a threshold:
 
@@ -492,9 +494,9 @@ Three consequences for anyone setting or meeting a threshold:
 
 2. **The same floor is a different demand at every hue.** At C=0.18 red reaches 6.6 while gold cannot be rendered at all, because the gamut is far larger in red at low lightness. A uniform floor silently taxes yellows and oranges hardest — which is why `--color-status-warning-text` is authored at C=0.085 while `--color-status-error-text` sits at 0.18. That was discovered by hitting the boundary, not by choice.
 
-3. **Past roughly OKCA 15 the text is achromatic in practice.** Chroma is under 0.06 there, which at those lightnesses reads as black with a cast rather than as a colour.
+3. **Past roughly OKCA 16 the text is achromatic in practice.** Chroma is under 0.06 there, which at those lightnesses reads as black with a cast rather than as a colour.
 
-This is the quantitative form of the design philosophy at the top of this file. "Maximum contrast is not automatically correct" is not only an aesthetic claim: at OKCA 20 the chroma is exactly zero, so maximum contrast is not a strict colour decision but the absence of one. A number chosen without reading the table above may be deleting the colour system rather than validating it.
+This is the quantitative form of the design philosophy at the top of this file. "Maximum contrast is not automatically correct" is not only an aesthetic claim: at OKCA 20.9 the chroma is exactly zero, so maximum contrast is not a strict colour decision but the absence of one. A number chosen without reading the table above may be deleting the colour system rather than validating it.
 
 **Authoring rule when a floor cannot be met.** Ask first whether the text should be coloured at all.
 
@@ -503,7 +505,7 @@ This is the quantitative form of the design philosophy at the top of this file. 
 
 Desaturating a semantic colour to buy contrast is the option to reach for last: it keeps the number and discards the thing the number was protecting. If it is genuinely the right call, it is a brand decision, and `klar find --json` reports its exact cost in `.resolvableBy` — take that to the decision rather than nudging chroma until the audit passes.
 
-The same geometry applies inverted on dark backgrounds: contrast there means *higher* lightness, the gamut narrows toward white, and the limit is pure white. Light-on-dark caps at 20.9 rather than 20, but the trade is identical.
+The same geometry applies inverted on dark backgrounds: contrast there means *higher* lightness, the gamut narrows toward white, and the limit is pure white. Both polarities cap at 20.9 under klar 4, and the trade is identical.
 
 #### The corollary for tinted backgrounds: a pale tint may not be a colour at all
 
@@ -527,7 +529,7 @@ Two things follow:
 Worth noting **this got worse in #225 and nobody measured it**: error-bg was authored at C 0.05, out of gamut at L 0.95, and pulling it to the boundary halved the separation from deltaE 8 to 4. The re-authoring was correct — the old value never named a deliverable colour — but "every pairing was re-measured and nothing regressed" was a statement about *contrast*, and this is not a contrast property. It is the same lesson as the rest of this release: a guard reports what it measures, and silence outside its scope is not a pass.
 
 **Key audit rules:**
-- `--color-text-subtle` (OKCA 4.8 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
+- `--color-text-subtle` (OKCA 5.0 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
 - Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight (wght ≥ 700)**, not a color change or size bump.
 - **Tier 1 regular at 14px is not a contrast failure to fix with colour — it is a size to change.** Bump to 16px.
 - Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position). The channel must be **non-optional** — something the reader cannot end up without. There are two ways to achieve that, and only the first was recognised until #214:

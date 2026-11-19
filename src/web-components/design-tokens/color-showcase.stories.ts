@@ -54,7 +54,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Subtle on Surface', variable: '--color-text-subtle-on-surface', description: 'Secondary text on bg-surface' },
       { name: 'Disabled', variable: '--color-text-disabled', description: 'Disabled state, intentionally below AA' },
       { name: 'Inverse', variable: '--color-text-inverse', description: 'Text on inverse surface: white in light mode, near-black in dark mode' },
-      { name: 'Subtle on Inverse', variable: '--color-text-subtle-on-inverse', description: 'Muted text on inverse surface, OKCA 7.6 on bg-inverse' },
+      { name: 'Subtle on Inverse', variable: '--color-text-subtle-on-inverse', description: 'Muted text on inverse surface, OKCA 5.8 on bg-inverse' },
       { name: 'On Action', variable: '--color-text-on-action', description: 'Text on primary/secondary button fills' },
       { name: 'Toast Message', variable: '--color-toast-message', description: 'Toast body text: text-default in light, text-subtle in dark' },
     ],
@@ -307,17 +307,17 @@ sit a tenth away from its own anchor's. Both numbers are correct about different
 colours, so a figure here and the one in the token's comment are not expected to
 agree, and reconciling them makes one of them wrong.
 
-- **Navy** \`#082840\`: primary action (OKCA 14.0 on white)
+- **Navy** \`#082840\`: primary action (OKCA 14.2 on white)
 - **Burgundy** \`#5F2B48\`: secondary action (OKCA 9.3 on white)
-- **Azure** \`#1493FB\`: accent / link; decorative at OKCA 2.5 on white, so \`--color-link\` steps to \`L=0.49\` for OKCA 5.3 on white
-- **Indigo** \`#6969F7\`: visited link anchor; decorative at OKCA 3.2 on white, so \`--color-link-visited\` uses indigo-700 for OKCA 5.8 on white
+- **Azure** \`#1493FB\`: accent / link; decorative at OKCA 2.4 on white, so \`--color-link\` steps to \`L=0.49\` for OKCA 5.0 on white
+- **Indigo** \`#6969F7\`: visited link anchor; decorative at OKCA 3.0 on white, so \`--color-link-visited\` uses indigo-700 for OKCA 5.3 on white
 
 ## Accessibility
 Action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components) and the
 stricter Candor OKCA tier floors, with the tracked exceptions listed in
 \`docs/ACCESSIBILITY-CONFORMANCE.md\`. Every authored colour is renderable in sRGB, and
 \`npm run audit:tokens\` fails the build if one is not. Validated with
-\`klar contrast\` 3.x; re-measure with \`npm run audit:contrast\`.
+\`klar contrast\` 4.x; re-measure with \`npm run audit:contrast\`.
         `,
       },
     },
