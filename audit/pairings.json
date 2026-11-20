@@ -346,7 +346,7 @@
     {
       "id": "badge-primary",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.action.primary-fill}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
@@ -356,7 +356,7 @@
     {
       "id": "badge-secondary",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.secondary}",
+      "bg": "{color.action.secondary-fill}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
@@ -396,7 +396,7 @@
     {
       "id": "button-primary-medium",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.action.primary-fill}",
       "size": 16,
       "weight": "bold",
       "tier": 2,
@@ -406,7 +406,7 @@
     {
       "id": "button-primary-small",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.action.primary-fill}",
       "size": 14,
       "weight": "bold",
       "tier": 2,
@@ -604,7 +604,7 @@
     {
       "id": "nav-badge",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.secondary}",
+      "bg": "{color.action.secondary-fill}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
@@ -855,7 +855,7 @@
     {
       "id": "pagination-current",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.action.primary-fill}",
       "size": 14,
       "weight": "regular",
       "tier": 3,
@@ -895,7 +895,7 @@
     {
       "id": "chip-selected",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.action.primary-fill}",
       "size": 14,
       "weight": "bold",
       "tier": 2,
@@ -974,12 +974,12 @@
     {
       "id": "nav-badge-text",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.secondary}",
+      "bg": "{color.action.secondary-fill}",
       "size": 14,
       "weight": "semibold",
       "tier": 3,
       "min": 4.5,
-      "note": "Navigation badge count (white on burgundy) — Tier 3 Supplementary; OKCA 7.8 light / 6.7 dark"
+      "note": "Navigation badge count (light label on the burgundy fill) — Tier 3 Supplementary; OKCA 7.8 light / 5.4 dark (was OKCA 6.7 dark, dark label on the pale burgundy-300 fill)"
     },
     {
       "id": "tone-picker-col-header",

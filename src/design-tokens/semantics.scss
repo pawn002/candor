@@ -33,7 +33,7 @@
     --color-toast-message:          var(--color-text-default); // OKCA 9.7 on bg-surface ✅
     --color-text-inverse:           var(--gray-0);
     --color-text-subtle-on-inverse: var(--gray-300); // OKCA 5.8 on bg-inverse ✅ — muted links on dark nav/tabs
-    --color-text-on-action:         var(--gray-0);    // white text on primary/secondary buttons
+    --color-text-on-action:         var(--gray-0);    // white label on the primary/secondary action fills
 
     // ─── Colors: Borders ───────────────────────────────────────────────────────
     --color-border-default:    var(--gray-200);
@@ -67,13 +67,26 @@
 
     // ─── Colors: Action — Primary (navy) ───────────────────────────────────────
     --color-action-primary:        var(--navy-800); // OKCA 14.1 on white ✅
+    // The fill behind a label (primary button, badge, selected chip, current
+    // page, chat send). The same navy as action-primary in light; dark gives it
+    // its own value, because dark action-primary is also link-like text, a
+    // border and a control indicator, and a fill under a label wants the
+    // opposite lightness from those. hover/active are the fill's states.
+    --color-action-primary-fill:   var(--color-action-primary);
     --color-action-primary-hover:  var(--navy-900);
     --color-action-primary-active: var(--navy-900);
 
     // ─── Colors: Action — Secondary (burgundy) ─────────────────────────────────
     --color-action-secondary:        var(--burgundy-700); // OKCA 9.4 on white ✅
+    --color-action-secondary-fill:   var(--color-action-secondary); // see action-primary-fill
     --color-action-secondary-hover:  var(--burgundy-800);
     --color-action-secondary-active: var(--burgundy-900);
+
+    // The mark drawn on a checked control's action-primary fill: the checkbox
+    // tick and the switch thumb. It was text-on-action until dark mode gave the
+    // labelled fills their own deep value; the controls stay on action-primary,
+    // so their mark keeps the colour that contrasts with it. icon/border use.
+    --color-action-mark: var(--gray-0);
 
     // ─── Colors: Action — Destructive (error red, H=25) ──────────────────────
     // Takes the error red. It was a boosted burgundy (H=347), kept apart from
@@ -299,7 +312,10 @@
     --color-text-disabled:          var(--gray-650); // OKCA 1.4 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
     --color-text-inverse:           var(--gray-850); // dark text for inverse (light) surfaces
     --color-text-subtle-on-inverse: var(--gray-700); // muted text on white inverse surface
-    --color-text-on-action:         var(--gray-900); // OKCA 10.8 on action-primary ✅ — same as bg-page; was OKCA 7.0 on the sky-blue primary (#318); gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5
+    // Light label on the deep action fills. Under the scatter observer, which
+    // dark mode is tuned for, the pale navy-200 fill with a page-dark label
+    // scored 4.4 and the burgundy-300 one 3.7, both under their 4.5 floor.
+    --color-text-on-action:         var(--navy-50); // OKCA 5.4 on action-primary-fill ✅
 
     // ─── Borders ───────────────────────────────────────────────────────────
     --color-border-default:    var(--gray-650); // subtle separator — non-text, decorative
@@ -342,14 +358,26 @@
     // that reason — it fails the 14px bold floor of 6.5. That token's own comment
     // records the change and is audited; this one restated it and rotted.
     --color-action-primary:        var(--navy-200); // OKCA 10.2 on bg-page ✅
-    --color-action-primary-hover:  var(--navy-100); // OKCA 13.1 on bg-page ✅
-    --color-action-primary-active: var(--navy-100);
+    // The labelled fills go deep instead of pale: a bright fill in dark mode is
+    // glare for the reader dark mode serves, and its label could not clear the
+    // scatter observer. navy-600 is the ramp step at which a light label does.
+    // Emphasis comes from colour rather than brightness; the fill sits close
+    // to the page in lightness and the label carries the button. #364 tracks a
+    // more saturated step for these fills. Hover and active step darker, since
+    // a lighter fill would cost the light label its contrast (navy-500 misses).
+    --color-action-primary-fill:   var(--navy-600);
+    --color-action-primary-hover:  var(--navy-700); // text-on-action OKCA 7.5 on this bg ✅
+    --color-action-primary-active: var(--navy-700);
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
-    // Label on the secondary fill: bg-page OKCA 6.7 on this bg ✅
     --color-action-secondary:        var(--burgundy-300); // OKCA 6.6 on bg-page ✅ (fill vs page)
-    --color-action-secondary-hover:  var(--burgundy-200); // OKCA 10.0 on bg-page ✅
-    --color-action-secondary-active: var(--burgundy-200);
+    --color-action-secondary-fill:   var(--burgundy-600); // text-on-action OKCA 5.4 on this bg ✅
+    --color-action-secondary-hover:  var(--burgundy-700); // text-on-action OKCA 7.0 on this bg ✅
+    --color-action-secondary-active: var(--burgundy-700);
+
+    // Tick and switch thumb on the pale action-primary: the page-dark mark the
+    // labelled fills used to share. icon/border use.
+    --color-action-mark: var(--gray-900);
 
     // ─── Action — Destructive ─────────────────────────────────────────────────
     // Outlined — same pattern as light mode, and the same error red (#318).

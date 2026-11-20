@@ -68,12 +68,12 @@ export class CandorPagination extends LitElement {
       border-radius: var(--radius-sm);
     }
     .pagination__btn--current {
-      background-color: var(--color-action-primary);
+      background-color: var(--color-action-primary-fill);
       color: var(--color-text-on-action);
       font-weight: var(--font-weight-medium);
     }
     .pagination__btn--current:hover:not(:disabled) {
-      background-color: var(--color-action-primary);
+      background-color: var(--color-action-primary-fill);
       color: var(--color-text-on-action);
     }
     .pagination__icon { width: var(--font-size-sm); height: var(--font-size-sm); }

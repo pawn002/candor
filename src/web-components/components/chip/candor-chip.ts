@@ -53,7 +53,7 @@ export class CandorChip extends LitElement {
     .chip--success   { border-color: var(--color-status-success); background-color: var(--color-status-success-bg); }
     .chip--warning   { border-color: var(--color-status-warning); background-color: var(--color-status-warning-bg); }
     .chip--error     { border-color: var(--color-status-error); background-color: var(--color-status-error-bg); }
-    .chip--selected  { border-color: var(--color-action-primary); background-color: var(--color-action-primary); }
+    .chip--selected  { border-color: var(--color-action-primary-fill); background-color: var(--color-action-primary-fill); }
     .chip--selected .chip__body { color: var(--color-text-on-action); }
     .chip--selected .chip__dismiss { color: var(--color-text-on-action); }
     .chip--disabled  { opacity: 0.5; cursor: not-allowed; }

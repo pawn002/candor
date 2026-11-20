@@ -70,7 +70,7 @@ export class CandorSwitch extends LitElement {
       border-color: var(--color-action-primary);
     }
     .switch-input:checked + .switch-track .switch-thumb {
-      background-color: var(--color-text-on-action);
+      background-color: var(--color-action-mark);
       transform: translateX(20px);
     }
     .switch-input:disabled + .switch-track {

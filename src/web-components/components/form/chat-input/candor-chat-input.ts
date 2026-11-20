@@ -80,7 +80,7 @@ export class CandorChatInput extends LitElement {
     .chat-input__send {
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; width: 2rem; height: 2rem;
-      background: var(--color-action-primary); color: var(--color-text-on-action);
+      background: var(--color-action-primary-fill); color: var(--color-text-on-action);
       border: none; border-radius: var(--radius-sm); cursor: pointer;
       transition: background-color 0.15s ease, opacity 0.15s ease;
     }

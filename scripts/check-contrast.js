@@ -412,9 +412,11 @@ function darkDeclaredNames() {
 const FG_ALIASES = {
   'text-default': 'color.text.default',
   white: 'oklch(1 0 0)',
-  // A filled button's label is the page colour in dark mode, so "bg-page OKCA 7.3
-  // on this bg" is a real claim about a real pairing rather than a category error.
+  // The page colour as a foreground: a cut-out mark drawn in the page colour is
+  // a real pairing. Unused since dark mode's labelled fills took a light label.
   'bg-page': 'color.bg.page',
+  // The label on the action fills, named on the fill's hover/active comments.
+  'text-on-action': 'color.text.on-action',
 };
 
 // Backgrounds named in the comments, mapped to their DTCG path. Names that are
@@ -434,6 +436,8 @@ const BG_ALIASES = {
   'success-bg': 'color.status.success-bg',
   'warning-bg': 'color.status.warning-bg',
   'action-primary': 'color.action.primary',
+  'action-primary-fill': 'color.action.primary-fill',
+  'action-secondary-fill': 'color.action.secondary-fill',
   // The saturated base tokens, as *backgrounds*. They are flagged non-text for
   // use as a `color:` value, which says nothing about painting on top of them —
   // and the data-grid token demo does exactly that, which is where #229 lives.

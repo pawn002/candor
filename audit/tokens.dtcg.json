@@ -127,7 +127,7 @@
         "on-action": {
           "$type": "color",
           "$value": "oklch(1 0 0)",
-          "$description": "white text on primary/secondary buttons",
+          "$description": "white label on the primary/secondary action fills",
           "$extensions": {
             "aliasOf": "--gray-0"
           }
@@ -215,6 +215,14 @@
             "aliasOf": "--navy-800"
           }
         },
+        "primary-fill": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$description": "The fill behind a label (primary button, badge, selected chip, current page, chat send). The same navy as action-primary in light; dark gives it its own value, because dark action-primary is also link-like text, a border and a control indicator, and a fill under a label wants the opposite lightness from those. hover/active are the fill's states.",
+          "$extensions": {
+            "aliasOf": "--color-action-primary"
+          }
+        },
         "primary-hover": {
           "$type": "color",
           "$value": "oklch(0.19 0.04 245.34)",
@@ -237,6 +245,14 @@
             "aliasOf": "--burgundy-700"
           }
         },
+        "secondary-fill": {
+          "$type": "color",
+          "$value": "oklch(0.37 0.08 347.43)",
+          "$description": "see action-primary-fill",
+          "$extensions": {
+            "aliasOf": "--color-action-secondary"
+          }
+        },
         "secondary-hover": {
           "$type": "color",
           "$value": "oklch(0.28 0.07 347.43)",
@@ -249,6 +265,15 @@
           "$value": "oklch(0.20 0.05 347.43)",
           "$extensions": {
             "aliasOf": "--burgundy-900"
+          }
+        },
+        "mark": {
+          "$type": "color",
+          "$value": "oklch(1 0 0)",
+          "$description": "The mark drawn on a checked control's action-primary fill: the checkbox tick and the switch thumb. It was text-on-action until dark mode gave the labelled fills their own deep value; the controls stay on action-primary, so their mark keeps the colour that contrasts with it. icon/border use.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--gray-0"
           }
         },
         "destructive": {
@@ -548,10 +573,10 @@
         },
         "on-action": {
           "$type": "color",
-          "$value": "oklch(0.16 0 0)",
-          "$description": "OKCA 10.8 on action-primary ✅ — same as bg-page; was OKCA 7.0 on the sky-blue primary (#318); gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5",
+          "$value": "oklch(0.97 0.01 252.84)",
+          "$description": "Light label on the deep action fills. Under the scatter observer, which dark mode is tuned for, the pale navy-200 fill with a page-dark label scored 4.4 and the burgundy-300 one 3.7, both under their 4.5 floor. — OKCA 5.4 on action-primary-fill ✅",
           "$extensions": {
-            "aliasOf": "--gray-900"
+            "aliasOf": "--navy-50"
           }
         },
         "code": {
@@ -639,42 +664,67 @@
             "aliasOf": "--navy-200"
           }
         },
+        "primary-fill": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.06 247.16)",
+          "$description": "The labelled fills go deep instead of pale: a bright fill in dark mode is glare for the reader dark mode serves, and its label could not clear the scatter observer. navy-600 is the ramp step at which a light label does. Emphasis comes from colour rather than brightness; the fill sits close to the page in lightness and the label carries the button. #364 tracks a more saturated step for these fills. Hover and active step darker, since a lighter fill would cost the light label its contrast (navy-500 misses).",
+          "$extensions": {
+            "aliasOf": "--navy-600"
+          }
+        },
         "primary-hover": {
           "$type": "color",
-          "$value": "oklch(0.93 0.02 252.41)",
-          "$description": "OKCA 13.1 on bg-page ✅",
+          "$value": "oklch(0.35 0.06 246.2)",
+          "$description": "text-on-action OKCA 7.5 on this bg ✅",
           "$extensions": {
-            "aliasOf": "--navy-100"
+            "aliasOf": "--navy-700"
           }
         },
         "primary-active": {
           "$type": "color",
-          "$value": "oklch(0.93 0.02 252.41)",
+          "$value": "oklch(0.35 0.06 246.2)",
           "$extensions": {
-            "aliasOf": "--navy-100"
+            "aliasOf": "--navy-700"
           }
         },
         "secondary": {
           "$type": "color",
           "$value": "oklch(0.76 0.06 347.43)",
-          "$description": "Label on the secondary fill: bg-page OKCA 6.7 on this bg ✅ — OKCA 6.6 on bg-page ✅ (fill vs page)",
+          "$description": "OKCA 6.6 on bg-page ✅ (fill vs page)",
           "$extensions": {
             "aliasOf": "--burgundy-300"
           }
         },
+        "secondary-fill": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.08 347.43)",
+          "$description": "text-on-action OKCA 5.4 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--burgundy-600"
+          }
+        },
         "secondary-hover": {
           "$type": "color",
-          "$value": "oklch(0.86 0.05 347.43)",
-          "$description": "OKCA 10.0 on bg-page ✅",
+          "$value": "oklch(0.37 0.08 347.43)",
+          "$description": "text-on-action OKCA 7.0 on this bg ✅",
           "$extensions": {
-            "aliasOf": "--burgundy-200"
+            "aliasOf": "--burgundy-700"
           }
         },
         "secondary-active": {
           "$type": "color",
-          "$value": "oklch(0.86 0.05 347.43)",
+          "$value": "oklch(0.37 0.08 347.43)",
           "$extensions": {
-            "aliasOf": "--burgundy-200"
+            "aliasOf": "--burgundy-700"
+          }
+        },
+        "mark": {
+          "$type": "color",
+          "$value": "oklch(0.16 0 0)",
+          "$description": "Tick and switch thumb on the pale action-primary: the page-dark mark the labelled fills used to share. icon/border use.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--gray-900"
           }
         },
         "destructive": {

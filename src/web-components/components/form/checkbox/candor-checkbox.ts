@@ -80,7 +80,7 @@ export class CandorCheckbox extends LitElement {
       top: 2px;
       width: 6px;
       height: 12px;
-      border: solid var(--color-text-on-action);
+      border: solid var(--color-action-mark);
       border-width: 0 var(--border-width-medium) var(--border-width-medium) 0;
       transform: rotate(45deg);
     }

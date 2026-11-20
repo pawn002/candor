@@ -80,7 +80,7 @@ export class CandorButton extends LitElement {
       padding: var(--candor-button-padding-y, var(--spacing-button-padding-y-lg)) var(--candor-button-padding-x, var(--spacing-button-padding-x-lg));
       min-height: var(--candor-button-min-height, 3rem);
     }
-    .button--primary { background-color: var(--color-action-primary); color: var(--color-text-on-action); }
+    .button--primary { background-color: var(--color-action-primary-fill); color: var(--color-text-on-action); }
     .button--primary:hover:not(:disabled) { background-color: var(--color-action-primary-hover); }
     .button--primary:active:not(:disabled) { background-color: var(--color-action-primary-active); }
     .button--secondary { background-color: transparent; color: var(--color-action-primary); border: var(--border-width-thin) solid var(--color-action-primary); }

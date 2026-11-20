@@ -388,6 +388,7 @@ function checkGamut(sources) {
 const NON_TEXT_BY_ROLE = new Set([
   '--color-focus',                 // focus ring — a UI indicator, never text
   '--color-slider-thumb',          // control knob fill
+  '--color-action-mark',           // checkbox tick and switch thumb on a checked control
 ]);
 
 function isNonText(cssVar, declared) {

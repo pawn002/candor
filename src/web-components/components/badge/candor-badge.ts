@@ -55,8 +55,8 @@ export class CandorBadge extends LitElement {
     /* Not bg-surface: on a card or a striped row the pill matched its background and
        only bold text was left (#321). bg-muted reads on page, surface and elevated. */
     .badge--default   { background-color: var(--color-bg-muted); color: var(--color-text-default); }
-    .badge--primary   { background-color: var(--color-action-primary); color: var(--color-text-on-action); }
-    .badge--secondary { background-color: var(--color-action-secondary); color: var(--color-text-on-action); }
+    .badge--primary   { background-color: var(--color-action-primary-fill); color: var(--color-text-on-action); }
+    .badge--secondary { background-color: var(--color-action-secondary-fill); color: var(--color-text-on-action); }
     .badge--success   { background-color: var(--color-status-success-bg); color: var(--color-status-success-text); }
     .badge--error     { background-color: var(--color-status-error-bg); color: var(--color-status-error-text); }
     .badge--warning   { background-color: var(--color-status-warning-bg); color: var(--color-status-warning-text); }
