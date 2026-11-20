@@ -519,7 +519,7 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "The placement that actually matters for a destructive action — delete confirmations live in modals. It was missing until #224, when it was OKCA 3.9 dark against a 4.5 floor while passing on page, so the variant failed in its commonest position and nothing could see it. Destructive now takes the error red (#318): OKCA 4.8 light / 5.4 dark ✅."
+      "note": "The placement that actually matters for a destructive action — delete confirmations live in modals. It was missing until #224, when it was OKCA 3.9 dark against a 4.5 floor while passing on page, so the variant failed in its commonest position and nothing could see it. Destructive now takes the error red (#318): OKCA 5.0 light / 4.6 dark ✅."
     },
     {
       "id": "alert-title-info",
@@ -1099,7 +1099,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Success icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3 light / 4.2 dark ✅"
+      "note": "Success icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.3 light / 5.4 dark ✅"
     },
     {
       "id": "status-icon-warning",
@@ -1109,7 +1109,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Warning icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.3 light / 4.7 dark ✅"
+      "note": "Warning icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.4 light / 5.2 dark ✅"
     },
     {
       "id": "status-icon-error",
@@ -1119,7 +1119,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Error icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.1 light / 3.3 dark ✅"
+      "note": "Error icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.3 light / 4.6 dark ✅"
     },
     {
       "id": "autocomplete-suggestion",

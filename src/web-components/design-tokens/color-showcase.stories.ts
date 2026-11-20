@@ -93,7 +93,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Destructive', variable: '--color-action-destructive', description: 'Button fill, transparent (outlined variant)' },
       { name: 'Destructive Hover', variable: '--color-action-destructive-hover', description: 'Subtle red tint on hover' },
       { name: 'Destructive Active', variable: '--color-action-destructive-active', description: 'Stronger red tint on press' },
-      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label, the error red: OKCA 6.4 on white' },
+      { name: 'Destructive Text', variable: '--color-action-destructive-text', description: 'Button label, the error red: OKCA 6.8 on white' },
       { name: 'Destructive Border', variable: '--color-action-destructive-border', description: 'Outline, matching the destructive text' },
     ],
   },

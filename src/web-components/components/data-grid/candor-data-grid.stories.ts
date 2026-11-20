@@ -14,9 +14,9 @@ import './candor-data-grid';
 // for legibility, and for four of these twelve no such colour exists. White is
 // the best available on each of the three status fills, and it is not enough
 // against the 6.5 floor this label carries:
-//   `#ffffff` reaches OKCA 4.1 on status-error
-//   `#ffffff` reaches OKCA 4.0 on status-success
-//   `#ffffff` reaches OKCA 4.3 on status-warning
+//   `#ffffff` reaches OKCA 4.3 on status-error
+//   `#ffffff` reaches OKCA 4.3 on status-success
+//   `#ffffff` reaches OKCA 4.4 on status-warning
 // `--color-focus` was worse than close, as azure-400. klar reported `unreachable`: no colour
 // whatsoever clears even 4.5 against it, at black or white, so there was never
 // a label colour to pick. The label now carries its own opaque plate from the

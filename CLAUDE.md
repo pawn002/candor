@@ -460,16 +460,16 @@ This replaces the former 9.5 floor at 14px, which was **unreachable by any colou
 
 | token | measures | to reach 9.5 |
 |---|---|---|
-| `--color-status-error-text` | 6.4 | chroma 0.18 → 0.146, deltaE 8 |
-| `--color-status-warning-text` | 7.7 | chroma 0.085 → 0.075, deltaE 5 |
-| `--color-status-success-text` | 6.2 | chroma 0.14 → 0.118, deltaE 9 |
+| `--color-status-error-text` | 6.8 | chroma 0.178 → 0.146, deltaE 7 |
+| `--color-status-warning-text` | 7.0 | chroma 0.085 → 0.075, deltaE 7 |
+| `--color-status-success-text` | 6.8 | chroma 0.139 → 0.117, deltaE 7 |
 | `--color-link` | 5.0 | chroma 0.14 → 0.102, deltaE 13 |
 
 (Re-measured under klar 4 against the current tokens.)
 
 The floor did not ask coloured text to be darker; it asked it to stop being coloured. Only near-neutral text could satisfy it (`--color-text-default` is 12.4).
 
-Stated as a size requirement it becomes actionable and self-consistent: **a Tier 1 element at 14px is a sizing bug, and the fix is the size.** At 16px the floor is 4.5 and every status colour clears it with margin. The system already worked this way in practice — `candor-input` renders its validation errors at 16px (`form-error-message`, floor 4.5, measures 6.4 ✅) while the generic `candor-accessible-text role_="status"` rendered identical content at 14px and could not pass (#208).
+Stated as a size requirement it becomes actionable and self-consistent: **a Tier 1 element at 14px is a sizing bug, and the fix is the size.** At 16px the floor is 4.5 and every status colour clears it with margin. The system already worked this way in practice — `candor-input` renders its validation errors at 16px (`form-error-message`, floor 4.5, measures 6.8 ✅) while the generic `candor-accessible-text role_="status"` rendered identical content at 14px and could not pass (#208).
 
 Tier 1 **bold** at 14px keeps its 6.5 floor: bold is a genuine perceptual compensation, and 6.5 is reachable by chromatic text.
 
@@ -511,9 +511,9 @@ The same geometry applies inverted on dark backgrounds: contrast there means *hi
 
 The same narrowing that limits dark text limits *pale* fills, and there it has a consequence the contrast floors never see, because nothing in this file measures whether two variants of a component look different from each other.
 
-Candor's status background tokens sit at L 0.95. The maximum chroma sRGB permits there is strongly hue-dependent — measured with `klar lightness`, reading off the highest chroma whose max lightness still reaches 0.95:
+Until #365, Candor's status background tokens sat at L 0.95, and this table records why the hue mattered there. They are now step 100 of each status ramp (L 0.93), where the error and warning fills are deltaE 16 apart. The maximum chroma sRGB permits at L 0.95 is strongly hue-dependent — measured with `klar lightness`, reading off the highest chroma whose max lightness still reaches 0.95:
 
-| hue | max chroma at L 0.95 | authored |
+| hue | max chroma at L 0.95 | authored before #365 |
 |---|---|---|
 | error (red, H 25) | ~0.02 | 0.02 |
 | warning (gold, H 88, since #318) | ~0.05 | 0.05 |

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Derive the colour ramps (navy, burgundy, azure, indigo) from stated rules,
- * the way the grey ramps are derived (#365).
+ * Derive the colour ramps (navy, burgundy, azure, indigo, and the status ramps
+ * red, gold and green) from stated rules, the way the grey ramps are derived
+ * (#365).
  *
  *   node scripts/derive-colour-ramps.js           check: exit 1 if primitives.scss
  *                                                 disagrees with the rules
@@ -29,6 +30,16 @@
  * Indigo's anchor (#6969F7, L 0.60) sits on its curve between steps 400 and 500
  * rather than on a step, since indigo joined the shared ladder.
  *
+ * The status ramps share one curve shape (g = 1), so "how vivid is a status
+ * colour at this lightness" has one answer for all three; each K is set so the
+ * curve passes through that hue's light text colour from before it had a ramp.
+ *
+ *   Tint       Each status ramp also has a -tint: the dark surface step
+ *              (--gray-cool-850) with its lightness and chroma kept and the
+ *              ramp's hue swapped in. It is the dark status fill. The deep end
+ *              of the ramp is far too saturated to sit behind text, and a tint
+ *              tied to the surface moves with it.
+ *
  * The sRGB maximum is computed here with the standard OKLab matrices, as a
  * boolean renderability search, not a substitution. `audit:tokens` then checks
  * every authored value against klar, which stays the authority on gamut.
@@ -45,6 +56,9 @@ const FAMILIES = {
   burgundy: { K: 0.0839, g: 1.085, hue: () => 347.43, anchor: { L: 0.37, C: 0.08 } },
   azure: { K: 0.1922, g: 2.685, hue: () => 250.8, anchor: { L: 0.65, C: 0.18 } },
   indigo: { K: 0.2117, g: 1.11, hue: () => 278.14, anchor: { L: 0.6, C: 0.21 } },
+  red: { K: 0.1808, g: 1, hue: () => 25, anchor: { L: 0.45, C: 0.18 }, tint: true },
+  gold: { K: 0.086, g: 1, hue: () => 88, anchor: { L: 0.42, C: 0.085 }, tint: true },
+  green: { K: 0.1404, g: 1, hue: () => 144.2, anchor: { L: 0.46, C: 0.14 }, tint: true },
 };
 
 const EXPONENT = 0.44;
@@ -84,6 +98,12 @@ function chroma(L, H, { K, g }) {
 
 const fmt = (n, dp) => n.toFixed(dp).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '.0');
 
+const SURFACE = (() => {
+  const m = fs.readFileSync(FILE, 'utf8').match(/--gray-cool-850:\s*oklch\(([\d.]+) ([\d.]+) /);
+  if (!m) throw new Error('--gray-cool-850 not found: the status tints are defined from it');
+  return { L: m[1], C: m[2] };
+})();
+
 function derive() {
   const out = [];
   for (const [name, fam] of Object.entries(FAMILIES)) {
@@ -96,6 +116,7 @@ function derive() {
       const H = fam.hue(L);
       out.push({ name: `--${name}-${step}`, value: `oklch(${L.toFixed(2)} ${fmt(chroma(L, H, fam), 3)} ${H.toFixed(2)})` });
     }
+    if (fam.tint) out.push({ name: `--${name}-tint`, value: `oklch(${SURFACE.L} ${SURFACE.C} ${fam.hue(0).toFixed(2)})` });
   }
   return out;
 }
@@ -126,5 +147,5 @@ if (write) {
   console.error('   Change the rule, not the value, then run with --write.');
   process.exit(1);
 } else {
-  console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps match their rules`);
+  console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps, and ${Object.values(FAMILIES).filter((f) => f.tint).length} tints, match their rules`);
 }
