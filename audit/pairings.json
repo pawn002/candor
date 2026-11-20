@@ -821,7 +821,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Tier 2 Functional: a tooltip is often the only name an icon button shows, so it is not supplementary. OKCA 11.2 light / 8.3 dark"
+      "note": "Tier 2 Functional: a tooltip is often the only name an icon button shows, so it is not supplementary. OKCA 11.2 light / 7.7 dark"
     },
     {
       "id": "breadcrumb-link",
@@ -1049,7 +1049,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 4.8 light / 7.1 dark ✅ (tight — tightest use of this color)"
+      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 4.8 light / 6.7 dark ✅ (tight — tightest use of this color)"
     },
     {
       "id": "article-link-visited",
@@ -1059,7 +1059,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.0 light / 6.9 dark ✅"
+      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.8 light / 6.6 dark ✅"
     },
     {
       "id": "article-link-hover",
@@ -1069,7 +1069,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 5.8 light / 10.2 dark ✅"
+      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 6.1 light / 10.2 dark ✅"
     },
     {
       "id": "alert-icon-info",
