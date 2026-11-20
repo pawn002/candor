@@ -510,10 +510,10 @@
         },
         "inverse": {
           "$type": "color",
-          "$value": "oklch(1 0 0)",
-          "$description": "white — flipped from dark navy",
+          "$value": "oklch(0.35 0.06 246.2)",
+          "$description": "A navy band, not a white one. It flipped to white for dark mode, which put a glaring strip across the top of the page and a white flash in every tooltip, and under the scatter observer its muted text could not reach 4.5 (white caps scatter near 5). navy-700 rather than light mode's navy-800 so it stands apart from bg-surface too: tooltips sit on cards, and navy-800 is within a few hundredths of the card's lightness.",
           "$extensions": {
-            "aliasOf": "--gray-0"
+            "aliasOf": "--navy-700"
           }
         },
         "code": {
@@ -557,18 +557,18 @@
         },
         "inverse": {
           "$type": "color",
-          "$value": "oklch(0.24 0 0)",
-          "$description": "dark text for inverse (light) surfaces",
+          "$value": "oklch(1 0 0)",
+          "$description": "OKCA 8.3 on bg-inverse ✅",
           "$extensions": {
-            "aliasOf": "--gray-850"
+            "aliasOf": "--gray-0"
           }
         },
         "subtle-on-inverse": {
           "$type": "color",
-          "$value": "oklch(0.4 0 0)",
-          "$description": "muted text on white inverse surface",
+          "$value": "oklch(0.91 0 0)",
+          "$description": "Close to text-inverse by design: on navy-700 the next grey down (gray-300) is 4.3, so the active item is told apart by weight and its underline. — OKCA 6.2 on bg-inverse ✅",
           "$extensions": {
-            "aliasOf": "--gray-700"
+            "aliasOf": "--gray-100"
           }
         },
         "on-action": {
@@ -619,11 +619,11 @@
         },
         "on-inverse": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
-          "$description": "subtle divider on white inverse surface",
+          "$value": "oklch(0.44 0.025 248.99)",
+          "$description": "subtle divider on the navy-700 inverse band, one step lighter than it",
           "$extensions": {
             "usage": "non-text",
-            "aliasOf": "--gray-200"
+            "aliasOf": "--gray-cool-650"
           }
         },
         "control": {

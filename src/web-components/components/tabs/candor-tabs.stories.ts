@@ -91,7 +91,7 @@ export const Inverse: Story = {
       <p style="margin:0;padding-top:var(--spacing-sm);">The tab list uses --color-bg-inverse; the panels render on the page background below.</p>
     </candor-tab-panel>
     <candor-tab-panel panel-id="history">
-      <p style="margin:0;padding-top:var(--spacing-sm);">Active tab indicator and text use --color-text-inverse (white in light mode).</p>
+      <p style="margin:0;padding-top:var(--spacing-sm);">Active tab indicator and text use --color-text-inverse (white in both modes).</p>
     </candor-tab-panel>
   </candor-tabs>`,
 };

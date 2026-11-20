@@ -31,7 +31,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Muted', variable: '--color-bg-muted', description: 'Neutral fill that reads on page, surface and elevated alike. The default badge rests on it' },
       { name: 'Hover', variable: '--color-bg-hover', description: 'Hover fill for ghost buttons and close actions. An alias of muted' },
       { name: 'Elevated', variable: '--color-bg-elevated', description: 'Shadow-lifted surface' },
-      { name: 'Inverse', variable: '--color-bg-inverse', description: 'Dark inverse surface. Flips in dark mode' },
+      { name: 'Inverse', variable: '--color-bg-inverse', description: 'Navy inverse surface, for app headers and tooltips. A step lighter in dark mode so it stands off cards' },
     ],
   },
   {
@@ -53,7 +53,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Subtle', variable: '--color-text-subtle', description: 'Secondary / supporting text' },
       { name: 'Subtle on Surface', variable: '--color-text-subtle-on-surface', description: 'Secondary text on bg-surface' },
       { name: 'Disabled', variable: '--color-text-disabled', description: 'Disabled state, intentionally below AA' },
-      { name: 'Inverse', variable: '--color-text-inverse', description: 'Text on inverse surface: white in light mode, near-black in dark mode' },
+      { name: 'Inverse', variable: '--color-text-inverse', description: 'Text on the inverse surface: white in both modes' },
       { name: 'Subtle on Inverse', variable: '--color-text-subtle-on-inverse', description: 'Muted text on inverse surface, OKCA 5.8 on bg-inverse' },
       { name: 'On Action', variable: '--color-text-on-action', description: 'Text on primary/secondary button fills' },
       { name: 'Toast Message', variable: '--color-toast-message', description: 'Toast body text: text-default in light, text-subtle in dark' },

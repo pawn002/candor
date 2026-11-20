@@ -814,6 +814,16 @@
       "min": 4.5
     },
     {
+      "id": "tooltip-text",
+      "fg": "{color.text.inverse}",
+      "bg": "{color.bg.inverse}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 2,
+      "min": 6.5,
+      "note": "Tier 2 Functional: a tooltip is often the only name an icon button shows, so it is not supplementary. OKCA 11.2 light / 8.3 dark"
+    },
+    {
       "id": "breadcrumb-link",
       "fg": "{color.link}",
       "bg": "{color.bg.page}",
