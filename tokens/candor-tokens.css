@@ -51,9 +51,9 @@
   --gray-0: oklch(1 0 0);
   --gray-25: oklch(0.985 0 0);
   --gray-100: oklch(0.91 0 0);
-  --gray-200: oklch(0.88 0 0);
+  --gray-200: oklch(0.89 0 0);
   --gray-300: oklch(0.81 0 0);
-  --gray-400: oklch(0.71 0 0);
+  --gray-400: oklch(0.72 0 0);
   --gray-500: oklch(0.62 0 0);
   --gray-550: oklch(0.56 0 0);
   --gray-600: oklch(0.5 0 0);
@@ -64,9 +64,9 @@
   --gray-900: oklch(0.16 0 0);
   --gray-cool-25: oklch(0.985 0.006 248.99);
   --gray-cool-100: oklch(0.91 0.013 248.99);
-  --gray-cool-200: oklch(0.88 0.014 248.99);
+  --gray-cool-200: oklch(0.89 0.014 248.99);
   --gray-cool-300: oklch(0.81 0.018 248.99);
-  --gray-cool-400: oklch(0.71 0.021 248.99);
+  --gray-cool-400: oklch(0.72 0.02 248.99);
   --gray-cool-500: oklch(0.62 0.023 248.99);
   --gray-cool-550: oklch(0.56 0.024 248.99);
   --gray-cool-600: oklch(0.5 0.025 248.99);
@@ -77,9 +77,9 @@
   --gray-cool-900: oklch(0.16 0.025 248.99);
   --gray-warm-25: oklch(0.985 0.005 69);
   --gray-warm-100: oklch(0.91 0.010 69);
-  --gray-warm-200: oklch(0.88 0.011 69);
+  --gray-warm-200: oklch(0.89 0.011 69);
   --gray-warm-300: oklch(0.81 0.014 69);
-  --gray-warm-400: oklch(0.71 0.015 69);
+  --gray-warm-400: oklch(0.72 0.015 69);
   --gray-warm-500: oklch(0.62 0.016 69);
   --gray-warm-550: oklch(0.56 0.017 69);
   --gray-warm-600: oklch(0.5 0.017 69);

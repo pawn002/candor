@@ -18,9 +18,9 @@ const OLD_PRIMITIVES: { name: string; value: string; useNow: string; note?: stri
   { name: '--gray-0', value: 'oklch(1 0 0)', useNow: '--gray-0' },
   { name: '--gray-50', value: 'oklch(0.97 0 0)', useNow: '--gray-25', note: 'removed' },
   { name: '--gray-100', value: 'oklch(0.91 0 0)', useNow: '--gray-100' },
-  { name: '--gray-200', value: 'oklch(0.88 0.005 17.2)', useNow: '--gray-200', note: 'was faintly warm, now neutral' },
+  { name: '--gray-200', value: 'oklch(0.88 0.005 17.2)', useNow: '--gray-200', note: 'was faintly warm, now neutral and a hundredth lighter' },
   { name: '--gray-300', value: 'oklch(0.81 0 0)', useNow: '--gray-300' },
-  { name: '--gray-400', value: 'oklch(0.71 0 0)', useNow: '--gray-400' },
+  { name: '--gray-400', value: 'oklch(0.71 0 0)', useNow: '--gray-400', note: 'a hundredth lighter' },
   { name: '--gray-500', value: 'oklch(0.56 0 0)', useNow: '--gray-550', note: 'name now means a lighter grey' },
   { name: '--gray-600', value: 'oklch(0.46 0 0)', useNow: '--gray-650', note: 'name now means a lighter grey' },
   { name: '--gray-700', value: 'oklch(0.32 0 0)', useNow: '--gray-800', note: 'name now means a lighter grey' },
@@ -116,8 +116,8 @@ const renderBeforeAfter = () => {
     };
   });
   return html`
-    ${intro('Semantic token names did not change. Grey primitive names did: eight 5.x names now resolve to a different colour. Six of them changed lightness; --gray-200 lost its faint warmth and --gray-900 its cool cast at the same lightness. --gray-50 is removed. The last column is the 6.0.0 step that holds the 5.x colour, for anyone who referenced a primitive directly.')}
-    ${table('Grey primitives in 5.x and what the names mean in 6.0.0', ['Primitive', '5.x value', 'Same name in 6.0.0', 'Use for the 5.x colour'], rows)}
+    ${intro('Semantic token names did not change. Grey primitive names did: nine 5.x names now resolve to a different colour. Six of them changed lightness in 6.0.0; --gray-200 lost its faint warmth and --gray-900 its cool cast at the same lightness. --gray-50 is removed. After 6.0.0, --gray-200 and --gray-400 each moved a hundredth lighter, to the lightness dark-mode text needs; --gray-400 is deltaE 1 from its 5.x colour and --gray-200 deltaE 2. The last column is the step that holds the 5.x colour, or the nearest one, for anyone who referenced a primitive directly.')}
+    ${table('Grey primitives in 5.x and what the names mean now', ['Primitive', '5.x value', 'Same name now', 'Use for the 5.x colour'], rows)}
   `;
 };
 

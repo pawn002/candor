@@ -18,7 +18,7 @@
         },
         "subtle": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
+          "$value": "oklch(0.89 0 0)",
           "$description": "subtle interactive fill — one step darker than surface (hover rows, selection, hover chips); mirrors --color-text-subtle (#174)",
           "$extensions": {
             "aliasOf": "--gray-200"
@@ -104,7 +104,7 @@
         },
         "disabled": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
+          "$value": "oklch(0.72 0 0)",
           "$extensions": {
             "aliasOf": "--gray-400"
           }
@@ -153,7 +153,7 @@
       "border": {
         "default": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
+          "$value": "oklch(0.89 0 0)",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-200"
@@ -313,7 +313,7 @@
         },
         "tertiary": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
+          "$value": "oklch(0.89 0 0)",
           "$description": "No border — structural identity is the fill (distinct from secondary's outline). — was gray-100; bumped for visibility without border",
           "$extensions": {
             "usage": "non-text",
@@ -496,7 +496,7 @@
         "muted": {
           "$type": "color",
           "$value": "oklch(0.4 0.026 248.99)",
-          "$description": "gray-cool-700: deltaE 18 / 13 / 8 from page / surface / elevated, and dark enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322). — text-default OKCA 4.7 on this bg ✅",
+          "$description": "gray-cool-700: deltaE 18 / 13 / 8 from page / surface / elevated, and dark enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322). — text-default OKCA 4.9 on this bg ✅",
           "$extensions": {
             "aliasOf": "--gray-cool-700"
           }
@@ -519,30 +519,30 @@
         "code": {
           "$type": "color",
           "$value": "oklch(0.22 0.02 195)",
-          "$description": "Teal tint, deltaE 8 from the cool page: the hue change carries the separation, so the block stays nearly as dark as the page. Border still required, since lightness alone barely differs at these low L values. — text-default OKCA 9.2 on this bg ✅ — code text inherits it"
+          "$description": "Teal tint, deltaE 8 from the cool page: the hue change carries the separation, so the block stays nearly as dark as the page. Border still required, since lightness alone barely differs at these low L values. — text-default OKCA 9.5 on this bg ✅ — code text inherits it"
         }
       },
       "text": {
         "default": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
-          "$description": "OKCA 11.0 on bg-page ✅ — off-white with cool undertone; white OKCA 16.4 on bg-page is harsh",
+          "$value": "oklch(0.89 0 0)",
+          "$description": "OKCA 11.4 on bg-page ✅ — off-white with cool undertone; white OKCA 16.4 on bg-page is harsh",
           "$extensions": {
             "aliasOf": "--gray-200"
           }
         },
         "subtle": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
-          "$description": "OKCA 5.3 on bg-page ✅",
+          "$value": "oklch(0.72 0 0)",
+          "$description": "OKCA 5.6 on bg-page ✅",
           "$extensions": {
             "aliasOf": "--gray-400"
           }
         },
         "subtle-on-surface": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
-          "$description": "OKCA 4.5 on bg-surface ✅",
+          "$value": "oklch(0.72 0 0)",
+          "$description": "OKCA 4.7 on bg-surface ✅",
           "$extensions": {
             "aliasOf": "--gray-400"
           }
@@ -581,7 +581,7 @@
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
+          "$value": "oklch(0.89 0 0)",
           "$description": "inherits soft off-white",
           "$extensions": {
             "aliasOf": "--color-text-default"
@@ -591,8 +591,8 @@
       "toast": {
         "message": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
-          "$description": "Component-scoped: toast message text. Every toast sits on bg-surface since #292, where the three status backgrounds used to be. — OKCA 4.5 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug",
+          "$value": "oklch(0.72 0 0)",
+          "$description": "Component-scoped: toast message text. Every toast sits on bg-surface since #292, where the three status backgrounds used to be. — OKCA 4.7 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug",
           "$extensions": {
             "aliasOf": "--color-text-subtle"
           }
@@ -628,8 +628,8 @@
         },
         "control": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
-          "$description": "Dark needs its own value: contrast here means a *lighter* edge, so the light mode's L=0.53 would move the wrong way against a dark surface. The worst dark background is bg-elevated, which is lighter than surface. It holds every option panel, the drawer, the modal and the chat input, so form-control borders and scrollbar thumbs both sit on it. L=0.58 was chosen against page and surface only and measured 2.6 there, with no pairing to say so (#307). L=0.62 (gray-500) then cleared it by 0.1, and klar 4 re-scored it to 2.5, since its new scoring rates most light-on-dark pairs lower. gray-400 (L=0.71) is the next ramp step and keeps real margin rather than another 0.1: OKCA 3.6 on dark bg-elevated ✅, OKCA 4.5 on dark bg-surface ✅, OKCA 5.3 on dark page ✅. It is the same grey as dark text-subtle, as gray-600 is for both in light. Replaces the dark --color-border-control-on-surface (L=0.60) — see the light-mode note above for why the sibling is gone.",
+          "$value": "oklch(0.72 0 0)",
+          "$description": "Dark needs its own value: contrast here means a *lighter* edge, so the light mode's L=0.53 would move the wrong way against a dark surface. The worst dark background is bg-elevated, which is lighter than surface. It holds every option panel, the drawer, the modal and the chat input, so form-control borders and scrollbar thumbs both sit on it. L=0.58 was chosen against page and surface only and measured 2.6 there, with no pairing to say so (#307). L=0.62 (gray-500) then cleared it by 0.1, and klar 4 re-scored it to 2.5, since its new scoring rates most light-on-dark pairs lower. gray-400 (L=0.72) is the next ramp step and keeps real margin rather than another 0.1: OKCA 3.8 on dark bg-elevated ✅, OKCA 4.7 on dark bg-surface ✅, OKCA 5.6 on dark page ✅. It is the same grey as dark text-subtle, as gray-600 is for both in light. Replaces the dark --color-border-control-on-surface (L=0.60) — see the light-mode note above for why the sibling is gone.",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-400"
@@ -648,7 +648,7 @@
         "thumb": {
           "$type": "color",
           "$value": "oklch(0.91 0 0)",
-          "$description": "Light puck on the dark track — fill stays light (border-control 0.71 is the darker edge). icon/border use (non-text UI). — oklch(0.91) light knob in dark — icon/border use",
+          "$description": "Light puck on the dark track — fill stays light (border-control 0.72 is the darker edge). icon/border use (non-text UI). — oklch(0.91) light knob in dark — icon/border use",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-100"
@@ -667,7 +667,7 @@
         "primary-fill": {
           "$type": "color",
           "$value": "oklch(0.44 0.06 247.16)",
-          "$description": "The labelled fills go deep instead of pale: a bright fill in dark mode is glare for the reader dark mode serves, and its label could not clear the scatter observer. navy-600 is the ramp step at which a light label does. Emphasis comes from colour rather than brightness; the fill sits close to the page in lightness and the label carries the button. #364 tracks a more saturated step for these fills. Hover and active step darker, since a lighter fill would cost the light label its contrast (navy-500 misses).",
+          "$description": "The labelled fills go deep instead of pale: a bright fill in dark mode is glare for the reader dark mode serves, and its label could not clear the scatter observer. navy-600 is the ramp step at which a light label does. Emphasis comes from colour rather than brightness; the fill sits close to the page in lightness and the label carries the button. The navy and burgundy steps are hand-set today; #365 derives the colour ramps from a rule, and these fills get re-picked from it. Hover and active step darker, since a lighter fill would cost the light label its contrast (navy-500 misses).",
           "$extensions": {
             "aliasOf": "--navy-600"
           }
@@ -878,7 +878,7 @@
       "blockquote": {
         "text": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
+          "$value": "oklch(0.89 0 0)",
           "$description": "A book indent, set a step larger in italic, on the page itself. No wash and no side bar: that pairing reads as machine-made (#292). — OKCA 12.4 on page ✅",
           "$extensions": {
             "aliasOf": "--color-text-default"

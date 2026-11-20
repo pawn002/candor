@@ -290,7 +290,7 @@
     --color-bg-recede:   var(--gray-cool-900);
     // gray-cool-700: deltaE 18 / 13 / 8 from page / surface / elevated, and dark
     // enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322).
-    --color-bg-muted:    var(--gray-cool-700);      // text-default OKCA 4.7 on this bg ✅
+    --color-bg-muted:    var(--gray-cool-700);      // text-default OKCA 4.9 on this bg ✅
     --color-bg-hover:    var(--color-bg-muted);
     // A navy band, not a white one. It flipped to white for dark mode, which put
     // a glaring strip across the top of the page and a white flash in every
@@ -309,12 +309,12 @@
     --shadow-modal: 0 20px 48px rgba(255, 255, 255, 0.10), 0 8px 16px rgba(255, 255, 255, 0.06);
 
     // ─── Text ──────────────────────────────────────────────────────────────
-    --color-text-default:           var(--gray-200); // OKCA 11.0 on bg-page ✅ — off-white with cool undertone; white OKCA 16.4 on bg-page is harsh
-    --color-text-subtle:            var(--gray-400);      // OKCA 5.3 on bg-page ✅
-    --color-text-subtle-on-surface: var(--gray-400);      // OKCA 4.5 on bg-surface ✅
+    --color-text-default:           var(--gray-200); // OKCA 11.4 on bg-page ✅ — off-white with cool undertone; white OKCA 16.4 on bg-page is harsh
+    --color-text-subtle:            var(--gray-400);      // OKCA 5.6 on bg-page ✅
+    --color-text-subtle-on-surface: var(--gray-400);      // OKCA 4.7 on bg-surface ✅
     // Component-scoped: toast message text. Every toast sits on bg-surface since
     // #292, where the three status backgrounds used to be.
-    --color-toast-message:          var(--color-text-subtle); // OKCA 4.5 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug
+    --color-toast-message:          var(--color-text-subtle); // OKCA 4.7 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug
     --color-text-disabled:          var(--gray-650); // OKCA 1.4 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
     --color-text-inverse:           var(--gray-0);   // OKCA 8.3 on bg-inverse ✅
     // Close to text-inverse by design: on navy-700 the next grey down (gray-300)
@@ -342,13 +342,13 @@
     // and surface only and measured 2.6 there, with no pairing to say so (#307).
     // L=0.62 (gray-500) then cleared it by 0.1, and klar 4 re-scored it to 2.5,
     // since its new scoring rates most light-on-dark pairs lower. gray-400
-    // (L=0.71) is the next ramp step and keeps real margin rather than another 0.1:
-    // OKCA 3.6 on dark bg-elevated ✅, OKCA 4.5 on dark bg-surface ✅, OKCA 5.3 on
+    // (L=0.72) is the next ramp step and keeps real margin rather than another 0.1:
+    // OKCA 3.8 on dark bg-elevated ✅, OKCA 4.7 on dark bg-surface ✅, OKCA 5.6 on
     // dark page ✅. It is the same grey as dark text-subtle, as gray-600 is for both
     // in light. Replaces the dark --color-border-control-on-surface (L=0.60) — see
     // the light-mode note above for why the sibling is gone.
     --color-border-control:    var(--gray-400);
-    // Light puck on the dark track — fill stays light (border-control 0.71 is the
+    // Light puck on the dark track — fill stays light (border-control 0.72 is the
     // darker edge). icon/border use (non-text UI).
     --color-slider-thumb: var(--gray-100); // oklch(0.91) light knob in dark — icon/border use
 
@@ -370,8 +370,9 @@
     // glare for the reader dark mode serves, and its label could not clear the
     // scatter observer. navy-600 is the ramp step at which a light label does.
     // Emphasis comes from colour rather than brightness; the fill sits close
-    // to the page in lightness and the label carries the button. #364 tracks a
-    // more saturated step for these fills. Hover and active step darker, since
+    // to the page in lightness and the label carries the button. The navy and
+    // burgundy steps are hand-set today; #365 derives the colour ramps from a
+    // rule, and these fills get re-picked from it. Hover and active step darker, since
     // a lighter fill would cost the light label its contrast (navy-500 misses).
     --color-action-primary-fill:   var(--navy-600);
     --color-action-primary-hover:  var(--navy-700); // text-on-action OKCA 7.5 on this bg ✅
@@ -436,7 +437,7 @@
     // Teal tint, deltaE 8 from the cool page: the hue change carries the
     // separation, so the block stays nearly as dark as the page. Border still
     // required, since lightness alone barely differs at these low L values.
-    --color-bg-code:     oklch(0.22 0.02 195); // text-default OKCA 9.2 on this bg ✅ — code text inherits it
+    --color-bg-code:     oklch(0.22 0.02 195); // text-default OKCA 9.5 on this bg ✅ — code text inherits it
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
 }
