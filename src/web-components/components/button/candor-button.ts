@@ -83,7 +83,7 @@ export class CandorButton extends LitElement {
     .button--primary { background-color: var(--color-action-primary-fill); color: var(--color-text-on-action); }
     .button--primary:hover:not(:disabled) { background-color: var(--color-action-primary-hover); }
     .button--primary:active:not(:disabled) { background-color: var(--color-action-primary-active); }
-    .button--secondary { background-color: transparent; color: var(--color-action-primary); border: var(--border-width-thin) solid var(--color-action-primary); }
+    .button--secondary { background-color: transparent; color: var(--color-action-primary); border: var(--border-width-thin) solid var(--color-action-primary-border); }
     .button--secondary:hover:not(:disabled) { background-color: oklch(from var(--color-action-primary) l c h / 0.08); }
     .button--secondary:active:not(:disabled) { background-color: oklch(from var(--color-action-primary) l c h / 0.15); }
     .button--destructive { background-color: var(--color-action-destructive); color: var(--color-action-destructive-text); border: var(--border-width-thin) solid var(--color-action-destructive-border); }

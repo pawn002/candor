@@ -237,6 +237,15 @@
             "aliasOf": "--navy-900"
           }
         },
+        "primary-border": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$description": "The edge of an outlined action (the secondary button). The label names the control, so WCAG 1.4.11 asks nothing of the edge and it carries no floor; it only marks the label as a button. Light draws it in the label's navy.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-action-primary"
+          }
+        },
         "secondary": {
           "$type": "color",
           "$value": "oklch(0.37 0.08 347.43)",
@@ -667,7 +676,7 @@
         "primary-fill": {
           "$type": "color",
           "$value": "oklch(0.44 0.061 247.16)",
-          "$description": "The labelled fills go deep instead of pale: a bright fill in dark mode is glare for the reader dark mode serves, and its label could not clear the scatter observer. navy-600 is the ramp step at which a light label does. Emphasis comes from colour rather than brightness; the fill sits close to the page in lightness and the label carries the button. The navy and burgundy steps are hand-set today; #365 derives the colour ramps from a rule, and these fills get re-picked from it. Hover and active step darker, since a lighter fill would cost the light label its contrast (navy-500 misses).",
+          "$description": "The labelled fills go deep instead of pale: a bright fill in dark mode is glare for the reader dark mode serves, and its label could not clear the scatter observer. navy-600 is the ramp step at which a light label does. Emphasis comes from colour rather than brightness; the fill sits close to the page in lightness and the label carries the button. Re-picked from the derived ramps (#365), they land on the same steps. Hover and active step darker, since a lighter fill would cost the light label its contrast (navy-500 misses).",
           "$extensions": {
             "aliasOf": "--navy-600"
           }
@@ -685,6 +694,15 @@
           "$value": "oklch(0.37 0.061 246.41)",
           "$extensions": {
             "aliasOf": "--navy-700"
+          }
+        },
+        "primary-border": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.06 248.13)",
+          "$description": "Dimmed below the label so an outline does not outshine the deep primary fill: emphasis on a dark page follows lightness, and the label's navy-200 edge drew brighter than the filled button beside it. No floor, as in light.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--navy-500"
           }
         },
         "secondary": {
@@ -755,17 +773,17 @@
         },
         "destructive-border": {
           "$type": "color",
-          "$value": "oklch(0.79 0.12 25)",
-          "$description": "matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured",
+          "$value": "oklch(0.68 0.11 25)",
+          "$description": "The edge steps down to the non-text error red, so the outline stops competing with the primary fill and the red text carries \"take care\".",
           "$extensions": {
             "usage": "non-text",
-            "aliasOf": "--color-status-error-text"
+            "aliasOf": "--color-status-error"
           }
         },
         "tertiary": {
           "$type": "color",
           "$value": "oklch(0.30 0.026 248.99)",
-          "$description": "⚠️  fill is only OKCA 1.0 on page — intentionally subtle in dark mode. Text (gray-0) on tertiary bg remains readable. Uses the cool-gray ramp (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead of advancing and competing with the primary button (warm advances / cool recedes); L preserved, so white OKCA 10.2 on this bg ✅. Revisit if buttons need more prominence in dark.",
+          "$description": "⚠️  fill is only OKCA 1.0 on page — intentionally subtle in dark mode. Text is text-default, not white: white made tertiary the brightest label in a button row, out-ranking secondary and the primary itself. Uses the cool-gray ramp (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead of advancing and competing with the primary button (warm advances / cool recedes); L preserved.",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-cool-800"
@@ -773,16 +791,17 @@
         },
         "tertiary-hover": {
           "$type": "color",
-          "$value": "oklch(0.44 0.025 248.99)",
+          "$value": "oklch(0.4 0.026 248.99)",
+          "$description": "not 650: the text-default label misses there (4.2)",
           "$extensions": {
-            "aliasOf": "--gray-cool-650"
+            "aliasOf": "--gray-cool-700"
           }
         },
         "tertiary-text": {
           "$type": "color",
-          "$value": "oklch(1 0 0)",
+          "$value": "oklch(0.89 0 0)",
           "$extensions": {
-            "aliasOf": "--gray-0"
+            "aliasOf": "--color-text-default"
           }
         }
       },

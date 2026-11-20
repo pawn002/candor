@@ -75,6 +75,10 @@
     --color-action-primary-fill:   var(--color-action-primary);
     --color-action-primary-hover:  var(--navy-900);
     --color-action-primary-active: var(--navy-900);
+    // The edge of an outlined action (the secondary button). The label names the
+    // control, so WCAG 1.4.11 asks nothing of the edge and it carries no floor; it
+    // only marks the label as a button. Light draws it in the label's navy.
+    --color-action-primary-border: var(--color-action-primary);
 
     // ─── Colors: Action — Secondary (burgundy) ─────────────────────────────────
     --color-action-secondary:        var(--burgundy-700); // OKCA 9.4 on white ✅
@@ -370,13 +374,16 @@
     // glare for the reader dark mode serves, and its label could not clear the
     // scatter observer. navy-600 is the ramp step at which a light label does.
     // Emphasis comes from colour rather than brightness; the fill sits close
-    // to the page in lightness and the label carries the button. The navy and
-    // burgundy steps are hand-set today; #365 derives the colour ramps from a
-    // rule, and these fills get re-picked from it. Hover and active step darker, since
+    // to the page in lightness and the label carries the button. Re-picked from
+    // the derived ramps (#365), they land on the same steps. Hover and active step darker, since
     // a lighter fill would cost the light label its contrast (navy-500 misses).
     --color-action-primary-fill:   var(--navy-600);
     --color-action-primary-hover:  var(--navy-700); // text-on-action OKCA 7.0 on this bg ✅
     --color-action-primary-active: var(--navy-700);
+    // Dimmed below the label so an outline does not outshine the deep primary
+    // fill: emphasis on a dark page follows lightness, and the label's navy-200
+    // edge drew brighter than the filled button beside it. No floor, as in light.
+    --color-action-primary-border: var(--navy-500);
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
     --color-action-secondary:        var(--burgundy-300); // OKCA 6.5 on bg-page ✅ (fill vs page)
@@ -397,18 +404,20 @@
     // bg-surface as well as the page — a delete confirmation usually sits in a modal
     // or card (#224). The error red clears both with more margin; figures on the pairings.
     --color-action-destructive-text:   var(--color-status-error-text);
-    --color-action-destructive-border: var(--color-status-error-text); // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
+    // The edge steps down to the non-text error red, so the outline stops
+    // competing with the primary fill and the red text carries "take care".
+    --color-action-destructive-border: var(--color-status-error);
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
     // ⚠️  fill is only OKCA 1.0 on page — intentionally subtle in dark mode.
-    // Text (gray-0) on tertiary bg remains readable. Uses the cool-gray ramp
+    // Text is text-default, not white: white made tertiary the brightest label
+    // in a button row, out-ranking secondary and the primary itself. Uses the cool-gray ramp
     // (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead
     // of advancing and competing with the primary button (warm advances / cool
-    // recedes); L preserved, so white OKCA 10.2 on this bg ✅. Revisit if buttons
-    // need more prominence in dark.
+    // recedes); L preserved.
     --color-action-tertiary:       var(--gray-cool-800);
-    --color-action-tertiary-hover: var(--gray-cool-650);
-    --color-action-tertiary-text:  var(--gray-0);
+    --color-action-tertiary-hover: var(--gray-cool-700); // not 650: the text-default label misses there (4.2)
+    --color-action-tertiary-text:  var(--color-text-default);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────
     --color-link:         var(--azure-300);   // OKCA 6.7 on bg-page ✅

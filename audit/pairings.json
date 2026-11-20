@@ -443,6 +443,16 @@
       "min": 4.5
     },
     {
+      "id": "button-tertiary-hover",
+      "fg": "{color.action.tertiary-text}",
+      "bg": "{color.action.tertiary-hover}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Hover fill. Measured since the dark label moved from white to text-default, which missed the floor on the old gray-cool-650 hover (4.2) without anything noticing."
+    },
+    {
       "id": "button-ghost",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
