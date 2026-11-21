@@ -1282,6 +1282,26 @@
       "note": "The slider rail inside a surface container, as in the slider's own All variants story, where every slider sits in a candor-card. OKCA 3.9 light / 4.7 dark ✅"
     },
     {
+      "id": "slider-value",
+      "fg": "{color.text.subtle-on-surface}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "bg": "{color.bg.page}",
+      "note": "The value readout beside the track. Tier 2: the thumb shows roughly where the value sits, the number is the only exact reading, so it is bold to meet the 14px Tier 2 floor. It had no pairing before; as text-subtle at regular weight it was OKCA 5.0 light against the 6.5 regular floor."
+    },
+    {
+      "id": "slider-value-on-surface",
+      "fg": "{color.text.subtle-on-surface}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "bg": "{color.bg.surface}",
+      "note": "The value readout inside a card, as in the slider's own All variants story. text-subtle was OKCA 3.9 light here."
+    },
+    {
       "id": "form-control-border-on-elevated",
       "fg": "{color.border.control}",
       "bg": "{color.bg.elevated}",

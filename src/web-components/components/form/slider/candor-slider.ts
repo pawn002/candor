@@ -146,10 +146,14 @@ export class CandorSlider extends LitElement {
       outline-offset: var(--focus-ring-offset);
     }
     .slider__input:disabled { cursor: not-allowed; }
+    /* Tier 2: the thumb shows roughly where the value sits, the number is the only
+       exact reading. Bold for the 14px Tier 2 floor; subtle-on-surface so it also
+       clears on a card, where text-subtle falls to 3.9 in light. */
     .slider__value {
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
-      color: var(--color-text-subtle);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-subtle-on-surface);
       min-width: 3ch;
       text-align: right;
       letter-spacing: var(--letter-spacing-body);
