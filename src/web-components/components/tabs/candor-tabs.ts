@@ -108,7 +108,7 @@ export class CandorTabs extends LitElement {
       font-size: var(--font-size-base);
       font-weight: var(--font-weight-regular);
       color: var(--color-text-subtle);
-      border-bottom: var(--border-width-medium) solid transparent;
+      border-bottom: var(--border-width-indicator) solid transparent;
       margin-bottom: calc(-1 * var(--border-width-thin));
       transition: color 0.15s ease, border-color 0.15s ease;
       white-space: nowrap;
@@ -145,7 +145,7 @@ export class CandorTabs extends LitElement {
     .tabs--vertical .tabs__tab {
       text-align: left;
       border-bottom: none;
-      border-right: var(--border-width-medium) solid transparent;
+      border-right: var(--border-width-indicator) solid transparent;
       margin-bottom: 0;
       margin-right: calc(-1 * var(--border-width-thin));
     }

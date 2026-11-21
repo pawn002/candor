@@ -214,6 +214,11 @@
     --border-width-thin:   var(--border-width-1);
     --border-width-medium: var(--border-width-2);
     --border-width-thick:  var(--border-width-4);
+    // The bar that marks the active item: the tab underline, horizontal and
+    // vertical. 2px was the faintest cue on the active tab, and on the dark inverse
+    // band, where active and inactive labels are close in colour, it carries most
+    // of the distinction. 4px reads as a separate bar on default tabs.
+    --border-width-indicator: var(--border-width-3);
 
     --focus-ring-width:  var(--border-width-2);
     --focus-ring-offset: var(--border-width-2);
