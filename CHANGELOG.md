@@ -36,6 +36,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **The chat input disclaimer reads on a card.** It now uses `--color-text-subtle-on-surface`, since `--color-text-subtle` measured 3.9 on a card in light mode against a floor of 4.5. Two new pairings, `chat-input-disclaimer` and `chat-input-disclaimer-on-surface`, measure it on the page and on a card. Dark mode is unchanged.
 - `candor-tooltip` text now has its own contrast pairing, `tooltip-text`, at Tier 2, since a tooltip is often the only name an icon button shows. It measures 11.2 in light mode and 8.3 in dark against a floor of 6.5.
 
+### Fixed
+
+- **`blog.scss`: the tag separator is regular weight again (#358).** It referenced `--font-weight-normal`, which does not exist, so the declaration was dropped and the separator inherited the bold of its tag. It now uses `--font-weight-regular`.
+
 ### Added
 
 - **`audit:contrast` checks that fills stand apart from what they sit on.** `audit/separations.json` lists the fills that are their own boundary (the tooltip, the borderless hover, the default badge, code blocks, the status fills, the navigation badge) and what each sits on or beside, and the audit measures every pair with klar deltaE in both modes against a floor of 8 (10 for the tooltip). Contrast floors never compare one fill with another. The first run found `candor-navigation`'s link hover painted `--color-action-tertiary` on the navigation's own `--color-bg-surface`, deltaE 1 apart in light, so the hover did not show; it now uses `--color-bg-hover`, as the ghost button does (#322).

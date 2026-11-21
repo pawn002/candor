@@ -251,7 +251,7 @@
     &:not(:last-child)::after {
         content: "·" / "";
         margin-left: var(--spacing-2xs);
-        font-weight: var(--font-weight-normal);
+        font-weight: var(--font-weight-regular);
     }
     line-height: 1;
 }
