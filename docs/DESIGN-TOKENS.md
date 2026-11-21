@@ -52,7 +52,7 @@ Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgu
 
 ### Semantics (`semantics.scss`)
 
-Named **roles** that map primitives to meaning. A role never types its own colour: when it needs a lightness the ladder lacks, add an in-between ramp step (`EXTRA_STEPS` in `scripts/derive-colour-ramps.js`) and point the role at it. `npm run audit:tokens` fails on a typed colour, apart from two named exceptions (the code-block teal and the overlay scrim) listed with their reasons in `scripts/export-tokens-dtcg.js`. This is the layer components and consumers reference:
+Named **roles** that map primitives to meaning. A role never types its own colour: when it needs a lightness the ladder lacks, add an in-between ramp step (`EXTRA_STEPS` in `scripts/derive-colour-ramps.js`) and point the role at it. `npm run audit:tokens` fails on a typed colour anywhere outside `primitives.scss` and stories, in tokens and components alike. Its named exceptions are listed with their reasons in `scripts/export-tokens-dtcg.js`: the code-block teal, the overlay scrim, and invented colours marked as debt (the syntax-highlighting palette, four pressed-state lightness shifts and the slider thumb's shadow). This is the layer components and consumers reference:
 
 - **Backgrounds**: `--color-bg-page`, `--color-bg-surface`, `--color-bg-subtle`, `--color-bg-elevated`, `--color-bg-inverse`
 - **Text**: `--color-text-default`, `--color-text-subtle`, `--color-text-subtle-on-surface`, `--color-text-inverse`, `--color-text-on-action`, …

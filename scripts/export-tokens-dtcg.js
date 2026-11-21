@@ -486,38 +486,86 @@ if (!SKIP_GAMUT) {
   checkGamut(sourceFiles());
 }
 
-// 2b. Derived-colour gate. Every --color-* token names a ramp step: a var()
-// reference, `transparent`, or relative colour syntax built on a var(). A typed
-// colour in semantics.scss escapes the ramp rules in derive-colour-ramps.js,
-// which check primitives.scss only, so an invented value passed every audit.
-// When a role needs a lightness the ladder lacks, mint an in-between step
-// (EXTRA_STEPS there) instead. The exceptions are colours no ramp is meant to
-// carry, each with its reason; an exception that stops matching fails too.
+// 2b. Derived-colour gate. Colour is authored in one place, primitives.scss,
+// where derive-colour-ramps.js checks every step against the ramp rules. Every
+// other file references it: a token, a token at an alpha, or a value computed at
+// runtime. A typed colour anywhere else escapes those rules, so an invented
+// value passed every audit (f954e33 committed one to semantics.scss). When a
+// role needs a lightness the ladder lacks, mint an in-between step (EXTRA_STEPS
+// there) instead of typing one.
+//
+// What counts as typed: a numeric oklch(), rgb()/rgba()/hsl() or hex literal,
+// and relative colour syntax that changes a channel (`calc(l - 0.04)`), which
+// moves a colour off the ladder by a hand-picked amount just as surely. A token
+// at an alpha (`oklch(from var(--x) l c h / 0.08)`) is the token's own colour
+// and passes. Shadows (`--shadow-*`) are elevation, not palette, and pass.
+// Stories are out of scope: their gradients and heat maps illustrate colour
+// rather than specify it, and the gamut gate above still covers them.
+//
+// Exceptions are named one by one with a reason, never by file, so a new typed
+// colour in the same file still fails. An exception that stops matching fails
+// too, so the list can only shrink. The `debt` entries are invented colours
+// that predate the gate and are due to be re-derived.
 const COLOUR_LITERAL_EXCEPTIONS = {
-  '--color-bg-code': 'teal at hue 195, chosen to sit clear of every brand and status hue (#318); one token is not worth a ramp',
-  '--color-overlay': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour',
+  'src/design-tokens/semantics.scss --color-bg-code': 'teal at hue 195, chosen to sit clear of every brand and status hue (#318); one token is not worth a ramp',
+  'src/design-tokens/semantics.scss --color-overlay': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour',
+  ...Object.fromEntries(
+    ['comment', 'keyword', 'string', 'number', 'function', 'property', 'operator', 'deleted', 'inserted', 'regex'].map((k) => [
+      `src/design-tokens/syntax.scss --syntax-${k}`,
+      'debt: the syntax palette was hand-picked against the code background; to be re-derived from the ramps',
+    ])
+  ),
+  'src/utilities/buttons.scss oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h)': 'debt: pressed state one hand-picked notch below hover; to point at a ramp step',
+  'src/utilities/buttons.scss oklch(from var(--color-bg-surface) calc(l - 0.06) c h)': 'debt: pressed state one hand-picked notch below the surface; to point at a ramp step',
+  'src/web-components/components/button/candor-button.ts oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h)': 'debt: pressed state one hand-picked notch below hover; to point at a ramp step',
+  'src/web-components/components/button/candor-button.ts oklch(from var(--color-bg-hover) calc(l - 0.04) c h)': 'debt: pressed state one hand-picked notch below hover; to point at a ramp step',
+  'src/web-components/components/form/slider/candor-slider.ts rgba(0, 0, 0, 0.4)': 'debt: the thumb shadow is typed black in the component, so it ignores the --shadow-* tokens and does not adapt to dark mode; to use a shadow token',
+  'src/web-components/components/form/slider/candor-slider.ts rgba(0, 0, 0, 0.28)': 'debt: the hovered thumb shadow, as above',
 };
-{
-  const isReference = (raw) => /^var\(--[\w-]+\)$/.test(raw) || raw === 'transparent' || /^oklch\(from var\(--[\w-]+\) /.test(raw);
-  const problems = [];
-  const literal = new Set();
-  // Every line, not the two mixins: mode-independent tokens such as the
-  // overlay live in a plain :root block that the mixin parse never sees.
-  semanticsScss.split(/\r?\n/).forEach((line, i) => {
-    const m = /^\s*(--color-[\w-]+)\s*:\s*([^;]+?)\s*;/.exec(line);
-    if (!m || isReference(m[2])) return;
-    literal.add(m[1]);
-    if (!COLOUR_LITERAL_EXCEPTIONS[m[1]]) problems.push(`${m[1]} (semantics.scss:${i + 1}) is a typed colour, ${m[2]}: point it at a ramp step, minting an in-between step in scripts/derive-colour-ramps.js if the ladder lacks one`);
+
+/** Every typed colour in one file, keyed `<path> <declared name or the literal>`. */
+function typedColours(file) {
+  const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+  const text = fs
+    .readFileSync(file, 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\r\n]/g, ' '));
+  const found = [];
+  text.split(/\r?\n/).forEach((line, i) => {
+    const code = line.replace(/(^|[^:])\/\/.*$/, '$1');
+    if (/--shadow-[\w-]*\s*:/.test(code)) return;
+    const decl = /(--[\w-]+)\s*:/.exec(code);
+    const add = (raw) => found.push({ key: `${rel} ${decl ? decl[1] : raw}`, raw, where: `${rel}:${i + 1}` });
+    for (const m of code.matchAll(/oklch\(\s*[\d.]+\s+[\d.]+\s+[\d.]+\s*(?:\/\s*[\d.%]+\s*)?\)/g)) add(m[0]);
+    for (const m of code.matchAll(/(?:rgba?|hsla?)\(\s*[\d.]+[^)]*\)/g)) add(m[0]);
+    for (const m of code.matchAll(/(?<![\w&$-])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g)) add(m[0]);
+    for (const m of code.matchAll(/oklch\(from var\((--[\w-]+)\)\s+((?:[^()/]|\([^()]*\))*?)\s*(?:\/\s*[^)]*)?\)/g)) {
+      if (m[2].replace(/\s+/g, ' ').trim() !== 'l c h') found.push({ key: `${rel} oklch(from var(${m[1]}) ${m[2].replace(/\s+/g, ' ').trim()})`, raw: m[0], where: `${rel}:${i + 1}` });
+    }
   });
-  for (const name of Object.keys(COLOUR_LITERAL_EXCEPTIONS)) {
-    if (!literal.has(name)) problems.push(`${name} is listed as a colour-literal exception but is no longer a literal: remove the exception`);
+  return found;
+}
+
+{
+  const files = sourceFiles().filter((f) => !/\.stories\.ts$/.test(f) && !/primitives\.scss$/.test(f));
+  const problems = [];
+  const matched = new Set();
+  let excepted = 0;
+  for (const file of files) {
+    for (const { key, raw, where } of typedColours(file)) {
+      if (COLOUR_LITERAL_EXCEPTIONS[key]) { matched.add(key); excepted++; continue; }
+      problems.push(`${where}  ${raw} is a typed colour: reference a token or ramp step, minting an in-between step in scripts/derive-colour-ramps.js if the ladder lacks one`);
+    }
+  }
+  for (const key of Object.keys(COLOUR_LITERAL_EXCEPTIONS)) {
+    if (!matched.has(key)) problems.push(`exception "${key}" matches nothing any more: remove it`);
   }
   if (problems.length) {
-    console.error(`✗  ${problems.length} colour token(s) not derived from a ramp:`);
+    console.error(`✗  ${problems.length} colour(s) not derived from a ramp:`);
     for (const p of problems) console.error(`   ${p}`);
     process.exit(1);
   }
-  console.log(`✓  colour tokens: every --color-* names a ramp step (${Object.keys(COLOUR_LITERAL_EXCEPTIONS).length} named exceptions)`);
+  const debt = Object.values(COLOUR_LITERAL_EXCEPTIONS).filter((r) => r.startsWith('debt:')).length;
+  console.log(`✓  derived colour: ${files.length} files reference their colours (${excepted} typed colours under ${Object.keys(COLOUR_LITERAL_EXCEPTIONS).length} named exceptions, ${debt} of them debt)`);
 }
 
 // 3. Resolve all var() references
