@@ -1089,7 +1089,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 4.8 light / 6.7 dark ✅ (tight — tightest use of this color)"
+      "note": "Article body links (16px regular) — Tier 2 Functional. One link colour has to clear the floor on the page, a card and a modal; see the -on-surface and -on-elevated pairings. OKCA 6.1 light / 8.4 dark ✅"
     },
     {
       "id": "article-link-visited",
@@ -1099,7 +1099,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.8 light / 6.6 dark ✅"
+      "note": "Visited links in article prose — Tier 2 Functional; OKCA 6.3 light / 8.2 dark ✅"
     },
     {
       "id": "article-link-hover",
@@ -1109,7 +1109,67 @@
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 6.1 light / 10.2 dark ✅"
+      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 8.6 light / 10.2 dark ✅"
+    },
+    {
+      "id": "article-link-on-surface",
+      "fg": "{color.link}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Links in text on a card. Light measured 3.8 here before azure-600, which no pairing recorded."
+    },
+    {
+      "id": "article-link-on-elevated",
+      "fg": "{color.link}",
+      "bg": "{color.bg.elevated}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Links in a modal or drawer body. Dark measured 4.2 here before azure-250, which no pairing recorded."
+    },
+    {
+      "id": "article-link-visited-on-surface",
+      "fg": "{color.link-visited}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Visited links on a card. Light indigo-600 sat on the floor here; indigo-625 clears it."
+    },
+    {
+      "id": "article-link-visited-on-elevated",
+      "fg": "{color.link-visited}",
+      "bg": "{color.bg.elevated}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Visited links in a modal or drawer body. Dark indigo-300 measured 4.1 here."
+    },
+    {
+      "id": "article-link-hover-on-surface",
+      "fg": "{color.link-hover}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Hovered links on a card."
+    },
+    {
+      "id": "article-link-hover-on-elevated",
+      "fg": "{color.link-hover}",
+      "bg": "{color.bg.elevated}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Hovered links in a modal or drawer body."
     },
     {
       "id": "alert-icon-info",

@@ -221,7 +221,7 @@ Recorded figures are re-baselined to klar 4.0. Any figure you add must be measur
 - **The same command enforces the sRGB gamut invariant** and exits 1 with the in-gamut value to use. It scans every `.ts` and `.scss` under `src/` — far wider than it exports from, so `syntax.scss`, component `static styles`, and story gradients are all covered even though none of them is in the artifact (#228). `--skip-gamut` bypasses it (klar not installed); nothing in the repo passes that flag.
 
 **`audit/pairings.json`** — hand-authored, update alongside component changes.
-- 143 foreground/background pairings, each measured in both modes; 4 measurements are `exempt`, leaving 282 enforced measurements. Per-component coverage is not derivable from the entry ids — form controls share `form-*` prefixes — so treat "every component is covered" as unverified until #197 settles how coverage is counted. **Read these counts as of a date, not as a fact about the file** — this sentence said "108 / 216" while the file held 121 / 238, having drifted during the 5.0.0 work that added the pairings. The numbers are computable from `pairings.json` in one line; until something computes them, prefer counting to quoting. #217 is the standing example of what the coverage gap costs: zero of the 117 pairings then on file referenced any border token, so the colour drawing the edge of eleven form components had no floor.
+- 149 foreground/background pairings, each measured in both modes; 4 measurements are `exempt`, leaving 294 enforced measurements. Per-component coverage is not derivable from the entry ids — form controls share `form-*` prefixes — so treat "every component is covered" as unverified until #197 settles how coverage is counted. **Read these counts as of a date, not as a fact about the file** — this sentence said "108 / 216" while the file held 121 / 238, having drifted during the 5.0.0 work that added the pairings. The numbers are computable from `pairings.json` in one line; until something computes them, prefer counting to quoting. #217 is the standing example of what the coverage gap costs: zero of the 117 pairings then on file referenced any border token, so the colour drawing the edge of eleven form components had no floor.
 - Each entry: `{ id, fg, bg, size, weight, tier, min }` using DTCG token references (`{color.status.error-text}`) and an explicit pixel size and weight. An optional `exempt` field (see below) marks pairings that carry no enforced floor.
 - **`tier`** — `1`, `2`, `3`, or `"non-text"`. Required. `min` is now *derived* from `tier` + `size` + `weight` and the audit fails when the two disagree, which converts `min` from a hand-typed number into a cross-checked one (#213). `"non-text"` is not a text tier: it carries WCAG 1.4.11's 3.0 for icons and indicators, and exists because six icon pairings had a `min` no text tier could produce.
 
@@ -463,7 +463,7 @@ This replaces the former 9.5 floor at 14px, which was **unreachable by any colou
 | `--color-status-error-text` | 6.8 | chroma 0.178 → 0.146, deltaE 7 |
 | `--color-status-warning-text` | 7.0 | chroma 0.085 → 0.075, deltaE 7 |
 | `--color-status-success-text` | 6.8 | chroma 0.139 → 0.117, deltaE 7 |
-| `--color-link` | 5.0 | chroma 0.14 → 0.102, deltaE 13 |
+| `--color-link` | 6.4 | chroma 0.127 → 0.103, deltaE 8 |
 
 (Re-measured under klar 4 against the current tokens.)
 
@@ -486,7 +486,7 @@ Maximum OKCA on white at each chroma, measured under klar 4 at the darkest light
 | error (red, H 25) | **6.6\*** | 10.5 | 15.4 | 19.5 | 20.9 | 20.9 |
 | warning (gold, H 88) | — | 2.3 | 5.5 | 13.3 | 19.5 | 20.9 |
 | success (green, H 144.2) | 3.9 | **7.0\*** | 12.3 | 18.2 | 20.9 | 20.9 |
-| link (blue, H 250.8) | 2.7 | **5.1\*** | 10.1 | 17.1 | 20.4 | 20.9 |
+| link (blue, H 250.8) | 2.7 | 5.1 | 10.1 | 17.1 | 20.4 | 20.9 |
 
 Three consequences for anyone setting or meeting a threshold:
 

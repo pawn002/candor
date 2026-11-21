@@ -310,8 +310,8 @@ agree, and reconciling them makes one of them wrong.
 
 - **Navy** \`#082840\`: primary action (OKCA 14.2 on white)
 - **Burgundy** \`#5F2B48\`: secondary action (OKCA 9.3 on white)
-- **Azure** \`#1493FB\`: accent / link; decorative at OKCA 2.4 on white, so \`--color-link\` steps to \`L=0.49\` for OKCA 5.0 on white
-- **Indigo** \`#6969F7\`: visited link anchor; decorative at OKCA 3.0 on white, so \`--color-link-visited\` uses indigo-600 for OKCA 6.1 on white
+- **Azure** \`#1493FB\`: accent / link; decorative at OKCA 2.4 on white, so \`--color-link\` uses azure-600 for OKCA 6.4 on white
+- **Indigo** \`#6969F7\`: visited link anchor; decorative at OKCA 3.0 on white, so \`--color-link-visited\` uses indigo-625 for OKCA 6.6 on white
 
 ## Accessibility
 Action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components) and the

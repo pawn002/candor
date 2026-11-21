@@ -81,11 +81,12 @@ const FAMILIES = {
 // Steps between the ladder's, each minted for a token that needed it.
 //   navy-670  --color-tooltip-bg (dark): deltaE 10 from bg-elevated with Tier 2
 //             white text (navy-700 was deltaE 9; navy-600 fails the text floor).
-//   azure-545 --color-link (light): OKCA 5.0 on white. azure-500 is 4.2, below the
-//             4.5 text floor; the link was a hand-typed L 0.49 until this step (#14).
+//   azure-250 --color-link (dark), and indigo-250 --color-link-visited (dark):
+//             4.5 on a modal (bg-elevated) as well as the page; azure-300 was 4.2.
+//   indigo-625 --color-link-visited (light): 4.9 on a card; indigo-600 sat on the floor.
 //   teal-115  --color-bg-code (light), and teal-870 --color-bg-code (dark): the
 //             anchors the teal curve was fitted through.
-const EXTRA_STEPS = { navy: [670], azure: [545], teal: [115, 870] };
+const EXTRA_STEPS = { navy: [670], azure: [250], indigo: [250, 625], teal: [115, 870] };
 
 // Lightness of any step number: the ladder's own value, or a straight line
 // between the ladder steps either side of it.

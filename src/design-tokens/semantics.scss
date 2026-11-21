@@ -117,9 +117,9 @@
     // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────
     // azure-400 is the brand original (#1493FB) — use on dark backgrounds only.
     // azure-500/600 are the accessible steps for use on white backgrounds.
-    --color-link:         var(--azure-545); // OKCA 5.0 on white ✅ — azure-500 is below the text floor; azure-545 is the derived step that clears it (#14)
-    --color-link-hover:   var(--azure-600);   // OKCA 6.4 on white ✅
-    --color-link-visited: var(--indigo-600);  // OKCA 6.1 on white ✅ — honors universal :visited convention; the step nearest the earlier indigo-700 after the colour ramps took the shared ladder (#365)
+    --color-link:         var(--azure-600);   // OKCA 6.4 on white ✅ — 4.8 on a card; azure-545 measured 3.8 there
+    --color-link-hover:   var(--azure-700);   // OKCA 9.0 on white ✅ — a step darker than the link
+    --color-link-visited: var(--indigo-625);  // OKCA 6.6 on white ✅ — honors universal :visited convention; 4.9 on a card, where indigo-600 sat on the floor
 
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
     // A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the
@@ -381,8 +381,8 @@
     // A pale navy from the brand ramp, so dark mode reads as the same navy as
     // light. It was a boosted sky blue, oklch(0.79 0.11 245), deltaE 3 from
     // --color-link (2 between their hovers), so a primary button and a link
-    // beside it were the same colour. navy-200 is deltaE 14 from the link and 6
-    // from its hover, and a quiet fill lets the content around it lead (#318).
+    // beside it were the same colour. navy-200 was deltaE 14 from the link then
+    // (10 from today's azure-250), and a quiet fill lets the content around it lead (#318).
     // Deliberately no figures here. Both that this comment used to carry were
     // duplicates recorded better elsewhere, and one had gone stale unnoticed
     // because the export discarded this comment entirely (#224): it credited the
@@ -444,9 +444,9 @@
     --color-action-tertiary-text:  var(--color-text-default);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────
-    --color-link:         var(--azure-300);   // OKCA 6.7 on bg-page ✅
+    --color-link:         var(--azure-250);   // OKCA 8.4 on bg-page ✅ — 5.2 on a modal, where azure-300 was 4.2
     --color-link-hover:   var(--azure-200);   // OKCA 10.2 on bg-page ✅
-    --color-link-visited: var(--indigo-300);  // OKCA 6.6 on bg-page ✅
+    --color-link-visited: var(--indigo-250);  // OKCA 8.2 on bg-page ✅ — 5.1 on a modal, where indigo-300 was 4.1
 
     // ─── Focus ─────────────────────────────────────────────────────────────
     --color-focus: var(--azure-300); // OKCA 6.7 on bg-page ✅
