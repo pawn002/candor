@@ -69,9 +69,11 @@ export class CandorCheckbox extends LitElement {
       outline: var(--focus-ring-width) solid var(--color-focus);
       outline-offset: var(--focus-ring-offset);
     }
+    /* The labelled-fill pair, as the selected chip: deep with a light tick in dark,
+       where a dark tick on a pale tile loses most of its contrast to scatter. */
     .checkbox-input:checked + .checkbox-box {
-      background-color: var(--color-action-primary);
-      border-color: var(--color-action-primary);
+      background-color: var(--color-action-primary-fill);
+      border-color: var(--color-action-primary-fill);
     }
     .checkbox-input:checked + .checkbox-box::after {
       content: '';
@@ -80,7 +82,7 @@ export class CandorCheckbox extends LitElement {
       top: 2px;
       width: 6px;
       height: 12px;
-      border: solid var(--color-action-mark);
+      border: solid var(--color-text-on-action);
       border-width: 0 var(--border-width-medium) var(--border-width-medium) 0;
       transform: rotate(45deg);
     }

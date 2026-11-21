@@ -91,10 +91,10 @@
     // brighter than the secondary fill: an unread count is meant to draw the eye.
     --color-nav-badge-bg: var(--color-action-secondary-fill);
 
-    // The mark drawn on a checked control's action-primary fill: the checkbox
-    // tick and the switch thumb. It was text-on-action until dark mode gave the
-    // labelled fills their own deep value; the controls stay on action-primary,
-    // so their mark keeps the colour that contrasts with it. icon/border use.
+    // The switch thumb on its checked action-primary track. It was text-on-action
+    // until dark mode gave the labelled fills their own deep value; the track stays
+    // on action-primary, so the thumb keeps the colour that contrasts with it.
+    // (The checkbox moved to the deep fill with text-on-action.) icon/border use.
     --color-action-mark: var(--gray-0);
 
     // ─── Colors: Action — Destructive (error red, H=25) ──────────────────────
@@ -412,7 +412,7 @@
     // and a count badge has no primary badge beside it to outrank.
     --color-nav-badge-bg: var(--burgundy-600); // text-on-action OKCA 5.4 on this bg ✅
 
-    // Tick and switch thumb on the pale action-primary: the page-dark mark the
+    // Switch thumb on the pale action-primary track: the page-dark mark the
     // labelled fills used to share. icon/border use.
     --color-action-mark: var(--gray-900);
 
