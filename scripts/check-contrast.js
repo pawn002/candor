@@ -417,6 +417,8 @@ const FG_ALIASES = {
   'bg-page': 'color.bg.page',
   // The label on the action fills, named on the fill's hover/active comments.
   'text-on-action': 'color.text.on-action',
+  // The label on the tooltip fill, named on --color-tooltip-bg.
+  'text-inverse': 'color.text.inverse',
 };
 
 // Backgrounds named in the comments, mapped to their DTCG path. Names that are

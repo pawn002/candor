@@ -77,6 +77,16 @@
           "$description": "A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the filled navy-800 panel (deltaE 79 from white), which was hard to read at length. Teal at hue 195 is clear of every brand and status hue in both modes (#318); the burgundy tint it replaced sat deltaE 5.6 from error-bg. Text is the ordinary body colour, so the pair needs no inverse. — text-default OKCA 10.0 on this bg ✅"
         }
       },
+      "tooltip": {
+        "bg": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$description": "The tooltip bubble. Its own token because in dark it floats over modals, where the inverse band's navy-700 sits too close to bg-elevated.",
+          "$extensions": {
+            "aliasOf": "--color-bg-inverse"
+          }
+        }
+      },
       "text": {
         "default": {
           "$type": "color",
@@ -582,6 +592,13 @@
           "$type": "color",
           "$value": "oklch(0.22 0.02 195)",
           "$description": "Teal tint, deltaE 8 from the cool page: the hue change carries the separation, so the block stays nearly as dark as the page. Border still required, since lightness alone barely differs at these low L values. — text-default OKCA 9.5 on this bg ✅ — code text inherits it"
+        }
+      },
+      "tooltip": {
+        "bg": {
+          "$type": "color",
+          "$value": "oklch(0.39 0.061 246.41)",
+          "$description": "The tooltip floats over modals as well as cards, and navy-700 was deltaE 9 from bg-elevated. L 0.39 (between navy-700 and navy-600, navy's hue and chroma) reaches deltaE 10, the step where the bubble reads as its own region on a modal. navy-600 would, but white 14px text there cannot reach Tier 2. — text-inverse OKCA 7.1 on this bg ✅"
         }
       },
       "text": {

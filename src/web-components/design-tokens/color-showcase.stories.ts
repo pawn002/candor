@@ -31,7 +31,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Muted', variable: '--color-bg-muted', description: 'Neutral fill that reads on page, surface and elevated alike. The default badge rests on it' },
       { name: 'Hover', variable: '--color-bg-hover', description: 'Hover fill for ghost buttons and close actions. An alias of muted' },
       { name: 'Elevated', variable: '--color-bg-elevated', description: 'Shadow-lifted surface' },
-      { name: 'Inverse', variable: '--color-bg-inverse', description: 'Navy inverse surface, for app headers and tooltips. A step lighter in dark mode so it stands off cards' },
+      { name: 'Inverse', variable: '--color-bg-inverse', description: 'Navy inverse surface, for app headers and inverse tabs. A step lighter in dark mode so it stands off cards' },
+      { name: 'Tooltip', variable: '--color-tooltip-bg', description: 'Tooltip bubble. The inverse surface in light, a notch lighter in dark so it stands apart on a modal' },
     ],
   },
   {

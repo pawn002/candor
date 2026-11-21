@@ -836,12 +836,12 @@
     {
       "id": "tooltip-text",
       "fg": "{color.text.inverse}",
-      "bg": "{color.bg.inverse}",
+      "bg": "{color.tooltip.bg}",
       "size": 14,
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Tier 2 Functional: a tooltip is often the only name an icon button shows, so it is not supplementary. OKCA 11.2 light / 7.7 dark"
+      "note": "Tier 2 Functional: a tooltip is often the only name an icon button shows, so it is not supplementary. Its own fill, a step above the inverse band in dark so the bubble stands apart on a modal. OKCA 11.2 light / 7.1 dark"
     },
     {
       "id": "breadcrumb-link",

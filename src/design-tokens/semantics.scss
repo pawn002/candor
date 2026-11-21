@@ -23,6 +23,9 @@
     // Hover fill for transparent controls: ghost buttons and close/dismiss actions (#322).
     --color-bg-hover:    var(--color-bg-muted);
     --color-bg-inverse:  var(--navy-800);
+    // The tooltip bubble. Its own token because in dark it floats over modals,
+    // where the inverse band's navy-700 sits too close to bg-elevated.
+    --color-tooltip-bg:  var(--color-bg-inverse);
 
     // ─── Colors: Text ──────────────────────────────────────────────────────────
     --color-text-default:           var(--gray-800);  // OKCA 12.4 on page ✅
@@ -311,6 +314,11 @@
     // so it stands apart from bg-surface too: tooltips sit on cards, and
     // navy-800 is within a few hundredths of the card's lightness.
     --color-bg-inverse:  var(--navy-700);
+    // The tooltip floats over modals as well as cards, and navy-700 was deltaE 9
+    // from bg-elevated. L 0.39 (between navy-700 and navy-600, navy's hue and
+    // chroma) reaches deltaE 10, the step where the bubble reads as its own region
+    // on a modal. navy-600 would, but white 14px text there cannot reach Tier 2.
+    --color-tooltip-bg:  oklch(0.39 0.061 246.41); // text-inverse OKCA 7.1 on this bg ✅
 
     // ─── Elevation / Shadow (dark mode) ────────────────────────────────────
     // Black shadows are invisible on dark backgrounds — use white-tint instead.

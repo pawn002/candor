@@ -49,7 +49,7 @@ export class CandorTooltip extends LitElement {
       border: 0;
       overflow: visible;
       padding: var(--spacing-2xs) var(--spacing-xs);
-      background-color: var(--color-bg-inverse);
+      background-color: var(--color-tooltip-bg);
       color: var(--color-text-inverse);
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
@@ -95,7 +95,7 @@ export class CandorTooltip extends LitElement {
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      border-top-color: var(--color-bg-inverse);
+      border-top-color: var(--color-tooltip-bg);
     }
 
     .tooltip__bubble--bottom {
@@ -107,7 +107,7 @@ export class CandorTooltip extends LitElement {
       bottom: 100%;
       left: 50%;
       transform: translateX(-50%);
-      border-bottom-color: var(--color-bg-inverse);
+      border-bottom-color: var(--color-tooltip-bg);
     }
 
     .tooltip__bubble--left {
@@ -119,7 +119,7 @@ export class CandorTooltip extends LitElement {
       left: 100%;
       top: 50%;
       transform: translateY(-50%);
-      border-left-color: var(--color-bg-inverse);
+      border-left-color: var(--color-tooltip-bg);
     }
 
     .tooltip__bubble--right {
@@ -131,7 +131,7 @@ export class CandorTooltip extends LitElement {
       right: 100%;
       top: 50%;
       transform: translateY(-50%);
-      border-right-color: var(--color-bg-inverse);
+      border-right-color: var(--color-tooltip-bg);
     }
   `;
 
