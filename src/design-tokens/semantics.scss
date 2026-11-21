@@ -14,13 +14,8 @@
     --color-action-destructive-text: var(--color-text-action-destructive); // deprecated: use --color-text-action-destructive
     --color-action-primary: var(--color-text-accent); // deprecated: use --color-text-accent
     --color-action-primary-active: var(--color-bg-action-primary-active); // deprecated: use --color-bg-action-primary-active
-    --color-action-primary-border: var(--color-border-action-secondary); // deprecated: use --color-border-action-secondary
-    --color-action-primary-fill: var(--color-bg-action-primary); // deprecated: use --color-bg-action-primary
     --color-action-primary-hover: var(--color-bg-action-primary-hover); // deprecated: use --color-bg-action-primary-hover
-    --color-action-secondary-border: var(--color-border-accent-secondary); // deprecated: use --color-border-accent-secondary
-    --color-action-secondary-fill: var(--color-bg-accent-secondary); // deprecated: use --color-bg-accent-secondary
     --color-action-tertiary: var(--color-bg-action-tertiary); // deprecated: use --color-bg-action-tertiary
-    --color-action-tertiary-active: var(--color-bg-action-tertiary-active); // deprecated: use --color-bg-action-tertiary-active
     --color-action-tertiary-hover: var(--color-bg-action-tertiary-hover); // deprecated: use --color-bg-action-tertiary-hover
     --color-action-tertiary-text: var(--color-text-action-tertiary); // deprecated: use --color-text-action-tertiary
     --color-bg-forward: var(--color-bg-content); // deprecated: use --color-bg-content
@@ -31,24 +26,19 @@
     --color-link: var(--color-text-link); // deprecated: use --color-text-link
     --color-link-hover: var(--color-text-link-hover); // deprecated: use --color-text-link-hover
     --color-link-visited: var(--color-text-link-visited); // deprecated: use --color-text-link-visited
-    --color-nav-badge-bg: var(--color-bg-nav-badge); // deprecated: use --color-bg-nav-badge
     --color-overlay: var(--color-bg-scrim); // deprecated: use --color-bg-scrim
     --color-slider-thumb: var(--color-fill-slider-thumb); // deprecated: use --color-fill-slider-thumb
     --color-status-error: var(--color-icon-error); // deprecated: use --color-icon-error
     --color-status-error-bg: var(--color-bg-error); // deprecated: use --color-bg-error
-    --color-status-error-border: var(--color-border-error); // deprecated: use --color-border-error
     --color-status-error-text: var(--color-text-error); // deprecated: use --color-text-error
     --color-status-success: var(--color-icon-success); // deprecated: use --color-icon-success
     --color-status-success-bg: var(--color-bg-success); // deprecated: use --color-bg-success
-    --color-status-success-border: var(--color-border-success); // deprecated: use --color-border-success
     --color-status-success-text: var(--color-text-success); // deprecated: use --color-text-success
     --color-status-warning: var(--color-icon-warning); // deprecated: use --color-icon-warning
     --color-status-warning-bg: var(--color-bg-warning); // deprecated: use --color-bg-warning
-    --color-status-warning-border: var(--color-border-warning); // deprecated: use --color-border-warning
     --color-status-warning-text: var(--color-text-warning); // deprecated: use --color-text-warning
     --color-text-inverse: var(--color-text-on-inverse); // deprecated: use --color-text-on-inverse
     --color-toast-message: var(--color-text-toast); // deprecated: use --color-text-toast
-    --color-tooltip-bg: var(--color-bg-tooltip); // deprecated: use --color-bg-tooltip
 }
 
 @mixin light-color-tokens {
@@ -135,7 +125,7 @@
     // only marks the label as a button. Light draws it in the label's navy.
     --color-border-action-secondary: var(--color-text-accent);
 
-    // ─── Colors: Action — Secondary (burgundy) ─────────────────────────────────
+    // ─── Colors: Accent — Secondary (burgundy) ─────────────────────────────────
     --color-action-secondary:        var(--burgundy-700); // deprecated in 7.0.0 (#367); OKCA 9.4 on white ✅
     --color-bg-accent-secondary:   var(--burgundy-700); // the secondary badge fill
     // Deprecated in 7.0.0, removed in the next major: no component has a filled
@@ -151,8 +141,8 @@
     // ─── Colors: Action — Destructive (error red, H=25) ──────────────────────
     // Takes the error red. It was a boosted burgundy (H=347), kept apart from
     // error on the reasoning that destructive is a chosen action, not a failure.
-    // That put it deltaE 8 from --color-action-secondary, the burgundy that fills
-    // badges, chips and the current nav item, so a "Featured" badge matched the
+    // That put it deltaE 8 from the burgundy that fills (--color-bg-accent-secondary)
+    // badges and chips (the current nav item too, then), so a "Featured" badge matched the
     // delete button. Error and destructive both mean "take care", so sharing red
     // misleads no one; deltaE to secondary is now 24 light / 17 dark (#318).
     // Both modes: outlined — transparent bg, red border+text.
@@ -196,8 +186,8 @@
     --color-ring-focus: var(--azure-500); // OKCA 3.1 on bg-surface ✅
 
     // ─── Colors: Status ────────────────────────────────────────────────────────
-    // Base colors: non-text use only (icons, borders, indicators).
-    // For text on light status-bg, use --color-status-*-text (contrast-validated below).
+    // --color-icon-* and --color-border-* are non-text only (icons, borders, indicators).
+    // For status text use --color-text-{error,success,warning} (contrast-validated below).
     // Every status colour is a step on its hue's ramp (#365): text at 600, icons
     // at 500, fills at 100. Fills sit at 100 rather than 50 because at 50 the
     // error and warning fills fall to deltaE 10 apart and 6 from white; at 100

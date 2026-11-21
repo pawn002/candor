@@ -128,7 +128,7 @@
         "action-destructive": {
           "$type": "color",
           "$value": "transparent",
-          "$description": "Takes the error red. It was a boosted burgundy (H=347), kept apart from error on the reasoning that destructive is a chosen action, not a failure. That put it deltaE 8 from --color-action-secondary, the burgundy that fills badges, chips and the current nav item, so a \"Featured\" badge matched the delete button. Error and destructive both mean \"take care\", so sharing red misleads no one; deltaE to secondary is now 24 light / 17 dark (#318). Both modes: outlined — transparent bg, red border+text."
+          "$description": "Takes the error red. It was a boosted burgundy (H=347), kept apart from error on the reasoning that destructive is a chosen action, not a failure. That put it deltaE 8 from the burgundy that fills (--color-bg-accent-secondary) badges and chips (the current nav item too, then), so a \"Featured\" badge matched the delete button. Error and destructive both mean \"take care\", so sharing red misleads no one; deltaE to secondary is now 24 light / 17 dark (#318). Both modes: outlined — transparent bg, red border+text."
         },
         "action-destructive-hover": {
           "$type": "color",
@@ -618,7 +618,7 @@
         "error": {
           "$type": "color",
           "$value": "oklch(0.53 0.18 25.00)",
-          "$description": "Base colors: non-text use only (icons, borders, indicators). For text on light status-bg, use --color-status-*-text (contrast-validated below). Every status colour is a step on its hue's ramp (#365): text at 600, icons at 500, fills at 100. Fills sit at 100 rather than 50 because at 50 the error and warning fills fall to deltaE 10 apart and 6 from white; at 100 they are 16 apart. A pale tint is still not a variant channel (#214, #242, #318). — icon/border use — OKCA 4.4 on white ✅ (WCAG 1.4.11)",
+          "$description": "--color-icon-* and --color-border-* are non-text only (icons, borders, indicators). For status text use --color-text-{error,success,warning} (contrast-validated below). Every status colour is a step on its hue's ramp (#365): text at 600, icons at 500, fills at 100. Fills sit at 100 rather than 50 because at 50 the error and warning fills fall to deltaE 10 apart and 6 from white; at 100 they are 16 apart. A pale tint is still not a variant channel (#214, #242, #318). — icon/border use — OKCA 4.4 on white ✅ (WCAG 1.4.11)",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--red-500"

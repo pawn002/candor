@@ -135,7 +135,7 @@
   },
   "extraSteps": {
     "navy": {
-      "670": "--color-tooltip-bg (dark): far enough from a modal to stand apart (the deltaE 10 held for the tooltip), while white text still clears its floor. navy-700 sat too close to the modal, and navy-600 is too light for the text."
+      "670": "--color-bg-tooltip (dark): far enough from a modal to stand apart (the deltaE 10 held for the tooltip), while white text still clears its floor. navy-700 sat too close to the modal, and navy-600 is too light for the text."
     },
     "azure": {
       "250": "--color-link (dark): clears the text floor on a modal (bg-elevated) as well as the page, which azure-300 did not."
@@ -203,10 +203,10 @@
     },
     "extraSteps": {
       "neutral": {
-        "350": "--color-bg-active and --color-action-tertiary-active (light): the pressed fill, one notch below the gray-300 hover."
+        "350": "--color-bg-active and --color-bg-action-tertiary-active (light): the pressed fill, one notch below the gray-300 hover."
       },
       "cool": {
-        "750": "--color-bg-active and --color-action-tertiary-active (dark): the pressed fill, one notch below the gray-cool-700 hover."
+        "750": "--color-bg-active and --color-bg-action-tertiary-active (dark): the pressed fill, one notch below the gray-cool-700 hover."
       }
     }
   }

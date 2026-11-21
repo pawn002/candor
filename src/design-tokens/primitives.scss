@@ -51,7 +51,7 @@
     // Anchor: azure-400 = #1493FB (original brand color)
     // Figures below are OKCA (Candor's policy algorithm), foreground-on-white.
     // ⚠️  azure-400 reaches only OKCA 2.4 on white — not usable as text on a light bg.
-    //     azure-500 (4.2) still misses the 4.5 floor, which is why --color-link sits
+    //     azure-500 (4.2) still misses the 4.5 floor, which is why --color-text-link sits
     //     at L=0.49 (#14); azure-600 (6.4) clears it. Reversed — white text *on* these
     //     fills — they read OKCA 4.0 and 5.7 respectively (OKCA is polarity-aware).
     --azure-50:  oklch(0.97 0.014 250.80);
@@ -71,7 +71,7 @@
     // white. It sits on the curve between 400 and 500 rather than on a step: indigo
     // took the shared ladder, where its own had been stretched to put the anchor
     // at 500 (#365). On white, indigo-500 is OKCA 4.0, below the 4.5 text floor;
-    // indigo-600 is 6.1 and is what --color-link-visited uses.
+    // indigo-600 is 6.1 and is what --color-text-link-visited uses.
     --indigo-50:  oklch(0.97 0.014 278.14);
     --indigo-100: oklch(0.93 0.033 278.14);
     --indigo-200: oklch(0.86 0.069 278.14);
