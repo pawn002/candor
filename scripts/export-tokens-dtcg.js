@@ -507,7 +507,6 @@ if (!SKIP_GAMUT) {
 // too, so the list can only shrink. The `debt` entries are invented colours
 // that predate the gate and are due to be re-derived.
 const COLOUR_LITERAL_EXCEPTIONS = {
-  'src/design-tokens/semantics.scss --color-bg-code': 'teal at hue 195, chosen to sit clear of every brand and status hue (#318); one token is not worth a ramp',
   'src/design-tokens/semantics.scss --color-overlay': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour',
   ...Object.fromEntries(
     ['comment', 'keyword', 'string', 'number', 'function', 'property', 'operator', 'deleted', 'inserted', 'regex'].map((k) => [

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Derive the colour ramps (navy, burgundy, azure, indigo, and the status ramps
+ * Derive the colour ramps (navy, burgundy, azure, indigo, teal, and the status ramps
  * red, gold and green) from stated rules, the way the grey ramps are derived
  * (#365).
  *
@@ -29,6 +29,13 @@
  *
  * Indigo's anchor (#6969F7, L 0.60) sits on its curve between steps 400 and 500
  * rather than on a step, since indigo joined the shared ladder.
+ *
+ * Teal exists for the code-block background, and its curve is fitted through
+ * both of them: oklch(0.92 0.018 195) light and oklch(0.22 0.02 195) dark, which
+ * it reproduces as teal-115 and teal-870 (deltaE 0). Two low-chroma anchors give
+ * a quiet grey-green peaking near C 0.027, a sibling of the cool greys. A vivid
+ * teal, if a component ever needs one, would be its own family with its own
+ * anchor rather than a reshaped curve.
  *
  *   Between   A ramp may carry a step between two ladder steps when a token needs
  *              one (EXTRA_STEPS below). Its number fixes its lightness by
@@ -65,6 +72,7 @@ const FAMILIES = {
   burgundy: { K: 0.0839, g: 1.085, hue: () => 347.43, anchor: { L: 0.37, C: 0.08 } },
   azure: { K: 0.1922, g: 2.685, hue: () => 250.8, anchor: { L: 0.65, C: 0.18 } },
   indigo: { K: 0.2117, g: 1.11, hue: () => 278.14, anchor: { L: 0.6, C: 0.21 } },
+  teal: { K: 0.0278, g: 1.3135, hue: () => 195, anchor: { L: 0.9195, C: 0.018 } },
   red: { K: 0.1808, g: 1, hue: () => 25, anchor: { L: 0.45, C: 0.18 }, tint: true },
   gold: { K: 0.086, g: 1, hue: () => 88, anchor: { L: 0.42, C: 0.085 }, tint: true },
   green: { K: 0.1404, g: 1, hue: () => 144.2, anchor: { L: 0.46, C: 0.14 }, tint: true },
@@ -75,7 +83,9 @@ const FAMILIES = {
 //             white text (navy-700 was deltaE 9; navy-600 fails the text floor).
 //   azure-545 --color-link (light): OKCA 5.0 on white. azure-500 is 4.2, below the
 //             4.5 text floor; the link was a hand-typed L 0.49 until this step (#14).
-const EXTRA_STEPS = { navy: [670], azure: [545] };
+//   teal-115  --color-bg-code (light), and teal-870 --color-bg-code (dark): the
+//             anchors the teal curve was fitted through.
+const EXTRA_STEPS = { navy: [670], azure: [545], teal: [115, 870] };
 
 // Lightness of any step number: the ladder's own value, or a straight line
 // between the ladder steps either side of it.

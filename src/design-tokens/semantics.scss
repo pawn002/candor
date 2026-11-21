@@ -127,7 +127,7 @@
     // Teal at hue 195 is clear of every brand and status hue in both modes (#318);
     // the burgundy tint it replaced sat deltaE 5.6 from error-bg.
     // Text is the ordinary body colour, so the pair needs no inverse.
-    --color-bg-code:     oklch(0.92 0.018 195); // text-default OKCA 10.0 on this bg ✅
+    --color-bg-code:     var(--teal-115); // text-default OKCA 10.0 on this bg ✅
     --color-text-code:   var(--color-text-default);
     --color-border-code: transparent; // deliberate: the tint separates the block from the page on its own; dark mode adds a rule (#242)
 
@@ -468,10 +468,10 @@
     --color-status-warning-border: var(--gold-400);
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
-    // Teal tint, deltaE 8 from the cool page: the hue change carries the
+    // Teal tint (teal-870), deltaE 9 from the cool page: the hue change carries the
     // separation, so the block stays nearly as dark as the page. Border still
     // required, since lightness alone barely differs at these low L values.
-    --color-bg-code:     oklch(0.22 0.02 195); // text-default OKCA 9.5 on this bg ✅ — code text inherits it
+    --color-bg-code:     var(--teal-870); // text-default OKCA 9.5 on this bg ✅ — code text inherits it
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
 }

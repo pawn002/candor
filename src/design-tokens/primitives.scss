@@ -93,6 +93,21 @@
     --indigo-800: oklch(0.27 0.165 278.14);
     --indigo-900: oklch(0.20 0.122 278.14);
 
+    // Teal (H 195): fitted through the code-block backgrounds, which are teal-115
+    // (light) and teal-870 (dark). A quiet grey-green, a sibling of the cool greys.
+    --teal-50: oklch(0.97 0.012 195.00);
+    --teal-100: oklch(0.93 0.017 195.00);
+    --teal-115: oklch(0.9195 0.018 195.00); // between ladder steps: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
+    --teal-200: oklch(0.86 0.022 195.00);
+    --teal-300: oklch(0.76 0.025 195.00);
+    --teal-400: oklch(0.65 0.027 195.00);
+    --teal-500: oklch(0.53 0.027 195.00);
+    --teal-600: oklch(0.44 0.026 195.00);
+    --teal-700: oklch(0.37 0.025 195.00);
+    --teal-800: oklch(0.27 0.022 195.00);
+    --teal-870: oklch(0.221 0.02 195.00); // between ladder steps: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
+    --teal-900: oklch(0.20 0.019 195.00);
+
     // ─── Status ramps ───────────────────────────────────────────────────────────
     // Red, gold and green on the shared ladder, with one curve shape (g = 1) for
     // all three, so the status colours share their behaviour at every step and

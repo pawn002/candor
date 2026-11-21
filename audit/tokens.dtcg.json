@@ -73,8 +73,11 @@
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.92 0.018 195)",
-          "$description": "A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the filled navy-800 panel (deltaE 79 from white), which was hard to read at length. Teal at hue 195 is clear of every brand and status hue in both modes (#318); the burgundy tint it replaced sat deltaE 5.6 from error-bg. Text is the ordinary body colour, so the pair needs no inverse. — text-default OKCA 10.0 on this bg ✅"
+          "$value": "oklch(0.9195 0.018 195.00)",
+          "$description": "A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the filled navy-800 panel (deltaE 79 from white), which was hard to read at length. Teal at hue 195 is clear of every brand and status hue in both modes (#318); the burgundy tint it replaced sat deltaE 5.6 from error-bg. Text is the ordinary body colour, so the pair needs no inverse. — text-default OKCA 10.0 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--teal-115"
+          }
         }
       },
       "tooltip": {
@@ -593,8 +596,11 @@
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.22 0.02 195)",
-          "$description": "Teal tint, deltaE 8 from the cool page: the hue change carries the separation, so the block stays nearly as dark as the page. Border still required, since lightness alone barely differs at these low L values. — text-default OKCA 9.5 on this bg ✅ — code text inherits it"
+          "$value": "oklch(0.221 0.02 195.00)",
+          "$description": "Teal tint (teal-870), deltaE 9 from the cool page: the hue change carries the separation, so the block stays nearly as dark as the page. Border still required, since lightness alone barely differs at these low L values. — text-default OKCA 9.5 on this bg ✅ — code text inherits it",
+          "$extensions": {
+            "aliasOf": "--teal-870"
+          }
         }
       },
       "tooltip": {
