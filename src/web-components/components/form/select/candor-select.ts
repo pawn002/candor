@@ -53,7 +53,7 @@ export class CandorSelect extends LitElement {
     .select-hint {
       margin-top: calc(-1 * var(--spacing-xs));
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle);
+      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle-on-surface);
     }
     .select-control { position: relative; display: flex; align-items: center; }
     .select {

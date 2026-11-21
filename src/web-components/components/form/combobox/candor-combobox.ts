@@ -117,7 +117,7 @@ export class CandorCombobox extends LitElement {
     .combobox__hint {
       margin-top: calc(-1 * var(--spacing-xs));
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle);
+      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle-on-surface);
     }
     .combobox__description {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);

@@ -65,13 +65,23 @@
     },
     {
       "id": "form-hint-text",
-      "fg": "{color.text.subtle}",
+      "fg": "{color.text.subtle-on-surface}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
       "tier": 3,
       "min": 4.5,
-      "note": "Hint/help text below field — 14px regular, Tier 3 Supplementary"
+      "note": "Hint/help text below field — 14px regular, Tier 3 Supplementary. Input, select, listbox, combobox, autocomplete and switch. subtle-on-surface so it also clears on a card (see form-hint-text-on-surface)."
+    },
+    {
+      "id": "form-hint-text-on-surface",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "note": "A form hint inside a card: settings panels, sign-in boxes, the switch States story. text-subtle was OKCA 3.9 light here, which the page-only pairing never saw."
     },
     {
       "id": "accessible-text-label-primary",
