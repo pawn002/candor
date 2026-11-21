@@ -3821,7 +3821,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A static data table. Structure comes from `headers` and `rows`, not from\nslotted markup.\n\n**A cell is text or markup.** Each cell is a `TableCell`: a string, a Lit\n`TemplateResult`, or a DOM `Node`. Markup is how a cell holds an info button\nbeside a label, a link, or a status badge. Set it through the `rows`\nproperty, since the JSON attribute can only carry strings. Markup renders\ninside this element's shadow root, so the page's stylesheet does not reach it:\nuse Candor components or inline styles, and inline SVG rather than icon-font\nclasses, which do not cross a shadow boundary. Interactive content is still\nordinary page content: it is in the Tab order, and the table does not manage\nfocus. A table the user moves through cell by cell is `candor-data-grid`.\n\n**Always set `caption`.** It is the table's accessible name, and a page with\nseveral tables is otherwise a list of anonymous \"table\" landmarks to anyone\nnavigating by structure. It is visible text, not a tooltip. Treat it as the\ntable's title rather than as an accessibility afterthought.\n\n`TableRow.isHeader` promotes a row's cells to `<th scope=\"row\">`, which is\nwhat makes a key/value table readable: without it, a screen reader announces\nthe value with no idea which key it belongs to.\n\n`numeric-columns` right-aligns and tabular-figures those column indexes;\n`mono-columns` sets them in the mono face. Both take **zero-based indexes**,\nand an out-of-range index is ignored silently.\n\nChoose against `candor-data-grid` on interaction: this is content to read, a\ngrid is a two-dimensional widget the user navigates cell by cell.\n\nEmits no custom events.",
+          "description": "A data table to read, optionally sortable by column. Structure comes from\n`headers` and `rows`, not from slotted markup.\n\n**A cell is text or markup.** Each cell is a `TableCell`: a string, a Lit\n`TemplateResult`, or a DOM `Node`. Markup is how a cell holds an info button\nbeside a label, a link, or a status badge. Set it through the `rows`\nproperty, since the JSON attribute can only carry strings. Markup renders\ninside this element's shadow root, so the page's stylesheet does not reach it:\nuse Candor components or inline styles, and inline SVG rather than icon-font\nclasses, which do not cross a shadow boundary. Interactive content is still\nordinary page content: it is in the Tab order, and the table does not manage\nfocus. A table the user moves through cell by cell is `candor-data-grid`.\n\n**Always set `caption`.** It is the table's accessible name, and a page with\nseveral tables is otherwise a list of anonymous \"table\" landmarks to anyone\nnavigating by structure. It is visible text, not a tooltip. Treat it as the\ntable's title rather than as an accessibility afterthought.\n\n`TableRow.isHeader` promotes a row's cells to `<th scope=\"row\">`, which is\nwhat makes a key/value table readable: without it, a screen reader announces\nthe value with no idea which key it belongs to.\n\n`numeric-columns` right-aligns and tabular-figures those column indexes;\n`mono-columns` sets them in the mono face. Both take **zero-based indexes**,\nand an out-of-range index is ignored silently.\n\n**Sorting is opt-in per column.** List the sortable column indexes in\n`sortable-columns`; each of those headers becomes a native button, so Enter\nand Space sort and focus stays on it while the rows reorder. The active column\ncarries `aria-sort` and nothing else does, and a polite live region announces\nthe new order. Activating a column sorts ascending; activating it again\nreverses. There is no unsorted third state.\n\nNumbers compare as numbers and text with numeric collation (\"item 2\" before\n\"item 10\"). A displayed value is often not the right one to sort by, so give\n`TableRow.sortValues` the raw value: bytes behind \"1.5 GiB\", the unrounded\nfigure behind a rounded badge. Unknown values (`null`, `undefined`, empty\ntext, or a Lit template with no sort value) sort last in both directions, and\nties keep their original order.\n\n`sort-column` and `sort-direction` set the initial order and reflect the\ncurrent one. The `sort` event fires before the table re-sorts and is\ncancelable: call `preventDefault()` to keep the current order, for a consumer\nthat sorts its own data (on a server, say) and then sets `rows`,\n`sort-column` and `sort-direction` itself.\n\nChoose against `candor-data-grid` on interaction: this is content to read, a\ngrid is a two-dimensional widget the user navigates cell by cell. Sorting\ndoes not change that: the headers are buttons, and the table stays a table.",
           "name": "CandorTable",
           "members": [
             {
@@ -3878,6 +3878,44 @@
               },
               "default": "[]",
               "attribute": "mono-columns"
+            },
+            {
+              "kind": "field",
+              "name": "sortableColumns",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "attribute": "sortable-columns"
+            },
+            {
+              "kind": "field",
+              "name": "sortColumn",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "The column the rows are sorted by, as a zero-based index. Unset keeps them in the order given.",
+              "attribute": "sort-column",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "sortDirection",
+              "type": {
+                "text": "TableSortDirection"
+              },
+              "default": "'ascending'",
+              "attribute": "sort-direction",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "sort",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: CandorTableSortDetail (`{ column, direction }`, when a sortable header is activated, before the rows reorder; cancelable)"
             }
           ],
           "attributes": [
@@ -3928,6 +3966,30 @@
               },
               "default": "[]",
               "fieldName": "monoColumns"
+            },
+            {
+              "name": "sortable-columns",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "fieldName": "sortableColumns"
+            },
+            {
+              "name": "sort-column",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "The column the rows are sorted by, as a zero-based index. Unset keeps them in the order given.",
+              "fieldName": "sortColumn"
+            },
+            {
+              "name": "sort-direction",
+              "type": {
+                "text": "TableSortDirection"
+              },
+              "default": "'ascending'",
+              "fieldName": "sortDirection"
             }
           ],
           "superclass": {

@@ -756,6 +756,16 @@
       "note": "thead th — table sits on bg-page by default; subtle-on-surface on white exceeds its on-surface guarantee"
     },
     {
+      "id": "table-sort-indicator",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The up/down caret on a sortable column header. The active column's header and caret turn text-default, covered by table-cell."
+    },
+    {
       "id": "table-cell",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",

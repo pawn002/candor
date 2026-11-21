@@ -21,7 +21,7 @@ The package also ships a **[Custom Elements Manifest](https://github.com/webcomp
 Three facts about this package's own API, recorded here because *absence* is invisible in a declaration file:
 
 - The form controls emit **`change`** and **`input`**. There is no `changed` event. A listener bound to it never fires, and nothing reports that.
-- **`candor-button` dispatches no custom events.** Bind `@click` on the host element. (The full set across the library is `cell-activate`, `change`, `close`, `color-select`, `dismiss`, `input`, `select`, `send` and `toggle`, checked against the source by `npm run audit:docs`.)
+- **`candor-button` dispatches no custom events.** Bind `@click` on the host element. (The full set across the library is `cell-activate`, `change`, `close`, `color-select`, `dismiss`, `input`, `select`, `send`, `sort` and `toggle`, checked against the source by `npm run audit:docs`.)
 - **There is no `size="icon"`.** Sizes are `small`, `medium` and `large`; an unrecognised value is accepted silently and does nothing.
 
 ## Install
