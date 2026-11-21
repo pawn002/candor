@@ -163,6 +163,22 @@ The conformance model distinguishes what the library guarantees from what the co
 
 ## Migration notes
 
+### v7.0.0
+
+The full notes, with before/after and value tables, are under **Breaking changes** and **Deprecated** in `CHANGELOG.md`. In short:
+
+#### Token values change, most of all in dark mode
+
+Dark mode's filled actions are deep with a light label, where 6.0.0 painted them with the pale `--color-action-primary` under a near-black one. Anything you fill behind a label moves to `--color-bg-action-primary` (and its `-hover` / `-active`); `--color-text-accent`, the old `--color-action-primary`, is for text, lines and indicators. The dark inverse surface is a navy band, not white. Field edges, tertiary buttons, destructive outlines, status icons and links change by deltaE 5 to 15, and the indigo primitives moved onto the shared lightness ladder.
+
+#### Names change, and nothing is removed yet
+
+Colour tokens are named property first (`--color-{bg|text|icon|border|fill|ring}-…`, #367), the type-scale and font-stack primitives are `--type-*` and `--typeface-*`, and component padding moves to the `--candor-*` hooks. Every old name resolves as a deprecated alias, and components still read the deprecated padding tokens as their hooks' fallback, so 7.0.0 breaks no reference. This is the deprecation policy above applied at scale: the old names are removed in the next major, once 7.x has shipped them side by side. Find each replacement in the **Deprecated** table, or in the token's comment in `semantics.scss` and `primitives.scss`.
+
+#### Typefaces
+
+`--font-family-accessible` is Atkinson Hyperlegible Next and `--font-family-mono` is Atkinson Hyperlegible Mono. If you import fonts yourself rather than through `candor-fonts.css`, swap the Fontsource packages; the tokens package no longer depends on `@fontsource/atkinson-hyperlegible` or `@fontsource-variable/roboto-mono`.
+
 ### v6.0.0
 
 #### `@candor-design/web-components` ships as per-module ESM with Lit as a peer

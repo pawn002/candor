@@ -6,6 +6,90 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Breaking changes
+
+7.0.0 removes nothing: every 6.0.0 token still resolves, renamed ones through a deprecated alias (see **Deprecated** below for the full old-to-new table). It is a major release because token **values** change, several of them significantly, and most of all in dark mode. The figures below are klar deltaE from 6.0.0, per mode; changes under deltaE 5 are left out. If you use Candor's components and semantic tokens as intended, the migration is mostly the first item.
+
+#### Dark mode: filled actions are deep, with a light label
+
+6.0.0 had no fill token, so a filled action was painted with `--color-action-primary`, which is pale navy in dark, under a near-black label. Dark mode now fills labelled actions deep and puts a light label on them. `--color-action-primary` stays pale in dark, because it is the accent as a mark (a label, a line, an indicator); it is now named `--color-text-accent`.
+
+**Before:**
+```css
+.my-filled-control { background: var(--color-action-primary); color: var(--color-text-on-action); }
+```
+
+**After:**
+```css
+.my-filled-control { background: var(--color-bg-action-primary); color: var(--color-text-on-action); }
+.my-filled-control:hover { background: var(--color-bg-action-primary-hover); }
+```
+
+| token (dark) | 6.0.0 | 7.0.0 | deltaE |
+|---|---|---|---|
+| `--color-text-on-action` | near-black, L 0.16 | `--navy-50` | 93 |
+| `--color-action-primary-hover` / `-active` (now `--color-bg-action-primary-hover` / `-active`) | pale, L 0.93 | `--navy-700` | 58 |
+| `--color-action-secondary-hover` / `-active` (deprecated) | pale, L 0.86 | `--burgundy-900` | 72 |
+
+**Why:** a bright fill in dark mode is glare, and its label could not reach its contrast floor under the scatter observer dark mode is tuned with.
+
+**Migration:** anything you paint as a *fill* behind a label with `--color-action-primary` (or `--color-action-secondary`) moves to `--color-bg-action-primary` (or `--color-bg-accent-secondary`), with `-hover` / `-active` for its states. Keep `--color-text-accent` (the old `--color-action-primary`) for text, lines and indicators. A label on the fill stays `--color-text-on-action`, which now flips to light in dark mode, so a label you coloured yourself on a pale fill needs the same change.
+
+#### Dark mode: the inverse surface is a navy band, not white
+
+**Before:** in dark mode `--color-bg-inverse` was white, and the text and dividers on it were dark.
+
+**After:** `--color-bg-inverse` is `--navy-700` in dark mode, as it is navy in light, with light text on it.
+
+| token (dark) | 6.0.0 | 7.0.0 | deltaE |
+|---|---|---|---|
+| `--color-bg-inverse` | white | `--navy-700` | 63 |
+| `--color-text-inverse` (now `--color-text-on-inverse`) | L 0.24 | white | 82 |
+| `--color-text-subtle-on-inverse` | L 0.40 | `--gray-100` | 52 |
+| `--color-border-on-inverse` | L 0.88 | `--gray-cool-650` | 45 |
+
+**Why:** a white band flipped every header, inverse tab bar and tooltip into a glaring strip across a dark page.
+
+**Migration:** if you only paint the inverse tokens on `--color-bg-inverse`, nothing. Anything you placed on the inverse band in dark mode with colours of your own must be re-checked against navy.
+
+#### Other significant value changes
+
+| token | mode | deltaE | what changed |
+|---|---|---|---|
+| `--color-action-destructive-border` (now `--color-border-action-destructive`) | dark | 15 | a ramp step below the label, so the outline stops competing with the primary fill |
+| `--color-border-control` | dark | 10 | `--gray-400`, lighter, so field edges clear 3:1 on a modal as well as the page |
+| `--color-action-tertiary` / `-hover` / `-text` (now `--color-bg-action-tertiary` …, `--color-text-action-tertiary`) | dark | 8 | the tertiary button rests on the muted step and each state steps darker; its label is text-default |
+| `--color-action-tertiary` | light | 6 | rests on `--gray-300`: the old fill was deltaE 1 from a card, so the button lost its shape there |
+| `--color-status-error` / `-success` (now `--color-icon-*`) | dark | 8 | status icons are step 300 of their new ramps, brighter, and clear 3:1 on a card |
+| `--color-status-warning-text` | dark | 7 | step 300 of the gold ramp |
+| `--color-link-hover` | light | 8 | `--azure-700`, a step darker than the link |
+| `--color-link`, `--color-link-visited` | light | 5 | `--azure-600` and `--indigo-625`: links now clear their floor on a card |
+| `--color-status-error-bg`, `--color-status-success-bg` | light | 5 | step 100 of each status ramp |
+| `--color-bg-forward` (now `--color-bg-content`) | dark | 5 | the surface's lightness, so subtle text keeps its floor on it |
+
+The indigo primitives moved onto the shared lightness ladder: `--indigo-500` to `--indigo-900` change by deltaE 6 to 13 (`--indigo-600` most). If you reference indigo steps directly, check them; the brand indigo, `#6969F7`, now sits on the curve between steps 400 and 500.
+
+**Migration:** none for the semantic tokens beyond re-checking any colour of your own that you paired with them. Every pairing Candor ships is re-measured by `audit:contrast` against its floor.
+
+#### Typefaces: Atkinson Hyperlegible Next and Atkinson Hyperlegible Mono
+
+**Before:** `--font-family-accessible` was Atkinson Hyperlegible, and `--font-family-mono` named Roboto Mono (which, under the name it used, actually rendered the system monospace).
+
+**After:** `--font-family-accessible` is Atkinson Hyperlegible Next and `--font-family-mono` is Atkinson Hyperlegible Mono, both variable fonts with italics. Mono text is wider than it was, so mono table columns and code take more room.
+
+**Migration:** if you import `@candor-design/tokens/candor-fonts.css`, nothing. If you import fonts yourself, replace `@fontsource/atkinson-hyperlegible` and `@fontsource-variable/roboto-mono` with `@fontsource-variable/atkinson-hyperlegible-next` and `@fontsource-variable/atkinson-hyperlegible-mono` (the tokens README lists the imports). The tokens package no longer depends on the old two, so if your app relied on them being installed, add them yourself.
+
+#### Component appearance
+
+No component API changes. What a consumer will see:
+
+- **`candor-tabs`**: the active indicator is 3px in every variant, up from 2px.
+- **`candor-button` tertiary**: rests on a darker fill in light and a lighter one in dark, so it keeps its shape on a card or modal.
+- **`candor-slider`**: the value readout is bold; the thumb's shadow follows the system shadows, lighter at rest.
+- **`candor-navigation`**: a link's hover fill is `--color-bg-hover`; it was invisible in light on the navigation's own surface.
+- **Status chips, outlined buttons, destructive buttons** in dark: the edge sits a step below its label.
+- **`.btn-primary`, `.btn-secondary`, `.btn-ghost`** utility classes in `src/utilities/buttons.scss` now match `candor-button`, in fill, edge and hover. In dark, the first two had painted the pale accent as a fill.
+
 ### Changed
 
 - **Atkinson Hyperlegible Next and Atkinson Hyperlegible Mono replace Atkinson Hyperlegible and Roboto Mono.** `--font-family-accessible` is now Atkinson Hyperlegible Next and `--font-family-mono` Atkinson Hyperlegible Mono, both variable (weights 200 to 800, with italics). `candor-fonts.css` loads them in place of `@fontsource/atkinson-hyperlegible` and `@fontsource-variable/roboto-mono`, which are no longer dependencies; if you import fonts yourself, see the tokens README. Mono was not Roboto Mono before this release: the token named `"Roboto Mono"` while the Fontsource package registers `"Roboto Mono Variable"`, so mono text fell back to the system face (Consolas on Windows, SF Mono on macOS). Each family now names the Fontsource variable name first. This is a first switch ahead of a fuller typography review (#350): weights, sizes and tracking are unchanged.
