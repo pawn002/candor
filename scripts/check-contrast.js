@@ -46,6 +46,12 @@
  *      go stale. Only prose — where the number is part of an argument and
  *      cannot be derived — is guarded here.
  *
+ *   6. FILL SEPARATION — every pair in audit/separations.json: fills that are
+ *      their own boundary (a tooltip, a borderless hover, a badge, a status
+ *      fill) against what they sit on or beside, by klar deltaE in both modes.
+ *      No contrast floor compares fill with fill, which is how a hover the
+ *      colour of its card (deltaE 0) passed every check above.
+ *
  * Anything the claim parser cannot interpret is listed as UNCHECKED rather than
  * passed over in silence: a guard that quietly covers a subset is worse than no
  * guard, because absence of failure reads as validation (#218).
@@ -843,6 +849,60 @@ function checkTextSizeFloor() {
   return { violations, allowed };
 }
 
+// ── 6. fill separation ───────────────────────────────────────────────────────
+//
+// A contrast floor compares text or an icon with its background. It never
+// compares one fill with another, so a hover painted the colour of the card it
+// sat on (deltaE 0) passed every check here. audit/separations.json lists the
+// fills that are their own boundary and what they sit on or beside; each must
+// reach its minDeltaE in both modes, measured with klar's deltaE (whole
+// numbers; no culori formula matches it exactly, so always measure with klar).
+// The file's floor is the minimum: an entry may raise it, never lower it.
+
+function deltaE(a, b) {
+  const cmd = `klar contrast "${a}" "${b}" --type deltaE --gamut-map clip -q`;
+  let out;
+  try {
+    out = execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  } catch (err) {
+    console.error(`
+✗  klar could not measure deltaE between ${a} and ${b}: ${String(err.stderr || '').trim() || `exit ${err.status}`}`);
+    process.exit(2);
+  }
+  const n = Number(out);
+  if (!Number.isFinite(n)) throw new Error(`klar returned "${out}" for deltaE ${a} / ${b}`);
+  return n;
+}
+
+function checkSeparations() {
+  const file = JSON.parse(fs.readFileSync(path.join(ROOT, 'audit/separations.json'), 'utf8'));
+  const floor = file.floor;
+  const failures = [];
+  const unresolved = [];
+  let checked = 0;
+  if (!Number.isFinite(floor) || !file.separations?.length) {
+    failures.push('audit/separations.json has no floor or no separations: the check measured nothing');
+    return { checked, failures, unresolved, floor };
+  }
+  for (const s of file.separations) {
+    const min = s.minDeltaE ?? floor;
+    if (min < floor) failures.push(`${s.id}: minDeltaE ${min} is below the floor of ${floor}`);
+    for (const mode of ['light', 'dark']) {
+      const a = value(mode, deref(s.a));
+      const b = value(mode, deref(s.b));
+      if (!a || !b) {
+        unresolved.push(`${s.id} (${mode}): ${!a ? s.a : s.b} does not resolve`);
+        continue;
+      }
+      const d = deltaE(a, b);
+      checked++;
+      if (VERBOSE) console.log(`  ${d >= min ? '✓' : '✗'}  ${s.id} (${mode}) deltaE ${d}, min ${min}`);
+      if (d < min) failures.push(`${s.id} (${mode}): deltaE ${d}, needs ${min}`);
+    }
+  }
+  return { checked, failures, unresolved, floor };
+}
+
 // ── main ─────────────────────────────────────────────────────────────────────
 
 assertKlar3();
@@ -883,7 +943,14 @@ const T = checkTextSizeFloor();
 console.log(`  ${T.allowed} declared chrome/icon, ${T.violations.length} unaccounted`);
 for (const v of T.violations) console.log(`  ✗  ${v}`);
 
+console.log('\nFill separation (audit/separations.json)');
+const D = checkSeparations();
+console.log(`  ${D.checked} measured against a floor of deltaE ${D.floor}, ${D.failures.length} failing`);
+for (const f of D.failures) console.log(`  ✗  ${f}`);
+for (const u of D.unresolved) console.log(`  ?  UNCHECKED ${u}`);
+
 const failed =
-  TI.length + P.failures.length + N.drift.length + R.drift.length + S.drift.length + T.violations.length;
+  TI.length + P.failures.length + N.drift.length + R.drift.length + S.drift.length + T.violations.length +
+  D.failures.length + D.unresolved.length;
 console.log(failed ? `\n✗  ${failed} problem(s)` : '\n✓  no drift');
 process.exit(failed ? 1 : 0);

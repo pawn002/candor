@@ -1,0 +1,141 @@
+{
+  "version": "1.0.0",
+  "$description": "Fills that are their own boundary, measured against what they sit on or beside, with klar deltaE in both modes by npm run audit:contrast. A contrast floor never compares fill with fill, which is how a hover the colour of a card (deltaE 0) passed every check. Each pair must reach minDeltaE, which defaults to floor and may only be raised.",
+  "floor": 8,
+  "outOfScope": {
+    "elevation layers": "card, modal, menu and popover surfaces are deliberately deltaE 2 to 6 from what they sit on; their shadows carry them.",
+    "state to state": "hover against rest and pressed against hover are transient feedback that the change itself and the cursor carry.",
+    "intent surfaces": "--color-bg-forward and --color-bg-recede rank by temperature as a tertiary affordance, deliberately subtle."
+  },
+  "separations": [
+    {
+      "id": "tooltip-on-page",
+      "a": "{color.tooltip.bg}",
+      "b": "{color.bg.page}",
+      "minDeltaE": 10,
+      "note": "A tooltip floats with no border; its fill is its only edge. Held to 10 rather than the floor, decided by eye at the tooltip stop of the dark-mode walk-through."
+    },
+    {
+      "id": "tooltip-on-surface",
+      "a": "{color.tooltip.bg}",
+      "b": "{color.bg.surface}",
+      "minDeltaE": 10,
+      "note": "A tooltip floats with no border; its fill is its only edge. Held to 10 rather than the floor, decided by eye at the tooltip stop of the dark-mode walk-through."
+    },
+    {
+      "id": "tooltip-on-elevated",
+      "a": "{color.tooltip.bg}",
+      "b": "{color.bg.elevated}",
+      "minDeltaE": 10,
+      "note": "A tooltip floats with no border; its fill is its only edge. Held to 10 rather than the floor, decided by eye at the tooltip stop of the dark-mode walk-through."
+    },
+    {
+      "id": "hover-fill-on-page",
+      "a": "{color.bg.hover}",
+      "b": "{color.bg.page}",
+      "note": "The ghost button, close actions and navigation links hover on bg-hover, with no border. On bg-surface it replaced a hover that vanished on cards (#322)."
+    },
+    {
+      "id": "hover-fill-on-surface",
+      "a": "{color.bg.hover}",
+      "b": "{color.bg.surface}",
+      "note": "The ghost button, close actions and navigation links hover on bg-hover, with no border. On bg-surface it replaced a hover that vanished on cards (#322)."
+    },
+    {
+      "id": "hover-fill-on-elevated",
+      "a": "{color.bg.hover}",
+      "b": "{color.bg.elevated}",
+      "note": "The ghost button, close actions and navigation links hover on bg-hover, with no border. On bg-surface it replaced a hover that vanished on cards (#322)."
+    },
+    {
+      "id": "badge-default-on-page",
+      "a": "{color.bg.muted}",
+      "b": "{color.bg.page}",
+      "note": "The default badge's fill is its shape (#321)."
+    },
+    {
+      "id": "badge-default-on-surface",
+      "a": "{color.bg.muted}",
+      "b": "{color.bg.surface}",
+      "note": "The default badge's fill is its shape (#321)."
+    },
+    {
+      "id": "badge-default-on-elevated",
+      "a": "{color.bg.muted}",
+      "b": "{color.bg.elevated}",
+      "note": "The default badge's fill is its shape (#321)."
+    },
+    {
+      "id": "code-block-on-page",
+      "a": "{color.bg.code}",
+      "b": "{color.bg.page}",
+      "note": "A code block's tint separates it from the prose around it; dark mode adds a border as well."
+    },
+    {
+      "id": "code-block-on-surface",
+      "a": "{color.bg.code}",
+      "b": "{color.bg.surface}",
+      "note": "A code block's tint separates it from the prose around it; dark mode adds a border as well."
+    },
+    {
+      "id": "status-bg-error-vs-warning",
+      "a": "{color.status.error-bg}",
+      "b": "{color.status.warning-bg}",
+      "note": "Two status fills must read as different variants, not only different labels. error and warning were deltaE 4 before warning moved to gold (#318)."
+    },
+    {
+      "id": "status-bg-error-vs-success",
+      "a": "{color.status.error-bg}",
+      "b": "{color.status.success-bg}",
+      "note": "Two status fills must read as different variants, not only different labels. error and warning were deltaE 4 before warning moved to gold (#318)."
+    },
+    {
+      "id": "status-bg-warning-vs-success",
+      "a": "{color.status.warning-bg}",
+      "b": "{color.status.success-bg}",
+      "note": "Two status fills must read as different variants, not only different labels. error and warning were deltaE 4 before warning moved to gold (#318)."
+    },
+    {
+      "id": "status-bg-error-on-page",
+      "a": "{color.status.error-bg}",
+      "b": "{color.bg.page}",
+      "note": "An alert or toast fill against what it sits on."
+    },
+    {
+      "id": "status-bg-error-on-surface",
+      "a": "{color.status.error-bg}",
+      "b": "{color.bg.surface}",
+      "note": "An alert or toast fill against what it sits on."
+    },
+    {
+      "id": "status-bg-warning-on-page",
+      "a": "{color.status.warning-bg}",
+      "b": "{color.bg.page}",
+      "note": "An alert or toast fill against what it sits on."
+    },
+    {
+      "id": "status-bg-warning-on-surface",
+      "a": "{color.status.warning-bg}",
+      "b": "{color.bg.surface}",
+      "note": "An alert or toast fill against what it sits on."
+    },
+    {
+      "id": "status-bg-success-on-page",
+      "a": "{color.status.success-bg}",
+      "b": "{color.bg.page}",
+      "note": "An alert or toast fill against what it sits on."
+    },
+    {
+      "id": "status-bg-success-on-surface",
+      "a": "{color.status.success-bg}",
+      "b": "{color.bg.surface}",
+      "note": "An alert or toast fill against what it sits on."
+    },
+    {
+      "id": "nav-badge-on-inverse",
+      "a": "{color.nav.badge-bg}",
+      "b": "{color.bg.inverse}",
+      "note": "The navigation count badge on the inverse band."
+    }
+  ]
+}

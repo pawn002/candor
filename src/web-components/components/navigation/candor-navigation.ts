@@ -65,7 +65,9 @@ export class CandorNavigation extends LitElement {
       text-decoration: none;
       transition: color 0.15s ease, background-color 0.15s ease;
     }
-    .nav__link:hover { color: var(--color-text-default); background-color: var(--color-action-tertiary); }
+    /* bg-hover, not action-tertiary: the nav is bg-surface, and the tertiary fill is
+       deltaE 1 from it in light, so the hover did not show (audit/separations.json). */
+    .nav__link:hover { color: var(--color-text-default); background-color: var(--color-bg-hover); }
     .nav__link--active { color: var(--color-action-primary); font-weight: var(--font-weight-semibold); }
     .nav__link:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
     .nav--inverse { background-color: var(--color-bg-inverse); border-bottom-color: var(--color-border-on-inverse); }
