@@ -248,8 +248,10 @@
 
     // ─── Font Families ─────────────────────────────────────────────────────────
     --font-sans:       "Roboto Flex Variable", "Roboto Flex", system-ui, -apple-system, sans-serif;
-    --font-accessible: "Atkinson Hyperlegible", system-ui, sans-serif;
-    --font-mono:       "Roboto Mono", "SF Mono", Monaco, Consolas, monospace;
+    // Fontsource variable packages register the family with a " Variable" suffix,
+    // so that name comes first; the plain name covers a system install.
+    --font-accessible: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
+    --font-mono:       "Atkinson Hyperlegible Mono Variable", "Atkinson Hyperlegible Mono", "SF Mono", Monaco, Consolas, monospace;
     --font-reading:    "Noto Sans", system-ui, sans-serif;
     --font-serif:      "Noto Serif", Georgia, serif;
 

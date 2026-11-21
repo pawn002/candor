@@ -202,7 +202,7 @@
             font-variant-numeric: tabular-nums; // fixed-width figures for numeric alignment
         }
 
-        // Numeric columns — right-align + Roboto Mono for number-heavy tables.
+        // Numeric columns — right-align + the mono face for number-heavy tables.
         // Apply to both th and td so header aligns with its column data.
         th.numeric,
         td.numeric {

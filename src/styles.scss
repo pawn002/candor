@@ -14,11 +14,12 @@
 
 // Typography — Fontsource self-hosted fonts (variable where available)
 @import '@fontsource-variable/roboto-flex/index.css';
-@import '@fontsource-variable/roboto-mono/index.css';
 @import '@fontsource-variable/noto-sans/index.css';
 @import '@fontsource-variable/noto-serif/index.css';
-@import '@fontsource/atkinson-hyperlegible/400.css';
-@import '@fontsource/atkinson-hyperlegible/700.css';
+@import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
+@import '@fontsource-variable/atkinson-hyperlegible-next/wght-italic.css';
+@import '@fontsource-variable/atkinson-hyperlegible-mono/wght.css';
+@import '@fontsource-variable/atkinson-hyperlegible-mono/wght-italic.css';
 
 * {
     margin: 0;

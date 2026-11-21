@@ -87,10 +87,10 @@ Candor uses five typefaces, each with a defined role (see the primitive `--font-
 | Role token | Typeface | Use |
 |---|---|---|
 | `--font-family-base` / `-display` | Roboto Flex (variable) | UI workhorse; headings via the weight/`opsz` axes |
-| `--font-family-accessible` | Atkinson Hyperlegible | Instructional UI text the user must read precisely |
+| `--font-family-accessible` | Atkinson Hyperlegible Next | Instructional UI text the user must read precisely |
 | `--font-family-reading` | Noto Sans | Conversational / long-form UI prose |
 | `--font-family-serif` | Noto Serif | Authored & AI-generated articles (candor-article) |
-| `--font-family-mono` | Roboto Mono | Code, and cells where character position is load-bearing |
+| `--font-family-mono` | Atkinson Hyperlegible Mono | Code, and cells where character position is load-bearing |
 
 The typeface roles are not interchangeable. See the "Typography Usage Rules" in `CLAUDE.md` for the instruction-vs-comprehension decision and the Roboto Flex variable-axis guidance. Fonts are delivered via Fontsource packages (deps of the tokens package); see #169 for the optional `candor-fonts.css` convenience import.
 

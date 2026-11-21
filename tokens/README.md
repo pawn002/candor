@@ -126,18 +126,20 @@ validated against.
 weights or add italics), install the packages and import them directly:
 
 ```bash
-npm install @fontsource-variable/roboto-flex @fontsource-variable/roboto-mono \
-            @fontsource-variable/noto-sans @fontsource-variable/noto-serif \
-            @fontsource/atkinson-hyperlegible
+npm install @fontsource-variable/roboto-flex @fontsource-variable/noto-sans \
+            @fontsource-variable/noto-serif \
+            @fontsource-variable/atkinson-hyperlegible-next \
+            @fontsource-variable/atkinson-hyperlegible-mono
 ```
 
 ```css
 @import '@fontsource-variable/roboto-flex/index.css';
-@import '@fontsource-variable/roboto-mono/index.css';
 @import '@fontsource-variable/noto-sans/index.css';
 @import '@fontsource-variable/noto-serif/index.css';
-@import '@fontsource/atkinson-hyperlegible/400.css';
-@import '@fontsource/atkinson-hyperlegible/700.css';
+@import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
+@import '@fontsource-variable/atkinson-hyperlegible-next/wght-italic.css';
+@import '@fontsource-variable/atkinson-hyperlegible-mono/wght.css';
+@import '@fontsource-variable/atkinson-hyperlegible-mono/wght-italic.css';
 ```
 
 For icon support (used by Candor components), install Phosphor Icons:

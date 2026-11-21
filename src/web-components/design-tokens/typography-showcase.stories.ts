@@ -30,8 +30,8 @@ interface TypeStep {
 
 const FONT_FAMILIES: FontFamily[] = [
   { name: 'Roboto Flex', variable: '--font-family-base', voice: 'Structural Sans', mode: 'Execution', use: 'Navigation, UI scaffolding, data-dense components', specimen: 'ABCDEFGHIJKLM\nNOPQRSTUVWXYZ\n0123456789' },
-  { name: 'Roboto Mono', variable: '--font-family-mono', voice: 'Technical Mono', mode: 'Execution', use: 'Code, logs, terminal environments', specimen: 'oklch(0.27 0.06 245)\nconst ratio = fg / bg\n0123456789' },
-  { name: 'Atkinson Hyperlegible', variable: '--font-family-accessible', voice: 'Accessibility Anchor', mode: 'Execution', use: 'Critical UI, form labels, high-contrast environments', specimen: 'rn il 0O 1Il\nDisambiguation by design' },
+  { name: 'Atkinson Hyperlegible Mono', variable: '--font-family-mono', voice: 'Technical Mono', mode: 'Execution', use: 'Code, logs, terminal environments', specimen: 'oklch(0.27 0.06 245)\nconst ratio = fg / bg\n0123456789' },
+  { name: 'Atkinson Hyperlegible Next', variable: '--font-family-accessible', voice: 'Accessibility Anchor', mode: 'Execution', use: 'Critical UI, form labels, high-contrast environments', specimen: 'rn il 0O 1Il\nDisambiguation by design' },
   { name: 'Noto Serif', variable: '--font-family-serif', voice: 'Human-Centered Serif', mode: 'Interpretation', use: 'Long-form reading, articles, body prose', specimen: 'Good design tells the truth\nabout what actually works.' },
   { name: 'Noto Sans', variable: '--font-family-reading', voice: 'Human-Centered Sans', mode: 'Interpretation', use: 'Conversational UI, multilingual content', specimen: 'Accessibility is the baseline,\nnot the finish line.' },
 ];
@@ -218,7 +218,7 @@ const meta: Meta = {
         component: `
 Four-voice typographic system aligned to two cognitive modes:
 
-- **Execution** (task completion, navigation, scanning): Roboto Flex, Roboto Mono, Atkinson Hyperlegible
+- **Execution** (task completion, navigation, scanning): Roboto Flex, Atkinson Hyperlegible Next and Mono
 - **Interpretation** (reading, reflecting, conversing): Noto Serif, Noto Sans
 
 Type scale uses a **Major Third ratio (1.25×)** from a 1rem (16px) base. The Major Third

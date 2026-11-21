@@ -65,11 +65,12 @@ const fontsCss =
   ' *   @import "@candor-design/tokens/candor-tokens.css";\n' +
   ' */\n' +
   "@import '@fontsource-variable/roboto-flex/index.css';\n" +
-  "@import '@fontsource-variable/roboto-mono/index.css';\n" +
   "@import '@fontsource-variable/noto-sans/index.css';\n" +
   "@import '@fontsource-variable/noto-serif/index.css';\n" +
-  "@import '@fontsource/atkinson-hyperlegible/400.css';\n" +
-  "@import '@fontsource/atkinson-hyperlegible/700.css';\n";
+  "@import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';\n" +
+  "@import '@fontsource-variable/atkinson-hyperlegible-next/wght-italic.css';\n" +
+  "@import '@fontsource-variable/atkinson-hyperlegible-mono/wght.css';\n" +
+  "@import '@fontsource-variable/atkinson-hyperlegible-mono/wght-italic.css';\n";
 
 fs.writeFileSync(path.join(OUT_DIR, 'candor-fonts.css'), fontsCss);
 
@@ -149,4 +150,4 @@ const darkCount    = Object.keys(darkTokens).length;
 console.log(`tokens/candor-tokens.css      ${kbExpanded} kB`);
 console.log(`tokens/candor-tokens.min.css  ${kbCompressed} kB`);
 console.log(`tokens/candor-tokens.json     ${rootCount} root tokens, ${darkCount} dark overrides`);
-console.log(`tokens/candor-fonts.css       6 @font imports`);
+console.log(`tokens/candor-fonts.css       8 @font imports`);

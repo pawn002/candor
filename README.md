@@ -195,8 +195,8 @@ Only color tokens change between modes. Spacing, typography, and shape tokens ar
 ```css
 --font-family-base        /* Roboto Flex: variable font, UI workhorse */
 --font-family-display     /* Roboto Flex: headings */
---font-family-accessible  /* Atkinson Hyperlegible: form labels, error messages, critical UI */
---font-family-mono        /* Roboto Mono */
+--font-family-accessible  /* Atkinson Hyperlegible Next: form labels, error messages, critical UI */
+--font-family-mono        /* Atkinson Hyperlegible Mono */
 --font-family-serif       /* Noto Serif */
 --font-family-reading     /* Noto Sans: long-form content */
 ```
@@ -259,7 +259,7 @@ Candor is a **humanist** design system. Every decision (OKLCH colors, variable-f
 
 **Roboto Flex** is a variable font with an optical size axis (`opsz`) that automatically adjusts stroke contrast at different sizes, creating natural typographic hierarchy without artificial weight jumps.
 
-**Atkinson Hyperlegible** is reserved for critical UI text (form labels, error messages, status indicators) where legibility under stress matters most.
+**Atkinson Hyperlegible Next** is reserved for critical UI text (form labels, error messages, status indicators) where legibility under stress matters most.
 
 ---
 

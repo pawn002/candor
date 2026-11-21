@@ -55,11 +55,11 @@
     "esbuild": "^0.28.1"
   },
   "dependencies": {
+    "@fontsource-variable/atkinson-hyperlegible-mono": "^5.3.0",
+    "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
     "@fontsource-variable/noto-sans": "^5.3.0",
     "@fontsource-variable/noto-serif": "^5.3.0",
-    "@fontsource-variable/roboto-flex": "^5.3.0",
-    "@fontsource-variable/roboto-mono": "^5.3.0",
-    "@fontsource/atkinson-hyperlegible": "^5.3.0"
+    "@fontsource-variable/roboto-flex": "^5.3.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.4.0",
