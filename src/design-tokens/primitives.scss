@@ -256,8 +256,8 @@
     // so that name comes first; the plain name covers a system install.
     --typeface-accessible: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
     --typeface-mono:       "Atkinson Hyperlegible Mono Variable", "Atkinson Hyperlegible Mono", "SF Mono", Monaco, Consolas, monospace;
-    --typeface-reading:    "Noto Sans", system-ui, sans-serif;
-    --typeface-serif:      "Noto Serif", Georgia, serif;
+    --typeface-reading:    "Noto Sans Variable", "Noto Sans", system-ui, sans-serif;
+    --typeface-serif:      "Noto Serif Variable", "Noto Serif", Georgia, serif;
 
 
     // ─── Deprecated in 7.0.0, removed in the next major (#367) ────────────────

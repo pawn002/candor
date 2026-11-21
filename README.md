@@ -28,17 +28,13 @@ Includes all 37 Candor components as Lit 3 custom elements, each with its own en
 
 ### Fonts
 
-Candor uses [Roboto Flex](https://fonts.google.com/specimen/Roboto+Flex) as its UI typeface. The easiest way to load it is via Fontsource:
-
-```bash
-npm install @fontsource-variable/roboto-flex
-```
+Candor uses five typefaces: [Roboto Flex](https://fonts.google.com/specimen/Roboto+Flex) for UI and headings, Atkinson Hyperlegible Next for instructional text, Atkinson Hyperlegible Mono for code and data, and Noto Sans and Noto Serif for reading. The tokens package ships a stylesheet that loads them all from Fontsource, which it depends on:
 
 ```css
-@import '@fontsource-variable/roboto-flex/index.css';
+@import '@candor-design/tokens/candor-fonts.css';  /* before candor-tokens.css */
 ```
 
-> **Note:** `@fontsource-variable/roboto-flex` registers the font as `'Roboto Flex Variable'`. Candor's `--typeface-sans` primitive lists this name first so it resolves correctly. If you load the font another way (Google Fonts CDN, self-hosted), ensure the font-face name matches or override `--font-sans` accordingly.
+> **Note:** Fontsource's variable packages register each family with a `Variable` suffix (`'Roboto Flex Variable'`), and Candor's `--typeface-*` primitives list that name first. If you load the fonts another way (Google Fonts, self-hosted), match the family names or override the `--typeface-*` primitives. The tokens README lists the individual imports.
 
 ## Usage
 
@@ -63,14 +59,14 @@ Link the stylesheet and use the custom properties directly:
 ### CSS import
 
 ```css
-@import url('@candor-design/tokens/tokens/candor-tokens.css');
+@import url('@candor-design/tokens/candor-tokens.css');
 ```
 
 ### Web components
 
 ```html
 <link rel="stylesheet" href="node_modules/@candor-design/tokens/tokens/candor-tokens.css">
-<script type="module" src="node_modules/@candor-design/web-components/dist/candor-web-components.js"></script>
+<script type="module" src="node_modules/@candor-design/web-components/dist/candor-web-components.standalone.js"></script>
 
 <candor-button variant="primary">Save changes</candor-button>
 <candor-input label="Email" type="email" required></candor-input>
@@ -97,7 +93,7 @@ import { CandorButton, CandorBadge } from '@candor-design/web-components';
 ### Bundler (Vite / webpack / PostCSS)
 
 ```css
-@import '@candor-design/tokens/tokens/candor-tokens.css';
+@import '@candor-design/tokens/candor-tokens.css';
 ```
 
 The bundler resolves the bare specifier and inlines the file at build time. This is not Sass `@use`, which is for importing Sass modules (`.scss` source files with variables and mixins). `candor-tokens.css` is pre-compiled CSS with no Sass members to import.
@@ -111,11 +107,14 @@ The bundler resolves the bare specifier and inlines the file at build time. This
 ### JSON (Figma / tooling)
 
 ```js
-import tokens from '@candor-design/tokens/tokens/candor-tokens.json';
+import tokens from '@candor-design/tokens/candor-tokens.json';
 
-tokens.root['--color-bg-action-primary']; // oklch(0.27 0.06 245.34)
-tokens.dark['--color-bg-action-primary']; // oklch(0.44 0.061 247.16)
+tokens.root['--navy-800'];        // 'oklch(0.27 0.06 245.34)'
+tokens.root['--color-text-link']; // 'var(--azure-600)'
+tokens.dark['--color-text-link']; // 'var(--azure-250)'
 ```
+
+`root` holds the primitives and every light-mode and mode-invariant semantic token; `dark` holds the dark-mode overrides. Values are the declarations as written, so a semantic token is a `var()` reference to the primitive it uses; resolve them against `root` (and `dark` over it) in your tooling.
 
 ---
 
@@ -123,17 +122,19 @@ tokens.dark['--color-bg-action-primary']; // oklch(0.44 0.061 247.16)
 
 ### Colors
 
-Five OKLCH color families, each with 10 tonal steps (50–900):
+Eight OKLCH colour ramps and three grey ramps, each derived from stated rules: one lightness ladder per kind, and a chroma curve per ramp, capped by what sRGB renders. Steps run 50–900, with in-between steps such as `--navy-670` where a token needs one. The Ramps page in the catalog draws the curves.
 
-| Family | Role |
+| Ramp | Role |
 |---|---|
-| `--navy-*` | Primary action, headings, inverse surfaces |
-| `--burgundy-*` | Secondary action, accents |
-| `--azure-*` | Links, focus rings, interactive highlights |
-| `--indigo-*` | Code highlights, visited links, decorative |
-| `--gray-*` | Text, borders, backgrounds |
+| `--navy-*` | Primary action, accents, the inverse surface |
+| `--burgundy-*` | The second brand hue: secondary badges and chips |
+| `--azure-*` | Links and focus rings |
+| `--indigo-*` | Visited links |
+| `--teal-*` | Code-block backgrounds |
+| `--red-*`, `--gold-*`, `--green-*` | Error, warning and success |
+| `--gray-*`, `--gray-cool-*`, `--gray-warm-*` | Text, borders and backgrounds, neutral, cool and warm |
 
-Semantic aliases map primitive ramps to roles:
+Semantic tokens map ramp steps to roles. Every colour token is named after what it paints, `--color-{bg|text|icon|border|fill|ring}-…`, so its first word also says whether a text or a non-text contrast floor applies:
 
 ```css
 /* Backgrounds */
@@ -145,7 +146,7 @@ Semantic aliases map primitive ramps to roles:
 /* Text */
 --color-text-default      /* OKCA 12.4 on page: primary body text */
 --color-text-subtle       /* OKCA 5.0 on page: secondary text */
---color-text-on-action    /* white on primary/secondary buttons */
+--color-text-on-action    /* the label on a filled action: primary button, badge */
 
 /* Accent: the brand navy as a mark */
 --color-text-accent
@@ -230,6 +231,7 @@ Type scale (Major Third, 1.25 ratio):
 8px grid:
 
 ```css
+--spacing-2xs  /*  4px */
 --spacing-xs   /*  8px */
 --spacing-sm   /* 16px */
 --spacing-md   /* 24px */
@@ -250,10 +252,26 @@ Type scale (Major Third, 1.25 ratio):
 --border-width-thin    /* 1px */
 --border-width-medium  /* 2px */
 --border-width-thick   /* 4px */
+--border-width-indicator /* 3px: the active tab's underline */
 
 --focus-ring-width   /* 2px */
 --focus-ring-offset  /* 2px */
 ```
+
+### Motion
+
+```css
+--motion-duration-instant  /* 100ms: a control's own press feedback */
+--motion-duration-fast     /* 150ms: hover and focus, a popup appearing, a dialog leaving */
+--motion-duration-base     /* 200ms: a state changing */
+--motion-duration-slow     /* 250ms: a dialog or drawer arriving */
+
+--motion-ease-standard     /* colour and state changes */
+--motion-ease-enter        /* decelerates into place */
+--motion-ease-exit         /* accelerates away */
+```
+
+Under `prefers-reduced-motion: reduce`, nothing travels and fades remain; that is decided in the tokens, so components need no rule of their own.
 
 ---
 
@@ -325,7 +343,7 @@ Opens at http://localhost:6006
 ### Tests
 
 ```bash
-npm run test:playwright   # Visual regression + a11y tests
+npm run test:playwright   # keyboard, ARIA, axe and WCAG runtime checks (visual regression runs on Chromatic)
 ```
 
 ---

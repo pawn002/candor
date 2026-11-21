@@ -124,6 +124,8 @@ No component API changes. What a consumer will see:
 ### Fixed
 
 - **`blog.scss`: the tag separator is regular weight again (#358).** It referenced `--font-weight-normal`, which does not exist, so the declaration was dropped and the separator inherited the bold of its tag. It now uses `--font-weight-regular`.
+- **`candor-tokens.json` carries the semantic tokens.** Its `root` object held only the primitives: the build read the first `:root` block of the compiled CSS and stopped, so every light-mode and mode-invariant semantic token (`--color-*`, `--spacing-*`, `--font-*`, `--motion-*`) was missing, while the file's own description said they were there. `root` now holds all 389; `dark` is unchanged. Values are still the declarations as written, `var()` references, not resolved colours.
+- **Noto Sans and Noto Serif load through `candor-fonts.css`.** Fontsource registers them as `Noto Sans Variable` and `Noto Serif Variable`, and `--typeface-reading` and `--typeface-serif` listed only the plain names, so a consumer who followed the recommended setup got system-ui and Georgia with no error. Both stacks now list the Fontsource name first and the plain name second, as Roboto Flex and Atkinson already did, so self-hosted `@font-face` declarations under the plain names keep working.
 
 ### Deprecated
 

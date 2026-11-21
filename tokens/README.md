@@ -45,9 +45,9 @@ in the repo's `docs/` doesn't. These five rules are the ones that keep output on
 
 1. **Reach for semantic roles, not primitives.** Use `--color-text-default`, not `--navy-800`;
    `--spacing-md`, not `--space-3`. The semantic layer (`--color-*`, `--spacing-*`, `--font-*`,
-   `--radius-*`) carries meaning *and* dark-mode behaviour. The primitives (`--navy-*`, `--gray-*`,
-   `--space-*`, `--text-*`) are raw values with no mode-awareness, so a component built on them
-   breaks in dark mode.
+   `--radius-*`, `--motion-*`) carries meaning *and* dark-mode behaviour. The primitives (`--navy-*`,
+   `--gray-*`, `--space-*`, `--type-*`, `--typeface-*`) are raw values with no mode-awareness, so a
+   component built on them breaks in dark mode.
 2. **14px is the readable-text floor.** Don't set readable text below `--font-size-sm` (14px).
    `--font-size-xs` / `--type-xs` (12px) is for decorative, non-text chrome only (badge frames,
    icon sizing), never body, labels, or values.
@@ -162,14 +162,13 @@ npm install @phosphor-icons/web
 > render icons as inline `<svg>` with `fill="currentColor"` instead. See Storybook →
 > Design Tokens → Icons ("Using icons inside shadow DOM") for the full pattern.
 
-> **Font name note:** The Fontsource variable packages register fonts with a "Variable" suffix in their
-> internal `font-family` name (e.g. `'Roboto Flex Variable'`). Candor's tokens handle this for Roboto
-> Flex by listing both names in the stack: `'Roboto Flex Variable', 'Roboto Flex'`.
->
-> For **Noto Serif and Noto Sans**, the tokens reference `"Noto Serif"` and `"Noto Sans"` (no "Variable"
-> suffix). If you are writing your own `@font-face` declarations, you **must** use these exact names,
-> not `'Noto Serif Variable'` or `'Noto Sans Variable'`. A mismatch produces a silent fallback to Georgia
-> or system-ui with no console error. The Fontsource `@import` path approach above avoids this entirely.
+> **Font name note:** The Fontsource variable packages register each family with a "Variable" suffix
+> in its `font-family` name (`'Roboto Flex Variable'`, `'Noto Serif Variable'`, `'Atkinson Hyperlegible
+> Next Variable'`). Every Candor typeface lists that name first and the plain name second, so either
+> loading route works: the Fontsource imports above, or your own `@font-face` declarations under the
+> plain names (`'Noto Serif'`, `'Roboto Flex'`). A name that matches neither produces a silent fallback
+> to Georgia or system-ui with no console error. Before 7.0.0 the two Noto stacks listed only the plain
+> names, so loading them through `candor-fonts.css` fell back silently.
 
 ### Prose, syntax and blog styles
 
@@ -204,9 +203,10 @@ Tokens include automatic dark mode support via two mechanisms:
 
 Raw values: color ramps, type scale, spacing scale. Prefixed by family:
 
-- `--navy-{50–900}`, `--burgundy-{50–900}`, `--azure-{50–900}`, `--indigo-{50–900}`, `--gray-{0–900}`
-- `--space-{1–12}`, `--text-{xs–3xl}`
-- `--font-{sans,accessible,mono,reading,serif}`, `--weight-{light–bold}`, `--leading-{tight–relaxed}`
+- Colour ramps, each derived from rules: `--navy-*`, `--burgundy-*`, `--azure-*`, `--indigo-*`, `--teal-*`, `--red-*`, `--gold-*`, `--green-*` (`50`–`900`, plus in-between steps such as `--navy-670`), and the grey ramps `--gray-*`, `--gray-cool-*`, `--gray-warm-*`
+- `--space-{1–12}`, `--type-{xs–3xl}`
+- `--typeface-{sans,accessible,mono,reading,serif}`, `--weight-{light–bold}`, `--leading-{display–relaxed}`, `--tracking-{tight,normal,wide}`
+- Primitives are named after their scale, semantic tokens after the CSS property they set; `--text-*` and `--font-{sans,…}` from before 7.0.0 resolve as deprecated aliases
 
 ### Semantics (in `:root`, override-friendly)
 
@@ -214,9 +214,10 @@ Role-based aliases that components consume. Always prefer these over primitives:
 
 - **Color**: named property first, `--color-bg-*`, `--color-text-*`, `--color-icon-*`, `--color-border-*`, `--color-fill-*` and `--color-ring-*`, so the first word says what a token paints and whether a text or non-text floor applies
 - **Spacing**: `--spacing-{2xs–3xl}`. Component padding is set through each component's `--candor-*` hook; `--spacing-button-*`, `--spacing-input-*` and `--spacing-card-*` are deprecated in 7.0.0
-- **Shape**: `--radius-{sm,md,lg,full}`, `--border-width-{thin,medium,thick}`, `--focus-ring-*`
+- **Shape**: `--radius-{sm,md,lg,full}`, `--border-width-{thin,medium,thick,indicator}`, `--focus-ring-*`
 - **Typography**: `--font-family-*`, `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`
 - **Elevation**: `--shadow-{sm,md,lg,modal}`
+- **Motion**: `--motion-duration-{instant,fast,base,slow}`, `--motion-ease-{standard,enter,exit}`, `--motion-distance`, `--motion-travel`
 
 ### JSON format
 
@@ -227,4 +228,4 @@ Role-based aliases that components consume. Always prefer these over primitives:
 }
 ```
 
-`root` contains all primitives plus light-mode semantic values. `dark` contains only the overrides applied in dark mode.
+`root` contains all primitives plus every light-mode and mode-invariant semantic token. `dark` contains only the overrides applied in dark mode. Values are the declarations as written (`var()` references), not resolved colours. Before 7.0.0, `root` held the primitives only: the semantic tokens were missing from it.

@@ -1,6 +1,6 @@
 # @candor-design/web-components
 
-Framework-agnostic Lit 3 custom elements for the [Candor design system](https://github.com/pawn002/candor), a humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.1 AA accessibility.
+Framework-agnostic Lit 3 custom elements for the [Candor design system](https://github.com/pawn002/candor), a humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.2 AA accessibility.
 
 **[Component catalog and usage rules →](https://main--69c25e2492ad056c24329876.chromatic.com)**
 
@@ -89,7 +89,7 @@ Candor uses **[Phosphor](https://phosphoricons.com)**. When you need an icon, ta
 
 The handful of glyphs in this package are component chrome (the close, caret and status marks the components draw), not an icon set. They are not exported and will not grow into one.
 
-Weight carries meaning: **fill** for actions, **bold** for direction, **regular** for information and status. See the [Icons page](https://main--69c25e2492ad056c24329876.chromatic.com/?path=/docs/design-tokens-icons--docs) in the catalog for the full rule and the icon-only button pattern.
+Weight carries meaning: **fill** for actions; **bold** for stroke-only actions (close, add) and for icons that inform (status, carets, selection checks); **regular** for glyphs inside text whose words carry the meaning. See the [Icons page](https://main--69c25e2492ad056c24329876.chromatic.com/?path=/docs/design-tokens-icons--docs) in the catalog for the full rule and the icon-only button pattern.
 
 ## What's included
 
@@ -107,7 +107,7 @@ Weight carries meaning: **fill** for actions, **bold** for direction, **regular*
 
 ## Form participation
 
-Form controls (`candor-input`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-select`, `candor-slider`, `candor-listbox`, `candor-combobox`) use the [`ElementInternals`](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) API with `static formAssociated = true`. They participate in native `<form>` submission: values appear in `FormData`, validation works, and `:disabled` styles apply correctly.
+Form controls (`candor-input`, `candor-autocomplete`, `candor-checkbox`, `candor-radio`, `candor-switch`, `candor-select`, `candor-slider`, `candor-listbox`, `candor-combobox`) use the [`ElementInternals`](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) API with `static formAssociated = true`. They participate in native `<form>` submission: values appear in `FormData`, validation works, and `:disabled` styles apply correctly.
 
 ## Distribution
 

@@ -115,9 +115,20 @@ function extractProps(block) {
 
 const css = expanded.css;
 
-// :root — primitives + light-mode semantics + invariant tokens (spacing, type, shape)
-const rootBlock  = findBlock(css, ':root');
-const rootTokens = extractProps(rootBlock ?? '');
+// :root — primitives + light-mode semantics + invariant tokens (spacing, type, shape).
+// The compiled CSS has one top-level :root block per source file (primitives,
+// then semantics), and every one of them belongs here. Reading only the first
+// shipped a JSON with the primitives and no semantic token at all, from 6.0.0
+// or earlier until 7.0.0, while the description promised light-mode semantics.
+// Only top-level blocks count: the :root inside the dark-mode @media query is
+// the dark set, read below from its [data-theme] twin.
+function topLevelBlocks(src, selector) {
+  const blocks = [];
+  const re = new RegExp('^' + selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\{', 'gm');
+  for (const m of src.matchAll(re)) blocks.push(findBlock(src.slice(m.index), selector) ?? '');
+  return blocks;
+}
+const rootTokens = Object.assign({}, ...topLevelBlocks(css, ':root').map(extractProps));
 
 // Dark-mode overrides — [data-theme="dark"] and @media (prefers-color-scheme: dark)
 // both apply the same mixin; we use the explicit [data-theme] block for JSON.

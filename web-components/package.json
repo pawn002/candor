@@ -1,7 +1,7 @@
 {
   "name": "@candor-design/web-components",
   "version": "6.0.0",
-  "description": "Candor design system — Lit 3 custom elements. Framework-agnostic web components paired with @candor-design/tokens.",
+  "description": "Candor design system: Lit 3 custom elements. Framework-agnostic web components paired with @candor-design/tokens.",
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

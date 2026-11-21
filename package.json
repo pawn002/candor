@@ -1,7 +1,7 @@
 {
   "name": "@candor-design/tokens",
   "version": "6.0.0",
-  "description": "Candor design tokens — CSS custom properties for a humanist design system built with OKLCH.",
+  "description": "Candor design tokens: CSS custom properties for a humanist design system built with OKLCH.",
   "main": "./tokens/candor-tokens.css",
   "module": "./tokens/candor-tokens.css",
   "style": "./tokens/candor-tokens.css",
@@ -41,7 +41,15 @@
     "type": "git",
     "url": "git+https://github.com/pawn002/candor.git"
   },
-  "keywords": [],
+  "keywords": [
+    "design-tokens",
+    "css-custom-properties",
+    "design-system",
+    "candor",
+    "oklch",
+    "accessibility",
+    "dark-mode"
+  ],
   "author": "John Z. Rioflorido",
   "license": "ISC",
   "type": "commonjs",
