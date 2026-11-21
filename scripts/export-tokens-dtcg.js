@@ -491,8 +491,8 @@ if (!SKIP_GAMUT) {
 // other file references it: a token, a token at an alpha, or a value computed at
 // runtime. A typed colour anywhere else escapes those rules, so an invented
 // value passed every audit (f954e33 committed one to semantics.scss). When a
-// role needs a lightness the ladder lacks, mint an in-between step (EXTRA_STEPS
-// there) instead of typing one.
+// role needs a lightness the ladder lacks, mint an in-between step (extraSteps in
+// src/design-tokens/colour-ramp-rules.json) instead of typing one.
 //
 // What counts as typed: a numeric oklch(), rgb()/rgba()/hsl() or hex literal,
 // and relative colour syntax that changes a channel (`calc(l - 0.04)`), which
@@ -552,7 +552,7 @@ function typedColours(file) {
   for (const file of files) {
     for (const { key, raw, where } of typedColours(file)) {
       if (COLOUR_LITERAL_EXCEPTIONS[key]) { matched.add(key); excepted++; continue; }
-      problems.push(`${where}  ${raw} is a typed colour: reference a token or ramp step, minting an in-between step in scripts/derive-colour-ramps.js if the ladder lacks one`);
+      problems.push(`${where}  ${raw} is a typed colour: reference a token or ramp step, minting an in-between step in src/design-tokens/colour-ramp-rules.json if the ladder lacks one`);
     }
   }
   for (const key of Object.keys(COLOUR_LITERAL_EXCEPTIONS)) {

@@ -44,7 +44,7 @@ src/design-tokens/
 
 ### Primitives (`primitives.scss`)
 
-Raw, context-free values under `:root`. Color **ramps** (each family is a 50–900 scale derived from stated rules in `scripts/derive-colour-ramps.js`: one lightness ladder shared by every family, and a chroma curve per family. A ramp can also carry a step between two ladder steps, such as `navy-670`, whose number fixes its lightness by interpolation, so a needed colour is derived from the curve rather than invented), the spacing scale (`--space-1` … `--space-12`, 8px base), the type scale (`--text-xs` … `--text-3xl`, Major Third 1.25 ratio), font stacks, weights, line heights, tracking, and border/radius primitives.
+Raw, context-free values under `:root`. Color **ramps** (each family is a 50–900 scale derived from stated rules in `src/design-tokens/colour-ramp-rules.json`, drawn in Storybook under *Design Tokens/Colour Ramps*: one lightness ladder shared by every family, and a chroma curve per family. A ramp can also carry a step between two ladder steps, such as `navy-670`, whose number fixes its lightness by interpolation, so a needed colour is derived from the curve rather than invented), the spacing scale (`--space-1` … `--space-12`, 8px base), the type scale (`--text-xs` … `--text-3xl`, Major Third 1.25 ratio), font stacks, weights, line heights, tracking, and border/radius primitives.
 
 Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), **teal** (a quiet grey-green fitted through the code-block backgrounds, `teal-115` and `teal-870`), and a neutral **gray** ramp. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside. For example, `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-link` uses `azure-600`, the step that also clears the floor on a card.
 
@@ -52,7 +52,7 @@ Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgu
 
 ### Semantics (`semantics.scss`)
 
-Named **roles** that map primitives to meaning. A role never types its own colour: when it needs a lightness the ladder lacks, add an in-between ramp step (`EXTRA_STEPS` in `scripts/derive-colour-ramps.js`) and point the role at it. `npm run audit:tokens` fails on a typed colour anywhere outside `primitives.scss` and stories, in tokens and components alike. Its named exceptions are listed with their reasons in `scripts/export-tokens-dtcg.js`: the overlay scrim, and invented colours marked as debt (the syntax-highlighting palette, four pressed-state lightness shifts and the slider thumb's shadow). This is the layer components and consumers reference:
+Named **roles** that map primitives to meaning. A role never types its own colour: when it needs a lightness the ladder lacks, add an in-between ramp step (`extraSteps` in `src/design-tokens/colour-ramp-rules.json`) and point the role at it. `npm run audit:tokens` fails on a typed colour anywhere outside `primitives.scss` and stories, in tokens and components alike. Its named exceptions are listed with their reasons in `scripts/export-tokens-dtcg.js`: the overlay scrim, and invented colours marked as debt (the syntax-highlighting palette, four pressed-state lightness shifts and the slider thumb's shadow). This is the layer components and consumers reference:
 
 - **Backgrounds**: `--color-bg-page`, `--color-bg-surface`, `--color-bg-subtle`, `--color-bg-elevated`, `--color-bg-inverse`
 - **Text**: `--color-text-default`, `--color-text-subtle`, `--color-text-subtle-on-surface`, `--color-text-inverse`, `--color-text-on-action`, …
@@ -123,7 +123,7 @@ Spacing, typography, and shape tokens are **mode-invariant**: they are defined o
 2. **Keep it OKLCH.** Convert any incoming hex with `klar meta`.
 3. **Re-export the DTCG artifact.** Run `npm run audit:tokens` after any change to `primitives.scss`/`semantics.scss`. It regenerates `audit/tokens.dtcg.json` (the canonical input for contrast audits).
 4. **Validate contrast.** Run `npm run audit:contrast`. It re-measures every pairing in `audit/pairings.json` in both modes against that pairing's `min` floor, and re-measures every OKCA figure recorded in a token comment against the current value. Anything its claim parser can't interpret is printed as `UNCHECKED` rather than passed silently. See the "OKCA Contrast Thresholds" section in `CLAUDE.md` for the two-axis (size × use-case tier) threshold table.
-5. **Preview in Storybook.** The "Design Tokens" stories render the ramps, semantic swatches, spacing, and type scale live, which is the best visual check. Every component picks up the change automatically because they all consume the same custom properties.
+5. **Preview in Storybook.** The "Design Tokens" stories render the colour and grey ramps with the rules behind them, semantic swatches, spacing, and type scale live, which is the best visual check. Every component picks up the change automatically because they all consume the same custom properties.
 
 New semantic tokens should earn their place: a token with no previewable consumer in Storybook is hard to justify.
 

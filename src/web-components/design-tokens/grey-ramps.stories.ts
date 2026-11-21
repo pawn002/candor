@@ -179,7 +179,8 @@ const meta: Meta = {
           'Candor 6.0.0 replaced its greys with three ramps on one lightness scale: neutral `--gray-*`, cool `--gray-cool-*` and warm `--gray-warm-*`. ' +
           'In 5.x, one ramp held three temperatures (neutral, a faintly warm 200, and a cool 800 and 900), a two-step cool ramp sat beside it, and many greys in use sat on no ramp at all. ' +
           'Temperature now ranks surfaces: warm comes forward and cool recedes, through `--color-bg-forward` and `--color-bg-recede`. ' +
-          'The values for 6.0.0 on this page are read from `primitives.scss` and `audit/tokens.dtcg.json`; the 5.x values are a record of what shipped (#318, #328).',
+          'The values for 6.0.0 on this page are read from `primitives.scss` and `audit/tokens.dtcg.json`; the 5.x values are a record of what shipped (#318, #328). ' +
+          'The colour ramps use the same curve shape with a lightness ladder of their own; see Design Tokens/Colour Ramps.',
       },
     },
   },

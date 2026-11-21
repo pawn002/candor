@@ -4,26 +4,16 @@
 
 :root {
     // ─── Color Ramps ───────────────────────────────────────────────────────────
-    // Derived, not hand-set (#365). scripts/derive-colour-ramps.js holds the rules
-    // and `npm run audit:tokens` fails if a value here disagrees with them; change
-    // a rule and run the script with --write rather than editing a value.
+    // Derived, not hand-set (#365). The rules are in
+    // src/design-tokens/colour-ramp-rules.json (one lightness ladder, and each
+    // family's chroma curve, hue and anchor) and the maths in colour-ramp-curve.mjs;
+    // Design Tokens/Colour Ramps draws both. `npm run audit:tokens` fails if a value
+    // here disagrees with them: change a rule and run
+    // scripts/derive-colour-ramps.js --write rather than editing a value.
     //
-    // Lightness: one ladder for all four families, so a step number means the
-    // same lightness in each and only the hue changes:
-    //   50 0.97  100 0.93  200 0.86  300 0.76  400 0.65
-    //   500 0.53  600 0.44  700 0.37  800 0.27  900 0.20
-    // Chroma: the grey-ramp curve, capped by what sRGB renders, rounded inward:
-    //   u = L ^ g
-    //   C(L) = min(K * (4 * u * (1 - u)) ^ 0.44, sRGB max)
-    // with each family's K (peak height) and g (peak position) fitted to the
-    // hand-set values they replaced, every step within deltaE 2, and the brand
-    // anchor held exactly on the curve:
-    //   navy      K 0.062   g 0.765  peak at L 0.40
-    //   burgundy  K 0.0839  g 1.085  peak at L 0.53
-    //   azure     K 0.1922  g 2.685  peak at L 0.77, capped by sRGB around it
-    //   indigo    K 0.2117  g 1.11   peak at L 0.54
-    // Hue: constant per family, except navy (below). Every step is inside the
-    // sRGB gamut; see the invariant in CLAUDE.md (#225).
+    // Chroma: C(L) = min(K * (4u(1 - u)) ^ 0.44, sRGB max), u = L ^ g, rounded
+    // inward. K sets the peak height and g moves the peak. Every step is inside
+    // the sRGB gamut; see the invariant in CLAUDE.md (#225).
 
     // Navy  (H=245.34 at the anchor)
     // Anchor: navy-800 = #082840
@@ -39,7 +29,7 @@
     --navy-400: oklch(0.65 0.056 249.41);
     --navy-500: oklch(0.53 0.06 248.13);
     --navy-600: oklch(0.44 0.061 247.16);
-    --navy-670: oklch(0.391 0.061 246.64); // between 600 and 700: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
+    --navy-670: oklch(0.391 0.061 246.64); // between 600 and 700: derived, see extraSteps in colour-ramp-rules.json
     --navy-700: oklch(0.37 0.061 246.41);
     --navy-800: oklch(0.27 0.06 245.34); // #082840 — on white: OKCA 14.1 ✅ (WCAG 2.x 15.0)
     --navy-900: oklch(0.20 0.05 245.34);
@@ -67,7 +57,7 @@
     --azure-50:  oklch(0.97 0.014 250.80);
     --azure-100: oklch(0.93 0.034 250.80);
     --azure-200: oklch(0.86 0.071 250.80);
-    --azure-250: oklch(0.81 0.098 250.80); // between ladder steps: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
+    --azure-250: oklch(0.81 0.098 250.80); // between ladder steps: derived, see extraSteps in colour-ramp-rules.json
     --azure-300: oklch(0.76 0.127 250.80);
     --azure-400: oklch(0.65 0.18 250.80); // #1493FB — original anchor — decorative/dark-bg only
     --azure-500: oklch(0.53 0.152 250.80); // OKCA 4.2 on white ❌ (WCAG 2.x 5.2)
@@ -85,12 +75,12 @@
     --indigo-50:  oklch(0.97 0.014 278.14);
     --indigo-100: oklch(0.93 0.033 278.14);
     --indigo-200: oklch(0.86 0.069 278.14);
-    --indigo-250: oklch(0.81 0.096 278.14); // between ladder steps: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
+    --indigo-250: oklch(0.81 0.096 278.14); // between ladder steps: derived, see extraSteps in colour-ramp-rules.json
     --indigo-300: oklch(0.76 0.124 278.14);
     --indigo-400: oklch(0.65 0.189 278.14);
     --indigo-500: oklch(0.53 0.211 278.14);
     --indigo-600: oklch(0.44 0.208 278.14); // OKCA 6.1 on white ✅ (WCAG 2.x 8.4)
-    --indigo-625: oklch(0.4225 0.206 278.14); // between ladder steps: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
+    --indigo-625: oklch(0.4225 0.206 278.14); // between ladder steps: derived, see extraSteps in colour-ramp-rules.json
     --indigo-700: oklch(0.37 0.2 278.14);
     --indigo-800: oklch(0.27 0.165 278.14);
     --indigo-900: oklch(0.20 0.122 278.14);
@@ -99,7 +89,7 @@
     // (light) and teal-870 (dark). A quiet grey-green, a sibling of the cool greys.
     --teal-50: oklch(0.97 0.012 195.00);
     --teal-100: oklch(0.93 0.017 195.00);
-    --teal-115: oklch(0.9195 0.018 195.00); // between ladder steps: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
+    --teal-115: oklch(0.9195 0.018 195.00); // between ladder steps: derived, see extraSteps in colour-ramp-rules.json
     --teal-200: oklch(0.86 0.022 195.00);
     --teal-300: oklch(0.76 0.025 195.00);
     --teal-400: oklch(0.65 0.027 195.00);
@@ -107,7 +97,7 @@
     --teal-600: oklch(0.44 0.026 195.00);
     --teal-700: oklch(0.37 0.025 195.00);
     --teal-800: oklch(0.27 0.022 195.00);
-    --teal-870: oklch(0.221 0.02 195.00); // between ladder steps: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
+    --teal-870: oklch(0.221 0.02 195.00); // between ladder steps: derived, see extraSteps in colour-ramp-rules.json
     --teal-900: oklch(0.20 0.019 195.00);
 
     // ─── Status ramps ───────────────────────────────────────────────────────────

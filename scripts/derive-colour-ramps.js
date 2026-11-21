@@ -8,10 +8,15 @@
  *                                                 disagrees with the rules
  *   node scripts/derive-colour-ramps.js --write   rewrite the ramp declarations
  *
+ * The rules live in src/design-tokens/colour-ramp-rules.json (the parameters,
+ * and the reason each in-between step was minted) and src/design-tokens/
+ * colour-ramp-curve.mjs (the maths). Design Tokens/Colour Ramps reads the same
+ * two files, so the page and this check cannot describe different curves.
+ *
  * The rules:
  *
  *   Lightness  One ladder for every colour ramp, so a step number means the same
- *              lightness in each family and only the hue changes (LADDER below).
+ *              lightness in each family and only the hue changes (`ladder`).
  *              Where navy, burgundy and azure already agreed it is that value;
  *              where they differed by 0.01 a brand anchor decides (400 = azure,
  *              700 = burgundy, 800 = navy); otherwise the majority.
@@ -38,7 +43,7 @@
  * anchor rather than a reshaped curve.
  *
  *   Between   A ramp may carry a step between two ladder steps when a token needs
- *              one (EXTRA_STEPS below). Its number fixes its lightness by
+ *              one (`extraSteps`). Its number fixes its lightness by
  *              straight-line interpolation between the ladder steps either side,
  *              so navy-670 is 70% of the way from 600 (L 0.44) to 700 (L 0.37),
  *              L 0.391; chroma and hue then follow the family's curve, as for
@@ -62,78 +67,14 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { pathToFileURL } = require('url');
 
 const FILE = path.join(__dirname, '..', 'src', 'design-tokens', 'primitives.scss');
-
-const LADDER = { 50: 0.97, 100: 0.93, 200: 0.86, 300: 0.76, 400: 0.65, 500: 0.53, 600: 0.44, 700: 0.37, 800: 0.27, 900: 0.2 };
-
-const FAMILIES = {
-  navy: { K: 0.062, g: 0.765, hue: (L) => 245.34 + (7.5 * Math.max(0, L - 0.27)) / 0.7, anchor: { L: 0.27, C: 0.06 } },
-  burgundy: { K: 0.0839, g: 1.085, hue: () => 347.43, anchor: { L: 0.37, C: 0.08 } },
-  azure: { K: 0.1922, g: 2.685, hue: () => 250.8, anchor: { L: 0.65, C: 0.18 } },
-  indigo: { K: 0.2117, g: 1.11, hue: () => 278.14, anchor: { L: 0.6, C: 0.21 } },
-  teal: { K: 0.0278, g: 1.3135, hue: () => 195, anchor: { L: 0.9195, C: 0.018 } },
-  red: { K: 0.1808, g: 1, hue: () => 25, anchor: { L: 0.45, C: 0.18 }, tint: true },
-  gold: { K: 0.086, g: 1, hue: () => 88, anchor: { L: 0.42, C: 0.085 }, tint: true },
-  green: { K: 0.1404, g: 1, hue: () => 144.2, anchor: { L: 0.46, C: 0.14 }, tint: true },
-};
-
-// Steps between the ladder's, each minted for a token that needed it.
-//   navy-670  --color-tooltip-bg (dark): deltaE 10 from bg-elevated with Tier 2
-//             white text (navy-700 was deltaE 9; navy-600 fails the text floor).
-//   azure-250 --color-link (dark), and indigo-250 --color-link-visited (dark):
-//             4.5 on a modal (bg-elevated) as well as the page; azure-300 was 4.2.
-//   indigo-625 --color-link-visited (light): 4.9 on a card; indigo-600 sat on the floor.
-//   teal-115  --color-bg-code (light), and teal-870 --color-bg-code (dark): the
-//             anchors the teal curve was fitted through.
-const EXTRA_STEPS = { navy: [670], azure: [250], indigo: [250, 625], teal: [115, 870] };
-
-// Lightness of any step number: the ladder's own value, or a straight line
-// between the ladder steps either side of it.
-function stepLightness(step) {
-  if (LADDER[step] !== undefined) return LADDER[step];
-  const keys = Object.keys(LADDER).map(Number).sort((a, b) => a - b);
-  const hi = keys.find((k) => k > step);
-  const lo = [...keys].reverse().find((k) => k < step);
-  if (lo === undefined || hi === undefined) throw new Error(`step ${step} is outside the ladder`);
-  const L = LADDER[lo] + ((step - lo) / (hi - lo)) * (LADDER[hi] - LADDER[lo]);
-  return Math.round(L * 10000) / 10000;
-}
-
-const EXPONENT = 0.44;
-
-function inGamut(L, C, H) {
-  const h = (H * Math.PI) / 180;
-  const a = C * Math.cos(h);
-  const b = C * Math.sin(h);
-  const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3;
-  const m = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3;
-  const s = (L - 0.0894841775 * a - 1.291485548 * b) ** 3;
-  const rgb = [
-    4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
-    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
-    -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
-  ];
-  return rgb.every((v) => v >= -1e-6 && v <= 1 + 1e-6);
-}
-
-function maxChroma(L, H) {
-  let lo = 0;
-  let hi = 0.4;
-  for (let i = 0; i < 40; i++) {
-    const mid = (lo + hi) / 2;
-    if (inGamut(L, mid, H)) lo = mid;
-    else hi = mid;
-  }
-  return lo;
-}
-
-const inward = (c) => Math.floor(c * 1000 + 1e-9) / 1000;
-
-function chroma(L, H, { K, g }) {
-  const u = L ** g;
-  return inward(Math.min(K * (4 * u * (1 - u)) ** EXPONENT, maxChroma(L, H)));
-}
+const RULES = require(path.join(__dirname, '..', 'src', 'design-tokens', 'colour-ramp-rules.json'));
+const { ladder: LADDER, exponent: EXPONENT, families: FAMILIES } = RULES;
+const EXTRA_STEPS = Object.fromEntries(
+  Object.entries(RULES.extraSteps).map(([fam, steps]) => [fam, Object.keys(steps).map(Number)]),
+);
 
 const fmt = (n, dp) => n.toFixed(dp).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '.0');
 
@@ -143,53 +84,63 @@ const SURFACE = (() => {
   return { L: m[1], C: m[2] };
 })();
 
-function derive() {
-  const out = [];
-  for (const [name, fam] of Object.entries(FAMILIES)) {
-    const a = fam.anchor;
-    const onCurve = chroma(a.L, fam.hue(a.L), fam);
-    if (Math.abs(onCurve - a.C) > 1e-9) {
-      throw new Error(`${name}: the curve gives C ${onCurve} at the anchor's L ${a.L}, not ${a.C}`);
+async function main() {
+  // The curve maths is an ES module shared with the Colour Ramps story.
+  const { hueAt, stepLightness, chroma } = await import(
+    pathToFileURL(path.join(__dirname, '..', 'src', 'design-tokens', 'colour-ramp-curve.mjs')).href
+  );
+
+  const derive = () => {
+    const out = [];
+    for (const [name, fam] of Object.entries(FAMILIES)) {
+      const a = fam.anchor;
+      const onCurve = chroma(a.L, fam, EXPONENT);
+      if (Math.abs(onCurve - a.C) > 1e-9) {
+        throw new Error(`${name}: the curve gives C ${onCurve} at the anchor's L ${a.L}, not ${a.C}`);
+      }
+      for (const [step, L] of Object.entries(LADDER)) {
+        out.push({ name: `--${name}-${step}`, value: `oklch(${L.toFixed(2)} ${fmt(chroma(L, fam, EXPONENT), 3)} ${hueAt(fam, L).toFixed(2)})` });
+      }
+      for (const step of EXTRA_STEPS[name] || []) {
+        const L = stepLightness(LADDER, step);
+        out.push({ name: `--${name}-${step}`, value: `oklch(${fmt(L, 4)} ${fmt(chroma(L, fam, EXPONENT), 3)} ${hueAt(fam, L).toFixed(2)})` });
+      }
+      if (fam.tint) out.push({ name: `--${name}-tint`, value: `oklch(${SURFACE.L} ${SURFACE.C} ${hueAt(fam, 0).toFixed(2)})` });
     }
-    for (const [step, L] of Object.entries(LADDER)) {
-      const H = fam.hue(L);
-      out.push({ name: `--${name}-${step}`, value: `oklch(${L.toFixed(2)} ${fmt(chroma(L, H, fam), 3)} ${H.toFixed(2)})` });
+    return out;
+  };
+
+  const write = process.argv.includes('--write');
+  let source = fs.readFileSync(FILE, 'utf8');
+  const mismatches = [];
+
+  for (const { name, value } of derive()) {
+    const re = new RegExp(String.raw`(${name}:\s*)(oklch\([^)]*\))`);
+    const m = source.match(re);
+    if (!m) {
+      mismatches.push(`${name} is missing from primitives.scss`);
+      continue;
     }
-    for (const step of EXTRA_STEPS[name] || []) {
-      const L = stepLightness(step);
-      const H = fam.hue(L);
-      out.push({ name: `--${name}-${step}`, value: `oklch(${fmt(L, 4)} ${fmt(chroma(L, H, fam), 3)} ${H.toFixed(2)})` });
+    if (m[2] !== value) {
+      if (write) source = source.replace(re, `$1${value}`);
+      else mismatches.push(`${name}: authored ${m[2]}, rules give ${value}`);
     }
-    if (fam.tint) out.push({ name: `--${name}-tint`, value: `oklch(${SURFACE.L} ${SURFACE.C} ${fam.hue(0).toFixed(2)})` });
   }
-  return out;
+
+  if (write) {
+    fs.writeFileSync(FILE, source);
+    console.log('✓  colour ramps written from their rules');
+  } else if (mismatches.length) {
+    console.error(`✗  ${mismatches.length} colour ramp step(s) disagree with their rules (src/design-tokens/colour-ramp-rules.json):`);
+    for (const m of mismatches) console.error(`   ${m}`);
+    console.error('   Change the rule, not the value, then run with --write.');
+    process.exit(1);
+  } else {
+    console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps, ${Object.values(EXTRA_STEPS).flat().length} in-between step(s) and ${Object.values(FAMILIES).filter((f) => f.tint).length} tints, match their rules`);
+  }
 }
 
-const write = process.argv.includes('--write');
-let source = fs.readFileSync(FILE, 'utf8');
-const mismatches = [];
-
-for (const { name, value } of derive()) {
-  const re = new RegExp(String.raw`(${name}:\s*)(oklch\([^)]*\))`);
-  const m = source.match(re);
-  if (!m) {
-    mismatches.push(`${name} is missing from primitives.scss`);
-    continue;
-  }
-  if (m[2] !== value) {
-    if (write) source = source.replace(re, `$1${value}`);
-    else mismatches.push(`${name}: authored ${m[2]}, rules give ${value}`);
-  }
-}
-
-if (write) {
-  fs.writeFileSync(FILE, source);
-  console.log('✓  colour ramps written from their rules');
-} else if (mismatches.length) {
-  console.error(`✗  ${mismatches.length} colour ramp step(s) disagree with their rules (scripts/derive-colour-ramps.js):`);
-  for (const m of mismatches) console.error(`   ${m}`);
-  console.error('   Change the rule, not the value, then run with --write.');
+main().catch((err) => {
+  console.error(`✗  ${err.message}`);
   process.exit(1);
-} else {
-  console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps, ${Object.values(EXTRA_STEPS).flat().length} in-between step(s) and ${Object.values(FAMILIES).filter((f) => f.tint).length} tints, match their rules`);
-}
+});
