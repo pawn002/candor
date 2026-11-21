@@ -40,8 +40,11 @@ control to dismiss. Clicking outside does not close it (there's no backdrop to c
 \`dismissOnBackdrop\` is true, modal mode only), and the built-in close button. The parent
 is responsible for syncing \`open="false"\` (or removing the open attribute) in response.
 
-Entry animation uses \`@starting-style\` (Chrome 117+, Firefox 129+); degrades gracefully
-to instant appearance on unsupported browsers. Honors \`prefers-reduced-motion\`.
+The panel slides in from its edge and back out on close, and the backdrop fades, timed by the
+motion tokens (#368). Entry uses \`@starting-style\`; the exit keeps the dialog rendered while it
+leaves, through \`allow-discrete\` transitions on \`display\` and \`overlay\`, so a browser without
+\`overlay\` support closes it at once. Under \`prefers-reduced-motion\` the panel fades in place
+instead of sliding.
 
 **Sizing:** The \`size\` attribute sets the default panel width (left/right) or height
 (bottom). Override per-instance using CSS custom properties:

@@ -24,7 +24,7 @@ const meta: Meta = {
         component: `
 Candor uses **Phosphor Icons** as its icon system. Phosphor is a humanist icon family
 (rounded, consistent stroke weights, no sharp corners), which aligns with Candor's
-typeface choices (Roboto Flex, Noto Serif, Atkinson Hyperlegible).
+typeface choices (Roboto Flex, Noto Serif, Atkinson Hyperlegible Next).
 
 ## Installation
 

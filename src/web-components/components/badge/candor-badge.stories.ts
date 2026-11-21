@@ -22,7 +22,7 @@ Six color variants map to semantic intent: \`default\` (neutral), \`primary\` (b
 \`secondary\` (supporting), \`success\`, \`warning\`, \`error\`. Two sizes: \`sm\` (14px,
 default) and \`md\` (16px).
 
-Both sizes use **Atkinson Hyperlegible**. \`sm\` (14px) is bold, because small text needs the
+Both sizes use **Atkinson Hyperlegible Next**. \`sm\` (14px) is bold, because small text needs the
 heavier stroke for legibility and contrast. \`md\` (16px) is regular, because the contrast floor
 is identical for both weights at 16px, so the lighter stroke is preferred.
 

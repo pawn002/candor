@@ -13,7 +13,7 @@ const meta: Meta = {
     docs: {
       description: {
         component: `
-**Atkinson Hyperlegible**, the designated typeface for instructional UI text.
+**Atkinson Hyperlegible Next**, the designated typeface for instructional UI text.
 
 Use \`<candor-accessible-text>\` to apply Atkinson with automatic role-based sizing, tracking, and color.
 
@@ -193,7 +193,7 @@ export const FontComparison: Story = {
         <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-tight);color:var(--color-text-error);">Error: This field is required.</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.75rem;">
-        <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible</p>
+        <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible Next</p>
         <candor-accessible-text role_="label" bold>FORM LABEL</candor-accessible-text>
         <candor-accessible-text role_="message">The quick brown fox jumps over the lazy dog.</candor-accessible-text>
         <candor-accessible-text role_="annotation" color="secondary">Supplementary annotation for context.</candor-accessible-text>

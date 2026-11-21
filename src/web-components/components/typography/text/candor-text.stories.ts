@@ -19,7 +19,7 @@ const meta: Meta = {
 | \`caption\` | Noto Sans italic | Supplementary context, figure captions, timestamps |
 | \`label\` | Roboto Flex | UI chrome: button text, tab labels, field annotations |
 
-**Text vs. AccessibleText:** Use \`<candor-text>\` for body content and UI chrome labels in Noto Sans or Roboto Flex. Use \`<candor-accessible-text>\` (Atkinson Hyperlegible) for instructional text (form labels, error messages, status indicators) where the user must read precisely to know what to do next.
+**Text vs. AccessibleText:** Use \`<candor-text>\` for body content and UI chrome labels in Noto Sans or Roboto Flex. Use \`<candor-accessible-text>\` (Atkinson Hyperlegible Next) for instructional text (form labels, error messages, status indicators) where the user must read precisely to know what to do next.
 
 **Text vs. Article:** Use \`<candor-article>\` for long-form authored prose (human or AI-generated) rendered in Noto Serif. \`<candor-text variant="body">\` is for shorter UI paragraphs in Noto Sans.
 

@@ -277,7 +277,7 @@ export const WithNumericTable: Story = {
         <tr><td>h2</td><td><code>--font-size-h2</code></td><td class="numeric">31.25</td><td class="numeric">1.953</td><td class="numeric">1.20</td></tr>
         <tr><td>h3</td><td><code>--font-size-h3</code></td><td class="numeric">25.00</td><td class="numeric">1.563</td><td class="numeric">1.20</td></tr>
         <tr><td>h4</td><td><code>--font-size-h4</code></td><td class="numeric">20.00</td><td class="numeric">1.250</td><td class="numeric">1.20</td></tr>
-        <tr><td>body</td><td><code>--font-size-base</code></td><td class="numeric">16.00</td><td class="numeric">1.000</td><td class="numeric">1.60</td></tr>
+        <tr><td>body</td><td><code>--font-size-md</code></td><td class="numeric">16.00</td><td class="numeric">1.000</td><td class="numeric">1.60</td></tr>
         <tr><td>sm</td><td><code>--font-size-sm</code></td><td class="numeric">14.00</td><td class="numeric">0.875</td><td class="numeric">1.40</td></tr>
       </tbody>
     </table>
