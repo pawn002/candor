@@ -114,13 +114,13 @@ export class CandorSlider extends LitElement {
       border-radius: 50%;
       background: var(--color-slider-thumb);
       border: var(--border-width-medium) solid var(--color-border-control);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      box-shadow: var(--shadow-sm);
       cursor: pointer;
       transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
     .slider__input:hover:not(:disabled)::-webkit-slider-thumb {
       transform: scale(1.1);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+      box-shadow: var(--shadow-md); /* lifts as it grows */
     }
     .slider__input::-moz-range-thumb {
       width: var(--candor-slider-thumb-size);
@@ -128,13 +128,13 @@ export class CandorSlider extends LitElement {
       border-radius: 50%;
       background: var(--color-slider-thumb);
       border: var(--border-width-medium) solid var(--color-border-control);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      box-shadow: var(--shadow-sm);
       cursor: pointer;
       transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
     .slider__input:hover:not(:disabled)::-moz-range-thumb {
       transform: scale(1.1);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+      box-shadow: var(--shadow-md); /* lifts as it grows */
     }
     .slider__input:focus { outline: none; }
     .slider__input:focus-visible::-webkit-slider-thumb {

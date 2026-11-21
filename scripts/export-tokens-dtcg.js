@@ -514,8 +514,6 @@ const COLOUR_LITERAL_EXCEPTIONS = {
       'debt: the syntax palette was hand-picked against the code background; to be re-derived from the ramps',
     ])
   ),
-  'src/web-components/components/form/slider/candor-slider.ts rgba(0, 0, 0, 0.4)': 'debt: the thumb shadow is typed black in the component, so it ignores the --shadow-* tokens and does not adapt to dark mode; to use a shadow token',
-  'src/web-components/components/form/slider/candor-slider.ts rgba(0, 0, 0, 0.28)': 'debt: the hovered thumb shadow, as above',
 };
 
 /** Every typed colour in one file, keyed `<path> <declared name or the literal>`. */
