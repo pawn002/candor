@@ -179,7 +179,9 @@ const renderRules = () => {
 
 // ─── Story: chroma curves ───────────────────────────────────────────────────
 
-const W = 320, H = 180, PAD_L = 40, PAD_R = 12, PAD_T = 12, PAD_B = 32;
+// Axis labels are in the HTML caption, not SVG text: SVG text scales with the
+// chart rather than with the reader's text size, which fails WCAG 1.4.4.
+const W = 320, H = 160, PAD_L = 8, PAD_R = 8, PAD_T = 8, PAD_B = 8;
 const SAMPLES = 120;
 
 interface ChartInput {
@@ -221,9 +223,6 @@ const curveChart = ({ id, title, family: f, steps, anchor }: ChartInput) => {
         <defs><clipPath id="plot-${id}"><rect x=${PAD_L} y=${PAD_T} width=${W - PAD_L - PAD_R} height=${H - PAD_T - PAD_B} /></clipPath></defs>
         <line x1=${PAD_L} y1=${H - PAD_B} x2=${W - PAD_R} y2=${H - PAD_B} stroke="var(--color-border-control)" stroke-width="1" />
         <line x1=${PAD_L} y1=${PAD_T} x2=${PAD_L} y2=${H - PAD_B} stroke="var(--color-border-control)" stroke-width="1" />
-        <text x=${PAD_L} y=${H - 8} font-size="11" fill="var(--color-text-subtle)" font-family="var(--font-family-mono)">0</text>
-        <text x=${W - PAD_R} y=${H - 8} font-size="11" fill="var(--color-text-subtle)" font-family="var(--font-family-mono)" text-anchor="end">L 1</text>
-        <text x=${PAD_L - 4} y=${PAD_T + 10} font-size="11" fill="var(--color-text-subtle)" font-family="var(--font-family-mono)" text-anchor="end">${r(top, 3)}</text>
         <g clip-path="url(#plot-${id})">
           <polyline points=${pts(ceiling)} fill="none" stroke="var(--color-border-control)" stroke-width="1.5" stroke-dasharray="4 4" />
           <polyline points=${pts(raw)} fill="none" stroke="var(--color-text-subtle)" stroke-width="1" stroke-dasharray="1 3" />
@@ -233,7 +232,7 @@ const curveChart = ({ id, title, family: f, steps, anchor }: ChartInput) => {
         ${steps.map((s) => svg`<circle cx=${x(s.l)} cy=${y(s.c)} r="4" fill="var(${s.name})" stroke="var(--color-text-default)" stroke-width="1" />`)}
       </svg>
       <figcaption>
-        <candor-text variant="caption">K ${f.K}, g ${f.g}, peak at L ${r(pk, 2)}. ${binds.length ? `sRGB caps steps ${binds.map((s) => s.step).join(', ')}.` : 'sRGB never caps it.'}</candor-text>
+        <candor-text variant="caption">Lightness 0 to 1 across, chroma 0 to ${r(top, 3)} up. K ${f.K}, g ${f.g}, peak at L ${r(pk, 2)}. ${binds.length ? `sRGB caps steps ${binds.map((s) => s.step).join(', ')}.` : 'sRGB never caps it.'}</candor-text>
       </figcaption>
     </figure>
   `;
@@ -243,7 +242,7 @@ const chartGrid = (charts: TemplateResult[]) =>
   html`<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(min(100%, 280px), 1fr));gap:var(--spacing-lg);">${charts}</div>`;
 
 const renderCurves = () => html`
-  ${intro('One chart per ramp, chroma against lightness. The solid line is the chroma each step gets. The dotted line is the curve before the cap, and the dashed line is the most chroma sRGB renders at that lightness and hue; where the curve rises above it, the cap takes over. Dots are the steps, filled with their own colour, and the ring marks a colour family\'s brand anchor. Each chart has its own vertical scale, labelled at the top.')}
+  ${intro('One chart per ramp, chroma against lightness. The solid line is the chroma each step gets. The dotted line is the curve before the cap, and the dashed line is the most chroma sRGB renders at that lightness and hue; where the curve rises above it, the cap takes over. Dots are the steps, filled with their own colour, and the ring marks a colour family\'s brand anchor. Each chart has its own vertical scale, given in its caption.')}
   ${chartGrid(NAMES.map((name) => curveChart({ id: name, title: cap(name), family: FAMILIES[name]!, steps: colourRamp(name), anchor: FAMILIES[name]!.anchor })))}
   ${heading('Greys')}
   ${para('The tinted greys follow the same curve at a fraction of the height. sRGB limits it only near black, below the darkest step, so no grey step is capped. The neutral ramp has no chroma to chart.')}
