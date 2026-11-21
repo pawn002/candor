@@ -212,7 +212,7 @@ Raw values: color ramps, type scale, spacing scale. Prefixed by family:
 
 Role-based aliases that components consume. Always prefer these over primitives:
 
-- **Color**: `--color-bg-*`, `--color-text-*`, `--color-border-*`, `--color-action-*`, `--color-status-*`, `--color-text-link`, `--color-ring-focus`
+- **Color**: named property first, `--color-bg-*`, `--color-text-*`, `--color-icon-*`, `--color-border-*`, `--color-fill-*` and `--color-ring-*`, so the first word says what a token paints and whether a text or non-text floor applies
 - **Spacing**: `--spacing-{2xs–3xl}`. Component padding is set through each component's `--candor-*` hook; `--spacing-button-*`, `--spacing-input-*` and `--spacing-card-*` are deprecated in 7.0.0
 - **Shape**: `--radius-{sm,md,lg,full}`, `--border-width-{thin,medium,thick}`, `--focus-ring-*`
 - **Typography**: `--font-family-*`, `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`

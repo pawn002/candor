@@ -182,7 +182,7 @@ candor-disclosure::part(trigger) { padding-top: 0; }
   </tbody>
 </table>
 
-The last five rows were shipping and semver-protected but undocumented until 5.0.0 (#246). `--candor-modal-max-width` and `--candor-toast-max-width` in particular are overrides you would go looking for and conclude did not exist.
+The slider, modal, toast, data-grid and card rows were shipping and semver-protected but undocumented until 5.0.0 (#246). `--candor-modal-max-width` and `--candor-toast-max-width` in particular are overrides you would go looking for and conclude did not exist.
 
 More components gain these hooks as consumer demand surfaces; the convention above is what every new component follows. Fourteen of the 37 components expose a hook today, and that is the intended state rather than a gap to fill: each of these came from a real override someone needed, and a part name invented without a use case is a public-API commitment made blind.
 

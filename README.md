@@ -1,6 +1,6 @@
 # Candor
 
-A humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.1 AA accessibility baked in.
+A humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.2 AA accessibility baked in.
 
 **[Component catalog and usage rules →](https://main--69c25e2492ad056c24329876.chromatic.com)**
 
@@ -143,8 +143,8 @@ Semantic aliases map primitive ramps to roles:
 --color-bg-inverse
 
 /* Text */
---color-text-default      /* 12.6:1 on page: primary body text */
---color-text-subtle       /*  4.6:1 on page: secondary text */
+--color-text-default      /* OKCA 12.4 on page: primary body text */
+--color-text-subtle       /* OKCA 5.0 on page: secondary text */
 --color-text-on-action    /* white on primary/secondary buttons */
 
 /* Accent: the brand navy as a mark */
@@ -180,7 +180,7 @@ Semantic aliases map primitive ramps to roles:
 --color-border-control
 ```
 
-All semantic color pairs are contrast-validated to WCAG 2.1 AA (4.5:1 text, 3:1 UI components).
+Every colour pairing the components use is measured in both modes against a floor, in OKCA (klar), that depends on text size and on what the text is for: 4.5 for body text, 3 for icons, borders and indicators (WCAG 1.4.11), and stricter at 14px. `npm run audit:contrast` enforces it.
 
 ### Dark mode
 

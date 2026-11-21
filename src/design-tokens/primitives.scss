@@ -179,7 +179,7 @@
     // 200 and 400 are dark-mode text: each is the lowest two-decimal lightness at
     // which its text reads on every dark background it is paired with, when
     // scored by okca's scatter observer, the tuning aid for dark mode. 400
-    // (subtle text) needs 0.72 on bg-surface and bg-forward; 200 (default text)
+    // (subtle text) needs 0.72 on bg-surface and bg-content; 200 (default text)
     // needs 0.89 on bg-muted. Both were a hundredth darker and passed default OKCA,
     // which stays the gate.
     // Pure white is --gray-0 only; a tinted ramp starts at 25.

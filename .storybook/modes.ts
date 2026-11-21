@@ -48,12 +48,13 @@
  * (tertiary action; `candor-button` also paints it but costs 8 snapshots to
  * modal's 5).
  *
- * **There is a ceiling, and it is not a gap to be closed.** Five tokens are
- * only ever painted on `:hover` or `:active`:
+ * **There is a ceiling, and it is not a gap to be closed.** Fourteen colour
+ * tokens are only ever painted on `:hover` or `:active` (counted at 7.0.0):
  *
- *   --color-action-destructive-hover / --color-action-destructive-active
- *   --color-action-primary-hover     / --color-action-primary-active
- *   --color-link-hover
+ *   --color-bg-action-{primary,secondary,tertiary,ghost,destructive}-hover / -active
+ *   --color-bg-hover, --color-bg-hover-on-inverse
+ *   --color-border-control-hover, --color-text-link-hover
+ *   --color-fill-scrollbar-thumb-hover
  *
  * A resting-state snapshot cannot reach them in either theme, so no story added
  * here will ever cover them; `audit:contrast` measuring their values is the only
@@ -63,7 +64,7 @@
  * from a green build.
  *
  * One case worth keeping, because it looks like a mistake and is not:
- * `--color-focus` is genuinely painted at rest. `candor-tone-picker` reuses it
+ * `--color-ring-focus` is genuinely painted at rest. `candor-tone-picker` reuses it
  * as the border of the *selected* swatch (`.cell-btn[aria-checked='true']`),
  * not only as a focus ring — so it belongs in the reachable set, and
  * `color-iterator-example` is the one story that shows it.

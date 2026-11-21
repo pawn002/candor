@@ -58,10 +58,11 @@ npx playwright install chromium  # Install Chromium browser for tests
 ### Design Token System (Core Concept)
 
 All visual styling flows from design tokens in `src/design-tokens/`:
-- **colors.scss**: OKLCH color definitions (not hex/RGB)
-- **typography.scss**: Font families, sizes (Major Third 1.25 ratio), weights, line heights
-- **spacing.scss**: 8px grid system
-- **index.scss**: Aggregates and exports all tokens
+- **primitives.scss**: raw values. The colour ramps (OKLCH, derived from rules), the type scale (`--type-*`), typefaces (`--typeface-*`), weights, line heights, tracking, spacing and borders
+- **semantics.scss**: named roles that map primitives to use, in light and dark: colours (`--color-{bg|text|icon|border|fill|ring}-*`), spacing, typography, shape, elevation and motion. Components use these
+- **colour-ramp-rules.json** and **colour-ramp-curve.mjs**: the rules and maths every ramp step is derived from; `npm run audit:tokens` checks `primitives.scss` against them
+- **index.scss**: aggregates and exports all tokens
+- **article.scss**, **syntax.scss**, **blog.scss**: stylesheets for prose, code highlighting and the blog, kept in source rather than shipped
 
 **Critical**: Always modify tokens first, never hard-code values in components. Component `static styles` reference tokens as CSS custom properties (`var(--color-...)`), which pierce the Shadow DOM automatically — never redeclare or hard-code token values inside a component.
 
@@ -104,11 +105,9 @@ The component library is the Lit 3 web components in `src/web-components/compone
 
 **Component categories**:
 - `typography/`: heading, text, accessible-text, article
-- `button/`: button with variants (primary, secondary, tertiary, ghost)
-- `form/`: input, checkbox, radio, switch, slider, select, listbox, combobox, chat-input
-- `data/`: table, data-grid, tone-picker
-- `overlays/`: modal, drawer, tooltip, toast
-- `examples/`: composed stories (color-iterator, settings, article, chat, editor, etc.)
+- `form/`: input, autocomplete, checkbox, radio, switch, slider, select, listbox, combobox, chat-input
+- one directory per remaining component, flat: `button/` (primary, secondary, tertiary, ghost, destructive), `table/`, `data-grid/`, `tone-picker/`, `modal/`, `drawer/`, `tooltip/`, `toast/`, `menu/`, `tabs/`, and the rest
+- `src/web-components/examples/`: composed stories (color-iterator, settings, article, chat, editor, etc.), outside `components/`
 
 ### Storybook Configuration
 
@@ -137,7 +136,7 @@ const meta: Meta = {
 
 Meta-level parameters deep-merge with story-level ones, so a story that already sets `parameters.chromatic = { pauseAnimationAtEnd: true }` keeps it — verified on the build, not assumed.
 
-**It is per-story rather than global in `preview.ts`, and that is a cost decision.** Each mode is a separately billed snapshot, so applying it project-wide would take the suite from 248 to 496 and cost more per quarter than the whole TurboSnap exercise saved (#281). Ten story files carry dark today, covering all 37 theme-varying tokens any story actually paints, at 44 of the 292 snapshots. **Adding dark to a story is a judgement about that story, not a default to apply.**
+**It is per-story rather than global in `preview.ts`, and that is a cost decision.** Each mode is a separately billed snapshot, so applying it project-wide would take the suite from 248 to 496 and cost more per quarter than the whole TurboSnap exercise saved (#281). Eleven story files carry dark today. At #287, ten of them covered all 37 theme-varying tokens any story then painted, at 44 of the 292 snapshots; the colour tokens have since been renamed and split (#367), so that coverage is a dated figure until it is re-counted with the rule below. **Adding dark to a story is a judgement about that story, not a default to apply.**
 
 Three things to know before adding one:
 
@@ -149,7 +148,7 @@ Three things to know before adding one:
 
 **Coverage is counted by token, not by component**, and the counting rule is the load-bearing part: credit a story only with tokens whose CSS gate it satisfies — base rules always, a `.x--variant` rule only when the story renders that `variant="…"`, a `:host([attr])` rule only when it sets that attribute. Counting tokens merely *present* in a component's stylesheet gives 50 against the 37 genuinely painted, and pointed at three stories where the variant-aware count says five.
 
-**The ceiling, stated so it is not mistaken for a gap.** Five tokens are painted only on `:hover` or `:active` — `--color-bg-action-destructive-hover`/`-active`, `--color-bg-action-primary-hover`/`-active`, and `--color-text-link-hover`. No resting-state snapshot reaches them **in either theme**, so no story will ever cover them and `audit:contrast` measuring their values is the only check they have. Read "dark coverage is complete" as *complete for what snapshots can reach* — the #218 / #229 distinction again, and the reason it is written down rather than inferred from a green build.
+**The ceiling, stated so it is not mistaken for a gap.** Fourteen colour tokens are painted only on `:hover` or `:active`: the hover and pressed fills of every button variant (`--color-bg-action-{primary,secondary,tertiary,ghost,destructive}-hover` / `-active`), `--color-bg-hover`, `--color-bg-hover-on-inverse`, `--color-border-control-hover` and `--color-text-link-hover`, plus the scrollbar's `--color-fill-scrollbar-thumb-hover`. (Derived from the component styles at 7.0.0: a token counts when every rule that paints it carries `:hover` or `:active`.) No resting-state snapshot reaches them **in either theme**, so no story will ever cover them and `audit:contrast` measuring their values is the only check they have. Read "dark coverage is complete" as *complete for what snapshots can reach* — the #218 / #229 distinction again, and the reason it is written down rather than inferred from a green build.
 
 Read `.storybook/modes.ts` before changing any of this; it carries the per-story reasoning and the one case that looks like a mistake and is not (`--color-ring-focus` is genuinely painted at rest, as the border of `candor-tone-picker`'s selected swatch).
 
@@ -346,7 +345,7 @@ The test: **could a reader who cannot resolve the glyphs still act correctly?** 
 
 `status` was 14px until #208, which made it the one role whose mandated size made its mandated floor unsatisfiable for the colour it most often carries.
 
-**Do not hand-type a status glyph into the content** — `✕ Error: …`, `✓ Done`. A screen reader announces the character ("multiplication sign"), and it is invisible to the contrast audit. Carry the state in words, and use `role_="state"` when an icon is wanted: it renders an `aria-hidden` one, and colours it from the `--color-status-*` non-text tokens while the text stays `--color-text-default`. Moving the colour onto the icon is what removes the contrast constraint rather than negotiating with it — see "Contrast is bought with chroma" below.
+**Do not hand-type a status glyph into the content** — `✕ Error: …`, `✓ Done`. A screen reader announces the character ("multiplication sign"), and it is invisible to the contrast audit. Carry the state in words, and use `role_="state"` when an icon is wanted: it renders an `aria-hidden` one, and colours it from the `--color-icon-*` non-text tokens while the text stays `--color-text-default`. Moving the colour onto the icon is what removes the contrast constraint rather than negotiating with it — see "Contrast is bought with chroma" below.
 
 **Counters and data readouts are not `status`.** "14 of 47 reviewed" is comprehension text — the user reads it to form a judgment, not to follow an instruction — so it belongs in `candor-text` (Roboto Flex), per the instruction-vs-comprehension rule above.
 
@@ -575,21 +574,18 @@ Apply whenever a flex child holds user-supplied content that may include long un
 
 ### Modifying Design Tokens
 
-**colors.scss**:
+**Colour**: a role in `semantics.scss` points at a ramp step in `primitives.scss`, and never types a colour (see step 3 of the workflow above):
 ```scss
-$color-primary: oklch(0.55 0.18 250); // Always use OKLCH format — and always in sRGB gamut
+--color-text-link: var(--azure-600); // OKCA 6.4 on white ✅
 ```
 
 After changing any colour, run `npm run audit:tokens` (gamut gate + DTCG re-export) then `npm run audit:contrast` (re-measures every affected pairing and every recorded figure). The gamut gate runs first for a reason: a contrast figure measured on an out-of-gamut colour is meaningless, so gamut must be settled before contrast is worth checking.
 
-**typography.scss**:
-- Base size: `$font-size-md: 1rem` (16px)
-- Scale follows Major Third ratio (1.25)
-- Font stacks use system fallbacks
+**Typography**: the type scale `--type-*` (Major Third, 1.25) and the typefaces `--typeface-*` are primitives; components use the semantic `--font-size-*` (base `--font-size-md`, 16px), `--font-family-*`, `--font-weight-*`, `--line-height-*` and `--letter-spacing-*`. Primitives are named after their scale and semantic tokens after the CSS property they set, so the two vocabularies differ on purpose.
 
-**spacing.scss**:
-- All values are multiples of 8px
-- Use `rem` units for scalability
+**Spacing**: an 8px grid in `rem`, `--space-*` as primitives and `--spacing-*` as roles. Component padding is a `--candor-*` hook on the component, not a spacing token.
+
+**Motion**: every transition and animation takes a `--motion-duration-*` and `--motion-ease-*` token; `audit:tokens` fails on a literal duration. Reduced motion is decided in the tokens, so a component needs no `prefers-reduced-motion` rule of its own.
 
 ### Creating New Components
 
@@ -599,7 +595,7 @@ After changing any colour, run `npm run audit:tokens` (gamut gate + DTCG re-expo
 4. Re-export from `src/web-components/index.ts` so the `@customElement()` side effect registers the tag. The barrel is the **package** entry point for consumers — it is deliberately *not* imported by `.storybook/preview.ts`; see step 3 for how stories get their registration
 4a. Write a **class-level TSDoc block** — gated by `npm run audit:docs`, which fails if any registered element lacks one. The build emits it into `dist/*.d.ts`, so it is what a consumer (increasingly an agent) reads *at the moment of the decision*, where a catalog link is a step that does not get taken (#267). Say what the component is for, which sibling it is confusable with, any structural requirement the element cannot enforce (`candor-radio` needing a `<fieldset>`), and **the negatives** — a plausible API that is deliberately absent is invisible otherwise, which is how `size="icon"` shipped. Declare every event with `@fires <name> - detail: <type> (<when>)`, with no em dash, since TSDoc ships to consumers (#292); if there are none, write the exact words `Emits no custom events.` Both halves are checked against the source, in both directions.
 
-   **Member-level TSDoc is by exception, not blanket.** There are 180 public members; commenting the obvious ones produces filler that trains readers to skip TSDoc entirely and destroys the signal where it matters. Comment a member when its meaning depends on something outside the element, or when the declaration is actively misleading — `candor-radio`'s `name` reads as native radio grouping and is not it. That case is the model.
+   **Member-level TSDoc is by exception, not blanket.** There are 184 public members; commenting the obvious ones produces filler that trains readers to skip TSDoc entirely and destroys the signal where it matters. Comment a member when its meaning depends on something outside the element, or when the declaration is actively misleading — `candor-radio`'s `name` reads as native radio grouping and is not it. That case is the model.
 
    Uniform coverage at the class level is what makes any of this gateable: "every element declares its events" is only checkable if every element is supposed to. Selective coverage also manufactures a false signal, since a missing comment starts to read as "nothing surprising here" — the #213 half-filled-column problem.
 5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value. If the component needs a colour the system doesn't have, add it as a **token** rather than a literal in `static styles` — a literal in a component is invisible to both the gamut gate and the contrast audit.

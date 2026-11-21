@@ -36,6 +36,8 @@ Tokens are split into two files with a strict one-way dependency.
 src/design-tokens/
 ├── primitives.scss   ← raw values: color ramps, scales. No meaning, no context.
 ├── semantics.scss    ← named roles that map primitives to usage. Components use THESE.
+├── colour-ramp-rules.json ← the ladder, curves and in-between steps every ramp derives from
+├── colour-ramp-curve.mjs  ← the curve maths, shared by audit:tokens and Design Tokens/Ramps
 ├── article.scss      ← long-form prose styles (candor-article)
 ├── syntax.scss       ← code syntax-highlighting tokens
 ├── blog.scss         ← blog example styles

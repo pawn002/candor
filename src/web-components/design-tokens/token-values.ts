@@ -31,7 +31,7 @@ type DtcgNode = { $value?: string; $description?: string } & Record<string, unkn
  * Flatten a DTCG mode object into `--custom-property` → value.
  *
  * A DTCG path only ever splits a custom-property name on its own hyphens
- * (`--color-status-error-bg` → `color.status.error-bg`), so rejoining the
+ * (`--color-text-on-inverse` → `color.text.on-inverse`), so rejoining the
  * segments with `-` round-trips back to the authored name.
  */
 function flatten(mode: TokenMode): Map<string, DtcgNode> {
