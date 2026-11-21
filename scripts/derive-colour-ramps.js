@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Derive the colour ramps (navy, burgundy, azure, indigo, teal, and the status ramps
- * red, gold and green) from stated rules, the way the grey ramps are derived
- * (#365).
+ * red, gold and green) from stated rules, and check the grey ramps (neutral, cool,
+ * warm) against the same curve on their own ladder (#365).
  *
  *   node scripts/derive-colour-ramps.js           check: exit 1 if primitives.scss
  *                                                 disagrees with the rules
@@ -10,7 +10,7 @@
  *
  * The rules live in src/design-tokens/colour-ramp-rules.json (the parameters,
  * and the reason each in-between step was minted) and src/design-tokens/
- * colour-ramp-curve.mjs (the maths). Design Tokens/Colour Ramps reads the same
+ * colour-ramp-curve.mjs (the maths). Design Tokens/Ramps reads the same
  * two files, so the page and this check cannot describe different curves.
  *
  * The rules:
@@ -85,7 +85,7 @@ const SURFACE = (() => {
 })();
 
 async function main() {
-  // The curve maths is an ES module shared with the Colour Ramps story.
+  // The curve maths is an ES module shared with the Design Tokens/Ramps story.
   const { hueAt, stepLightness, chroma } = await import(
     pathToFileURL(path.join(__dirname, '..', 'src', 'design-tokens', 'colour-ramp-curve.mjs')).href
   );
@@ -127,6 +127,38 @@ async function main() {
     }
   }
 
+  // The grey ramps: their own ladder, placed by need, and the same curve. Compared
+  // as numbers, since the declarations predate the derivation and their
+  // formatting (0.30, 0.010) is not worth churning.
+  const GREYS = RULES.greys;
+  let greySteps = 0;
+  for (const fam of Object.values(GREYS.families)) {
+    const expected = new Set();
+    for (const [step, L] of Object.entries(GREYS.ladder)) {
+      if (Number(step) < (fam.from ?? 0)) continue;
+      const name = `--${fam.prefix}-${step}`;
+      expected.add(name);
+      greySteps++;
+      const C = chroma(L, fam, EXPONENT);
+      const H = hueAt(fam, L);
+      const re = new RegExp(String.raw`(${name}:\s*)oklch\(([\d.]+) ([\d.]+) ([\d.]+)\)`);
+      const m = source.match(re);
+      if (!m) {
+        mismatches.push(`${name} is missing from primitives.scss`);
+        continue;
+      }
+      if (Number(m[2]) !== L || Math.abs(Number(m[3]) - C) > 1e-9 || Number(m[4]) !== H) {
+        const value = `oklch(${L} ${fmt(C, 3)} ${H})`;
+        if (write) source = source.replace(re, `$1${value}`);
+        else mismatches.push(`${name}: authored oklch(${m[2]} ${m[3]} ${m[4]}), rules give ${value}`);
+      }
+    }
+    // A grey step the rules do not name is a colour nobody derived.
+    for (const m of source.matchAll(new RegExp(String.raw`(--${fam.prefix}-\d+):`, 'g'))) {
+      if (!expected.has(m[1])) mismatches.push(`${m[1]} is declared but not in the grey ladder`);
+    }
+  }
+
   if (write) {
     fs.writeFileSync(FILE, source);
     console.log('✓  colour ramps written from their rules');
@@ -136,7 +168,7 @@ async function main() {
     console.error('   Change the rule, not the value, then run with --write.');
     process.exit(1);
   } else {
-    console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps, ${Object.values(EXTRA_STEPS).flat().length} in-between step(s) and ${Object.values(FAMILIES).filter((f) => f.tint).length} tints, match their rules`);
+    console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps, ${Object.values(EXTRA_STEPS).flat().length} in-between step(s) and ${Object.values(FAMILIES).filter((f) => f.tint).length} tints, match their rules; greys: ${Object.keys(RULES.greys.families).length} ramps, ${greySteps} steps`);
   }
 }
 

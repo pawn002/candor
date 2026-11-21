@@ -7,7 +7,7 @@
     // Derived, not hand-set (#365). The rules are in
     // src/design-tokens/colour-ramp-rules.json (one lightness ladder, and each
     // family's chroma curve, hue and anchor) and the maths in colour-ramp-curve.mjs;
-    // Design Tokens/Colour Ramps draws both. `npm run audit:tokens` fails if a value
+    // Design Tokens/Ramps draws both, for the greys below too. `npm run audit:tokens` fails if a value
     // here disagrees with them: change a rule and run
     // scripts/derive-colour-ramps.js --write rather than editing a value.
     //

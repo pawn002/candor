@@ -1,6 +1,6 @@
 // The colour-ramp curve: the maths that turns colour-ramp-rules.json into
 // oklch values. One copy, imported by scripts/derive-colour-ramps.js (which
-// gates primitives.scss against it) and by Design Tokens/Colour Ramps (which
+// gates primitives.scss against it) and by Design Tokens/Ramps (which
 // draws it), so the page cannot describe a different curve from the one checked.
 //
 // The sRGB maximum here is a boolean renderability search with the standard
