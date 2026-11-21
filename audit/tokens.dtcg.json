@@ -597,8 +597,11 @@
       "tooltip": {
         "bg": {
           "$type": "color",
-          "$value": "oklch(0.39 0.061 246.41)",
-          "$description": "The tooltip floats over modals as well as cards, and navy-700 was deltaE 9 from bg-elevated. L 0.39 (between navy-700 and navy-600, navy's hue and chroma) reaches deltaE 10, the step where the bubble reads as its own region on a modal. navy-600 would, but white 14px text there cannot reach Tier 2. — text-inverse OKCA 7.1 on this bg ✅"
+          "$value": "oklch(0.391 0.061 246.64)",
+          "$description": "The tooltip floats over modals as well as cards, and navy-700 was deltaE 9 from bg-elevated. navy-670, a derived step between 600 and 700, reaches deltaE 10, where the bubble reads as its own region on a modal. navy-600 would too, but white 14px text there cannot reach its Tier 2 floor. — text-inverse OKCA 7.1 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--navy-670"
+          }
         }
       },
       "text": {

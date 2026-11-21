@@ -39,6 +39,7 @@
     --navy-400: oklch(0.65 0.056 249.41);
     --navy-500: oklch(0.53 0.06 248.13);
     --navy-600: oklch(0.44 0.061 247.16);
+    --navy-670: oklch(0.391 0.061 246.64); // between 600 and 700: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
     --navy-700: oklch(0.37 0.061 246.41);
     --navy-800: oklch(0.27 0.06 245.34); // #082840 — on white: OKCA 14.1 ✅ (WCAG 2.x 15.0)
     --navy-900: oklch(0.20 0.05 245.34);

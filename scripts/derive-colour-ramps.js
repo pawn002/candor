@@ -30,6 +30,15 @@
  * Indigo's anchor (#6969F7, L 0.60) sits on its curve between steps 400 and 500
  * rather than on a step, since indigo joined the shared ladder.
  *
+ *   Between   A ramp may carry a step between two ladder steps when a token needs
+ *              one (EXTRA_STEPS below). Its number fixes its lightness by
+ *              straight-line interpolation between the ladder steps either side,
+ *              so navy-670 is 70% of the way from 600 (L 0.44) to 700 (L 0.37),
+ *              L 0.391; chroma and hue then follow the family's curve, as for
+ *              any step. The name is the specification: a designer can read
+ *              where it sits, and this script checks it like every other step.
+ *              Mint one only when a token needs it, never speculatively.
+ *
  * The status ramps share one curve shape (g = 1), so "how vivid is a status
  * colour at this lightness" has one answer for all three; each K is set so the
  * curve passes through that hue's light text colour from before it had a ramp.
@@ -60,6 +69,23 @@ const FAMILIES = {
   gold: { K: 0.086, g: 1, hue: () => 88, anchor: { L: 0.42, C: 0.085 }, tint: true },
   green: { K: 0.1404, g: 1, hue: () => 144.2, anchor: { L: 0.46, C: 0.14 }, tint: true },
 };
+
+// Steps between the ladder's, each minted for a token that needed it.
+//   navy-670  --color-tooltip-bg (dark): deltaE 10 from bg-elevated with Tier 2
+//             white text (navy-700 was deltaE 9; navy-600 fails the text floor).
+const EXTRA_STEPS = { navy: [670] };
+
+// Lightness of any step number: the ladder's own value, or a straight line
+// between the ladder steps either side of it.
+function stepLightness(step) {
+  if (LADDER[step] !== undefined) return LADDER[step];
+  const keys = Object.keys(LADDER).map(Number).sort((a, b) => a - b);
+  const hi = keys.find((k) => k > step);
+  const lo = [...keys].reverse().find((k) => k < step);
+  if (lo === undefined || hi === undefined) throw new Error(`step ${step} is outside the ladder`);
+  const L = LADDER[lo] + ((step - lo) / (hi - lo)) * (LADDER[hi] - LADDER[lo]);
+  return Math.round(L * 10000) / 10000;
+}
 
 const EXPONENT = 0.44;
 
@@ -116,6 +142,11 @@ function derive() {
       const H = fam.hue(L);
       out.push({ name: `--${name}-${step}`, value: `oklch(${L.toFixed(2)} ${fmt(chroma(L, H, fam), 3)} ${H.toFixed(2)})` });
     }
+    for (const step of EXTRA_STEPS[name] || []) {
+      const L = stepLightness(step);
+      const H = fam.hue(L);
+      out.push({ name: `--${name}-${step}`, value: `oklch(${fmt(L, 4)} ${fmt(chroma(L, H, fam), 3)} ${H.toFixed(2)})` });
+    }
     if (fam.tint) out.push({ name: `--${name}-tint`, value: `oklch(${SURFACE.L} ${SURFACE.C} ${fam.hue(0).toFixed(2)})` });
   }
   return out;
@@ -147,5 +178,5 @@ if (write) {
   console.error('   Change the rule, not the value, then run with --write.');
   process.exit(1);
 } else {
-  console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps, and ${Object.values(FAMILIES).filter((f) => f.tint).length} tints, match their rules`);
+  console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps, ${Object.values(EXTRA_STEPS).flat().length} in-between step(s) and ${Object.values(FAMILIES).filter((f) => f.tint).length} tints, match their rules`);
 }

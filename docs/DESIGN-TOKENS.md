@@ -44,7 +44,7 @@ src/design-tokens/
 
 ### Primitives (`primitives.scss`)
 
-Raw, context-free values under `:root`. Color **ramps** (each family is a perceptually-spaced 50–900 scale at constant hue/chroma), the spacing scale (`--space-1` … `--space-12`, 8px base), the type scale (`--text-xs` … `--text-3xl`, Major Third 1.25 ratio), font stacks, weights, line heights, tracking, and border/radius primitives.
+Raw, context-free values under `:root`. Color **ramps** (each family is a 50–900 scale derived from stated rules in `scripts/derive-colour-ramps.js`: one lightness ladder shared by every family, and a chroma curve per family. A ramp can also carry a step between two ladder steps, such as `navy-670`, whose number fixes its lightness by interpolation, so a needed colour is derived from the curve rather than invented), the spacing scale (`--space-1` … `--space-12`, 8px base), the type scale (`--text-xs` … `--text-3xl`, Major Third 1.25 ratio), font stacks, weights, line heights, tracking, and border/radius primitives.
 
 Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), and a neutral **gray** ramp. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside. For example, `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-link` steps to `L=0.49` rather than aliasing a ramp step.
 
