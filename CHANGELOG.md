@@ -38,6 +38,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **The colour showcase shows every semantic colour token, and `audit:docs` keeps it that way.** Eleven tokens had no swatch: `--color-bg-forward`, `--color-bg-recede`, `--color-slider-thumb`, the primary and secondary `-fill` and `-border` tokens, `--color-nav-badge-bg` and the three `--color-status-*-border` tokens. Without the fills, the dark action groups put a pale swatch beside deep hover and active ones. Each action group now leads with its fill, followed by hover, active, the label colour and the border, and the descriptions say which token is the fill. `audit:docs` now fails when a `--color-*` token declared in `semantics.scss` has no swatch, or a swatch names a token that no longer exists. `--color-overlay`, the modal scrim, is excluded with its reason.
 - **`Design Tokens/Grey Ramps` shows the 6.0.0 grey ramps beside the 5.x greys they replaced.** Four stories: the three ramps on one lightness scale, step by step; each 5.x grey primitive next to what its name means now and the step that holds its old colour; the greys that were written as one-off values in 5.x and the ramp step each uses now; and the chroma curve the tinted ramps share. The 6.0.0 values are read from `primitives.scss` and `audit/tokens.dtcg.json` rather than copied, through a new `primitive-values.ts` and a `requireTokenAlias` helper; the 5.x values are a fixed record of what shipped.
 
 ## [6.0.0] - 2026-10-17

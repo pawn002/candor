@@ -23,7 +23,7 @@ interface ColorCategory {
 const COLOR_CATEGORIES: ColorCategory[] = [
   {
     name: 'Backgrounds',
-    description: 'Surface hierarchy: page floor, card surface, subtle interactive fill, elevated (shadow-lifted), and inverse',
+    description: 'Surface hierarchy: page floor, card surface, subtle interactive fill, elevated (shadow-lifted), the warm and cool intent surfaces, and inverse',
     colors: [
       { name: 'Page', variable: '--color-bg-page', description: 'Page floor' },
       { name: 'Surface', variable: '--color-bg-surface', description: 'Cards and panels' },
@@ -31,6 +31,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Muted', variable: '--color-bg-muted', description: 'Neutral fill that reads on page, surface and elevated alike. The default badge rests on it' },
       { name: 'Hover', variable: '--color-bg-hover', description: 'Hover fill for ghost buttons and close actions. An alias of muted' },
       { name: 'Elevated', variable: '--color-bg-elevated', description: 'Shadow-lifted surface' },
+      { name: 'Forward', variable: '--color-bg-forward', description: 'Warm, at the page lightness: the one thing a screen should lead with' },
+      { name: 'Recede', variable: '--color-bg-recede', description: 'Cool, at the surface lightness: chrome that should step back. Use text-subtle-on-surface on it' },
       { name: 'Inverse', variable: '--color-bg-inverse', description: 'Navy inverse surface, for app headers and inverse tabs. A step lighter in dark mode so it stands off cards' },
       { name: 'Tooltip', variable: '--color-tooltip-bg', description: 'Tooltip bubble. The inverse surface in light, a notch lighter in dark so it stands apart on a modal' },
     ],
@@ -44,6 +46,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Control', variable: '--color-border-control', description: 'Form control outlines. Clears 3:1 non-text on page and surface alike' },
       { name: 'On Inverse', variable: '--color-border-on-inverse', description: 'Divider on inverse (navy) surface' },
       { name: 'Focus', variable: '--color-focus', description: 'Focus ring in high-visibility azure' },
+      { name: 'Slider Thumb', variable: '--color-slider-thumb', description: 'Slider knob: white in light, a pale gray in dark' },
     ],
   },
   {
@@ -64,18 +67,23 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     name: 'Action: Primary',
     description: 'Navy, the main interactive color',
     colors: [
-      { name: 'Primary', variable: '--color-action-primary', description: 'Primary button and action fill' },
-      { name: 'Primary Hover', variable: '--color-action-primary-hover', description: 'Hover state' },
-      { name: 'Primary Active', variable: '--color-action-primary-active', description: 'Pressed state' },
+      { name: 'Primary Fill', variable: '--color-action-primary-fill', description: 'Fill behind a label: primary button, badge, selected chip, checked controls. Deep in both modes' },
+      { name: 'Primary Hover', variable: '--color-action-primary-hover', description: 'Hover state of the fill' },
+      { name: 'Primary Active', variable: '--color-action-primary-active', description: 'Pressed state of the fill' },
+      { name: 'Primary', variable: '--color-action-primary', description: 'Label, edge and active-state colour: secondary button text, active tab, navigation links. Pale in dark' },
+      { name: 'Primary Border', variable: '--color-action-primary-border', description: 'Edge of an outlined action. Dimmed below the label in dark' },
     ],
   },
   {
     name: 'Action: Secondary',
     description: 'Burgundy, the supporting action color',
     colors: [
-      { name: 'Secondary', variable: '--color-action-secondary', description: 'Secondary button fill' },
-      { name: 'Secondary Hover', variable: '--color-action-secondary-hover', description: 'Hover state' },
-      { name: 'Secondary Active', variable: '--color-action-secondary-active', description: 'Pressed state' },
+      { name: 'Secondary Fill', variable: '--color-action-secondary-fill', description: 'Fill behind a label in burgundy. Deep in both modes' },
+      { name: 'Secondary Hover', variable: '--color-action-secondary-hover', description: 'Hover state of the fill' },
+      { name: 'Secondary Active', variable: '--color-action-secondary-active', description: 'Pressed state of the fill' },
+      { name: 'Secondary', variable: '--color-action-secondary', description: 'Label and edge colour in burgundy. Pale in dark' },
+      { name: 'Secondary Border', variable: '--color-action-secondary-border', description: 'Edge of an outlined secondary action (the secondary chip)' },
+      { name: 'Nav Badge', variable: '--color-nav-badge-bg', description: 'Navigation count badge. Brighter than the secondary fill in dark, so an unread count draws the eye' },
     ],
   },
   {
@@ -114,6 +122,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Error', variable: '--color-status-error', description: 'Icon / border use' },
       { name: 'Error Background', variable: '--color-status-error-bg', description: 'Toast and alert fill' },
       { name: 'Error Text', variable: '--color-status-error-text', description: 'Text on error-bg' },
+      { name: 'Error Border', variable: '--color-status-error-border', description: 'Edge of a status outline (status chips). A step dimmer in dark' },
     ],
   },
   {
@@ -123,6 +132,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Success', variable: '--color-status-success', description: 'Icon / border use' },
       { name: 'Success Background', variable: '--color-status-success-bg', description: 'Toast and alert fill' },
       { name: 'Success Text', variable: '--color-status-success-text', description: 'Text on success-bg' },
+      { name: 'Success Border', variable: '--color-status-success-border', description: 'Edge of a status outline (status chips). A step dimmer in dark' },
     ],
   },
   {
@@ -132,6 +142,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Warning', variable: '--color-status-warning', description: 'Icon / border use' },
       { name: 'Warning Background', variable: '--color-status-warning-bg', description: 'Toast and alert fill' },
       { name: 'Warning Text', variable: '--color-status-warning-text', description: 'Text on warning-bg' },
+      { name: 'Warning Border', variable: '--color-status-warning-border', description: 'Edge of a status outline (status chips). A step dimmer in dark' },
     ],
   },
   {
