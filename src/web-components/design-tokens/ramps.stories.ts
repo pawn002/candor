@@ -36,6 +36,7 @@ const NAMES = Object.keys(FAMILIES);
 const GREY_LADDER = RULES.greys.ladder as Record<string, number>;
 const GREYS = RULES.greys.families as Record<GreyRamp, GreyFamily>;
 const GREY_NAMES = Object.keys(GREYS) as GreyRamp[];
+const GREY_EXTRA = (RULES.greys.extraSteps ?? {}) as Partial<Record<GreyRamp, Record<string, string>>>;
 /** The grey ramps with any chroma to chart; neutral is 0 at every step. */
 const TINTED_GREYS = GREY_NAMES.filter((n) => GREYS[n].K > 0);
 
@@ -126,7 +127,8 @@ const renderGreyRamps = () => {
         String((row.neutral ?? row.cool ?? row.warm)!.l),
         ...GREY_NAMES.map((ramp) => {
           const s = row[ramp];
-          return s ? swatch(`var(${s.name})`, s.name, `C ${s.c}`) : 'Neutral only';
+          if (s) return swatch(`var(${s.name})`, s.name, `C ${s.c}`);
+          return step === 0 ? 'Neutral only' : 'Not in this ramp';
         }),
       ],
     }));
@@ -158,7 +160,7 @@ const renderRules = () => {
     ${heading('Lightness: two ladders')}
     ${para('A step number fixes lightness. The colour ramps share one ladder, taken from the hand-set ramps it replaced: where navy, burgundy and azure agreed it took their value, and where they differed a brand anchor decided.')}
     ${table('The colour ladder', ['Step', 'Lightness'], ladderRows, [1])}
-    ${para(`The greys have a ladder of their own. ${RULES.greys.ladderWhy}`)}
+    ${para(`The greys have a ladder of their own. ${RULES.greys.ladderWhy} A grey ramp can carry an in-between step too, interpolated the same way.`)}
     ${table('The grey ladder', ['Step', 'Lightness'], greyLadderRows, [1])}
 
     ${heading('Chroma: one curve shape, two dials per ramp')}
@@ -266,12 +268,20 @@ const renderParameters = () => {
     const f = GREYS[name];
     return { cells: [`--${f.prefix}-*`, String(f.K), f.K ? String(f.g) : 'n/a', f.K ? r(peakL(f), 2) : 'n/a', f.K ? hueText(f) : 'none'] };
   });
-  const extraRows: TableRow[] = Object.entries(EXTRA).flatMap(([fam, steps]) =>
-    Object.entries(steps).map(([step, why]) => {
-      const s = colourRamp(fam).find((x) => x.step === Number(step))!;
-      return { cells: [s.name, s.value, why] };
-    }),
-  );
+  const extraRows: TableRow[] = [
+    ...Object.entries(EXTRA).flatMap(([fam, steps]) =>
+      Object.entries(steps).map(([step, why]) => {
+        const s = colourRamp(fam).find((x) => x.step === Number(step))!;
+        return { cells: [s.name, s.value, why] };
+      }),
+    ),
+    ...(Object.entries(GREY_EXTRA) as [GreyRamp, Record<string, string>][]).flatMap(([ramp, steps]) =>
+      Object.entries(steps).map(([step, why]) => {
+        const s = greyRamp(ramp).find((x) => x.step === Number(step))!;
+        return { cells: [s.name, s.value, why] };
+      }),
+    ),
+  ];
   return html`
     ${intro('The fitted values behind every ramp, read from colour-ramp-rules.json. Change a value there and run scripts/derive-colour-ramps.js --write; audit:tokens fails until primitives.scss matches.')}
     ${table('Colour ramps: chroma curve and hue', ['Family', 'K', 'g', 'Peak at L', 'Hue', 'Anchor'], famRows, [1, 2, 3])}

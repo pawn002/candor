@@ -30,6 +30,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
       { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill for hover rows, selection and hover chips. One step beyond surface; direction flips per theme' },
       { name: 'Muted', variable: '--color-bg-muted', description: 'Neutral fill that reads on page, surface and elevated alike. The default badge rests on it' },
       { name: 'Hover', variable: '--color-bg-hover', description: 'Hover fill for ghost buttons and close actions. An alias of muted' },
+      { name: 'Active', variable: '--color-bg-active', description: 'Pressed fill under a hover, one in-between step below it' },
       { name: 'Elevated', variable: '--color-bg-elevated', description: 'Shadow-lifted surface' },
       { name: 'Forward', variable: '--color-bg-forward', description: 'Warm, at the page lightness: the one thing a screen should lead with' },
       { name: 'Recede', variable: '--color-bg-recede', description: 'Cool, at the surface lightness: chrome that should step back. Use text-subtle-on-surface on it' },
@@ -92,6 +93,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     colors: [
       { name: 'Tertiary', variable: '--color-action-tertiary', description: 'Tertiary button fill' },
       { name: 'Tertiary Hover', variable: '--color-action-tertiary-hover', description: 'Hover state' },
+      { name: 'Tertiary Active', variable: '--color-action-tertiary-active', description: 'Pressed state, one in-between step below hover' },
       { name: 'Tertiary Text', variable: '--color-action-tertiary-text', description: 'Text / icon on tertiary bg' },
     ],
   },

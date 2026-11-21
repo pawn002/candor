@@ -22,6 +22,7 @@
     --color-bg-muted:    var(--gray-300);  // text-default OKCA 6.4 on this bg ✅
     // Hover fill for transparent controls: ghost buttons and close/dismiss actions (#322).
     --color-bg-hover:    var(--color-bg-muted);
+    --color-bg-active:   var(--gray-350);  // pressed fill: one in-between step below the hover
     --color-bg-inverse:  var(--navy-800);
     // The tooltip bubble. Its own token because in dark it floats over modals,
     // where the inverse band's navy-700 sits too close to bg-elevated.
@@ -112,6 +113,7 @@
     // No border — structural identity is the fill (distinct from secondary's outline).
     --color-action-tertiary:        var(--gray-200);  // was gray-100; bumped for visibility without border
     --color-action-tertiary-hover:  var(--gray-300);
+    --color-action-tertiary-active: var(--gray-350); // pressed: one in-between step below hover
     --color-action-tertiary-text:   var(--navy-800);
 
     // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────
@@ -312,6 +314,7 @@
     // enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322).
     --color-bg-muted:    var(--gray-cool-700);      // text-default OKCA 4.9 on this bg ✅
     --color-bg-hover:    var(--color-bg-muted);
+    --color-bg-active:   var(--gray-cool-750); // pressed fill: one in-between step below the hover
     // A navy band, not a white one. It flipped to white for dark mode, which put
     // a glaring strip across the top of the page and a white flash in every
     // tooltip, and under the scatter observer its muted text could not reach
@@ -441,6 +444,7 @@
     // recedes); L preserved.
     --color-action-tertiary:       var(--gray-cool-800);
     --color-action-tertiary-hover: var(--gray-cool-700); // not 650: the text-default label misses there (4.2)
+    --color-action-tertiary-active: var(--gray-cool-750);
     --color-action-tertiary-text:  var(--color-text-default);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────

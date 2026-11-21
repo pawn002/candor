@@ -134,7 +134,11 @@ async function main() {
   let greySteps = 0;
   for (const fam of Object.values(GREYS.families)) {
     const expected = new Set();
-    for (const [step, L] of Object.entries(GREYS.ladder)) {
+    // The ladder's steps, then any in-between step this ramp carries, whose
+    // lightness is interpolated exactly as a colour ramp's is.
+    const famName = Object.keys(GREYS.families).find((k) => GREYS.families[k] === fam);
+    const between = Object.keys((GREYS.extraSteps || {})[famName] || {}).map((s) => [s, stepLightness(GREYS.ladder, Number(s))]);
+    for (const [step, L] of [...Object.entries(GREYS.ladder), ...between]) {
       if (Number(step) < (fam.from ?? 0)) continue;
       const name = `--${fam.prefix}-${step}`;
       expected.add(name);
@@ -168,7 +172,7 @@ async function main() {
     console.error('   Change the rule, not the value, then run with --write.');
     process.exit(1);
   } else {
-    console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps, ${Object.values(EXTRA_STEPS).flat().length} in-between step(s) and ${Object.values(FAMILIES).filter((f) => f.tint).length} tints, match their rules; greys: ${Object.keys(RULES.greys.families).length} ramps, ${greySteps} steps`);
+    console.log(`✓  colour ramps: ${Object.keys(FAMILIES).length} families × ${Object.keys(LADDER).length} steps, ${Object.values(EXTRA_STEPS).flat().length} in-between step(s) and ${Object.values(FAMILIES).filter((f) => f.tint).length} tints, match their rules; greys: ${Object.keys(RULES.greys.families).length} ramps, ${greySteps} steps including ${Object.values(GREYS.extraSteps || {}).flatMap(Object.keys).length} in-between`);
   }
 }
 

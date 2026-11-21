@@ -64,6 +64,14 @@
             "aliasOf": "--color-bg-muted"
           }
         },
+        "active": {
+          "$type": "color",
+          "$value": "oklch(0.765 0 0)",
+          "$description": "pressed fill: one in-between step below the hover",
+          "$extensions": {
+            "aliasOf": "--gray-350"
+          }
+        },
         "inverse": {
           "$type": "color",
           "$value": "oklch(0.27 0.06 245.34)",
@@ -349,6 +357,14 @@
             "aliasOf": "--gray-300"
           }
         },
+        "tertiary-active": {
+          "$type": "color",
+          "$value": "oklch(0.765 0 0)",
+          "$description": "pressed: one in-between step below hover",
+          "$extensions": {
+            "aliasOf": "--gray-350"
+          }
+        },
         "tertiary-text": {
           "$type": "color",
           "$value": "oklch(0.27 0.06 245.34)",
@@ -584,6 +600,14 @@
           "$value": "oklch(0.4 0.026 248.99)",
           "$extensions": {
             "aliasOf": "--color-bg-muted"
+          }
+        },
+        "active": {
+          "$type": "color",
+          "$value": "oklch(0.35 0.026 248.99)",
+          "$description": "pressed fill: one in-between step below the hover",
+          "$extensions": {
+            "aliasOf": "--gray-cool-750"
           }
         },
         "inverse": {
@@ -877,6 +901,13 @@
           "$description": "not 650: the text-default label misses there (4.2)",
           "$extensions": {
             "aliasOf": "--gray-cool-700"
+          }
+        },
+        "tertiary-active": {
+          "$type": "color",
+          "$value": "oklch(0.35 0.026 248.99)",
+          "$extensions": {
+            "aliasOf": "--gray-cool-750"
           }
         },
         "tertiary-text": {

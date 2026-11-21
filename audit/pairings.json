@@ -492,6 +492,26 @@
       "note": "Ghost button label on its hover fill. The fill was bg-surface, which vanished on cards and striped rows (#322). OKCA 6.4 light / 4.9 dark"
     },
     {
+      "id": "button-tertiary-active",
+      "fg": "{color.action.tertiary-text}",
+      "bg": "{color.action.tertiary-active}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Pressed fill. It was a lightness shift typed into the component; it is now an in-between grey step."
+    },
+    {
+      "id": "button-ghost-active",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.active}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Ghost button label on its pressed fill."
+    },
+    {
       "id": "dismiss-icon-hover",
       "fg": "{color.text.default}",
       "bg": "{color.bg.hover}",

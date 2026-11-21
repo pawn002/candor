@@ -200,6 +200,14 @@
         "role": "The forward intent surface.",
         "fit": "Hue opposite cool. Peaks in the middle, so it reads about as strong in dark mode as in light instead of turning brown."
       }
+    },
+    "extraSteps": {
+      "neutral": {
+        "350": "--color-bg-active and --color-action-tertiary-active (light): the pressed fill, one notch below the gray-300 hover."
+      },
+      "cool": {
+        "750": "--color-bg-active and --color-action-tertiary-active (dark): the pressed fill, one notch below the gray-cool-700 hover."
+      }
     }
   }
 }

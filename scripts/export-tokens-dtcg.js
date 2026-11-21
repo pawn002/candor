@@ -514,10 +514,6 @@ const COLOUR_LITERAL_EXCEPTIONS = {
       'debt: the syntax palette was hand-picked against the code background; to be re-derived from the ramps',
     ])
   ),
-  'src/utilities/buttons.scss oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h)': 'debt: pressed state one hand-picked notch below hover; to point at a ramp step',
-  'src/utilities/buttons.scss oklch(from var(--color-bg-surface) calc(l - 0.06) c h)': 'debt: pressed state one hand-picked notch below the surface; to point at a ramp step',
-  'src/web-components/components/button/candor-button.ts oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h)': 'debt: pressed state one hand-picked notch below hover; to point at a ramp step',
-  'src/web-components/components/button/candor-button.ts oklch(from var(--color-bg-hover) calc(l - 0.04) c h)': 'debt: pressed state one hand-picked notch below hover; to point at a ramp step',
   'src/web-components/components/form/slider/candor-slider.ts rgba(0, 0, 0, 0.4)': 'debt: the thumb shadow is typed black in the component, so it ignores the --shadow-* tokens and does not adapt to dark mode; to use a shadow token',
   'src/web-components/components/form/slider/candor-slider.ts rgba(0, 0, 0, 0.28)': 'debt: the hovered thumb shadow, as above',
 };
