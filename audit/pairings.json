@@ -371,7 +371,7 @@
       "weight": "bold",
       "tier": 3,
       "min": 4.5,
-      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: the fills are pale tints, where sRGB leaves red little chroma, and pale tints fade on washed-out screens and under colour-vision deficiency. Error-bg and warning-bg were once deltaE 4 apart; they are step 100 of their ramps now (deltaE 16 light, 11 dark), but the words still carry the variant (#214)."
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: the fills are pale tints, where sRGB leaves red little chroma, and pale tints fade on washed-out screens and under colour-vision deficiency. Error-bg and warning-bg were once deltaE 4 apart; they are step 100 of their ramps now (light-mode deltaE 16, dark-mode deltaE 11), but the words still carry the variant (#214)."
     },
     {
       "id": "badge-error",
@@ -880,7 +880,7 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Inactive page button on a card, the common placement below a table. text-subtle measured 3.9 light here, which the page-only pairing never saw."
+      "note": "Inactive page button on a card, the common placement below a table. text-subtle was OKCA 3.9 light here, which the page-only pairing never saw."
     },
     {
       "id": "pagination-hover",
@@ -1150,6 +1150,26 @@
       "tier": 1,
       "min": 4.5,
       "note": "candor-autocomplete suggestion item in the popup list — 16px regular on elevated surface, Tier 1 Reading (user reads it to decide whether to accept). Value/placeholder/label/hint/error reuse the shared form-* pairings."
+    },
+    {
+      "id": "chat-input-disclaimer",
+      "fg": "{color.text.subtle-on-surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "bg": "{color.bg.page}",
+      "note": "Standing small print beneath the composer, 14px regular Tier 3: the field and its send button carry the action, the footnote qualifies it. subtle-on-surface so it also clears on a card (see chat-input-disclaimer-on-surface)."
+    },
+    {
+      "id": "chat-input-disclaimer-on-surface",
+      "fg": "{color.text.subtle-on-surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "bg": "{color.bg.surface}",
+      "note": "The disclaimer when the composer sits on a card. text-subtle was OKCA 3.9 light here, which no pairing recorded."
     },
     {
       "id": "code-inline",
