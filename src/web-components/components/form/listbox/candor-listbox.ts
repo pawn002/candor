@@ -65,7 +65,7 @@ export class CandorListbox extends LitElement {
       --_border-color: var(--color-border-control);
       border: var(--border-width-thin) solid var(--_border-color);
       border-radius: var(--radius-md); cursor: pointer; text-align: left;
-      gap: var(--spacing-xs); transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      gap: var(--spacing-xs); transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
     }
     .listbox__trigger:hover:not(:disabled) { --_border-color: var(--color-border-control-hover); }
     .listbox__trigger:focus-visible {
@@ -85,7 +85,7 @@ export class CandorListbox extends LitElement {
     .listbox__trigger-text { flex: 1; min-width: 0; overflow-wrap: anywhere; text-align: start; }
     .listbox__caret {
       flex-shrink: 0; width: 1rem; height: 1rem; color: var(--color-text-subtle);
-      transition: transform 200ms ease, color 200ms ease;
+      transition: transform var(--motion-duration-base) var(--motion-ease-standard), color var(--motion-duration-base) var(--motion-ease-standard);
     }
     .listbox__caret--open { transform: rotate(180deg); color: var(--color-text-accent); }
     .listbox__trigger:disabled .listbox__caret { color: var(--color-text-disabled); }
@@ -95,6 +95,12 @@ export class CandorListbox extends LitElement {
       background: var(--color-bg-elevated);
       border: var(--border-width-thin) solid var(--color-border-default);
       border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: var(--spacing-2xs) 0;
+      /* Arrives by fading and rising into place (#368). It is removed from the
+         DOM on close, so it leaves at once. */
+      transition: opacity var(--motion-duration-fast) var(--motion-ease-enter), transform var(--motion-duration-fast) var(--motion-ease-enter);
+    }
+    @starting-style {
+      .listbox__dropdown { opacity: 0; transform: translateY(calc(-0.5 * var(--motion-distance))); }
     }
     .listbox__option {
       display: flex; align-items: center; justify-content: space-between;

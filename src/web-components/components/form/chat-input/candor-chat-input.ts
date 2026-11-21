@@ -59,7 +59,7 @@ export class CandorChatInput extends LitElement {
       border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--radius-md);
       padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) var(--spacing-sm);
-      transition: border-color 0.15s ease;
+      transition: border-color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .chat-input__field:focus-within {
       border-color: var(--color-border-control-focus);
@@ -82,7 +82,7 @@ export class CandorChatInput extends LitElement {
       flex-shrink: 0; width: 2rem; height: 2rem;
       background: var(--color-bg-action-primary); color: var(--color-text-on-action);
       border: none; border-radius: var(--radius-sm); cursor: pointer;
-      transition: background-color 0.15s ease, opacity 0.15s ease;
+      transition: background-color var(--motion-duration-fast) var(--motion-ease-standard), opacity var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .chat-input__send:hover:not(:disabled) { background: var(--color-bg-action-primary-hover); }
     .chat-input__send:active:not(:disabled) { background: var(--color-bg-action-primary-active); }

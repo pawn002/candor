@@ -313,6 +313,22 @@
     --focus-ring-width:  var(--border-width-2);
     --focus-ring-offset: var(--border-width-2);
 
+    // ─── Motion (#368) ─────────────────────────────────────────────────────────
+    // Durations and easings every transition and animation draws from. Arrivals
+    // decelerate into place and take a little longer; departures accelerate
+    // away and are quicker, so dismissing never feels like waiting.
+    --motion-duration-instant: 100ms; // a control's own press feedback
+    --motion-duration-fast:    150ms; // hover and focus colour, a popup or tooltip appearing, a dialog leaving
+    --motion-duration-base:    200ms; // a state changing: a check, a switch, a disclosure opening
+    --motion-duration-slow:    250ms; // a dialog or drawer arriving
+    --motion-ease-standard: ease;                         // colour and state changes
+    --motion-ease-enter:    cubic-bezier(0.25, 0, 0.1, 1); // decelerates into place
+    --motion-ease-exit:     cubic-bezier(0.4, 0, 1, 1);    // accelerates away
+    // How far things travel. Reduced motion zeroes both below, so overlays fade
+    // in place: the fade carries the change and nothing moves.
+    --motion-distance: 0.5rem; // an overlay rising into place
+    --motion-travel:   1;      // multiplier on a full slide, such as a drawer from its edge
+
     // ─── Interaction ───────────────────────────────────────────────────────────
     --hit-target-aaa: 2.75rem; // 44px — WCAG 2.5.5 Target Size (Enhanced), AAA
     --hit-target-aa:  1.5rem;  // 24px — WCAG 2.5.8 Target Size (Minimum), AA, new in WCAG 2.2 (#279)
@@ -611,4 +627,14 @@
 // source order when data-theme="light" is set on a dark-OS system (Edge, Firefox).
 [data-theme="light"] {
     @include light-color-tokens;
+}
+
+// Reduced motion (#368): nothing travels; fades and colour changes remain, at
+// the same durations, because a change that happens without any transition
+// at all is harder to follow, not easier.
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --motion-distance: 0px;
+        --motion-travel:   0;
+    }
 }

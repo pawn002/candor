@@ -350,6 +350,15 @@
   --border-width-indicator: var(--border-width-3);
   --focus-ring-width: var(--border-width-2);
   --focus-ring-offset: var(--border-width-2);
+  --motion-duration-instant: 100ms;
+  --motion-duration-fast: 150ms;
+  --motion-duration-base: 200ms;
+  --motion-duration-slow: 250ms;
+  --motion-ease-standard: ease;
+  --motion-ease-enter: cubic-bezier(0.25, 0, 0.1, 1);
+  --motion-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --motion-distance: 0.5rem;
+  --motion-travel: 1;
   --hit-target-aaa: 2.75rem;
   --hit-target-aa: 1.5rem;
   --scrollbar-size: var(--hit-target-aa);
@@ -782,4 +791,11 @@
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
   --shadow-modal: 0 20px 48px rgba(0, 0, 0, 0.20), 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-distance: 0px;
+    --motion-travel: 0;
+  }
 }

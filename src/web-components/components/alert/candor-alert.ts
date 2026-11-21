@@ -85,7 +85,7 @@ export class CandorAlert extends LitElement {
       cursor: pointer;
       border-radius: var(--radius-sm);
       color: var(--color-text-subtle);
-      transition: color 0.15s ease, background-color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard), background-color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .alert__dismiss svg { width: 1rem; height: 1rem; }
     .alert__dismiss:hover { color: var(--color-text-default); background-color: var(--color-bg-hover); }

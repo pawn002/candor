@@ -61,7 +61,7 @@ export class CandorCombobox extends LitElement {
       color: var(--color-text-default); background-color: var(--color-bg-page);
       border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--radius-md); box-sizing: border-box;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
     }
     .combobox__input::placeholder { color: var(--color-text-subtle); }
     .combobox__input:hover:not(:disabled) { border-color: var(--color-border-control-hover); }
@@ -80,7 +80,7 @@ export class CandorCombobox extends LitElement {
     .combobox__caret {
       position: absolute; right: var(--candor-combobox-padding-x, var(--spacing-input-padding-x));
       width: 1rem; height: 1rem; color: var(--color-text-subtle); cursor: pointer;
-      transition: transform 200ms ease, color 200ms ease;
+      transition: transform var(--motion-duration-base) var(--motion-ease-standard), color var(--motion-duration-base) var(--motion-ease-standard);
     }
     .combobox__caret--open { transform: rotate(180deg); color: var(--color-text-accent); }
     .combobox__control:focus-within .combobox__caret { color: var(--color-text-accent); }
@@ -90,6 +90,12 @@ export class CandorCombobox extends LitElement {
       background: var(--color-bg-elevated);
       border: var(--border-width-thin) solid var(--color-border-default);
       border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: var(--spacing-2xs) 0;
+      /* Arrives by fading and rising into place (#368). It is removed from the
+         DOM on close, so it leaves at once. */
+      transition: opacity var(--motion-duration-fast) var(--motion-ease-enter), transform var(--motion-duration-fast) var(--motion-ease-enter);
+    }
+    @starting-style {
+      .combobox__dropdown { opacity: 0; transform: translateY(calc(-0.5 * var(--motion-distance))); }
     }
     .combobox__option {
       display: flex; align-items: center; justify-content: space-between;

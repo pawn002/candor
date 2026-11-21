@@ -70,6 +70,7 @@ Every colour token is named property first (#367): `--color-{bg|text|icon|border
 - **Typography**: `--font-family-*` (with role comments), `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`
 - **Shape / interaction**: `--radius-*`, `--border-width-*`, `--focus-ring-*`, `--hit-target-aaa`/`-aa`
 - **Elevation**: `--shadow-sm` … `--shadow-modal`
+- **Motion** (#368): `--motion-duration-instant` / `-fast` / `-base` / `-slow` (100 to 250ms), `--motion-ease-standard` / `-enter` / `-exit`, and the distances things travel, `--motion-distance` and `--motion-travel`. Arrivals decelerate and take a little longer; departures accelerate and are quicker. Under `prefers-reduced-motion: reduce` the two distances are zero, so nothing travels and fades remain, decided once in the tokens rather than in each component. `npm run audit:tokens` fails on a transition or animation with a literal duration; the looping progress indicators are its named exceptions.
 
 Many semantic tokens carry an inline OKCA contrast note (e.g. `// OKCA 11.4 on page ✅`). Those notes are load-bearing. They record *why* a value is what it is. Preserve them when editing, and keep them in the form `[<fg>] OKCA <n> on <bg>` so `npm run audit:contrast` can re-measure them; a figure written any other way is reported as `UNCHECKED`. Prefix a superseded figure with `was` (`// … gray-500 was OKCA 3.8`) to mark it historical.
 

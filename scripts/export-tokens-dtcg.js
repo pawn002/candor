@@ -656,6 +656,45 @@ const PROPERTY_EXCEPTIONS = {
   console.log(`✓  token properties: ${checked} colour references agree with their names (${Object.keys(PROPERTY_EXCEPTIONS).length} named exceptions); no deprecated name in use`);
 }
 
+// 2d. Motion (#368). Every transition and animation draws its duration from a
+// --motion-duration-* token, so speeds stay consistent and reduced motion is
+// handled in one place. A literal duration fails; a looping indicator, whose
+// period is not an interaction's speed, is named as an exception.
+const MOTION_EXCEPTIONS = {
+  'src/web-components/components/progress/candor-progress.ts progress-indeterminate': 'the indeterminate bar loops; its period is not an interaction speed',
+  'src/web-components/components/progress/candor-progress.ts spinner-rotate': 'the spinner loops',
+  'src/web-components/components/progress/candor-progress.ts spinner-arc': 'the spinner loops',
+};
+{
+  const problems = [];
+  const matched = new Set();
+  let checked = 0;
+  for (const file of sourceFiles()) {
+    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    if (/\.stories\.ts$/.test(rel) || /design-tokens\/(semantics|primitives)\.scss$/.test(rel)) continue;
+    const text = fs.readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\r\n]/g, ' '));
+    const lineOf = (i) => text.slice(0, i).split('\n').length;
+    for (const m of text.matchAll(/(?<![\w-])(transition|animation)(?:-duration)?\s*:\s*([^;{}`]*)/g)) {
+      checked++;
+      const literal = /(?<![\w.(-])\d*\.?\d+m?s\b/.exec(m[2].replace(/var\([^)]*\)/g, ''));
+      if (!literal) continue;
+      const name = /^\s*([a-z][\w-]*)/.exec(m[2])?.[1] || '';
+      const key = `${rel} ${name}`;
+      if (MOTION_EXCEPTIONS[key]) { matched.add(key); continue; }
+      problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} uses a literal duration (${literal[0]}): use a --motion-duration-* token`);
+    }
+  }
+  for (const key of Object.keys(MOTION_EXCEPTIONS)) {
+    if (!matched.has(key)) problems.push(`exception "${key}" matches nothing any more: remove it`);
+  }
+  if (problems.length) {
+    console.error(`✗  ${problems.length} transition(s) or animation(s) not on the motion tokens (#368):`);
+    for (const p of problems) console.error(`   ${p}`);
+    process.exit(1);
+  }
+  console.log(`✓  motion: ${checked} transitions and animations use the motion tokens (${Object.keys(MOTION_EXCEPTIONS).length} looping indicators excepted)`);
+}
+
 // 3. Resolve all var() references
 const lightTokens = resolveAll(lightRaw, primitives);
 const darkTokens  = resolveAll(darkRaw,  primitives);

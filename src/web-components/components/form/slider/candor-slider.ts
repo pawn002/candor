@@ -116,7 +116,7 @@ export class CandorSlider extends LitElement {
       border: var(--border-width-medium) solid var(--color-border-control);
       box-shadow: var(--shadow-sm);
       cursor: pointer;
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      transition: transform var(--motion-duration-instant) var(--motion-ease-standard), box-shadow var(--motion-duration-instant) var(--motion-ease-standard);
     }
     .slider__input:hover:not(:disabled)::-webkit-slider-thumb {
       transform: scale(1.1);
@@ -130,7 +130,7 @@ export class CandorSlider extends LitElement {
       border: var(--border-width-medium) solid var(--color-border-control);
       box-shadow: var(--shadow-sm);
       cursor: pointer;
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      transition: transform var(--motion-duration-instant) var(--motion-ease-standard), box-shadow var(--motion-duration-instant) var(--motion-ease-standard);
     }
     .slider__input:hover:not(:disabled)::-moz-range-thumb {
       transform: scale(1.1);

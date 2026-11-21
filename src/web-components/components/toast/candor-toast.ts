@@ -56,6 +56,12 @@ export class CandorToast extends LitElement {
       font-family: var(--font-family-base);
       min-width: min(var(--candor-toast-min-width), 100%);
       max-width: min(var(--candor-toast-max-width), 100%);
+      /* Arrives by fading and rising into place (#368). The consumer removes it,
+         so it leaves at once. */
+      transition: opacity var(--motion-duration-slow) var(--motion-ease-enter), transform var(--motion-duration-slow) var(--motion-ease-enter);
+    }
+    @starting-style {
+      .toast { opacity: 0; transform: translateY(var(--motion-distance)); }
     }
     .toast__icon { flex-shrink: 0; width: 1.25rem; height: 1.25rem; margin-top: 0.125rem; }
     .toast--info    .toast__icon { color: var(--color-text-subtle); }
@@ -84,7 +90,7 @@ export class CandorToast extends LitElement {
       border-radius: var(--radius-sm); color: var(--color-text-subtle);
       font-size: 1rem;
       line-height: 1;
-      transition: color 0.15s ease, background-color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard), background-color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .toast__dismiss:hover { color: var(--color-text-default); background-color: var(--color-bg-hover); }
     .toast__dismiss:focus-visible { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }

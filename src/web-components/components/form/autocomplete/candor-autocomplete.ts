@@ -52,7 +52,7 @@ export class CandorAutocomplete extends LitElement {
       color: var(--color-text-default); background-color: var(--color-bg-page);
       border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--candor-autocomplete-radius, var(--radius-md)); box-sizing: border-box;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
     }
     .autocomplete__input::placeholder { color: var(--color-text-subtle); }
     .autocomplete__input:hover:not(:disabled) { border-color: var(--color-border-control-hover); }
@@ -75,6 +75,12 @@ export class CandorAutocomplete extends LitElement {
       border: var(--border-width-thin) solid var(--color-border-default);
       border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: var(--spacing-2xs) 0;
       list-style: none;
+      /* Arrives by fading and rising into place (#368). It is removed from the
+         DOM on close, so it leaves at once. */
+      transition: opacity var(--motion-duration-fast) var(--motion-ease-enter), transform var(--motion-duration-fast) var(--motion-ease-enter);
+    }
+    @starting-style {
+      .autocomplete__dropdown { opacity: 0; transform: translateY(calc(-0.5 * var(--motion-distance))); }
     }
     .autocomplete__option {
       display: flex; align-items: center;

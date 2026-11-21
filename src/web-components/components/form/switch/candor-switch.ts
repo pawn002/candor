@@ -90,7 +90,7 @@ export class CandorSwitch extends LitElement {
       border: var(--border-width-medium) solid var(--color-border-control);
       padding: 3px;
       flex-shrink: 0;
-      transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+      transition: background-color var(--motion-duration-base) var(--motion-ease-standard), border-color var(--motion-duration-base) var(--motion-ease-standard);
       box-sizing: border-box;
     }
     .switch-track:hover {
@@ -101,7 +101,7 @@ export class CandorSwitch extends LitElement {
       height: 18px;
       border-radius: var(--radius-full);
       background-color: var(--color-fill-track);
-      transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+      transition: transform var(--motion-duration-base) var(--motion-ease-standard), background-color var(--motion-duration-base) var(--motion-ease-standard);
       flex-shrink: 0;
     }
     .switch-label {

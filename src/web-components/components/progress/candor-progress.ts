@@ -46,7 +46,7 @@ export class CandorProgress extends LitElement {
       height: 100%;
       background-color: var(--color-fill-indicator);
       border-radius: var(--radius-full);
-      transition: width 0.3s ease-in-out;
+      transition: width var(--motion-duration-slow) var(--motion-ease-standard);
     }
     .progress-bar__fill--indeterminate {
       width: 40% !important;

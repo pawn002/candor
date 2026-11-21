@@ -65,7 +65,7 @@ export class CandorDisclosure extends LitElement {
       width: 1rem;
       height: 1rem;
       color: var(--color-text-subtle);
-      transition: transform 200ms ease;
+      transition: transform var(--motion-duration-base) var(--motion-ease-standard);
     }
     .disclosure__icon--open { transform: rotate(180deg); }
     .disclosure__panel { overflow: hidden; }

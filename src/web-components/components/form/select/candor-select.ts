@@ -68,7 +68,7 @@ export class CandorSelect extends LitElement {
       color: var(--color-text-default);
       appearance: none;
       cursor: pointer;
-      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
       min-height: var(--hit-target-aaa);
     }
     .select:hover:not(:disabled) { border-color: var(--color-border-control-hover); }
@@ -83,7 +83,7 @@ export class CandorSelect extends LitElement {
       height: 1rem;
       pointer-events: none;
       color: var(--color-text-subtle);
-      transition: color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .select-control:focus-within .select__caret { color: var(--color-text-accent); }
     .select-control--error .select__caret { color: var(--color-icon-error); }

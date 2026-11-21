@@ -57,7 +57,7 @@ export class CandorPagination extends LitElement {
       letter-spacing: var(--letter-spacing-body);
       line-height: 1;
       cursor: pointer;
-      transition: background-color 120ms ease, color 120ms ease;
+      transition: background-color var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .pagination__btn:hover:not(:disabled) {
       /* bg-hover, not bg-surface: on a card a surface-coloured hover is invisible. */

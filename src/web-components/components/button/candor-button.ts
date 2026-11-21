@@ -51,7 +51,7 @@ export class CandorButton extends LitElement {
       border: none;
       border-radius: var(--candor-button-radius, var(--radius-md));
       cursor: pointer;
-      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+      transition: background-color var(--motion-duration-base) var(--motion-ease-standard), color var(--motion-duration-base) var(--motion-ease-standard), border-color var(--motion-duration-base) var(--motion-ease-standard), opacity var(--motion-duration-base) var(--motion-ease-standard);
       display: inline-flex;
       align-items: center;
       justify-content: center;

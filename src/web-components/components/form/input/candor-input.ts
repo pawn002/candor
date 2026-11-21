@@ -51,7 +51,7 @@ export class CandorInput extends LitElement {
       border-radius: var(--candor-input-radius, var(--radius-md));
       background-color: var(--color-bg-page);
       color: var(--color-text-default);
-      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
       min-height: var(--hit-target-aaa);
       width: 100%;
       box-sizing: border-box;

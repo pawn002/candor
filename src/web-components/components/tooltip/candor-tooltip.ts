@@ -61,14 +61,11 @@ export class CandorTooltip extends LitElement {
          the host's scrollWidth (#107, #175). The display and overlay
          transitions keep the fade on both the way in and the way out. */
       opacity: 0;
-      transition: opacity 0.15s ease, display 0.15s ease allow-discrete, overlay 0.15s ease allow-discrete;
+      transition: opacity var(--motion-duration-fast) var(--motion-ease-standard), display var(--motion-duration-fast) var(--motion-ease-standard) allow-discrete, overlay var(--motion-duration-fast) var(--motion-ease-standard) allow-discrete;
     }
     .tooltip__bubble:popover-open { opacity: 1; }
     @starting-style {
       .tooltip__bubble:popover-open { opacity: 0; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .tooltip__bubble { transition: none; }
     }
     .tooltip__bubble::after {
       content: '';

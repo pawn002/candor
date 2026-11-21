@@ -48,10 +48,44 @@ export class CandorModal extends LitElement {
       max-width: none;
       max-height: none;
       overflow: visible;
+      /* Enter and exit (#368). Leaving is the default state's transition and
+         arriving is [open]'s, so each direction gets its own duration and
+         easing. display and overlay transition discretely, which keeps the
+         dialog rendered in the top layer while it animates out; a browser
+         without overlay support skips the exit, as before. */
+      opacity: 0;
+      transform: translateY(var(--motion-distance));
+      transition:
+        opacity var(--motion-duration-fast) var(--motion-ease-exit),
+        transform var(--motion-duration-fast) var(--motion-ease-exit),
+        overlay var(--motion-duration-fast) allow-discrete,
+        display var(--motion-duration-fast) allow-discrete;
+    }
+    dialog[open] {
+      opacity: 1;
+      transform: none;
+      transition-duration: var(--motion-duration-slow);
+      transition-timing-function: var(--motion-ease-enter);
+    }
+    @starting-style {
+      dialog[open] { opacity: 0; transform: translateY(var(--motion-distance)); }
     }
     dialog::backdrop {
       background-color: var(--color-bg-scrim);
       backdrop-filter: blur(2px);
+      opacity: 0;
+      transition:
+        opacity var(--motion-duration-fast) var(--motion-ease-exit),
+        overlay var(--motion-duration-fast) allow-discrete,
+        display var(--motion-duration-fast) allow-discrete;
+    }
+    dialog[open]::backdrop {
+      opacity: 1;
+      transition-duration: var(--motion-duration-slow);
+      transition-timing-function: var(--motion-ease-enter);
+    }
+    @starting-style {
+      dialog[open]::backdrop { opacity: 0; }
     }
 
     .modal__panel {
@@ -103,7 +137,7 @@ export class CandorModal extends LitElement {
       cursor: pointer;
       border-radius: var(--radius-sm);
       color: var(--color-text-subtle);
-      transition: background-color 0.15s ease, color 0.15s ease;
+      transition: background-color var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .modal__close:hover {
       background-color: var(--color-bg-hover);

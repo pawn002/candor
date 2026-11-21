@@ -99,7 +99,7 @@ export class CandorCheckbox extends LitElement {
       background-color: var(--color-bg-page);
       position: relative;
       flex-shrink: 0;
-      transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+      transition: background-color var(--motion-duration-base) var(--motion-ease-standard), border-color var(--motion-duration-base) var(--motion-ease-standard);
     }
     .checkbox-box:hover {
       border-color: var(--color-border-accent);

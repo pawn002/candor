@@ -54,7 +54,7 @@ export class CandorTabs extends LitElement {
       pointer-events: none;
       z-index: 1;
       opacity: 0;
-      transition: opacity 0.15s ease;
+      transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .tabs__list-wrapper::before {
       left: 0;
@@ -79,7 +79,7 @@ export class CandorTabs extends LitElement {
       border: none;
       cursor: pointer;
       color: var(--color-text-subtle);
-      transition: color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .tabs__scroll-btn:hover { color: var(--color-text-default); }
     .tabs__scroll-btn--left { left: 0; }
@@ -110,7 +110,7 @@ export class CandorTabs extends LitElement {
       color: var(--color-text-subtle);
       border-bottom: var(--border-width-indicator) solid transparent;
       margin-bottom: calc(-1 * var(--border-width-thin));
-      transition: color 0.15s ease, border-color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard);
       white-space: nowrap;
     }
     .tabs__tab[aria-selected='true'] {

@@ -72,7 +72,7 @@ export class CandorChip extends LitElement {
       letter-spacing: inherit;
     }
     .chip__body--button:not(:disabled):hover { background-color: oklch(from var(--color-text-accent) l c h / 0.06); }
-    .chip__body--link { text-decoration: none; font-family: inherit; font-size: inherit; letter-spacing: inherit; transition: background-color 0.15s ease, color 0.15s ease; }
+    .chip__body--link { text-decoration: none; font-family: inherit; font-size: inherit; letter-spacing: inherit; transition: background-color var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard); }
     .chip__body--link:hover { background-color: oklch(from var(--color-text-accent) l c h / 0.06); color: var(--color-text-default); }
     .chip__dismiss {
       display: inline-flex;
@@ -88,7 +88,7 @@ export class CandorChip extends LitElement {
       border-radius: var(--radius-full);
       color: var(--color-text-subtle);
       flex-shrink: 0;
-      transition: background-color 0.15s ease, color 0.15s ease;
+      transition: background-color var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .chip__dismiss svg { width: 0.625rem; height: 0.625rem; }
     .chip__dismiss:hover { background-color: oklch(from var(--color-text-accent) l c h / 0.12); color: var(--color-text-default); }

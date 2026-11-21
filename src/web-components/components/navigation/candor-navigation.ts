@@ -63,7 +63,7 @@ export class CandorNavigation extends LitElement {
       padding: var(--spacing-xs) var(--spacing-sm);
       border-radius: var(--radius-sm);
       text-decoration: none;
-      transition: color 0.15s ease, background-color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard), background-color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     /* bg-hover, not action-tertiary: the nav is bg-surface, and the tertiary fill is
        deltaE 1 from it in light, so the hover did not show (audit/separations.json). */
