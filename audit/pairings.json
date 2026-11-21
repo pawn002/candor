@@ -614,7 +614,7 @@
     {
       "id": "nav-badge",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.secondary-fill}",
+      "bg": "{color.nav.badge-bg}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
@@ -1014,12 +1014,12 @@
     {
       "id": "nav-badge-text",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.secondary-fill}",
+      "bg": "{color.nav.badge-bg}",
       "size": 14,
       "weight": "semibold",
       "tier": 3,
       "min": 4.5,
-      "note": "Navigation badge count (light label on the burgundy fill) — Tier 3 Supplementary; OKCA 7.8 light / 10.2 dark (was OKCA 5.4 dark on burgundy-600, which outshone the primary fill; was OKCA 6.7 dark, dark label on the pale burgundy-300 fill)"
+      "note": "Navigation badge count (light label on the burgundy fill) — Tier 3 Supplementary; OKCA 7.8 light / 5.4 dark. Its own fill, --color-nav-badge-bg, stays at burgundy-600 in dark while badges deepen to 800, since a count is meant to draw the eye (was OKCA 6.7 dark, dark label on the pale burgundy-300 fill)"
     },
     {
       "id": "tone-picker-col-header",

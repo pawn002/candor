@@ -75,7 +75,7 @@ export class CandorNavigation extends LitElement {
     .nav--inverse .nav__link--active { color: var(--color-text-inverse); font-weight: var(--font-weight-semibold); }
     .nav__badge {
       display: inline-flex; align-items: center; justify-content: center;
-      background-color: var(--color-action-secondary-fill); color: var(--color-text-on-action);
+      background-color: var(--color-nav-badge-bg); color: var(--color-text-on-action);
       font-size: var(--font-size-sm); border-radius: var(--radius-full);
       padding: 0.1em 0.4em; line-height: var(--line-height-tight); font-weight: var(--font-weight-semibold);
     }

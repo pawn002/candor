@@ -87,6 +87,9 @@
     --color-action-secondary-active: var(--burgundy-900);
     // The edge of an outlined secondary action (the secondary chip); see action-primary-border.
     --color-action-secondary-border: var(--color-action-secondary);
+    // The navigation count badge ("Inbox 12"). Its own token because in dark it stays
+    // brighter than the secondary fill: an unread count is meant to draw the eye.
+    --color-nav-badge-bg: var(--color-action-secondary-fill);
 
     // The mark drawn on a checked control's action-primary fill: the checkbox
     // tick and the switch thumb. It was text-on-action until dark mode gave the
@@ -405,6 +408,9 @@
     --color-action-secondary-hover:  var(--burgundy-900); // text-on-action OKCA 13.1 on this bg ✅
     --color-action-secondary-active: var(--burgundy-900);
     --color-action-secondary-border: var(--burgundy-500); // dimmed below the label, as action-primary-border
+    // Not the secondary fill (burgundy-800): that recedes below the navy inverse band,
+    // and a count badge has no primary badge beside it to outrank.
+    --color-nav-badge-bg: var(--burgundy-600); // text-on-action OKCA 5.4 on this bg ✅
 
     // Tick and switch thumb on the pale action-primary: the page-dark mark the
     // labelled fills used to share. icon/border use.
