@@ -111,9 +111,12 @@
 
     // ─── Colors: Action — Tertiary ─────────────────────────────────────────────
     // No border — structural identity is the fill (distinct from secondary's outline).
-    --color-action-tertiary:        var(--gray-200);  // was gray-100; bumped for visibility without border
-    --color-action-tertiary-hover:  var(--gray-300);
-    --color-action-tertiary-active: var(--gray-350); // pressed: one in-between step below hover
+    // The fill is the button's only edge, so it rests on the muted step, deltaE 8 or
+    // more from page, card and modal (audit/separations.json); gray-200 was deltaE 1
+    // from a card. Each state is one step darker.
+    --color-action-tertiary:        var(--gray-300);
+    --color-action-tertiary-hover:  var(--gray-350);
+    --color-action-tertiary-active: var(--gray-400);
     --color-action-tertiary-text:   var(--navy-800);
 
     // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────
@@ -436,15 +439,15 @@
     --color-action-destructive-border: var(--color-status-error-border);
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
-    // ⚠️  fill is only OKCA 1.0 on page — intentionally subtle in dark mode.
-    // Text is text-default, not white: white made tertiary the brightest label
-    // in a button row, out-ranking secondary and the primary itself. Uses the cool-gray ramp
-    // (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead
-    // of advancing and competing with the primary button (warm advances / cool
-    // recedes); L preserved.
-    --color-action-tertiary:       var(--gray-cool-800);
-    --color-action-tertiary-hover: var(--gray-cool-700); // not 650: the text-default label misses there (4.2)
-    --color-action-tertiary-active: var(--gray-cool-750);
+    // The fill is the button's only edge, so it rests on the muted step, as in
+    // light: gray-cool-800 was the modal's own colour (deltaE 0). Cool greys, so
+    // tertiary recedes on the navy surfaces instead of competing with the primary.
+    // Text is text-default, not white: white made tertiary the brightest label in
+    // a button row. States step darker, since a lighter step costs the label its
+    // floor (gray-cool-650 measures 4.2).
+    --color-action-tertiary:        var(--gray-cool-700);
+    --color-action-tertiary-hover:  var(--gray-cool-750);
+    --color-action-tertiary-active: var(--gray-cool-800);
     --color-action-tertiary-text:  var(--color-text-default);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────

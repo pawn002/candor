@@ -136,6 +136,24 @@
       "a": "{color.nav.badge-bg}",
       "b": "{color.bg.inverse}",
       "note": "The navigation count badge on the inverse band."
+    },
+    {
+      "id": "button-tertiary-on-page",
+      "a": "{color.action.tertiary}",
+      "b": "{color.bg.page}",
+      "note": "The tertiary button has no border; its fill is its shape. It rested deltaE 1 from a light card and 0 from a dark modal until it moved to the muted step."
+    },
+    {
+      "id": "button-tertiary-on-surface",
+      "a": "{color.action.tertiary}",
+      "b": "{color.bg.surface}",
+      "note": "The tertiary button has no border; its fill is its shape. It rested deltaE 1 from a light card and 0 from a dark modal until it moved to the muted step."
+    },
+    {
+      "id": "button-tertiary-on-elevated",
+      "a": "{color.action.tertiary}",
+      "b": "{color.bg.elevated}",
+      "note": "The tertiary button has no border; its fill is its shape. It rested deltaE 1 from a light card and 0 from a dark modal until it moved to the muted step."
     }
   ]
 }

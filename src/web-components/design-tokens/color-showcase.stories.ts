@@ -91,9 +91,9 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     name: 'Action: Tertiary',
     description: 'Neutral fill with no border, for low-hierarchy actions',
     colors: [
-      { name: 'Tertiary', variable: '--color-action-tertiary', description: 'Tertiary button fill' },
+      { name: 'Tertiary', variable: '--color-action-tertiary', description: 'Tertiary button fill, its only edge: the muted step, so it holds on page, card and modal' },
       { name: 'Tertiary Hover', variable: '--color-action-tertiary-hover', description: 'Hover state' },
-      { name: 'Tertiary Active', variable: '--color-action-tertiary-active', description: 'Pressed state, one in-between step below hover' },
+      { name: 'Tertiary Active', variable: '--color-action-tertiary-active', description: 'Pressed state, a step darker than hover' },
       { name: 'Tertiary Text', variable: '--color-action-tertiary-text', description: 'Text / icon on tertiary bg' },
     ],
   },

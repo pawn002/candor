@@ -343,26 +343,25 @@
         },
         "tertiary": {
           "$type": "color",
-          "$value": "oklch(0.89 0 0)",
-          "$description": "No border — structural identity is the fill (distinct from secondary's outline). — was gray-100; bumped for visibility without border",
+          "$value": "oklch(0.81 0 0)",
+          "$description": "No border — structural identity is the fill (distinct from secondary's outline). The fill is the button's only edge, so it rests on the muted step, deltaE 8 or more from page, card and modal (audit/separations.json); gray-200 was deltaE 1 from a card. Each state is one step darker.",
           "$extensions": {
             "usage": "non-text",
-            "aliasOf": "--gray-200"
+            "aliasOf": "--gray-300"
           }
         },
         "tertiary-hover": {
           "$type": "color",
-          "$value": "oklch(0.81 0 0)",
+          "$value": "oklch(0.765 0 0)",
           "$extensions": {
-            "aliasOf": "--gray-300"
+            "aliasOf": "--gray-350"
           }
         },
         "tertiary-active": {
           "$type": "color",
-          "$value": "oklch(0.765 0 0)",
-          "$description": "pressed: one in-between step below hover",
+          "$value": "oklch(0.72 0 0)",
           "$extensions": {
-            "aliasOf": "--gray-350"
+            "aliasOf": "--gray-400"
           }
         },
         "tertiary-text": {
@@ -888,26 +887,25 @@
         },
         "tertiary": {
           "$type": "color",
-          "$value": "oklch(0.30 0.026 248.99)",
-          "$description": "⚠️  fill is only OKCA 1.0 on page — intentionally subtle in dark mode. Text is text-default, not white: white made tertiary the brightest label in a button row, out-ranking secondary and the primary itself. Uses the cool-gray ramp (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead of advancing and competing with the primary button (warm advances / cool recedes); L preserved.",
+          "$value": "oklch(0.4 0.026 248.99)",
+          "$description": "The fill is the button's only edge, so it rests on the muted step, as in light: gray-cool-800 was the modal's own colour (deltaE 0). Cool greys, so tertiary recedes on the navy surfaces instead of competing with the primary. Text is text-default, not white: white made tertiary the brightest label in a button row. States step darker, since a lighter step costs the label its floor (gray-cool-650 measures 4.2).",
           "$extensions": {
             "usage": "non-text",
-            "aliasOf": "--gray-cool-800"
+            "aliasOf": "--gray-cool-700"
           }
         },
         "tertiary-hover": {
           "$type": "color",
-          "$value": "oklch(0.4 0.026 248.99)",
-          "$description": "not 650: the text-default label misses there (4.2)",
+          "$value": "oklch(0.35 0.026 248.99)",
           "$extensions": {
-            "aliasOf": "--gray-cool-700"
+            "aliasOf": "--gray-cool-750"
           }
         },
         "tertiary-active": {
           "$type": "color",
-          "$value": "oklch(0.35 0.026 248.99)",
+          "$value": "oklch(0.30 0.026 248.99)",
           "$extensions": {
-            "aliasOf": "--gray-cool-750"
+            "aliasOf": "--gray-cool-800"
           }
         },
         "tertiary-text": {

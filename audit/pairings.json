@@ -499,7 +499,7 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Pressed fill. It was a lightness shift typed into the component; it is now an in-between grey step."
+      "note": "Pressed fill, a step darker than hover. Light sits close to the floor here."
     },
     {
       "id": "button-ghost-active",
