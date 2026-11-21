@@ -27,7 +27,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     colors: [
       { name: 'Page', variable: '--color-bg-page', description: 'Page floor' },
       { name: 'Surface', variable: '--color-bg-surface', description: 'Cards and panels' },
-      { name: 'Subtle', variable: '--color-bg-subtle', description: 'Subtle interactive fill for hover rows, selection and hover chips. One step beyond surface; direction flips per theme' },
+      { name: 'Subtle', variable: '--color-bg-subtle', description: 'Deprecated in 7.0.0, removed in the next major. Unused, and it vanishes on a card; use --color-bg-hover' },
       { name: 'Muted', variable: '--color-bg-muted', description: 'Neutral fill that reads on page, surface and elevated alike. The default badge rests on it' },
       { name: 'Hover', variable: '--color-bg-hover', description: 'Hover fill for ghost buttons and close actions. An alias of muted' },
       { name: 'Active', variable: '--color-bg-active', description: 'Pressed fill under a hover, one in-between step below it' },
@@ -80,8 +80,8 @@ const COLOR_CATEGORIES: ColorCategory[] = [
     description: 'Burgundy, the supporting action color',
     colors: [
       { name: 'Secondary Fill', variable: '--color-action-secondary-fill', description: 'Fill behind a label in burgundy. Deep in both modes' },
-      { name: 'Secondary Hover', variable: '--color-action-secondary-hover', description: 'Hover state of the fill' },
-      { name: 'Secondary Active', variable: '--color-action-secondary-active', description: 'Pressed state of the fill' },
+      { name: 'Secondary Hover', variable: '--color-action-secondary-hover', description: 'Deprecated in 7.0.0, removed in the next major: no component has a filled secondary control' },
+      { name: 'Secondary Active', variable: '--color-action-secondary-active', description: 'Deprecated in 7.0.0, removed in the next major, with Secondary Hover' },
       { name: 'Secondary', variable: '--color-action-secondary', description: 'Label and edge colour in burgundy. Pale in dark' },
       { name: 'Secondary Border', variable: '--color-action-secondary-border', description: 'Edge of an outlined secondary action (the secondary chip)' },
       { name: 'Nav Badge', variable: '--color-nav-badge-bg', description: 'Navigation count badge. Brighter than the secondary fill in dark, so an unread count draws the eye' },

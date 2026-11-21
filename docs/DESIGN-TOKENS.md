@@ -54,7 +54,7 @@ Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgu
 
 Named **roles** that map primitives to meaning. A role never types its own colour: when it needs a lightness the ladder lacks, add an in-between ramp step (`extraSteps` in `src/design-tokens/colour-ramp-rules.json`) and point the role at it. `npm run audit:tokens` fails on a typed colour anywhere outside `primitives.scss` and stories, in tokens and components alike. Its one named exception, the overlay scrim, is listed with its reason in `scripts/export-tokens-dtcg.js`. The syntax-highlighting palette in `syntax.scss` is derived from the ramps too. This is the layer components and consumers reference:
 
-- **Backgrounds**: `--color-bg-page`, `--color-bg-surface`, `--color-bg-subtle`, `--color-bg-elevated`, `--color-bg-inverse`
+- **Backgrounds**: `--color-bg-page`, `--color-bg-surface`, `--color-bg-subtle` (deprecated in 7.0.0; use `--color-bg-hover`), `--color-bg-elevated`, `--color-bg-inverse`
 - **Text**: `--color-text-default`, `--color-text-subtle`, `--color-text-subtle-on-surface`, `--color-text-inverse`, `--color-text-on-action`, …
 - **Borders**: `--color-border-default`, `--color-border-strong`, `--color-border-control`, …
 - **Actions**: `--color-action-primary` (navy), `-secondary` (burgundy), `-tertiary`, `-destructive`, each with `-hover`/`-active` and, where relevant, `-text`/`-border`

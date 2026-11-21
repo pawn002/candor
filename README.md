@@ -151,7 +151,7 @@ Semantic aliases map primitive ramps to roles:
 --color-action-primary
 --color-action-primary-hover
 --color-action-secondary
---color-action-secondary-hover
+--color-action-secondary-hover   /* deprecated in 7.0.0, removed in the next major */
 --color-action-destructive
 --color-action-destructive-text
 

@@ -6,7 +6,9 @@
     // ─── Colors: Backgrounds ───────────────────────────────────────────────────
     --color-bg-page:     var(--gray-cool-25);
     --color-bg-surface:  var(--gray-100);
-    --color-bg-subtle:   var(--gray-200);  // subtle interactive fill — one step darker than surface (hover rows, selection, hover chips); mirrors --color-text-subtle (#174)
+    // Deprecated in 7.0.0, removed in the next major: no component uses it, and it is
+    // deltaE 1 from bg-surface, so a fill in it vanishes on a card. Use --color-bg-hover.
+    --color-bg-subtle:   var(--gray-200);
     --color-bg-elevated: var(--gray-0);   // white — floats above surface (gray-100) via shadow
     // Intent surfaces (#318). Use these to rank surfaces by temperature: forward
     // for the one thing a screen should lead with, recede for chrome that should
@@ -87,6 +89,8 @@
     // ─── Colors: Action — Secondary (burgundy) ─────────────────────────────────
     --color-action-secondary:        var(--burgundy-700); // OKCA 9.4 on white ✅
     --color-action-secondary-fill:   var(--color-action-secondary); // see action-primary-fill
+    // Deprecated in 7.0.0, removed in the next major: no component has a filled
+    // secondary control to hover or press.
     --color-action-secondary-hover:  var(--burgundy-800);
     --color-action-secondary-active: var(--burgundy-900);
     // The edge of an outlined secondary action (the secondary chip); see action-primary-border.
@@ -304,7 +308,7 @@
     // ─── Backgrounds ───────────────────────────────────────────────────────
     --color-bg-page:     var(--gray-cool-900);           // oklch(0.16 0.02 248.99) — deepest surface
     --color-bg-surface:  var(--gray-cool-850);           // oklch(0.24 0.03 248.99) — cards/panels
-    --color-bg-subtle:   var(--gray-cool-800);      // subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.
+    --color-bg-subtle:   var(--gray-cool-800); // deprecated in 7.0.0; see light
     --color-bg-elevated: var(--gray-cool-800);      // one step above surface; shares gray-cool-800 with bg-subtle
     // Intent surfaces (#318). Dark surfaces are already cool, so recede steps down
     // toward the page; forward keeps the card lightness and turns warm.
@@ -419,7 +423,7 @@
     // Its hue keeps the fill distinct on the near-neutral cards.
     --color-action-secondary-fill:   var(--burgundy-800); // text-on-action OKCA 10.2 on this bg ✅
     --color-action-secondary-hover:  var(--burgundy-900); // text-on-action OKCA 13.1 on this bg ✅
-    --color-action-secondary-active: var(--burgundy-900);
+    --color-action-secondary-active: var(--burgundy-900); // deprecated in 7.0.0, with -hover; see light
     --color-action-secondary-border: var(--burgundy-500); // dimmed below the label, as action-primary-border
     // Not the secondary fill (burgundy-800): that recedes below the navy inverse band,
     // and a count badge has no primary badge beside it to outrank.

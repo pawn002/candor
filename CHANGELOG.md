@@ -40,6 +40,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **`blog.scss`: the tag separator is regular weight again (#358).** It referenced `--font-weight-normal`, which does not exist, so the declaration was dropped and the separator inherited the bold of its tag. It now uses `--font-weight-regular`.
 
+### Deprecated
+
+- **`--color-bg-subtle`, `--color-action-secondary-hover` and `--color-action-secondary-active` are deprecated, and will be removed in the next major.** No component uses any of them. `--color-bg-subtle` is deltaE 1 from `--color-bg-surface` in light, so a fill in it vanishes on a card; use `--color-bg-hover`, which `audit/separations.json` holds apart from page, card and modal. No component has a filled secondary control to hover or press. All three still resolve as before in this release (docs/BREAKING-CHANGES.md, deprecation policy).
+
 ### Added
 
 - **`audit:contrast` checks that fills stand apart from what they sit on.** `audit/separations.json` lists the fills that are their own boundary (the tooltip, the borderless hover, the default badge, code blocks, the status fills, the navigation badge) and what each sits on or beside, and the audit measures every pair with klar deltaE in both modes against a floor of 8 (10 for the tooltip). Contrast floors never compare one fill with another. The first run found `candor-navigation`'s link hover painted `--color-action-tertiary` on the navigation's own `--color-bg-surface`, deltaE 1 apart in light, so the hover did not show; it now uses `--color-bg-hover`, as the ghost button does (#322).

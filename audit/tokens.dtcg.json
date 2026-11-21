@@ -19,7 +19,7 @@
         "subtle": {
           "$type": "color",
           "$value": "oklch(0.89 0 0)",
-          "$description": "subtle interactive fill — one step darker than surface (hover rows, selection, hover chips); mirrors --color-text-subtle (#174)",
+          "$description": "Deprecated in 7.0.0, removed in the next major: no component uses it, and it is deltaE 1 from bg-surface, so a fill in it vanishes on a card. Use --color-bg-hover.",
           "$extensions": {
             "aliasOf": "--gray-200"
           }
@@ -286,6 +286,7 @@
         "secondary-hover": {
           "$type": "color",
           "$value": "oklch(0.27 0.073 347.43)",
+          "$description": "Deprecated in 7.0.0, removed in the next major: no component has a filled secondary control to hover or press.",
           "$extensions": {
             "aliasOf": "--burgundy-800"
           }
@@ -558,7 +559,7 @@
         "subtle": {
           "$type": "color",
           "$value": "oklch(0.30 0.026 248.99)",
-          "$description": "subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.",
+          "$description": "deprecated in 7.0.0; see light",
           "$extensions": {
             "aliasOf": "--gray-cool-800"
           }
@@ -837,6 +838,7 @@
         "secondary-active": {
           "$type": "color",
           "$value": "oklch(0.20 0.065 347.43)",
+          "$description": "deprecated in 7.0.0, with -hover; see light",
           "$extensions": {
             "aliasOf": "--burgundy-900"
           }
