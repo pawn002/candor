@@ -508,12 +508,6 @@ if (!SKIP_GAMUT) {
 // that predate the gate and are due to be re-derived.
 const COLOUR_LITERAL_EXCEPTIONS = {
   'src/design-tokens/semantics.scss --color-overlay': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour',
-  ...Object.fromEntries(
-    ['comment', 'keyword', 'string', 'number', 'function', 'property', 'operator', 'deleted', 'inserted', 'regex'].map((k) => [
-      `src/design-tokens/syntax.scss --syntax-${k}`,
-      'debt: the syntax palette was hand-picked against the code background; to be re-derived from the ramps',
-    ])
-  ),
 };
 
 /** Every typed colour in one file, keyed `<path> <declared name or the literal>`. */
