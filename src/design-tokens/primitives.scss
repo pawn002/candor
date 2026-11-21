@@ -70,6 +70,7 @@
     --azure-300: oklch(0.76 0.127 250.80);
     --azure-400: oklch(0.65 0.18 250.80); // #1493FB — original anchor — decorative/dark-bg only
     --azure-500: oklch(0.53 0.152 250.80); // OKCA 4.2 on white ❌ (WCAG 2.x 5.2)
+    --azure-545: oklch(0.4895 0.141 250.80); // between 500 and 600: derived, see EXTRA_STEPS in scripts/derive-colour-ramps.js
     --azure-600: oklch(0.44 0.127 250.80); // OKCA 6.4 on white ✅ (WCAG 2.x 7.7)
     --azure-700: oklch(0.37 0.105 250.80);
     --azure-800: oklch(0.27 0.074 250.80);

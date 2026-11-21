@@ -46,13 +46,13 @@ src/design-tokens/
 
 Raw, context-free values under `:root`. Color **ramps** (each family is a 50–900 scale derived from stated rules in `scripts/derive-colour-ramps.js`: one lightness ladder shared by every family, and a chroma curve per family. A ramp can also carry a step between two ladder steps, such as `navy-670`, whose number fixes its lightness by interpolation, so a needed colour is derived from the curve rather than invented), the spacing scale (`--space-1` … `--space-12`, 8px base), the type scale (`--text-xs` … `--text-3xl`, Major Third 1.25 ratio), font stacks, weights, line heights, tracking, and border/radius primitives.
 
-Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), and a neutral **gray** ramp. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside. For example, `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-link` steps to `L=0.49` rather than aliasing a ramp step.
+Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), and a neutral **gray** ramp. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside. For example, `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-link` uses `azure-545`, a step derived between 500 and 600 that clears it.
 
 > **Components must never reference a primitive directly.** `var(--navy-800)` in a component is a bug. It bypasses the semantic layer and breaks dark mode. Always go through a `--color-*` role.
 
 ### Semantics (`semantics.scss`)
 
-Named **roles** that map primitives (or direct OKLCH values, where a role needs a value the ramp doesn't carry) to meaning. This is the layer components and consumers reference:
+Named **roles** that map primitives to meaning. A role never types its own colour: when it needs a lightness the ladder lacks, add an in-between ramp step (`EXTRA_STEPS` in `scripts/derive-colour-ramps.js`) and point the role at it. `npm run audit:tokens` fails on a typed colour, apart from two named exceptions (the code-block teal and the overlay scrim) listed with their reasons in `scripts/export-tokens-dtcg.js`. This is the layer components and consumers reference:
 
 - **Backgrounds**: `--color-bg-page`, `--color-bg-surface`, `--color-bg-subtle`, `--color-bg-elevated`, `--color-bg-inverse`
 - **Text**: `--color-text-default`, `--color-text-subtle`, `--color-text-subtle-on-surface`, `--color-text-inverse`, `--color-text-on-action`, …

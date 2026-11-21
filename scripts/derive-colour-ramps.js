@@ -73,7 +73,9 @@ const FAMILIES = {
 // Steps between the ladder's, each minted for a token that needed it.
 //   navy-670  --color-tooltip-bg (dark): deltaE 10 from bg-elevated with Tier 2
 //             white text (navy-700 was deltaE 9; navy-600 fails the text floor).
-const EXTRA_STEPS = { navy: [670] };
+//   azure-545 --color-link (light): OKCA 5.0 on white. azure-500 is 4.2, below the
+//             4.5 text floor; the link was a hand-typed L 0.49 until this step (#14).
+const EXTRA_STEPS = { navy: [670], azure: [545] };
 
 // Lightness of any step number: the ladder's own value, or a straight line
 // between the ladder steps either side of it.

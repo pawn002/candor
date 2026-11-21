@@ -125,6 +125,19 @@ function resolveAll(tokens, primitives) {
       if (!next || next === value) break;
       value = next;
     }
+    // Relative colour syntax that only changes alpha resolves to its base
+    // colour with that alpha, so the artifact carries a measurable value.
+    const rel = value.match(/^oklch\(from var\((--[\w-]+)\) l c h \/ ([\d.]+)\)$/);
+    if (rel) {
+      let base = `var(${rel[1]})`;
+      for (let pass = 0; pass < 5; pass++) {
+        const m = base.match(/^var\((--[\w-]+)\)$/);
+        if (!m || !lookup[m[1]]) break;
+        base = lookup[m[1]];
+      }
+      const lch = base.match(/^oklch\(([^/)]+)\)$/);
+      if (lch) value = `oklch(${lch[1].trim()} / ${rel[2]})`;
+    }
     resolved[name] = { value, comment };
   }
   return resolved;
@@ -471,6 +484,40 @@ const darkRaw  = { ...lightRaw, ...darkOwnRaw };
 // list — which is the failure the widened scope fixed (#228).
 if (!SKIP_GAMUT) {
   checkGamut(sourceFiles());
+}
+
+// 2b. Derived-colour gate. Every --color-* token names a ramp step: a var()
+// reference, `transparent`, or relative colour syntax built on a var(). A typed
+// colour in semantics.scss escapes the ramp rules in derive-colour-ramps.js,
+// which check primitives.scss only, so an invented value passed every audit.
+// When a role needs a lightness the ladder lacks, mint an in-between step
+// (EXTRA_STEPS there) instead. The exceptions are colours no ramp is meant to
+// carry, each with its reason; an exception that stops matching fails too.
+const COLOUR_LITERAL_EXCEPTIONS = {
+  '--color-bg-code': 'teal at hue 195, chosen to sit clear of every brand and status hue (#318); one token is not worth a ramp',
+  '--color-overlay': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour',
+};
+{
+  const isReference = (raw) => /^var\(--[\w-]+\)$/.test(raw) || raw === 'transparent' || /^oklch\(from var\(--[\w-]+\) /.test(raw);
+  const problems = [];
+  const literal = new Set();
+  // Every line, not the two mixins: mode-independent tokens such as the
+  // overlay live in a plain :root block that the mixin parse never sees.
+  semanticsScss.split(/\r?\n/).forEach((line, i) => {
+    const m = /^\s*(--color-[\w-]+)\s*:\s*([^;]+?)\s*;/.exec(line);
+    if (!m || isReference(m[2])) return;
+    literal.add(m[1]);
+    if (!COLOUR_LITERAL_EXCEPTIONS[m[1]]) problems.push(`${m[1]} (semantics.scss:${i + 1}) is a typed colour, ${m[2]}: point it at a ramp step, minting an in-between step in scripts/derive-colour-ramps.js if the ladder lacks one`);
+  });
+  for (const name of Object.keys(COLOUR_LITERAL_EXCEPTIONS)) {
+    if (!literal.has(name)) problems.push(`${name} is listed as a colour-literal exception but is no longer a literal: remove the exception`);
+  }
+  if (problems.length) {
+    console.error(`✗  ${problems.length} colour token(s) not derived from a ramp:`);
+    for (const p of problems) console.error(`   ${p}`);
+    process.exit(1);
+  }
+  console.log(`✓  colour tokens: every --color-* names a ramp step (${Object.keys(COLOUR_LITERAL_EXCEPTIONS).length} named exceptions)`);
 }
 
 // 3. Resolve all var() references
