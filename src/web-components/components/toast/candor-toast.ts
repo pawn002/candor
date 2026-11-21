@@ -66,7 +66,7 @@ export class CandorToast extends LitElement {
     .toast__title {
       font-weight: var(--font-weight-semibold);
       color: var(--color-text-default);
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-md);
       line-height: var(--line-height-tight);
       margin-bottom: var(--spacing-2xs);
     }

@@ -60,8 +60,8 @@ export class CandorSelect extends LitElement {
       width: 100%;
       font-family: var(--font-family-base);
       font-size: var(--font-size-md);
-      padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
-      padding-right: calc(var(--spacing-input-padding-x) + 1.75rem);
+      padding: var(--candor-select-padding-y, var(--spacing-input-padding-y)) var(--candor-select-padding-x, var(--spacing-input-padding-x));
+      padding-right: calc(var(--candor-select-padding-x, var(--spacing-input-padding-x)) + 1.75rem);
       border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--radius-md);
       background-color: var(--color-bg-page);
@@ -78,7 +78,7 @@ export class CandorSelect extends LitElement {
     .select:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
     .select__caret {
       position: absolute;
-      right: var(--spacing-input-padding-x);
+      right: var(--candor-select-padding-x, var(--spacing-input-padding-x));
       width: 1rem;
       height: 1rem;
       pointer-events: none;

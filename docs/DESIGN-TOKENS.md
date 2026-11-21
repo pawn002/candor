@@ -19,7 +19,7 @@ This matters because custom properties:
 /* ✅ How components and consumers reference tokens */
 .button {
   background: var(--color-bg-action-primary);
-  padding: var(--spacing-button-padding-y) var(--spacing-button-padding-x);
+  padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
 }
 ```
@@ -44,7 +44,9 @@ src/design-tokens/
 
 ### Primitives (`primitives.scss`)
 
-Raw, context-free values under `:root`. Color **ramps** (each family is a 50–900 scale derived from stated rules in `src/design-tokens/colour-ramp-rules.json`, drawn in Storybook under *Design Tokens/Ramps*: one lightness ladder shared by every family, and a chroma curve per family. A ramp can also carry a step between two ladder steps, such as `navy-670`, whose number fixes its lightness by interpolation, so a needed colour is derived from the curve rather than invented), the spacing scale (`--space-1` … `--space-12`, 8px base), the type scale (`--text-xs` … `--text-3xl`, Major Third 1.25 ratio), font stacks, weights, line heights, tracking, and border/radius primitives.
+Raw, context-free values under `:root`. Color **ramps** (each family is a 50–900 scale derived from stated rules in `src/design-tokens/colour-ramp-rules.json`, drawn in Storybook under *Design Tokens/Ramps*: one lightness ladder shared by every family, and a chroma curve per family. A ramp can also carry a step between two ladder steps, such as `navy-670`, whose number fixes its lightness by interpolation, so a needed colour is derived from the curve rather than invented), the spacing scale (`--space-1` … `--space-12`, 8px base), the type scale (`--type-xs` … `--type-3xl`, Major Third 1.25 ratio), typefaces (`--typeface-sans`, `--typeface-mono`, …), weights, line heights, tracking, and border/radius primitives.
+
+**Two vocabularies, one rule.** A primitive is named after its scale: `--space-*`, `--type-*`, `--typeface-*`, `--weight-*`, `--leading-*`, `--tracking-*`. A semantic token is named after the CSS property it sets: `--spacing-*`, `--font-size-*`, `--font-family-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`, and the colour tokens' property-first `--color-{bg|text|…}-*`. So `--leading-tight` is a step on a scale and `--line-height-tight` is the role that uses it; the different words are deliberate. `--type-*` and `--typeface-*` replaced `--text-*` and `--font-sans` (and its siblings) in 7.0.0, because `--text-` read as the `--color-text-*` family and `--font-` as the semantic `--font-*` tokens (#367); the old names resolve as deprecated aliases until the next major.
 
 Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), **teal** (a quiet grey-green fitted through the code-block backgrounds, `teal-115` and `teal-870`), and a neutral **gray** ramp. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside. For example, `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-text-link` uses `azure-600`, the step that also clears the floor on a card.
 
@@ -64,7 +66,7 @@ Every colour token is named property first (#367): `--color-{bg|text|icon|border
 - **Form controls**: `--color-border-control` and its `-hover`, `-focus` and `-error` states; `--color-fill-track`, `--color-fill-on-action`
 - **Status**: `--color-icon-error`, `--color-bg-error`, `--color-text-error`, `--color-border-error`, and the same for success and warning
 - **Link / blockquote / callout / code / tooltip**: role-specific color sets
-- **Spacing**: `--spacing-2xs` … `--spacing-3xl` plus component-scoped tokens (`--spacing-button-padding-*`, `--spacing-input-padding-*`, `--spacing-card-*`)
+- **Spacing**: `--spacing-2xs` … `--spacing-3xl`. Component padding is a `--candor-*` hook on the component; the `--spacing-button-padding-*`, `--spacing-input-padding-*` and `--spacing-card-*` tokens are deprecated in 7.0.0 and read as each hook's fallback until the next major
 - **Typography**: `--font-family-*` (with role comments), `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`
 - **Shape / interaction**: `--radius-*`, `--border-width-*`, `--focus-ring-*`, `--hit-target-aaa`/`-aa`
 - **Elevation**: `--shadow-sm` … `--shadow-modal`

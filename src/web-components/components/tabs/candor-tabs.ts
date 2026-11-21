@@ -105,7 +105,7 @@ export class CandorTabs extends LitElement {
       cursor: pointer;
       padding: var(--spacing-xs) var(--spacing-sm);
       font-family: var(--font-family-base);
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-md);
       font-weight: var(--font-weight-regular);
       color: var(--color-text-subtle);
       border-bottom: var(--border-width-indicator) solid transparent;

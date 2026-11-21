@@ -59,7 +59,7 @@ export class CandorNavigation extends LitElement {
       align-items: center;
       gap: 0.4rem;
       color: var(--color-text-subtle-on-surface);
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-md);
       padding: var(--spacing-xs) var(--spacing-sm);
       border-radius: var(--radius-sm);
       text-decoration: none;

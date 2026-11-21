@@ -57,6 +57,8 @@ to a heading inside the card, or \`aria-label\` for a concise inline name:
 \`role\`, \`aria-label\`, and \`aria-labelledby\` are native HTML attributes and work directly
 on \`<candor-card>\` without any special wiring. The browser exposes them on the host
 element's accessibility node.
+
+**Hooks.** \`--candor-card-padding\` sets the inset of the header, body and footer at every \`padding\` size, each defaulting to that size's step on the spacing scale; it replaces \`--spacing-card-padding\`, deprecated in 7.0.0. \`--candor-card-overflow\` (default \`clip\`) lets content spill past the rounded corners.
         `.trim(),
       },
     },

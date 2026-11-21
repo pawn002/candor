@@ -329,7 +329,7 @@ export const ColorPairIterator: Story = {
                 <p style="
                   color: #647a61;
                   font-family: var(--font-family-serif);
-                  font-size: var(--font-size-base);
+                  font-size: var(--font-size-md);
                   margin: 0;
                   line-height: var(--line-height-relaxed);
                 ">Body copy: the quick brown fox jumps over the lazy dog. Color, readability, and rhythm.</p>

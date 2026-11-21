@@ -74,6 +74,8 @@ submission.
 **Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
 live filter text as the user types; \`change\` fires on selection, carrying the chosen
 \`ComboboxOption\`, or \`null\` when the selection is cleared.
+
+**Density.** \`--candor-combobox-padding-y\` and \`--candor-combobox-padding-x\` set the field and option padding, each defaulting to the spacing scale. They replace \`--spacing-input-padding-*\`, deprecated in 7.0.0 and still honoured until the next major.
         `.trim(),
       },
     },

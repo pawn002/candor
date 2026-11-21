@@ -44,6 +44,8 @@ JSON-encoded as an attribute in static markup). Pass a \`placeholder\` string to
 
 Form-associated (\`ElementInternals\`): the selected value participates in form submission.
 Emits a \`change\` CustomEvent.
+
+**Density.** \`--candor-select-padding-y\` and \`--candor-select-padding-x\` set the field padding, each defaulting to the spacing scale. They replace \`--spacing-input-padding-*\`, deprecated in 7.0.0 and still honoured until the next major.
         `.trim(),
       },
     },

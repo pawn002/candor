@@ -538,6 +538,9 @@
           "cssProperties": [
             {
               "name": "--candor-card-overflow"
+            },
+            {
+              "name": "--candor-card-padding"
             }
           ],
           "tagName": "candor-card",
@@ -1879,6 +1882,14 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "cssProperties": [
+            {
+              "name": "--candor-combobox-padding-x"
+            },
+            {
+              "name": "--candor-combobox-padding-y"
+            }
+          ],
           "tagName": "candor-combobox",
           "customElement": true
         }
@@ -2373,6 +2384,14 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "cssProperties": [
+            {
+              "name": "--candor-listbox-padding-x"
+            },
+            {
+              "name": "--candor-listbox-padding-y"
+            }
+          ],
           "tagName": "candor-listbox",
           "customElement": true
         }
@@ -2726,6 +2745,14 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "cssProperties": [
+            {
+              "name": "--candor-select-padding-x"
+            },
+            {
+              "name": "--candor-select-padding-y"
+            }
+          ],
           "tagName": "candor-select",
           "customElement": true
         }

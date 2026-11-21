@@ -415,7 +415,7 @@ This is a **systems transparency feature**, not a stylistic preference. In high-
 
 ### Text Size Floor
 
-No readable text in the system falls below **14px** (`--font-size-sm` = `0.875rem`). `--text-xs` (12px) is for decorative/non-text use only (icon glyphs, badge chrome).
+No readable text in the system falls below **14px** (`--font-size-sm` = `0.875rem`). `--type-xs` (12px, `--font-size-xs`) is for decorative/non-text use only (icon glyphs, badge chrome).
 
 **This is gated, and the gate is in `audit:contrast` rather than a typography check — because the floor is a contrast rule wearing typography clothes.** 12px is classified decorative in *both* axes of the tier table, so no OKCA floor is defined for it, so `pairings.json` holds zero size-12 entries. Setting `--font-size-xs` on text therefore removed that text from the contrast audit entirely, with nothing recording that it had happened — the #218 shape again, and the direct reason #229 went unnoticed. The check reports the audit's own blind spot (#230).
 
@@ -822,14 +822,14 @@ For projected content (`<slot>`), use `::slotted()` selectors:
 
 Tokens re-theme the whole system but can't reach *one* component's internals. Two opt-in hooks let consumers override without forking (#165). Both must leave default rendering identical — set nothing, nothing changes.
 
-**This convention governs new components; it is not a property every component currently has.** Measured across the 37: 5 expose a `::part`, 10 expose a `--candor-*` property, 4 expose both, and **26 expose neither** (#246; `--candor-card-overflow` added in #259). The sentence here used to read "every component exposes two opt-in hooks", which described 4 of 37 — and mattered more than a wording slip, because the governance paragraph below declares these names public API with semver obligations, so a contributor reasonably read it as a surface that already existed and was maintained. `src/Introduction.mdx` states this correctly and is the model: it lists what exists and says the surface grows as demand surfaces. **Growing it by demand is the design, not a backlog.** Every hook that exists came from real friction — `--candor-drawer-size` from a consumer needing a wider drawer, `::part(trigger)` from #173, `--candor-data-grid-cell-min-height` from #229 — and a part name is public API, so inventing 26 components' worth of them without a use case is 26 commitments made blind. That is the #213 `redundant-channel` mistake: populating a surface because a convention says it should be populated produces something that looks designed and isn't.
+**This convention governs new components; it is not a property every component currently has.** Measured across the 37: 5 expose a `::part`, 13 expose a `--candor-*` property, 4 expose both, and **23 expose neither** (#246; `--candor-card-overflow` added in #259; `--candor-select-*`, `--candor-combobox-*`, `--candor-listbox-*` padding and `--candor-card-padding` added in 7.0.0, replacing the deprecated `--spacing-input-padding-*` and `--spacing-card-padding` they used to read). The sentence here used to read "every component exposes two opt-in hooks", which described 4 of 37 — and mattered more than a wording slip, because the governance paragraph below declares these names public API with semver obligations, so a contributor reasonably read it as a surface that already existed and was maintained. `src/Introduction.mdx` states this correctly and is the model: it lists what exists and says the surface grows as demand surfaces. **Growing it by demand is the design, not a backlog.** Every hook that exists came from real friction — `--candor-drawer-size` from a consumer needing a wider drawer, `::part(trigger)` from #173, `--candor-data-grid-cell-min-height` from #229 — and a part name is public API, so inventing 26 components' worth of them without a use case is 26 commitments made blind. That is the #213 `redundant-channel` mistake: populating a surface because a convention says it should be populated produces something that looks designed and isn't.
 
 **1. Custom properties — the blessed density/shape knobs.** Name them `--candor-<component>-<knob>` and default each to the existing token so the override is purely additive:
 
 ```css
 /* thread the knob through the declaration, token as the fallback */
 min-height: var(--candor-button-min-height, var(--hit-target-aaa));
-padding: var(--candor-button-padding-y, var(--spacing-button-padding-y)) var(--candor-button-padding-x, var(--spacing-button-padding-x));
+padding: var(--candor-button-padding-y, var(--spacing-sm)) var(--candor-button-padding-x, var(--spacing-md));
 ```
 
 Expose these for the bounded knobs consumers most often nudge: padding, font-size, min-height, radius, gap. When a component has per-size declarations (button), thread the *same* knob through every size with that size's token as the fallback — so one override wins regardless of `size`, which is what lets a consumer go denser than the smallest size (the #165 case) without a new size rung.

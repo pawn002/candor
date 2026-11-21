@@ -49,7 +49,7 @@ in the repo's `docs/` doesn't. These five rules are the ones that keep output on
    `--space-*`, `--text-*`) are raw values with no mode-awareness, so a component built on them
    breaks in dark mode.
 2. **14px is the readable-text floor.** Don't set readable text below `--font-size-sm` (14px).
-   `--font-size-xs` / `--text-xs` (12px) is for decorative, non-text chrome only (badge frames,
+   `--font-size-xs` / `--type-xs` (12px) is for decorative, non-text chrome only (badge frames,
    icon sizing), never body, labels, or values.
 3. **Read the first word of a colour token: it is what the token paints.** `bg-` is a
    background, `text-` is text, and `icon-`, `border-`, `fill-` and `ring-` are non-text: they
@@ -213,7 +213,7 @@ Raw values: color ramps, type scale, spacing scale. Prefixed by family:
 Role-based aliases that components consume. Always prefer these over primitives:
 
 - **Color**: `--color-bg-*`, `--color-text-*`, `--color-border-*`, `--color-action-*`, `--color-status-*`, `--color-text-link`, `--color-ring-focus`
-- **Spacing**: `--spacing-{xs–3xl}`, `--spacing-button-*`, `--spacing-input-*`, `--spacing-card-*`
+- **Spacing**: `--spacing-{2xs–3xl}`. Component padding is set through each component's `--candor-*` hook; `--spacing-button-*`, `--spacing-input-*` and `--spacing-card-*` are deprecated in 7.0.0
 - **Shape**: `--radius-{sm,md,lg,full}`, `--border-width-{thin,medium,thick}`, `--focus-ring-*`
 - **Typography**: `--font-family-*`, `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`
 - **Elevation**: `--shadow-{sm,md,lg,modal}`

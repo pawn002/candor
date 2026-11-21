@@ -47,7 +47,7 @@ export const ProductCard: Story = {
     <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 22rem;">
       <div style="width: 100%; height: 200px; background: linear-gradient(135deg, oklch(0.75 0.13 250), oklch(0.60 0.16 250));"></div>
 
-      <div style="padding: var(--spacing-card-padding);">
+      <div style="padding: var(--spacing-md);">
         <candor-heading level="h2" style="margin-bottom: 0.5rem;">
           Premium Wireless Headphones
         </candor-heading>
@@ -89,7 +89,7 @@ export const ArticleCard: Story = {
     <div style="padding: 1rem; max-width: 100%;"><candor-card variant="outlined" padding="none" style="max-width: 25rem;">
       <div style="width: 100%; height: 180px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.09 200));"></div>
 
-      <div style="padding: var(--spacing-card-padding);">
+      <div style="padding: var(--spacing-md);">
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
           <candor-badge variant="default">Design</candor-badge>
           <candor-badge variant="default">Accessibility</candor-badge>
@@ -130,8 +130,8 @@ export const ProfileCard: Story = {
         @media (max-width: 400px) {
           .profile-stats { gap: 1rem; }
           .profile-card-actions {
-            --spacing-button-padding-x: var(--spacing-sm);
-            --spacing-button-padding-y: var(--spacing-xs);
+            --candor-button-padding-x: var(--spacing-sm);
+            --candor-button-padding-y: var(--spacing-xs);
           }
         }
       </style>
@@ -175,10 +175,10 @@ export const CardGrid: Story = {
         Featured Products
       </candor-heading>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-card-gap);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--spacing-md);">
         <candor-card variant="outlined" padding="none">
           <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.75 0.13 250), oklch(0.60 0.16 250));"></div>
-          <div style="padding: var(--spacing-card-padding);">
+          <div style="padding: var(--spacing-md);">
             <candor-heading level="h3" style="margin-bottom: 0.5rem;">
               Product Name
             </candor-heading>
@@ -193,7 +193,7 @@ export const CardGrid: Story = {
 
         <candor-card variant="outlined" padding="none">
           <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.70 0.12 180), oklch(0.55 0.09 200));"></div>
-          <div style="padding: var(--spacing-card-padding);">
+          <div style="padding: var(--spacing-md);">
             <candor-heading level="h3" style="margin-bottom: 0.5rem;">
               Another Product
             </candor-heading>
@@ -208,7 +208,7 @@ export const CardGrid: Story = {
 
         <candor-card variant="outlined" padding="none">
           <div style="width: 100%; height: 150px; background: linear-gradient(135deg, oklch(0.65 0.18 320), oklch(0.50 0.20 280));"></div>
-          <div style="padding: var(--spacing-card-padding);">
+          <div style="padding: var(--spacing-md);">
             <candor-heading level="h3" style="margin-bottom: 0.5rem;">
               Third Item
             </candor-heading>

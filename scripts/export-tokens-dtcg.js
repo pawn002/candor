@@ -592,6 +592,21 @@ const PROPERTY_EXCEPTIONS = {
   for (const [name, d] of Object.entries({ ...lightRaw, ...darkOwnRaw })) {
     if (/deprecated/i.test(d.comment || '')) deprecated.add(name);
   }
+  // Every other token, colour or not: a declaration in primitives.scss or
+  // semantics.scss whose comment, or the comment block above it, says
+  // "deprecated" (the type scale, typefaces and component spacing, #367).
+  // A trailing comment saying "deprecated" marks its own line; a comment block
+  // saying it marks only the one declaration directly below it.
+  const primitivesScss = fs.readFileSync(path.join(ROOT, 'src/design-tokens/primitives.scss'), 'utf8');
+  for (const src of [semanticsScss, primitivesScss]) {
+    let commentSaysDeprecated = false;
+    for (const line of src.split(/\r?\n/)) {
+      if (/^\s*\/\//.test(line)) { commentSaysDeprecated ||= /deprecated/i.test(line); continue; }
+      const m = /^\s*(--[a-z][a-z0-9-]*)\s*:/.exec(line);
+      if (m && (commentSaysDeprecated || /\/\/.*deprecated/i.test(line))) deprecated.add(m[1]);
+      commentSaysDeprecated = false;
+    }
+  }
   const problems = [];
   const matched = new Set();
   let checked = 0;
@@ -600,8 +615,12 @@ const PROPERTY_EXCEPTIONS = {
     if (/design-tokens\/(semantics|primitives)\.scss$/.test(rel)) continue;
     const text = fs.readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\r\n]/g, ' '));
     const lineOf = (i) => text.slice(0, i).split('\n').length;
-    for (const m of text.matchAll(/var\((--color-[a-z0-9-]+)\)/g)) {
-      if (deprecated.has(m[1])) problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} is deprecated: use what it aliases in semantics.scss`);
+    for (const m of text.matchAll(/var\((--[a-z][a-z0-9-]*)\)/g)) {
+      if (!deprecated.has(m[1])) continue;
+      // Allowed in one position: the fallback of a --candor-* hook, which keeps
+      // an existing override of the deprecated token working until removal.
+      if (/var\(--candor-[a-z0-9-]+,\s*$/.test(text.slice(Math.max(0, m.index - 80), m.index))) continue;
+      problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} is deprecated: use what replaces it (see its comment in the token files)`);
     }
     if (/\.stories\.ts$/.test(rel)) continue;
     for (const m of text.matchAll(/(?<![\w-])(-{0,2}[a-z][a-z-]*)\s*:\s*([^;{}`]*?var\(--color-[^;{}`]*)/g)) {
@@ -630,7 +649,7 @@ const PROPERTY_EXCEPTIONS = {
     if (!matched.has(key)) problems.push(`exception "${key}" matches nothing any more: remove it`);
   }
   if (problems.length) {
-    console.error(`✗  ${problems.length} colour token(s) painted by a property their name does not allow (#367):`);
+    console.error(`✗  ${problems.length} token problem(s): a colour painted by a property its name does not allow, or a deprecated name in use (#367):`);
     for (const p of problems) console.error(`   ${p}`);
     process.exit(1);
   }

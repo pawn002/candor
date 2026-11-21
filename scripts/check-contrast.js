@@ -793,7 +793,7 @@ const SOURCE_FILE_RE = /\.(ts|scss)$/;
 const SOURCE_SKIP_RE = /\.d\.ts$/;
 // A font-size declaration naming the 12px token, or an absolute literal.
 const FONT_SIZE_RE =
-  /font-size:\s*(?:var\(\s*(--font-size-xs|--text-xs)\s*\)|(\d*\.?\d+)(rem|px))/g;
+  /font-size:\s*(?:var\(\s*(--font-size-xs|--type-xs|--text-xs)\s*\)|(\d*\.?\d+)(rem|px))/g;
 // candor-text is the only component with a size scale, so this is unambiguous.
 const SIZE_ATTR_RE = /<candor-text\b[^>]*\bsize="(xs)"/g;
 // The marker must open a comment — `// 12px-ok: <reason>` or `/* 12px-ok: … */`

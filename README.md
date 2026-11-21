@@ -38,7 +38,7 @@ npm install @fontsource-variable/roboto-flex
 @import '@fontsource-variable/roboto-flex/index.css';
 ```
 
-> **Note:** `@fontsource-variable/roboto-flex` registers the font as `'Roboto Flex Variable'`. Candor's `--font-sans` token lists this name first so it resolves correctly. If you load the font another way (Google Fonts CDN, self-hosted), ensure the font-face name matches or override `--font-sans` accordingly.
+> **Note:** `@fontsource-variable/roboto-flex` registers the font as `'Roboto Flex Variable'`. Candor's `--typeface-sans` primitive lists this name first so it resolves correctly. If you load the font another way (Google Fonts CDN, self-hosted), ensure the font-face name matches or override `--font-sans` accordingly.
 
 ## Usage
 
@@ -211,7 +211,7 @@ Type scale (Major Third, 1.25 ratio):
 
 ```css
 --font-size-sm    /* 14px: system floor for readable text */
---font-size-base  /* 16px */
+--font-size-md    /* 16px */
 --font-size-lg    /* 20px */
 --font-size-xl    /* 25px */
 --font-size-2xl   /* 31px */

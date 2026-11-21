@@ -84,7 +84,7 @@ export class CandorAutocomplete extends LitElement {
          trigger. */
       margin-inline: var(--spacing-2xs);
       border-radius: var(--radius-sm);
-      padding: var(--spacing-input-padding-y) calc(var(--spacing-input-padding-x) - var(--spacing-2xs));
+      padding: var(--candor-autocomplete-padding-y, var(--spacing-input-padding-y)) calc(var(--candor-autocomplete-padding-x, var(--spacing-input-padding-x)) - var(--spacing-2xs));
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); cursor: pointer; user-select: none;
     }

@@ -51,6 +51,8 @@ selects; Escape closes; Tab closes without selecting.
 
 Form-associated (\`ElementInternals\`): the selected value participates in form submission.
 Emits a \`change\` CustomEvent.
+
+**Density.** \`--candor-listbox-padding-y\` and \`--candor-listbox-padding-x\` set the trigger and option padding, each defaulting to the spacing scale. They replace \`--spacing-input-padding-*\`, deprecated in 7.0.0 and still honoured until the next major.
         `.trim(),
       },
     },

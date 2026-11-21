@@ -8,7 +8,7 @@ const articleStyles = `
   candor-article {
     display: block;
     max-width: 65ch;
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-md);
     line-height: var(--line-height-relaxed);
     color: var(--color-text-default);
   }
@@ -33,7 +33,7 @@ const articleStyles = `
   candor-article h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
   candor-article h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-snug); }
   candor-article h4 { font-size: var(--font-size-h4); line-height: var(--line-height-snug); }
-  candor-article h5 { font-size: var(--font-size-base); margin-top: var(--spacing-lg); }
+  candor-article h5 { font-size: var(--font-size-md); margin-top: var(--spacing-lg); }
   candor-article h6 { font-size: var(--font-size-sm); margin-top: var(--spacing-md); }
 
   candor-article p { margin-bottom: var(--spacing-md); }

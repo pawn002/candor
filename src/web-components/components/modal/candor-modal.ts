@@ -124,7 +124,7 @@ export class CandorModal extends LitElement {
       padding: var(--spacing-md);
       color: var(--color-text-default);
       font-family: var(--font-family-base);
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-md);
       line-height: var(--line-height-relaxed);
     }
     .modal__body:focus { outline: none; }

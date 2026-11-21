@@ -176,7 +176,7 @@ export class CandorDrawer extends LitElement {
       padding: var(--spacing-md);
       color: var(--color-text-default);
       font-family: var(--font-family-base);
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-md);
       line-height: var(--line-height-relaxed);
     }
     .drawer__body:focus { outline: none; }

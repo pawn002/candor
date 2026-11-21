@@ -238,22 +238,42 @@
     --space-12: 6rem;     // 96px
 
     // ─── Type Scale (Major Third — 1.25 ratio) ─────────────────────────────────
-    --text-xs:   0.75rem;   //  12px  — decorative/non-text only (icons, badges)
-    --text-sm:   0.875rem;  //  14px  — system floor for readable text
-    --text-base: 1rem;      //  16px
-    --text-lg:   1.25rem;   // ~20px
-    --text-xl:   1.5625rem; // ~25px
-    --text-2xl:  1.953rem;  // ~31px
-    --text-3xl:  2.441rem;  // ~39px
+    // --type-*, not --text-*: --text- reads as the --color-text-* family (#367).
+    --type-xs:   0.75rem;   //  12px  — decorative/non-text only (icons, badges)
+    --type-sm:   0.875rem;  //  14px  — system floor for readable text
+    --type-base: 1rem;      //  16px
+    --type-lg:   1.25rem;   // ~20px
+    --type-xl:   1.5625rem; // ~25px
+    --type-2xl:  1.953rem;  // ~31px
+    --type-3xl:  2.441rem;  // ~39px
 
-    // ─── Font Families ─────────────────────────────────────────────────────────
-    --font-sans:       "Roboto Flex Variable", "Roboto Flex", system-ui, -apple-system, sans-serif;
+    // ─── Typefaces ─────────────────────────────────────────────────────────────
+    // --typeface-*, not --font-*: the semantic layer owns --font-family-*,
+    // --font-size-* and --font-weight-*, so a primitive under --font- read as
+    // one of them (#367).
+    --typeface-sans:       "Roboto Flex Variable", "Roboto Flex", system-ui, -apple-system, sans-serif;
     // Fontsource variable packages register the family with a " Variable" suffix,
     // so that name comes first; the plain name covers a system install.
-    --font-accessible: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
-    --font-mono:       "Atkinson Hyperlegible Mono Variable", "Atkinson Hyperlegible Mono", "SF Mono", Monaco, Consolas, monospace;
-    --font-reading:    "Noto Sans", system-ui, sans-serif;
-    --font-serif:      "Noto Serif", Georgia, serif;
+    --typeface-accessible: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
+    --typeface-mono:       "Atkinson Hyperlegible Mono Variable", "Atkinson Hyperlegible Mono", "SF Mono", Monaco, Consolas, monospace;
+    --typeface-reading:    "Noto Sans", system-ui, sans-serif;
+    --typeface-serif:      "Noto Serif", Georgia, serif;
+
+
+    // ─── Deprecated in 7.0.0, removed in the next major (#367) ────────────────
+    // The names before the type scale and typefaces were renamed.
+    --text-xs: var(--type-xs); // deprecated: use --type-xs
+    --text-sm: var(--type-sm); // deprecated: use --type-sm
+    --text-base: var(--type-base); // deprecated: use --type-base
+    --text-lg: var(--type-lg); // deprecated: use --type-lg
+    --text-xl: var(--type-xl); // deprecated: use --type-xl
+    --text-2xl: var(--type-2xl); // deprecated: use --type-2xl
+    --text-3xl: var(--type-3xl); // deprecated: use --type-3xl
+    --font-sans: var(--typeface-sans); // deprecated: use --typeface-sans
+    --font-accessible: var(--typeface-accessible); // deprecated: use --typeface-accessible
+    --font-mono: var(--typeface-mono); // deprecated: use --typeface-mono
+    --font-reading: var(--typeface-reading); // deprecated: use --typeface-reading
+    --font-serif: var(--typeface-serif); // deprecated: use --typeface-serif
 
     // ─── Font Weights ──────────────────────────────────────────────────────────
     --weight-light:     300;

@@ -55,8 +55,8 @@ export class CandorCombobox extends LitElement {
     .combobox__control { position: relative; display: flex; align-items: center; }
     .combobox__input {
       width: 100%; min-height: var(--hit-target-aaa);
-      padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
-      padding-right: calc(var(--spacing-input-padding-x) + 1.75rem);
+      padding: var(--candor-combobox-padding-y, var(--spacing-input-padding-y)) var(--candor-combobox-padding-x, var(--spacing-input-padding-x));
+      padding-right: calc(var(--candor-combobox-padding-x, var(--spacing-input-padding-x)) + 1.75rem);
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); background-color: var(--color-bg-page);
       border: var(--border-width-thin) solid var(--color-border-control);
@@ -78,7 +78,7 @@ export class CandorCombobox extends LitElement {
       border-color: var(--color-border-control-error);
     }
     .combobox__caret {
-      position: absolute; right: var(--spacing-input-padding-x);
+      position: absolute; right: var(--candor-combobox-padding-x, var(--spacing-input-padding-x));
       width: 1rem; height: 1rem; color: var(--color-text-subtle); cursor: pointer;
       transition: transform 200ms ease, color 200ms ease;
     }
@@ -99,7 +99,7 @@ export class CandorCombobox extends LitElement {
          trigger. */
       margin-inline: var(--spacing-2xs);
       border-radius: var(--radius-sm);
-      padding: var(--spacing-input-padding-y) calc(var(--spacing-input-padding-x) - var(--spacing-2xs));
+      padding: var(--candor-combobox-padding-y, var(--spacing-input-padding-y)) calc(var(--candor-combobox-padding-x, var(--spacing-input-padding-x)) - var(--spacing-2xs));
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); cursor: pointer; user-select: none; gap: var(--spacing-xs);
     }
@@ -110,7 +110,7 @@ export class CandorCombobox extends LitElement {
     .combobox__option-label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
     .combobox__option-check { flex-shrink: 0; color: var(--color-text-accent); font-size: 1rem; }
     .combobox__no-results {
-      padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
+      padding: var(--candor-combobox-padding-y, var(--spacing-input-padding-y)) var(--candor-combobox-padding-x, var(--spacing-input-padding-x));
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-subtle); font-style: italic;
     }

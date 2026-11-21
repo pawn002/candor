@@ -209,7 +209,7 @@ Works in any framework; no Angular dependency. Load order:
           ">Writing</h1>
           <p style="
             font-family: var(--font-family-base);
-            font-size: var(--font-size-base);
+            font-size: var(--font-size-md);
             color: var(--color-text-subtle);
             margin: 0;
           ">Cross disciplinary writing bringing together technology, art, and life.</p>
@@ -376,7 +376,7 @@ export const PostListingGrid: Story = {
           ">Writing</h1>
           <p style="
             font-family: var(--font-family-base);
-            font-size: var(--font-size-base);
+            font-size: var(--font-size-md);
             color: var(--color-text-subtle);
             margin: 0;
           ">Cross disciplinary writing bringing together technology, art, and life.</p>
