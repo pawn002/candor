@@ -733,25 +733,25 @@
         },
         "secondary-fill": {
           "$type": "color",
-          "$value": "oklch(0.44 0.082 347.43)",
-          "$description": "text-on-action OKCA 5.4 on this bg ✅",
+          "$value": "oklch(0.27 0.073 347.43)",
+          "$description": "Two steps deeper than primary's navy-600: at equal lightness burgundy's higher chroma and warm hue read brighter, and secondary outranked primary. Its hue keeps the fill distinct on the near-neutral cards. — text-on-action OKCA 10.2 on this bg ✅",
           "$extensions": {
-            "aliasOf": "--burgundy-600"
+            "aliasOf": "--burgundy-800"
           }
         },
         "secondary-hover": {
           "$type": "color",
-          "$value": "oklch(0.37 0.08 347.43)",
-          "$description": "text-on-action OKCA 7.0 on this bg ✅",
+          "$value": "oklch(0.20 0.065 347.43)",
+          "$description": "text-on-action OKCA 13.1 on this bg ✅",
           "$extensions": {
-            "aliasOf": "--burgundy-700"
+            "aliasOf": "--burgundy-900"
           }
         },
         "secondary-active": {
           "$type": "color",
-          "$value": "oklch(0.37 0.08 347.43)",
+          "$value": "oklch(0.20 0.065 347.43)",
           "$extensions": {
-            "aliasOf": "--burgundy-700"
+            "aliasOf": "--burgundy-900"
           }
         },
         "mark": {

@@ -23,8 +23,8 @@ type BadgeSize = 'sm' | 'md';
  * constraint, which is exactly why it is written here, where the decision is
  * made.
  *
- * **Do not treat the tinted background as a variant channel.** At L 0.95 the
- * sRGB gamut permits almost no chroma at red, and pale tints fade on washed-out
+ * **Do not treat the tinted background as a variant channel.** Near white the
+ * sRGB gamut permits little chroma at red, and pale tints fade on washed-out
  * screens and for readers who cannot tell the hues apart. The error and warning
  * fills were once only deltaE 4 apart; they are farther apart now, but error and
  * warning badges are still told apart by their words, not their fill.

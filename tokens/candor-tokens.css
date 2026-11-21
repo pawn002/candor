@@ -330,9 +330,9 @@
     --color-action-primary-active: var(--navy-700);
     --color-action-primary-border: var(--navy-500);
     --color-action-secondary: var(--burgundy-300);
-    --color-action-secondary-fill: var(--burgundy-600);
-    --color-action-secondary-hover: var(--burgundy-700);
-    --color-action-secondary-active: var(--burgundy-700);
+    --color-action-secondary-fill: var(--burgundy-800);
+    --color-action-secondary-hover: var(--burgundy-900);
+    --color-action-secondary-active: var(--burgundy-900);
     --color-action-mark: var(--gray-900);
     --color-action-destructive: transparent;
     --color-action-destructive-hover: oklch(0.76 0.142 25 / 0.12);
@@ -393,9 +393,9 @@
   --color-action-primary-active: var(--navy-700);
   --color-action-primary-border: var(--navy-500);
   --color-action-secondary: var(--burgundy-300);
-  --color-action-secondary-fill: var(--burgundy-600);
-  --color-action-secondary-hover: var(--burgundy-700);
-  --color-action-secondary-active: var(--burgundy-700);
+  --color-action-secondary-fill: var(--burgundy-800);
+  --color-action-secondary-hover: var(--burgundy-900);
+  --color-action-secondary-active: var(--burgundy-900);
   --color-action-mark: var(--gray-900);
   --color-action-destructive: transparent;
   --color-action-destructive-hover: oklch(0.76 0.142 25 / 0.12);

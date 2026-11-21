@@ -391,9 +391,12 @@
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
     --color-action-secondary:        var(--burgundy-300); // OKCA 6.5 on bg-page ✅ (fill vs page)
-    --color-action-secondary-fill:   var(--burgundy-600); // text-on-action OKCA 5.4 on this bg ✅
-    --color-action-secondary-hover:  var(--burgundy-700); // text-on-action OKCA 7.0 on this bg ✅
-    --color-action-secondary-active: var(--burgundy-700);
+    // Two steps deeper than primary's navy-600: at equal lightness burgundy's
+    // higher chroma and warm hue read brighter, and secondary outranked primary.
+    // Its hue keeps the fill distinct on the near-neutral cards.
+    --color-action-secondary-fill:   var(--burgundy-800); // text-on-action OKCA 10.2 on this bg ✅
+    --color-action-secondary-hover:  var(--burgundy-900); // text-on-action OKCA 13.1 on this bg ✅
+    --color-action-secondary-active: var(--burgundy-900);
 
     // Tick and switch thumb on the pale action-primary: the page-dark mark the
     // labelled fills used to share. icon/border use.
