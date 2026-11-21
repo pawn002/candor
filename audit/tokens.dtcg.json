@@ -285,15 +285,6 @@
             "aliasOf": "--color-action-secondary"
           }
         },
-        "mark": {
-          "$type": "color",
-          "$value": "oklch(1 0 0)",
-          "$description": "The switch thumb on its checked action-primary track. It was text-on-action until dark mode gave the labelled fills their own deep value; the track stays on action-primary, so the thumb keeps the colour that contrasts with it. (The checkbox moved to the deep fill with text-on-action.) icon/border use.",
-          "$extensions": {
-            "usage": "non-text",
-            "aliasOf": "--gray-0"
-          }
-        },
         "destructive": {
           "$type": "color",
           "$value": "transparent",
@@ -805,15 +796,6 @@
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--burgundy-500"
-          }
-        },
-        "mark": {
-          "$type": "color",
-          "$value": "oklch(0.16 0 0)",
-          "$description": "Switch thumb on the pale action-primary track: the page-dark mark the labelled fills used to share. icon/border use.",
-          "$extensions": {
-            "usage": "non-text",
-            "aliasOf": "--gray-900"
           }
         },
         "destructive": {

@@ -193,7 +193,6 @@
     "--color-action-secondary-active": "var(--burgundy-900)",
     "--color-action-secondary-border": "var(--burgundy-500)",
     "--color-nav-badge-bg": "var(--burgundy-600)",
-    "--color-action-mark": "var(--gray-900)",
     "--color-action-destructive": "transparent",
     "--color-action-destructive-hover": "oklch(0.76 0.142 25 / 0.12)",
     "--color-action-destructive-active": "oklch(0.76 0.142 25 / 0.22)",

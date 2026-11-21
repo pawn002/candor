@@ -65,12 +65,14 @@ export class CandorSwitch extends LitElement {
       outline: var(--focus-ring-width) solid var(--color-focus);
       outline-offset: var(--focus-ring-offset);
     }
+    /* The labelled-fill pair, as the checkbox: deep with a light thumb in dark,
+       where a dark thumb on a pale track loses most of its contrast to scatter. */
     .switch-input:checked + .switch-track {
-      background-color: var(--color-action-primary);
-      border-color: var(--color-action-primary);
+      background-color: var(--color-action-primary-fill);
+      border-color: var(--color-action-primary-fill);
     }
     .switch-input:checked + .switch-track .switch-thumb {
-      background-color: var(--color-action-mark);
+      background-color: var(--color-text-on-action);
       transform: translateX(20px);
     }
     .switch-input:disabled + .switch-track {

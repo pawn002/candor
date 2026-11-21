@@ -91,12 +91,6 @@
     // brighter than the secondary fill: an unread count is meant to draw the eye.
     --color-nav-badge-bg: var(--color-action-secondary-fill);
 
-    // The switch thumb on its checked action-primary track. It was text-on-action
-    // until dark mode gave the labelled fills their own deep value; the track stays
-    // on action-primary, so the thumb keeps the colour that contrasts with it.
-    // (The checkbox moved to the deep fill with text-on-action.) icon/border use.
-    --color-action-mark: var(--gray-0);
-
     // ─── Colors: Action — Destructive (error red, H=25) ──────────────────────
     // Takes the error red. It was a boosted burgundy (H=347), kept apart from
     // error on the reasoning that destructive is a chosen action, not a failure.
@@ -411,10 +405,6 @@
     // Not the secondary fill (burgundy-800): that recedes below the navy inverse band,
     // and a count badge has no primary badge beside it to outrank.
     --color-nav-badge-bg: var(--burgundy-600); // text-on-action OKCA 5.4 on this bg ✅
-
-    // Switch thumb on the pale action-primary track: the page-dark mark the
-    // labelled fills used to share. icon/border use.
-    --color-action-mark: var(--gray-900);
 
     // ─── Action — Destructive ─────────────────────────────────────────────────
     // Outlined — same pattern as light mode, and the same error red (#318).

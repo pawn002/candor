@@ -1232,6 +1232,16 @@
       "note": "candor-switch off-state thumb against its own track. Same two colours as form-control-border-on-surface but not the same claim: the track paints its own bg-surface fill, so no page context could rescue this one and it was below the floor in every consumer, not just on surface containers. The thumb is the sole indicator of off vs on. OKCA 3.9 light / 4.7 dark ✅"
     },
     {
+      "id": "switch-thumb-on",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.action.primary-fill}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The thumb on a checked switch, on its deep track. Position and colour both mark the state; the track has no edge of its own and sits close to the page in dark. WCAG 1.4.11. OKCA 11.2 light / 5.4 dark ✅"
+    },
+    {
       "id": "slider-thumb-border-on-page",
       "fg": "{color.border.control}",
       "bg": "{color.bg.page}",
