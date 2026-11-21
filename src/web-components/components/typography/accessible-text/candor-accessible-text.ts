@@ -16,7 +16,7 @@ const TONE_ICON: Record<AccessibleTextTone, string> = {
 };
 
 /**
- * Instructional text set in Atkinson Hyperlegible: text the reader must decode
+ * Instructional text set in Atkinson Hyperlegible Next: text the reader must decode
  * precisely to know what to do next.
  *
  * The test against `candor-text` is functional, not a matter of importance:

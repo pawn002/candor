@@ -46,8 +46,9 @@ const markedFieldsets = new WeakSet<HTMLFieldSetElement>();
  * fixed by putting `aria-label` on its radios: that renames the options and
  * leaves the group anonymous.
  *
- * A disabled radio needs an adjacent explanation of why. A locked control with
- * no reason reads as broken. See the disabled-hint convention in CLAUDE.md.
+ * A disabled radio needs an adjacent explanation of why, such as a
+ * `candor-accessible-text role_="annotation"` beside the group. A locked control
+ * with no reason reads as broken.
  *
  * **Two slots, and they are not interchangeable (#263).** The default slot sits
  * *inside* the `<label>`, so whatever it holds becomes part of this control's
