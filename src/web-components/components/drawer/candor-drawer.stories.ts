@@ -30,7 +30,7 @@ drawer blocks the rest of the page.
 
 | Mode | Opens via | Backdrop | Focus | Rest of page | Use for |
 |---|---|---|---|---|---|
-| \`modal="true"\` (default) | \`dialog.showModal()\` | Yes, dims via \`--color-overlay\` | Trapped, auto-focused | Inert | Blocking tasks: filters that must be applied/cancelled, forms, confirmations |
+| \`modal="true"\` (default) | \`dialog.showModal()\` | Yes, dims via \`--color-bg-scrim\` | Trapped, auto-focused | Inert | Blocking tasks: filters that must be applied/cancelled, forms, confirmations |
 | \`modal="false"\` | \`dialog.show()\` | None | Not stolen, not trapped | Fully interactive | Persistent assistants, inspectors, or filters the user works **alongside**, reading and selecting page content while the panel stays open |
 
 In non-modal mode the drawer relies on its close button or a consumer-supplied

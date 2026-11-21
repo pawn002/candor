@@ -139,7 +139,7 @@ export const PreSelected: Story = {
     docs: {
       description: {
         story:
-          'Demonstrates `selected-value`: pass an oklch string from a parent to mark the matching cell as selected without moving keyboard focus. Here navy-800 (`--color-action-primary`) is pre-selected on mount.',
+          'Demonstrates `selected-value`: pass an oklch string from a parent to mark the matching cell as selected without moving keyboard focus. Here navy-800 (`--color-text-accent`, and the light primary fill) is pre-selected on mount.',
       },
     },
   },

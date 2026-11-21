@@ -81,7 +81,7 @@ component cannot enforce, so it is demonstrated rather than only stated.
 
 The reason is measurable. Candor's status background tokens sit at lightness 0.95, and
 the sRGB gamut permits only about 0.02 chroma at red up there. Until warning moved from amber
-to gold, \`--color-status-error-bg\` and \`--color-status-warning-bg\` were **deltaE 4
+to gold, \`--color-bg-error\` and \`--color-bg-warning\` were **deltaE 4
 apart in normal vision**, where Candor's own scale calls anything under 3 imperceptible. Gold
 has more room, so the two are now deltaE 14 apart, but a pale fill still fades on a washed-out
 screen and still does nothing for a reader who cannot tell the hues apart.

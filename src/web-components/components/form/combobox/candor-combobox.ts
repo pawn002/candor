@@ -51,7 +51,7 @@ export class CandorCombobox extends LitElement {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: var(--letter-spacing-relaxed);
     }
-    .combobox__required { color: var(--color-status-error-text); margin-left: 0.25em; }
+    .combobox__required { color: var(--color-text-error); margin-left: 0.25em; }
     .combobox__control { position: relative; display: flex; align-items: center; }
     .combobox__input {
       width: 100%; min-height: var(--hit-target-aaa);
@@ -64,26 +64,26 @@ export class CandorCombobox extends LitElement {
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .combobox__input::placeholder { color: var(--color-text-subtle); }
-    .combobox__input:hover:not(:disabled) { border-color: var(--color-text-subtle); }
+    .combobox__input:hover:not(:disabled) { border-color: var(--color-border-control-hover); }
     .combobox__input:focus {
-      border-color: var(--color-action-primary);
-      outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset);
+      border-color: var(--color-border-control-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset);
     }
     .combobox__input:disabled {
       background-color: var(--color-bg-surface); color: var(--color-text-disabled);
       border-color: var(--color-border-default); cursor: not-allowed;
     }
-    .combobox__control--error .combobox__input { border-color: var(--color-status-error); }
+    .combobox__control--error .combobox__input { border-color: var(--color-border-control-error); }
     .combobox__control--error .combobox__input:focus {
-      border-color: var(--color-status-error);
+      border-color: var(--color-border-control-error);
     }
     .combobox__caret {
       position: absolute; right: var(--spacing-input-padding-x);
       width: 1rem; height: 1rem; color: var(--color-text-subtle); cursor: pointer;
       transition: transform 200ms ease, color 200ms ease;
     }
-    .combobox__caret--open { transform: rotate(180deg); color: var(--color-action-primary); }
-    .combobox__control:focus-within .combobox__caret { color: var(--color-action-primary); }
+    .combobox__caret--open { transform: rotate(180deg); color: var(--color-text-accent); }
+    .combobox__control:focus-within .combobox__caret { color: var(--color-text-accent); }
     .combobox__dropdown {
       position: absolute; top: calc(100% + var(--spacing-2xs)); left: 0; right: 0; z-index: 200;
       margin: 0; max-height: 16rem; overflow-y: auto;
@@ -104,11 +104,11 @@ export class CandorCombobox extends LitElement {
       color: var(--color-text-default); cursor: pointer; user-select: none; gap: var(--spacing-xs);
     }
     .combobox__option--active { background-color: var(--color-bg-surface); }
-    .combobox__option--selected { color: var(--color-action-primary); font-weight: var(--font-weight-medium); }
+    .combobox__option--selected { color: var(--color-text-accent); font-weight: var(--font-weight-medium); }
     /* Wraps rather than truncating: an ellipsis hides text a sighted user cannot
        get back, at any text size (WCAG 1.4.4). */
     .combobox__option-label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-    .combobox__option-check { flex-shrink: 0; color: var(--color-action-primary); font-size: 1rem; }
+    .combobox__option-check { flex-shrink: 0; color: var(--color-text-accent); font-size: 1rem; }
     .combobox__no-results {
       padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
       font-family: var(--font-family-base); font-size: var(--font-size-md);
@@ -127,7 +127,7 @@ export class CandorCombobox extends LitElement {
       line-height: var(--line-height-normal);
       min-height: calc(var(--font-size-sm) * var(--line-height-normal));
     }
-    .combobox__error { color: var(--color-status-error-text); font-size: var(--font-size-md); }
+    .combobox__error { color: var(--color-text-error); font-size: var(--font-size-md); }
   `, scrollbarStyles('.combobox__dropdown')];
 
   @property() label = '';

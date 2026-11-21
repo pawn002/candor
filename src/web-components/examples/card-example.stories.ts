@@ -66,7 +66,7 @@ export const ProductCard: Story = {
             <candor-text variant="caption" style="display: block; text-decoration: line-through; color: var(--color-text-subtle);">
               <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Was </span>$299.99
             </candor-text>
-            <p style="font-family: var(--font-family-display); font-size: var(--font-size-h4); font-weight: var(--font-weight-bold); color: var(--color-status-success-text); line-height: var(--line-height-tight); margin: 0;">
+            <p style="font-family: var(--font-family-display); font-size: var(--font-size-h4); font-weight: var(--font-weight-bold); color: var(--color-text-success); line-height: var(--line-height-tight); margin: 0;">
               <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">Now </span>$249.99
             </p>
           </div>

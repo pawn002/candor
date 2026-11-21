@@ -207,19 +207,19 @@ export const LinkStyles: Story = {
     <h1>Link implementation</h1>
     <p>Article links use a layered approach: <code>text-decoration: underline</code> for the primary underline, plus a transparent <code>border-bottom</code> that becomes visible on <code>:visited</code> to provide a non-colour distinguishing cue.</p>
     <pre><code>candor-article a &#123;
-  color: var(--color-link);
+  color: var(--color-text-link);
   text-decoration: underline;
   text-underline-offset: 0.2em;
   border-bottom: var(--border-width-thin) solid transparent;
   padding-bottom: 0.15em;
 &#125;
 candor-article a:visited &#123;
-  color: var(--color-link-visited);
-  border-bottom-color: var(--color-link-visited);
+  color: var(--color-text-link-visited);
+  border-bottom-color: var(--color-text-link-visited);
 &#125;
-candor-article a:hover  &#123; color: var(--color-link-hover); &#125;
+candor-article a:hover  &#123; color: var(--color-text-link-hover); &#125;
 candor-article a:focus-visible &#123;
-  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-ring-focus);
   outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-sm);
 &#125;</code></pre>
@@ -339,7 +339,7 @@ export const Callout: Story = {
     docs: {
       description: {
         story:
-          "A `.callout` element inside article prose renders a tip or note as a plain surface panel (`--color-callout-bg`), with no tint and no side bar. Unlike `<blockquote>`, which is an indented italic quotation, the callout is upright, default-colour text for guidance the reader should act on. Write the label into the content (Tip., Note.), because the panel alone does not say what kind of aside it is.",
+          "A `.callout` element inside article prose renders a tip or note as a plain surface panel (`--color-bg-callout`), with no tint and no side bar. Unlike `<blockquote>`, which is an indented italic quotation, the callout is upright, default-colour text for guidance the reader should act on. Write the label into the content (Tip., Note.), because the panel alone does not say what kind of aside it is.",
       },
     },
   },

@@ -8,7 +8,7 @@ Candor's design tokens are the single source of truth for color, typography, spa
 
 ## Format: CSS custom properties, not SCSS variables
 
-Tokens are **CSS custom properties** (`--color-action-primary`), not SCSS variables (`$color-primary`). SCSS is used only as a light authoring convenience: to wrap the light/dark token sets in mixins (`light-color-tokens` / `dark-color-tokens`) and emit them under the right selectors. Every token is a runtime `var(--…)` reference.
+Tokens are **CSS custom properties** (`--color-bg-action-primary`), not SCSS variables (`$color-primary`). SCSS is used only as a light authoring convenience: to wrap the light/dark token sets in mixins (`light-color-tokens` / `dark-color-tokens`) and emit them under the right selectors. Every token is a runtime `var(--…)` reference.
 
 This matters because custom properties:
 
@@ -18,7 +18,7 @@ This matters because custom properties:
 ```css
 /* ✅ How components and consumers reference tokens */
 .button {
-  background: var(--color-action-primary);
+  background: var(--color-bg-action-primary);
   padding: var(--spacing-button-padding-y) var(--spacing-button-padding-x);
   border-radius: var(--radius-md);
 }
@@ -46,7 +46,7 @@ src/design-tokens/
 
 Raw, context-free values under `:root`. Color **ramps** (each family is a 50–900 scale derived from stated rules in `src/design-tokens/colour-ramp-rules.json`, drawn in Storybook under *Design Tokens/Ramps*: one lightness ladder shared by every family, and a chroma curve per family. A ramp can also carry a step between two ladder steps, such as `navy-670`, whose number fixes its lightness by interpolation, so a needed colour is derived from the curve rather than invented), the spacing scale (`--space-1` … `--space-12`, 8px base), the type scale (`--text-xs` … `--text-3xl`, Major Third 1.25 ratio), font stacks, weights, line heights, tracking, and border/radius primitives.
 
-Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), **teal** (a quiet grey-green fitted through the code-block backgrounds, `teal-115` and `teal-870`), and a neutral **gray** ramp. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside. For example, `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-link` uses `azure-600`, the step that also clears the floor on a card.
+Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), **teal** (a quiet grey-green fitted through the code-block backgrounds, `teal-115` and `teal-870`), and a neutral **gray** ramp. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside. For example, `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-text-link` uses `azure-600`, the step that also clears the floor on a card.
 
 > **Components must never reference a primitive directly.** `var(--navy-800)` in a component is a bug. It bypasses the semantic layer and breaks dark mode. Always go through a `--color-*` role.
 
@@ -54,11 +54,16 @@ Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgu
 
 Named **roles** that map primitives to meaning. A role never types its own colour: when it needs a lightness the ladder lacks, add an in-between ramp step (`extraSteps` in `src/design-tokens/colour-ramp-rules.json`) and point the role at it. `npm run audit:tokens` fails on a typed colour anywhere outside `primitives.scss` and stories, in tokens and components alike. Its one named exception, the overlay scrim, is listed with its reason in `scripts/export-tokens-dtcg.js`. The syntax-highlighting palette in `syntax.scss` is derived from the ramps too. This is the layer components and consumers reference:
 
-- **Backgrounds**: `--color-bg-page`, `--color-bg-surface`, `--color-bg-subtle` (deprecated in 7.0.0; use `--color-bg-hover`), `--color-bg-elevated`, `--color-bg-inverse`
-- **Text**: `--color-text-default`, `--color-text-subtle`, `--color-text-subtle-on-surface`, `--color-text-inverse`, `--color-text-on-action`, …
+Every colour token is named property first (#367): `--color-{bg|text|icon|border|fill|ring}-{role}[-{variant}][-{state}][-on-{context}]`. The first word says what the token paints, which also says its contrast floor: `text` takes a text floor, and `icon`, `border`, `fill` and `ring` the non-text 3:1. `npm run audit:tokens` fails on a current name outside the grammar and on a token painted by a property its name does not allow. The names from before 7.0.0 resolve as deprecated aliases until the next major.
+
+- **Backgrounds**: depth `--color-bg-page`, `--color-bg-surface`, `--color-bg-elevated`, `--color-bg-muted`, `--color-bg-inverse`; layout `--color-bg-content` (warm, the region a screen leads with) and `--color-bg-chrome` (cool, chrome that steps back); interaction `--color-bg-hover`, `--color-bg-active`
+- **Text**: `--color-text-default`, `--color-text-subtle`, `--color-text-subtle-on-surface`, `--color-text-on-inverse`, `--color-text-on-action`, …
 - **Borders**: `--color-border-default`, `--color-border-strong`, `--color-border-control`, …
-- **Actions**: `--color-action-primary` (navy), `-secondary` (burgundy), `-tertiary`, `-destructive`, each with `-hover`/`-active` and, where relevant, `-text`/`-border`
-- **Link / highlight / status / blockquote / callout / code**: role-specific color sets
+- **Accent**: the brand navy as a mark, `--color-text-accent`, `--color-border-accent`, `--color-fill-indicator`; burgundy as `--color-bg-accent-secondary` / `--color-border-accent-secondary`
+- **Buttons**: named after the variant that uses them, `--color-bg-action-primary` (the filled button), `--color-text-action-secondary` / `--color-border-action-secondary` (the outlined one), `--color-bg-action-tertiary`, `--color-bg-action-ghost-hover`, `--color-bg-action-destructive`, with `-hover` / `-active`
+- **Form controls**: `--color-border-control` and its `-hover`, `-focus` and `-error` states; `--color-fill-track`, `--color-fill-on-action`
+- **Status**: `--color-icon-error`, `--color-bg-error`, `--color-text-error`, `--color-border-error`, and the same for success and warning
+- **Link / blockquote / callout / code / tooltip**: role-specific color sets
 - **Spacing**: `--spacing-2xs` … `--spacing-3xl` plus component-scoped tokens (`--spacing-button-padding-*`, `--spacing-input-padding-*`, `--spacing-card-*`)
 - **Typography**: `--font-family-*` (with role comments), `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`
 - **Shape / interaction**: `--radius-*`, `--border-width-*`, `--focus-ring-*`, `--hit-target-aaa`/`-aa`

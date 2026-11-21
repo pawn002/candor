@@ -141,13 +141,13 @@ export const BlogPost: Story = {
             <a href="#" style="
               font-family: var(--font-family-accessible);
               font-size: var(--font-size-sm);
-              color: var(--color-link);
+              color: var(--color-text-link);
               letter-spacing: var(--letter-spacing-body);
             ">← Compliance without Accommodation</a>
             <a href="#" style="
               font-family: var(--font-family-accessible);
               font-size: var(--font-size-sm);
-              color: var(--color-link);
+              color: var(--color-text-link);
               letter-spacing: var(--letter-spacing-body);
             ">The P+F+I+D Framework →</a>
           </nav>

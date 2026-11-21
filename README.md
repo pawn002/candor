@@ -52,7 +52,7 @@ Link the stylesheet and use the custom properties directly:
 
 ```css
 .button {
-  background: var(--color-action-primary);
+  background: var(--color-bg-action-primary);
   color: var(--color-text-on-action);
   font-family: var(--font-family-base);
   padding: var(--spacing-sm) var(--spacing-md);
@@ -113,8 +113,8 @@ The bundler resolves the bare specifier and inlines the file at build time. This
 ```js
 import tokens from '@candor-design/tokens/tokens/candor-tokens.json';
 
-tokens.root['--color-action-primary']; // oklch(0.27 0.06 245.34)
-tokens.dark['--color-action-primary']; // oklch(0.79 0.11 245)
+tokens.root['--color-bg-action-primary']; // oklch(0.27 0.06 245.34)
+tokens.dark['--color-bg-action-primary']; // oklch(0.44 0.061 247.16)
 ```
 
 ---
@@ -147,29 +147,35 @@ Semantic aliases map primitive ramps to roles:
 --color-text-subtle       /*  4.6:1 on page: secondary text */
 --color-text-on-action    /* white on primary/secondary buttons */
 
-/* Action */
---color-action-primary
---color-action-primary-hover
---color-action-secondary
---color-action-secondary-hover   /* deprecated in 7.0.0, removed in the next major */
---color-action-destructive
---color-action-destructive-text
+/* Accent: the brand navy as a mark */
+--color-text-accent
+--color-border-accent
+--color-fill-indicator
 
-/* Status */
---color-status-error
---color-status-error-bg
---color-status-error-text
---color-status-success
---color-status-success-bg
---color-status-success-text
---color-status-warning
---color-status-warning-bg
---color-status-warning-text
+/* Buttons, named after the variant that uses them */
+--color-bg-action-primary
+--color-bg-action-primary-hover
+--color-text-action-secondary
+--color-border-action-secondary
+--color-bg-action-destructive
+--color-text-action-destructive
+
+/* Status: an icon, a fill, text on the fill, a chip outline */
+--color-icon-error
+--color-bg-error
+--color-text-error
+--color-border-error
+--color-icon-success
+--color-bg-success
+--color-text-success
+--color-icon-warning
+--color-bg-warning
+--color-text-warning
 
 /* Other */
---color-link
---color-link-visited
---color-focus
+--color-text-link
+--color-text-link-visited
+--color-ring-focus
 --color-border-default
 --color-border-control
 ```

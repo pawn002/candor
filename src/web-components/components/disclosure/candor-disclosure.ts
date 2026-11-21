@@ -53,9 +53,9 @@ export class CandorDisclosure extends LitElement {
       cursor: pointer;
       text-align: left;
     }
-    .disclosure__trigger:hover { color: var(--color-action-primary); }
+    .disclosure__trigger:hover { color: var(--color-text-accent); }
     .disclosure__trigger:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
       border-radius: var(--radius-sm);
     }

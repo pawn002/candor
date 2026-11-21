@@ -51,11 +51,12 @@ in the repo's `docs/` doesn't. These five rules are the ones that keep output on
 2. **14px is the readable-text floor.** Don't set readable text below `--font-size-sm` (14px).
    `--font-size-xs` / `--text-xs` (12px) is for decorative, non-text chrome only (badge frames,
    icon sizing), never body, labels, or values.
-3. **Don't use non-text color tokens as text colour.** `--color-status-error`,
-   `--color-status-success` and `--color-status-warning` are
-   contrast-validated for icons/borders only; their contrast is below every text threshold. For
-   coloured text use the paired `-text` variants: `--color-status-error-text`, etc. (In the JSON,
-   these carry `"$extensions": { "usage": "non-text" }`.)
+3. **Read the first word of a colour token: it is what the token paints.** `bg-` is a
+   background, `text-` is text, and `icon-`, `border-`, `fill-` and `ring-` are non-text: they
+   meet the 3:1 non-text floor, not a text floor. For coloured text use the `text-` token of the
+   same role (`--color-text-error`, not `--color-icon-error`). In the JSON, non-text tokens carry
+   `"$extensions": { "usage": "non-text" }`. Names from before 7.0.0 still resolve as deprecated
+   aliases until the next major.
 4. **The values are already tuned. Don't drag them back to extremes.** Colours sit deliberately
    off the raw extremes: text is a deep near-black, not `#000`; dark mode is deep navy, not pure
    black; primaries aren't at max chroma. Overriding a token to a raw extreme undoes the contrast
@@ -211,7 +212,7 @@ Raw values: color ramps, type scale, spacing scale. Prefixed by family:
 
 Role-based aliases that components consume. Always prefer these over primitives:
 
-- **Color**: `--color-bg-*`, `--color-text-*`, `--color-border-*`, `--color-action-*`, `--color-status-*`, `--color-link`, `--color-focus`
+- **Color**: `--color-bg-*`, `--color-text-*`, `--color-border-*`, `--color-action-*`, `--color-status-*`, `--color-text-link`, `--color-ring-focus`
 - **Spacing**: `--spacing-{xs–3xl}`, `--spacing-button-*`, `--spacing-input-*`, `--spacing-card-*`
 - **Shape**: `--radius-{sm,md,lg,full}`, `--border-width-{thin,medium,thick}`, `--focus-ring-*`
 - **Typography**: `--font-family-*`, `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`

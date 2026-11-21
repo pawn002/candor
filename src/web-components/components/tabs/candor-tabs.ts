@@ -114,12 +114,12 @@ export class CandorTabs extends LitElement {
       white-space: nowrap;
     }
     .tabs__tab[aria-selected='true'] {
-      color: var(--color-action-primary);
-      border-bottom-color: var(--color-action-primary);
+      color: var(--color-text-accent);
+      border-bottom-color: var(--color-border-accent);
       font-weight: var(--font-weight-semibold);
     }
     .tabs__tab:hover { color: var(--color-text-default); }
-    .tabs__tab:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
+    .tabs__tab:focus-visible { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }
 
     .tabs__panels { padding-top: var(--spacing-md); }
 
@@ -151,7 +151,7 @@ export class CandorTabs extends LitElement {
     }
     .tabs--vertical .tabs__tab[aria-selected='true'] {
       border-bottom-color: transparent;
-      border-right-color: var(--color-action-primary);
+      border-right-color: var(--color-border-accent);
     }
     .tabs--vertical .tabs__panels {
       flex: 1;
@@ -176,13 +176,13 @@ export class CandorTabs extends LitElement {
     .tabs--inverse.tabs--can-scroll-left .tabs__list { padding-left: var(--spacing-lg); }
     .tabs--inverse.tabs--can-scroll-right .tabs__list { padding-right: var(--spacing-lg); }
     .tabs--inverse .tabs__scroll-btn { color: var(--color-text-subtle-on-inverse); }
-    .tabs--inverse .tabs__scroll-btn:hover { color: var(--color-text-inverse); }
+    .tabs--inverse .tabs__scroll-btn:hover { color: var(--color-text-on-inverse); }
     .tabs--inverse .tabs__tab { color: var(--color-text-subtle-on-inverse); }
     .tabs--inverse .tabs__tab[aria-selected='true'] {
-      color: var(--color-text-inverse);
-      border-bottom-color: var(--color-text-inverse);
+      color: var(--color-text-on-inverse);
+      border-bottom-color: var(--color-border-accent-on-inverse);
     }
-    .tabs--inverse .tabs__tab:hover { color: var(--color-text-inverse); }
+    .tabs--inverse .tabs__tab:hover { color: var(--color-text-on-inverse); }
   `;
 
   @property({ type: Array }) tabs: TabItem[] = [];

@@ -66,17 +66,17 @@ export class CandorPagination extends LitElement {
     }
     .pagination__btn:disabled { opacity: 0.35; cursor: not-allowed; }
     .pagination__btn:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
       border-radius: var(--radius-sm);
     }
     .pagination__btn--current {
-      background-color: var(--color-action-primary-fill);
+      background-color: var(--color-bg-action-primary);
       color: var(--color-text-on-action);
       font-weight: var(--font-weight-medium);
     }
     .pagination__btn--current:hover:not(:disabled) {
-      background-color: var(--color-action-primary-fill);
+      background-color: var(--color-bg-action-primary);
       color: var(--color-text-on-action);
     }
     .pagination__icon { width: var(--font-size-sm); height: var(--font-size-sm); }

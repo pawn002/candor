@@ -58,7 +58,7 @@ export class CandorDrawer extends LitElement {
       height: 100vh;
       overflow: hidden;
     }
-    dialog::backdrop { background-color: var(--color-overlay); }
+    dialog::backdrop { background-color: var(--color-bg-scrim); }
 
     /* Non-modal mode: the dialog is still a full-viewport layer (for edge-anchored
        positioning), but it must not intercept pointer events across the page — only
@@ -162,7 +162,7 @@ export class CandorDrawer extends LitElement {
       color: var(--color-text-default);
     }
     .drawer__close:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
 
@@ -181,7 +181,7 @@ export class CandorDrawer extends LitElement {
     }
     .drawer__body:focus { outline: none; }
     .drawer__body:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: calc(-1 * var(--focus-ring-offset));
     }
 

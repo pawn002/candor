@@ -423,8 +423,10 @@ const FG_ALIASES = {
   'bg-page': 'color.bg.page',
   // The label on the action fills, named on the fill's hover/active comments.
   'text-on-action': 'color.text.on-action',
-  // The label on the tooltip fill, named on --color-tooltip-bg.
-  'text-inverse': 'color.text.inverse',
+  // The label on the tooltip fill, named on --color-bg-tooltip. The pre-#367
+  // name is kept so a figure written either way resolves.
+  'text-on-inverse': 'color.text.on-inverse',
+  'text-inverse': 'color.text.on-inverse',
 };
 
 // Backgrounds named in the comments, mapped to their DTCG path. Names that are
@@ -440,21 +442,33 @@ const BG_ALIASES = {
   inverse: 'color.bg.inverse',
   'bg-inverse': 'color.bg.inverse',
   white: null, // literal
-  'error-bg': 'color.status.error-bg',
-  'success-bg': 'color.status.success-bg',
-  'warning-bg': 'color.status.warning-bg',
-  'action-primary': 'color.action.primary',
-  'action-primary-fill': 'color.action.primary-fill',
-  'action-secondary-fill': 'color.action.secondary-fill',
+  // Status fills and the action fills, under their #367 names and the names
+  // figures were written with before it.
+  'bg-error': 'color.bg.error',
+  'bg-success': 'color.bg.success',
+  'bg-warning': 'color.bg.warning',
+  'error-bg': 'color.bg.error',
+  'success-bg': 'color.bg.success',
+  'warning-bg': 'color.bg.warning',
+  'text-accent': 'color.text.accent',
+  'action-primary': 'color.text.accent',
+  'bg-action-primary': 'color.bg.action-primary',
+  'action-primary-fill': 'color.bg.action-primary',
+  'bg-accent-secondary': 'color.bg.accent-secondary',
+  'action-secondary-fill': 'color.bg.accent-secondary',
   // The saturated base tokens, as *backgrounds*. They are flagged non-text for
   // use as a `color:` value, which says nothing about painting on top of them —
   // and the data-grid token demo does exactly that, which is where #229 lives.
   // A figure about text on one of these has to be expressible, or the only way
   // to record it is prose the audit cannot read.
-  'status-error': 'color.status.error',
-  'status-success': 'color.status.success',
-  'status-warning': 'color.status.warning',
-  focus: 'color.focus',
+  'icon-error': 'color.icon.error',
+  'icon-success': 'color.icon.success',
+  'icon-warning': 'color.icon.warning',
+  'status-error': 'color.icon.error',
+  'status-success': 'color.icon.success',
+  'status-warning': 'color.icon.warning',
+  'ring-focus': 'color.ring.focus',
+  focus: 'color.ring.focus',
   'this bg': 'SELF',
 };
 

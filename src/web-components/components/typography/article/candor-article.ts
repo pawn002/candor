@@ -56,7 +56,7 @@ const articleStyles = `
     line-height: var(--line-height-normal);
     font-style: italic;
     letter-spacing: var(--letter-spacing-italic);
-    color: var(--color-blockquote-text);
+    color: var(--color-text-blockquote);
   }
   /* An attributed quote is a figure: the figure takes the indent, and the
      figcaption sits under the quote on the same left edge. The name is upright
@@ -74,7 +74,7 @@ const articleStyles = `
     margin: var(--spacing-lg) 0;
     padding: var(--spacing-sm) var(--spacing-md);
     color: var(--color-text-default);
-    background-color: var(--color-callout-bg);
+    background-color: var(--color-bg-callout);
     border-radius: var(--radius-md);
   }
   candor-article .callout > :last-child { margin-bottom: 0; }
@@ -105,7 +105,7 @@ const articleStyles = `
   }
   candor-article pre:focus { outline: none; }
   candor-article pre:focus-visible {
-    outline: var(--focus-ring-width) solid var(--color-focus);
+    outline: var(--focus-ring-width) solid var(--color-ring-focus);
     outline-offset: var(--focus-ring-offset);
   }
   candor-article pre code {
@@ -118,19 +118,19 @@ const articleStyles = `
   }
 
   candor-article a {
-    color: var(--color-link);
+    color: var(--color-text-link);
     text-decoration: underline;
     text-underline-offset: 0.2em;
     border-bottom: var(--border-width-thin) solid transparent;
     padding-bottom: 0.15em;
   }
   candor-article a:visited {
-    color: var(--color-link-visited);
-    border-bottom-color: var(--color-link-visited);
+    color: var(--color-text-link-visited);
+    border-bottom-color: var(--color-text-link-visited);
   }
-  candor-article a:hover { color: var(--color-link-hover); }
+  candor-article a:hover { color: var(--color-text-link-hover); }
   candor-article a:focus-visible {
-    outline: var(--focus-ring-width) solid var(--color-focus);
+    outline: var(--focus-ring-width) solid var(--color-ring-focus);
     outline-offset: var(--focus-ring-offset);
     border-radius: var(--radius-sm);
   }

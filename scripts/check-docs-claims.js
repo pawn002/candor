@@ -823,10 +823,26 @@ const SEMANTICS = path.join(ROOT, 'src', 'design-tokens', 'semantics.scss');
 const SHOWCASE = path.join(ROOT, 'src', 'web-components', 'design-tokens', 'color-showcase.stories.ts');
 // Tokens deliberately left out, each with its reason. A stale entry fails.
 const SHOWCASE_EXCLUDED = {
-  '--color-overlay': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour, and the token export skips it',
+  '--color-bg-scrim': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour, and the token export skips it',
 };
+// Deprecated tokens (#367) are not part of the current palette: they must not
+// have a swatch, and they are not required to. A deprecated token is one in the
+// deprecated-color-aliases mixin, or one whose declaration says "deprecated".
+const semanticsSrc = fs.readFileSync(SEMANTICS, 'utf8');
+const deprecatedTokens = new Set();
+{
+  const start = semanticsSrc.indexOf('@mixin deprecated-color-aliases {');
+  const block = start === -1 ? '' : semanticsSrc.slice(start, semanticsSrc.indexOf('\n}', start));
+  for (const m of block.matchAll(/^\s*(--color-[a-z0-9-]+)\s*:/gm)) deprecatedTokens.add(m[1]);
+  for (const m of semanticsSrc.matchAll(/^\s*(--color-[a-z0-9-]+)\s*:[^\n]*\/\/[^\n]*deprecated/gim)) deprecatedTokens.add(m[1]);
+  // A "deprecated" comment above the declaration, as bg-subtle and the
+  // secondary states carry.
+  for (const m of semanticsSrc.matchAll(/^[ \t]*\/\/[^\n]*[Dd]eprecated[^\n]*\n(?:[ \t]*\/\/[^\n]*\n)*[ \t]*(--color-[a-z0-9-]+)\s*:/gm)) deprecatedTokens.add(m[1]);
+}
 const declared = new Set(
-  [...stripComments(fs.readFileSync(SEMANTICS, 'utf8')).matchAll(/^\s*(--color-[a-z0-9-]+)\s*:/gm)].map((m) => m[1]),
+  [...stripComments(semanticsSrc).matchAll(/^\s*(--color-[a-z0-9-]+)\s*:/gm)]
+    .map((m) => m[1])
+    .filter((t) => !deprecatedTokens.has(t)),
 );
 const shown = new Set(
   [...fs.readFileSync(SHOWCASE, 'utf8').matchAll(/variable:\s*'(--color-[a-z0-9-]+)'/g)].map((m) => m[1]),

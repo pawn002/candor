@@ -50,11 +50,11 @@ export const AIChatInterface: Story = {
   render: () => html`
       <style>
         .chat-sidebar a:hover {
-          background: var(--color-action-tertiary);
+          background: var(--color-bg-action-tertiary);
           color: var(--color-text-default);
         }
         .chat-sidebar a:focus-visible {
-          outline: var(--focus-ring-width) solid var(--color-focus);
+          outline: var(--focus-ring-width) solid var(--color-ring-focus);
           outline-offset: var(--focus-ring-offset);
           border-radius: var(--radius-sm);
         }
@@ -210,7 +210,7 @@ export const AIChatInterface: Story = {
                       width: 2rem;
                       height: 2rem;
                       border-radius: var(--radius-full);
-                      background: var(--color-action-primary);
+                      background: var(--color-fill-indicator);
                       display: flex;
                       align-items: center;
                       justify-content: center;
@@ -325,7 +325,7 @@ export const AIChatInterface: Story = {
                       width: 2rem;
                       height: 2rem;
                       border-radius: var(--radius-full);
-                      background: var(--color-action-primary);
+                      background: var(--color-fill-indicator);
                       display: flex;
                       align-items: center;
                       justify-content: center;

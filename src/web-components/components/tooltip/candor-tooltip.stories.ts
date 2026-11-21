@@ -93,7 +93,7 @@ export const TriggerTypes: Story = {
   render: () => html`
     <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-lg);justify-content:center;align-items:center;flex-wrap:wrap;">
       <candor-tooltip text="Opens in a new tab" position="bottom">
-        <a href="#" style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-link);">External link</a>
+        <a href="#" style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-text-link);">External link</a>
       </candor-tooltip>
       <candor-tooltip text="Cannot undo this action" position="top">
         <candor-button variant="destructive">Delete</candor-button>

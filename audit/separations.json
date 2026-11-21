@@ -10,21 +10,21 @@
   "separations": [
     {
       "id": "tooltip-on-page",
-      "a": "{color.tooltip.bg}",
+      "a": "{color.bg.tooltip}",
       "b": "{color.bg.page}",
       "minDeltaE": 10,
       "note": "A tooltip floats with no border; its fill is its only edge. Held to 10 rather than the floor, decided by eye at the tooltip stop of the dark-mode walk-through."
     },
     {
       "id": "tooltip-on-surface",
-      "a": "{color.tooltip.bg}",
+      "a": "{color.bg.tooltip}",
       "b": "{color.bg.surface}",
       "minDeltaE": 10,
       "note": "A tooltip floats with no border; its fill is its only edge. Held to 10 rather than the floor, decided by eye at the tooltip stop of the dark-mode walk-through."
     },
     {
       "id": "tooltip-on-elevated",
-      "a": "{color.tooltip.bg}",
+      "a": "{color.bg.tooltip}",
       "b": "{color.bg.elevated}",
       "minDeltaE": 10,
       "note": "A tooltip floats with no border; its fill is its only edge. Held to 10 rather than the floor, decided by eye at the tooltip stop of the dark-mode walk-through."
@@ -79,79 +79,79 @@
     },
     {
       "id": "status-bg-error-vs-warning",
-      "a": "{color.status.error-bg}",
-      "b": "{color.status.warning-bg}",
+      "a": "{color.bg.error}",
+      "b": "{color.bg.warning}",
       "note": "Two status fills must read as different variants, not only different labels. error and warning were deltaE 4 before warning moved to gold (#318)."
     },
     {
       "id": "status-bg-error-vs-success",
-      "a": "{color.status.error-bg}",
-      "b": "{color.status.success-bg}",
+      "a": "{color.bg.error}",
+      "b": "{color.bg.success}",
       "note": "Two status fills must read as different variants, not only different labels. error and warning were deltaE 4 before warning moved to gold (#318)."
     },
     {
       "id": "status-bg-warning-vs-success",
-      "a": "{color.status.warning-bg}",
-      "b": "{color.status.success-bg}",
+      "a": "{color.bg.warning}",
+      "b": "{color.bg.success}",
       "note": "Two status fills must read as different variants, not only different labels. error and warning were deltaE 4 before warning moved to gold (#318)."
     },
     {
       "id": "status-bg-error-on-page",
-      "a": "{color.status.error-bg}",
+      "a": "{color.bg.error}",
       "b": "{color.bg.page}",
       "note": "An alert or toast fill against what it sits on."
     },
     {
       "id": "status-bg-error-on-surface",
-      "a": "{color.status.error-bg}",
+      "a": "{color.bg.error}",
       "b": "{color.bg.surface}",
       "note": "An alert or toast fill against what it sits on."
     },
     {
       "id": "status-bg-warning-on-page",
-      "a": "{color.status.warning-bg}",
+      "a": "{color.bg.warning}",
       "b": "{color.bg.page}",
       "note": "An alert or toast fill against what it sits on."
     },
     {
       "id": "status-bg-warning-on-surface",
-      "a": "{color.status.warning-bg}",
+      "a": "{color.bg.warning}",
       "b": "{color.bg.surface}",
       "note": "An alert or toast fill against what it sits on."
     },
     {
       "id": "status-bg-success-on-page",
-      "a": "{color.status.success-bg}",
+      "a": "{color.bg.success}",
       "b": "{color.bg.page}",
       "note": "An alert or toast fill against what it sits on."
     },
     {
       "id": "status-bg-success-on-surface",
-      "a": "{color.status.success-bg}",
+      "a": "{color.bg.success}",
       "b": "{color.bg.surface}",
       "note": "An alert or toast fill against what it sits on."
     },
     {
       "id": "nav-badge-on-inverse",
-      "a": "{color.nav.badge-bg}",
+      "a": "{color.bg.nav-badge}",
       "b": "{color.bg.inverse}",
       "note": "The navigation count badge on the inverse band."
     },
     {
       "id": "button-tertiary-on-page",
-      "a": "{color.action.tertiary}",
+      "a": "{color.bg.action-tertiary}",
       "b": "{color.bg.page}",
       "note": "The tertiary button has no border; its fill is its shape. It rested deltaE 1 from a light card and 0 from a dark modal until it moved to the muted step."
     },
     {
       "id": "button-tertiary-on-surface",
-      "a": "{color.action.tertiary}",
+      "a": "{color.bg.action-tertiary}",
       "b": "{color.bg.surface}",
       "note": "The tertiary button has no border; its fill is its shape. It rested deltaE 1 from a light card and 0 from a dark modal until it moved to the muted step."
     },
     {
       "id": "button-tertiary-on-elevated",
-      "a": "{color.action.tertiary}",
+      "a": "{color.bg.action-tertiary}",
       "b": "{color.bg.elevated}",
       "note": "The tertiary button has no border; its fill is its shape. It rested deltaE 1 from a light card and 0 from a dark modal until it moved to the muted step."
     }

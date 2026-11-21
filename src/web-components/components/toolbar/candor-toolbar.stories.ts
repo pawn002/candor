@@ -154,7 +154,7 @@ export const WithToggleButtons: Story = {
   render: () => html`
     <candor-toolbar aria-label="Text formatting">
       <button class="${BTN}" type="button" aria-label="Bold" aria-pressed="true" title="Bold (active)"
-              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-text-accent);">
         <i class="ph-bold ph-text-b" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
       <button class="${BTN}" type="button" aria-label="Italic" aria-pressed="false" title="Italic" style="${ICON_ONLY}">
@@ -165,7 +165,7 @@ export const WithToggleButtons: Story = {
       </button>
       <candor-toolbar-separator></candor-toolbar-separator>
       <button class="${BTN}" type="button" aria-label="Align left" aria-pressed="true" title="Align left (active)"
-              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-text-accent);">
         <i class="ph-bold ph-text-align-left" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>
       <button class="${BTN}" type="button" aria-label="Align center" aria-pressed="false" title="Align center" style="${ICON_ONLY}">
@@ -193,7 +193,7 @@ export const Vertical: Story = {
   render: () => html`
     <candor-toolbar aria-label="Drawing tools" orientation="vertical">
       <button class="${BTN}" type="button" aria-label="Select" aria-pressed="true" title="Select"
-              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-text-accent);">
         <i class="ph-fill ph-cursor" aria-hidden="true" style="${FILL_ICON}"></i>
       </button>
       <button class="${BTN}" type="button" aria-label="Pan" aria-pressed="false" title="Pan" style="${ICON_ONLY}">
@@ -233,7 +233,7 @@ export const VerticalScrolling: Story = {
   render: () => html`
     <candor-toolbar aria-label="Drawing tools" orientation="vertical" style="height: 9rem;">
       <button class="${BTN}" type="button" aria-label="Select" aria-pressed="true" title="Select"
-              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-action-primary);">
+              style="${ICON_ONLY} background: var(--color-bg-elevated); color: var(--color-text-accent);">
         <i class="ph-fill ph-cursor" aria-hidden="true" style="${FILL_ICON}"></i>
       </button>
       <button class="${BTN}" type="button" aria-label="Pan" aria-pressed="false" title="Pan" style="${ICON_ONLY}">

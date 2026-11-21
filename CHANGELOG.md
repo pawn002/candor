@@ -43,6 +43,58 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Deprecated
 
+- **Colour tokens are renamed property first, and the old names are deprecated (#367).** Every colour token now starts with what it paints: `--color-{bg|text|icon|border|fill|ring}-{role}[-{variant}][-{state}][-on-{context}]`. The first word also gives the contrast floor: `text` takes a text floor, and `icon`, `border`, `fill` and `ring` the non-text 3:1. The names were tested on fresh AI agents given only the names: today's set placed 18 of 24 component tasks correctly, the new set 24 of 24. Every old name still resolves, as an alias of its replacement, until the next major. No colour changes value.
+
+  | old | new |
+  |---|---|
+  | `--color-action-destructive` | `--color-bg-action-destructive` |
+  | `--color-action-destructive-active` | `--color-bg-action-destructive-active` |
+  | `--color-action-destructive-border` | `--color-border-action-destructive` |
+  | `--color-action-destructive-hover` | `--color-bg-action-destructive-hover` |
+  | `--color-action-destructive-text` | `--color-text-action-destructive` |
+  | `--color-action-primary` | `--color-text-accent` (as text); `--color-border-accent`, `--color-fill-indicator`, `--color-border-control-focus` as a line, a mark or a focused field |
+  | `--color-action-primary-active` | `--color-bg-action-primary-active` |
+  | `--color-action-primary-border` | `--color-border-action-secondary` |
+  | `--color-action-primary-fill` | `--color-bg-action-primary` |
+  | `--color-action-primary-hover` | `--color-bg-action-primary-hover` |
+  | `--color-action-secondary-border` | `--color-border-accent-secondary` |
+  | `--color-action-secondary-fill` | `--color-bg-accent-secondary` |
+  | `--color-action-tertiary` | `--color-bg-action-tertiary` |
+  | `--color-action-tertiary-active` | `--color-bg-action-tertiary-active` |
+  | `--color-action-tertiary-hover` | `--color-bg-action-tertiary-hover` |
+  | `--color-action-tertiary-text` | `--color-text-action-tertiary` |
+  | `--color-bg-forward` | `--color-bg-content` |
+  | `--color-bg-recede` | `--color-bg-chrome` |
+  | `--color-blockquote-text` | `--color-text-blockquote` |
+  | `--color-callout-bg` | `--color-bg-callout` |
+  | `--color-focus` | `--color-ring-focus` |
+  | `--color-link` | `--color-text-link` |
+  | `--color-link-hover` | `--color-text-link-hover` |
+  | `--color-link-visited` | `--color-text-link-visited` |
+  | `--color-nav-badge-bg` | `--color-bg-nav-badge` |
+  | `--color-overlay` | `--color-bg-scrim` |
+  | `--color-slider-thumb` | `--color-fill-slider-thumb` |
+  | `--color-status-error` | `--color-icon-error` (an icon); `--color-border-control-error` for a field in error |
+  | `--color-status-error-bg` | `--color-bg-error` |
+  | `--color-status-error-border` | `--color-border-error` |
+  | `--color-status-error-text` | `--color-text-error` |
+  | `--color-status-success` | `--color-icon-success` |
+  | `--color-status-success-bg` | `--color-bg-success` |
+  | `--color-status-success-border` | `--color-border-success` |
+  | `--color-status-success-text` | `--color-text-success` |
+  | `--color-status-warning` | `--color-icon-warning` |
+  | `--color-status-warning-bg` | `--color-bg-warning` |
+  | `--color-status-warning-border` | `--color-border-warning` |
+  | `--color-status-warning-text` | `--color-text-warning` |
+  | `--color-text-inverse` | `--color-text-on-inverse` |
+  | `--color-toast-message` | `--color-text-toast` |
+  | `--color-tooltip-bg` | `--color-bg-tooltip` |
+
+  New tokens name roles that were cross-uses of another token: `--color-border-control-hover`, `-focus` and `-error`; `--color-fill-track`, `--color-fill-on-action`, `--color-fill-scrollbar-thumb` and `-hover`; `--color-text-action-secondary`, `--color-bg-action-secondary-hover` and `-active`; `--color-bg-action-ghost-hover` and `-active`; `--color-border-accent-on-inverse`; `--color-bg-hover-on-inverse`. `--color-action-secondary` (the bare burgundy), `--color-bg-subtle` and the secondary hover and active tokens are deprecated without a replacement.
+
+  `audit:tokens` now fails on a current colour name outside the grammar, on a colour token painted by a CSS property its name does not allow (`color:` takes `text` or `icon`, backgrounds `bg` or `fill`, borders `border` or `ring`, with named exceptions), and on any deprecated name used in `src/`. `$extensions.usage` in the DTCG artifact is derived from the name.
+
+  Three visible changes come with it. The `.btn-primary` and `.btn-secondary` utility classes painted the pale dark-mode accent as a button fill and edge; they now match `candor-button`. The secondary chip's dark tint derives from its outline colour, deltaE 2 after compositing. In the Accessible Text story's warning panels, the dark edge is the status outline colour, a step dimmer than the icon colour it used.
 - **`--color-bg-subtle`, `--color-action-secondary-hover` and `--color-action-secondary-active` are deprecated, and will be removed in the next major.** No component uses any of them. `--color-bg-subtle` is deltaE 1 from `--color-bg-surface` in light, so a fill in it vanishes on a card; use `--color-bg-hover`, which `audit/separations.json` holds apart from page, card and modal. No component has a filled secondary control to hover or press. All three still resolve as before in this release (docs/BREAKING-CHANGES.md, deprecation policy).
 
 ### Added

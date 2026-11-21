@@ -71,12 +71,12 @@ export class CandorMenu extends LitElement {
       border-color: var(--color-border-control);
     }
     .menu-trigger:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     .menu-trigger[aria-expanded='true'] {
       background-color: var(--color-bg-elevated);
-      border-color: var(--color-action-primary);
+      border-color: var(--color-border-accent);
     }
     .menu-trigger[aria-expanded='true'] .menu-trigger__chevron {
       transform: rotate(180deg);
@@ -128,7 +128,7 @@ export class CandorMenu extends LitElement {
       outline: none;
     }
     .menu-item:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: calc(-1 * var(--focus-ring-offset));
     }
     .menu-item--disabled {
@@ -140,7 +140,7 @@ export class CandorMenu extends LitElement {
       width: 0.875rem;
       height: 0.875rem;
       flex-shrink: 0;
-      color: var(--color-action-primary);
+      color: var(--color-text-accent);
     }
     .menu-item__check--empty {
       width: 0.875rem;

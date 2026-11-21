@@ -131,7 +131,7 @@ export class CandorDataGrid extends LitElement {
       box-shadow:
         inset -1px 0 0 var(--color-border-default),
         inset 0 -1px 0 var(--color-border-default),
-        0 0 0 3px var(--color-focus);
+        0 0 0 3px var(--color-ring-focus);
       z-index: 2;
     }
     .data-grid__cell.is-selected {
@@ -139,14 +139,14 @@ export class CandorDataGrid extends LitElement {
         inset -1px 0 0 var(--color-border-default),
         inset 0 -1px 0 var(--color-border-default),
         inset 0 0 0 2px white,
-        inset 0 0 0 4px var(--color-action-primary);
+        inset 0 0 0 4px var(--color-border-accent);
       z-index: 1;
     }
     .data-grid__cell.is-selected:focus-visible {
       box-shadow:
         inset 0 0 0 2px white,
-        inset 0 0 0 4px var(--color-action-primary),
-        0 0 0 3px var(--color-focus);
+        inset 0 0 0 4px var(--color-border-accent),
+        0 0 0 3px var(--color-ring-focus);
       z-index: 2;
     }
     .data-grid__cell.is-disabled {
@@ -187,7 +187,7 @@ export class CandorDataGrid extends LitElement {
        on the very colour it is compensating for is not a channel. Painted
        directly on the fill it could not be one: six cells across this
        component's own demos measured 2.7-5.9 against a 6.5 floor, and
-       --color-focus was *unreachable* — klar reports no colour meeting 4.5
+       --color-ring-focus was *unreachable* — klar reports no colour meeting 4.5
        against it, at black or white. That is not a bad palette choice. A
        saturated fill at L 0.54-0.75 cannot host text, because contrast is
        bought with lightness and the gamut narrows as lightness leaves the

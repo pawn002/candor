@@ -50,7 +50,7 @@ export class CandorModal extends LitElement {
       overflow: visible;
     }
     dialog::backdrop {
-      background-color: var(--color-overlay);
+      background-color: var(--color-bg-scrim);
       backdrop-filter: blur(2px);
     }
 
@@ -110,7 +110,7 @@ export class CandorModal extends LitElement {
       color: var(--color-text-default);
     }
     .modal__close:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
 
@@ -129,7 +129,7 @@ export class CandorModal extends LitElement {
     }
     .modal__body:focus { outline: none; }
     .modal__body:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: calc(-1 * var(--focus-ring-offset));
     }
 

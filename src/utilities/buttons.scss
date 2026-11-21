@@ -21,7 +21,7 @@
                 opacity 0.2s ease-in-out;
 
     &:focus-visible {
-        outline: var(--focus-ring-width) solid var(--color-focus);
+        outline: var(--focus-ring-width) solid var(--color-ring-focus);
         outline-offset: var(--focus-ring-offset);
     }
 
@@ -49,28 +49,28 @@
 // ─── Variant modifiers ────────────────────────────────────────────────────────
 
 .btn-primary {
-    background-color: var(--color-action-primary);
+    background-color: var(--color-bg-action-primary);
     color: var(--color-text-on-action);
 
-    &:hover:not(:disabled)  { background-color: var(--color-action-primary-hover); }
-    &:active:not(:disabled) { background-color: var(--color-action-primary-active); }
+    &:hover:not(:disabled)  { background-color: var(--color-bg-action-primary-hover); }
+    &:active:not(:disabled) { background-color: var(--color-bg-action-primary-active); }
 }
 
 .btn-secondary {
     background-color: transparent;
-    color: var(--color-action-primary);
-    border: var(--border-width-thin) solid var(--color-action-primary);
+    color: var(--color-text-action-secondary);
+    border: var(--border-width-thin) solid var(--color-border-action-secondary);
 
-    &:hover:not(:disabled)  { background-color: oklch(from var(--color-action-primary) l c h / 0.08); }
-    &:active:not(:disabled) { background-color: oklch(from var(--color-action-primary) l c h / 0.15); }
+    &:hover:not(:disabled)  { background-color: var(--color-bg-action-secondary-hover); }
+    &:active:not(:disabled) { background-color: var(--color-bg-action-secondary-active); }
 }
 
 .btn-tertiary {
-    background-color: var(--color-action-tertiary);
-    color: var(--color-action-tertiary-text);
+    background-color: var(--color-bg-action-tertiary);
+    color: var(--color-text-action-tertiary);
 
-    &:hover:not(:disabled)  { background-color: var(--color-action-tertiary-hover); }
-    &:active:not(:disabled) { background-color: var(--color-action-tertiary-active); }
+    &:hover:not(:disabled)  { background-color: var(--color-bg-action-tertiary-hover); }
+    &:active:not(:disabled) { background-color: var(--color-bg-action-tertiary-active); }
 }
 
 .btn-ghost {
@@ -78,15 +78,15 @@
     color: var(--color-text-default);
 
     // As candor-button: bg-surface is the colour of a card, where the hover vanished (#322).
-    &:hover:not(:disabled)  { background-color: var(--color-bg-hover); }
-    &:active:not(:disabled) { background-color: var(--color-bg-active); }
+    &:hover:not(:disabled)  { background-color: var(--color-bg-action-ghost-hover); }
+    &:active:not(:disabled) { background-color: var(--color-bg-action-ghost-active); }
 }
 
 .btn-destructive {
-    background-color: var(--color-action-destructive);
-    color: var(--color-action-destructive-text);
-    border: var(--border-width-thin) solid var(--color-action-destructive-border);
+    background-color: var(--color-bg-action-destructive);
+    color: var(--color-text-action-destructive);
+    border: var(--border-width-thin) solid var(--color-border-action-destructive);
 
-    &:hover:not(:disabled)  { background-color: var(--color-action-destructive-hover); }
-    &:active:not(:disabled) { background-color: var(--color-action-destructive-active); }
+    &:hover:not(:disabled)  { background-color: var(--color-bg-action-destructive-hover); }
+    &:active:not(:disabled) { background-color: var(--color-bg-action-destructive-active); }
 }

@@ -57,13 +57,13 @@ export class CandorBreadcrumb extends LitElement {
       pointer-events: none;
     }
     .breadcrumb__link {
-      color: var(--color-link);
+      color: var(--color-text-link);
       font-weight: var(--font-weight-bold);
       text-decoration: none;
     }
-    .breadcrumb__link:hover { color: var(--color-link-hover); text-decoration: underline; }
+    .breadcrumb__link:hover { color: var(--color-text-link-hover); text-decoration: underline; }
     .breadcrumb__link:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
       border-radius: var(--radius-sm);
     }

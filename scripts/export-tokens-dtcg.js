@@ -385,28 +385,26 @@ function checkGamut(sources) {
  * so an incomplete field is worse than none: it returns a confident false
  * negative for the whole category it exists to protect.
  *
- * Two structural rules plus a small explicit list:
+ * Since #367 the name says it. A colour token's first word after `--color-` is
+ * the property it paints, and `icon`, `border`, `fill` and `ring` are non-text by
+ * definition (WCAG 1.4.11's 3:1, not a text floor); `text` and `bg` are not.
+ * A name outside that grammar is a deprecated one: an alias follows its target,
+ * and the few deprecated tokens with their own values keep the old structural
+ * rules (a `border` in the name, or a `<name>-text` sibling).
  *
- *   1. The name contains `border`. A border is non-text by construction —
- *      --color-border-*, --color-blockquote-border, --color-action-
- *      destructive-border.
- *   2. A sibling `<name>-text` exists. The system having minted a -text
- *      variant *is* the statement that the base is not for text; this is what
- *      catches --color-status-{error,success,warning}.
- *   3. Tokens whose role is non-text but whose name cannot say so.
- *
- * `declared` is every declared custom-property name across both modes, which
- * is what makes rule 2 checkable.
+ * `declared` is every declared custom-property name across both modes.
  */
-const NON_TEXT_BY_ROLE = new Set([
-  '--color-focus',                 // focus ring — a UI indicator, never text
-  '--color-slider-thumb',          // control knob fill
-]);
+const PROPERTY_RE = /^--color-(bg|text|icon|border|fill|ring)-/;
+const NON_TEXT_PROPERTIES = new Set(['icon', 'border', 'fill', 'ring']);
+let RAW = {}; // the light declarations, set in main before any token is built
 
-function isNonText(cssVar, declared) {
+function isNonText(cssVar, declared, seen = new Set()) {
+  const m = PROPERTY_RE.exec(cssVar);
+  if (m) return NON_TEXT_PROPERTIES.has(m[1]);
+  const alias = /^var\((--color-[\w-]+)\)$/.exec(RAW[cssVar]?.raw || '');
+  if (alias && !seen.has(cssVar)) return isNonText(alias[1], declared, seen.add(cssVar));
   if (/(^|-)border(-|$)/.test(cssVar)) return true;
-  if (declared.has(`${cssVar}-text`)) return true;
-  return NON_TEXT_BY_ROLE.has(cssVar);
+  return declared.has(`${cssVar}-text`);
 }
 
 /**
@@ -436,7 +434,7 @@ function dtcgEntry(cssVar, value, comment, declared, raw) {
  * Fail if a comment claims non-text use for a token no rule catches.
  *
  * The prose is no longer the source of truth, but it is still a second opinion
- * — and a disagreement means either a token needs adding to NON_TEXT_BY_ROLE
+ * — and a disagreement means either a token is misnamed
  * or a comment is wrong. Silently trusting the rules would reintroduce exactly
  * the failure mode this replaced: a guard that looks populated and isn't.
  */
@@ -468,6 +466,7 @@ for (const [k, { raw }] of Object.entries(primitiveDecls)) {
 
 // 2. Parse light + dark token mixins
 const lightRaw = parseDeclarations(extractMixin(semanticsScss, 'light-color-tokens'));
+RAW = lightRaw;
 // Dark is an *override* layer, not a standalone set: at runtime the light
 // mixin lands on :root and dark redeclares only what changes, so a token
 // declared once in light still renders in dark (resolving through whatever
@@ -507,7 +506,7 @@ if (!SKIP_GAMUT) {
 // too, so the list can only shrink. The `debt` entries are invented colours
 // that predate the gate and are due to be re-derived.
 const COLOUR_LITERAL_EXCEPTIONS = {
-  'src/design-tokens/semantics.scss --color-overlay': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour',
+  'src/design-tokens/semantics.scss --color-bg-scrim': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour',
 };
 
 /** Every typed colour in one file, keyed `<path> <declared name or the literal>`. */
@@ -553,6 +552,89 @@ function typedColours(file) {
   }
   const debt = Object.values(COLOUR_LITERAL_EXCEPTIONS).filter((r) => r.startsWith('debt:')).length;
   console.log(`✓  derived colour: ${files.length} files reference their colours (${excepted} typed colours under ${Object.keys(COLOUR_LITERAL_EXCEPTIONS).length} named exceptions, ${debt} of them debt)`);
+}
+
+// 2c. Property gate (#367). A colour token's first word says what it paints,
+// so the CSS property that consumes it must agree: `color` takes text or icon
+// tokens, a background takes bg or fill, a border or outline takes border or
+// ring, and so on. A token inside alpha-only relative syntax
+// (`oklch(from var(--x) l c h / 0.08)`) is the source of a tint, not a colour
+// painted at full strength, so it is not judged. Exceptions are named one by
+// one, keyed `<path> <property> <token>`, and a stale one fails.
+//
+// The same pass fails on any deprecated token name in src/ (stories included),
+// so components and the documentation they render use the current set.
+const PROPERTY_ALLOWS = {
+  color: ['text', 'icon'],
+  background: ['bg', 'fill'],
+  'background-color': ['bg', 'fill'],
+  border: ['border', 'ring'],
+  outline: ['border', 'ring'],
+  'box-shadow': ['border', 'ring'],
+  stroke: ['icon', 'fill', 'border'],
+  fill: ['icon', 'fill'],
+};
+const PROPERTY_EXCEPTIONS = {
+  'src/web-components/components/menu/candor-menu.ts background-color --color-border-default': 'the separator: a 1px box painted in the divider colour, which is a line',
+  'src/web-components/components/toolbar/candor-toolbar.ts background-color --color-border-strong': 'the separator: a 1px box painted in the divider colour, which is a line',
+  'src/web-components/components/form/checkbox/candor-checkbox.ts border --color-fill-on-action': 'the tick: an L drawn with two borders and rotated, so its colour is the mark',
+  'src/web-components/components/tooltip/candor-tooltip.ts border-top-color --color-bg-tooltip': 'the arrow: a CSS border triangle in the bubble colour, part of the bubble',
+  'src/web-components/components/tooltip/candor-tooltip.ts border-bottom-color --color-bg-tooltip': 'the arrow, as above',
+  'src/web-components/components/tooltip/candor-tooltip.ts border-left-color --color-bg-tooltip': 'the arrow, as above',
+  'src/web-components/components/tooltip/candor-tooltip.ts border-right-color --color-bg-tooltip': 'the arrow, as above',
+  'src/design-tokens/article.scss border-bottom-color --color-text-link-visited': 'a visited link underlined with a border in its own colour: the underline is part of the text',
+  'src/web-components/components/typography/article/candor-article.ts border-bottom-color --color-text-link-visited': 'a visited link underlined with a border in its own colour: the underline is part of the text',
+};
+{
+  const deprecated = new Set();
+  const aliasBlock = extractMixin(semanticsScss, 'deprecated-color-aliases');
+  for (const name of Object.keys(parseDeclarations(aliasBlock))) deprecated.add(name);
+  for (const [name, d] of Object.entries({ ...lightRaw, ...darkOwnRaw })) {
+    if (/deprecated/i.test(d.comment || '')) deprecated.add(name);
+  }
+  const problems = [];
+  const matched = new Set();
+  let checked = 0;
+  for (const file of sourceFiles()) {
+    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    if (/design-tokens\/(semantics|primitives)\.scss$/.test(rel)) continue;
+    const text = fs.readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\r\n]/g, ' '));
+    const lineOf = (i) => text.slice(0, i).split('\n').length;
+    for (const m of text.matchAll(/var\((--color-[a-z0-9-]+)\)/g)) {
+      if (deprecated.has(m[1])) problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} is deprecated: use what it aliases in semantics.scss`);
+    }
+    if (/\.stories\.ts$/.test(rel)) continue;
+    for (const m of text.matchAll(/(?<![\w-])(-{0,2}[a-z][a-z-]*)\s*:\s*([^;{}`]*?var\(--color-[^;{}`]*)/g)) {
+      const prop = m[1];
+      const family = prop.startsWith('--') ? (/border/.test(prop) ? 'border' : null)
+        : prop.startsWith('border') || prop.startsWith('outline') ? 'border'
+        : prop === 'background' || prop === 'background-color' ? 'background'
+        : PROPERTY_ALLOWS[prop] ? prop : null;
+      if (!family) continue;
+      const allows = PROPERTY_ALLOWS[family];
+      // Drop alpha-only tints: their source token is not painted.
+      const value = m[2].replace(/oklch\(from var\(--color-[a-z0-9-]+\)\s+l\s+c\s+h\s*\/\s*[\d.]+\)/g, '');
+      for (const v of value.matchAll(/var\((--color-[a-z0-9-]+)\)/g)) {
+        const name = v[1];
+        if (deprecated.has(name)) continue; // reported above
+        const word = /^--color-([a-z]+)-/.exec(name)?.[1];
+        checked++;
+        if (allows.includes(word)) continue;
+        const key = `${rel} ${prop} ${name}`;
+        if (PROPERTY_EXCEPTIONS[key]) { matched.add(key); continue; }
+        problems.push(`${rel}:${lineOf(m.index)}  ${prop} uses ${name}: a ${word} token; ${prop} takes ${allows.join(' or ')}`);
+      }
+    }
+  }
+  for (const key of Object.keys(PROPERTY_EXCEPTIONS)) {
+    if (!matched.has(key)) problems.push(`exception "${key}" matches nothing any more: remove it`);
+  }
+  if (problems.length) {
+    console.error(`✗  ${problems.length} colour token(s) painted by a property their name does not allow (#367):`);
+    for (const p of problems) console.error(`   ${p}`);
+    process.exit(1);
+  }
+  console.log(`✓  token properties: ${checked} colour references agree with their names (${Object.keys(PROPERTY_EXCEPTIONS).length} named exceptions); no deprecated name in use`);
 }
 
 // 3. Resolve all var() references
@@ -612,15 +694,33 @@ walkTokens(output.light, (tok) => {
 console.log(`✓  audit/tokens.dtcg.json`);
 console.log(`   light: ${lightCount} color tokens`);
 console.log(`   dark:  ${darkCount} color tokens`);
-console.log(`   non-text: ${nonTextCount} flagged (structural — border / has a -text sibling / named role)`);
+console.log(`   non-text: ${nonTextCount} flagged (from the property word: icon / border / fill / ring)`);
 if (aliasOnly) console.log(`   ${aliasOnly} light token(s) are explained only by their alias ($extensions.aliasOf)`);
 if (noDesc) console.log(`   ${noDesc} light token(s) carry neither a $description nor an alias`);
+
+// 5b. The naming grammar (#367): every colour token that is not deprecated
+// starts with the property it paints. Deprecated names carry the word
+// "deprecated" in their comment and go in the next major.
+const offGrammar = Object.entries({ ...lightRaw, ...darkOwnRaw })
+  .filter(([name]) => name.startsWith('--color-') && !PROPERTY_RE.test(name))
+  .filter(([, d]) => !/deprecated/i.test(d.comment || ''))
+  .map(([name]) => name);
+if (offGrammar.length) {
+  console.error(
+    `\n✗  ${offGrammar.length} colour token(s) do not follow the naming grammar (#367):\n` +
+      '   --color-{bg|text|icon|border|fill|ring}-{role}[-{variant}][-{state}][-on-{context}]\n'
+  );
+  for (const n of [...new Set(offGrammar)]) console.error(`   ${n}`);
+  process.exit(1);
+}
+console.log(`✓  naming grammar: every current colour token starts with its property`);
 
 const missedNonText = checkNonTextAgreement(lightTokens, declared);
 if (missedNonText.length) {
   console.error(
     `\n✗  ${missedNonText.length} token(s) are annotated as non-text but no structural rule catches them.\n` +
-      '   Either the comment is wrong, or the token needs adding to NON_TEXT_BY_ROLE\n' +
+      '   Either the comment is wrong, or the token is misnamed: non-text colours start\n' +
+      '   icon-, border-, fill- or ring- (#367).\n' +
       '   in this script. Do not leave them disagreeing — CLAUDE.md pitfall 3a tells\n' +
       '   contributors to trust this field (#218):\n'
   );

@@ -112,7 +112,7 @@ export const DestructiveInContext: Story = {
       <hr style="border: none; border-top: var(--border-width-thin) solid var(--color-border-default); margin: 0; width: 100%;" />
       <div>
         <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">With error state nearby</p>
-        <p style="color:var(--color-status-error-text);font-family:var(--font-family-accessible);font-size:var(--font-size-sm);margin:0 0 var(--spacing-sm);">⚠ This action cannot be undone. 3 records will be permanently deleted.</p>
+        <p style="color:var(--color-text-error);font-family:var(--font-family-accessible);font-size:var(--font-size-sm);margin:0 0 var(--spacing-sm);">⚠ This action cannot be undone. 3 records will be permanently deleted.</p>
         <div style="display:flex;gap:1rem;flex-wrap:wrap;">
           <candor-button variant="ghost">Cancel</candor-button>
           <candor-button variant="destructive">Delete permanently</candor-button>

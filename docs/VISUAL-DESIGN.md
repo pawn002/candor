@@ -160,17 +160,17 @@ OKLCH makes color decisions predictable. Because lightness is perceptually unifo
 
 ### Semantic tokens, not raw values
 
-The layering rule: raw OKLCH values belong in `semantics.scss`, where primitives are assigned semantic meaning. Component styles (the `static styles` of every Lit element in `src/web-components/components/`) should never contain a raw color value. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-status-error-text`, not a hand-picked red. `semantics.scss` is intentionally full of raw values; that is its job. Component code downstream of it should not be.
+The layering rule: raw OKLCH values belong in `semantics.scss`, where primitives are assigned semantic meaning. Component styles (the `static styles` of every Lit element in `src/web-components/components/`) should never contain a raw color value. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-text-error`, not a hand-picked red. `semantics.scss` is intentionally full of raw values; that is its job. Component code downstream of it should not be.
 
 This layering is what allows dark mode, theme variants, and future palette changes to work without touching component code.
 
 ```scss
 // Do
 .alert--error .alert__title {
-  color: var(--color-status-error-text);
+  color: var(--color-text-error);
 }
 .alert--error .alert__icon {
-  color: var(--color-status-error);
+  color: var(--color-icon-error);
 }
 
 // Don't
@@ -190,13 +190,13 @@ This costs no accessibility, because neither device was doing the work. The icon
 
 ### The separation of base and text status colors
 
-Status base colors, used for icons and chip backgrounds, are at a lightness that works for non-text use. They are not the same colors used for text. `--color-status-error` is for non-text use; `--color-status-error-text` is for text. The contrast math is different for each. Substituting one for the other is one of the most common sources of a failed contrast audit.
+Status icon colours are at a lightness that works for non-text use. They are not the colours used for text, and the name says which is which: `--color-icon-error` is for the icon, `--color-text-error` for text. The contrast math is different for each. Substituting one for the other is one of the most common sources of a failed contrast audit.
 
 ### The link-color discipline
 
-Links must be hue-distinct from body text, not just contrast-compliant. A dark-blue link next to dark-gray body text at the same lightness is technically accessible and practically invisible. `--color-link` is azure (well-separated from the near-black body text hue) and visited links shift to indigo via `--color-link-visited`. Underlines stay on for inline links in prose regardless.
+Links must be hue-distinct from body text, not just contrast-compliant. A dark-blue link next to dark-gray body text at the same lightness is technically accessible and practically invisible. `--color-text-link` is azure (well-separated from the near-black body text hue) and visited links shift to indigo via `--color-text-link-visited`. Underlines stay on for inline links in prose regardless.
 
-**Visited links use a double-underline cue, not just color.** Browser security restrictions mean `:visited` can only change color properties, so `text-decoration-style: dotted` and similar are silently ignored. Candor's `Article` component works around this by pre-declaring a `border-bottom` on every link, colored transparent by default. On `:visited`, the border color is set to `--color-link-visited`, which makes it visible and produces a double underline (text-decoration + border): a structural non-color cue that survives colorblindness. This pattern should be applied anywhere inline links appear in prose.
+**Visited links use a double-underline cue, not just color.** Browser security restrictions mean `:visited` can only change color properties, so `text-decoration-style: dotted` and similar are silently ignored. Candor's `Article` component works around this by pre-declaring a `border-bottom` on every link, colored transparent by default. On `:visited`, the border color is set to `--color-text-link-visited`, which makes it visible and produces a double underline (text-decoration + border): a structural non-color cue that survives colorblindness. This pattern should be applied anywhere inline links appear in prose.
 
 ### Dark mode specifics
 
@@ -224,7 +224,7 @@ Use `scrollbarStyles('<selector>')` from `src/web-components/utils/scrollbar.ts`
 | Trap | What it looks like | Fix |
 |---|---|---|
 | A scroller with the browser's scrollbar | A light track across a dark panel; a heavy bar with arrows under small controls | `scrollbarStyles()` on the scrolling element |
-| Using `--color-status-error` for 14px text | A small error label fails contrast | Use `--color-status-error-text` |
+| Using `--color-icon-error` for 14px text | A small error label fails contrast | Use `--color-text-error` |
 | Two AA-compliant colors, no separation | Link text and body text both pass contrast against white, but blend against each other | Links must differ by hue, not just lightness |
 | Pure white on pure black | `color: white; background: black;` or equivalent near-values | Use `--color-text-default` on `--color-bg-page`, both pre-tuned away from the extremes |
 | Dark surfaces that disappear into each other | Card on page with only a 0.03 L-step | Add `--color-border-default` or step L by ≥0.06 |
@@ -248,7 +248,7 @@ An image that serves none of these is worth leaving out. The surface reads as mo
 - **Icons are functional, not decorative.** The icon system is semantic: a checkmark means success, an exclamation means warning. Decorative icons (a sparkle next to a heading for "flair") dilute the semantics and should be removed.
 - **Iconography should pair with text wherever the icon's meaning is not universal.** An icon-only button without an accessible name fails both a11y and comprehension. A status indicator that uses only color (no icon, no text) does not qualify for Tier 3, which requires a redundant non-color channel. Without one, the indicator must meet the stricter Tier 2 threshold.
 - **Photography and illustration inherit the humanist frame.** A page of warm serif prose with a harsh, desaturated stock photo is incoherent. If photography is used in an Article or editorial surface, it should sit visually inside the system's palette, either through the image selection itself, or through treatment (warm overlay, border, container sized on the spatial grid).
-- **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`klar variants`).
+- **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-icon-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`klar variants`).
 
 ### Icon weight semantics
 
@@ -266,7 +266,7 @@ Candor's icon system is **Phosphor Icons**, a humanist family (rounded, even str
 
 **Status icons are bold.** `candor-alert`, `candor-toast` and `candor-accessible-text role_="state"` render them bold. They are the redundant channel that lets status text sit at Tier 3, so they must keep a clear shape, but they are not pressable, and filling them would make fill mean two things. The cost was measured before it was accepted: a bold outline stands out less than a filled shape, and at 14px the mark inside the circle is about 1.3px. If that proves too faint in use, the fix is to size the icon up, not to fill it.
 
-**Icon-only buttons draw the fill glyph at 1.75rem in `--color-text-subtle`, with the button padding cut to 2px.** A fill glyph's detail is cut out of the solid shape, and at 1.25rem the "i" in the info disc is about 1.3px wide. 1.75rem makes the cut-out readable; 2px padding, (32px − 28px) / 2, keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the outlined radios, checkboxes and labels beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour. It has no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. The colour belongs on the button, not the glyph, so a pressed toggle can still colour its glyph `--color-action-primary`. An icon inside a labelled button follows the button's text size and colour instead.
+**Icon-only buttons draw the fill glyph at 1.75rem in `--color-text-subtle`, with the button padding cut to 2px.** A fill glyph's detail is cut out of the solid shape, and at 1.25rem the "i" in the info disc is about 1.3px wide. 1.75rem makes the cut-out readable; 2px padding, (32px − 28px) / 2, keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the outlined radios, checkboxes and labels beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour. It has no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. The colour belongs on the button, not the glyph, so a pressed toggle can still colour its glyph `--color-text-accent`. An icon inside a labelled button follows the button's text size and colour instead.
 
 There is no `ph-regular` class. The regular weight's base class is simply `ph`. Never put two weight classes on one element; each weight sets `font-family: !important` and the last-imported one silently wins.
 
@@ -280,7 +280,7 @@ See the Storybook **Design Tokens → Icons** page for the full reference: insta
 | Wrong icon weight for the role | A status icon set in `ph-fill`, or a dismiss "✕" set in `ph-fill` (it renders as a boxed ✕) | Fill only for actions with a fill form; status and stroke-only glyphs are `ph-bold` |
 | Color-only status dots | A red circle with no label, no icon | Add a label or shape; color cannot be the sole channel |
 | Stock imagery disconnected from palette | Cool-tone hero photo on a warm-neutral page | Recolor, overlay, or replace |
-| Chart palette drift | Bar chart uses `#e74c3c` for "error" | Use `--color-status-error` or OKLCH-derived chart tokens |
+| Chart palette drift | Bar chart uses `#e74c3c` for "error" | Use `--color-icon-error` or OKLCH-derived chart tokens |
 | Image container height off-grid | An explicit `height: 250px` on an image container | Use a height token or a value that resolves to a multiple of 8px |
 
 ---
@@ -293,7 +293,7 @@ A checklist a reviewer can run on any new screen or component. These are composi
 2. **Type hierarchy is legible without color.** Turn the screen grayscale. Can you still tell which element is the page title, which is a section heading, and which is body? If not, the hierarchy is being carried by color rather than type.
 3. **Each type family is playing its defined role.** Candor has four families and all four can legitimately appear on the same screen (UI chrome in Roboto Flex, prose in Noto Serif, labels in Atkinson, code in mono). What creates noise is families appearing outside their roles: Noto Serif on a form label, Atkinson on a heading, mono as a visual flavor choice.
 4. **Headings feel drawn, not bolded.** If every heading reads as "the same font, heavier," the `opsz` axis is not working. Optical sizing should produce a hierarchy that feels graduated, not stepped.
-5. **Color is doing one job per token.** Errors are `--color-status-error-*`, links are `--color-link`, primary actions are `--color-action-primary`. If a color is being used for two unrelated purposes on the same screen, the semantics are leaking.
+5. **Color is doing one job per token.** Errors are `--color-*-error`, links are `--color-text-link`, primary actions are `--color-bg-action-primary`. If a color is being used for two unrelated purposes on the same screen, the semantics are leaking.
 6. **Backgrounds delineate by more than luminance alone.** Cards, panels, and elevated surfaces are distinguishable even on a dark theme. Borders are present where the L-step is subtle.
 7. **Edges and corners feel intentional.** Border radii are consistent within a scale. No component has three different radii (4px on a button, 6px on a card, 8px on a modal) unless the system defines them that way.
 8. **Interactive affordances are distinct from static text.** Links are visibly links. Buttons are visibly buttons. A user can tell what is clickable without hovering.
@@ -341,7 +341,7 @@ Likely causes, in order of frequency:
 
 ### Symptom: "I can't tell what's clickable"
 
-- **Links indistinguishable from body text.** Using `--color-text-default` instead of `--color-link`, or a custom dark blue with insufficient hue separation. Fix: use `--color-link`; keep underlines in prose.
+- **Links indistinguishable from body text.** Using `--color-text-default` instead of `--color-text-link`, or a custom dark blue with insufficient hue separation. Fix: use `--color-text-link`; keep underlines in prose.
 - **Ghost buttons without affordance.** A button with no background and no border reads as text. Fix: give it a border, a hover state, or both.
 - **Focus states missing or invisible.** Keyboard users can't see where they are. Fix: use the focus-ring tokens; never suppress `:focus-visible`.
 

@@ -44,7 +44,7 @@ export class CandorProgress extends LitElement {
     }
     .progress-bar__fill {
       height: 100%;
-      background-color: var(--color-action-primary);
+      background-color: var(--color-fill-indicator);
       border-radius: var(--radius-full);
       transition: width 0.3s ease-in-out;
     }
@@ -62,7 +62,7 @@ export class CandorProgress extends LitElement {
     .spinner--lg { width: var(--spacing-xl); height: var(--spacing-xl); }
     .spinner__track { stroke: var(--color-border-default); }
     .spinner__arc {
-      stroke: var(--color-action-primary);
+      stroke: var(--color-fill-indicator);
       stroke-dasharray: 56.5 56.5;
       stroke-dashoffset: 0;
       transform-origin: center;

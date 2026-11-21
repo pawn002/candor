@@ -93,7 +93,7 @@ export class CandorTable extends LitElement {
     .table__scroll { overflow-x: auto; }
     .table__scroll:focus { outline: none; }
     .table__scroll:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: calc(-1 * var(--focus-ring-offset));
     }
     table {
@@ -171,7 +171,7 @@ export class CandorTable extends LitElement {
     }
     .table__sort:hover { color: var(--color-text-default); }
     .table__sort:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     /* Right-aligned columns put the indicator before the text, so the text keeps

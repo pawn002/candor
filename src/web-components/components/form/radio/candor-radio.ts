@@ -90,11 +90,11 @@ export class CandorRadio extends LitElement {
       height: 0;
     }
     .radio-input:focus-visible + .radio-circle {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     .radio-input:checked + .radio-circle {
-      border-color: var(--color-action-primary);
+      border-color: var(--color-border-accent);
     }
     .radio-input:checked + .radio-circle::after {
       content: '';
@@ -105,7 +105,7 @@ export class CandorRadio extends LitElement {
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background-color: var(--color-action-primary);
+      background-color: var(--color-fill-indicator);
     }
     .radio-input:disabled + .radio-circle {
       background-color: var(--color-bg-surface);
@@ -123,7 +123,7 @@ export class CandorRadio extends LitElement {
       transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
     }
     .radio-circle:hover {
-      border-color: var(--color-action-primary);
+      border-color: var(--color-border-accent);
     }
     .radio-label {
       font-family: var(--font-family-accessible);

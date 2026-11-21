@@ -59,9 +59,9 @@ export class CandorToast extends LitElement {
     }
     .toast__icon { flex-shrink: 0; width: 1.25rem; height: 1.25rem; margin-top: 0.125rem; }
     .toast--info    .toast__icon { color: var(--color-text-subtle); }
-    .toast--success .toast__icon { color: var(--color-status-success); }
-    .toast--warning .toast__icon { color: var(--color-status-warning); }
-    .toast--error   .toast__icon { color: var(--color-status-error); }
+    .toast--success .toast__icon { color: var(--color-icon-success); }
+    .toast--warning .toast__icon { color: var(--color-icon-warning); }
+    .toast--error   .toast__icon { color: var(--color-icon-error); }
     .toast__content { flex: 1; min-width: 0; }
     .toast__title {
       font-weight: var(--font-weight-semibold);
@@ -70,11 +70,11 @@ export class CandorToast extends LitElement {
       line-height: var(--line-height-tight);
       margin-bottom: var(--spacing-2xs);
     }
-    .toast--success .toast__title { color: var(--color-status-success-text); }
-    .toast--warning .toast__title { color: var(--color-status-warning-text); }
-    .toast--error   .toast__title { color: var(--color-status-error-text); }
+    .toast--success .toast__title { color: var(--color-text-success); }
+    .toast--warning .toast__title { color: var(--color-text-warning); }
+    .toast--error   .toast__title { color: var(--color-text-error); }
     .toast__message {
-      color: var(--color-toast-message);
+      color: var(--color-text-toast);
       font-size: var(--font-size-md);
       line-height: var(--line-height-normal);
     }
@@ -87,7 +87,7 @@ export class CandorToast extends LitElement {
       transition: color 0.15s ease, background-color 0.15s ease;
     }
     .toast__dismiss:hover { color: var(--color-text-default); background-color: var(--color-bg-hover); }
-    .toast__dismiss:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
+    .toast__dismiss:focus-visible { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }
   `;
 
   @property({ reflect: true }) variant: ToastVariant = 'info';

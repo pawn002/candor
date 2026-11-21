@@ -47,13 +47,13 @@ export class CandorChip extends LitElement {
       letter-spacing: 0.06em;
       overflow: hidden;
     }
-    .chip:has(:focus-visible) { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .chip--primary   { border-color: var(--color-action-primary-border); background-color: oklch(from var(--color-action-primary) l c h / 0.08); }
-    .chip--secondary { border-color: var(--color-action-secondary-border); background-color: oklch(from var(--color-action-secondary) l c h / 0.08); }
-    .chip--success   { border-color: var(--color-status-success-border); background-color: var(--color-status-success-bg); }
-    .chip--warning   { border-color: var(--color-status-warning-border); background-color: var(--color-status-warning-bg); }
-    .chip--error     { border-color: var(--color-status-error-border); background-color: var(--color-status-error-bg); }
-    .chip--selected  { border-color: var(--color-action-primary-fill); background-color: var(--color-action-primary-fill); }
+    .chip:has(:focus-visible) { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }
+    .chip--primary   { border-color: var(--color-border-action-secondary); background-color: oklch(from var(--color-text-accent) l c h / 0.08); }
+    .chip--secondary { border-color: var(--color-border-accent-secondary); background-color: oklch(from var(--color-border-accent-secondary) l c h / 0.08); }
+    .chip--success   { border-color: var(--color-border-success); background-color: var(--color-bg-success); }
+    .chip--warning   { border-color: var(--color-border-warning); background-color: var(--color-bg-warning); }
+    .chip--error     { border-color: var(--color-border-error); background-color: var(--color-bg-error); }
+    .chip--selected  { border-color: transparent; background-color: var(--color-bg-action-primary); }
     .chip--selected .chip__body { color: var(--color-text-on-action); }
     .chip--selected .chip__dismiss { color: var(--color-text-on-action); }
     .chip--disabled  { opacity: 0.5; cursor: not-allowed; }
@@ -71,9 +71,9 @@ export class CandorChip extends LitElement {
       font-size: inherit;
       letter-spacing: inherit;
     }
-    .chip__body--button:not(:disabled):hover { background-color: oklch(from var(--color-action-primary) l c h / 0.06); }
+    .chip__body--button:not(:disabled):hover { background-color: oklch(from var(--color-text-accent) l c h / 0.06); }
     .chip__body--link { text-decoration: none; font-family: inherit; font-size: inherit; letter-spacing: inherit; transition: background-color 0.15s ease, color 0.15s ease; }
-    .chip__body--link:hover { background-color: oklch(from var(--color-action-primary) l c h / 0.06); color: var(--color-text-default); }
+    .chip__body--link:hover { background-color: oklch(from var(--color-text-accent) l c h / 0.06); color: var(--color-text-default); }
     .chip__dismiss {
       display: inline-flex;
       align-items: center;
@@ -91,7 +91,7 @@ export class CandorChip extends LitElement {
       transition: background-color 0.15s ease, color 0.15s ease;
     }
     .chip__dismiss svg { width: 0.625rem; height: 0.625rem; }
-    .chip__dismiss:hover { background-color: oklch(from var(--color-action-primary) l c h / 0.12); color: var(--color-text-default); }
+    .chip__dismiss:hover { background-color: oklch(from var(--color-text-accent) l c h / 0.12); color: var(--color-text-default); }
   `;
 
   @property() label = '';

@@ -107,7 +107,7 @@ const renderShowcase = () => html`
 
       <div style="border: var(--border-width-thin) solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-surface);">
         ${TYPE_SCALE.map((s, i) => {
-          const floorStyle = s.isFloor ? `box-shadow: inset var(--border-width-thick) 0 0 var(--color-action-primary);` : '';
+          const floorStyle = s.isFloor ? `box-shadow: inset var(--border-width-thick) 0 0 var(--color-border-accent);` : '';
           const opacity = s.isDecorative ? '0.55' : '1';
           const isLast = i === TYPE_SCALE.length - 1;
           return html`

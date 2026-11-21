@@ -62,17 +62,17 @@ export class CandorSwitch extends LitElement {
       height: 0;
     }
     .switch-input:focus-visible + .switch-track {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     /* The labelled-fill pair, as the checkbox: deep with a light thumb in dark,
        where a dark thumb on a pale track loses most of its contrast to scatter. */
     .switch-input:checked + .switch-track {
-      background-color: var(--color-action-primary-fill);
-      border-color: var(--color-action-primary-fill);
+      background-color: var(--color-bg-action-primary);
+      border-color: transparent; /* the fill shows through, so the box needs no border colour of its own */
     }
     .switch-input:checked + .switch-track .switch-thumb {
-      background-color: var(--color-text-on-action);
+      background-color: var(--color-fill-on-action);
       transform: translateX(20px);
     }
     .switch-input:disabled + .switch-track {
@@ -94,13 +94,13 @@ export class CandorSwitch extends LitElement {
       box-sizing: border-box;
     }
     .switch-track:hover {
-      border-color: var(--color-action-primary);
+      border-color: var(--color-border-accent);
     }
     .switch-thumb {
       width: 18px;
       height: 18px;
       border-radius: var(--radius-full);
-      background-color: var(--color-border-control);
+      background-color: var(--color-fill-track);
       transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
       flex-shrink: 0;
     }

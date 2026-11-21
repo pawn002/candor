@@ -50,9 +50,9 @@ export class CandorAlert extends LitElement {
     }
     .alert__icon { flex-shrink: 0; width: 1.25rem; height: 1.25rem; margin-top: 0.125rem; }
     .alert--info    .alert__icon { color: var(--color-text-subtle); }
-    .alert--success .alert__icon { color: var(--color-status-success); }
-    .alert--warning .alert__icon { color: var(--color-status-warning); }
-    .alert--error   .alert__icon { color: var(--color-status-error); }
+    .alert--success .alert__icon { color: var(--color-icon-success); }
+    .alert--warning .alert__icon { color: var(--color-icon-warning); }
+    .alert--error   .alert__icon { color: var(--color-icon-error); }
     .alert__content { flex: 1; min-width: 0; }
     .alert__title {
       font-weight: var(--font-weight-semibold);
@@ -62,9 +62,9 @@ export class CandorAlert extends LitElement {
       margin-bottom: var(--spacing-2xs);
       letter-spacing: var(--letter-spacing-body);
     }
-    .alert--success .alert__title { color: var(--color-status-success-text); }
-    .alert--warning .alert__title { color: var(--color-status-warning-text); }
-    .alert--error   .alert__title { color: var(--color-status-error-text); }
+    .alert--success .alert__title { color: var(--color-text-success); }
+    .alert--warning .alert__title { color: var(--color-text-warning); }
+    .alert--error   .alert__title { color: var(--color-text-error); }
     .alert__message {
       color: var(--color-text-default);
       font-size: var(--font-size-md);
@@ -89,7 +89,7 @@ export class CandorAlert extends LitElement {
     }
     .alert__dismiss svg { width: 1rem; height: 1rem; }
     .alert__dismiss:hover { color: var(--color-text-default); background-color: var(--color-bg-hover); }
-    .alert__dismiss:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
+    .alert__dismiss:focus-visible { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }
   `;
 
   @property({ reflect: true }) variant: AlertVariant = 'info';

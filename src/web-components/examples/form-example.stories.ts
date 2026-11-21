@@ -110,7 +110,7 @@ export const LoginForm: Story = {
 
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-xs);">
             <candor-checkbox label="Remember me"></candor-checkbox>
-            <a href="#" style="color: var(--color-action-primary); text-decoration: none; font-size: var(--font-size-sm); white-space: nowrap;">
+            <a href="#" style="color: var(--color-text-accent); text-decoration: none; font-size: var(--font-size-sm); white-space: nowrap;">
               Forgot password?
             </a>
           </div>
@@ -119,7 +119,7 @@ export const LoginForm: Story = {
 
           <candor-text variant="body" style="text-align: center;">
             Don't have an account?
-            <a href="#" style="color: var(--color-link);">Sign up</a>
+            <a href="#" style="color: var(--color-text-link);">Sign up</a>
           </candor-text>
         </form>
       </div>
@@ -176,7 +176,7 @@ export const RegistrationForm: Story = {
 
           <candor-text variant="body" style="text-align: center;">
             Already have an account?
-            <a href="#" style="color: var(--color-link);">Sign in</a>
+            <a href="#" style="color: var(--color-text-link);">Sign in</a>
           </candor-text>
         </form>
       </main>
@@ -276,7 +276,7 @@ export const FileUpload: Story = {
         <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <candor-text variant="caption">quarterly-report.pdf</candor-text>
-            <candor-text variant="caption" style="color: var(--color-status-success-text); font-weight: var(--font-weight-semibold);">Done</candor-text>
+            <candor-text variant="caption" style="color: var(--color-text-success); font-weight: var(--font-weight-semibold);">Done</candor-text>
           </div>
           <candor-progress type="bar" value="100" aria-label="quarterly-report.pdf"></candor-progress>
         </div>

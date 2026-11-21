@@ -52,7 +52,7 @@ const renderShowcase = () => html`
           border: var(--border-width-thin) solid var(--color-border-default);
           border-radius: var(--radius-sm);
         ">
-          <div style="height: 100%; background-color: var(--color-action-primary); opacity: 0.3; border-radius: var(--radius-sm); width: ${s.value};"></div>
+          <div style="height: 100%; background-color: var(--color-fill-indicator); opacity: 0.3; border-radius: var(--radius-sm); width: ${s.value};"></div>
         </div>
       </div>
     `)}

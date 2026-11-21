@@ -190,7 +190,7 @@ export const FontComparison: Story = {
         <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;line-height:var(--line-height-tight);">FORM LABEL</span>
         <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-normal);">The quick brown fox jumps over the lazy dog.</span>
         <span style="font-size:var(--font-size-sm);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-relaxed);font-style:italic;color:var(--color-text-subtle);">Supplementary annotation for context.</span>
-        <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-tight);color:var(--color-status-error-text);">Error: This field is required.</span>
+        <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-tight);color:var(--color-text-error);">Error: This field is required.</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.75rem;">
         <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible</p>
@@ -320,7 +320,7 @@ export const AIConfidenceScores: Story = {
           <candor-accessible-text role_="annotation" color="secondary">Sentiment classification · Agenda item 3</candor-accessible-text>
         </div>
       </candor-card>
-      <div style="background:var(--color-status-warning-bg);border:var(--border-width-thin) solid var(--color-status-warning);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:var(--spacing-xs);">
+      <div style="background:var(--color-bg-warning);border:var(--border-width-thin) solid var(--color-border-warning);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;flex-direction:column;gap:var(--spacing-xs);">
         <div style="display:flex;justify-content:space-between;align-items:baseline;">
           <span style="font-family:var(--font-family-base);font-size:var(--font-size-md);font-weight:var(--font-weight-semibold);">Neutral / Ambiguous</span>
           <candor-accessible-text role_="annotation" color="secondary">43% confidence</candor-accessible-text>
@@ -360,10 +360,10 @@ export const AIStressContextCounters: Story = {
           <candor-text variant="body" size="sm" color="secondary">14 of 47 reviewed</candor-text>
         </div>
         <div style="height:6px;background:var(--color-bg-page);border-radius:var(--radius-full);overflow:hidden;">
-          <div style="height:100%;width:30%;background:var(--color-action-primary);border-radius:var(--radius-full);"></div>
+          <div style="height:100%;width:30%;background:var(--color-fill-indicator);border-radius:var(--radius-full);"></div>
         </div>
       </candor-card>
-      <div style="background:var(--color-status-warning-bg);border:var(--border-width-thin) solid var(--color-status-warning);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;align-items:center;gap:var(--spacing-xs);">
+      <div style="background:var(--color-bg-warning);border:var(--border-width-thin) solid var(--color-border-warning);border-radius:var(--radius-md);padding:var(--spacing-sm);display:flex;align-items:center;gap:var(--spacing-xs);">
         <candor-accessible-text role_="state" tone="warning">3 responses flagged for review</candor-accessible-text>
       </div>
       <candor-card padding="sm">
