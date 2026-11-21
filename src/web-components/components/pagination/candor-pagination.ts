@@ -48,7 +48,9 @@ export class CandorPagination extends LitElement {
       border: none;
       border-radius: var(--radius-sm);
       background: transparent;
-      color: var(--color-text-subtle);
+      /* subtle-on-surface, not subtle: a paginator often sits on a card below its table,
+         where text-subtle falls to 3.9 in light. */
+      color: var(--color-text-subtle-on-surface);
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold);
@@ -58,7 +60,8 @@ export class CandorPagination extends LitElement {
       transition: background-color 120ms ease, color 120ms ease;
     }
     .pagination__btn:hover:not(:disabled) {
-      background-color: var(--color-bg-surface);
+      /* bg-hover, not bg-surface: on a card a surface-coloured hover is invisible. */
+      background-color: var(--color-bg-hover);
       color: var(--color-text-default);
     }
     .pagination__btn:disabled { opacity: 0.35; cursor: not-allowed; }
@@ -85,7 +88,7 @@ export class CandorPagination extends LitElement {
       justify-content: center;
       min-width: var(--spacing-lg);
       height: var(--spacing-lg);
-      color: var(--color-text-subtle);
+      color: var(--color-text-subtle-on-surface);
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
       letter-spacing: var(--letter-spacing-body);

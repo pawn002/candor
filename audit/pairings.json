@@ -864,13 +864,33 @@
     },
     {
       "id": "pagination-page",
-      "fg": "{color.text.subtle}",
+      "fg": "{color.text.subtle-on-surface}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Inactive page button — 14px bold Tier 2 Functional"
+      "note": "Inactive page button — 14px bold Tier 2 Functional. subtle-on-surface so it also clears on a card (see pagination-page-on-surface)."
+    },
+    {
+      "id": "pagination-page-on-surface",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Inactive page button on a card, the common placement below a table. text-subtle measured 3.9 light here, which the page-only pairing never saw."
+    },
+    {
+      "id": "pagination-hover",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.hover}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Hovered page button. The fill was bg-surface, invisible on a card; bg-hover reads on page and card."
     },
     {
       "id": "pagination-current",
@@ -884,7 +904,7 @@
     },
     {
       "id": "pagination-ellipsis",
-      "fg": "{color.text.subtle}",
+      "fg": "{color.text.subtle-on-surface}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
