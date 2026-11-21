@@ -48,11 +48,11 @@ export class CandorChip extends LitElement {
       overflow: hidden;
     }
     .chip:has(:focus-visible) { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .chip--primary   { border-color: var(--color-action-primary); background-color: oklch(from var(--color-action-primary) l c h / 0.08); }
-    .chip--secondary { border-color: var(--color-action-secondary); background-color: oklch(from var(--color-action-secondary) l c h / 0.08); }
-    .chip--success   { border-color: var(--color-status-success); background-color: var(--color-status-success-bg); }
-    .chip--warning   { border-color: var(--color-status-warning); background-color: var(--color-status-warning-bg); }
-    .chip--error     { border-color: var(--color-status-error); background-color: var(--color-status-error-bg); }
+    .chip--primary   { border-color: var(--color-action-primary-border); background-color: oklch(from var(--color-action-primary) l c h / 0.08); }
+    .chip--secondary { border-color: var(--color-action-secondary-border); background-color: oklch(from var(--color-action-secondary) l c h / 0.08); }
+    .chip--success   { border-color: var(--color-status-success-border); background-color: var(--color-status-success-bg); }
+    .chip--warning   { border-color: var(--color-status-warning-border); background-color: var(--color-status-warning-bg); }
+    .chip--error     { border-color: var(--color-status-error-border); background-color: var(--color-status-error-bg); }
     .chip--selected  { border-color: var(--color-action-primary-fill); background-color: var(--color-action-primary-fill); }
     .chip--selected .chip__body { color: var(--color-text-on-action); }
     .chip--selected .chip__dismiss { color: var(--color-text-on-action); }

@@ -77,7 +77,8 @@ export const Dismissible: Story = {
 export const AllVariants: Story = {
   render: () => html`
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-      <candor-chip label="Default" selectable selected></candor-chip>
+      <candor-chip label="Default" selectable></candor-chip>
+      <candor-chip label="Selected" selectable selected></candor-chip>
       <candor-chip label="Primary" variant="primary" selectable></candor-chip>
       <candor-chip label="Secondary" variant="secondary" selectable></candor-chip>
       <candor-chip label="Success" variant="success" selectable></candor-chip>

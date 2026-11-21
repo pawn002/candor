@@ -276,6 +276,15 @@
             "aliasOf": "--burgundy-900"
           }
         },
+        "secondary-border": {
+          "$type": "color",
+          "$value": "oklch(0.37 0.08 347.43)",
+          "$description": "The edge of an outlined secondary action (the secondary chip); see action-primary-border.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-action-secondary"
+          }
+        },
         "mark": {
           "$type": "color",
           "$value": "oklch(1 0 0)",
@@ -445,6 +454,31 @@
           "$description": "OKCA 5.5 on warning-bg ✅ — reads olive-brown at this lightness: yellow loses the most chroma as it darkens",
           "$extensions": {
             "aliasOf": "--gold-600"
+          }
+        },
+        "error-border": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.18 25.00)",
+          "$description": "The edge of a status-coloured outline (the status chips). Light draws it in the icon colour; dark dims it a step so it sits below its label.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-status-error"
+          }
+        },
+        "success-border": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.14 144.20)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-status-success"
+          }
+        },
+        "warning-border": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.085 88.00)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-status-warning"
           }
         }
       },
@@ -754,6 +788,15 @@
             "aliasOf": "--burgundy-900"
           }
         },
+        "secondary-border": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.083 347.43)",
+          "$description": "dimmed below the label, as action-primary-border",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--burgundy-500"
+          }
+        },
         "mark": {
           "$type": "color",
           "$value": "oklch(0.16 0 0)",
@@ -795,7 +838,7 @@
           "$description": "The edge sits one ramp step below the label, so the outline stops competing with the primary fill and the red text carries \"take care\".",
           "$extensions": {
             "usage": "non-text",
-            "aliasOf": "--red-400"
+            "aliasOf": "--color-status-error-border"
           }
         },
         "tertiary": {
@@ -927,6 +970,31 @@
           "$description": "OKCA 5.3 on warning-bg ✅",
           "$extensions": {
             "aliasOf": "--gold-300"
+          }
+        },
+        "error-border": {
+          "$type": "color",
+          "$value": "oklch(0.65 0.173 25.00)",
+          "$description": "One ramp step below the label, as the destructive edge: an outline at the label's own lightness outshines it on a dark page. No floor (see action-primary-border).",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--red-400"
+          }
+        },
+        "success-border": {
+          "$type": "color",
+          "$value": "oklch(0.65 0.134 144.20)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--green-400"
+          }
+        },
+        "warning-border": {
+          "$type": "color",
+          "$value": "oklch(0.65 0.082 88.00)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--gold-400"
           }
         }
       },

@@ -85,6 +85,8 @@
     --color-action-secondary-fill:   var(--color-action-secondary); // see action-primary-fill
     --color-action-secondary-hover:  var(--burgundy-800);
     --color-action-secondary-active: var(--burgundy-900);
+    // The edge of an outlined secondary action (the secondary chip); see action-primary-border.
+    --color-action-secondary-border: var(--color-action-secondary);
 
     // The mark drawn on a checked control's action-primary fill: the checkbox
     // tick and the switch thumb. It was text-on-action until dark mode gave the
@@ -151,6 +153,11 @@
     --color-status-warning:       var(--gold-500);    // icon/border use — OKCA 4.6 on white ✅ (WCAG 1.4.11)
     --color-status-warning-bg:    var(--gold-100);
     --color-status-warning-text:  var(--gold-600);    // OKCA 5.5 on warning-bg ✅ — reads olive-brown at this lightness: yellow loses the most chroma as it darkens
+    // The edge of a status-coloured outline (the status chips). Light draws it in
+    // the icon colour; dark dims it a step so it sits below its label.
+    --color-status-error-border:   var(--color-status-error);
+    --color-status-success-border: var(--color-status-success);
+    --color-status-warning-border: var(--color-status-warning);
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────
     // A book indent, set a step larger in italic, on the page itself. No wash
@@ -397,6 +404,7 @@
     --color-action-secondary-fill:   var(--burgundy-800); // text-on-action OKCA 10.2 on this bg ✅
     --color-action-secondary-hover:  var(--burgundy-900); // text-on-action OKCA 13.1 on this bg ✅
     --color-action-secondary-active: var(--burgundy-900);
+    --color-action-secondary-border: var(--burgundy-500); // dimmed below the label, as action-primary-border
 
     // Tick and switch thumb on the pale action-primary: the page-dark mark the
     // labelled fills used to share. icon/border use.
@@ -413,7 +421,7 @@
     --color-action-destructive-text:   var(--color-status-error-text);
     // The edge sits one ramp step below the label, so the outline stops
     // competing with the primary fill and the red text carries "take care".
-    --color-action-destructive-border: var(--red-400);
+    --color-action-destructive-border: var(--color-status-error-border);
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
     // ⚠️  fill is only OKCA 1.0 on page — intentionally subtle in dark mode.
@@ -449,6 +457,11 @@
     --color-status-warning:       var(--gold-300);    // icon/border use — OKCA 6.7 on bg-page ✅
     --color-status-warning-bg:    var(--gold-tint);
     --color-status-warning-text:  var(--gold-300);    // OKCA 5.3 on warning-bg ✅
+    // One ramp step below the label, as the destructive edge: an outline at the
+    // label's own lightness outshines it on a dark page. No floor (see action-primary-border).
+    --color-status-error-border:   var(--red-400);
+    --color-status-success-border: var(--green-400);
+    --color-status-warning-border: var(--gold-400);
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
     // Teal tint, deltaE 8 from the cool page: the hue change carries the

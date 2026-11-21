@@ -194,6 +194,7 @@
   --color-action-secondary-fill: var(--color-action-secondary);
   --color-action-secondary-hover: var(--burgundy-800);
   --color-action-secondary-active: var(--burgundy-900);
+  --color-action-secondary-border: var(--color-action-secondary);
   --color-action-mark: var(--gray-0);
   --color-action-destructive: transparent;
   --color-action-destructive-hover: oklch(0.44 0.178 25 / 0.08);
@@ -219,6 +220,9 @@
   --color-status-warning: var(--gold-500);
   --color-status-warning-bg: var(--gold-100);
   --color-status-warning-text: var(--gold-600);
+  --color-status-error-border: var(--color-status-error);
+  --color-status-success-border: var(--color-status-success);
+  --color-status-warning-border: var(--color-status-warning);
   --color-blockquote-text: var(--color-text-default);
   --color-callout-bg: var(--color-bg-surface);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
@@ -333,12 +337,13 @@
     --color-action-secondary-fill: var(--burgundy-800);
     --color-action-secondary-hover: var(--burgundy-900);
     --color-action-secondary-active: var(--burgundy-900);
+    --color-action-secondary-border: var(--burgundy-500);
     --color-action-mark: var(--gray-900);
     --color-action-destructive: transparent;
     --color-action-destructive-hover: oklch(0.76 0.142 25 / 0.12);
     --color-action-destructive-active: oklch(0.76 0.142 25 / 0.22);
     --color-action-destructive-text: var(--color-status-error-text);
-    --color-action-destructive-border: var(--red-400);
+    --color-action-destructive-border: var(--color-status-error-border);
     --color-action-tertiary: var(--gray-cool-800);
     --color-action-tertiary-hover: var(--gray-cool-700);
     --color-action-tertiary-text: var(--color-text-default);
@@ -355,6 +360,9 @@
     --color-status-warning: var(--gold-300);
     --color-status-warning-bg: var(--gold-tint);
     --color-status-warning-text: var(--gold-300);
+    --color-status-error-border: var(--red-400);
+    --color-status-success-border: var(--green-400);
+    --color-status-warning-border: var(--gold-400);
     --color-bg-code: oklch(0.22 0.02 195);
     --color-text-code: var(--color-text-default);
     --color-border-code: var(--color-border-strong);
@@ -396,12 +404,13 @@
   --color-action-secondary-fill: var(--burgundy-800);
   --color-action-secondary-hover: var(--burgundy-900);
   --color-action-secondary-active: var(--burgundy-900);
+  --color-action-secondary-border: var(--burgundy-500);
   --color-action-mark: var(--gray-900);
   --color-action-destructive: transparent;
   --color-action-destructive-hover: oklch(0.76 0.142 25 / 0.12);
   --color-action-destructive-active: oklch(0.76 0.142 25 / 0.22);
   --color-action-destructive-text: var(--color-status-error-text);
-  --color-action-destructive-border: var(--red-400);
+  --color-action-destructive-border: var(--color-status-error-border);
   --color-action-tertiary: var(--gray-cool-800);
   --color-action-tertiary-hover: var(--gray-cool-700);
   --color-action-tertiary-text: var(--color-text-default);
@@ -418,6 +427,9 @@
   --color-status-warning: var(--gold-300);
   --color-status-warning-bg: var(--gold-tint);
   --color-status-warning-text: var(--gold-300);
+  --color-status-error-border: var(--red-400);
+  --color-status-success-border: var(--green-400);
+  --color-status-warning-border: var(--gold-400);
   --color-bg-code: oklch(0.22 0.02 195);
   --color-text-code: var(--color-text-default);
   --color-border-code: var(--color-border-strong);
@@ -455,6 +467,7 @@
   --color-action-secondary-fill: var(--color-action-secondary);
   --color-action-secondary-hover: var(--burgundy-800);
   --color-action-secondary-active: var(--burgundy-900);
+  --color-action-secondary-border: var(--color-action-secondary);
   --color-action-mark: var(--gray-0);
   --color-action-destructive: transparent;
   --color-action-destructive-hover: oklch(0.44 0.178 25 / 0.08);
@@ -480,6 +493,9 @@
   --color-status-warning: var(--gold-500);
   --color-status-warning-bg: var(--gold-100);
   --color-status-warning-text: var(--gold-600);
+  --color-status-error-border: var(--color-status-error);
+  --color-status-success-border: var(--color-status-success);
+  --color-status-warning-border: var(--color-status-warning);
   --color-blockquote-text: var(--color-text-default);
   --color-callout-bg: var(--color-bg-surface);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
