@@ -1,6 +1,7 @@
 import { html, nothing, svg, type TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
+import '../components/code/candor-code';
 import '../components/table/candor-table';
 import '../components/typography/text/candor-text';
 import '../components/typography/heading/candor-heading';
@@ -54,8 +55,17 @@ const MONO = 'font-family:var(--font-family-mono);font-size:var(--font-size-sm);
 // still show where they are.
 const CHIP_EDGE = 'border:var(--border-width-thin) solid var(--color-border-control);border-radius:var(--radius-sm);';
 
+/**
+ * Sets every custom-property name in running text as code. The nowrap span is
+ * inside the slot because candor-code's own pre-wrap would break at a hyphen.
+ */
+const withCode = (text: string): TemplateResult[] =>
+  text
+    .split(/(--[a-z0-9]+(?:-[a-z0-9]+)+)/)
+    .map((part, i) => (i % 2 ? html`<candor-code><span style="white-space:nowrap;">${part}</span></candor-code>` : html`${part}`));
+
 const intro = (text: string) =>
-  html`<candor-text variant="body" style="display:block;max-inline-size:40rem;margin-block-end:var(--spacing-md);">${text}</candor-text>`;
+  html`<candor-text variant="body" style="display:block;max-inline-size:40rem;margin-block-end:var(--spacing-md);">${withCode(text)}</candor-text>`;
 
 const para = (text: string | TemplateResult) =>
   html`<candor-text variant="body" style="display:block;max-inline-size:40rem;margin-block:var(--spacing-xs) var(--spacing-sm);">${text}</candor-text>`;
@@ -253,7 +263,7 @@ const renderCurves = () => html`
 
 const fitList = (entries: [string, string][]) => html`
   <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);max-inline-size:40rem;">
-    ${entries.map(([name, fit]) => html`<candor-text variant="body"><strong>${name}.</strong> ${fit}</candor-text>`)}
+    ${entries.map(([name, fit]) => html`<candor-text variant="body">${name.startsWith('--') ? withCode(name) : html`<strong>${name}</strong>`}. ${withCode(fit)}</candor-text>`)}
   </div>
 `;
 
@@ -267,20 +277,21 @@ const renderParameters = () => {
     const f = GREYS[name];
     return { cells: [`--${f.prefix}-*`, String(f.K), f.K ? String(f.g) : 'n/a', f.K ? r(peakL(f), 2) : 'n/a', f.K ? hueText(f) : 'none'] };
   });
-  const extraRows: TableRow[] = [
+  // Each reason reads "<token> (<mode>): <why>". The table keeps the short half,
+  // since candor-table does not wrap, and the why is listed under it.
+  const extras = [
     ...Object.entries(EXTRA).flatMap(([fam, steps]) =>
-      Object.entries(steps).map(([step, why]) => {
-        const s = colourRamp(fam).find((x) => x.step === Number(step))!;
-        return { cells: [s.name, s.value, why] };
-      }),
+      Object.entries(steps).map(([step, why]) => ({ s: colourRamp(fam).find((x) => x.step === Number(step))!, why })),
     ),
     ...(Object.entries(GREY_EXTRA) as [GreyRamp, Record<string, string>][]).flatMap(([ramp, steps]) =>
-      Object.entries(steps).map(([step, why]) => {
-        const s = greyRamp(ramp).find((x) => x.step === Number(step))!;
-        return { cells: [s.name, s.value, why] };
-      }),
+      Object.entries(steps).map(([step, why]) => ({ s: greyRamp(ramp).find((x) => x.step === Number(step))!, why })),
     ),
-  ];
+  ].map(({ s, why }) => {
+    const m = /^(.*?\)):\s*(.*)$/.exec(why);
+    if (!m) throw new Error(`extraSteps reason for ${s.name} must read "<token> (<mode>): <why>"`);
+    return { name: s.name, value: s.value, minted: m[1]!, why: m[2]![0]!.toUpperCase() + m[2]!.slice(1) };
+  });
+  const extraRows: TableRow[] = extras.map((e) => ({ cells: [e.name, e.value, e.minted] }));
   return html`
     ${intro('The fitted values behind every ramp, read from colour-ramp-rules.json. Change a value there and run scripts/derive-colour-ramps.js --write; audit:tokens fails until primitives.scss matches.')}
     ${table('Colour ramps: chroma curve and hue', ['Family', 'K', 'g', 'Peak at L', 'Hue', 'Anchor'], famRows, [1, 2, 3])}
@@ -291,7 +302,9 @@ const renderParameters = () => {
     ${heading('How each grey ramp was fitted')}
     ${fitList(GREY_NAMES.map((n) => [cap(n), GREYS[n].fit]))}
     <div style="block-size:var(--spacing-lg);"></div>
-    ${table('In-between steps and the token each was minted for', ['Step', 'Value', 'Why it exists'], extraRows, [0, 1])}
+    ${table('In-between steps and the token each was minted for', ['Step', 'Value', 'Minted for'], extraRows, [0, 1, 2])}
+    ${heading('Why each in-between step exists')}
+    ${fitList(extras.map((e) => [e.name, e.why]))}
   `;
 };
 
@@ -303,7 +316,7 @@ const renderParameters = () => {
 /** 5.x grey primitives, and the 6.0.0 step that holds the same colour now. */
 const OLD_PRIMITIVES: { name: string; value: string; useNow: string; note?: string }[] = [
   { name: '--gray-0', value: 'oklch(1 0 0)', useNow: '--gray-0' },
-  { name: '--gray-50', value: 'oklch(0.97 0 0)', useNow: '--gray-25', note: 'removed' },
+  { name: '--gray-50', value: 'oklch(0.97 0 0)', useNow: '--gray-25', note: 'removed; --gray-25 is the nearest step' },
   { name: '--gray-100', value: 'oklch(0.91 0 0)', useNow: '--gray-100' },
   { name: '--gray-200', value: 'oklch(0.88 0.005 17.2)', useNow: '--gray-200', note: 'was faintly warm, now neutral and a hundredth lighter' },
   { name: '--gray-300', value: 'oklch(0.81 0 0)', useNow: '--gray-300' },
@@ -341,11 +354,14 @@ const renderGreyBeforeAfter = () => {
       sameName = 'Removed';
     }
     requireGrey(p.useNow); // the replacement step must exist
-    return { cells: [p.name, swatch(p.value, p.value), sameName, swatch(`var(${p.useNow})`, p.useNow, p.note)] };
+    return { cells: [p.name, swatch(p.value, p.value), sameName, swatch(`var(${p.useNow})`, p.useNow)] };
   });
+  const notes = OLD_PRIMITIVES.filter((p) => p.note).map((p): [string, string] => [p.name, p.note![0]!.toUpperCase() + p.note!.slice(1)]);
   return html`
     ${intro('Semantic token names did not change in 6.0.0. Grey primitive names did: nine 5.x names now resolve to a different colour. Six of them changed lightness in 6.0.0; --gray-200 lost its faint warmth and --gray-900 its cool cast at the same lightness. --gray-50 is removed. After 6.0.0, --gray-200 and --gray-400 each moved a hundredth lighter, to the lightness dark-mode text needs; --gray-400 is deltaE 1 from its 5.x colour and --gray-200 deltaE 2. The last column is the step that holds the 5.x colour, or the nearest one, for anyone who referenced a primitive directly.')}
-    ${table('Grey primitives in 5.x and what the names mean now', ['Primitive', '5.x value', 'Same name now', 'Use for the 5.x colour'], rows)}
+    ${table('Grey primitives in 5.x and what the names mean now', ['Primitive', '5.x value', 'Same name now', 'Use for the 5.x colour'], rows, [0])}
+    ${heading('What changed for each name')}
+    ${fitList(notes)}
   `;
 };
 
@@ -357,7 +373,7 @@ const renderGreyOffRamp = () => {
   });
   return html`
     ${intro('In 5.x, many greys in use were written as one-off values tuned for contrast, at lightnesses no ramp had, and the cool undertone was spread across hues 245, 248 and 248.99. In 6.0.0 every grey semantic token names a ramp step. The steps are uneven on purpose: 550, 600 and 650 exist because subtle text and control borders need those lightnesses.')}
-    ${table('Greys that sat off the 5.x ramps, and the step each uses now', ['Token', 'Mode', '5.x value', '6.0.0 step'], rows)}
+    ${table('Greys that sat off the 5.x ramps, and the step each uses now', ['Token', 'Mode', '5.x value', '6.0.0 step'], rows, [0])}
   `;
 };
 

@@ -138,15 +138,15 @@
       "670": "--color-bg-tooltip (dark): far enough from a modal to stand apart (the deltaE 10 held for the tooltip), while white text still clears its floor. navy-700 sat too close to the modal, and navy-600 is too light for the text."
     },
     "azure": {
-      "250": "--color-link (dark): clears the text floor on a modal (bg-elevated) as well as the page, which azure-300 did not."
+      "250": "--color-text-link (dark): clears the text floor on a modal (bg-elevated) as well as the page, which azure-300 did not."
     },
     "indigo": {
-      "250": "--color-link-visited (dark): clears the text floor on a modal as well as the page.",
-      "625": "--color-link-visited (light): clears the text floor on a card with margin, where indigo-600 sat on it."
+      "250": "--color-text-link-visited (dark): clears the text floor on a modal as well as the page.",
+      "625": "--color-text-link-visited (light): clears the text floor on a card with margin, where indigo-600 sat on it."
     },
     "teal": {
       "115": "--color-bg-code (light): one of the two backgrounds the teal curve was fitted through.",
-      "870": "--color-bg-code (dark): the other."
+      "870": "--color-bg-code (dark): the other background the teal curve was fitted through."
     }
   },
   "greys": {

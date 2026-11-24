@@ -154,7 +154,7 @@ const leadingRows = [
   { cells: ['--line-height-relaxed', '1.75', 'Long-form reading (candor-article body)'] },
 ];
 
-const sizeRampHeaders = ['Size', 'Token', 'Regular', 'Bold', 'Notes'];
+const sizeRampHeaders = ['Size', 'Token', 'Regular', 'Bold'];
 const sizeRampRows = [
   { cells: ['≥ 24px', '3xl – xl', '3.0', '3.0', 'WCAG large text: both weights qualify'] },
   { cells: ['19 – 23px', '--font-size-lg', '4.5', '3.0', 'Bold qualifies as large from 18.67px; regular does not until 24px'] },
@@ -163,7 +163,15 @@ const sizeRampRows = [
   { cells: ['12px and below', '--font-size-xs', 'None', 'None', 'Decorative / non-text only (badge chrome, icons). No text is rendered here, so no floor applies'] },
 ];
 
-const tierHeaders = ['Tier', 'Perceptual task', '14px regular', '14px bold', 'Candor components'];
+// candor-table sizes to its content and scrolls rather than wrapping, so a
+// sentence in a cell runs off the edge. The notes go in a list under the table.
+const notesList = (entries: [string, string][]) => html`
+  <ul style="margin:var(--spacing-sm) 0 0;padding-inline-start:var(--spacing-lg);max-inline-size:44rem;display:flex;flex-direction:column;gap:var(--spacing-2xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);line-height:var(--line-height-normal);color:var(--color-text-default);">
+    ${entries.map(([k, v]) => html`<li><strong>${k}.</strong> ${v}</li>`)}
+  </ul>
+`;
+
+const tierHeaders = ['Tier', 'Perceptual task', '14px regular', '14px bold'];
 const tierRows = [
   { cells: ['1: Reading', 'Sequential decoding: must read to act', 'not permitted; use 16px', '6.5', 'Toast message, alert body, modal prose, form error messages, article inline text'] },
   { cells: ['2: Functional UI', 'Recognition: sole channel for meaning', '6.5', '4.5', 'Breadcrumb links (bold), pagination numbers, table cell data, chip labels'] },
@@ -178,7 +186,8 @@ const renderContrastGuidance = () => html`
       <candor-table compact
         headers='${JSON.stringify(sizeRampHeaders)}'
         mono-columns='[1]'
-        rows='${JSON.stringify(sizeRampRows)}'></candor-table>
+        rows='${JSON.stringify(sizeRampRows.map((r) => ({ cells: r.cells.slice(0, 4) })))}'></candor-table>
+      ${notesList(sizeRampRows.map((r) => [r.cells[0]!, r.cells[4]!]))}
     </section>
 
     <section>
@@ -186,7 +195,8 @@ const renderContrastGuidance = () => html`
       <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-sm);">The size ramp above assumes fluent reading. At 14px the tier system relaxes the threshold for text whose perceptual task is recognition rather than sequential decoding.</p>
       <candor-table
         headers='${JSON.stringify(tierHeaders)}'
-        rows='${JSON.stringify(tierRows)}'></candor-table>
+        rows='${JSON.stringify(tierRows.map((r) => ({ cells: r.cells.slice(0, 4) })))}'></candor-table>
+      ${notesList(tierRows.map((r) => [`Tier ${r.cells[0]!}`, r.cells[4]!]))}
     </section>
 
     <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
