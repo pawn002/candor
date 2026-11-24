@@ -55,7 +55,8 @@ export class CandorCard extends LitElement {
       border-bottom: var(--border-width-medium) solid var(--color-border-default);
       font-family: var(--font-family-base);
       font-optical-sizing: auto;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--font-weight-heading);
+      letter-spacing: var(--letter-spacing-h5);
       color: var(--color-text-default);
     }
     .card__body { font-family: var(--font-family-base); color: var(--color-text-default); }

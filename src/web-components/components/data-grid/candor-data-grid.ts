@@ -79,7 +79,7 @@ export class CandorDataGrid extends LitElement {
       font-weight: var(--font-weight-semibold);
       color: var(--color-text-default);
       padding: var(--spacing-xs) var(--spacing-sm);
-      letter-spacing: var(--letter-spacing-wide);
+      letter-spacing: var(--letter-spacing-relaxed);
       border-bottom: var(--border-width-thin) solid var(--color-border-default);
       background: var(--color-bg-surface);
     }

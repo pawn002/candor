@@ -118,7 +118,8 @@ export class CandorModal extends LitElement {
       font-family: var(--font-family-display);
       font-optical-sizing: auto;
       font-size: var(--font-size-h3);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-heading);
+      letter-spacing: var(--letter-spacing-h3);
       line-height: var(--line-height-tight);
       color: var(--color-text-default);
       margin: 0;

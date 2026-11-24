@@ -119,9 +119,13 @@ export class CandorTable extends LitElement {
     th {
       font-weight: var(--font-weight-bold);
     }
+    /* The header row stays bold, unlike headings: at 14px semibold counts as
+       regular for contrast, which would raise its floor from 4.5 to 6.5, and
+       subtle-on-surface on the page is below that in dark. */
     thead th {
       color: var(--color-text-subtle-on-surface);
       font-weight: var(--font-weight-bold);
+      letter-spacing: var(--letter-spacing-relaxed);
       border-bottom: var(--border-width-medium) solid var(--color-border-strong);
     }
     td {
@@ -139,6 +143,12 @@ export class CandorTable extends LitElement {
       font-family: var(--font-family-mono);
       font-variant-numeric: tabular-nums;
       letter-spacing: var(--letter-spacing-normal);
+    }
+    /* A column header is a label, not a value: it stays in the base face when
+       its column is mono, so the header row reads as one line. */
+    thead th.numeric, thead th.mono {
+      font-family: var(--font-family-base);
+      letter-spacing: var(--letter-spacing-relaxed);
     }
     tbody tr:nth-child(even) td,
     tbody tr:nth-child(even) th {

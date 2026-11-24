@@ -48,7 +48,8 @@ export class CandorDisclosure extends LitElement {
       color: var(--color-text-default);
       font-family: var(--font-family-base);
       font-size: var(--font-size-md);
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-heading);
+      letter-spacing: var(--letter-spacing-h5);
       line-height: var(--line-height-tight);
       cursor: pointer;
       text-align: left;

@@ -328,10 +328,10 @@
       "fg": "{color.text.default}",
       "bg": "{color.bg.surface}",
       "size": 14,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 4.5,
-      "note": "Grid caption (semibold, treated as bold for threshold) — Tier 2 Functional"
+      "min": 6.5,
+      "note": "Grid caption, semibold, which is regular for contrast (bold is wght >= 700), so the 14px Tier 2 floor is 6.5. It was recorded as bold against 4.5."
     },
     {
       "id": "data-grid-cell-label",
@@ -646,10 +646,10 @@
       "fg": "{color.text.on-action}",
       "bg": "{color.bg.nav-badge}",
       "size": 14,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 3,
       "min": 4.5,
-      "note": "Nav notification badge — 14px semibold on secondary action color"
+      "note": "Nav notification badge, 14px semibold on the secondary action colour. Semibold is regular for contrast; Tier 3 is 4.5 at either weight."
     },
     {
       "id": "nav-inverse-brand",
@@ -828,7 +828,7 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "thead th — table sits on bg-page by default; subtle-on-surface on white exceeds its on-surface guarantee"
+      "note": "thead th — table sits on bg-page by default; subtle-on-surface on white exceeds its on-surface guarantee. Stays bold: at semibold the 14px Tier 2 floor would be 6.5, which this colour does not reach in dark."
     },
     {
       "id": "table-sort-indicator",
@@ -1061,10 +1061,70 @@
       "fg": "{color.text.default}",
       "bg": "{color.bg.elevated}",
       "size": 25,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
       "min": 3,
-      "note": "Modal h2 title — 25px bold, large text threshold"
+      "note": "Modal title, semibold since 7.0.0. 24px and up takes 3.0 at any weight."
+    },
+    {
+      "id": "drawer-title",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.elevated}",
+      "size": 25,
+      "weight": "regular",
+      "tier": 2,
+      "min": 3,
+      "note": "Drawer title, semibold, on the elevated panel. 24px and up takes 3.0 at any weight."
+    },
+    {
+      "id": "card-header",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Card header, semibold. 16px takes 4.5 at either weight."
+    },
+    {
+      "id": "accordion-title",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Accordion title, semibold, on the surface fill an accordion stack usually sits on."
+    },
+    {
+      "id": "accordion-title-subtle",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Subtle accordion title on surface. It used text-subtle, which on surface falls below 4.5 in light."
+    },
+    {
+      "id": "accordion-title-quiet",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "note": "Quiet accordion title, weight 500, so regular for contrast. Tier 3: structural nesting is the redundant channel. It used text-subtle, which on surface falls below 4.5 in light."
+    },
+    {
+      "id": "disclosure-title",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Disclosure trigger, semibold. 16px takes 4.5 at either weight."
     },
     {
       "id": "modal-body",
