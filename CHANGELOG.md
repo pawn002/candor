@@ -87,6 +87,7 @@ No component API changes. What a consumer will see:
 - **`candor-button` tertiary**: rests on a darker fill in light and a lighter one in dark, so it keeps its shape on a card or modal.
 - **`candor-slider`**: the value readout is bold; the thumb's shadow follows the system shadows, lighter at rest.
 - **`candor-navigation`**: a link's hover fill is `--color-bg-hover`; it was invisible in light on the navigation's own surface.
+- **`candor-progress`**: the track is hollow, edged in `--color-border-control`. It was a `--color-bg-surface` fill with a faint edge, so on a card the track vanished and the bar's length could not be read against anything.
 - **Status chips, outlined buttons, destructive buttons** in dark: the edge sits a step below its label.
 - **`.btn-primary`, `.btn-secondary`, `.btn-ghost`** utility classes in `src/utilities/buttons.scss` now match `candor-button`, in fill, edge and hover. In dark, the first two had painted the pale accent as a fill.
 

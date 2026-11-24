@@ -1312,6 +1312,46 @@
       "note": "The same boundary on a surface container. This is the pairing whose absence was #217: the token was validated on page only, was OKCA 2.8 light and was OKCA 2.9 dark here, and the documented fix was a --color-border-control-on-surface override the consumer applied by hand. The colour-iterator example shipped six controls without it. 5.0.0 retired the sibling and moved the base value to a lightness safe on both backgrounds — OKCA 3.9 light / 4.7 dark ✅"
     },
     {
+      "id": "progress-track-edge-on-page",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-progress: the edge of the track, which is hollow, so the track's far end is what tells a reader how much of the whole the fill is. WCAG 1.4.11. Until 7.0.0 the track was bg-surface edged in border-default and vanished on a card. OKCA 5.0 light / 5.6 dark ✅"
+    },
+    {
+      "id": "progress-track-edge-on-surface",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-progress track edge on a card or panel. WCAG 1.4.11. OKCA 3.9 light / 4.7 dark ✅"
+    },
+    {
+      "id": "progress-fill-on-page",
+      "fg": "{color.fill.indicator}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-progress: the fill, which carries the value. It sits inside the hollow track, so the page shows around it. WCAG 1.4.11. OKCA 13.4 light / 10.2 dark ✅"
+    },
+    {
+      "id": "progress-fill-on-surface",
+      "fg": "{color.fill.indicator}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-progress fill on a card or panel. WCAG 1.4.11. OKCA 10.5 light / 7.9 dark ✅"
+    },
+    {
       "id": "checkbox-tick",
       "fg": "{color.text.on-action}",
       "bg": "{color.bg.action-primary}",
