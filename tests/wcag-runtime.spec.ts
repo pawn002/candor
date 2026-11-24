@@ -141,7 +141,7 @@ async function newlyClipped(page: Page, css: string): Promise<{ clipped: string[
  */
 const TEASER = 'A teaser clamped to a set number of lines by design. More spacing or larger text clamps it sooner; the full text is the linked post.';
 const CLIP_EXCEPTIONS: { story: string; element: string; criteria: string[]; reason: string }[] = [
-  { story: 'examples-article-example--post-listing', element: 'p.post-card__excerpt', criteria: ['1.4.12', '1.4.4'], reason: TEASER },
+  { story: 'examples-article-example--post-listing', element: 'p.post-card__excerpt', criteria: ['1.4.12'], reason: TEASER },
   { story: 'examples-article-example--post-listing-grid', element: 'p.post-card__excerpt', criteria: ['1.4.12'], reason: TEASER },
 ];
 
