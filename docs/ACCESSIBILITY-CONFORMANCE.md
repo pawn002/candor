@@ -14,8 +14,8 @@ Candor 7.0.0 does **not** claim full WCAG 2.2 AA conformance. Of the 55 Level A 
 
 | Status | Criteria |
 |---|---|
-| Supports | 33 |
-| Partially supports | 1 |
+| Supports | 32 |
+| Partially supports | 2 |
 | Not evaluated | 0 |
 
 Every row now cites evidence. One kind of evidence is still to come: a hands-on pass with screen readers, planned for after 7.0.0 ([#345](https://github.com/pawn002/candor/issues/345)); see Known limitations.
@@ -69,7 +69,7 @@ Every row in the tables below cites one or more of these sources.
 | 1.3.5 Identify Input Purpose | AA | Supports | **axe** (`autocomplete-valid`), **source**: `candor-input` passes `autocomplete` to its native input. The consumer sets the value. |
 | 1.4.1 Use of Color | A | Partially supports | Status variants carry meaning in an icon shape or in words (`candor-alert`, `candor-toast`, `candor-accessible-text role_="state"`). A badge's text must name the condition, and `candor-stat` needs its slot filled to carry status: both are documented authoring rules Candor cannot enforce. Visited links fall short (see Known limitations). |
 | 1.4.2 Audio Control | A | Consumer | No component plays audio. |
-| 1.4.3 Contrast (Minimum) | AA | Supports | **klar**, against floors stricter than WCAG's (see Contrast). Re-measured with the WCAG 2.x algorithm on 2026-11-24: all 334 enforced measurements meet the AA minimum. The input placeholder, which Candor exempts, does not (see Contrast). |
+| 1.4.3 Contrast (Minimum) | AA | Partially supports | **klar**, against floors stricter than WCAG's (see Contrast). Re-measured with the WCAG 2.x algorithm on 2026-11-24: all 334 enforced measurements meet the AA minimum. Input placeholder text does not (see Known limitations). |
 | 1.4.4 Resize Text | AA | Supports | **sweep**: with the root text size doubled in a 1280px window, every piece of text doubles, since Candor sizes text in `rem`, and none is newly cut off. 200% browser zoom is covered by **sweep**'s reflow check, which is 400% zoom of the same window. Writing the check found option labels and the listbox's chosen value truncated with an ellipsis, now wrapped, and several stories with fixed pixel widths, now in `rem`. The blog example's line-clamped teaser is the one recorded exception. |
 | 1.4.5 Images of Text | AA | Not applicable | Candor renders no images of text. The wordmark is a logo, which the criterion exempts. |
 | 1.4.10 Reflow | AA | Supports | **sweep**: no story makes the page scroll sideways at 320px. Tables, grids and code blocks scroll inside their own box, which the criterion allows for two-dimensional content. The numbered `candor-pagination` strip was 16px too wide until it learned to wrap. |
@@ -165,6 +165,10 @@ Some requirements depend on how the page assembles components. Candor cannot enf
 ### Visited links (1.4.1)
 
 Browsers allow only colour properties in `:visited` rules, to stop pages reading a visitor's history, so a visited link cannot gain a new decoration. `candor-article` links pre-declare a transparent bottom border and colour it on `:visited`, which reads as a second underline: single underline unvisited, double underline visited. That cue survives red-green colour blindness, and both link colours meet contrast. It is still delivered by a colour change, so a strict reading of 1.4.1 is not met. A consumer who needs a fully colour-independent cue can record visited URLs in script and add a class, which has no such restriction.
+
+### Placeholder text (1.4.3)
+
+The placeholder in `candor-input` and the other text fields measures 2.3 in light and 2.4 in dark with the WCAG 2.x algorithm, below the 4.5 minimum. Candor exempts it from its own floors because a field's label and hint always carry its meaning, so the placeholder is never the only channel. WCAG has no such exemption, so 1.4.3 is partially supported until the placeholder colour moves to a step that meets 4.5. Until then, put anything a reader needs in the `label` or `hint`, not the placeholder.
 
 ### No live screen-reader session
 
