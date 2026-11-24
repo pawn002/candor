@@ -164,7 +164,7 @@ export const DocumentEditor: Story = {
           </p>
 
           <ul style="font-family: var(--font-family-base); font-size: var(--font-size-md); color: var(--color-text-default); margin: 0 0 1rem; padding-left: 1.5rem; line-height: var(--line-height-normal);">
-            <li>26 components shipped, all with Storybook stories and A11Y audit notes</li>
+            <li>37 components shipped, all with Storybook stories and A11Y audit notes</li>
             <li>Token system migrated to OKLCH, with all contrast ratios re-validated</li>
             <li>Dark mode parity achieved across the full component set</li>
           </ul>
@@ -261,7 +261,7 @@ export const ImageEditor: Story = {
               </button>
             </candor-toolbar>
             <div style="display: flex; align-items: center; gap: 0.375rem;">
-              <candor-accessible-text role_="annotation">Zoom</candor-accessible-text>
+              <candor-text variant="label">Zoom</candor-text>
               <candor-badge variant="default">75%</candor-badge>
             </div>
           </div>

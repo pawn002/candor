@@ -17,7 +17,7 @@ const meta: Meta = {
 |---|---|---|
 | \`body\` | Noto Sans | UI body text: descriptions, help copy, onboarding paragraphs |
 | \`caption\` | Noto Sans italic | Supplementary context, figure captions, timestamps |
-| \`label\` | Roboto Flex | UI chrome: button text, tab labels, field annotations |
+| \`label\` | Roboto Flex, uppercase | UI chrome: headings that organise data, column headers, tab labels |
 
 **Text vs. AccessibleText:** Use \`<candor-text>\` for body content and UI chrome labels in Noto Sans or Roboto Flex. Use \`<candor-accessible-text>\` (Atkinson Hyperlegible Next) for instructional text (form labels, error messages, status indicators) where the user must read precisely to know what to do next.
 
@@ -116,19 +116,19 @@ export const ColorVariants: Story = {
 export const AllVariants: Story = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
-      <candor-card>
+      <candor-card variant="outlined">
         <candor-text variant="label" size="sm" color="secondary">Body</candor-text><br>
         <candor-text variant="body">Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</candor-text>
       </candor-card>
-      <candor-card>
+      <candor-card variant="outlined">
         <candor-text variant="label" size="sm" color="secondary">Caption</candor-text><br>
         <candor-text variant="caption" size="sm" color="secondary">Figure 1. Optical sizing in Roboto Flex means stroke weight adapts to the rendered size, so larger text naturally carries heavier strokes.</candor-text>
       </candor-card>
-      <candor-card>
+      <candor-card variant="outlined">
         <candor-text variant="label" size="sm" color="secondary">Label</candor-text><br>
         <candor-text variant="label">Section title</candor-text>
       </candor-card>
-      <candor-card>
+      <candor-card variant="outlined">
         <candor-text variant="label" size="sm" color="secondary">Label: bold (structural hierarchy)</candor-text><br>
         <candor-text variant="label" bold>Column header</candor-text>
       </candor-card>

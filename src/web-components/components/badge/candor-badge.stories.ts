@@ -19,8 +19,8 @@ const meta: Meta = {
 annotate list items, headings, or nav items, not as standalone elements.
 
 Six color variants map to semantic intent: \`default\` (neutral), \`primary\` (brand),
-\`secondary\` (supporting), \`success\`, \`warning\`, \`error\`. Two sizes: \`sm\` (14px,
-default) and \`md\` (16px).
+\`secondary\` (supporting), \`success\`, \`warning\`, \`error\`. Two sizes: \`sm\` (14px) and
+\`md\` (16px, the default).
 
 Both sizes use **Atkinson Hyperlegible Next**. \`sm\` (14px) is bold, because small text needs the
 heavier stroke for legibility and contrast. \`md\` (16px) is regular, because the contrast floor
@@ -79,12 +79,12 @@ export const LabelCarriesTheMeaning: Story = {
 A badge's **colour is not a channel**; its label is. This is the authoring rule the
 component cannot enforce, so it is demonstrated rather than only stated.
 
-The reason is measurable. Candor's status background tokens sit at lightness 0.95, and
-the sRGB gamut permits only about 0.02 chroma at red up there. Until warning moved from amber
-to gold, \`--color-bg-error\` and \`--color-bg-warning\` were **deltaE 4
-apart in normal vision**, where Candor's own scale calls anything under 3 imperceptible. Gold
-has more room, so the two are now deltaE 14 apart, but a pale fill still fades on a washed-out
-screen and still does nothing for a reader who cannot tell the hues apart.
+The reason is measurable. Near white the sRGB gamut permits little chroma at red. When
+Candor's status fills sat at lightness 0.95 and warning was amber, \`--color-bg-error\` and
+\`--color-bg-warning\` were **deltaE 4 apart in normal vision**, where Candor's own scale calls
+anything under 3 imperceptible. Warning is gold now and the fills are step 100 of their ramps,
+so the two are deltaE 16 apart in light and 11 in dark, but a pale fill still fades on a
+washed-out screen and still does nothing for a reader who cannot tell the hues apart.
 
 So the badge fill is decoration on top of the label, and the label has to do the work.
 
@@ -103,7 +103,7 @@ happened? If not, the badge is relying on a channel that isn't there (#214).
           <candor-badge variant="warning">12</candor-badge>
           <candor-badge variant="success">47</candor-badge>
         </div>
-        <p style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:var(--spacing-sm) 0 0;line-height:var(--line-height-relaxed);">Three counts. Only the fill distinguishes a failure from a pass, and the first two fills are not reliably distinguishable by anyone.</p>
+        <p style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);margin:var(--spacing-sm) 0 0;line-height:var(--line-height-relaxed);">Three counts. Only the fill distinguishes a failure from a pass, and a fill is lost on a washed-out screen or to a reader who cannot tell the hues apart.</p>
       </div>
       ${divider}
       <div>
@@ -148,8 +148,8 @@ export const OrdinalSeverity: Story = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-lg);max-width:560px;padding:var(--spacing-md);">
       <div style="font-family:var(--font-family-base);font-size:var(--font-size-sm);color:var(--color-text-subtle);line-height:var(--line-height-relaxed);display:flex;flex-direction:column;gap:var(--spacing-xs);">
-        <p style="margin:0;">Use the existing status token triplets to express ordered severity scales. The label is read as a semantic term, and Atkinson bold ensures it is legible at small sizes.</p>
-        <p style="margin:0;"><strong style="color:var(--color-text-default);font-weight:var(--font-weight-semibold);">Mapping rule:</strong> low/minor/suggestion → success (green) · medium/moderate/recommendation → warning (amber) · high/critical/fundamental → error (red)</p>
+        <p style="margin:0;">Use the existing status token triplets to express ordered severity scales. The label is read as a semantic term, set in Atkinson Hyperlegible Next, and bold at the 14px <code>sm</code> size.</p>
+        <p style="margin:0;"><strong style="color:var(--color-text-default);font-weight:var(--font-weight-semibold);">Mapping rule:</strong> low/minor/suggestion → success (green) · medium/moderate/recommendation → warning (gold) · high/critical/fundamental → error (red)</p>
       </div>
       ${divider}
       <div>

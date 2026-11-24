@@ -13,7 +13,10 @@ import '../components/navigation/candor-navigation';
 import '../components/stat/candor-stat';
 import '../components/table/candor-table';
 import '../components/tone-picker/candor-tone-picker';
+import '../components/form/input/candor-input';
 import '../components/typography/accessible-text/candor-accessible-text';
+import '../components/typography/heading/candor-heading';
+import '../components/typography/text/candor-text';
 import { allModes } from '../../../.storybook/modes';
 
 const NAV_ITEMS = JSON.stringify([
@@ -43,18 +46,19 @@ const FG_TRACK =
 const BG_TRACK =
   'linear-gradient(to right, oklch(0.05 0.02 333), oklch(0.94 0.04 333), oklch(0.97 0.02 333))';
 
-// H=142 olive-green gamut — anchor: L=0.55 C=0.065 (#647a61, the FG in this story)
+// H=142 olive-green gamut — anchor: L=0.55 C=0.065 (#5c7b58, the FG in this story).
+// Every IG cell below was measured with klar (`.gamut.outOfGamut`), not typed by eye.
 const FG_ROWS = JSON.stringify(buildGamutRows(
   (() => {
     const L = [0.95, 0.84, 0.73, 0.62, 0.55, 0.44, 0.33, 0.22, 0.11];
     const C = [0.020, 0.065, 0.110, 0.155, 0.200];
     const IG = [
       [1, 1, 0, 0, 0],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 0],
       [1, 1, 1, 0, 0],
-      [1, 1, 1, 1, 0],
-      [1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 0],
       [1, 1, 1, 0, 0],
       [1, 1, 0, 0, 0],
       [1, 0, 0, 0, 0],
@@ -65,27 +69,29 @@ const FG_ROWS = JSON.stringify(buildGamutRows(
 ));
 const FG_HEADERS = JSON.stringify(['C 0.020', 'C 0.065', 'C 0.110', 'C 0.155', 'C 0.200']);
 
-// H=333 pink-mauve gamut — anchor: L=0.94 C=0.054 (#ffe1f9, the BG in this story)
+// H=333 pink-mauve gamut — anchor: L=0.94 C=0.040 (#fce2f7, the BG in this story).
+// Measured with klar like the grid above. C 0.054 at L 0.94 is outside sRGB, so the
+// anchor sits at 0.040, the chroma the background track already used.
 const BG_ROWS = JSON.stringify(buildGamutRows(
   (() => {
     const L = [0.94, 0.83, 0.72, 0.61, 0.50, 0.39, 0.28, 0.17, 0.06];
-    const C = [0.020, 0.054, 0.090, 0.130, 0.170];
+    const C = [0.020, 0.040, 0.090, 0.130, 0.170];
     const IG = [
-      [1, 1, 1, 0, 0],
+      [1, 1, 0, 0, 0],
       [1, 1, 1, 1, 0],
       [1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 0],
+      [1, 1, 1, 1, 1],
       [1, 1, 1, 0, 0],
       [1, 1, 0, 0, 0],
       [1, 0, 0, 0, 0],
     ];
     return L.map((l, ri) => C.map((c, ci) => ({ l, c, h: 333, ig: !!IG[ri][ci] })));
   })(),
-  0.94, 0.054, 333,
+  0.94, 0.040, 333,
 ));
-const BG_HEADERS = JSON.stringify(['C 0.020', 'C 0.054', 'C 0.090', 'C 0.130', 'C 0.170']);
+const BG_HEADERS = JSON.stringify(['C 0.020', 'C 0.040', 'C 0.090', 'C 0.130', 'C 0.170']);
 
 const MEAS_ROWS = JSON.stringify([
   { cells: ['Criterion', 'Result'], isHeader: true },
@@ -94,12 +100,12 @@ const MEAS_ROWS = JSON.stringify([
   { cells: ['Non-text', 'Pass'], isHeader: false },
   { cells: ['Algorithm', 'Score'], isHeader: true },
   { cells: ['WCAG 2.1', '3.9'], isHeader: false },
-  { cells: ['OKCA', '4.0'], isHeader: false },
+  { cells: ['OKCA', '3.4'], isHeader: false },
   { cells: ['Perceptual', '60'], isHeader: false },
-  { cells: ['Delta E', '48'], isHeader: false },
+  { cells: ['Delta E', '50'], isHeader: false },
   { cells: ['Color', 'L · C · H'], isHeader: true },
   { cells: ['FG', '0.55·0.065·142°'], isHeader: false },
-  { cells: ['BG', '0.94·0.054·333°'], isHeader: false },
+  { cells: ['BG', '0.94·0.040·333°'], isHeader: false },
 ]);
 
 const meta: Meta = {
@@ -123,8 +129,9 @@ The tone picker renders an OKLCH gamut as a color grid; the slider sweeps lightn
 while holding chroma and hue constant. Selecting a cell dispatches a \`color-select\`
 CustomEvent carrying the formatted oklch string and L/C/H components.
 
-This example is also a stress-test for the design system itself: every component
-is under real conditions with live data rather than static props.
+This example is also a stress-test for the design system itself: every component is
+composed as it would be in a real tool. The values are static: nothing updates when a
+control moves.
         `.trim(),
       },
     },
@@ -147,15 +154,7 @@ export const ColorPairIterator: Story = {
       <main style="max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem;">
 
         <header style="margin-bottom: 2rem;">
-          <h1 style="
-            font-family: var(--font-family-display);
-            font-size: var(--font-size-h2);
-            font-weight: var(--font-weight-bold);
-            font-optical-sizing: auto;
-            color: var(--color-text-default);
-            line-height: var(--line-height-tight);
-            margin: 0 0 0.5rem;
-          ">Color Pair Iterator</h1>
+          <candor-heading level="h1" style="margin: 0 0 0.5rem;">Color Pair Iterator</candor-heading>
           <p style="
             font-family: var(--font-family-base);
             font-size: var(--font-size-md);
@@ -189,19 +188,9 @@ export const ColorPairIterator: Story = {
 
                 <candor-accessible-text role_="label" bold>Foreground</candor-accessible-text>
 
-                <div style="
-                  display: flex;
-                  align-items: center;
-                  gap: 0.625rem;
-                  background: var(--color-bg-page);
-                  border: 1px solid var(--color-border-default);
-                  border-radius: var(--radius-sm);
-                  padding: 0.375rem 0.625rem;
-                ">
-                  <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #647a61; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
-                  <input type="text" value="#647a61" aria-label="Foreground hex color"
-                    style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: var(--letter-spacing-body);"
-                  />
+                <div style="display: flex; align-items: center; gap: 0.625rem;">
+                  <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #5c7b58; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
+                  <candor-input aria-label="Foreground hex color" value="#5c7b58" style="flex: 1; min-width: 0;"></candor-input>
                 </div>
 
                 <candor-slider
@@ -236,19 +225,9 @@ export const ColorPairIterator: Story = {
 
                 <candor-accessible-text role_="label" bold>Background</candor-accessible-text>
 
-                <div style="
-                  display: flex;
-                  align-items: center;
-                  gap: 0.625rem;
-                  background: var(--color-bg-page);
-                  border: 1px solid var(--color-border-default);
-                  border-radius: var(--radius-sm);
-                  padding: 0.375rem 0.625rem;
-                ">
-                  <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #ffe1f9; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
-                  <input type="text" value="#ffe1f9" aria-label="Background hex color"
-                    style="background: transparent; border: none; outline: none; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-default); width: 6rem; letter-spacing: var(--letter-spacing-body);"
-                  />
+                <div style="display: flex; align-items: center; gap: 0.625rem;">
+                  <div aria-hidden="true" style="width: 1.5rem; height: 1.5rem; border-radius: var(--radius-sm); background: #fce2f7; flex-shrink: 0; border: 1px solid var(--color-border-default);"></div>
+                  <candor-input aria-label="Background hex color" value="#fce2f7" style="flex: 1; min-width: 0;"></candor-input>
                 </div>
 
                 <candor-slider
@@ -259,7 +238,7 @@ export const ColorPairIterator: Story = {
 
                 <div style="display: flex; gap: 1rem; font-family: var(--font-family-mono); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body);">
                   <span><span style="color: var(--color-text-default);">L</span> 0.94</span>
-                  <span><span style="color: var(--color-text-default);">C</span> 0.054</span>
+                  <span><span style="color: var(--color-text-default);">C</span> 0.040</span>
                   <span><span style="color: var(--color-text-default);">H</span> 333°</span>
                 </div>
 
@@ -289,7 +268,8 @@ export const ColorPairIterator: Story = {
 
             <div style="background: var(--color-bg-surface); border-radius: var(--radius-md); padding: 0 1rem;">
               <candor-accordion-item heading="Contrast algorithm" open>
-                <fieldset aria-label="Contrast algorithm" style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <legend class="sr-only">Contrast algorithm</legend>
                   <candor-radio name="algorithm" label="WCAG 2.1" value="wcag21" checked></candor-radio>
                   <candor-radio name="algorithm" label="OKCA" value="okca"></candor-radio>
                   <candor-radio name="algorithm" label="Perceptual" value="perceptual"></candor-radio>
@@ -309,9 +289,9 @@ export const ColorPairIterator: Story = {
           <div style="display: flex; flex-direction: column; gap: 1rem;">
 
             <candor-card variant="default" style="display: block;">
-              <candor-accessible-text role_="label" bold style="display: block; margin-bottom: 0.75rem;">Preview</candor-accessible-text>
+              <candor-text variant="label" style="display: block; margin-bottom: 0.75rem;">Preview</candor-text>
               <div style="
-                background: #ffe1f9;
+                background: #fce2f7;
                 border-radius: var(--radius-sm);
                 padding: 1.25rem;
                 display: flex;
@@ -319,7 +299,7 @@ export const ColorPairIterator: Story = {
                 gap: 0.5rem;
               ">
                 <p style="
-                  color: #647a61;
+                  color: #5c7b58;
                   font-family: var(--font-family-display);
                   font-size: var(--font-size-h3);
                   font-weight: var(--font-weight-bold);
@@ -327,14 +307,14 @@ export const ColorPairIterator: Story = {
                   line-height: var(--line-height-tight);
                 ">Heading text</p>
                 <p style="
-                  color: #647a61;
+                  color: #5c7b58;
                   font-family: var(--font-family-serif);
                   font-size: var(--font-size-md);
                   margin: 0;
                   line-height: var(--line-height-relaxed);
                 ">Body copy: the quick brown fox jumps over the lazy dog. Color, readability, and rhythm.</p>
                 <p style="
-                  color: #647a61;
+                  color: #5c7b58;
                   font-family: var(--font-family-accessible);
                   font-size: 0.875rem;
                   margin: 0;
@@ -344,7 +324,7 @@ export const ColorPairIterator: Story = {
             </candor-card>
 
             <candor-card variant="default" style="display: block;">
-              <candor-accessible-text role_="label" bold style="display: block; margin-bottom: 0.75rem;">Measurements</candor-accessible-text>
+              <candor-text variant="label" style="display: block; margin-bottom: 0.75rem;">Measurements</candor-text>
               <candor-table compact caption="Contrast measurements" rows='${MEAS_ROWS}'></candor-table>
             </candor-card>
 

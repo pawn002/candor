@@ -51,7 +51,7 @@ Demonstrates the canonical patterns for accessible forms in Candor:
   until the user corrects the problem
 - **Progress** tracks multi-step form completion when steps cannot fit on one screen
 
-All form-control web components are form-associated (\`ElementInternals\`), so wrapping
+The form controls used here are form-associated (\`ElementInternals\`), so wrapping
 them in a \`<form>\` makes their values appear in \`FormData\` natively.
         `.trim(),
       },
@@ -71,9 +71,9 @@ export const ContactForm: Story = {
       </candor-text>
 
       <form style="display: flex; flex-direction: column; gap: var(--spacing-md);">
-        <candor-input label="Full Name" placeholder="Enter your full name" required></candor-input>
-        <candor-input label="Email Address" type="email" placeholder="you@example.com" required></candor-input>
-        <candor-input label="Phone Number" type="tel" placeholder="(555) 123-4567"></candor-input>
+        <candor-input label="Full name" placeholder="Enter your full name" required></candor-input>
+        <candor-input label="Email address" type="email" placeholder="you@example.com" required></candor-input>
+        <candor-input label="Phone number" type="tel" placeholder="(555) 123-4567"></candor-input>
 
         <candor-select label="Department" placeholder="Select a department" required options='${DEPT_OPTIONS}'></candor-select>
 
@@ -110,7 +110,7 @@ export const LoginForm: Story = {
 
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-xs);">
             <candor-checkbox label="Remember me"></candor-checkbox>
-            <a href="#" style="color: var(--color-text-accent); text-decoration: none; font-size: var(--font-size-sm); white-space: nowrap;">
+            <a href="#" style="color: var(--color-text-link); font-size: var(--font-size-sm); white-space: nowrap;">
               Forgot password?
             </a>
           </div>
@@ -145,25 +145,25 @@ export const RegistrationForm: Story = {
 
         <form style="display: flex; flex-direction: column; gap: var(--spacing-md);">
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--spacing-sm);">
-            <candor-input label="First Name" placeholder="John" required></candor-input>
-            <candor-input label="Last Name" placeholder="Doe" required></candor-input>
+            <candor-input label="First name" placeholder="John" required></candor-input>
+            <candor-input label="Last name" placeholder="Doe" required></candor-input>
           </div>
 
-          <candor-input label="Email Address" type="email" placeholder="john.doe@example.com" required></candor-input>
+          <candor-input label="Email address" type="email" placeholder="john.doe@example.com" required></candor-input>
           <candor-input label="Username" placeholder="Choose a username" required></candor-input>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--spacing-sm);">
             <candor-input label="Password" type="password" placeholder="At least 8 characters" required></candor-input>
-            <candor-input label="Confirm Password" type="password" placeholder="Re-enter password" required></candor-input>
+            <candor-input label="Confirm password" type="password" placeholder="Re-enter password" required></candor-input>
           </div>
 
           <candor-select label="Country" placeholder="Select your country" required options='${COUNTRY_OPTIONS}'></candor-select>
 
           <fieldset style="border: none; padding: 0; margin: 0;">
-            <legend style="font-family: var(--font-family-accessible); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-body); color: var(--color-text-default); margin-bottom: 0.75rem;">Account Type</legend>
+            <legend style="font-family: var(--font-family-accessible); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-body); color: var(--color-text-default); margin-bottom: 0.75rem;">Account type</legend>
             <div style="display: flex; flex-direction: column; gap: var(--spacing-xs);">
-              <candor-radio label="Personal Account" name="accountType" value="personal" checked></candor-radio>
-              <candor-radio label="Business Account" name="accountType" value="business"></candor-radio>
+              <candor-radio label="Personal account" name="accountType" value="personal" checked></candor-radio>
+              <candor-radio label="Business account" name="accountType" value="business"></candor-radio>
             </div>
           </fieldset>
 
@@ -240,7 +240,7 @@ export const NotificationPreferences: Story = {
       </candor-alert>
 
       <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); margin-bottom: var(--spacing-md);">
-        <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Email</legend>
+        <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Email</legend>
         <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
           <candor-switch label="Security alerts" checked></candor-switch>
           <candor-switch label="Account activity" checked></candor-switch>
@@ -250,7 +250,7 @@ export const NotificationPreferences: Story = {
       </fieldset>
 
       <fieldset style="border: 1px solid var(--color-border-default); border-radius: var(--radius-md); padding: var(--spacing-md); margin-bottom: var(--spacing-md);">
-        <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Push notifications</legend>
+        <legend style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); padding: 0 0.5rem;">Push notifications</legend>
         <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: var(--spacing-xs);">
           <candor-switch label="New messages" checked></candor-switch>
           <candor-switch label="Mentions" checked></candor-switch>

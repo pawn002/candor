@@ -13,9 +13,8 @@ import { phCaretDownBold } from '../../icons';
  * Most of the time exclusivity is not wanted anyway: it hides content the user
  * just asked to compare.
  *
- * `toggle` reports the new state, and `open` **is** updated by the component, so
- * this is not a controlled component in the way modal and drawer are. Bind
- * `toggle` to react, not to assign.
+ * `toggle` reports the new state, and `open` **is** updated by the component.
+ * Bind `toggle` to react, not to assign.
  *
  * The choice against `candor-disclosure` is grouping: a disclosure is one
  * standalone "show more" affordance; this is a member of a set and is styled to

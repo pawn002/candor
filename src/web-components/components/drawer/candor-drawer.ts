@@ -10,8 +10,9 @@ type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
 /**
  * A panel sliding in from an edge, backed by the native `<dialog>`.
  *
- * **Controlled.** `close` reports dismissal; the component does not clear `open`
- * for you.
+ * **It closes itself.** On a user dismissal the component clears `open`, then
+ * emits `close`. Sync your own state from it, or a binding that still holds
+ * `open` true will reopen the drawer.
  *
  * Choose against `candor-modal` on interruption rather than shape: a modal
  * blocks the task until answered, a drawer sits alongside it. If the user could
@@ -36,7 +37,7 @@ type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
  * `--candor-drawer-size` and `--candor-drawer-height` override the size rungs
  * for a one-off without a new variant.
  *
- * @fires close - detail: none (the user dismissed the drawer; the consumer must clear `open`)
+ * @fires close - detail: none (the user dismissed the drawer; `open` is already false)
  */
 @customElement('candor-drawer')
 export class CandorDrawer extends LitElement {

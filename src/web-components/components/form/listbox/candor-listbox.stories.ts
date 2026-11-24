@@ -13,13 +13,10 @@ const LANGUAGES_JSON = JSON.stringify([
   { value: 'ja', label: 'Japanese', disabled: true },
 ]);
 
-const COUNTRIES_JSON = JSON.stringify([
-  { value: 'au', label: 'Australia' }, { value: 'br', label: 'Brazil' },
-  { value: 'ca', label: 'Canada' }, { value: 'cn', label: 'China' },
-  { value: 'de', label: 'Germany' }, { value: 'fr', label: 'France' },
-  { value: 'in', label: 'India' }, { value: 'jp', label: 'Japan' },
-  { value: 'mx', label: 'Mexico' }, { value: 'nl', label: 'Netherlands' },
-  { value: 'gb', label: 'United Kingdom' }, { value: 'us', label: 'United States' },
+const REGIONS_JSON = JSON.stringify([
+  { value: 'us-east', label: 'US East (Virginia)' }, { value: 'us-west', label: 'US West (Oregon)' },
+  { value: 'eu-central', label: 'EU (Frankfurt)' }, { value: 'eu-west', label: 'EU (Dublin)' },
+  { value: 'ap-northeast', label: 'Asia Pacific (Tokyo)' }, { value: 'ap-southeast', label: 'Asia Pacific (Sydney)' },
 ]);
 
 const ROLES_JSON = JSON.stringify([
@@ -100,9 +97,9 @@ export const Open: Story = {
 
 export const WithPreselectedValue: Story = {
   render: () => html`<candor-listbox
-    label="Country"
-    options='${COUNTRIES_JSON}'
-    value="jp"
+    label="Hosting region"
+    options='${REGIONS_JSON}'
+    value="ap-northeast"
   ></candor-listbox>`,
 };
 
@@ -116,10 +113,10 @@ export const WithDisabledOptions: Story = {
 
 export const WithHint: Story = {
   render: () => html`<candor-listbox
-    label="Country"
-    hint="Used to determine local content and date format."
-    placeholder="Select a country"
-    options='${COUNTRIES_JSON}'
+    label="Hosting region"
+    hint="Where your data is stored. It cannot be changed after the project is created."
+    placeholder="Select a region"
+    options='${REGIONS_JSON}'
   ></candor-listbox>`,
 };
 

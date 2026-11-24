@@ -23,8 +23,8 @@ headings, dashboard panels.
 
 | Level | Token | Size |
 |---|---|---|
-| h1 | \`--font-size-h1\` | ~40px |
-| h2 | \`--font-size-h2\` | ~32px |
+| h1 | \`--font-size-h1\` | ~39px |
+| h2 | \`--font-size-h2\` | ~31px |
 | h3 | \`--font-size-h3\` | ~25px |
 | h4 | \`--font-size-h4\` | ~20px |
 | h5 | \`--font-size-h5\` | 16px |

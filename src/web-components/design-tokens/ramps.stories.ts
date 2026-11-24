@@ -133,7 +133,7 @@ const renderGreyRamps = () => {
       ],
     }));
   return html`
-    ${intro('Three grey ramps share one lightness scale, so a step number means the same lightness in every ramp and only the temperature changes. Swapping a cool grey for the warm one at the same step changes contrast very little. Temperature ranks surfaces: warm comes forward and cool recedes, through the forward and recede background tokens.')}
+    ${intro('Three grey ramps share one lightness scale, so a step number means the same lightness in every ramp and only the temperature changes. Swapping a cool grey for the warm one at the same step changes contrast very little. Temperature ranks surfaces: warm comes forward and cool recedes, through the content and chrome background tokens (--color-bg-content, --color-bg-chrome).')}
     ${table('Grey ramps', ['Step', 'Lightness', 'Neutral', `Cool (hue ${GREYS.cool.hue.at})`, `Warm (hue ${GREYS.warm.hue.at})`], rows)}
   `;
 };

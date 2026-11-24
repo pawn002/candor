@@ -97,9 +97,9 @@ apply:
 
 | Where the \`<i class="ph-…">\` is authored | Font classes work? |
 |---|---|
-| Main document (light DOM) | ✅ Yes |
-| Slotted into a Candor component **from the main document** | ✅ Yes. Slotted content stays in the document's light DOM, so global rules reach it |
-| Inside **your own** web component's shadow root (incl. slotting into a Candor component from *within* your component) | ❌ No. Global \`.ph-*\` rules never enter a shadow root |
+| Main document (light DOM) | Yes |
+| Slotted into a Candor component **from the main document** | Yes. Slotted content stays in the document's light DOM, so global rules reach it |
+| Inside **your own** web component's shadow root (incl. slotting into a Candor component from *within* your component) | No. Global \`.ph-*\` rules never enter a shadow root |
 
 So if you are building your own web components (Candor's own model), the font-class path
 **silently fails**. The \`@font-face\` is global so the font loads, but the \`.ph-*\` class
@@ -124,10 +124,10 @@ Candor's bundled set for the handful it uses internally (below).
 The WC components that need icons internally (\`candor-accordion-item\`, \`candor-menu\`,
 \`candor-select\`, \`candor-pagination\`, \`candor-listbox\`, \`candor-combobox\`,
 \`candor-alert\`, \`candor-toast\`, \`candor-drawer\`, \`candor-modal\`, \`candor-chip\`,
-\`candor-chat-input\`, \`candor-disclosure\`) ship the SVG path data inline (see \`src/web-components/icons.ts\`)
+\`candor-chat-input\`, \`candor-disclosure\`, \`candor-table\`, \`candor-accessible-text\`) ship the SVG path data inline (see \`src/web-components/icons.ts\`)
 so they don't depend on the \`@phosphor-icons/web\` stylesheet being loaded. This is the
 same inline-SVG approach shadow-DOM consumers should use for their own icons (see above).
-\`src/web-components/icons.ts\` exports only the ~9 glyphs the components use. It is not a
+\`src/web-components/icons.ts\` exports only the glyphs the components use, eleven of them. It is not a
 general icon library; for anything else, take the path from \`@phosphor-icons/core\`.
 
 ## Full icon reference

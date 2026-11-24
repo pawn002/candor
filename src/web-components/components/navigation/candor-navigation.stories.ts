@@ -37,11 +37,10 @@ numeric indicator. Set \`badgeLabel\` to a descriptive string (e.g. "12 unread")
 readers announce a meaningful name rather than just the count.
 
 Set \`label\` when a page has more than one \`<candor-navigation>\`. Each \`<nav>\` must
-have a unique accessible name to satisfy WCAG 2.4.1. Defaults to \`"Main navigation"\`.
+have a unique accessible name, so a landmark list can tell them apart. Defaults to \`"Main navigation"\`.
 
-**Responsive behaviour (horizontal):** Below 640px the brand and item list wrap to two
-rows. The brand stays on row one; the list drops flush-left to row two. No JavaScript
-required.
+**Responsive behaviour (horizontal):** when the brand and items do not fit on one row, the
+list wraps to a second row. It is plain \`flex-wrap\`, with no breakpoint and no JavaScript.
         `.trim(),
       },
     },

@@ -53,7 +53,7 @@ showToast('Your changes have been saved.', 'success');
 | \`--candor-toast-max-width\` | \`28rem\` | Maximum toast width |
 
 \`\`\`css
-candor-toast-container { --candor-toast-min-width: 24rem; }
+candor-toast { --candor-toast-min-width: 24rem; }
 \`\`\`
         `.trim(),
       },

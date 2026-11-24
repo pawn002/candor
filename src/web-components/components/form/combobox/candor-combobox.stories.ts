@@ -64,7 +64,7 @@ the dropdown (second Escape clears the value); Tab closes the dropdown.
 
 | Use | When |
 |---|---|
-| \`candor-select\` | Short lists (≤10), maximum AT compatibility, mobile-first |
+| \`candor-select\` | Short lists (≤ 15), maximum AT compatibility, mobile-first |
 | \`candor-listbox\` | Medium lists, click-to-select without typing, full visual control |
 | \`candor-combobox\` | Long lists, user knows part of the name, search/autocomplete UX |
 
@@ -84,7 +84,7 @@ live filter text as the user types; \`change\` fires on selection, carrying the 
     label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
     placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder shown when no value is selected' },
     hint: { control: 'text', type: { name: 'string' }, description: 'Helper text above the input (below the label)' },
-    error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
+    error: { control: 'text', type: { name: 'string' }, description: 'Validation error message shown below the input; displayed alongside hint when both are set' },
     required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },

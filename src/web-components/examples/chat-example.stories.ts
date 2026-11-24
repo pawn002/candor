@@ -50,7 +50,7 @@ export const AIChatInterface: Story = {
   render: () => html`
       <style>
         .chat-sidebar a:hover {
-          background: var(--color-bg-action-tertiary);
+          background: var(--color-bg-hover);
           color: var(--color-text-default);
         }
         .chat-sidebar a:focus-visible {
@@ -108,7 +108,7 @@ export const AIChatInterface: Story = {
                 text-decoration: none;
                 margin-bottom: 0.125rem;
               ">
-                <candor-accessible-text role_="annotation">OKLCH for brand colors</candor-accessible-text>
+                OKLCH for brand colors
               </a>
 
               <a href="#" style="
@@ -379,7 +379,7 @@ export const AIChatInterface: Story = {
                   <div style="flex: 1; min-width: 0;">
                     <candor-article font="serif" justify lang="en">
                       <p>
-                        Dark mode inverts the direction: now you need lightness <em>above</em> the background, and it needs much more of it than feels right. On Candor's page colour (<code>oklch(0.16 0.02 249)</code>), the 4.5 floor sits near <strong>L&nbsp;≥&nbsp;0.68</strong>: <code>oklch(0.67 0.17 250)</code> reaches OKCA 4.3 on dark page and misses, while <code>oklch(0.68 0.17 250)</code> reaches OKCA 4.6 on dark page. One hundredth of lightness is the whole margin.
+                        Dark mode inverts the direction: now you need lightness <em>above</em> the background, and it needs much more of it than feels right. On Candor's page colour (<code>oklch(0.16 0.025 249)</code>), the 4.5 floor sits near <strong>L&nbsp;≥&nbsp;0.68</strong>: <code>oklch(0.67 0.17 250)</code> reaches OKCA 4.3 on dark page and misses, while <code>oklch(0.68 0.17 250)</code> reaches OKCA 4.6 on dark page. One hundredth of lightness is the whole margin.
                       </p>
                       <p>Same hue, and chroma tapers as you climb. But note <em>why</em>:</p>
                       <div class="code-block">

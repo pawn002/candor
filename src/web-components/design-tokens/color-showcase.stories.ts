@@ -34,7 +34,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Backgrounds: layout',
-    description: 'A second axis beside depth: which region a screen leads with. Content is the page lightness turned warm, chrome the surface lightness turned cool, so they rank regions by temperature while contrast barely moves. A tertiary cue, never the only one.',
+    description: 'A second axis beside depth: which region a screen leads with. In light, content is the page lightness turned warm and chrome the surface lightness turned cool; in dark, content keeps the card lightness and chrome steps down to the page. Either way they rank regions by temperature while contrast barely moves. A tertiary cue, never the only one.',
     colors: [
       { name: 'Content', variable: '--color-bg-content', description: 'The region a screen leads with: the main reading column or workspace' },
       { name: 'Chrome', variable: '--color-bg-chrome', description: 'Sidebars, toolbars and secondary panels that should step back. Use text-subtle-on-surface on it' },
@@ -118,7 +118,7 @@ const COLOR_CATEGORIES: ColorCategory[] = [
   },
   {
     name: 'Form controls',
-    description: 'A field edge by state, and the marks and tracks that are their own signal. Each clears 3:1 against the control background (WCAG 1.4.11).',
+    description: 'A field edge by state, and the marks and tracks that are their own signal. Edges, tracks and scrollbar thumbs clear 3:1 against what they sit on (WCAG 1.4.11); the slider thumb is carried by its outline, and a mark on an action by the action fill.',
     colors: [
       { name: 'Control', variable: '--color-border-control', description: 'A field edge at rest, safe on page, surface and elevated' },
       { name: 'Control Hover', variable: '--color-border-control-hover', description: 'Hovered: the same grey today' },
@@ -340,8 +340,8 @@ agree, and reconciling them makes one of them wrong.
 
 ## Accessibility
 Action and text tokens meet WCAG 2.1 AA (4.5:1 for text, 3:1 for UI components) and the
-stricter Candor OKCA tier floors, with the tracked exceptions listed in
-\`docs/ACCESSIBILITY-CONFORMANCE.md\`. Every authored colour is renderable in sRGB, and
+stricter Candor OKCA tier floors. Two pairings are exempt (a disabled field's value and a
+placeholder), recorded in \`docs/ACCESSIBILITY-CONFORMANCE.md\`. Every authored colour is renderable in sRGB, and
 \`npm run audit:tokens\` fails the build if one is not. Validated with
 \`klar contrast\` 4.x; re-measure with \`npm run audit:contrast\`.
         `,
@@ -359,7 +359,7 @@ export const LightTheme: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Complete semantic palette in light mode. Token values shown are light-mode resolved values.',
+        story: 'Complete semantic palette in light mode. Token Reference lists the values.',
       },
     },
   },

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../../typography/accessible-text/candor-accessible-text';
 import './candor-checkbox';
 
 const meta: Meta = {
@@ -21,7 +22,8 @@ options. A \`<div>\` with a visible heading is not sufficient. Screen readers an
 legend as the group label for each individual checkbox.
 
 Form-associated (\`ElementInternals\`): the value appears in \`FormData\` when wrapped in a
-\`<form>\`, validation works, and \`:disabled\` styling applies natively.
+\`<form>\`, and \`:disabled\` styling applies natively. \`required\` is set on the inner input only;
+the checkbox does not report validity to the form.
 
 **Events.** \`change\` fires on toggle, carrying the new checked state as a \`boolean\` in
 \`detail\`. There is no live \`input\` event, because a checkbox has no mid-edit phase.
@@ -45,7 +47,14 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const AllStates: Story = {
-  parameters: { controls: { disable: true } },
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story: 'Visual reference for each state. In real use a disabled checkbox needs a readable reason beside it, as in **Group**; the bare ones here are a treatment showcase, not a usage template.',
+      },
+    },
+  },
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:1rem;">
       <candor-checkbox label="Unchecked"></candor-checkbox>
@@ -59,12 +68,14 @@ export const AllStates: Story = {
 export const Multiple: Story = {
   parameters: { controls: { disable: true } },
   render: () => html`
-    <div style="display:flex;flex-direction:column;gap:1rem;">
-      <candor-checkbox label="Option 1" checked></candor-checkbox>
-      <candor-checkbox label="Option 2" checked></candor-checkbox>
-      <candor-checkbox label="Option 3"></candor-checkbox>
-      <candor-checkbox label="Disabled option" disabled></candor-checkbox>
-    </div>
+    <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1rem;">
+      <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem;">Export formats</legend>
+      <candor-checkbox label="CSV" checked></candor-checkbox>
+      <candor-checkbox label="JSON" checked></candor-checkbox>
+      <candor-checkbox label="XLSX"></candor-checkbox>
+      <candor-checkbox label="PDF" disabled></candor-checkbox>
+      <candor-accessible-text role_="annotation" style="display:block;">PDF export is available on the Team plan.</candor-accessible-text>
+    </fieldset>
   `,
 };
 
@@ -75,6 +86,7 @@ export const Group: Story = {
       <candor-checkbox label="Email notifications" checked></candor-checkbox>
       <candor-checkbox label="SMS notifications"></candor-checkbox>
       <candor-checkbox label="Push notifications" disabled></candor-checkbox>
+      <candor-accessible-text role_="annotation" style="display:block;">Push notifications need the mobile app.</candor-accessible-text>
     </fieldset>
   `,
 };

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 
 import { allModes } from '../../../../.storybook/modes';
 import './candor-toolbar';
@@ -48,9 +48,9 @@ These stories style their toolbar buttons with utility classes that exist in the
 Storybook harness but are **not** shipped in \`@candor-design/tokens\`. Don't copy them
 into an app, or they'll render as unstyled browser buttons. The toolbar is a generic
 container: it supplies structure, ARIA, and roving focus for whatever \`<button>\`s you
-put inside. For plain controls use \`<candor-button variant="ghost" size="small">\`; for
-**toggle** controls (Bold/Italic with \`aria-pressed\`) supply your own \`<button>\` and
-style it, because \`candor-button\` has no pressed state.
+put inside. Use a native \`<button>\` for every control and style it yourself: the roving
+tabindex manages light-DOM buttons, links and inputs, and \`candor-button\`'s inner \`<button>\`
+sits in its shadow root, so a \`candor-button\` stays its own Tab stop and arrow keys skip it.
         `.trim(),
       },
     },
@@ -67,7 +67,7 @@ style it, because \`candor-button\` has no pressed state.
   },
   args: { 'aria-label': 'Text formatting', orientation: 'horizontal' },
   render: (args) => html`
-    <candor-toolbar aria-label="${args['aria-label']}" orientation="${args['orientation']}">
+    <candor-toolbar aria-label="${args['aria-label'] || nothing}" aria-labelledby="${args['ariaLabelledby'] || nothing}" orientation="${args['orientation']}">
       <button class="${BTN}" type="button" aria-label="Bold" title="Bold" style="${ICON_ONLY}">
         <i class="ph-bold ph-text-b" aria-hidden="true" style="${BOLD_ICON}"></i>
       </button>

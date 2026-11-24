@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 import '../card/candor-card';
+import '../form/input/candor-input';
 import './candor-alert';
 import { allModes } from '../../../../.storybook/modes';
 
@@ -118,16 +119,22 @@ export const Dismissible: Story = {
 };
 
 export const InlineFormValidation: Story = {
+  name: 'Form error summary',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'In a form, the alert is the summary: it says that the submission failed and what to fix, at the top, where focus can be sent. ' +
+          'The field-level message belongs to the field. `candor-input` renders its own `error` at 16px in a live region and sets `aria-invalid`, so do not repeat it in an alert beside the input.',
+      },
+    },
+  },
   render: () => html`
     <div style="padding:var(--spacing-md);max-width:480px;">
       <candor-card variant="outlined">
-        <p style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0 0 var(--spacing-sm);">Error: invalid input</p>
         <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);">
-          <div>
-            <label for="story-email" style="display:block;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;color:var(--color-text-subtle);margin-bottom:0.5rem;">Email address</label>
-            <input id="story-email" type="email" value="notanemail" style="display:block;width:100%;padding:var(--spacing-sm);border:2px solid var(--color-border-control-error);border-radius:var(--radius-md);font-family:var(--font-family-accessible);font-size:var(--font-size-md);background:var(--color-bg-page);color:var(--color-text-default);box-sizing:border-box;" aria-describedby="email-error" aria-invalid="true" />
-          </div>
-          <candor-alert id="email-error" variant="error" message="Enter a valid email address, for example name@example.com."></candor-alert>
+          <candor-alert variant="error" heading="Fix 1 error to continue" message="Email address: enter a valid email address."></candor-alert>
+          <candor-input label="Email address" type="email" value="notanemail" error="Enter a valid email address, for example name@example.com."></candor-input>
         </div>
       </candor-card>
     </div>

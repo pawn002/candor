@@ -19,19 +19,17 @@ const meta: Meta = {
         component: `
 These stories are one possible composition of Candor primitives into a blog or article
 layout, not a canonical pattern. Treat them as a starting point, not a prescription.
-They use \`<candor-navigation>\`, \`<candor-article>\`, \`<candor-badge>\`, \`<candor-button>\`,
-\`<candor-card>\`, and the framework-agnostic \`candor-blog.css\` post-card token layer.
+They use \`<candor-navigation>\`, \`<candor-article>\` and \`<candor-badge>\`, with the post-card
+styles in \`src/design-tokens/blog.scss\`. That stylesheet is not published; copy it into your build.
 
 **BlogPost**: a full reading view with a navigation shell, post metadata (tags, date, reading
 time), optional hero image, and a \`<candor-article>\` body rendered in Noto Serif.
 
 **PostListing**: a featured card (large image, full excerpt) followed by standard cards.
-Cards that lack an image render with a left accent border via
-the \`:not(:has(.post-card__image-link))\` CSS selector in \`candor-blog.css\`.
 
 **PostListingGrid**: a two-column responsive grid variant for category or tag archive pages.
 
-Tag pills are separated by a mid-dot CSS \`::before\` pseudo-element so they do not run
+Tag pills are separated by a mid-dot CSS \`::after\` pseudo-element so they do not run
 together as a sentence when read aloud by screen readers.
         `.trim(),
       },
@@ -85,7 +83,7 @@ export const BlogPost: Story = {
             gap: 1rem;
             padding-bottom: 1.5rem;
             border-bottom: 1px solid var(--color-border-default);
-            font-family: var(--font-family-accessible);
+            font-family: var(--font-family-base);
             font-size: var(--font-size-sm);
             color: var(--color-text-subtle);
             letter-spacing: var(--letter-spacing-body);
@@ -139,13 +137,13 @@ export const BlogPost: Story = {
         ">
           <nav aria-label="Post navigation" style="display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
             <a href="#" style="
-              font-family: var(--font-family-accessible);
+              font-family: var(--font-family-base);
               font-size: var(--font-size-sm);
               color: var(--color-text-link);
               letter-spacing: var(--letter-spacing-body);
             ">← Compliance without Accommodation</a>
             <a href="#" style="
-              font-family: var(--font-family-accessible);
+              font-family: var(--font-family-base);
               font-size: var(--font-size-sm);
               color: var(--color-text-link);
               letter-spacing: var(--letter-spacing-body);
@@ -166,13 +164,9 @@ export const PostListing: Story = {
         story: `
 Post listing page pattern: blog index, tag archive, or "more posts" section.
 
-Styles live in \`tokens/candor-blog.css\` (compiled from \`src/design-tokens/blog.scss\`).
-Works in any framework; no Angular dependency. Load order:
-
-\`\`\`html
-<link rel="stylesheet" href="candor-tokens.min.css">
-<link rel="stylesheet" href="candor-blog.min.css">
-\`\`\`
+Styles live in \`src/design-tokens/blog.scss\`, which the tokens package does not publish (#320).
+Copy it into your own build; it reads the same custom properties \`candor-tokens.css\` defines, so it
+works in any framework and follows dark mode.
 
 **Variants:**
 - \`.post-list--grid\`: two-column responsive grid (auto-collapses to one column)
@@ -182,7 +176,7 @@ Works in any framework; no Angular dependency. Load order:
 **Accessibility notes:**
 - Cover image link: set \`tabindex="-1"\` and \`aria-hidden="true"\`. The title \`<a>\` is the canonical keyboard target
 - Use \`<ul role="list">\` with \`<li>\` + \`<article>\` for correct list semantics
-- Each \`<article>\` is self-contained, so screen readers can navigate by landmark
+- Each \`<article>\` is self-contained, and screen readers expose it as an article, so users can move between posts with article navigation
         `.trim(),
       },
     },
@@ -356,7 +350,7 @@ export const PostListingGrid: Story = {
     layout: 'fullscreen',
     docs: {
       description: {
-        story: 'Two-column responsive grid layout. Apply `.post-list--grid` to the list container. Columns collapse to one below ~28rem per column.',
+        story: 'Two-column responsive grid layout. Apply `.post-list--grid` to the list container. Columns collapse to one below ~26rem per column.',
       },
     },
   },

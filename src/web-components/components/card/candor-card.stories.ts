@@ -44,7 +44,7 @@ to a heading inside the card, or \`aria-label\` for a concise inline name:
 \`\`\`html
 <!-- Preferred: heading inside the card labels the group -->
 <candor-card role="group" aria-labelledby="card-heading">
-  <h3 id="card-heading" slot="header">Account summary</h3>
+  <candor-heading level="h3" id="card-heading" slot="header">Account summary</candor-heading>
   <p>Body content goes here.</p>
 </candor-card>
 
@@ -111,7 +111,7 @@ export const AllVariants: Story = {
       </candor-card>
       <candor-card variant="elevated">
         <span slot="header">Elevated</span>
-        <p style="margin:0">White background with shadow elevation.</p>
+        <p style="margin:0">Elevated background with shadow.</p>
       </candor-card>
       <candor-card variant="outlined">
         <span slot="header">Outlined</span>

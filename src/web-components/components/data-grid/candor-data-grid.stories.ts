@@ -101,8 +101,10 @@ const meta: Meta = {
 Focus management uses the **roving tabindex** pattern: one cell holds \`tabindex="0"\` at
 a time; arrow keys move the tab stop.
 
-Pass \`rows\` and \`columnheaders\` via JS properties (or JSON-encoded as attributes). Each
-cell has \`{ label, background, foreground, selected?, disabled? }\`, well suited to
+Pass \`rows\` and \`columnHeaders\` via JS properties (or JSON-encoded as the \`rows\` and
+\`column-headers\` attributes). Each cell has \`{ label, background?, foreground?, selected?, disabled? }\`.
+\`background\` and \`foreground\` bypass the token system and so the contrast audit: the pairing is
+yours to check. The shape is well suited to
 color-grid and heat-map use cases.
         `.trim(),
       },

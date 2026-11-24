@@ -156,7 +156,7 @@ const leadingRows = [
 const sizeRampHeaders = ['Size', 'Token', 'Regular', 'Bold', 'Notes'];
 const sizeRampRows = [
   { cells: ['≥ 24px', '3xl – xl', '3.0', '3.0', 'WCAG large text: both weights qualify'] },
-  { cells: ['19 – 23px', 'None', '4.5', '3.0', 'Bold qualifies as large from 18.67px; regular does not until 24px'] },
+  { cells: ['19 – 23px', '--font-size-lg', '4.5', '3.0', 'Bold qualifies as large from 18.67px; regular does not until 24px'] },
   { cells: ['16 – 18px', '--font-size-md', '4.5', '4.5', 'WCAG 4.5 floor, binding both weights'] },
   { cells: ['14px', '--font-size-sm', '9.5', '6.5', 'Smallest text size. 9.5 is what neutral reading text needs here; no coloured text reaches it (#240), so Tier 1 regular text is 16px or larger'] },
   { cells: ['12px and below', '--font-size-xs', 'None', 'None', 'Decorative / non-text only (badge chrome, icons). No text is rendered here, so no floor applies'] },
@@ -192,7 +192,7 @@ const renderContrastGuidance = () => html`
         message="--color-text-subtle (OKCA 5.0 on page) fails the 6.5 regular threshold. Functional 14px text using this token must be bold (wght ≥ 700), where the same score clears the 4.5 bold floor.">
       </candor-alert>
       <candor-alert variant="info" heading="Tier 3 condition" style="display: block;"
-        message="Redundancy must be verified per component. Color alone does not qualify. The redundant channel must be shape, icon, or spatial context so it holds under colorblindness. This tier is assigned by the system; it is not a consumer opt-in.">
+        message="Redundancy must be verified per component. Color alone does not qualify. The redundant channel must hold under colorblindness: a shape, icon or spatial context the component renders, or a text label the component cannot render without, provided it names the condition (a badge reading Failed, not 3).">
       </candor-alert>
       <candor-alert variant="info" heading="Variable font weight axis" style="display: block;"
         message="'Bold' in this table means wght ≥ 700 (the CSS font-weight axis). Non-wght axes (GRAD, opsz, wdth) affect perceived stroke weight visually but do not change the compliance column. A heading at font-weight: 500 with GRAD: -150 is regular for compliance purposes regardless of how it reads on screen.">

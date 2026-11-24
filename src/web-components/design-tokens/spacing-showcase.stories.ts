@@ -154,7 +154,7 @@ export const SpacingInComponents: Story = {
             <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
           </candor-card>
           <candor-card variant="default" padding="md">
-            <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
+            <candor-stat value="94%" label="Uptime" size="lg"></candor-stat>
           </candor-card>
           <candor-card variant="default" padding="md">
             <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>
@@ -169,7 +169,7 @@ export const SpacingInComponents: Story = {
             <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
           </candor-card>
           <candor-card variant="default" padding="lg">
-            <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
+            <candor-stat value="94%" label="Uptime" size="lg"></candor-stat>
           </candor-card>
           <candor-card variant="default" padding="lg">
             <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>

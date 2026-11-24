@@ -180,7 +180,7 @@ export const SansWithCode: Story = {
     <h2>Import</h2>
     <p>Add the stylesheet once at your application root:</p>
     <pre><code>import '@candor-design/tokens/candor-tokens.css';</code></pre>
-    <p>All <code>--candor-*</code> custom properties are now available globally. Components inherit them automatically via the CSS cascade.</p>
+    <p>All Candor tokens (<code>--color-*</code>, <code>--spacing-*</code>, <code>--font-*</code> and the rest) are now available globally. Components inherit them automatically via the CSS cascade.</p>
     <h2>Verify</h2>
     <p>Open any page and run the following in the browser console to confirm the tokens are loaded:</p>
     <pre><code>getComputedStyle(document.body).getPropertyValue('--color-bg-page')</code></pre>
@@ -273,12 +273,12 @@ export const WithNumericTable: Story = {
         </tr>
       </thead>
       <tbody>
-        <tr><td>h1</td><td><code>--font-size-h1</code></td><td class="numeric">39.06</td><td class="numeric">2.441</td><td class="numeric">1.20</td></tr>
-        <tr><td>h2</td><td><code>--font-size-h2</code></td><td class="numeric">31.25</td><td class="numeric">1.953</td><td class="numeric">1.20</td></tr>
+        <tr><td>h1</td><td><code>--font-size-h1</code></td><td class="numeric">39.06</td><td class="numeric">2.441</td><td class="numeric">1.10</td></tr>
+        <tr><td>h2</td><td><code>--font-size-h2</code></td><td class="numeric">31.25</td><td class="numeric">1.953</td><td class="numeric">1.10</td></tr>
         <tr><td>h3</td><td><code>--font-size-h3</code></td><td class="numeric">25.00</td><td class="numeric">1.563</td><td class="numeric">1.20</td></tr>
         <tr><td>h4</td><td><code>--font-size-h4</code></td><td class="numeric">20.00</td><td class="numeric">1.250</td><td class="numeric">1.20</td></tr>
-        <tr><td>body</td><td><code>--font-size-md</code></td><td class="numeric">16.00</td><td class="numeric">1.000</td><td class="numeric">1.60</td></tr>
-        <tr><td>sm</td><td><code>--font-size-sm</code></td><td class="numeric">14.00</td><td class="numeric">0.875</td><td class="numeric">1.40</td></tr>
+        <tr><td>body</td><td><code>--font-size-md</code></td><td class="numeric">16.00</td><td class="numeric">1.000</td><td class="numeric">1.75</td></tr>
+        <tr><td>sm</td><td><code>--font-size-sm</code></td><td class="numeric">14.00</td><td class="numeric">0.875</td><td class="numeric">1.50</td></tr>
       </tbody>
     </table>
     </div>

@@ -11,9 +11,9 @@ type ModalSize = 'sm' | 'md' | 'lg';
  * so the focus trap, inertness of the page behind, and Escape-to-close come from
  * the platform rather than from script.
  *
- * **Controlled.** `close` reports that the user dismissed it; the component does
- * not clear `open` for you. Set `open = false` in response or it reopens on the
- * next render.
+ * **It closes itself.** On a user dismissal the component clears `open`, then
+ * emits `close`. Listen for it to sync your own state: a framework binding that
+ * still holds `open` true will reopen the dialog on its next render.
  *
  * Set `alert` for a decision the user cannot postpone. It switches the role to
  * `alertdialog`, which tells assistive technology to announce the content
@@ -35,7 +35,7 @@ type ModalSize = 'sm' | 'md' | 'lg';
  * the task until answered; a drawer is a panel alongside it. If the user could
  * reasonably keep working, it is a drawer.
  *
- * @fires close - detail: none (the user dismissed the dialog; the consumer must clear `open`)
+ * @fires close - detail: none (the user dismissed the dialog; `open` is already false)
  */
 @customElement('candor-modal')
 export class CandorModal extends LitElement {

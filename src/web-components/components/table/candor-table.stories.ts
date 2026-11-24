@@ -57,7 +57,7 @@ Set \`caption\` to render a visible \`<caption>\` element above the table. This 
 primary accessible name for the table and should always be provided. Screen readers
 announce it when the user enters the table.
 
-Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: TableCell[], isHeader?: boolean }[]\`
+Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: TableCell[], isHeader?: boolean, sortValues?: TableSortValue[] }[]\`
 via JS properties (or JSON-encoded as attributes). A cell is a string, or markup (a Lit
 template or a DOM node) set through the \`rows\` property; see *Interactive cells*. Set \`isHeader: true\` on a row for
 key/value tables where the first cell of each row is a row-header.
@@ -87,7 +87,7 @@ in a container with \`overflow-x: auto\` to expose a horizontal scrollbar.
   argTypes: {
     caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption, rendered as a visible <caption> element and announced by screen readers on entry' },
     headers: { control: 'object', description: 'Column header labels rendered in <thead>' },
-    rows: { control: 'object', description: 'Array of { cells: string[], isHeader?: boolean }. Set isHeader: true for key/value rows where the first cell is a row-header.' },
+    rows: { control: 'object', description: 'Array of { cells: TableCell[], isHeader?: boolean, sortValues?: TableSortValue[] }. Set isHeader: true for key/value rows where the first cell is a row-header. sortValues gives the value to compare when the displayed one is not it.' },
     compact: { control: 'boolean', type: { name: 'boolean' }, description: 'Tighter row padding; inverts zebra pattern so odd rows receive the surface background' },
     numericColumns: { control: 'object', description: 'Zero-based column indices for magnitudes: monospace, tabular-nums, right-aligned' },
     monoColumns: { control: 'object', description: 'Zero-based column indices for codes read as text (versions, dates, IDs): monospace, tabular-nums, left-aligned' },
