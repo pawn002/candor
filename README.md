@@ -277,7 +277,7 @@ Under `prefers-reduced-motion: reduce`, nothing travels and fades remain; that i
 
 Candor is a **humanist** design system. Every decision (OKLCH colors, variable-font typography, perceptual spacing) is oriented toward human vision and the experience of reading.
 
-**OKLCH colors** use a perceptually uniform color space, so lightness values reliably map to visual weight across hues. This makes it practical to derive accessible color pairs programmatically and to build predictable tonal scales.
+**OKLCH colors** keep lightness separate from colour, so every ramp shares one lightness ladder: step 600 sits at the same lightness in navy as in gold. Chroma can't be held constant, because sRGB can show less colour near black and white, and the limit differs for every hue. So each ramp follows its own chroma curve, capped at what sRGB can show at each step. The ladder and the curves are stated rules, which is what lets every step be derived and checked rather than picked.
 
 **Roboto Flex** is a variable font with an optical size axis (`opsz`) that adjusts stroke contrast with size. Headings share one weight, and size and `opsz` give them their hierarchy.
 
