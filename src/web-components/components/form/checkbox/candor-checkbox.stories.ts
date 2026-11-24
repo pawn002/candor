@@ -69,7 +69,7 @@ export const Multiple: Story = {
   parameters: { controls: { disable: true } },
   render: () => html`
     <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1rem;">
-      <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem;">Export formats</legend>
+      <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-relaxed);margin-bottom:var(--spacing-xs);">Export formats</legend>
       <candor-checkbox label="CSV" checked></candor-checkbox>
       <candor-checkbox label="JSON" checked></candor-checkbox>
       <candor-checkbox label="XLSX"></candor-checkbox>
@@ -82,7 +82,7 @@ export const Multiple: Story = {
 export const Group: Story = {
   render: () => html`
     <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
-      <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem;">Notifications</legend>
+      <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-relaxed);margin-bottom:var(--spacing-xs);">Notifications</legend>
       <candor-checkbox label="Email notifications" checked></candor-checkbox>
       <candor-checkbox label="SMS notifications"></candor-checkbox>
       <candor-checkbox label="Push notifications" disabled></candor-checkbox>
