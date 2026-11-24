@@ -44,7 +44,7 @@
         "step": "700",
         "hex": "#5F2B48"
       },
-      "role": "Secondary action colour.",
+      "role": "Secondary accent: the secondary badge fill and accent border.",
       "fit": "Fitted to the hand-set values it replaced, every step within deltaE 2."
     },
     "azure": {
@@ -186,7 +186,7 @@
         "hue": {
           "at": 248.99
         },
-        "role": "The dark page and surfaces, and the receding intent surface.",
+        "role": "The dark page and surfaces, and the chrome surface (--color-bg-chrome).",
         "fit": "Peaks dark, at L 0.31, to carry the navy cast of the dark surfaces. Fitted to the per-step values it replaced, every step within deltaE 2."
       },
       "warm": {
@@ -197,7 +197,7 @@
         "hue": {
           "at": 69
         },
-        "role": "The forward intent surface.",
+        "role": "The content surface (--color-bg-content).",
         "fit": "Hue opposite cool. Peaks in the middle, so it reads about as strong in dark mode as in light instead of turning brown."
       }
     },
