@@ -117,7 +117,7 @@ export const AllColors: Story = {
         <candor-accessible-text role_="state" tone="error">Action needed</candor-accessible-text>
       </candor-stat>
       <candor-stat value="1,284" label="Users" color="default" size="lg"></candor-stat>
-      <candor-stat value="512" label="API calls" color="info" size="lg"></candor-stat>
+      <candor-stat value="512" label="API calls" size="lg"></candor-stat>
     </div>
   `,
 };
