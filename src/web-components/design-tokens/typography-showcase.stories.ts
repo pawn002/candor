@@ -138,6 +138,7 @@ const renderShowcase = () => html`
       </div>
       <candor-table compact
         headers='${JSON.stringify(leadingHeaders)}'
+        mono-columns='[0]'
         rows='${JSON.stringify(leadingRows)}'></candor-table>
     </section>
 
@@ -176,6 +177,7 @@ const renderContrastGuidance = () => html`
       <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-sm);">Size ramp: Tier 1 (reading text) baseline</p>
       <candor-table compact
         headers='${JSON.stringify(sizeRampHeaders)}'
+        mono-columns='[1]'
         rows='${JSON.stringify(sizeRampRows)}'></candor-table>
     </section>
 
