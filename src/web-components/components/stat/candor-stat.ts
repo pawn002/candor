@@ -26,7 +26,7 @@ type StatSize  = 'sm' | 'md' | 'lg';
  * </candor-stat>
  * ```
  *
- * Setting `color` with an empty slot is the failure mode, not a shortcut.
+ * So set `color` only with the slot filled.
  *
  * `unit` is folded into the value's accessible name so screen readers announce
  * "847 ms" rather than the number alone.

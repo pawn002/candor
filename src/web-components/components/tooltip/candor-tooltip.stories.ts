@@ -19,7 +19,7 @@ const meta: Meta = {
 Tooltips in Candor are **intentionally invisible to assistive technology (AT)**.
 
 The tooltip bubble carries \`aria-hidden="true"\` and is never wired via
-\`aria-describedby\`. This is a deliberate design system position, not an oversight.
+\`aria-describedby\`.
 
 **The reasoning:** Tooltips solve a sighted-user problem: persistent label text isn't
 always visible. AT users already receive context through the accessible name, label, and

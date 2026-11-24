@@ -58,7 +58,7 @@ const TOKENS: Record<TokenMode, Map<string, DtcgNode>> = {
  * The value `cssVar` resolves to in `mode`.
  *
  * The export resolves both modes in full. Dark is an override layer in the
- * SCSS, but the artifact carries all 55 tokens under each mode with the value
+ * SCSS, but the artifact carries every token under each mode with the value
  * that actually renders there. So `undefined` means the token does not exist,
  * never that it is inherited.
  */
@@ -68,8 +68,8 @@ export function tokenValue(mode: TokenMode, cssVar: string): string | undefined 
 
 /**
  * `tokenValue`, but a missing token is a build-time error rather than a blank
- * cell. A renamed token should break the story that documents it, not quietly
- * render an em-dash that reads like "this one has no value".
+ * cell. A renamed token should break the story that documents it, instead of
+ * rendering an em-dash that reads like "this one has no value".
  */
 export function requireTokenValue(mode: TokenMode, cssVar: string): string {
   const v = tokenValue(mode, cssVar);

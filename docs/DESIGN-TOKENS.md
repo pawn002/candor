@@ -50,7 +50,7 @@ Raw, context-free values under `:root`. Color **ramps** (each family is a 50–9
 
 **Two vocabularies, one rule.** A primitive is named after its scale: `--space-*`, `--type-*`, `--typeface-*`, `--weight-*`, `--leading-*`, `--tracking-*`. A semantic token is named after the CSS property it sets: `--spacing-*`, `--font-size-*`, `--font-family-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`, and the colour tokens' property-first `--color-{bg|text|…}-*`. So `--leading-tight` is a step on a scale and `--line-height-tight` is the role that uses it; the different words are deliberate. `--type-*` and `--typeface-*` replaced `--text-*` and `--font-sans` (and its siblings) in 7.0.0, because `--text-` read as the `--color-text-*` family and `--font-` as the semantic `--font-*` tokens (#367); the old names resolve as deprecated aliases until the next major.
 
-Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), **teal** (a quiet grey-green fitted through the code-block backgrounds, `teal-115` and `teal-870`), and a neutral **gray** ramp. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside. For example, `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-text-link` uses `azure-600`, the step that also clears the floor on a card.
+Color families: **navy** (primary brand anchor, `navy-800` = `#082840`), **burgundy** (secondary), **azure** (links/accent), **indigo** (visited links, decorative accent), **teal** (a quiet grey-green fitted through the code-block backgrounds, `teal-115` and `teal-870`), the status ramps **red**, **gold** and **green**, and three grey ramps, neutral **gray**, **gray-cool** and **gray-warm**. Key ramp steps are annotated with their contrast behaviour, in OKCA with the WCAG 2.x figure alongside. For example, `azure-400` is the original brand blue but only OKCA 2.5 on white, and even `azure-500` (4.2) misses the 4.5 text floor, which is why `--color-text-link` uses `azure-600`, the step that also clears the floor on a card.
 
 > **Components must never reference a primitive directly.** `var(--navy-800)` in a component is a bug. It bypasses the semantic layer and breaks dark mode. Always go through a `--color-*` role.
 
@@ -92,7 +92,7 @@ OKLCH is perceptually uniform (equal L steps look equally different across hues)
 
 ## Fonts
 
-Candor uses five typefaces, each with a defined role (see the primitive `--font-*` stacks and the semantic `--font-family-*` roles):
+Candor uses five typefaces, each with a defined role (see the primitive `--typeface-*` stacks and the semantic `--font-family-*` roles):
 
 | Role token | Typeface | Use |
 |---|---|---|
@@ -142,8 +142,8 @@ New semantic tokens should earn their place: a token with no previewable consume
 ## Governance & naming
 
 - **Token names are public API.** Adding a token is a minor release; renaming or removing one is a major (breaking) change. See `docs/BREAKING-CHANGES.md`. Rename in `primitives.scss`/`semantics.scss`, re-run `npm run audit:tokens`, and update any `audit/pairings.json` references.
-- **Naming pattern:** `--color-{role}[-{variant}][-{context}]` (e.g. `--color-text-subtle-on-surface`), `--spacing-{scale}`, `--font-{property}-{name}`, `--radius-{size}`. Roles describe *why* a value is used, not what it looks like.
-- **Non-text tokens are flagged.** Tokens annotated `icon/border use` in `semantics.scss` are contrast-validated only for non-text use (icons, borders, indicators) and are exported with `$extensions.usage: "non-text"` in the DTCG file. Never use one as a CSS `color:` value for text. Use the paired `-text` variant. See pitfall #3a in `CLAUDE.md`.
+- **Naming pattern:** `--color-{bg|text|icon|border|fill|ring}-{role}[-{variant}][-{state}][-on-{context}]` (e.g. `--color-text-subtle-on-surface`), `--spacing-{scale}`, `--font-{property}-{name}`, `--radius-{size}`. Roles describe *why* a value is used, not what it looks like.
+- **Non-text tokens are named for it.** `icon-`, `border-`, `fill-` and `ring-` tokens are contrast-validated only for non-text use and are exported with `$extensions.usage: "non-text"` in the DTCG file. For coloured text, use the `text-` token of the same role. See pitfall #3a in `CLAUDE.md`.
 
 ---
 

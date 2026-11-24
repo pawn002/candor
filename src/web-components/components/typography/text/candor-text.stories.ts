@@ -23,7 +23,7 @@ const meta: Meta = {
 
 **Text vs. Article:** Use \`<candor-article>\` for long-form authored prose (human or AI-generated) rendered in Noto Serif. \`<candor-text variant="body">\` is for shorter UI paragraphs in Noto Sans.
 
-\`<candor-heading>\` + \`<candor-text>\` cannot substitute for \`<candor-article>\`. The combination gives you a **UI-register content block** (Roboto Flex heading, Noto Sans body). It is correct for feature descriptions, onboarding panels, and help cards where the content *explains* the UI. \`<candor-article>\` gives you a **prose-register reading surface** (Noto Serif body, full semantic HTML styling, 65ch reading measure). It is correct when the content *is* the subject. The font difference between the two is intentional, not a gap.
+\`<candor-heading>\` + \`<candor-text>\` cannot substitute for \`<candor-article>\`. The combination gives you a **UI-register content block** (Roboto Flex heading, Noto Sans body). It is correct for feature descriptions, onboarding panels, and help cards where the content *explains* the UI. \`<candor-article>\` gives you a **prose-register reading surface** (Noto Serif body, full semantic HTML styling, 65ch reading measure). It is correct when the content *is* the subject.
         `.trim(),
       },
     },

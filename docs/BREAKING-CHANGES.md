@@ -25,15 +25,15 @@ As a result, the bar for "breaking" is higher and less obvious than for a pure c
 | Design token renamed | `--color-primary` → `--color-brand-primary` |
 | Design token removed | `--spacing-xl` deleted entirely |
 | Token value changed significantly | Primary hue shifted 30°, contrast ratio changed |
-| Component input renamed | `[label]` → `[displayLabel]` |
-| Component input removed | `[hint]` removed |
-| Component output renamed or removed | `(valueChange)` removed |
+| Component attribute renamed | `label` → `display-label` |
+| Component attribute removed | `hint` removed |
+| Component event renamed or removed | `value-change` removed |
 | Default value changed in a behaviour-affecting way | `orientation` default changed from `horizontal` to `vertical` |
 | ARIA role or structure changed | `role="grid"` replaced with `role="listbox"` |
 | ARIA relationship changed | `aria-labelledby` target element removed or renamed |
 | Keyboard navigation model changed | Arrow keys now wrap; previously they stopped at edges |
 | Focus management changed | Focus no longer moves into dialog on open |
-| Host element selector renamed | `app-switch` → `app-toggle` |
+| Custom element tag renamed | `candor-switch` → `candor-toggle` |
 | `::part` name renamed or removed | `part="button"` renamed or dropped |
 | Style custom property renamed or removed | `--candor-button-min-height` renamed or dropped |
 
@@ -43,9 +43,9 @@ As a result, the bar for "breaking" is higher and less obvious than for a pure c
 |---|---|
 | New component added | New `Stepper` component |
 | New design token added | `--color-accent-muted` added |
-| New component input added (with a default) | `[size]` input added, defaults to `'md'` |
-| New component output added | `(opened)` output added to Modal |
-| New ARIA attribute exposed (additive) | `ariaDescribedBy` input added |
+| New component attribute added (with a default) | `size` attribute added, defaults to `medium` |
+| New component event added | `open` event added to `candor-modal` |
+| New ARIA attribute forwarded (additive) | host `aria-describedby` forwarded inward |
 | New `::part` exposed on an internal | `part="icon"` added |
 | New style custom property exposed (token-defaulted) | `--candor-input-font-size` added |
 | Token value adjusted within tolerance | Lightness nudged 2% for contrast headroom |
@@ -59,7 +59,7 @@ As a result, the bar for "breaking" is higher and less obvious than for a pure c
 |---|---|
 | Bug fix (no API change) | Focus trap in Modal was not releasing correctly |
 | Accessibility fix (no consumer markup impact) | Live region pre-establishment corrected internally |
-| Internal refactor | Signal type changed from `signal()` to `model()` internally |
+| Internal refactor | Shared helper extracted, such as `observeHostAriaLabel` |
 | Story or documentation fix | Story markup corrected |
 | Infrastructure / tooling | CI pipeline updated |
 
@@ -151,7 +151,7 @@ When a component's ARIA structure changes in a way that could break consumer AT 
 
 ### Token value changes
 
-A token value change is **minor** if it stays within the design system's contrast tolerance (WCAG 2.1 AA, APCA ≥ 75 Lc for body text) and does not require consumers to update their own contrast calculations.
+A token value change is **minor** if every pairing that uses it still meets its OKCA floor (`npm run audit:contrast`) and consumers don't need to re-check their own contrast pairs.
 
 It is **major** if it shifts a color enough that consumers who have built on that token for contrast pairs will be broken.
 

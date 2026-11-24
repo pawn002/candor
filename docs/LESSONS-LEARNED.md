@@ -83,7 +83,7 @@ Weight moved with it: headings are semibold (`--font-weight-heading`), which ope
 
 ### 16px body text, 14px system floor
 
-20px body text reads as juvenile in editorial contexts. 16px is the correct baseline for readable body text. Nothing in the system should fall below 14px (`--font-size-sm`) for readable text — `--text-xs` (12px) is decorative/non-text only.
+20px body text reads as juvenile in editorial contexts. 16px is the correct baseline for readable body text. Nothing in the system should fall below 14px (`--font-size-sm`) for readable text — `--type-xs` (12px) is decorative/non-text only.
 
 ---
 
@@ -125,7 +125,7 @@ The status color palette needs two tiers:
 
 Success and warning base colors (3.1–3.3:1 on white) are non-text use only. Using them as text on their light backgrounds fails AA. Always use the `-text` variant for text inside status panels and badges.
 
-**The deeper trap:** The token file itself was annotated `// non-text/icon use only`. The tokens were used for text anyway. When a token carries a usage contract in its comment, honor it — don't assume it can flex.
+**The deeper trap:** The token file itself was annotated `// non-text/icon use only`, and the tokens were used for text anyway. A comment is easy to miss, which is why 7.0.0 moved the contract into the name: `--color-icon-error` for the icon, `--color-text-error` for text (#367).
 
 ---
 
@@ -157,7 +157,7 @@ WCAG contrast ratio is luminance-based and useful for text-on-background legibil
 
 ## Angular / Implementation
 
-> **Historical (3.0.0):** The Angular reference component library was removed in 3.0.0 — `@candor-design/web-components` is the canonical surface. The component-authoring lessons below (`ViewEncapsulation.None`, ID generation, `moduleMetadata`) are retained as institutional record but no longer apply to active authoring. The **exception** is the `withThemeByDataAttribute` lesson, which remains live: Storybook still runs on the `@storybook/angular` renderer (it renders the web-component stories too), so the custom theme decorator in `.storybook/preview.ts` is still load-bearing.
+> **Historical (3.0.0):** The Angular reference component library was removed in 3.0.0 — `@candor-design/web-components` is the canonical surface. The component-authoring lessons below (`ViewEncapsulation.None`, ID generation, `moduleMetadata`) are retained as institutional record but no longer apply to active authoring. The `withThemeByDataAttribute` lesson was live until 4.1.0, when Storybook moved to `@storybook/web-components-vite` (#143).
 
 ### ViewEncapsulation.None + host class for projected content styling
 
@@ -207,9 +207,9 @@ When a component always renders on a specific non-page background (e.g., blockqu
 
 ### OKLCH colors must be gamut-checked before finalizing
 
-OKLCH's gamut extends beyond sRGB, making it easy to author valid-looking colors that browsers clamp or shift unpredictably on sRGB displays. The warning status color (`oklch(0.66 0.16 53.54)`) was initially authored out of sRGB gamut — browsers silently shifted the hue.
+OKLCH accepts more chroma than sRGB can show, so it is easy to author a valid-looking colour that names nothing sRGB can render. The warning status color (`oklch(0.66 0.16 53.54)`) was first authored outside sRGB.
 
-**Rule:** After authoring a new OKLCH color, run `klar meta <oklch>` or check `gamut: sRGB` in the output. If out of gamut, reduce chroma until it passes.
+**Rule:** Every Candor colour is inside sRGB. `npm run audit:tokens` fails on one that isn't and prints the in-gamut value: hold L and H and pull chroma in to the boundary.
 
 ---
 

@@ -117,7 +117,7 @@ The floor is not only a legibility rule, which is why it is now gated by the *co
 
 The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 5.0. It fails Tier 2 regular but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change.
 
-**Tier 1 regular text is required to be 16px.** It used to carry a 9.5 floor at 14px, and that floor was not merely strict. It was unreachable by every colored text token in the system. Contrast on a light background is bought by lowering lightness, and the sRGB gamut narrows toward black, so chroma falls with it. Past a hue's ceiling, contrast can only be purchased with color, and the end of that trade is pure black.
+**Tier 1 regular text is required to be 16px.** It used to carry a 9.5 floor at 14px, which no coloured text token in the system could reach. Contrast on a light background is bought by lowering lightness, and the sRGB gamut narrows toward black, so chroma falls with it. Past a hue's ceiling, contrast can only be purchased with color, and the end of that trade is pure black.
 
 Measured maximums on white, at the darkest lightness sRGB allows for each chroma:
 
@@ -130,18 +130,18 @@ Measured maximums on white, at the darkest lightness sRGB allows for each chroma
 
 Bold values are the chroma each token is authored at, so those are its hard ceilings, not its current scores with room above. Warning text is authored at C=0.085, between two columns. A 9.5 floor asked every one of them to desaturate.
 
-Two things a designer should take from this table. **A contrast floor is a saturation budget**, so read the row before choosing a number. And **the same floor is a different demand at every hue**: at C=0.18 red reaches 6.6 while gold cannot be rendered at all, because the gamut is far larger in red down there. That asymmetry is why warning is authored at lower chroma than red; it was found by hitting the wall, not chosen.
+Two things a designer should take from this table. **A contrast floor is a saturation budget**, so read the row before choosing a number. And **the same floor is a different demand at every hue**: at C=0.18 red reaches 6.6 while gold cannot be rendered at all, because the gamut is far larger in red down there. That asymmetry is why warning is authored at lower chroma than red. It turned up when the token ran into the gamut boundary.
 
-It is also the arithmetic behind this document's opening argument. "Maximum contrast" is not a strong color decision. At OKCA 20.9 the chroma is exactly zero. It is the absence of a decision, which is precisely the clinical default described in *The core tension*.
+It is also the arithmetic behind this document's opening argument. At OKCA 20.9 the chroma is exactly zero, so maximum contrast means giving up colour: the clinical default described in *The core tension*.
 
-So when a floor cannot be met, the first question is whether the text should be colored at all. If the color carries meaning (status, link affordance), keep the color and change the size. If it is decorative, drop to `--color-text-default` and the contrast comes free. Desaturating a semantic color to satisfy a number is the last resort: it preserves the score and discards the thing the score was protecting.
+So when a floor cannot be met, the first question is whether the text should be colored at all. If the color carries meaning (status, link affordance), keep the color and change the size. If it is decorative, drop to `--color-text-default` and the contrast comes free. Desaturating a semantic color to satisfy a number is the last resort, because it gives up the colour that carried the meaning.
 
 ### Traps
 
 | Trap | What it looks like | Fix |
 |---|---|---|
-| Weight inflation | Every card title is `font-weight: 600` | Let `opsz` do the work; reserve weight for genuine structural emphasis |
-| Atkinson bold on errors | `[bold]="true"` on a `role="status" color="error"` message | Remove bold; Tier 1 errors need 16px or `--color-text-default`, not a bold workaround |
+| Weight inflation | A card title set bold, or headings stepped in weight by level | Use `--font-weight-heading` and let size and `opsz` carry the hierarchy |
+| Atkinson bold on errors | `bold` on a `<candor-accessible-text role_="status" color="error">` message | Remove bold; Tier 1 errors need 16px or `--color-text-default`, not a bold workaround |
 | Mono in UI chrome | Timestamps or labels set in `--font-family-mono` for a "technical" feel | Mono is for content where character position is load-bearing, not for flavor |
 | Serif in forms | Noto Serif on an input's helper text | Helper text is Atkinson; serif is for editorial reading contexts |
 | Off-scale sizes | `font-size: 15px` because 14px felt small and 16px felt big | The scale is the hierarchy. If nothing fits, the layout needs to change, not the scale |
@@ -150,17 +150,17 @@ So when a floor cannot be met, the first question is whether the text should be 
 
 ## 3. Strategic color palette
 
-Candor's palette is deliberately limited. The whole system resolves to a small set of semantic tokens: page, surface, elevated, inverse for backgrounds; default, subtle, subtle-on-surface, disabled for text; primary, secondary, tertiary, destructive for actions; success, warning, error, info for status. That is the entire working vocabulary. If a design needs a color outside that list, the first question is always whether the design is wrong, not whether the palette is insufficient.
+Candor's palette is deliberately limited. The whole system resolves to a small set of semantic tokens: page, surface, elevated, inverse for backgrounds; default, subtle, subtle-on-surface, disabled for text; primary, secondary, tertiary, destructive for actions; success, warning, error for status. That is the whole working vocabulary. If a design seems to need a colour outside it, check first whether an existing role fits. If none does, add a role that points at a ramp step.
 
 ### OKLCH as a reasoning tool
 
 OKLCH makes color decisions predictable. Because lightness is perceptually uniform, dropping L by 0.1 produces a predictable darkening regardless of hue. Because chroma is independent of lightness, a color can be muted without making it darker. This is why Candor uses OKLCH everywhere and why `klar` is the canonical tool for checking and adjusting values.
 
-**Always check gamut.** OKLCH describes a wider space than sRGB. A color that is out of the sRGB gamut will be silently clamped by the browser, and the result will not match the token. `klar meta` flags this.
+**Stay inside sRGB.** OKLCH accepts more chroma than sRGB can show, at every lightness and hue. Every Candor colour is inside sRGB, and `npm run audit:tokens` fails on one that isn't and prints the in-gamut value to use.
 
 ### Semantic tokens, not raw values
 
-The layering rule: raw OKLCH values belong in `semantics.scss`, where primitives are assigned semantic meaning. Component styles (the `static styles` of every Lit element in `src/web-components/components/`) should never contain a raw color value. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-text-error`, not a hand-picked red. `semantics.scss` is intentionally full of raw values; that is its job. Component code downstream of it should not be.
+The layering rule: OKLCH values live only in `primitives.scss`, as ramp steps derived from rules. `semantics.scss` gives those steps roles, and component styles (the `static styles` of every Lit element in `src/web-components/components/`) use the roles. A card uses `--color-bg-surface`, and an error message `--color-text-error`. `npm run audit:tokens` fails on a typed colour anywhere else.
 
 This layering is what allows dark mode, theme variants, and future palette changes to work without touching component code.
 
@@ -202,7 +202,7 @@ Links must be hue-distinct from body text, not just contrast-compliant. A dark-b
 
 Dark mode is where clinical defaults are most tempting and most destructive.
 
-- **Status backgrounds at identical lightness are indistinguishable.** Differentiating success, warning, error, and info requires varying both L and hue. A four-color row all at L=0.25 will read as one color with different tints.
+- **Status backgrounds at identical lightness are indistinguishable.** Differentiating success, warning and error requires varying both L and hue. A four-color row all at L=0.25 will read as one color with different tints.
 - **High L plus high chroma equals neon glow.** A saturated status color that looked muted on a light page glows uncomfortably on a dark one. Reduce L and C together.
 - **Dark surface delineation needs borders, not just L-steps.** The WCAG contrast formula compresses at the dark end; a 0.05 L difference that reads clearly on white vanishes on near-black. Use `--color-border-*` tokens on elevated surfaces.
 - **A filled red or crimson at dark-mode lightness reads as pink, not danger.** Destructive actions take the error red and stay outlined in both modes (thin border, transparent fill, colored text), which keeps them reading as a warning.
@@ -211,7 +211,7 @@ Dark mode is where clinical defaults are most tempting and most destructive.
 
 A scrollbar left to the browser is a default, not a decision. It draws a light track in dark mode, a 15px bar with arrow buttons under controls half again its height, and on macOS it hides until you scroll, so nothing shows that a row overflows. Candor draws its own (#307).
 
-- **Thin to look at, full size to grab.** The visible bar is 6px (`--scrollbar-thumb-size`) inside a 24px lane (`--scrollbar-size`, the AA target size). The rest of the lane is a transparent border on the thumb, so the whole lane can be dragged. This is the accessible choice made to look right, not a trade between the two.
+- **Thin to look at, full size to grab.** The visible bar is 6px (`--scrollbar-thumb-size`) inside a 24px lane (`--scrollbar-size`, the AA target size). The rest of the lane is a transparent border on the thumb, so the whole lane can be dragged.
 - **More space on the content side.** 12px between the bar and the content, 6px between the bar and the outer edge. Measured, the gaps are unequal; seen, they are even, because the eye measures from the content and the outer edge is a hard line.
 - **Inset from the ends** by `--radius-md`, so the bar clears a rounded corner instead of running into it.
 - **The rail grey.** The bar is `--color-border-control`, the same grey as a slider rail and a form-control border, so all three read as one family of inert edges. It darkens to `--color-text-subtle` on hover.
@@ -228,7 +228,7 @@ Use `scrollbarStyles('<selector>')` from `src/web-components/utils/scrollbar.ts`
 | Two AA-compliant colors, no separation | Link text and body text both pass contrast against white, but blend against each other | Links must differ by hue, not just lightness |
 | Pure white on pure black | `color: white; background: black;` or equivalent near-values | Use `--color-text-default` on `--color-bg-page`, both pre-tuned away from the extremes |
 | Dark surfaces that disappear into each other | Card on page with only a 0.03 L-step | Add `--color-border-default` or step L by ≥0.06 |
-| Out-of-gamut OKLCH | A chroma value the browser silently clamps | Run `klar meta` before committing new colors |
+| Out-of-gamut OKLCH | A chroma value sRGB can't show | Derive the colour from a ramp; `npm run audit:tokens` fails on one outside sRGB |
 
 ---
 
@@ -318,12 +318,12 @@ Likely causes, in order of frequency:
 
 ### Symptom: "This feels harsh on the eyes"
 
-- **Body text overriding `--color-text-default`.** The token is `oklch(0.32 0 0)`, deliberately not the darkest possible value. A custom `color: black` or `color: #000` defeats that. Check for overrides.
+- **Body text overriding `--color-text-default`.** The token is a deep near-black, deliberately not the darkest possible value. A custom `color: black` or `color: #000` defeats that. Check for overrides.
 - **High chroma status colors in dark mode.** Saturated error or warning backgrounds glow. Reduce L and C together.
 
 ### Symptom: "The technical content sits outside the design"
 
-- **Mono font used without a container.** A raw monospace block dropped into serif prose with no background, padding, or border radius reads as an intrusion. Fix: wrap it in `--color-bg-code` with padding and a border radius. `--color-bg-code` is a quiet teal tint about ΔE 8 to 9 from the page: `oklch(0.92 0.018 195)` in light and `oklch(0.22 0.02 195)` in dark. Never use `background: #000`.
+- **Mono font used without a container.** A raw monospace block dropped into serif prose with no background, padding, or border radius reads as an intrusion. Fix: wrap it in `--color-bg-code` with padding and a border radius. `--color-bg-code` is a quiet teal tint about ΔE 8 to 9 from the page, `--teal-115` in light and `--teal-870` in dark. Never use `background: #000`.
 - **Tabular numerals not enabled.** Numbers wobble in columns. Fix: `font-variant-numeric: tabular-nums` on numeric columns.
 - **No typographic treatment of technical content.** Function names, types, and keywords all look identical. Fix: use syntax tokens. Even a two-color treatment (identifier vs. keyword) is enough to bring code inside the system.
 
@@ -337,7 +337,6 @@ Likely causes, in order of frequency:
 
 - **Raw OKLCH values in components.** A developer picked a color directly instead of using a semantic token. Fix: replace with the correct semantic token; if none fits, the component's role is unclear.
 - **Status colors used decoratively.** A success-green used as a brand accent, or an error-red used for visual flair. Fix: decorative use breaks the semantics; pick a neutral or action token.
-- **Out-of-gamut OKLCH being clamped.** The rendered color does not match the token because it was out of sRGB. Fix: run `klar meta` and bring it in-gamut.
 
 ### Symptom: "I can't tell what's clickable"
 

@@ -33,7 +33,7 @@ Both sides use Noto Serif. The serif register signals a considered exchange on b
 AI turns use \`<candor-article font="serif" justify>\`; full justification is the sole ambient
 signal distinguishing AI output from human input. Turn labels ("You" / "Candor AI") above
 each message follow the convention established by ChatGPT and Claude. Code blocks include
-a Copy button, universally expected and the first thing developers notice if absent.
+a Copy button.
         `.trim(),
       },
     },

@@ -222,7 +222,7 @@ if (!document.getElementById('candor-article-styles')) {
  * justification plus hyphenation produces the clean block edge of a formal
  * produced document, where human-authored prose has a ragged right. That makes
  * AI-generated content identifiable ambiently, without a label and without the
- * reader having to look for one. That matters in high-stakes contexts
+ * reader having to look for one. It is meant for high-stakes contexts
  * (planning decisions, medical summaries, legal briefs) and aligns with the
  * spirit of EU AI Act Article 52 disclosure. **Set it on AI-generated prose.**
  * It does not make the content feel cold: register signals origin, tone is a

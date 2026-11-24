@@ -1,6 +1,6 @@
 # Conscience
 
-Visual design exists to help people understand, navigate, and act. The test is always whether someone using a surface can do what they came to do — not whether the design passes an audit, satisfies an aesthetic, or demonstrates that the system was carefully built. These are different achievements. Confusing them is how design systems drift from tools into cages.
+Visual design exists to help people understand, navigate, and act. The test is always whether someone using a surface can do what they came to do. Passing an audit, satisfying an aesthetic and showing that the system was carefully built are different achievements, and confusing them is how a design system ends up constraining the people it was built to help.
 
 ---
 
@@ -20,15 +20,15 @@ Design systems fail in predictable ways, regardless of their quality or intentio
 
 ## Candor's specific risks
 
-Candor's risks share a shape: each is a case of a strength that stopped questioning itself.
+Each of Candor's risks is one of its strengths, applied without checking whether it still fits.
 
 **The humanist frame as orthodoxy.** Candor holds that every surface should feel like it was made by the same hand. There are contexts where this is wrong — where a user needs maximum legibility with minimum cognitive overhead, and warmth is a distraction. The humanist framing could override that judgment without it being noticed.
 
-**OKCA as sufficient.** OKCA is the primary validation method. Contrast algorithms answer one question. They do not answer whether text communicates urgency, whether color carries the right meaning for a specific user population, or whether hierarchy tells the right story. Compliance is necessary; it is not sufficient.
+**OKCA as sufficient.** OKCA is the primary validation method. Contrast algorithms answer one question. They do not answer whether text communicates urgency, whether color carries the right meaning for a specific user population, or whether hierarchy tells the right story.
 
-**Token discipline as principle.** "No hard-coded values, ever" is a rule that serves auditability and adjustability. There are cases where a specific value is correct and a token would be an abstraction over nothing. The rule serves the principle; it is not the principle.
+**Token discipline as principle.** "No hard-coded values, ever" is a rule that serves auditability and adjustability. There are cases where a specific value is correct and a token would add a name with nothing behind it.
 
-**Perceptual uniformity as truth.** OKLCH models human vision well. A model is not the phenomenon. Specific users in specific contexts will perceive things the model does not predict.
+**Perceptual uniformity as truth.** OKLCH models human vision well, but it is still a model. Specific users in specific contexts will perceive things the model does not predict.
 
 **The four-voice system as canon.** The typeface choices are good choices. They may not be correct for every context a Candor consumer serves. A system that cannot accommodate legitimate deviation has become a constraint.
 
@@ -36,7 +36,7 @@ Candor's risks share a shape: each is a case of a strength that stopped question
 
 ## Questions Candor must keep answering
 
-These are not criteria with right answers. They are standing questions.
+None of these has a final answer. They're worth asking again at every release.
 
 - Are people using surfaces built with Candor able to do what they came to do?
 - Is the system's coherence serving users, or serving itself?

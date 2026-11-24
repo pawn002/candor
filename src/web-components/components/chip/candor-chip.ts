@@ -25,8 +25,8 @@ type ChipVariant = 'default' | 'primary' | 'secondary' | 'success' | 'warning' |
  *
  * `change` reports selection state; `dismiss` asks to be removed. **Neither
  * removes the chip**. `dismiss` does not hide it, so the consumer owns the
- * list and must drop the item in response. A chip that stays put after the user
- * clicks its × is the expected failure here.
+ * list and must drop the item in response. If a chip stays after the user
+ * clicks its ×, the list wasn't updated.
  *
  * @fires change - detail: boolean (the new selected state, in selectable mode only)
  * @fires dismiss - detail: none (the user asked to remove this chip; the consumer must remove it)
