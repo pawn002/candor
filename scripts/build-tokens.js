@@ -64,7 +64,9 @@ const fontsCss =
   ' *   @import "@candor-design/tokens/candor-fonts.css";\n' +
   ' *   @import "@candor-design/tokens/candor-tokens.css";\n' +
   ' */\n' +
-  "@import '@fontsource-variable/roboto-flex/index.css';\n" +
+  // full.css, not index.css: index.css serves the weight axis only, and the
+  // components rely on opsz (font-optical-sizing: auto) and GRAD.
+  "@import '@fontsource-variable/roboto-flex/full.css';\n" +
   "@import '@fontsource-variable/noto-sans/index.css';\n" +
   "@import '@fontsource-variable/noto-serif/index.css';\n" +
   "@import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';\n" +
