@@ -43,6 +43,18 @@ font size automatically. A rendered h1 gets heavier strokes than an h4 without a
 
 ---
 
+### Weight and tracking
+
+Every level is semibold (\`--font-weight-heading\`): one weight sets the texture, and size and
+optical sizing carry the hierarchy. Tracking opens as size falls, from \`--letter-spacing-h1\`
+to \`--letter-spacing-h6\`, because large type falls apart with the spacing
+small type needs. Style your own headings with the same tokens to match.
+
+\`color="secondary"\` at h4 and h6 stays bold. Semibold counts as regular for contrast, and at
+20px and 14px that raises the floor past what the secondary colour reaches.
+
+---
+
 ### Semantic vs. visual level
 
 The \`level\` attribute controls both the visual size and the ARIA heading level

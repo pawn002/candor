@@ -10,7 +10,7 @@ Insights collected from working sessions between Claude and the designer. These 
 
 Roboto Flex is a variable font with multiple axes beyond `font-weight`: optical size (`opsz`), grade (`GRAD`), width (`wdth`), and more. Setting `font-optical-sizing: auto` tells the browser to automatically match the `opsz` axis to the computed font size — meaning h1 at 39px, h2 at 31px, and h3 at 25px each get stroke weights that are optically appropriate for their size without any manual weight tuning.
 
-**The trap:** Reaching for `font-weight: semibold` on h3 to create hierarchy feels natural but produces an artificial, numeric step. The optical size axis creates a gradient that feels designed, not engineered.
+**The trap:** Stepping weight with level, semibold on h3 and bold on h1, to create hierarchy feels natural but produces artificial, numeric steps. The optical size axis creates a gradient that feels designed, not engineered. Since 7.0.0 every heading shares one weight, `--font-weight-heading` (semibold): one weight sets the texture, and size and `opsz` carry the hierarchy. See "Heading tracking opens as size falls" below for why the shared weight is semibold.
 
 **Rule:** Before adjusting `font-weight` to create hierarchy in Roboto Flex, first ask whether `font-optical-sizing: auto` would produce a more natural result.
 

@@ -207,7 +207,7 @@ const renderContrastGuidance = () => html`
         message="Redundancy must be verified per component. Color alone does not qualify. The redundant channel must hold under colorblindness: a shape, icon or spatial context the component renders, or a text label the component cannot render without, provided it names the condition (a badge reading Failed, not 3).">
       </candor-alert>
       <candor-alert variant="info" heading="Variable font weight axis" style="display: block;"
-        message="'Bold' in this table means wght ≥ 700 (the CSS font-weight axis). Non-wght axes (GRAD, opsz, wdth) affect perceived stroke weight visually but do not change the compliance column. A heading at font-weight: 500 with GRAD: -150 is regular for compliance purposes regardless of how it reads on screen.">
+        message="'Bold' in this table means wght ≥ 700 (the CSS font-weight axis). Non-wght axes (GRAD, opsz, wdth) affect perceived stroke weight visually but do not change the compliance column. A semibold heading (font-weight 600) is regular for compliance purposes regardless of how it reads on screen.">
       </candor-alert>
     </div>
 

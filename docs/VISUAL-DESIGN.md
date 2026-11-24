@@ -78,22 +78,22 @@ Candor uses four families, each with a defined role. Mixing them carelessly prod
 
 Roboto Flex is a variable font. The `opsz` (optical size) axis is the single most important feature and the one most often ignored. With `font-optical-sizing: auto`, the browser maps stroke weight to computed font size. Larger headings get heavier, smaller text gets lighter, and the result is a hierarchy that feels drawn rather than assembled.
 
-**The trap:** reaching for `font-weight: 600` to make a heading feel stronger. Numeric weight steps create artificial jumps. The `opsz` axis creates graduated hierarchy that feels inevitable. Always ask whether the variable axis can do the work before adding weight.
+**The trap:** stepping weight with level to make one heading feel stronger than the next. Numeric weight steps create artificial jumps. The `opsz` axis creates graduated hierarchy that feels inevitable. Every heading shares one weight, `--font-weight-heading` (semibold since 7.0.0), which sets texture rather than rank; always ask whether the variable axis can do the work before reaching for another weight.
 
 ```scss
-// Do: optical sizing carries the hierarchy
+// Do: one heading weight; size and optical sizing carry the hierarchy
 .heading {
   font-family: var(--font-family-display);
   font-optical-sizing: auto;
-  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-heading);
+  font-size: var(--font-size-h3);
+  letter-spacing: var(--letter-spacing-h3);
 }
 
-// Don't: stacking weight on top of size, flattening the axis
-.heading {
-  font-family: var(--font-family-display);
-  font-weight: 600;
-  font-size: var(--font-size-xl);
-}
+// Don't: weight stepped by level, stacked on top of size
+.heading--h1 { font-weight: 700; }
+.heading--h3 { font-weight: 600; }
+.heading--h5 { font-weight: 500; }
 ```
 
 ### Atkinson discipline
@@ -292,7 +292,7 @@ A checklist a reviewer can run on any new screen or component. These are composi
 1. **Rhythm is visible.** Squint at the screen. Can you see consistent vertical spacing between sections? If everything runs together or the gaps are erratic, the spacing tokens are being used inconsistently.
 2. **Type hierarchy is legible without color.** Turn the screen grayscale. Can you still tell which element is the page title, which is a section heading, and which is body? If not, the hierarchy is being carried by color rather than type.
 3. **Each type family is playing its defined role.** Candor has four families and all four can legitimately appear on the same screen (UI chrome in Roboto Flex, prose in Noto Serif, labels in Atkinson, code in mono). What creates noise is families appearing outside their roles: Noto Serif on a form label, Atkinson on a heading, mono as a visual flavor choice.
-4. **Headings feel drawn, not bolded.** If every heading reads as "the same font, heavier," the `opsz` axis is not working. Optical sizing should produce a hierarchy that feels graduated, not stepped.
+4. **Headings feel drawn, not bolded.** Every level shares one weight, so the hierarchy should read from size and optical sizing. If headings read as stepped by weight, or as "the same font, heavier," something is setting its own weight or the `opsz` axis is not working.
 5. **Color is doing one job per token.** Errors are `--color-*-error`, links are `--color-text-link`, primary actions are `--color-bg-action-primary`. If a color is being used for two unrelated purposes on the same screen, the semantics are leaking.
 6. **Backgrounds delineate by more than luminance alone.** Cards, panels, and elevated surfaces are distinguishable even on a dark theme. Borders are present where the L-step is subtle.
 7. **Edges and corners feel intentional.** Border radii are consistent within a scale. No component has three different radii (4px on a button, 6px on a card, 8px on a modal) unless the system defines them that way.
@@ -330,7 +330,7 @@ Likely causes, in order of frequency:
 ### Symptom: "Everything is bold and nothing stands out"
 
 - **Atkinson bold used incorrectly on reading text.** Form error messages are Tier 1, and Tier 1 regular text must be 16px or larger. Bolding a 14px error to reach the 14px bold floor is not the fix, because bold is for hierarchy, not urgency. Fix: bump to 16px. Bold is legitimate at 14px for Tier 2 functional text, where it drops the threshold from 6.5 to 4.5. Alert and toast body text are at 16px for this reason.
-- **Heading weight inflation.** Every heading reaches for `font-weight: 600`. Fix: let optical sizing do the work; remove explicit weight.
+- **Heading weight inflation.** Headings reach for bold, or step weight by level. Fix: use `--font-weight-heading` at every level and let size and optical sizing do the work.
 - **Label weight leaking into prose.** Body copy is inheriting a bold style from a parent. Fix: scope the bold; body prose should almost always be regular.
 
 ### Symptom: "The color palette feels cheap"
