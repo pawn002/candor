@@ -292,12 +292,10 @@ See the klar [README](https://github.com/pawn002/klar/blob/main/README.md) for t
 
 Roboto Flex is a **variable font** with axes beyond `font-weight`:
 - `opsz` (optical size): stroke weight adapts to text size — larger text gets heavier strokes naturally
-- `GRAD` (grade): subtle weight adjustment without changing letterform width
-- `wdth` (width): condensed to expanded
+- `GRAD` (grade) and `wdth` (width) exist in the font but are **not loaded**: Candor imports Fontsource's `opsz.css`, which carries `opsz` and `wght` only (84 KB for Latin, against 326 KB for every axis). A `font-variation-settings` on `GRAD` or `wdth` therefore does nothing. The accordion's quiet heading set `'GRAD' -150` for its whole life and it never applied, because until 7.0.0 not even `opsz` was loaded (`index.css` is the weight axis alone). Loading another axis is a deliberate download decision, not a styling one
 
 **Before adjusting `font-weight` for hierarchy, ask whether the variable axes can do it better:**
 - `font-optical-sizing: auto` — browser automatically maps `opsz` to computed font size, creating a natural optical weight gradient across heading levels. Use this on all heading contexts.
-- `font-variation-settings: 'GRAD' -50` — fine-tune apparent weight for a specific element without touching the weight axis
 
 **The trap:** Reaching for `font-weight: semibold` feels natural but produces an artificial numeric step. The `opsz` axis creates hierarchy that feels designed, not engineered.
 

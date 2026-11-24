@@ -10,7 +10,7 @@
  *   @import "@candor-design/tokens/candor-fonts.css";
  *   @import "@candor-design/tokens/candor-tokens.css";
  */
-@import '@fontsource-variable/roboto-flex/full.css';
+@import '@fontsource-variable/roboto-flex/opsz.css';
 @import '@fontsource-variable/noto-sans/index.css';
 @import '@fontsource-variable/noto-serif/index.css';
 @import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';

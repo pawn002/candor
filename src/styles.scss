@@ -13,9 +13,11 @@
 @import '@phosphor-icons/web/regular/style.css';
 
 // Typography — Fontsource self-hosted fonts (variable where available)
-// full.css, not index.css: index.css serves the weight axis only, and Candor's
-// headings rely on opsz (font-optical-sizing: auto) and the accordion on GRAD.
-@import '@fontsource-variable/roboto-flex/full.css';
+// opsz.css, not index.css: index.css serves the weight axis only, and the
+// headings rely on opsz (font-optical-sizing: auto). opsz.css carries opsz and
+// wght and nothing else, the minimum Candor uses; GRAD, wdth and the rest are
+// not loaded, so a font-variation-settings on them does nothing.
+@import '@fontsource-variable/roboto-flex/opsz.css';
 @import '@fontsource-variable/noto-sans/index.css';
 @import '@fontsource-variable/noto-serif/index.css';
 @import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';

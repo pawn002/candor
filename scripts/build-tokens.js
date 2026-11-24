@@ -64,9 +64,10 @@ const fontsCss =
   ' *   @import "@candor-design/tokens/candor-fonts.css";\n' +
   ' *   @import "@candor-design/tokens/candor-tokens.css";\n' +
   ' */\n' +
-  // full.css, not index.css: index.css serves the weight axis only, and the
-  // components rely on opsz (font-optical-sizing: auto) and GRAD.
-  "@import '@fontsource-variable/roboto-flex/full.css';\n" +
+  // opsz.css, not index.css: index.css serves the weight axis only, and the
+  // components rely on opsz (font-optical-sizing: auto). opsz + wght is the
+  // minimum Candor uses; GRAD and wdth are deliberately not loaded.
+  "@import '@fontsource-variable/roboto-flex/opsz.css';\n" +
   "@import '@fontsource-variable/noto-sans/index.css';\n" +
   "@import '@fontsource-variable/noto-serif/index.css';\n" +
   "@import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';\n" +

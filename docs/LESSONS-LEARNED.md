@@ -12,7 +12,9 @@ Roboto Flex is a variable font with multiple axes beyond `font-weight`: optical 
 
 **The trap:** Reaching for `font-weight: semibold` on h3 to create hierarchy feels natural but produces an artificial, numeric step. The optical size axis creates a gradient that feels designed, not engineered.
 
-**Rule:** Before adjusting `font-weight` to create hierarchy in Roboto Flex, first ask whether `font-optical-sizing: auto` or `font-variation-settings` on `opsz` or `GRAD` would produce a more natural result.
+**Rule:** Before adjusting `font-weight` to create hierarchy in Roboto Flex, first ask whether `font-optical-sizing: auto` would produce a more natural result.
+
+**Check the axis is loaded.** A variation setting on an axis the font file does not carry does nothing, silently. Fontsource's `index.css` carries the weight axis only, and for that reason `font-optical-sizing: auto` did nothing in Candor until 7.0.0. Candor now loads `opsz.css` (`opsz` and `wght`); `GRAD`, `wdth` and the rest are not loaded.
 
 ---
 

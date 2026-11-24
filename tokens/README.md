@@ -134,7 +134,7 @@ npm install @fontsource-variable/roboto-flex @fontsource-variable/noto-sans \
 ```
 
 ```css
-@import '@fontsource-variable/roboto-flex/full.css';  /* not index.css, which has the weight axis only */
+@import '@fontsource-variable/roboto-flex/opsz.css';  /* not index.css, which has the weight axis only */
 @import '@fontsource-variable/noto-sans/index.css';
 @import '@fontsource-variable/noto-serif/index.css';
 @import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
