@@ -16,7 +16,7 @@ const TONE_ICON: Record<AccessibleTextTone, string> = {
 };
 
 /**
- * Instructional text set in Atkinson Hyperlegible: text the reader must decode
+ * Instructional text set in Atkinson Hyperlegible Next: text the reader must decode
  * precisely to know what to do next.
  *
  * The test against `candor-text` is functional, not a matter of importance:
@@ -105,9 +105,9 @@ export class CandorAccessibleText extends LitElement {
     /* Icon colour uses the non-text status tokens, which is what they are
        validated for. The text never uses them. */
     :host([role_="state"]) .state-icon { flex-shrink: 0; width: 1em; height: 1em; }
-    :host([role_="state"][tone="success"]) .state-icon { color: var(--color-status-success); }
-    :host([role_="state"][tone="warning"]) .state-icon { color: var(--color-status-warning); }
-    :host([role_="state"][tone="error"])   .state-icon { color: var(--color-status-error); }
+    :host([role_="state"][tone="success"]) .state-icon { color: var(--color-icon-success); }
+    :host([role_="state"][tone="warning"]) .state-icon { color: var(--color-icon-warning); }
+    :host([role_="state"][tone="error"])   .state-icon { color: var(--color-icon-error); }
     /* No --color-status-info token exists; candor-alert uses text-subtle for the
        info icon, and this matches it. */
     :host([role_="state"][tone="info"])    .state-icon { color: var(--color-text-subtle); }
@@ -128,7 +128,7 @@ export class CandorAccessibleText extends LitElement {
     :host([color="primary"])   { color: var(--color-text-default); }
     :host([color="secondary"]) { color: var(--color-text-subtle); }
     :host([color="disabled"])  { color: var(--color-text-disabled); }
-    :host([color="error"])     { color: var(--color-status-error-text); }
+    :host([color="error"])     { color: var(--color-text-error); }
 
     /* Bold modifier */
     :host([bold]) { font-weight: var(--font-weight-bold); }

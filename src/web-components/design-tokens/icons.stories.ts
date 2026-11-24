@@ -24,7 +24,7 @@ const meta: Meta = {
         component: `
 Candor uses **Phosphor Icons** as its icon system. Phosphor is a humanist icon family
 (rounded, consistent stroke weights, no sharp corners), which aligns with Candor's
-typeface choices (Roboto Flex, Noto Serif, Atkinson Hyperlegible).
+typeface choices (Roboto Flex, Noto Serif, Atkinson Hyperlegible Next).
 
 ## Installation
 
@@ -77,7 +77,7 @@ without adjacent text, add a visually-hidden \`<span class="sr-only">\` label in
 
 **Status icons are bold, not fill**, including the ones \`candor-alert\`, \`candor-toast\` and \`candor-accessible-text role_="state"\` render. They inform, and keeping fill for actions is what lets a filled shape mean "press this" without exceptions (#296).
 
-**Icon-only buttons: 1.75rem in \`--color-text-subtle\`, padding cut to 2px.** In a fill glyph the detail is cut out of the solid shape (the "i" in the info disc), and at 1.25rem that cut-out is about 1.3px wide. 1.75rem makes it readable; trimming the padding to (32px − 28px) / 2 keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the controls beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour: there is no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. Set the colour on the button, not the glyph, so a pressed toggle can still colour its glyph \`--color-action-primary\`. On \`<candor-button variant="ghost">\` that is \`--candor-button-ghost-color\`, and hover darkens the glyph to \`--color-text-default\`, since a subtle glyph on the hover fill would fall below 3.0. Icons inside a labelled button follow the button's text size and colour instead.
+**Icon-only buttons: 1.75rem in \`--color-text-subtle\`, padding cut to 2px.** In a fill glyph the detail is cut out of the solid shape (the "i" in the info disc), and at 1.25rem that cut-out is about 1.3px wide. 1.75rem makes it readable; trimming the padding to (32px − 28px) / 2 keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the controls beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour: there is no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. Set the colour on the button, not the glyph, so a pressed toggle can still colour its glyph \`--color-text-accent\`. On \`<candor-button variant="ghost">\` that is \`--candor-button-ghost-color\`, and hover darkens the glyph to \`--color-text-default\`, since a subtle glyph on the hover fill would fall below 3.0. Icons inside a labelled button follow the button's text size and colour instead.
 
 ## Sizing
 
@@ -97,9 +97,9 @@ apply:
 
 | Where the \`<i class="ph-…">\` is authored | Font classes work? |
 |---|---|
-| Main document (light DOM) | ✅ Yes |
-| Slotted into a Candor component **from the main document** | ✅ Yes. Slotted content stays in the document's light DOM, so global rules reach it |
-| Inside **your own** web component's shadow root (incl. slotting into a Candor component from *within* your component) | ❌ No. Global \`.ph-*\` rules never enter a shadow root |
+| Main document (light DOM) | Yes |
+| Slotted into a Candor component **from the main document** | Yes. Slotted content stays in the document's light DOM, so global rules reach it |
+| Inside **your own** web component's shadow root (incl. slotting into a Candor component from *within* your component) | No. Global \`.ph-*\` rules never enter a shadow root |
 
 So if you are building your own web components (Candor's own model), the font-class path
 **silently fails**. The \`@font-face\` is global so the font loads, but the \`.ph-*\` class
@@ -124,10 +124,10 @@ Candor's bundled set for the handful it uses internally (below).
 The WC components that need icons internally (\`candor-accordion-item\`, \`candor-menu\`,
 \`candor-select\`, \`candor-pagination\`, \`candor-listbox\`, \`candor-combobox\`,
 \`candor-alert\`, \`candor-toast\`, \`candor-drawer\`, \`candor-modal\`, \`candor-chip\`,
-\`candor-chat-input\`, \`candor-disclosure\`) ship the SVG path data inline (see \`src/web-components/icons.ts\`)
+\`candor-chat-input\`, \`candor-disclosure\`, \`candor-table\`, \`candor-accessible-text\`) ship the SVG path data inline (see \`src/web-components/icons.ts\`)
 so they don't depend on the \`@phosphor-icons/web\` stylesheet being loaded. This is the
 same inline-SVG approach shadow-DOM consumers should use for their own icons (see above).
-\`src/web-components/icons.ts\` exports only the ~9 glyphs the components use. It is not a
+\`src/web-components/icons.ts\` exports only the glyphs the components use, eleven of them. It is not a
 general icon library; for anything else, take the path from \`@phosphor-icons/core\`.
 
 ## Full icon reference
@@ -272,7 +272,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
 
       <candor-card variant="default" padding="md" role="group" aria-labelledby="pattern-a-heading">
         <div slot="header">
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern A</p>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern A</p>
           <h3 id="pattern-a-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Decorative icon</h3>
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
@@ -290,7 +290,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
 
       <candor-card variant="default" padding="md" role="group" aria-labelledby="pattern-b-heading">
         <div slot="header">
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern B</p>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern B</p>
           <h3 id="pattern-b-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Icon-only button</h3>
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">

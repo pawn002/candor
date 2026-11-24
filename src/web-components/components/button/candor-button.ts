@@ -51,14 +51,14 @@ export class CandorButton extends LitElement {
       border: none;
       border-radius: var(--candor-button-radius, var(--radius-md));
       cursor: pointer;
-      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+      transition: background-color var(--motion-duration-base) var(--motion-ease-standard), color var(--motion-duration-base) var(--motion-ease-standard), border-color var(--motion-duration-base) var(--motion-ease-standard), opacity var(--motion-duration-base) var(--motion-ease-standard);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       white-space: nowrap;
       text-decoration: none;
     }
-    .button:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
+    .button:focus-visible { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }
     .button:disabled { cursor: not-allowed; opacity: 0.5; }
     /* Density knobs — each defaults to the per-size token, so a consumer can
        override padding/font-size/min-height (e.g. to go denser than 'small',
@@ -66,39 +66,41 @@ export class CandorButton extends LitElement {
     .button--small {
       font-size: var(--candor-button-font-size, var(--font-size-sm));
       font-weight: var(--font-weight-bold);
-      letter-spacing: 0.01em;
+      letter-spacing: var(--letter-spacing-relaxed);
       padding: var(--candor-button-padding-y, var(--spacing-button-padding-y-sm)) var(--candor-button-padding-x, var(--spacing-button-padding-x-sm));
       min-height: var(--candor-button-min-height, 2rem);
     }
     .button--medium {
       font-size: var(--candor-button-font-size, var(--font-size-md));
+      letter-spacing: var(--letter-spacing-body);
       padding: var(--candor-button-padding-y, var(--spacing-button-padding-y)) var(--candor-button-padding-x, var(--spacing-button-padding-x));
       min-height: var(--candor-button-min-height, var(--hit-target-aaa));
     }
     .button--large {
       font-size: var(--candor-button-font-size, var(--font-size-lg));
+      letter-spacing: var(--letter-spacing-body);
       padding: var(--candor-button-padding-y, var(--spacing-button-padding-y-lg)) var(--candor-button-padding-x, var(--spacing-button-padding-x-lg));
       min-height: var(--candor-button-min-height, 3rem);
     }
-    .button--primary { background-color: var(--color-action-primary); color: var(--color-text-on-action); }
-    .button--primary:hover:not(:disabled) { background-color: var(--color-action-primary-hover); }
-    .button--primary:active:not(:disabled) { background-color: var(--color-action-primary-active); }
-    .button--secondary { background-color: transparent; color: var(--color-action-primary); border: var(--border-width-thin) solid var(--color-action-primary); }
-    .button--secondary:hover:not(:disabled) { background-color: oklch(from var(--color-action-primary) l c h / 0.08); }
-    .button--secondary:active:not(:disabled) { background-color: oklch(from var(--color-action-primary) l c h / 0.15); }
-    .button--destructive { background-color: var(--color-action-destructive); color: var(--color-action-destructive-text); border: var(--border-width-thin) solid var(--color-action-destructive-border); }
-    .button--destructive:hover:not(:disabled) { background-color: var(--color-action-destructive-hover); }
-    .button--destructive:active:not(:disabled) { background-color: var(--color-action-destructive-active); }
-    .button--tertiary { background-color: var(--color-action-tertiary); color: var(--color-action-tertiary-text); }
-    .button--tertiary:hover:not(:disabled) { background-color: var(--color-action-tertiary-hover); }
-    .button--tertiary:active:not(:disabled) { background-color: oklch(from var(--color-action-tertiary-hover) calc(l - 0.04) c h); }
+    .button--primary { background-color: var(--color-bg-action-primary); color: var(--color-text-on-action); }
+    .button--primary:hover:not(:disabled) { background-color: var(--color-bg-action-primary-hover); }
+    .button--primary:active:not(:disabled) { background-color: var(--color-bg-action-primary-active); }
+    .button--secondary { background-color: transparent; color: var(--color-text-action-secondary); border: var(--border-width-thin) solid var(--color-border-action-secondary); }
+    .button--secondary:hover:not(:disabled) { background-color: var(--color-bg-action-secondary-hover); }
+    .button--secondary:active:not(:disabled) { background-color: var(--color-bg-action-secondary-active); }
+    .button--destructive { background-color: var(--color-bg-action-destructive); color: var(--color-text-action-destructive); border: var(--border-width-thin) solid var(--color-border-action-destructive); }
+    .button--destructive:hover:not(:disabled) { background-color: var(--color-bg-action-destructive-hover); }
+    .button--destructive:active:not(:disabled) { background-color: var(--color-bg-action-destructive-active); }
+    .button--tertiary { background-color: var(--color-bg-action-tertiary); color: var(--color-text-action-tertiary); }
+    .button--tertiary:hover:not(:disabled) { background-color: var(--color-bg-action-tertiary-hover); }
+    .button--tertiary:active:not(:disabled) { background-color: var(--color-bg-action-tertiary-active); }
     /* --candor-button-ghost-color sets the resting colour, so an icon-only button
        can rest at --color-text-subtle (#296). Hover always lands on text-default:
        a subtle glyph on bg-hover is OKCA 2.6 in light, under the 3.0 icon floor. */
     .button--ghost { background-color: transparent; color: var(--candor-button-ghost-color, var(--color-text-default)); }
     /* Not bg-surface: that is the colour of a card or a striped row, so the hover vanished there (#322). */
-    .button--ghost:hover:not(:disabled) { background-color: var(--color-bg-hover); color: var(--color-text-default); }
-    .button--ghost:active:not(:disabled) { background-color: oklch(from var(--color-bg-hover) calc(l - 0.04) c h); }
+    .button--ghost:hover:not(:disabled) { background-color: var(--color-bg-action-ghost-hover); color: var(--color-text-default); }
+    .button--ghost:active:not(:disabled) { background-color: var(--color-bg-action-ghost-active); }
   `;
 
   @property({ reflect: true }) variant: ButtonVariant = 'primary';

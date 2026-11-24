@@ -46,12 +46,18 @@
  *      go stale. Only prose — where the number is part of an argument and
  *      cannot be derived — is guarded here.
  *
+ *   6. FILL SEPARATION — every pair in audit/separations.json: fills that are
+ *      their own boundary (a tooltip, a borderless hover, a badge, a status
+ *      fill) against what they sit on or beside, by klar deltaE in both modes.
+ *      No contrast floor compares fill with fill, which is how a hover the
+ *      colour of its card (deltaE 0) passed every check above.
+ *
  * Anything the claim parser cannot interpret is listed as UNCHECKED rather than
  * passed over in silence: a guard that quietly covers a subset is worse than no
  * guard, because absence of failure reads as validation (#218).
  *
  * Usage: node scripts/check-contrast.js [--verbose]
- * Requires klar 3.x on PATH.
+ * Requires klar 4.x on PATH.
  *
  * GAMUT: this script measures the colour Candor specifies, full stop. It does
  * not model, predict, or track what any engine does with a colour outside
@@ -128,12 +134,12 @@ function assertKlar3() {
   try {
     v = execSync('klar --version', { encoding: 'utf8' }).trim();
   } catch {
-    console.error('✗  klar is not on PATH. Install klar 3.x — see CLAUDE.md → Integration Points.');
+    console.error('✗  klar is not on PATH. Install klar 4.x — see CLAUDE.md → Integration Points.');
     process.exit(2);
   }
-  if (!/^3\./.test(v)) {
+  if (!/^4\./.test(v)) {
     console.error(
-      `✗  klar ${v} found, but every figure in this repo assumes 3.x.\n` +
+      `✗  klar ${v} found, but every figure in this repo assumes 4.x.\n` +
         '\n' +
         '   This guard is deliberately a hard stop rather than a warning, because it is\n' +
         '   the only thing in the repo that forces klar\'s docs to be re-read. A linked\n' +
@@ -144,7 +150,9 @@ function assertKlar3() {
         '     https://github.com/pawn002/klar/blob/main/AGENT_PLAYBOOK.md  (worked examples)\n' +
         '   and verify the claims against the installed CLI — on the 2.x→3.x bump the\n' +
         '   release notes and the issue-resolution comment disagreed about the shipped\n' +
-        '   default, and only testing the binary settled it.\n' +
+        '   default, and only testing the binary settled it. On the 3.x→4.x bump it\n' +
+        '   was item 1: okca 3.0 rescored both polarities, and seven dark pairings\n' +
+        '   fell below their floor.\n' +
         '\n' +
         '   Then check each of these, which is what actually changed last time:\n' +
         '     1. Did the default algorithm recalibrate? (2.0.0 moved OKCA +0.4 in the 3-7\n' +
@@ -410,9 +418,15 @@ function darkDeclaredNames() {
 const FG_ALIASES = {
   'text-default': 'color.text.default',
   white: 'oklch(1 0 0)',
-  // A filled button's label is the page colour in dark mode, so "bg-page OKCA 7.3
-  // on this bg" is a real claim about a real pairing rather than a category error.
+  // The page colour as a foreground: a cut-out mark drawn in the page colour is
+  // a real pairing. Unused since dark mode's labelled fills took a light label.
   'bg-page': 'color.bg.page',
+  // The label on the action fills, named on the fill's hover/active comments.
+  'text-on-action': 'color.text.on-action',
+  // The label on the tooltip fill, named on --color-bg-tooltip. The pre-#367
+  // name is kept so a figure written either way resolves.
+  'text-on-inverse': 'color.text.on-inverse',
+  'text-inverse': 'color.text.on-inverse',
 };
 
 // Backgrounds named in the comments, mapped to their DTCG path. Names that are
@@ -428,19 +442,33 @@ const BG_ALIASES = {
   inverse: 'color.bg.inverse',
   'bg-inverse': 'color.bg.inverse',
   white: null, // literal
-  'error-bg': 'color.status.error-bg',
-  'success-bg': 'color.status.success-bg',
-  'warning-bg': 'color.status.warning-bg',
-  'action-primary': 'color.action.primary',
+  // Status fills and the action fills, under their #367 names and the names
+  // figures were written with before it.
+  'bg-error': 'color.bg.error',
+  'bg-success': 'color.bg.success',
+  'bg-warning': 'color.bg.warning',
+  'error-bg': 'color.bg.error',
+  'success-bg': 'color.bg.success',
+  'warning-bg': 'color.bg.warning',
+  'text-accent': 'color.text.accent',
+  'action-primary': 'color.text.accent',
+  'bg-action-primary': 'color.bg.action-primary',
+  'action-primary-fill': 'color.bg.action-primary',
+  'bg-accent-secondary': 'color.bg.accent-secondary',
+  'action-secondary-fill': 'color.bg.accent-secondary',
   // The saturated base tokens, as *backgrounds*. They are flagged non-text for
   // use as a `color:` value, which says nothing about painting on top of them —
   // and the data-grid token demo does exactly that, which is where #229 lives.
   // A figure about text on one of these has to be expressible, or the only way
   // to record it is prose the audit cannot read.
-  'status-error': 'color.status.error',
-  'status-success': 'color.status.success',
-  'status-warning': 'color.status.warning',
-  focus: 'color.focus',
+  'icon-error': 'color.icon.error',
+  'icon-success': 'color.icon.success',
+  'icon-warning': 'color.icon.warning',
+  'status-error': 'color.icon.error',
+  'status-success': 'color.icon.success',
+  'status-warning': 'color.icon.warning',
+  'ring-focus': 'color.ring.focus',
+  focus: 'color.ring.focus',
   'this bg': 'SELF',
 };
 
@@ -765,7 +793,7 @@ const SOURCE_FILE_RE = /\.(ts|scss)$/;
 const SOURCE_SKIP_RE = /\.d\.ts$/;
 // A font-size declaration naming the 12px token, or an absolute literal.
 const FONT_SIZE_RE =
-  /font-size:\s*(?:var\(\s*(--font-size-xs|--text-xs)\s*\)|(\d*\.?\d+)(rem|px))/g;
+  /font-size:\s*(?:var\(\s*(--font-size-xs|--type-xs|--text-xs)\s*\)|(\d*\.?\d+)(rem|px))/g;
 // candor-text is the only component with a size scale, so this is unambiguous.
 const SIZE_ATTR_RE = /<candor-text\b[^>]*\bsize="(xs)"/g;
 // The marker must open a comment — `// 12px-ok: <reason>` or `/* 12px-ok: … */`
@@ -835,6 +863,60 @@ function checkTextSizeFloor() {
   return { violations, allowed };
 }
 
+// ── 6. fill separation ───────────────────────────────────────────────────────
+//
+// A contrast floor compares text or an icon with its background. It never
+// compares one fill with another, so a hover painted the colour of the card it
+// sat on (deltaE 0) passed every check here. audit/separations.json lists the
+// fills that are their own boundary and what they sit on or beside; each must
+// reach its minDeltaE in both modes, measured with klar's deltaE (whole
+// numbers; no culori formula matches it exactly, so always measure with klar).
+// The file's floor is the minimum: an entry may raise it, never lower it.
+
+function deltaE(a, b) {
+  const cmd = `klar contrast "${a}" "${b}" --type deltaE --gamut-map clip -q`;
+  let out;
+  try {
+    out = execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  } catch (err) {
+    console.error(`
+✗  klar could not measure deltaE between ${a} and ${b}: ${String(err.stderr || '').trim() || `exit ${err.status}`}`);
+    process.exit(2);
+  }
+  const n = Number(out);
+  if (!Number.isFinite(n)) throw new Error(`klar returned "${out}" for deltaE ${a} / ${b}`);
+  return n;
+}
+
+function checkSeparations() {
+  const file = JSON.parse(fs.readFileSync(path.join(ROOT, 'audit/separations.json'), 'utf8'));
+  const floor = file.floor;
+  const failures = [];
+  const unresolved = [];
+  let checked = 0;
+  if (!Number.isFinite(floor) || !file.separations?.length) {
+    failures.push('audit/separations.json has no floor or no separations: the check measured nothing');
+    return { checked, failures, unresolved, floor };
+  }
+  for (const s of file.separations) {
+    const min = s.minDeltaE ?? floor;
+    if (min < floor) failures.push(`${s.id}: minDeltaE ${min} is below the floor of ${floor}`);
+    for (const mode of ['light', 'dark']) {
+      const a = value(mode, deref(s.a));
+      const b = value(mode, deref(s.b));
+      if (!a || !b) {
+        unresolved.push(`${s.id} (${mode}): ${!a ? s.a : s.b} does not resolve`);
+        continue;
+      }
+      const d = deltaE(a, b);
+      checked++;
+      if (VERBOSE) console.log(`  ${d >= min ? '✓' : '✗'}  ${s.id} (${mode}) deltaE ${d}, min ${min}`);
+      if (d < min) failures.push(`${s.id} (${mode}): deltaE ${d}, needs ${min}`);
+    }
+  }
+  return { checked, failures, unresolved, floor };
+}
+
 // ── main ─────────────────────────────────────────────────────────────────────
 
 assertKlar3();
@@ -875,7 +957,14 @@ const T = checkTextSizeFloor();
 console.log(`  ${T.allowed} declared chrome/icon, ${T.violations.length} unaccounted`);
 for (const v of T.violations) console.log(`  ✗  ${v}`);
 
+console.log('\nFill separation (audit/separations.json)');
+const D = checkSeparations();
+console.log(`  ${D.checked} measured against a floor of deltaE ${D.floor}, ${D.failures.length} failing`);
+for (const f of D.failures) console.log(`  ✗  ${f}`);
+for (const u of D.unresolved) console.log(`  ?  UNCHECKED ${u}`);
+
 const failed =
-  TI.length + P.failures.length + N.drift.length + R.drift.length + S.drift.length + T.violations.length;
+  TI.length + P.failures.length + N.drift.length + R.drift.length + S.drift.length + T.violations.length +
+  D.failures.length + D.unresolved.length;
 console.log(failed ? `\n✗  ${failed} problem(s)` : '\n✓  no drift');
 process.exit(failed ? 1 : 0);

@@ -43,7 +43,7 @@ export class CandorAutocomplete extends LitElement {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: var(--letter-spacing-relaxed);
     }
-    .autocomplete__required { color: var(--color-status-error-text); margin-left: 0.25em; }
+    .autocomplete__required { color: var(--color-text-error); margin-left: 0.25em; }
     .autocomplete__control { position: relative; display: flex; align-items: center; }
     .autocomplete__input {
       width: 100%; min-height: var(--hit-target-aaa);
@@ -52,21 +52,21 @@ export class CandorAutocomplete extends LitElement {
       color: var(--color-text-default); background-color: var(--color-bg-page);
       border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--candor-autocomplete-radius, var(--radius-md)); box-sizing: border-box;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
     }
     .autocomplete__input::placeholder { color: var(--color-text-subtle); }
-    .autocomplete__input:hover:not(:disabled) { border-color: var(--color-text-subtle); }
+    .autocomplete__input:hover:not(:disabled) { border-color: var(--color-border-control-hover); }
     .autocomplete__input:focus {
-      border-color: var(--color-action-primary);
-      outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset);
+      border-color: var(--color-border-control-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset);
     }
     .autocomplete__input:disabled {
       background-color: var(--color-bg-surface); color: var(--color-text-disabled);
       border-color: var(--color-border-default); cursor: not-allowed;
     }
-    .autocomplete__control--error .autocomplete__input { border-color: var(--color-status-error); }
+    .autocomplete__control--error .autocomplete__input { border-color: var(--color-border-control-error); }
     .autocomplete__control--error .autocomplete__input:focus {
-      border-color: var(--color-status-error);
+      border-color: var(--color-border-control-error);
     }
     .autocomplete__dropdown {
       position: absolute; top: calc(100% + var(--spacing-2xs)); left: 0; right: 0; z-index: 200;
@@ -75,6 +75,12 @@ export class CandorAutocomplete extends LitElement {
       border: var(--border-width-thin) solid var(--color-border-default);
       border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: var(--spacing-2xs) 0;
       list-style: none;
+      /* Arrives by fading and rising into place (#368). It is removed from the
+         DOM on close, so it leaves at once. */
+      transition: opacity var(--motion-duration-fast) var(--motion-ease-enter), transform var(--motion-duration-fast) var(--motion-ease-enter);
+    }
+    @starting-style {
+      .autocomplete__dropdown { opacity: 0; transform: translateY(calc(-0.5 * var(--motion-distance))); }
     }
     .autocomplete__option {
       display: flex; align-items: center;
@@ -84,7 +90,7 @@ export class CandorAutocomplete extends LitElement {
          trigger. */
       margin-inline: var(--spacing-2xs);
       border-radius: var(--radius-sm);
-      padding: var(--spacing-input-padding-y) calc(var(--spacing-input-padding-x) - var(--spacing-2xs));
+      padding: var(--candor-autocomplete-padding-y, var(--spacing-input-padding-y)) calc(var(--candor-autocomplete-padding-x, var(--spacing-input-padding-x)) - var(--spacing-2xs));
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); cursor: pointer; user-select: none;
     }
@@ -95,7 +101,7 @@ export class CandorAutocomplete extends LitElement {
     .autocomplete__hint {
       margin-top: calc(-1 * var(--spacing-xs));
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle);
+      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle-on-surface);
     }
     .autocomplete__description {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
@@ -105,7 +111,7 @@ export class CandorAutocomplete extends LitElement {
       line-height: var(--line-height-normal);
       min-height: calc(var(--font-size-sm) * var(--line-height-normal));
     }
-    .autocomplete__error { color: var(--color-status-error-text); font-size: var(--font-size-md); }
+    .autocomplete__error { color: var(--color-text-error); font-size: var(--font-size-md); }
   `, scrollbarStyles('.autocomplete__dropdown')];
 
   @property() label = '';

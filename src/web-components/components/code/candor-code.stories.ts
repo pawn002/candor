@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../typography/text/candor-text';
 import './candor-code';
 import { allModes } from '../../../../.storybook/modes';
 
@@ -25,10 +26,10 @@ code, wrap in a \`<pre>\` rather than using this inline element.
     },
   },
   render: () => html`
-    <p style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-text-default);max-width:40ch;">
+    <candor-text variant="body" style="display:block;max-width:40ch;">
       Run <candor-code>npm run build:tokens</candor-code> to emit the CSS, then import
       <candor-code>@candor-design/tokens/candor-tokens.css</candor-code> once at the app root.
-    </p>
+    </candor-text>
   `,
 };
 
@@ -40,11 +41,11 @@ export const Default: Story = {};
 export const InProse: Story = {
   name: 'Inline within prose',
   render: () => html`
-    <p style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-text-default);line-height:var(--line-height-relaxed);max-width:52ch;">
+    <candor-text variant="body" style="display:block;line-height:var(--line-height-relaxed);max-width:52ch;">
       The <candor-code>observeHostAriaLabel</candor-code> helper installs a
       <candor-code>MutationObserver</candor-code> on the host, mirrors the value inward, and
       strips <candor-code>aria-label</candor-code> off the host so screen readers don't hear
       the name twice.
-    </p>
+    </candor-text>
   `,
 };

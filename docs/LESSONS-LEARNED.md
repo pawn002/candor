@@ -10,9 +10,11 @@ Insights collected from working sessions between Claude and the designer. These 
 
 Roboto Flex is a variable font with multiple axes beyond `font-weight`: optical size (`opsz`), grade (`GRAD`), width (`wdth`), and more. Setting `font-optical-sizing: auto` tells the browser to automatically match the `opsz` axis to the computed font size — meaning h1 at 39px, h2 at 31px, and h3 at 25px each get stroke weights that are optically appropriate for their size without any manual weight tuning.
 
-**The trap:** Reaching for `font-weight: semibold` on h3 to create hierarchy feels natural but produces an artificial, numeric step. The optical size axis creates a gradient that feels designed, not engineered.
+**The trap:** Stepping weight with level, semibold on h3 and bold on h1, to create hierarchy feels natural but produces artificial, numeric steps. The optical size axis creates a gradient that feels designed, not engineered. Since 7.0.0 every heading shares one weight, `--font-weight-heading` (semibold): one weight sets the texture, and size and `opsz` carry the hierarchy. See "Heading tracking opens as size falls" below for why the shared weight is semibold.
 
-**Rule:** Before adjusting `font-weight` to create hierarchy in Roboto Flex, first ask whether `font-optical-sizing: auto` or `font-variation-settings` on `opsz` or `GRAD` would produce a more natural result.
+**Rule:** Before adjusting `font-weight` to create hierarchy in Roboto Flex, first ask whether `font-optical-sizing: auto` would produce a more natural result.
+
+**Check the axis is loaded.** A variation setting on an axis the font file does not carry does nothing, silently. Fontsource's `index.css` carries the weight axis only, and for that reason `font-optical-sizing: auto` did nothing in Candor until 7.0.0. Candor now loads `opsz.css` (`opsz` and `wght`); `GRAD`, `wdth` and the rest are not loaded.
 
 ---
 
@@ -32,8 +34,8 @@ Atkinson's glyph shapes prevent clustering better than most typefaces, but at ze
 
 | Context | Value | Reason |
 |---|---|---|
-| Badges (14px) | `0.06em` | Small size needs more air — err toward too much |
-| Body roles (16px) | `0.02em` | Sufficient at normal reading size |
+| Badges and chips (14px) | `0.04em` (`--letter-spacing-signal`) | A UI signal. It was `0.06em`, capitals spacing on sentence-case text, which read as letterspaced |
+| Body roles (16px) | `0.02em` (`--letter-spacing-body`) | Sufficient at normal reading size |
 | Uppercase labels | `0.05em` (`--letter-spacing-wide`) | Uppercase already benefits from tracking |
 
 **The trap:** `letter-spacing: 0` (or `--letter-spacing-normal`) feels like a safe default. With Atkinson it isn't.
@@ -53,6 +55,26 @@ Italic letterforms are slanted, which reduces the apparent inter-glyph space com
 
 ---
 
+### Heading tracking opens as size falls, and optical sizing already tightens
+
+Headings were set at `-0.02em` for years, tuned while Roboto Flex's `opsz` axis never loaded. Once 7.0.0 loaded it, the axis narrowed sidebearings at display sizes by itself, and the two stacked: headings read as cramped, not humanist. One value could not fix it. Walking flat tracking from +0.01em to +0.06em by eye, h1 began to fall apart near +0.03em while h5 and h6 still looked packed at +0.06em. Large type tolerates little tracking; small bold type needs more.
+
+| Level | Tracking |
+|---|---|
+| h1 | `0.005em` (`--letter-spacing-h1`) |
+| h2, h3 | `0.02em` |
+| h4 | `0.025em` |
+| h5 | `0.03em` |
+| h6 | `0.035em` |
+
+Judge it in running prose, not on a specimen sheet. On a sheet of headings alone, a curve 0.01em looser looked right; set between paragraphs of serif body text, the same curve read as letterspaced, and the settled values are the looser curve less 0.01em at every level, and h1 less another 0.01em. The curve flattens at the top: the largest size needs the least added tracking, so the step from h1 to h2 is twice the others.
+
+Weight moved with it: headings are semibold (`--font-weight-heading`), which opens the counters. Semibold is regular for contrast, so a secondary h4 and h6 keep bold, the two places where weight changes the floor.
+
+**The trap:** tuning tracking against a font feature that is not loading. Check what the browser actually renders (the font file, its axes) before tuning against it.
+
+---
+
 ### em is the correct unit for letter-spacing; ch is for container widths
 
 `em` scales with font-size, making tracking proportional across type sizes. `ch` (width of the "0" glyph) is the right unit for measuring how many characters fit in a container (e.g., `max-width: 65ch` for article measure), not for inter-glyph spacing.
@@ -61,7 +83,7 @@ Italic letterforms are slanted, which reduces the apparent inter-glyph space com
 
 ### 16px body text, 14px system floor
 
-20px body text reads as juvenile in editorial contexts. 16px is the correct baseline for readable body text. Nothing in the system should fall below 14px (`--font-size-sm`) for readable text — `--text-xs` (12px) is decorative/non-text only.
+20px body text reads as juvenile in editorial contexts. 16px is the correct baseline for readable body text. Nothing in the system should fall below 14px (`--font-size-sm`) for readable text — `--type-xs` (12px) is decorative/non-text only.
 
 ---
 
@@ -103,7 +125,7 @@ The status color palette needs two tiers:
 
 Success and warning base colors (3.1–3.3:1 on white) are non-text use only. Using them as text on their light backgrounds fails AA. Always use the `-text` variant for text inside status panels and badges.
 
-**The deeper trap:** The token file itself was annotated `// non-text/icon use only`. The tokens were used for text anyway. When a token carries a usage contract in its comment, honor it — don't assume it can flex.
+**The deeper trap:** The token file itself was annotated `// non-text/icon use only`, and the tokens were used for text anyway. A comment is easy to miss, which is why 7.0.0 moved the contract into the name: `--color-icon-error` for the icon, `--color-text-error` for text (#367).
 
 ---
 
@@ -135,7 +157,7 @@ WCAG contrast ratio is luminance-based and useful for text-on-background legibil
 
 ## Angular / Implementation
 
-> **Historical (3.0.0):** The Angular reference component library was removed in 3.0.0 — `@candor-design/web-components` is the canonical surface. The component-authoring lessons below (`ViewEncapsulation.None`, ID generation, `moduleMetadata`) are retained as institutional record but no longer apply to active authoring. The **exception** is the `withThemeByDataAttribute` lesson, which remains live: Storybook still runs on the `@storybook/angular` renderer (it renders the web-component stories too), so the custom theme decorator in `.storybook/preview.ts` is still load-bearing.
+> **Historical (3.0.0):** The Angular reference component library was removed in 3.0.0 — `@candor-design/web-components` is the canonical surface. The component-authoring lessons below (`ViewEncapsulation.None`, ID generation, `moduleMetadata`) are retained as institutional record but no longer apply to active authoring. The `withThemeByDataAttribute` lesson was live until 4.1.0, when Storybook moved to `@storybook/web-components-vite` (#143).
 
 ### ViewEncapsulation.None + host class for projected content styling
 
@@ -185,9 +207,9 @@ When a component always renders on a specific non-page background (e.g., blockqu
 
 ### OKLCH colors must be gamut-checked before finalizing
 
-OKLCH's gamut extends beyond sRGB, making it easy to author valid-looking colors that browsers clamp or shift unpredictably on sRGB displays. The warning status color (`oklch(0.66 0.16 53.54)`) was initially authored out of sRGB gamut — browsers silently shifted the hue.
+OKLCH accepts more chroma than sRGB can show, so it is easy to author a valid-looking colour that names nothing sRGB can render. The warning status color (`oklch(0.66 0.16 53.54)`) was first authored outside sRGB.
 
-**Rule:** After authoring a new OKLCH color, run `klar meta <oklch>` or check `gamut: sRGB` in the output. If out of gamut, reduce chroma until it passes.
+**Rule:** Every Candor colour is inside sRGB. `npm run audit:tokens` fails on one that isn't and prints the in-gamut value: hold L and H and pull chroma in to the boundary.
 
 ---
 

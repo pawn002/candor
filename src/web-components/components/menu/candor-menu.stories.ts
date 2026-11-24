@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { clickInShadow } from '../../story-utils';
 
+import '../typography/accessible-text/candor-accessible-text';
 import './candor-menu';
 
 const DEMO_ENTRIES = JSON.stringify([
@@ -138,7 +139,21 @@ export const ShortList: Story = {
 };
 
 export const WithDisabledItems: Story = {
-  render: () => html`<candor-menu label="File" entries='${FILE_ENTRIES_DISABLED}'></candor-menu>`,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'A disabled item keeps its place, so the menu does not reshuffle, but its dimmed label cannot say why it is unavailable or what would unlock it. ' +
+          'Say that in readable text next to the menu, as for any disabled control. A tooltip will not do: a disabled item cannot be focused.',
+      },
+    },
+  },
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);align-items:flex-start;">
+      <candor-menu label="File" entries='${FILE_ENTRIES_DISABLED}'></candor-menu>
+      <candor-accessible-text role_="annotation" style="display:block;">Open recent is empty until you open a file. Print needs a connected printer.</candor-accessible-text>
+    </div>
+  `,
 };
 
 export const InToolbar: Story = {

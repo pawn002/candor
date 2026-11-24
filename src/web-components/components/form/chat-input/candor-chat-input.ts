@@ -59,11 +59,11 @@ export class CandorChatInput extends LitElement {
       border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--radius-md);
       padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) var(--spacing-sm);
-      transition: border-color 0.15s ease;
+      transition: border-color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .chat-input__field:focus-within {
-      border-color: var(--color-action-primary);
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      border-color: var(--color-border-control-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     .chat-input__field--disabled { opacity: 0.5; cursor: not-allowed; }
@@ -80,22 +80,24 @@ export class CandorChatInput extends LitElement {
     .chat-input__send {
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; width: 2rem; height: 2rem;
-      background: var(--color-action-primary); color: var(--color-text-on-action);
+      background: var(--color-bg-action-primary); color: var(--color-text-on-action);
       border: none; border-radius: var(--radius-sm); cursor: pointer;
-      transition: background-color 0.15s ease, opacity 0.15s ease;
+      transition: background-color var(--motion-duration-fast) var(--motion-ease-standard), opacity var(--motion-duration-fast) var(--motion-ease-standard);
     }
-    .chat-input__send:hover:not(:disabled) { background: var(--color-action-primary-hover); }
-    .chat-input__send:active:not(:disabled) { background: var(--color-action-primary-active); }
+    .chat-input__send:hover:not(:disabled) { background: var(--color-bg-action-primary-hover); }
+    .chat-input__send:active:not(:disabled) { background: var(--color-bg-action-primary-active); }
     .chat-input__send:disabled { opacity: 0.5; cursor: not-allowed; }
     .chat-input__send:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     .chat-input__send svg { width: 1rem; height: 1rem; }
     .chat-input__disclaimer {
       margin: 0; text-align: center;
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body);
+      /* subtle-on-surface, not subtle: a composer can sit on a card, where text-subtle
+         falls to 3.9 in light. */
+      color: var(--color-text-subtle-on-surface); letter-spacing: var(--letter-spacing-body);
       line-height: var(--line-height-normal);
     }
   `, scrollbarStyles('.chat-input__textarea')];

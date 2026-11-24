@@ -13,7 +13,7 @@
     },
     {
       "id": "form-required-asterisk",
-      "fg": "{color.status.error-text}",
+      "fg": "{color.text.error}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
@@ -55,7 +55,7 @@
     },
     {
       "id": "form-error-message",
-      "fg": "{color.status.error-text}",
+      "fg": "{color.text.error}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
@@ -65,13 +65,23 @@
     },
     {
       "id": "form-hint-text",
-      "fg": "{color.text.subtle}",
+      "fg": "{color.text.subtle-on-surface}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
       "tier": 3,
       "min": 4.5,
-      "note": "Hint/help text below field — 14px regular, Tier 3 Supplementary"
+      "note": "Hint/help text below field — 14px regular, Tier 3 Supplementary. Input, select, listbox, combobox, autocomplete and switch. subtle-on-surface so it also clears on a card (see form-hint-text-on-surface)."
+    },
+    {
+      "id": "form-hint-text-on-surface",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "note": "A form hint inside a card: settings panels, sign-in boxes, the switch States story. text-subtle was OKCA 3.9 light here, which the page-only pairing never saw."
     },
     {
       "id": "accessible-text-label-primary",
@@ -95,7 +105,7 @@
     },
     {
       "id": "accessible-text-label-error",
-      "fg": "{color.status.error-text}",
+      "fg": "{color.text.error}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
@@ -125,7 +135,7 @@
     },
     {
       "id": "accessible-text-message-error",
-      "fg": "{color.status.error-text}",
+      "fg": "{color.text.error}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
@@ -145,7 +155,7 @@
     },
     {
       "id": "accessible-text-status-error",
-      "fg": "{color.status.error-text}",
+      "fg": "{color.text.error}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
@@ -165,7 +175,7 @@
     },
     {
       "id": "accessible-text-state-icon-success",
-      "fg": "{color.status.success}",
+      "fg": "{color.icon.success}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
@@ -175,7 +185,7 @@
     },
     {
       "id": "accessible-text-state-icon-warning",
-      "fg": "{color.status.warning}",
+      "fg": "{color.icon.warning}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
@@ -185,7 +195,7 @@
     },
     {
       "id": "accessible-text-state-icon-error",
-      "fg": "{color.status.error}",
+      "fg": "{color.icon.error}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
@@ -235,7 +245,7 @@
     },
     {
       "id": "stat-value-success",
-      "fg": "{color.status.success-text}",
+      "fg": "{color.text.success}",
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
@@ -245,7 +255,7 @@
     },
     {
       "id": "stat-value-warning",
-      "fg": "{color.status.warning-text}",
+      "fg": "{color.text.warning}",
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
@@ -255,7 +265,7 @@
     },
     {
       "id": "stat-value-error",
-      "fg": "{color.status.error-text}",
+      "fg": "{color.text.error}",
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
@@ -265,7 +275,7 @@
     },
     {
       "id": "stat-value-info",
-      "fg": "{color.link}",
+      "fg": "{color.text.link}",
       "bg": "{color.bg.page}",
       "size": 39,
       "weight": "bold",
@@ -318,10 +328,10 @@
       "fg": "{color.text.default}",
       "bg": "{color.bg.surface}",
       "size": 14,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 4.5,
-      "note": "Grid caption (semibold, treated as bold for threshold) — Tier 2 Functional"
+      "min": 6.5,
+      "note": "Grid caption, semibold, which is regular for contrast (bold is wght >= 700), so the 14px Tier 2 floor is 6.5. It was recorded as bold against 4.5."
     },
     {
       "id": "data-grid-cell-label",
@@ -331,7 +341,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. This figure is now structural rather than a default: the label carries its own opaque plate and does not inherit --cell-fg, so a consumer's cell colours cannot move it — OKCA 11.9 light / 12.9 dark ✅ against the 6.5 floor. Before the plate it was consumer-determined and unauditable, and six cells in this component's own demos sat between 2.7 and 5.9 (#229)."
+      "note": "Cell label — the visible text inside every gridcell, and the same string the cell exposes as its accessible name. Tier 2 Functional: it is the sole channel for what the cell holds. Had no pairing at all until #230, because it was set at 12px and 12px has no floor defined in either axis — which is how #229 went unnoticed. This figure is now structural rather than a default: the label carries its own opaque plate and does not inherit --cell-fg, so a consumer's cell colours cannot move it — OKCA 12.4 light / 11.4 dark ✅ against the 6.5 floor. Before the plate it was consumer-determined and unauditable, and six cells in this component's own demos sat between 2.7 and 5.9 (#229)."
     },
     {
       "id": "badge-default",
@@ -341,12 +351,12 @@
       "weight": "bold",
       "tier": 3,
       "min": 4.5,
-      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition, not the pill shape. The fill was bg-surface, which vanished on cards and striped rows; bg-muted reads on page, surface and elevated, and text-subtle-on-surface would fall to 3.5 on it, so the text is text-default (#321). OKCA 6.5 light / 5.7 dark. The label is non-optional in the structural sense, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
+      "note": "Tier 3 Supplementary. The redundant channel is the badge LABEL, which names the condition, not the pill shape. The fill was bg-surface, which vanished on cards and striped rows; bg-muted reads on page, surface and elevated, and text-subtle-on-surface would fall to 3.5 on it, so the text is text-default (#321). OKCA 6.4 light / 4.9 dark. The label is non-optional in the structural sense, but it only carries meaning if the words name the condition: \"3 failed\", not \"3\" (#214)."
     },
     {
       "id": "badge-primary",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.bg.action-primary}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
@@ -356,7 +366,7 @@
     {
       "id": "badge-secondary",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.secondary}",
+      "bg": "{color.bg.accent-secondary}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
@@ -365,38 +375,38 @@
     },
     {
       "id": "badge-success",
-      "fg": "{color.status.success-text}",
-      "bg": "{color.status.success-bg}",
+      "fg": "{color.text.success}",
+      "bg": "{color.bg.success}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
       "min": 4.5,
-      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: at L 0.95 sRGB permits ~0.02 chroma at the error and warning hues, so error-bg and warning-bg are deltaE 4 apart in NORMAL vision and cannot be separated further without lowering lightness. success-bg is the one that has room (green reaches C 0.05 at that lightness), so it reads as distinct — do not generalise from it (#214)."
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: the fills are pale tints, where sRGB leaves red little chroma, and pale tints fade on washed-out screens and under colour-vision deficiency. Error-bg and warning-bg were once deltaE 4 apart; they are step 100 of their ramps now (light-mode deltaE 16, dark-mode deltaE 11), but the words still carry the variant (#214)."
     },
     {
       "id": "badge-error",
-      "fg": "{color.status.error-text}",
-      "bg": "{color.status.error-bg}",
+      "fg": "{color.text.error}",
+      "bg": "{color.bg.error}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
       "min": 4.5,
-      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: error-bg vs warning-bg is deltaE 4 in normal vision, 2 under deuteranopia. Both are pinned at C 0.02 by the sRGB gamut at L 0.95 (#214)."
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: the error and warning fills were deltaE 4 apart before #318 and #365; they are further apart now, but the variant is still carried by the words, not the fill (#214)."
     },
     {
       "id": "badge-warning",
-      "fg": "{color.status.warning-text}",
-      "bg": "{color.status.warning-bg}",
+      "fg": "{color.text.warning}",
+      "bg": "{color.bg.warning}",
       "size": 14,
       "weight": "bold",
       "tier": 3,
       "min": 4.5,
-      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: warning-bg vs error-bg is deltaE 4 in normal vision, 2 under deuteranopia. Both are pinned at C 0.02 by the sRGB gamut at L 0.95 (#214)."
+      "note": "Tier 3 Supplementary — channel is the label text; see badge-default. NOT the background: the error and warning fills were deltaE 4 apart before #318 and #365; they are further apart now, but the variant is still carried by the words, not the fill (#214)."
     },
     {
       "id": "button-primary-medium",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.bg.action-primary}",
       "size": 16,
       "weight": "bold",
       "tier": 2,
@@ -406,7 +416,7 @@
     {
       "id": "button-primary-small",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.bg.action-primary}",
       "size": 14,
       "weight": "bold",
       "tier": 2,
@@ -415,7 +425,7 @@
     },
     {
       "id": "button-secondary",
-      "fg": "{color.action.primary}",
+      "fg": "{color.text.action-secondary}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "bold",
@@ -425,22 +435,32 @@
     },
     {
       "id": "button-secondary-on-surface",
-      "fg": "{color.action.primary}",
+      "fg": "{color.text.action-secondary}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Outlined button on a card/panel/modal. Passes with margin in both modes — OKCA 10.3 light / 9.8 dark ✅. Recorded because it was previously unmeasured, not because it was close (#224)."
+      "note": "Outlined button on a card/panel/modal. Passes with margin in both modes — OKCA 10.5 light / 7.9 dark ✅. Recorded because it was previously unmeasured, not because it was close (#224)."
     },
     {
       "id": "button-tertiary",
-      "fg": "{color.action.tertiary-text}",
-      "bg": "{color.action.tertiary}",
+      "fg": "{color.text.action-tertiary}",
+      "bg": "{color.bg.action-tertiary}",
       "size": 16,
       "weight": "bold",
       "tier": 2,
       "min": 4.5
+    },
+    {
+      "id": "button-tertiary-hover",
+      "fg": "{color.text.action-tertiary}",
+      "bg": "{color.bg.action-tertiary-hover}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Hover fill. Measured since the dark label moved from white to text-default, which missed the floor on the old gray-cool-650 hover (4.2) without anything noticing."
     },
     {
       "id": "button-ghost",
@@ -459,7 +479,7 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Ghost button is transparent-filled too, so it has the same two backgrounds. Passes with margin in both modes — OKCA 9.3 light / 10.7 dark ✅ (#224)."
+      "note": "Ghost button is transparent-filled too, so it has the same two backgrounds. Passes with margin in both modes — OKCA 9.7 light / 8.8 dark ✅ (#224)."
     },
     {
       "id": "button-ghost-hover",
@@ -469,7 +489,27 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Ghost button label on its hover fill. The fill was bg-surface, which vanished on cards and striped rows (#322). OKCA 6.5 light / 5.7 dark"
+      "note": "Ghost button label on its hover fill. The fill was bg-surface, which vanished on cards and striped rows (#322). OKCA 6.4 light / 4.9 dark"
+    },
+    {
+      "id": "button-tertiary-active",
+      "fg": "{color.text.action-tertiary}",
+      "bg": "{color.bg.action-tertiary-active}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Pressed fill, a step darker than hover. Light sits close to the floor here."
+    },
+    {
+      "id": "button-ghost-active",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.active}",
+      "size": 16,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Ghost button label on its pressed fill."
     },
     {
       "id": "dismiss-icon-hover",
@@ -479,7 +519,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Close/dismiss glyph on hover in candor-toast, candor-alert, candor-modal and candor-drawer, which all share bg-hover (#322). OKCA 6.5 light / 5.7 dark"
+      "note": "Close/dismiss glyph on hover in candor-toast, candor-alert, candor-modal and candor-drawer, which all share bg-hover (#322). OKCA 6.4 light / 4.9 dark"
     },
     {
       "id": "button-ghost-subtle-icon",
@@ -493,7 +533,7 @@
     },
     {
       "id": "button-destructive",
-      "fg": "{color.action.destructive-text}",
+      "fg": "{color.text.action-destructive}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "bold",
@@ -503,13 +543,13 @@
     },
     {
       "id": "button-destructive-on-surface",
-      "fg": "{color.action.destructive-text}",
+      "fg": "{color.text.action-destructive}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "The placement that actually matters for a destructive action — delete confirmations live in modals. It was missing until #224, when it was OKCA 3.9 dark against a 4.5 floor while passing on page, so the variant failed in its commonest position and nothing could see it. Destructive now takes the error red (#318): OKCA 4.8 light / 5.8 dark ✅."
+      "note": "The placement that actually matters for a destructive action — delete confirmations live in modals. It was missing until #224, when it was OKCA 3.9 dark against a 4.5 floor while passing on page, so the variant failed in its commonest position and nothing could see it. Destructive now takes the error red (#318): OKCA 5.0 light / 4.6 dark ✅."
     },
     {
       "id": "alert-title-info",
@@ -533,7 +573,7 @@
     },
     {
       "id": "status-title-success",
-      "fg": "{color.status.success-text}",
+      "fg": "{color.text.success}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
@@ -543,7 +583,7 @@
     },
     {
       "id": "status-title-warning",
-      "fg": "{color.status.warning-text}",
+      "fg": "{color.text.warning}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
@@ -553,7 +593,7 @@
     },
     {
       "id": "status-title-error",
-      "fg": "{color.status.error-text}",
+      "fg": "{color.text.error}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
@@ -563,7 +603,7 @@
     },
     {
       "id": "toast-message-info",
-      "fg": "{color.toast.message}",
+      "fg": "{color.text.toast}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
@@ -593,7 +633,7 @@
     },
     {
       "id": "nav-link-active",
-      "fg": "{color.action.primary}",
+      "fg": "{color.text.accent}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
@@ -604,16 +644,16 @@
     {
       "id": "nav-badge",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.secondary}",
+      "bg": "{color.bg.nav-badge}",
       "size": 14,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 3,
       "min": 4.5,
-      "note": "Nav notification badge — 14px semibold on secondary action color"
+      "note": "Nav notification badge, 14px semibold on the secondary action colour. Semibold is regular for contrast; Tier 3 is 4.5 at either weight."
     },
     {
       "id": "nav-inverse-brand",
-      "fg": "{color.text.inverse}",
+      "fg": "{color.text.on-inverse}",
       "bg": "{color.bg.inverse}",
       "size": 20,
       "weight": "bold",
@@ -632,7 +672,7 @@
     },
     {
       "id": "nav-inverse-link-active",
-      "fg": "{color.text.inverse}",
+      "fg": "{color.text.on-inverse}",
       "bg": "{color.bg.inverse}",
       "size": 16,
       "weight": "regular",
@@ -645,65 +685,140 @@
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 39,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 3
+      "min": 3,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). 24px and up takes 3.0 at any weight."
     },
     {
       "id": "heading-h2",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 31,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 3
+      "min": 3,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). 24px and up takes 3.0 at any weight."
     },
     {
       "id": "heading-h3",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 25,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 3
+      "min": 3,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). 24px and up takes 3.0 at any weight."
     },
     {
       "id": "heading-h4",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 20,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 3,
-      "note": "20px bold — 19-23px bold threshold applies"
+      "min": 4.5,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). At 20px regular the floor is 4.5, up from the 3.0 bold had."
     },
     {
       "id": "heading-h5",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 16,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 4.5
+      "min": 4.5,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). 16px takes 4.5 at either weight."
     },
     {
       "id": "heading-h6",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 14,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 4.5
+      "min": 6.5,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). At 14px a Tier 2 regular floor is 6.5, up from 4.5 at bold."
+    },
+    {
+      "id": "heading-h6-on-surface",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 2,
+      "min": 6.5,
+      "note": "The smallest semibold heading on a card, the strictest heading floor."
+    },
+    {
+      "id": "heading-h6-on-elevated",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.elevated}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 2,
+      "min": 6.5,
+      "note": "The smallest semibold heading in a modal or menu. The tightest margin of any heading: elevated is the lightest dark surface."
     },
     {
       "id": "heading-secondary",
       "fg": "{color.text.subtle}",
       "bg": "{color.bg.page}",
       "size": 25,
+      "weight": "regular",
+      "tier": 2,
+      "min": 3,
+      "note": "Secondary heading at h3, semibold."
+    },
+    {
+      "id": "heading-secondary-h4",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 20,
       "weight": "bold",
       "tier": 2,
       "min": 3,
-      "note": "Secondary color heading — large text, min 3.0"
+      "note": "Secondary h4 stays bold: at semibold the 20px floor would be 4.5."
+    },
+    {
+      "id": "heading-secondary-h4-on-surface",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.surface}",
+      "size": 20,
+      "weight": "bold",
+      "tier": 2,
+      "min": 3,
+      "note": "Secondary h4 on a card. Bold keeps the floor at 3.0."
+    },
+    {
+      "id": "heading-secondary-h4-on-elevated",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.elevated}",
+      "size": 20,
+      "weight": "bold",
+      "tier": 2,
+      "min": 3,
+      "note": "Secondary h4 in a modal or menu. Bold keeps the floor at 3.0."
+    },
+    {
+      "id": "heading-secondary-h5",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Secondary h5 on the page, semibold. Measured on the page only: on a card in light and in a modal in dark it falls below 4.5 at any weight, which is open."
+    },
+    {
+      "id": "heading-secondary-h6",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Secondary h6 stays bold: at semibold the 14px floor would be 6.5. On the page only, for the same reason as h5."
     },
     {
       "id": "table-column-header",
@@ -713,7 +828,17 @@
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "thead th — table sits on bg-page by default; subtle-on-surface on white exceeds its on-surface guarantee"
+      "note": "thead th — table sits on bg-page by default; subtle-on-surface on white exceeds its on-surface guarantee. Stays bold: at semibold the 14px Tier 2 floor would be 6.5, which this colour does not reach in dark."
+    },
+    {
+      "id": "table-sort-indicator",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The up/down caret on a sortable column header. The active column's header and caret turn text-default, covered by table-cell."
     },
     {
       "id": "table-cell",
@@ -773,7 +898,7 @@
       "weight": "regular",
       "tier": 3,
       "min": 4.5,
-      "note": "Table caption — Tier 3 Supplementary (position is redundant channel); OKCA 4.8 light / 6.8 dark"
+      "note": "Table caption — Tier 3 Supplementary (position is redundant channel); OKCA 5.0 light / 5.6 dark"
     },
     {
       "id": "tabs-inactive",
@@ -787,7 +912,7 @@
     },
     {
       "id": "tabs-active",
-      "fg": "{color.action.primary}",
+      "fg": "{color.text.accent}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
@@ -806,7 +931,7 @@
     },
     {
       "id": "tabs-inverse-active",
-      "fg": "{color.text.inverse}",
+      "fg": "{color.text.on-inverse}",
       "bg": "{color.bg.inverse}",
       "size": 16,
       "weight": "regular",
@@ -814,8 +939,18 @@
       "min": 4.5
     },
     {
+      "id": "tooltip-text",
+      "fg": "{color.text.on-inverse}",
+      "bg": "{color.bg.tooltip}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 2,
+      "min": 6.5,
+      "note": "Tier 2 Functional: a tooltip is often the only name an icon button shows, so it is not supplementary. Its own fill, a step above the inverse band in dark so the bubble stands apart on a modal. OKCA 11.2 light / 7.1 dark"
+    },
+    {
       "id": "breadcrumb-link",
-      "fg": "{color.link}",
+      "fg": "{color.text.link}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
@@ -844,18 +979,38 @@
     },
     {
       "id": "pagination-page",
-      "fg": "{color.text.subtle}",
+      "fg": "{color.text.subtle-on-surface}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "bold",
       "tier": 2,
       "min": 4.5,
-      "note": "Inactive page button — 14px bold Tier 2 Functional"
+      "note": "Inactive page button — 14px bold Tier 2 Functional. subtle-on-surface so it also clears on a card (see pagination-page-on-surface)."
+    },
+    {
+      "id": "pagination-page-on-surface",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Inactive page button on a card, the common placement below a table. text-subtle was OKCA 3.9 light here, which the page-only pairing never saw."
+    },
+    {
+      "id": "pagination-hover",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.hover}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Hovered page button. The fill was bg-surface, invisible on a card; bg-hover reads on page and card."
     },
     {
       "id": "pagination-current",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.bg.action-primary}",
       "size": 14,
       "weight": "regular",
       "tier": 3,
@@ -864,7 +1019,7 @@
     },
     {
       "id": "pagination-ellipsis",
-      "fg": "{color.text.subtle}",
+      "fg": "{color.text.subtle-on-surface}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
@@ -880,7 +1035,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "compact-mode 'Page X of Y' — Tier 2 Functional UI: it is the sole channel for position, which is Tier 2's definition, not Tier 1's (it is recognised, not read sequentially to act). Previously filed as Tier 1 while described in Tier 2's own words. text-default clears either (OKCA 11.9 light / 12.9 dark)."
+      "note": "compact-mode 'Page X of Y' — Tier 2 Functional UI: it is the sole channel for position, which is Tier 2's definition, not Tier 1's (it is recognised, not read sequentially to act). Previously filed as Tier 1 while described in Tier 2's own words. text-default clears either (OKCA 12.4 light / 11.4 dark)."
     },
     {
       "id": "chip-default",
@@ -895,7 +1050,7 @@
     {
       "id": "chip-selected",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.primary}",
+      "bg": "{color.bg.action-primary}",
       "size": 14,
       "weight": "bold",
       "tier": 2,
@@ -906,10 +1061,70 @@
       "fg": "{color.text.default}",
       "bg": "{color.bg.elevated}",
       "size": 25,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
       "min": 3,
-      "note": "Modal h2 title — 25px bold, large text threshold"
+      "note": "Modal title, semibold since 7.0.0. 24px and up takes 3.0 at any weight."
+    },
+    {
+      "id": "drawer-title",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.elevated}",
+      "size": 25,
+      "weight": "regular",
+      "tier": 2,
+      "min": 3,
+      "note": "Drawer title, semibold, on the elevated panel. 24px and up takes 3.0 at any weight."
+    },
+    {
+      "id": "card-header",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Card header, semibold. 16px takes 4.5 at either weight."
+    },
+    {
+      "id": "accordion-title",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Accordion title, semibold, on the surface fill an accordion stack usually sits on."
+    },
+    {
+      "id": "accordion-title-subtle",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Subtle accordion title on surface. It used text-subtle, which on surface falls below 4.5 in light."
+    },
+    {
+      "id": "accordion-title-quiet",
+      "fg": "{color.text.subtle-on-surface}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "note": "Quiet accordion title, weight 500, so regular for contrast. Tier 3: structural nesting is the redundant channel. It used text-subtle, which on surface falls below 4.5 in light."
+    },
+    {
+      "id": "disclosure-title",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Disclosure trigger, semibold. 16px takes 4.5 at either weight."
     },
     {
       "id": "modal-body",
@@ -949,7 +1164,7 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Inline code in candor-article: the same pair as code-inline and the code block, since inline code and blocks share one treatment. Tier 2 Functional at 14px regular. OKCA 9.6 light / 11.4 dark"
+      "note": "Inline code in candor-article: the same pair as code-inline and the code block, since inline code and blocks share one treatment. Tier 2 Functional at 14px regular. OKCA 10.0 light / 9.5 dark"
     },
     {
       "id": "article-code-block",
@@ -959,27 +1174,27 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "Code block text on the teal code tint, 14px regular Tier 2 Functional. OKCA 9.6 light / 11.4 dark"
+      "note": "Code block text on the teal code tint, 14px regular Tier 2 Functional. OKCA 10.0 light / 9.5 dark"
     },
     {
       "id": "article-blockquote",
-      "fg": "{color.blockquote.text}",
+      "fg": "{color.text.blockquote}",
       "bg": "{color.bg.page}",
       "size": 20,
       "weight": "regular",
       "tier": 1,
       "min": 4.5,
-      "note": "Blockquote body: a 20px italic book indent on the page, with no wash or side bar since #292. Tier 1 Reading. OKCA 11.9 light / 12.9 dark ✅"
+      "note": "Blockquote body: a 20px italic book indent on the page, with no wash or side bar since #292. Tier 1 Reading. OKCA 12.4 light / 11.4 dark ✅"
     },
     {
       "id": "nav-badge-text",
       "fg": "{color.text.on-action}",
-      "bg": "{color.action.secondary}",
+      "bg": "{color.bg.nav-badge}",
       "size": 14,
       "weight": "semibold",
       "tier": 3,
       "min": 4.5,
-      "note": "Navigation badge count (white on burgundy) — Tier 3 Supplementary; OKCA 9.7 light / 7.3 dark"
+      "note": "Navigation badge count (light label on the burgundy fill) — Tier 3 Supplementary; OKCA 7.8 light / 5.4 dark. Its own fill, --color-nav-badge-bg, stays at burgundy-600 in dark while badges deepen to 800, since a count is meant to draw the eye (was OKCA 6.7 dark, dark label on the pale burgundy-300 fill)"
     },
     {
       "id": "tone-picker-col-header",
@@ -1033,33 +1248,93 @@
     },
     {
       "id": "article-link",
-      "fg": "{color.link}",
+      "fg": "{color.text.link}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Article body links (16px regular) — Tier 2 Functional; OKCA 5.0 light / 6.3 dark ✅ (tight — tightest use of this color)"
+      "note": "Article body links (16px regular) — Tier 2 Functional. One link colour has to clear the floor on the page, a card and a modal; see the -on-surface and -on-elevated pairings. OKCA 6.1 light / 8.4 dark ✅"
     },
     {
       "id": "article-link-visited",
-      "fg": "{color.link-visited}",
+      "fg": "{color.text.link-visited}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Visited links in article prose — Tier 2 Functional; OKCA 5.5 light / 6.6 dark ✅"
+      "note": "Visited links in article prose — Tier 2 Functional; OKCA 6.3 light / 8.2 dark ✅"
     },
     {
       "id": "article-link-hover",
-      "fg": "{color.link-hover}",
+      "fg": "{color.text.link-hover}",
       "bg": "{color.bg.page}",
       "size": 16,
       "weight": "regular",
       "tier": 2,
       "min": 4.5,
-      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 6.1 light / 11.2 dark ✅"
+      "note": "Hover state on article links (16px regular) and breadcrumb links (14px bold) — OKCA 8.6 light / 10.2 dark ✅"
+    },
+    {
+      "id": "article-link-on-surface",
+      "fg": "{color.text.link}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Links in text on a card. Light measured 3.8 here before azure-600, which no pairing recorded."
+    },
+    {
+      "id": "article-link-on-elevated",
+      "fg": "{color.text.link}",
+      "bg": "{color.bg.elevated}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Links in a modal or drawer body. Dark measured 4.2 here before azure-250, which no pairing recorded."
+    },
+    {
+      "id": "article-link-visited-on-surface",
+      "fg": "{color.text.link-visited}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Visited links on a card. Light indigo-600 sat on the floor here; indigo-625 clears it."
+    },
+    {
+      "id": "article-link-visited-on-elevated",
+      "fg": "{color.text.link-visited}",
+      "bg": "{color.bg.elevated}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Visited links in a modal or drawer body. Dark indigo-300 measured 4.1 here."
+    },
+    {
+      "id": "article-link-hover-on-surface",
+      "fg": "{color.text.link-hover}",
+      "bg": "{color.bg.surface}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Hovered links on a card."
+    },
+    {
+      "id": "article-link-hover-on-elevated",
+      "fg": "{color.text.link-hover}",
+      "bg": "{color.bg.elevated}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Hovered links in a modal or drawer body."
     },
     {
       "id": "alert-icon-info",
@@ -1069,37 +1344,37 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Info icon in candor-alert and candor-toast (non-text currentColor SVG on surface bg) — OKCA 3.8 light / 5.6 dark ✅ non-text 3:1"
+      "note": "Info icon in candor-alert and candor-toast (non-text currentColor SVG on surface bg) — OKCA 3.9 light / 4.7 dark ✅ non-text 3:1"
     },
     {
       "id": "status-icon-success",
-      "fg": "{color.status.success}",
+      "fg": "{color.icon.success}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Success icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3 light / 4.5 dark ✅"
+      "note": "Success icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.3 light / 5.4 dark ✅"
     },
     {
       "id": "status-icon-warning",
-      "fg": "{color.status.warning}",
+      "fg": "{color.icon.warning}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Warning icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.1 light / 5.0 dark ✅"
+      "note": "Warning icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.4 light / 5.2 dark ✅"
     },
     {
       "id": "status-icon-error",
-      "fg": "{color.status.error}",
+      "fg": "{color.icon.error}",
       "bg": "{color.bg.surface}",
       "size": 16,
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "Error icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.1 light / 3.4 dark ✅"
+      "note": "Error icon in candor-alert and candor-toast, on the neutral surface box since #292 (non-text, WCAG 1.4.11). OKCA 3.3 light / 4.6 dark ✅"
     },
     {
       "id": "autocomplete-suggestion",
@@ -1112,6 +1387,26 @@
       "note": "candor-autocomplete suggestion item in the popup list — 16px regular on elevated surface, Tier 1 Reading (user reads it to decide whether to accept). Value/placeholder/label/hint/error reuse the shared form-* pairings."
     },
     {
+      "id": "chat-input-disclaimer",
+      "fg": "{color.text.subtle-on-surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "bg": "{color.bg.page}",
+      "note": "Standing small print beneath the composer, 14px regular Tier 3: the field and its send button carry the action, the footnote qualifies it. subtle-on-surface so it also clears on a card (see chat-input-disclaimer-on-surface)."
+    },
+    {
+      "id": "chat-input-disclaimer-on-surface",
+      "fg": "{color.text.subtle-on-surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 3,
+      "min": 4.5,
+      "bg": "{color.bg.surface}",
+      "note": "The disclaimer when the composer sits on a card. text-subtle was OKCA 3.9 light here, which no pairing recorded."
+    },
+    {
       "id": "code-inline",
       "fg": "{color.text.code}",
       "bg": "{color.bg.code}",
@@ -1119,17 +1414,17 @@
       "weight": "regular",
       "tier": 2,
       "min": 6.5,
-      "note": "candor-code inline code: text-code on bg-code; Tier 2 Functional (character position load-bearing). Body text on the teal code tint in both modes. OKCA 9.6 light / 11.4 dark ✅"
+      "note": "candor-code inline code: text-code on bg-code; Tier 2 Functional (character position load-bearing). Body text on the teal code tint in both modes. OKCA 10.0 light / 9.5 dark ✅"
     },
     {
       "id": "callout-body",
       "fg": "{color.text.default}",
-      "bg": "{color.callout.bg}",
+      "bg": "{color.bg.callout}",
       "size": 16,
       "weight": "regular",
       "tier": 1,
       "min": 4.5,
-      "note": "candor-article .callout body: text-default on a neutral surface panel, with no wash or side bar since #292. Tier 1 Reading. OKCA 9.3 light / 10.7 dark ✅. The authored label (Tip., Note.) carries the meaning."
+      "note": "candor-article .callout body: text-default on a neutral surface panel, with no wash or side bar since #292. Tier 1 Reading. OKCA 9.7 light / 8.8 dark ✅. The authored label (Tip., Note.) carries the meaning."
     },
     {
       "id": "form-control-border-on-page",
@@ -1139,7 +1434,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The form-control boundary at page level — candor-input, select, combobox, autocomplete, listbox, chat-input, checkbox, radio, switch, slider, menu all draw their edge from this one token. WCAG 1.4.11 non-text, so the 3.0 floor is 1.4.11's, not a text floor. OKCA 4.8 light / 4.6 dark ✅"
+      "note": "The form-control boundary at page level — candor-input, select, combobox, autocomplete, listbox, chat-input, checkbox, radio, switch, slider, menu all draw their edge from this one token. WCAG 1.4.11 non-text, so the 3.0 floor is 1.4.11's, not a text floor. OKCA 5.0 light / 5.6 dark ✅"
     },
     {
       "id": "form-control-border-on-surface",
@@ -1149,7 +1444,57 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The same boundary on a surface container. This is the pairing whose absence was #217: the token was validated on page only, was OKCA 2.8 light and was OKCA 2.9 dark here, and the documented fix was a --color-border-control-on-surface override the consumer applied by hand. The colour-iterator example shipped six controls without it. 5.0.0 retired the sibling and moved the base value to a lightness safe on both backgrounds — OKCA 3.8 light / 3.9 dark ✅"
+      "note": "The same boundary on a surface container. This is the pairing whose absence was #217: the token was validated on page only, was OKCA 2.8 light and was OKCA 2.9 dark here, and the documented fix was a --color-border-control-on-surface override the consumer applied by hand. The colour-iterator example shipped six controls without it. 5.0.0 retired the sibling and moved the base value to a lightness safe on both backgrounds — OKCA 3.9 light / 4.7 dark ✅"
+    },
+    {
+      "id": "progress-track-edge-on-page",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-progress: the edge of the track, which is hollow, so the track's far end is what tells a reader how much of the whole the fill is. WCAG 1.4.11. Until 7.0.0 the track was bg-surface edged in border-default and vanished on a card. OKCA 5.0 light / 5.6 dark ✅"
+    },
+    {
+      "id": "progress-track-edge-on-surface",
+      "fg": "{color.border.control}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-progress track edge on a card or panel. WCAG 1.4.11. OKCA 3.9 light / 4.7 dark ✅"
+    },
+    {
+      "id": "progress-fill-on-page",
+      "fg": "{color.fill.indicator}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-progress: the fill, which carries the value. It sits inside the hollow track, so the page shows around it. WCAG 1.4.11. OKCA 13.4 light / 10.2 dark ✅"
+    },
+    {
+      "id": "progress-fill-on-surface",
+      "fg": "{color.fill.indicator}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "candor-progress fill on a card or panel. WCAG 1.4.11. OKCA 10.5 light / 7.9 dark ✅"
+    },
+    {
+      "id": "checkbox-tick",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.bg.action-primary}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The tick on a checked checkbox: the only thing marking the checked state, since the fill has no edge of its own and sits close to the page in dark. WCAG 1.4.11. OKCA 11.2 light / 5.4 dark ✅"
     },
     {
       "id": "switch-track-thumb-off",
@@ -1159,7 +1504,17 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-switch off-state thumb against its own track. Same two colours as form-control-border-on-surface but not the same claim: the track paints its own bg-surface fill, so no page context could rescue this one and it was below the floor in every consumer, not just on surface containers. The thumb is the sole indicator of off vs on. OKCA 3.8 light / 3.9 dark ✅"
+      "note": "candor-switch off-state thumb against its own track. Same two colours as form-control-border-on-surface but not the same claim: the track paints its own bg-surface fill, so no page context could rescue this one and it was below the floor in every consumer, not just on surface containers. The thumb is the sole indicator of off vs on. OKCA 3.9 light / 4.7 dark ✅"
+    },
+    {
+      "id": "switch-thumb-on",
+      "fg": "{color.text.on-action}",
+      "bg": "{color.bg.action-primary}",
+      "size": 14,
+      "weight": "regular",
+      "tier": "non-text",
+      "min": 3,
+      "note": "The thumb on a checked switch, on its deep track. Position and colour both mark the state; the track has no edge of its own and sits close to the page in dark. WCAG 1.4.11. OKCA 11.2 light / 5.4 dark ✅"
     },
     {
       "id": "slider-thumb-border-on-page",
@@ -1169,7 +1524,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-slider thumb outline. Recorded separately from form-control-border-on-page because the background is a load-bearing claim rather than an incidental one: the thumb is 22px against a 4px track, so most of its outline falls on the page and not on the track. Since #247 the track is the same colour as this outline, so against the track the outline does not separate at all; it is the page that carries identifiability, which is why the track has no filled portion any more. OKCA 4.8 light / 4.6 dark ✅"
+      "note": "candor-slider thumb outline. Recorded separately from form-control-border-on-page because the background is a load-bearing claim rather than an incidental one: the thumb is 22px against a 4px track, so most of its outline falls on the page and not on the track. Since #247 the track is the same colour as this outline, so against the track the outline does not separate at all; it is the page that carries identifiability, which is why the track has no filled portion any more. OKCA 5.0 light / 5.6 dark ✅"
     },
     {
       "id": "slider-track-on-page",
@@ -1179,7 +1534,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "candor-slider rail. Until #247 the track was a filled/unfilled split, action-primary up to the value and border-strong after it, and each mode failed a different half: light, the unfilled track against the page; dark, the boundary between the halves. No single neutral fixed both, so the fill was dropped and the whole rail is the control boundary token; the thumb carries the value. Same colours as form-control-border-on-page, recorded separately because the rail is what shows the range the thumb moves in. OKCA 4.8 light / 4.6 dark ✅"
+      "note": "candor-slider rail. Until #247 the track was a filled/unfilled split, action-primary up to the value and border-strong after it, and each mode failed a different half: light, the unfilled track against the page; dark, the boundary between the halves. No single neutral fixed both, so the fill was dropped and the whole rail is the control boundary token; the thumb carries the value. Same colours as form-control-border-on-page, recorded separately because the rail is what shows the range the thumb moves in. OKCA 5.0 light / 5.6 dark ✅"
     },
     {
       "id": "slider-track-on-surface",
@@ -1189,7 +1544,27 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The slider rail inside a surface container, as in the slider's own All variants story, where every slider sits in a candor-card. OKCA 3.8 light / 3.9 dark ✅"
+      "note": "The slider rail inside a surface container, as in the slider's own All variants story, where every slider sits in a candor-card. OKCA 3.9 light / 4.7 dark ✅"
+    },
+    {
+      "id": "slider-value",
+      "fg": "{color.text.subtle-on-surface}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "bg": "{color.bg.page}",
+      "note": "The value readout beside the track. Tier 2: the thumb shows roughly where the value sits, the number is the only exact reading, so it is bold to meet the 14px Tier 2 floor. It had no pairing before; as text-subtle at regular weight it was OKCA 5.0 light against the 6.5 regular floor."
+    },
+    {
+      "id": "slider-value-on-surface",
+      "fg": "{color.text.subtle-on-surface}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "bg": "{color.bg.surface}",
+      "note": "The value readout inside a card, as in the slider's own All variants story. text-subtle was OKCA 3.9 light here."
     },
     {
       "id": "form-control-border-on-elevated",
@@ -1199,7 +1574,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The form-control boundary on an elevated surface: every option panel, the drawer, the modal and the chat input, so any form inside a dialog draws its borders here. Nothing recorded this pairing until #307, and dark measured 2.6 at the L 0.58 the token then had: the #217 gap again, one background further up. The dark token moved to L 0.62 — OKCA 5.0 light / 3.1 dark ✅"
+      "note": "The form-control boundary on an elevated surface: every option panel, the drawer, the modal and the chat input, so any form inside a dialog draws its borders here. Nothing recorded this pairing until #307, and dark measured 2.6 at the L 0.58 the token then had: the #217 gap again, one background further up. The dark token moved to L 0.62 — OKCA 5.3 light / 3.8 dark ✅"
     },
     {
       "id": "scrollbar-thumb-on-page",
@@ -1209,7 +1584,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The visible scrollbar bar from utils/scrollbar.ts on a page-level scroller, such as candor-table or candor-data-grid. The grab area around it is transparent, so the bar is drawn straight on the scroller background (#307). OKCA 4.8 light / 4.6 dark ✅"
+      "note": "The visible scrollbar bar from utils/scrollbar.ts on a page-level scroller, such as candor-table or candor-data-grid. The grab area around it is transparent, so the bar is drawn straight on the scroller background (#307). OKCA 5.0 light / 5.6 dark ✅"
     },
     {
       "id": "scrollbar-thumb-on-surface",
@@ -1219,7 +1594,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The scrollbar bar in candor-toolbar, whose background is bg-surface (#307). OKCA 3.8 light / 3.9 dark ✅"
+      "note": "The scrollbar bar in candor-toolbar, whose background is bg-surface (#307). OKCA 3.9 light / 4.7 dark ✅"
     },
     {
       "id": "scrollbar-thumb-on-elevated",
@@ -1229,7 +1604,7 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The scrollbar bar in the listbox, combobox and autocomplete panels, the drawer and modal bodies, and the chat input, all on bg-elevated. This is the pairing that set the dark token: at L 0.58 it was 2.6 (#307). OKCA 5.0 light / 3.1 dark ✅"
+      "note": "The scrollbar bar in the listbox, combobox and autocomplete panels, the drawer and modal bodies, and the chat input, all on bg-elevated. This is the pairing that set the dark token: at L 0.58 it was 2.6 (#307). OKCA 5.3 light / 3.8 dark ✅"
     },
     {
       "id": "scrollbar-thumb-on-code",
@@ -1239,12 +1614,12 @@
       "weight": "regular",
       "tier": "non-text",
       "min": 3,
-      "note": "The scrollbar bar on a candor-article code block. Since the code tint replaced the navy panel, the default thumb (border-control) clears the floor in both modes, so the article no longer overrides it. OKCA 3.9 light / 4.1 dark ✅"
+      "note": "The scrollbar bar on a candor-article code block. Since the code tint replaced the navy panel, the default thumb (border-control) clears the floor in both modes, so the article no longer overrides it. OKCA 4.1 light / 5.0 dark ✅"
     },
     {
       "id": "text-on-bg-forward",
       "fg": "{color.text.default}",
-      "bg": "{color.bg.forward}",
+      "bg": "{color.bg.content}",
       "size": 16,
       "weight": "regular",
       "tier": 1,
@@ -1254,7 +1629,7 @@
     {
       "id": "text-subtle-on-bg-forward",
       "fg": "{color.text.subtle}",
-      "bg": "{color.bg.forward}",
+      "bg": "{color.bg.content}",
       "size": 14,
       "weight": "regular",
       "tier": 3,
@@ -1264,7 +1639,7 @@
     {
       "id": "text-on-bg-recede",
       "fg": "{color.text.default}",
-      "bg": "{color.bg.recede}",
+      "bg": "{color.bg.chrome}",
       "size": 16,
       "weight": "regular",
       "tier": 1,
@@ -1274,7 +1649,7 @@
     {
       "id": "text-subtle-on-surface-on-bg-recede",
       "fg": "{color.text.subtle-on-surface}",
-      "bg": "{color.bg.recede}",
+      "bg": "{color.bg.chrome}",
       "size": 14,
       "weight": "regular",
       "tier": 3,
@@ -1283,7 +1658,7 @@
     },
     {
       "id": "focus-ring-on-page",
-      "fg": "{color.focus}",
+      "fg": "{color.ring.focus}",
       "bg": "{color.bg.page}",
       "size": 14,
       "weight": "regular",
@@ -1293,7 +1668,7 @@
     },
     {
       "id": "focus-ring-on-surface",
-      "fg": "{color.focus}",
+      "fg": "{color.ring.focus}",
       "bg": "{color.bg.surface}",
       "size": 14,
       "weight": "regular",
@@ -1303,7 +1678,7 @@
     },
     {
       "id": "focus-ring-on-elevated",
-      "fg": "{color.focus}",
+      "fg": "{color.ring.focus}",
       "bg": "{color.bg.elevated}",
       "size": 14,
       "weight": "regular",

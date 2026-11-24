@@ -813,6 +813,55 @@ if (shipped.size === 0) {
   console.log(`  ✓ all ${namedFiles} tokens filenames named in the docs are files the package ships`);
 }
 
+// ── colour showcase: every semantic colour token has a swatch ────────────────
+// The showcase is the one page that shows the whole palette, and it drifted:
+// twelve tokens added after it was written had no swatch, and the dark action
+// groups read wrongly without their fills. The token list comes from the
+// declarations in semantics.scss, so a new token fails here until it is shown,
+// and a swatch for a removed token fails too.
+const SEMANTICS = path.join(ROOT, 'src', 'design-tokens', 'semantics.scss');
+const SHOWCASE = path.join(ROOT, 'src', 'web-components', 'design-tokens', 'color-showcase.stories.ts');
+// Tokens deliberately left out, each with its reason. A stale entry fails.
+const SHOWCASE_EXCLUDED = {
+  '--color-bg-scrim': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour, and the token export skips it',
+};
+// Deprecated tokens (#367) are not part of the current palette: they must not
+// have a swatch, and they are not required to. A deprecated token is one in the
+// deprecated-color-aliases mixin, or one whose declaration says "deprecated".
+const semanticsSrc = fs.readFileSync(SEMANTICS, 'utf8');
+const deprecatedTokens = new Set();
+{
+  const start = semanticsSrc.indexOf('@mixin deprecated-color-aliases {');
+  const block = start === -1 ? '' : semanticsSrc.slice(start, semanticsSrc.indexOf('\n}', start));
+  for (const m of block.matchAll(/^\s*(--color-[a-z0-9-]+)\s*:/gm)) deprecatedTokens.add(m[1]);
+  for (const m of semanticsSrc.matchAll(/^\s*(--color-[a-z0-9-]+)\s*:[^\n]*\/\/[^\n]*deprecated/gim)) deprecatedTokens.add(m[1]);
+  // A "deprecated" comment above the declaration, as bg-subtle and the
+  // secondary states carry.
+  for (const m of semanticsSrc.matchAll(/^[ \t]*\/\/[^\n]*[Dd]eprecated[^\n]*\n(?:[ \t]*\/\/[^\n]*\n)*[ \t]*(--color-[a-z0-9-]+)\s*:/gm)) deprecatedTokens.add(m[1]);
+}
+const declared = new Set(
+  [...stripComments(semanticsSrc).matchAll(/^\s*(--color-[a-z0-9-]+)\s*:/gm)]
+    .map((m) => m[1])
+    .filter((t) => !deprecatedTokens.has(t)),
+);
+const shown = new Set(
+  [...fs.readFileSync(SHOWCASE, 'utf8').matchAll(/variable:\s*'(--color-[a-z0-9-]+)'/g)].map((m) => m[1]),
+);
+const unshown = [...declared].filter((t) => !shown.has(t) && !(t in SHOWCASE_EXCLUDED)).sort();
+const phantom = [...shown].filter((t) => !declared.has(t)).sort();
+const staleExcluded = Object.keys(SHOWCASE_EXCLUDED).filter((t) => !declared.has(t) || shown.has(t));
+if (declared.size === 0 || shown.size === 0) {
+  fail('found no colour tokens or no showcase swatches — the scan is broken, not the showcase');
+} else if (unshown.length || phantom.length || staleExcluded.length) {
+  if (unshown.length) fail(`colour token(s) with no swatch in the colour showcase:\n      ${unshown.join('\n      ')}`);
+  if (phantom.length) fail(`colour showcase swatch(es) for token(s) semantics.scss does not declare:\n      ${phantom.join('\n      ')}`);
+  if (staleExcluded.length) fail(`stale showcase exclusion(s), no longer declared or now shown:\n      ${staleExcluded.join('\n      ')}`);
+} else {
+  console.log(
+    `  ✓ all ${declared.size} colour tokens in semantics.scss appear in the colour showcase (${Object.keys(SHOWCASE_EXCLUDED).length} excluded with a reason)`,
+  );
+}
+
 if (failed) {
   console.log(
     '\n✖ documentation claims do not match the build.' +

@@ -39,27 +39,27 @@ rules just under here are worth two minutes before you start.
 
 ## Using the tokens correctly
 
-This package is the *only* thing that travels to a tokens-only consumer. The design rationale
-in the repo's `docs/` doesn't. These five rules are the ones that keep output on-system; the
-[Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) is the visual companion.
+If you use the tokens without the components, these five rules keep your output consistent with
+Candor. The [Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) shows them in use.
 
 1. **Reach for semantic roles, not primitives.** Use `--color-text-default`, not `--navy-800`;
    `--spacing-md`, not `--space-3`. The semantic layer (`--color-*`, `--spacing-*`, `--font-*`,
-   `--radius-*`) carries meaning *and* dark-mode behaviour. The primitives (`--navy-*`, `--gray-*`,
-   `--space-*`, `--text-*`) are raw values with no mode-awareness, so a component built on them
-   breaks in dark mode.
+   `--radius-*`, `--motion-*`) carries meaning *and* dark-mode behaviour. The primitives (`--navy-*`,
+   `--gray-*`, `--space-*`, `--type-*`, `--typeface-*`) are raw values with no mode-awareness, so a
+   component built on them breaks in dark mode.
 2. **14px is the readable-text floor.** Don't set readable text below `--font-size-sm` (14px).
-   `--font-size-xs` / `--text-xs` (12px) is for decorative, non-text chrome only (badge frames,
+   `--font-size-xs` / `--type-xs` (12px) is for decorative, non-text chrome only (badge frames,
    icon sizing), never body, labels, or values.
-3. **Don't use non-text color tokens as text colour.** `--color-status-error`,
-   `--color-status-success` and `--color-status-warning` are
-   contrast-validated for icons/borders only; their contrast is below every text threshold. For
-   coloured text use the paired `-text` variants: `--color-status-error-text`, etc. (In the JSON,
-   these carry `"$extensions": { "usage": "non-text" }`.)
-4. **The values are already tuned. Don't drag them back to extremes.** Colours sit deliberately
-   off the raw extremes: text is a deep near-black, not `#000`; dark mode is deep navy, not pure
-   black; primaries aren't at max chroma. Overriding a token to a raw extreme undoes the contrast
-   and humanist tuning baked in. If a value looks "not contrasty enough," it was measured. Trust it.
+3. **Read the first word of a colour token: it is what the token paints.** `bg-` is a
+   background, `text-` is text, and `icon-`, `border-`, `fill-` and `ring-` are non-text: they
+   meet the 3:1 non-text floor, not a text floor. For coloured text use the `text-` token of the
+   same role (`--color-text-error`, not `--color-icon-error`). In the JSON, non-text tokens carry
+   `"$extensions": { "usage": "non-text" }`. Names from before 7.0.0 still resolve as deprecated
+   aliases until the next major.
+4. **Keep the tuned values.** Text is a deep near-black, dark mode is a deep navy, and the
+   primaries sit below maximum chroma. Each colour is measured against a contrast floor, so a
+   token that looks soft already passes. Overriding one to `#000` or pure black adds contrast the
+   text doesn't need and loses the humanist tuning.
 5. **Monospace is for content where character position is load-bearing**: code, IDs, version
    strings, timestamps, coordinates. It is not a flavour to signal "technical". `--font-family-mono`
    with `font-variant-numeric: tabular-nums`.
@@ -104,8 +104,8 @@ All tokens are then available as CSS custom properties:
 
 ### Peer dependencies: fonts and icons
 
-`candor-tokens.css` *names* the font families but does not load them. A consumer who
-forgets to import the faces gets a silent fallback to Georgia / system-ui with no error.
+`candor-tokens.css` *names* the font families but doesn't load them. Without the font
+imports, text falls back to Georgia or system-ui, with no error to tell you.
 Candor uses [Fontsource](https://fontsource.org/) self-hosted packages (no Google Fonts CDN
 link needed), which ship as runtime dependencies of this package.
 
@@ -126,18 +126,20 @@ validated against.
 weights or add italics), install the packages and import them directly:
 
 ```bash
-npm install @fontsource-variable/roboto-flex @fontsource-variable/roboto-mono \
-            @fontsource-variable/noto-sans @fontsource-variable/noto-serif \
-            @fontsource/atkinson-hyperlegible
+npm install @fontsource-variable/roboto-flex @fontsource-variable/noto-sans \
+            @fontsource-variable/noto-serif \
+            @fontsource-variable/atkinson-hyperlegible-next \
+            @fontsource-variable/atkinson-hyperlegible-mono
 ```
 
 ```css
-@import '@fontsource-variable/roboto-flex/index.css';
-@import '@fontsource-variable/roboto-mono/index.css';
+@import '@fontsource-variable/roboto-flex/opsz.css';  /* not index.css, which has the weight axis only */
 @import '@fontsource-variable/noto-sans/index.css';
 @import '@fontsource-variable/noto-serif/index.css';
-@import '@fontsource/atkinson-hyperlegible/400.css';
-@import '@fontsource/atkinson-hyperlegible/700.css';
+@import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
+@import '@fontsource-variable/atkinson-hyperlegible-next/wght-italic.css';
+@import '@fontsource-variable/atkinson-hyperlegible-mono/wght.css';
+@import '@fontsource-variable/atkinson-hyperlegible-mono/wght-italic.css';
 ```
 
 For icon support (used by Candor components), install Phosphor Icons:
@@ -159,14 +161,13 @@ npm install @phosphor-icons/web
 > render icons as inline `<svg>` with `fill="currentColor"` instead. See Storybook →
 > Design Tokens → Icons ("Using icons inside shadow DOM") for the full pattern.
 
-> **Font name note:** The Fontsource variable packages register fonts with a "Variable" suffix in their
-> internal `font-family` name (e.g. `'Roboto Flex Variable'`). Candor's tokens handle this for Roboto
-> Flex by listing both names in the stack: `'Roboto Flex Variable', 'Roboto Flex'`.
->
-> For **Noto Serif and Noto Sans**, the tokens reference `"Noto Serif"` and `"Noto Sans"` (no "Variable"
-> suffix). If you are writing your own `@font-face` declarations, you **must** use these exact names,
-> not `'Noto Serif Variable'` or `'Noto Sans Variable'`. A mismatch produces a silent fallback to Georgia
-> or system-ui with no console error. The Fontsource `@import` path approach above avoids this entirely.
+> **Font name note:** The Fontsource variable packages register each family with a "Variable" suffix
+> in its `font-family` name (`'Roboto Flex Variable'`, `'Noto Serif Variable'`, `'Atkinson Hyperlegible
+> Next Variable'`). Every Candor typeface lists that name first and the plain name second, so either
+> loading route works: the Fontsource imports above, or your own `@font-face` declarations under the
+> plain names (`'Noto Serif'`, `'Roboto Flex'`). A name that matches neither produces a silent fallback
+> to Georgia or system-ui with no console error. Before 7.0.0 the two Noto stacks listed only the plain
+> names, so loading them through `candor-fonts.css` fell back silently.
 
 ### Prose, syntax and blog styles
 
@@ -201,19 +202,21 @@ Tokens include automatic dark mode support via two mechanisms:
 
 Raw values: color ramps, type scale, spacing scale. Prefixed by family:
 
-- `--navy-{50–900}`, `--burgundy-{50–900}`, `--azure-{50–900}`, `--indigo-{50–900}`, `--gray-{0–900}`
-- `--space-{1–12}`, `--text-{xs–3xl}`
-- `--font-{sans,accessible,mono,reading,serif}`, `--weight-{light–bold}`, `--leading-{tight–relaxed}`
+- Colour ramps, each derived from rules: `--navy-*`, `--burgundy-*`, `--azure-*`, `--indigo-*`, `--teal-*`, `--red-*`, `--gold-*`, `--green-*` (`50`–`900`, plus in-between steps such as `--navy-670`), and the grey ramps `--gray-*`, `--gray-cool-*`, `--gray-warm-*`
+- `--space-{1–12}`, `--type-{xs–3xl}`
+- `--typeface-{sans,accessible,mono,reading,serif}`, `--weight-{light–bold}`, `--leading-{display–relaxed}`, `--tracking-{minus-20,0,5,20,25,30,35,40,50}` (thousandths of an em)
+- Primitives are named after their scale, semantic tokens after the CSS property they set; `--text-*` and `--font-{sans,…}` from before 7.0.0 resolve as deprecated aliases
 
 ### Semantics (in `:root`, override-friendly)
 
 Role-based aliases that components consume. Always prefer these over primitives:
 
-- **Color**: `--color-bg-*`, `--color-text-*`, `--color-border-*`, `--color-action-*`, `--color-status-*`, `--color-link`, `--color-focus`
-- **Spacing**: `--spacing-{xs–3xl}`, `--spacing-button-*`, `--spacing-input-*`, `--spacing-card-*`
-- **Shape**: `--radius-{sm,md,lg,full}`, `--border-width-{thin,medium,thick}`, `--focus-ring-*`
+- **Color**: named property first, `--color-bg-*`, `--color-text-*`, `--color-icon-*`, `--color-border-*`, `--color-fill-*` and `--color-ring-*`, so the first word says what a token paints and whether a text or non-text floor applies
+- **Spacing**: `--spacing-{2xs–3xl}`. Component padding is set through each component's `--candor-*` hook; `--spacing-button-*`, `--spacing-input-*` and `--spacing-card-*` are deprecated in 7.0.0
+- **Shape**: `--radius-{sm,md,lg,full}`, `--border-width-{thin,medium,thick,indicator}`, `--focus-ring-*`
 - **Typography**: `--font-family-*`, `--font-size-*`, `--font-weight-*`, `--line-height-*`, `--letter-spacing-*`
 - **Elevation**: `--shadow-{sm,md,lg,modal}`
+- **Motion**: `--motion-duration-{instant,fast,base,slow}`, `--motion-ease-{standard,enter,exit}`, `--motion-distance`, `--motion-travel`
 
 ### JSON format
 
@@ -224,4 +227,4 @@ Role-based aliases that components consume. Always prefer these over primitives:
 }
 ```
 
-`root` contains all primitives plus light-mode semantic values. `dark` contains only the overrides applied in dark mode.
+`root` contains all primitives plus every light-mode and mode-invariant semantic token. `dark` contains only the overrides applied in dark mode. Values are the declarations as written (`var()` references), not resolved colours. Before 7.0.0, `root` held the primitives only: the semantic tokens were missing from it.

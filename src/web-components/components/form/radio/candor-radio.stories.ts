@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../../typography/accessible-text/candor-accessible-text';
 import './candor-radio';
 import '../../button/candor-button';
 
@@ -58,7 +59,24 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const Selected: Story = { args: { label: 'Option 1', value: 'option1', checked: true } };
-export const Disabled: Story = { args: { label: 'Cannot select', value: 'disabled', disabled: true } };
+export const Disabled: Story = {
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story: 'A disabled option needs a readable reason beside its group. A dimmed option with no explanation reads as broken.',
+      },
+    },
+  },
+  render: () => html`
+    <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:var(--spacing-xs);">
+      <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-relaxed);margin-bottom:var(--spacing-xs);">Delivery</legend>
+      <candor-radio label="Standard" value="standard" name="delivery" checked></candor-radio>
+      <candor-radio label="Next day" value="next-day" name="delivery" disabled></candor-radio>
+      <candor-accessible-text role_="annotation" style="display:block;">Next-day delivery is not available for your postcode.</candor-accessible-text>
+    </fieldset>
+  `,
+};
 
 export const MultipleGroups: Story = {
   parameters: { controls: { disable: true } },
@@ -91,6 +109,7 @@ export const Group: Story = {
       <candor-radio label="Email" value="email" name="contact" checked></candor-radio>
       <candor-radio label="Phone" value="phone" name="contact"></candor-radio>
       <candor-radio label="Post" value="post" name="contact" disabled></candor-radio>
+      <candor-accessible-text role_="annotation" style="display:block;">Post is not available for international addresses.</candor-accessible-text>
     </fieldset>
   `,
 };

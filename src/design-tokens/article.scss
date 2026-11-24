@@ -11,7 +11,7 @@
 .article {
     display: block;
     max-width: 65ch;
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-md);
     line-height: var(--line-height-relaxed);
     color: var(--color-text-default);
 
@@ -21,7 +21,7 @@
     // Headings — structural voice (Roboto Flex), tight rhythm
     h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-family-display);
-        font-weight: var(--font-weight-bold);
+        font-weight: var(--font-weight-heading);
         font-optical-sizing: auto; // Roboto Flex opsz axis — stroke weight scales naturally with size
         line-height: var(--line-height-tight);
         color: var(--color-text-default);
@@ -31,12 +31,12 @@
         &:first-child { margin-top: 0; }
     }
 
-    h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-    h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-    h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-snug); }
-    h4 { font-size: var(--font-size-h4); line-height: var(--line-height-snug); }
-    h5 { font-size: var(--font-size-base); margin-top: var(--spacing-lg); }  // floor at 16px; reduced top margin
-    h6 { font-size: 0.875rem;              margin-top: var(--spacing-md); }  // floor at 14px; reduced top margin
+    h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-h1); line-height: var(--line-height-display); }
+    h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-h2); line-height: var(--line-height-display); }
+    h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-h3); line-height: var(--line-height-snug); }
+    h4 { font-size: var(--font-size-h4); letter-spacing: var(--letter-spacing-h4); line-height: var(--line-height-snug); }
+    h5 { font-size: var(--font-size-md); letter-spacing: var(--letter-spacing-h5); margin-top: var(--spacing-lg); }  // floor at 16px; reduced top margin
+    h6 { font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-h6); margin-top: var(--spacing-md); }  // floor at 14px; reduced top margin
 
     // Paragraphs
     p {
@@ -61,7 +61,7 @@
         line-height: var(--line-height-normal);
         font-style: italic;
         letter-spacing: var(--letter-spacing-italic);
-        color: var(--color-blockquote-text);
+        color: var(--color-text-blockquote);
     }
 
     // An attributed quote is a figure: the figure takes the indent, and the
@@ -84,7 +84,7 @@
         margin: var(--spacing-lg) 0;
         padding: var(--spacing-sm) var(--spacing-md);
         color: var(--color-text-default);
-        background-color: var(--color-callout-bg);
+        background-color: var(--color-bg-callout);
         border-radius: var(--radius-md);
 
         > :last-child { margin-bottom: 0; }
@@ -126,7 +126,7 @@
 
     // Links
     a {
-        color: var(--color-link);
+        color: var(--color-text-link);
         text-decoration: underline;
         text-underline-offset: 0.2em;
         // Pre-declared border so :visited can reveal it via color change alone.
@@ -136,14 +136,14 @@
         padding-bottom: 0.15em;
 
         &:visited {
-            color: var(--color-link-visited);
-            border-bottom-color: var(--color-link-visited);
+            color: var(--color-text-link-visited);
+            border-bottom-color: var(--color-text-link-visited);
         }
 
-        &:hover   { color: var(--color-link-hover); }
+        &:hover   { color: var(--color-text-link-hover); }
 
         &:focus-visible {
-            outline: var(--focus-ring-width) solid var(--color-focus);
+            outline: var(--focus-ring-width) solid var(--color-ring-focus);
             outline-offset: var(--focus-ring-offset);
             border-radius: var(--radius-sm);
         }
@@ -182,7 +182,7 @@
             color: var(--color-text-subtle); // Tier 3 threshold 4.5 — OKCA 5.0 ✅
             margin-top: var(--spacing-xs);
             font-style: italic;
-            letter-spacing: 0.03em; // 14px italic needs more air than the 0.02em body baseline
+            letter-spacing: var(--letter-spacing-relaxed); // 14px italic needs more air than body text
         }
     }
 
@@ -202,7 +202,7 @@
             font-variant-numeric: tabular-nums; // fixed-width figures for numeric alignment
         }
 
-        // Numeric columns — right-align + Roboto Mono for number-heavy tables.
+        // Numeric columns — right-align + the mono face for number-heavy tables.
         // Apply to both th and td so header aligns with its column data.
         th.numeric,
         td.numeric {

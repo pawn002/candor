@@ -49,49 +49,49 @@ export class CandorSelect extends LitElement {
     :host { display: block; }
     .select-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .select-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; gap: var(--spacing-xs); letter-spacing: var(--letter-spacing-relaxed); }
-    .select-required { color: var(--color-status-error-text); }
+    .select-required { color: var(--color-text-error); }
     .select-hint {
       margin-top: calc(-1 * var(--spacing-xs));
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle);
+      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle-on-surface);
     }
     .select-control { position: relative; display: flex; align-items: center; }
     .select {
       width: 100%;
       font-family: var(--font-family-base);
       font-size: var(--font-size-md);
-      padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
-      padding-right: calc(var(--spacing-input-padding-x) + 1.75rem);
+      padding: var(--candor-select-padding-y, var(--spacing-input-padding-y)) var(--candor-select-padding-x, var(--spacing-input-padding-x));
+      padding-right: calc(var(--candor-select-padding-x, var(--spacing-input-padding-x)) + 1.75rem);
       border: var(--border-width-thin) solid var(--color-border-control);
       border-radius: var(--radius-md);
       background-color: var(--color-bg-page);
       color: var(--color-text-default);
       appearance: none;
       cursor: pointer;
-      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
       min-height: var(--hit-target-aaa);
     }
-    .select:hover:not(:disabled) { border-color: var(--color-text-subtle); }
-    .select:focus { border-color: var(--color-action-primary); outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .select--error { border-color: var(--color-status-error); }
-    .select--error:focus { border-color: var(--color-status-error); }
+    .select:hover:not(:disabled) { border-color: var(--color-border-control-hover); }
+    .select:focus { border-color: var(--color-border-control-focus); outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }
+    .select--error { border-color: var(--color-border-control-error); }
+    .select--error:focus { border-color: var(--color-border-control-error); }
     .select:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
     .select__caret {
       position: absolute;
-      right: var(--spacing-input-padding-x);
+      right: var(--candor-select-padding-x, var(--spacing-input-padding-x));
       width: 1rem;
       height: 1rem;
       pointer-events: none;
       color: var(--color-text-subtle);
-      transition: color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard);
     }
-    .select-control:focus-within .select__caret { color: var(--color-action-primary); }
-    .select-control--error .select__caret { color: var(--color-status-error); }
+    .select-control:focus-within .select__caret { color: var(--color-text-accent); }
+    .select-control--error .select__caret { color: var(--color-icon-error); }
     .select-control--disabled .select__caret { color: var(--color-text-disabled); }
     .select-error-live { display: contents; }
     .select-error-message {
       font-family: var(--font-family-accessible); font-size: var(--font-size-md);
-      letter-spacing: var(--letter-spacing-body); color: var(--color-status-error-text);
+      letter-spacing: var(--letter-spacing-body); color: var(--color-text-error);
     }
   `;
 

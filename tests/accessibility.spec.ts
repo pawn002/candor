@@ -235,6 +235,48 @@ test.describe('candor-tooltip: content on hover or focus (WCAG 1.4.13, #339)', (
   });
 });
 
+test.describe('candor-table sorting (#362)', () => {
+  const firstColumn = (page: Page) =>
+    page.locator('candor-table tbody tr').evaluateAll((rows) => rows.map((r) => r.children[0]!.textContent!.trim()));
+
+  test('a header button sorts with Enter and Space, keeps focus, and moves aria-sort', async ({ page }) => {
+    await page.goto(gotoStory('components-table--sortable'));
+    const speed = page.locator('candor-table thead th:nth-child(3)');
+    const button = speed.locator('button');
+    await button.focus();
+
+    await page.keyboard.press('Enter');
+    await expect(speed).toHaveAttribute('aria-sort', 'ascending');
+    await expect(button).toBeFocused();
+    // The unmeasured model is unknown, so it sorts last in both directions.
+    expect(await firstColumn(page)).toEqual(['medium.en', 'small.en', 'base.en', 'tiny.en', 'large-v3']);
+
+    await page.keyboard.press('Space');
+    await expect(speed).toHaveAttribute('aria-sort', 'descending');
+    await expect(button).toBeFocused();
+    expect(await firstColumn(page)).toEqual(['tiny.en', 'base.en', 'small.en', 'medium.en', 'large-v3']);
+
+    // Only the active column carries aria-sort, and the change is announced.
+    await expect(page.locator('candor-table thead th[aria-sort]')).toHaveCount(1);
+    await expect(page.locator('candor-table [role="status"]')).toHaveText('Sorted by Speed, descending');
+  });
+
+  test('a cancelled sort event keeps the current order', async ({ page }) => {
+    await page.goto(gotoStory('components-table--sortable'));
+    await expect(page.locator('candor-table tbody tr')).toHaveCount(5);
+    const before = await firstColumn(page);
+    await page.locator('candor-table').evaluate((el) => el.addEventListener('sort', (e) => e.preventDefault()));
+    await page.locator('candor-table thead th:nth-child(1) button').click();
+    expect(await firstColumn(page)).toEqual(before);
+    await expect(page.locator('candor-table thead th:nth-child(1)')).not.toHaveAttribute('aria-sort', /.+/);
+  });
+
+  test('a column not listed as sortable has no button', async ({ page }) => {
+    await page.goto(gotoStory('components-table--sortable'));
+    await expect(page.locator('candor-table thead th:nth-child(6) button')).toHaveCount(0);
+  });
+});
+
 test.describe('candor-checkbox', () => {
   test('toggles with the space key', async ({ page }) => {
     await page.goto(gotoStory('components-form-checkbox--default'));

@@ -55,7 +55,8 @@ export class CandorCard extends LitElement {
       border-bottom: var(--border-width-medium) solid var(--color-border-default);
       font-family: var(--font-family-base);
       font-optical-sizing: auto;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--font-weight-heading);
+      letter-spacing: var(--letter-spacing-h5);
       color: var(--color-text-default);
     }
     .card__body { font-family: var(--font-family-base); color: var(--color-text-default); }
@@ -72,13 +73,13 @@ export class CandorCard extends LitElement {
     .card--padding-none .card__footer { padding: 0; }
     .card--padding-sm .card__header,
     .card--padding-sm .card__body,
-    .card--padding-sm .card__footer { padding: var(--spacing-sm); }
+    .card--padding-sm .card__footer { padding: var(--candor-card-padding, var(--spacing-sm)); }
     .card--padding-md .card__header,
     .card--padding-md .card__body,
-    .card--padding-md .card__footer { padding: var(--spacing-card-padding); }
+    .card--padding-md .card__footer { padding: var(--candor-card-padding, var(--spacing-card-padding)); }
     .card--padding-lg .card__header,
     .card--padding-lg .card__body,
-    .card--padding-lg .card__footer { padding: var(--spacing-lg); }
+    .card--padding-lg .card__footer { padding: var(--candor-card-padding, var(--spacing-lg)); }
   `;
 
   @property({ reflect: true }) variant: CardVariant = 'default';

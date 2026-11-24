@@ -8,7 +8,7 @@ const articleStyles = `
   candor-article {
     display: block;
     max-width: 65ch;
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-md);
     line-height: var(--line-height-relaxed);
     color: var(--color-text-default);
   }
@@ -18,7 +18,7 @@ const articleStyles = `
   candor-article h1, candor-article h2, candor-article h3,
   candor-article h4, candor-article h5, candor-article h6 {
     font-family: var(--font-family-display);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-heading);
     font-optical-sizing: auto;
     line-height: var(--line-height-tight);
     color: var(--color-text-default);
@@ -29,12 +29,12 @@ const articleStyles = `
   candor-article h3:first-child, candor-article h4:first-child,
   candor-article h5:first-child, candor-article h6:first-child { margin-top: 0; }
 
-  candor-article h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-  candor-article h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-  candor-article h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-snug); }
-  candor-article h4 { font-size: var(--font-size-h4); line-height: var(--line-height-snug); }
-  candor-article h5 { font-size: var(--font-size-base); margin-top: var(--spacing-lg); }
-  candor-article h6 { font-size: var(--font-size-sm); margin-top: var(--spacing-md); }
+  candor-article h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-h1); line-height: var(--line-height-display); }
+  candor-article h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-h2); line-height: var(--line-height-display); }
+  candor-article h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-h3); line-height: var(--line-height-snug); }
+  candor-article h4 { font-size: var(--font-size-h4); letter-spacing: var(--letter-spacing-h4); line-height: var(--line-height-snug); }
+  candor-article h5 { font-size: var(--font-size-md); letter-spacing: var(--letter-spacing-h5); margin-top: var(--spacing-lg); }
+  candor-article h6 { font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-h6); margin-top: var(--spacing-md); }
 
   candor-article p { margin-bottom: var(--spacing-md); }
   candor-article p:last-child { margin-bottom: 0; }
@@ -56,7 +56,7 @@ const articleStyles = `
     line-height: var(--line-height-normal);
     font-style: italic;
     letter-spacing: var(--letter-spacing-italic);
-    color: var(--color-blockquote-text);
+    color: var(--color-text-blockquote);
   }
   /* An attributed quote is a figure: the figure takes the indent, and the
      figcaption sits under the quote on the same left edge. The name is upright
@@ -74,7 +74,7 @@ const articleStyles = `
     margin: var(--spacing-lg) 0;
     padding: var(--spacing-sm) var(--spacing-md);
     color: var(--color-text-default);
-    background-color: var(--color-callout-bg);
+    background-color: var(--color-bg-callout);
     border-radius: var(--radius-md);
   }
   candor-article .callout > :last-child { margin-bottom: 0; }
@@ -105,7 +105,7 @@ const articleStyles = `
   }
   candor-article pre:focus { outline: none; }
   candor-article pre:focus-visible {
-    outline: var(--focus-ring-width) solid var(--color-focus);
+    outline: var(--focus-ring-width) solid var(--color-ring-focus);
     outline-offset: var(--focus-ring-offset);
   }
   candor-article pre code {
@@ -118,19 +118,19 @@ const articleStyles = `
   }
 
   candor-article a {
-    color: var(--color-link);
+    color: var(--color-text-link);
     text-decoration: underline;
     text-underline-offset: 0.2em;
     border-bottom: var(--border-width-thin) solid transparent;
     padding-bottom: 0.15em;
   }
   candor-article a:visited {
-    color: var(--color-link-visited);
-    border-bottom-color: var(--color-link-visited);
+    color: var(--color-text-link-visited);
+    border-bottom-color: var(--color-text-link-visited);
   }
-  candor-article a:hover { color: var(--color-link-hover); }
+  candor-article a:hover { color: var(--color-text-link-hover); }
   candor-article a:focus-visible {
-    outline: var(--focus-ring-width) solid var(--color-focus);
+    outline: var(--focus-ring-width) solid var(--color-ring-focus);
     outline-offset: var(--focus-ring-offset);
     border-radius: var(--radius-sm);
   }
@@ -163,7 +163,7 @@ const articleStyles = `
     color: var(--color-text-subtle);
     margin-top: var(--spacing-xs);
     font-style: italic;
-    letter-spacing: 0.03em;
+    letter-spacing: var(--letter-spacing-relaxed);
   }
 
   candor-article table {
@@ -222,7 +222,7 @@ if (!document.getElementById('candor-article-styles')) {
  * justification plus hyphenation produces the clean block edge of a formal
  * produced document, where human-authored prose has a ragged right. That makes
  * AI-generated content identifiable ambiently, without a label and without the
- * reader having to look for one. That matters in high-stakes contexts
+ * reader having to look for one. It is meant for high-stakes contexts
  * (planning decisions, medical summaries, legal briefs) and aligns with the
  * spirit of EU AI Act Article 52 disclosure. **Set it on AI-generated prose.**
  * It does not make the content feel cold: register signals origin, tone is a

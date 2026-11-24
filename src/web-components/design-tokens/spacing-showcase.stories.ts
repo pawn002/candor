@@ -52,7 +52,7 @@ const renderShowcase = () => html`
           border: var(--border-width-thin) solid var(--color-border-default);
           border-radius: var(--radius-sm);
         ">
-          <div style="height: 100%; background-color: var(--color-action-primary); opacity: 0.3; border-radius: var(--radius-sm); width: ${s.value};"></div>
+          <div style="height: 100%; background-color: var(--color-fill-indicator); opacity: 0.3; border-radius: var(--radius-sm); width: ${s.value};"></div>
         </div>
       </div>
     `)}
@@ -154,7 +154,7 @@ export const SpacingInComponents: Story = {
             <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
           </candor-card>
           <candor-card variant="default" padding="md">
-            <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
+            <candor-stat value="94%" label="Uptime" size="lg"></candor-stat>
           </candor-card>
           <candor-card variant="default" padding="md">
             <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>
@@ -169,7 +169,7 @@ export const SpacingInComponents: Story = {
             <candor-stat value="2,847" label="Active users" size="lg"></candor-stat>
           </candor-card>
           <candor-card variant="default" padding="lg">
-            <candor-stat value="94%" label="Uptime" color="success" size="lg"></candor-stat>
+            <candor-stat value="94%" label="Uptime" size="lg"></candor-stat>
           </candor-card>
           <candor-card variant="default" padding="lg">
             <candor-stat value="138" label="Open tickets" size="lg"></candor-stat>

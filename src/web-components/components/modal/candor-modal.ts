@@ -11,9 +11,9 @@ type ModalSize = 'sm' | 'md' | 'lg';
  * so the focus trap, inertness of the page behind, and Escape-to-close come from
  * the platform rather than from script.
  *
- * **Controlled.** `close` reports that the user dismissed it; the component does
- * not clear `open` for you. Set `open = false` in response or it reopens on the
- * next render.
+ * **It closes itself.** On a user dismissal the component clears `open`, then
+ * emits `close`. Listen for it to sync your own state: a framework binding that
+ * still holds `open` true will reopen the dialog on its next render.
  *
  * Set `alert` for a decision the user cannot postpone. It switches the role to
  * `alertdialog`, which tells assistive technology to announce the content
@@ -35,7 +35,7 @@ type ModalSize = 'sm' | 'md' | 'lg';
  * the task until answered; a drawer is a panel alongside it. If the user could
  * reasonably keep working, it is a drawer.
  *
- * @fires close - detail: none (the user dismissed the dialog; the consumer must clear `open`)
+ * @fires close - detail: none (the user dismissed the dialog; `open` is already false)
  */
 @customElement('candor-modal')
 export class CandorModal extends LitElement {
@@ -48,10 +48,44 @@ export class CandorModal extends LitElement {
       max-width: none;
       max-height: none;
       overflow: visible;
+      /* Enter and exit (#368). Leaving is the default state's transition and
+         arriving is [open]'s, so each direction gets its own duration and
+         easing. display and overlay transition discretely, which keeps the
+         dialog rendered in the top layer while it animates out; a browser
+         without overlay support skips the exit, as before. */
+      opacity: 0;
+      transform: translateY(var(--motion-distance));
+      transition:
+        opacity var(--motion-duration-fast) var(--motion-ease-exit),
+        transform var(--motion-duration-fast) var(--motion-ease-exit),
+        overlay var(--motion-duration-fast) allow-discrete,
+        display var(--motion-duration-fast) allow-discrete;
+    }
+    dialog[open] {
+      opacity: 1;
+      transform: none;
+      transition-duration: var(--motion-duration-slow);
+      transition-timing-function: var(--motion-ease-enter);
+    }
+    @starting-style {
+      dialog[open] { opacity: 0; transform: translateY(var(--motion-distance)); }
     }
     dialog::backdrop {
-      background-color: var(--color-overlay);
+      background-color: var(--color-bg-scrim);
       backdrop-filter: blur(2px);
+      opacity: 0;
+      transition:
+        opacity var(--motion-duration-fast) var(--motion-ease-exit),
+        overlay var(--motion-duration-fast) allow-discrete,
+        display var(--motion-duration-fast) allow-discrete;
+    }
+    dialog[open]::backdrop {
+      opacity: 1;
+      transition-duration: var(--motion-duration-slow);
+      transition-timing-function: var(--motion-ease-enter);
+    }
+    @starting-style {
+      dialog[open]::backdrop { opacity: 0; }
     }
 
     .modal__panel {
@@ -84,7 +118,8 @@ export class CandorModal extends LitElement {
       font-family: var(--font-family-display);
       font-optical-sizing: auto;
       font-size: var(--font-size-h3);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-heading);
+      letter-spacing: var(--letter-spacing-h3);
       line-height: var(--line-height-tight);
       color: var(--color-text-default);
       margin: 0;
@@ -103,14 +138,14 @@ export class CandorModal extends LitElement {
       cursor: pointer;
       border-radius: var(--radius-sm);
       color: var(--color-text-subtle);
-      transition: background-color 0.15s ease, color 0.15s ease;
+      transition: background-color var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .modal__close:hover {
       background-color: var(--color-bg-hover);
       color: var(--color-text-default);
     }
     .modal__close:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
 
@@ -124,12 +159,12 @@ export class CandorModal extends LitElement {
       padding: var(--spacing-md);
       color: var(--color-text-default);
       font-family: var(--font-family-base);
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-md);
       line-height: var(--line-height-relaxed);
     }
     .modal__body:focus { outline: none; }
     .modal__body:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: calc(-1 * var(--focus-ring-offset));
     }
 

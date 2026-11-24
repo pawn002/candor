@@ -113,6 +113,11 @@ export interface CandorCellActivateDetail {
   col: number;
   cell: GridCell;
 }
+/** candor-table `sort`: the column (zero-based) and the direction it is about to be sorted in. Cancelable. */
+export interface CandorTableSortDetail {
+  column: number;
+  direction: 'ascending' | 'descending';
+}
 /** candor-tone-picker `color-select`: the chosen tone (re-exported for convenience). */
 export type CandorToneColorSelectDetail = ToneColorSelectDetail;
 
@@ -195,6 +200,9 @@ export interface CandorChatInputEventMap {
 }
 export interface CandorDataGridEventMap {
   'cell-activate': CustomEvent<CandorCellActivateDetail>;
+}
+export interface CandorTableEventMap {
+  sort: CustomEvent<CandorTableSortDetail>;
 }
 export interface CandorTonePickerEventMap {
   'color-select': CustomEvent<CandorToneColorSelectDetail>;

@@ -41,8 +41,8 @@ npx playwright show-report # View test results
 
 ### Building
 ```bash
-npm run audit:tokens       # Re-export audit/tokens.dtcg.json from the SCSS
-npm run audit:contrast     # Re-measure every pairing + every recorded OKCA figure (needs klar 3.x)
+npm run audit:tokens       # Check colour ramps against their rules, gate sRGB gamut, re-export audit/tokens.dtcg.json
+npm run audit:contrast     # Re-measure every pairing + every recorded OKCA figure (needs klar 4.x)
 npm run build:tokens       # Build @candor-design/tokens → tokens/
 npm run build:wc           # Build @candor-design/web-components → web-components/dist/
 npm run build-storybook    # Build static Storybook
@@ -58,10 +58,11 @@ npx playwright install chromium  # Install Chromium browser for tests
 ### Design Token System (Core Concept)
 
 All visual styling flows from design tokens in `src/design-tokens/`:
-- **colors.scss**: OKLCH color definitions (not hex/RGB)
-- **typography.scss**: Font families, sizes (Major Third 1.25 ratio), weights, line heights
-- **spacing.scss**: 8px grid system
-- **index.scss**: Aggregates and exports all tokens
+- **primitives.scss**: raw values. The colour ramps (OKLCH, derived from rules), the type scale (`--type-*`), typefaces (`--typeface-*`), weights, line heights, tracking, spacing and borders
+- **semantics.scss**: named roles that map primitives to use, in light and dark: colours (`--color-{bg|text|icon|border|fill|ring}-*`), spacing, typography, shape, elevation and motion. Components use these
+- **colour-ramp-rules.json** and **colour-ramp-curve.mjs**: the rules and maths every ramp step is derived from; `npm run audit:tokens` checks `primitives.scss` against them
+- **index.scss**: aggregates and exports all tokens
+- **article.scss**, **syntax.scss**, **blog.scss**: stylesheets for prose, code highlighting and the blog, kept in source rather than shipped
 
 **Critical**: Always modify tokens first, never hard-code values in components. Component `static styles` reference tokens as CSS custom properties (`var(--color-...)`), which pierce the Shadow DOM automatically — never redeclare or hard-code token values inside a component.
 
@@ -104,11 +105,9 @@ The component library is the Lit 3 web components in `src/web-components/compone
 
 **Component categories**:
 - `typography/`: heading, text, accessible-text, article
-- `button/`: button with variants (primary, secondary, tertiary, ghost)
-- `form/`: input, checkbox, radio, switch, slider, select, listbox, combobox, chat-input
-- `data/`: table, data-grid, tone-picker
-- `overlays/`: modal, drawer, tooltip, toast
-- `examples/`: composed stories (color-iterator, settings, article, chat, editor, etc.)
+- `form/`: input, autocomplete, checkbox, radio, switch, slider, select, listbox, combobox, chat-input
+- one directory per remaining component, flat: `button/` (primary, secondary, tertiary, ghost, destructive), `table/`, `data-grid/`, `tone-picker/`, `modal/`, `drawer/`, `tooltip/`, `toast/`, `menu/`, `tabs/`, and the rest
+- `src/web-components/examples/`: composed stories (color-iterator, settings, article, chat, editor, etc.), outside `components/`
 
 ### Storybook Configuration
 
@@ -137,7 +136,7 @@ const meta: Meta = {
 
 Meta-level parameters deep-merge with story-level ones, so a story that already sets `parameters.chromatic = { pauseAnimationAtEnd: true }` keeps it — verified on the build, not assumed.
 
-**It is per-story rather than global in `preview.ts`, and that is a cost decision.** Each mode is a separately billed snapshot, so applying it project-wide would take the suite from 248 to 496 and cost more per quarter than the whole TurboSnap exercise saved (#281). Ten story files carry dark today, covering all 37 theme-varying tokens any story actually paints, at 44 of the 292 snapshots. **Adding dark to a story is a judgement about that story, not a default to apply.**
+**It is per-story rather than global in `preview.ts`, and that is a cost decision.** Each mode is a separately billed snapshot, so applying it project-wide would take the suite from 248 to 496 and cost more per quarter than the whole TurboSnap exercise saved (#281). Eleven story files carry dark today. At #287, ten of them covered all 37 theme-varying tokens any story then painted, at 44 of the 292 snapshots; the colour tokens have since been renamed and split (#367), so that coverage is a dated figure until it is re-counted with the rule below. **Adding dark to a story is a judgement about that story, not a default to apply.**
 
 Three things to know before adding one:
 
@@ -149,9 +148,9 @@ Three things to know before adding one:
 
 **Coverage is counted by token, not by component**, and the counting rule is the load-bearing part: credit a story only with tokens whose CSS gate it satisfies — base rules always, a `.x--variant` rule only when the story renders that `variant="…"`, a `:host([attr])` rule only when it sets that attribute. Counting tokens merely *present* in a component's stylesheet gives 50 against the 37 genuinely painted, and pointed at three stories where the variant-aware count says five.
 
-**The ceiling, stated so it is not mistaken for a gap.** Five tokens are painted only on `:hover` or `:active` — `--color-action-destructive-hover`/`-active`, `--color-action-primary-hover`/`-active`, and `--color-link-hover`. No resting-state snapshot reaches them **in either theme**, so no story will ever cover them and `audit:contrast` measuring their values is the only check they have. Read "dark coverage is complete" as *complete for what snapshots can reach* — the #218 / #229 distinction again, and the reason it is written down rather than inferred from a green build.
+**The ceiling, stated so it is not mistaken for a gap.** Fourteen colour tokens are painted only on `:hover` or `:active`: the hover and pressed fills of every button variant (`--color-bg-action-{primary,secondary,tertiary,ghost,destructive}-hover` / `-active`), `--color-bg-hover`, `--color-bg-hover-on-inverse`, `--color-border-control-hover` and `--color-text-link-hover`, plus the scrollbar's `--color-fill-scrollbar-thumb-hover`. (Derived from the component styles at 7.0.0: a token counts when every rule that paints it carries `:hover` or `:active`.) No resting-state snapshot reaches them **in either theme**, so no story will ever cover them and `audit:contrast` measuring their values is the only check they have. Read "dark coverage is complete" as *complete for what snapshots can reach* — the #218 / #229 distinction again, and the reason it is written down rather than inferred from a green build.
 
-Read `.storybook/modes.ts` before changing any of this; it carries the per-story reasoning and the one case that looks like a mistake and is not (`--color-focus` is genuinely painted at rest, as the border of `candor-tone-picker`'s selected swatch).
+Read `.storybook/modes.ts` before changing any of this; it carries the per-story reasoning and the one case that looks like a mistake and is not (`--color-ring-focus` is genuinely painted at rest, as the border of `candor-tone-picker`'s selected swatch).
 
 
 ### Playwright Testing
@@ -168,7 +167,7 @@ Read `.storybook/modes.ts` before changing any of this; it carries the per-story
 
 1. **Receive art direction**: Colors (hex), fonts, spacing requirements
 2. **Convert to OKLCH**: Run `klar meta <hex>` on each color to get exact OKLCH values
-3. **Update tokens**: Modify `src/design-tokens/semantics.scss` (or `primitives.scss`). After any change, run `npm run audit:tokens` — it gates the sRGB gamut invariant and re-exports the DTCG artifact. If a colour is out of gamut it fails and prints the in-gamut value; take that value before measuring anything, since a figure measured on an unrenderable colour describes a colour nobody sees
+3. **Update tokens**: Modify `src/design-tokens/semantics.scss` (or `primitives.scss`). **Derive every colour; never type one.** A role points at a ramp step. When the ladder has no step at the lightness you need, add an in-between step to `extraSteps` in `src/design-tokens/colour-ramp-rules.json`: its number fixes its lightness by interpolation (`navy-670` is 70% of the way from 600 to 700), and the family's curve sets chroma and hue, so it is as coherent as any other step and a designer can read where it sits. Tune by trying step numbers, not by editing L, C or H, and report candidates by step name. Holding one step's chroma and hue while moving its lightness is inventing a colour, and sessions have done it more than once. `audit:tokens` fails on a typed colour anywhere in `src/` outside `primitives.scss` and stories: a numeric `oklch()`, `rgb()` or hex value, or relative colour syntax that shifts a channel (`calc(l - 0.04)`). A token at an alpha passes. Each exception is named in `scripts/export-tokens-dtcg.js` with its reason; an exception marked `debt` is an invented colour waiting to be re-derived, and none remain. After any change, run `npm run audit:tokens` — it gates the sRGB gamut invariant and re-exports the DTCG artifact. If a colour is out of gamut it fails and prints the in-gamut value; take that value before measuring anything, since a figure measured on an unrenderable colour describes a colour nobody sees
 4. **Visual check**: Use Playwright MCP to screenshot Storybook stories
 5. **Mobile check**: Switch Storybook's viewport toolbar to **mobile1 (320 × 568)** and verify: no horizontal overflow, no clipped interactive elements, no layout broken by a fixed column count
 6. **Accessibility validation**: Run `npm run audit:contrast`. It re-measures every pairing in `audit/pairings.json` in both modes against that pairing's `min` (the Candor-policy OKCA floor), and re-measures every OKCA figure recorded in a token comment, a pairing `note`, or story prose against the current token values. For one-off checks outside the audit set, `klar contrast <fg> <bg> -q` still applies.
@@ -185,7 +184,7 @@ The two audits split by what they own: **`audit:tokens` owns gamut, `audit:contr
 
 **The ordering is not housekeeping, and this is the part to understand before touching that job.** `audit:contrast` reads `audit/tokens.dtcg.json` off disk, so on its own it measures the *committed* artifact, not the tokens in the working tree. Verified by tripwire: lighten `--color-text-subtle` to `oklch(0.70 0 0)` without re-exporting and `audit:contrast` alone prints `✓ no drift` and exits 0 while 19 real violations sit in the tree — nine pairings at 2.1 against a floor of 4.5, plus the changed token's own recorded figure and the story that quotes it. Re-export first and the same tree fails with all 19 named. So running the two audits as parallel jobs would produce a false green, which is the #218 shape again: a guard that passes because it measured the wrong thing. Keep them sequential in one job — the finer red/green signal that splitting would buy is bought by breaking the check.
 
-**What is and is not guaranteed.** Only executable gates guarantee anything; prose and linked references do not. Currently gated, all of it in CI via the `audit` job: sRGB gamut, a stale DTCG artifact, stale committed `tokens/` build outputs (checked in the `build-tokens` job rather than `audit`, #331), stale figures in `semantics.scss` comments, stale figures in pairing `note` fields, stale figures in story prose, pairings below their floor, a pairing's `min` disagreeing with its `tier` (on the 14px row — see the `tier` field below for why only there), sub-14px text without a declared reason, the README tag table and element/component counts against what `src/` registers, a class-level TSDoc block on every registered element, every `@fires` tag against the `new CustomEvent` calls in the same file, and the shipped `custom-elements.json` against the registered set plus a stale-manifest check (`audit:docs` + `build:cem`, #267), every `<candor-*>` tag a story renders against the components that story imports, `.storybook/preview.ts` not importing the barrel, a rendered `public/` asset while Chromatic's `externals` is unset (`audit:docs`, #281), every component whose styles scroll using the shared scrollbar from `utils/scrollbar.ts`, and not on `:host` (`audit:docs`, #307), every `candor-*.css` / `.json` filename the READMEs, MDX and `docs/` name against the tokens package's `exports` (`audit:docs`, #320), no em dash in consumer-facing copy: the READMEs, MDX, the public guides in `docs/`, the unreleased CHANGELOG, every TSDoc block and everything a story renders, with code comments exempt (`audit:docs`, #292), no Markdown blockquote in story or MDX copy, since Storybook draws one with a side bar (`audit:docs`, #324), every `aria-label` a component writes for its own controls coming from one vocabulary with one name per function (`audit:docs`, WCAG 3.2.4), and klar's major version — that last one is a deliberate hard stop, since it is the only mechanism that forces klar's docs to be re-read on an upgrade. **Not** gated, and therefore only as reliable as the reader: OKCA figures in `primitives.scss` comments (primitives are absent from the DTCG artifact, so nothing checks them), font sizes written in **relative units** (`0.9em` can't be resolved statically — the text-size gate reads absolute units only, and says so at the top of its section), **which stories carry a dark snapshot** (nothing checks that a component the visual gate only ever sees in light is one that ought to be — see the dark-mode section above), and every judgment-level rule in this file. Treat an ungated convention as a convention.
+**What is and is not guaranteed.** Only executable gates guarantee anything; prose and linked references do not. Currently gated, all of it in CI via the `audit` job: sRGB gamut, every colour-ramp step against the rules in `src/design-tokens/colour-ramp-rules.json` and the curve in `colour-ramp-curve.mjs`, which `Design Tokens/Ramps` also draws from (#365), and every grey step against its curve and ladder, including the in-between steps it mints, no typed colour in any token file, component or utility outside `primitives.scss` (stories excepted), with named exceptions, every current colour token named property first, `--color-{bg|text|icon|border|fill|ring}-…`, and every colour reference in `src/` painted by a CSS property its first word allows (`color:` takes `text`/`icon`, backgrounds `bg`/`fill`, borders `border`/`ring`), with named exceptions, and no deprecated name in use anywhere in `src/` including stories (`audit:tokens`, #367), every transition and animation in `src/` timed by a `--motion-duration-*` token, looping indicators excepted (`audit:tokens`, #368), every `letter-spacing` in `src/`, stories and MDX included, set by a `--letter-spacing-*` role that points at a `--tracking-*` step, with no exceptions (`audit:tokens`), a stale DTCG artifact, stale committed `tokens/` build outputs (checked in the `build-tokens` job rather than `audit`, #331), stale figures in `semantics.scss` comments, stale figures in pairing `note` fields, stale figures in story prose, pairings below their floor, a fill below its deltaE separation from what it sits on (`audit/separations.json`), a pairing's `min` disagreeing with its `tier` (on the 14px row — see the `tier` field below for why only there), sub-14px text without a declared reason, the README tag table and element/component counts against what `src/` registers, a class-level TSDoc block on every registered element, every `@fires` tag against the `new CustomEvent` calls in the same file, and the shipped `custom-elements.json` against the registered set plus a stale-manifest check (`audit:docs` + `build:cem`, #267), every `<candor-*>` tag a story renders against the components that story imports, `.storybook/preview.ts` not importing the barrel, a rendered `public/` asset while Chromatic's `externals` is unset (`audit:docs`, #281), every component whose styles scroll using the shared scrollbar from `utils/scrollbar.ts`, and not on `:host` (`audit:docs`, #307), every `candor-*.css` / `.json` filename the READMEs, MDX and `docs/` name against the tokens package's `exports` (`audit:docs`, #320), no em dash in consumer-facing copy: the READMEs, MDX, the public guides in `docs/`, the unreleased CHANGELOG, every TSDoc block and everything a story renders, with code comments exempt (`audit:docs`, #292), no Markdown blockquote in story or MDX copy, since Storybook draws one with a side bar (`audit:docs`, #324), every `aria-label` a component writes for its own controls coming from one vocabulary with one name per function (`audit:docs`, WCAG 3.2.4), every `--color-*` token in `semantics.scss` against a swatch in the colour showcase, with named exclusions (`audit:docs`), and klar's major version — that last one is a deliberate hard stop, since it is the only mechanism that forces klar's docs to be re-read on an upgrade. **Not** gated, and therefore only as reliable as the reader: OKCA figures in `primitives.scss` comments (primitives are absent from the DTCG artifact, so nothing checks them), font sizes written in **relative units** (`0.9em` can't be resolved statically — the text-size gate reads absolute units only, and says so at the top of its section), **which stories carry a dark snapshot** (nothing checks that a component the visual gate only ever sees in light is one that ought to be — see the dark-mode section above), and every judgment-level rule in this file. Treat an ungated convention as a convention.
 
 **Four gates live in the `accessibility` job rather than `audit`, because they are runtime properties and nothing static can stand in for them:** host `aria-label` forwarding (`tests/host-aria-label.spec.ts`, #270), the scrollbar's grab area (`tests/scrollbar.spec.ts`, #309), axe-core against WCAG 2.2 A/AA on every story (`tests/axe.spec.ts`, #252), and the sweep of what axe cannot decide (`tests/wcag-runtime.spec.ts`: reflow, text spacing, focus visible, focus not obscured). See "aria-label host-trap" below for what the first asserts and how it picks its subjects, and "Test Files" for the others.
 
@@ -201,9 +200,9 @@ Two limits on what that buys, because the list overstates itself otherwise. `enf
 
 **Do not record a token's *value* in a story.** A figure is an argument and has to be written down; a value is a fact the artifact already holds. Stories that display token colours import `requireTokenValue` from `src/web-components/design-tokens/token-values.ts`, which reads `audit/tokens.dtcg.json` — so the swatch cannot disagree with the stylesheet, and a renamed token throws at build time instead of rendering a blank. Copying `oklch(…)` into a story is how the data-grid demo spent months painting a colour the system had stopped using, under that colour's token name, with nothing to catch it.
 
-**A brand hex and the token derived from it are different colours.** Converting hex → OKLCH rounds, so their OKCA scores can differ by a tenth (`#082840` is 14.0 on white; `--color-action-primary` is 13.9). Both figures are correct about their own colour. Do not "reconcile" them — that necessarily makes one wrong, which is a mistake this repo has already made once.
+**A brand hex and the token derived from it are different colours.** Converting hex → OKLCH rounds, so their OKCA scores can differ by a tenth (`#082840` is 14.2 on white; `--color-text-accent` is 14.1). Both figures are correct about their own colour. Do not "reconcile" them — that necessarily makes one wrong, which is a mistake this repo has already made once.
 
-Recorded figures are re-baselined to klar 3.0. Any figure you add must be measured with klar 3.x — prefer `npm run audit:contrast` over a bare `klar contrast`, since it measures exactly as the audit does. A number carried over from an older tool or an older note will be wrong twice over: 2.0.0 recalibrated OKCA (+0.4 in the 3–7 band), and 3.0.0 both scored at full precision (±0.1) and stopped silently substituting a different colour for out-of-gamut input.
+Recorded figures are re-baselined to klar 4.0. Any figure you add must be measured with klar 4.x — prefer `npm run audit:contrast` over a bare `klar contrast`, since it measures exactly as the audit does. A number carried over from an older tool or an older note will be wrong several times over: 2.0.0 recalibrated OKCA (+0.4 in the 3–7 band); 3.0.0 scored at full precision (±0.1) and stopped silently substituting a different colour for out-of-gamut input; and 4.0.0 (okca 3.0) put both polarities on one scale, and the shift follows the *background*, not the mode: pairings on a light fill moved by at most ±0.7, while pairings on a dark fill dropped by a median of 1.5 and up to 3.3 — including the light-mode pairings on navy fills (`--color-text-default` on dark page went 12.9 → 11.0; white on light-mode `--color-bg-action-primary` 14.5 → 11.2).
 
 **`web-components/custom-elements.json`** — auto-generated, do not edit by hand, and **committed** (unlike `web-components/dist`, which is gitignored).
 - Produced by `npm run build:cem`, configured in `custom-elements-manifest.config.mjs`. Regenerate after any change to a component's source or its TSDoc; CI runs `build:cem` and fails on a diff, the same gate `audit/tokens.dtcg.json` carries.
@@ -216,13 +215,15 @@ Recorded figures are re-baselined to klar 3.0. Any figure you add must be measur
 - Contains all `--color-*` tokens with resolved `oklch()` values in W3C DTCG format, split into `light` and `dark` mode objects.
 - `$extensions.usage: "non-text"` marks the tokens that must NOT be used as CSS `color:` values for text. It is derived **structurally** from what the token is, not from its prose (#218): a name containing `border`, or the existence of a `<name>-text` sibling (the system having minted a `-text` variant *is* the statement that the base is not for text), plus a short named-role list in the script for `focus` / `slider-thumb`. The export prints how many qualify on every run — read that rather than a figure here (it was 15 of 54 light tokens at 5.0.0, after `--color-border-control-on-surface` was retired; this sentence said 16 of 55 for a release after that). The export **fails** if a comment claims non-text use for a token no rule catches, so prose and rules cannot drift apart silently.
 - `$description` captures a comment **above** the declaration as well as one trailing it. Several of the longest annotations sit above, and trailing-only capture was dropping 21 of 55 light tokens' descriptions — including every form-control border, which is why `--color-border-control`'s dark behaviour read as an unexplained oversight from the artifact alone (#217).
-- `$extensions.aliasOf` names the token a value was declared as an alias of (`--color-callout-bg` → `--color-bg-surface`) (#242). `$value` stays the resolved colour on purpose, because `check-contrast.js` hands it straight to klar. An alias with no prose is explained by its target, so the export counts it apart from a token carrying neither, and neither count is a gate: a required sentence for "it is gray-0" would be filler.
+- `$extensions.aliasOf` names the token a value was declared as an alias of (`--color-bg-callout` → `--color-bg-surface`) (#242). `$value` stays the resolved colour on purpose, because `check-contrast.js` hands it straight to klar. An alias with no prose is explained by its target, so the export counts it apart from a token carrying neither, and neither count is a gate: a required sentence for "it is gray-0" would be filler.
 - Re-run whenever any file in `src/design-tokens/` changes.
 - **The same command enforces the sRGB gamut invariant** and exits 1 with the in-gamut value to use. It scans every `.ts` and `.scss` under `src/` — far wider than it exports from, so `syntax.scss`, component `static styles`, and story gradients are all covered even though none of them is in the artifact (#228). `--skip-gamut` bypasses it (klar not installed); nothing in the repo passes that flag.
 
+**`audit/separations.json`** — hand-authored. Fills that are their own boundary (a tooltip, a borderless hover, the default badge, a code block, the status fills), each against what it sits on or beside, measured by klar deltaE in both modes by `audit:contrast`. A contrast floor compares text or an icon with its background and never one fill with another, which is how pagination's hover, the colour of the card it sat on (deltaE 0), passed every check. The floor is deltaE 8, calibrated by eye during the dark-mode walk-through; an entry may raise it (the tooltip holds 10) and never lower it. The file names what is deliberately out of scope: elevation layers, whose shadows carry them; state-to-state changes such as hover against rest; and the intent surfaces, which are subtle by design. When you add a component whose fill is its only edge, add its pairs here.
+
 **`audit/pairings.json`** — hand-authored, update alongside component changes.
-- 132 foreground/background pairings, each measured in both modes; 4 are `exempt`, leaving 260 enforced measurements. Per-component coverage is not derivable from the entry ids — form controls share `form-*` prefixes — so treat "every component is covered" as unverified until #197 settles how coverage is counted. **Read these counts as of a date, not as a fact about the file** — this sentence said "108 / 216" while the file held 121 / 238, having drifted during the 5.0.0 work that added the pairings. The numbers are computable from `pairings.json` in one line; until something computes them, prefer counting to quoting. #217 is the standing example of what the coverage gap costs: zero of the 117 pairings then on file referenced any border token, so the colour drawing the edge of eleven form components had no floor.
-- Each entry: `{ id, fg, bg, size, weight, tier, min }` using DTCG token references (`{color.status.error-text}`) and an explicit pixel size and weight. An optional `exempt` field (see below) marks pairings that carry no enforced floor.
+- 169 foreground/background pairings, each measured in both modes; 4 measurements are `exempt`, leaving 334 enforced measurements. Per-component coverage is not derivable from the entry ids — form controls share `form-*` prefixes — so treat "every component is covered" as unverified until #197 settles how coverage is counted. **Read these counts as of a date, not as a fact about the file** — this sentence said "108 / 216" while the file held 121 / 238, having drifted during the 5.0.0 work that added the pairings. The numbers are computable from `pairings.json` in one line; until something computes them, prefer counting to quoting. #217 is the standing example of what the coverage gap costs: zero of the 117 pairings then on file referenced any border token, so the colour drawing the edge of eleven form components had no floor.
+- Each entry: `{ id, fg, bg, size, weight, tier, min }` using DTCG token references (`{color.text.error}`) and an explicit pixel size and weight. An optional `exempt` field (see below) marks pairings that carry no enforced floor.
 - **`tier`** — `1`, `2`, `3`, or `"non-text"`. Required. `min` is now *derived* from `tier` + `size` + `weight` and the audit fails when the two disagree, which converts `min` from a hand-typed number into a cross-checked one (#213). `"non-text"` is not a text tier: it carries WCAG 1.4.11's 3.0 for icons and indicators, and exists because six icon pairings had a `min` no text tier could produce.
 
   **Its teeth are limited to the 14px row, and that is not a defect.** At 16px and above every tier collapses to one floor, and at 14px bold Tiers 2 and 3 are both 4.5 — so a wrong tier is invisible there. That is the same row where the tier axis is the only thing that changes the answer, so the check has teeth exactly where the classification matters.
@@ -237,7 +238,7 @@ Recorded figures are re-baselined to klar 3.0. Any figure you add must be measur
 
 ### Integration Points
 
-**klar CLI** — requires **3.x** (`klar --version`). Every contrast figure recorded in this repo assumes it. On 2.x the numbers in `audit/` and the tier tables are wrong: 2.x scored through an 8-bit hex round-trip *and* silently substituted a different color for any out-of-gamut input, reporting a figure for a color nobody had asked about. Under the sRGB invariant (#225) that substitution can no longer arise, but the precision difference still makes 2.x figures wrong.
+**klar CLI** — requires **4.x** (`klar --version`). Every contrast figure recorded in this repo assumes it. On 3.x the figures are wrong because 4.0.0 upgraded to okca 3.0, which scores both polarities on one scale. That moved pairings on light fills by at most ±0.7 and lowered pairings on dark fills sharply (median −1.5, up to −3.3), in either mode, and it put seven dark pairings below their floor until two dark tokens were re-assigned. On 2.x they are wrong for older reasons too: 2.x scored through an 8-bit hex round-trip *and* silently substituted a different color for any out-of-gamut input, reporting a figure for a color nobody had asked about. The 3→4 bump changed nothing else the audit relies on, verified on the binary: `--gamut-map`, `--allow-out-of-gamut`, the 0/1/2 exit codes and full-precision scoring all behave as before.
 All klar commands accept both `<hex>` and `oklch(L C H)` CSS color strings as inputs — pass OKLCH values directly without converting to hex first.
 
 ```bash
@@ -259,7 +260,7 @@ Flags worth knowing that aren't in the one-liners above: `find` takes `--toleran
 
 **klar key rules:**
 - **OKCA is the default** — WCAG 2.x-compatible ratio, no `--type` flag needed
-- **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Light-on-dark caps at **20.9**; dark-on-light at **20**; the same chromatic pair returns different numbers when swapped. Never reuse a reversed measurement
+- **OKCA is polarity-aware** — argument order matters: `klar contrast <foreground> <background>`. Since klar 4 both polarities cap at **20.9** (black on white was 20), and a pair scores the same either way round unless the darker colour is darker than `#767676`, in which case light-on-dark scores lower (`#3a7d44` is 4.5 on white, white is 4.3 on it). Never reuse a reversed measurement
 - **deltaE is the art director's metric** — answers "did it change much?"; < 3 imperceptible, 5–10 acceptable drift, 11+ clearly different
 - **Built-in `--type` values**: `okca` (default), `wcag2`, `deltaE`. Any other `--type` comes from a plugin installed in the environment — plugins are independent of klar-cli and not guaranteed present. Run `klar plugins list` to see what's registered.
 - **Gate `find`/`match` captures on the exit code** — grep-style contract: `0` success, `1` soft failure (`find` target unachievable / `match` infeasible — the closest value is *still printed to stdout*), `2` usage error. An unchecked `ADJUSTED=$(klar find …)` silently assigns a non-compliant color on exit `1`. Use `if ADJUSTED=$(klar find <bg> <color> --target 4.5 -q); then …; else handle_no_compliant_color; fi`. On exit 1, read `.reason` from `--json` (`lightness-exhausted` / `unreachable` / `chroma-exhausted`) rather than the printed message — `lightness-exhausted` means the fix requires giving up chroma, which is a brand decision, and `.resolvableBy` quotes what that would cost
@@ -291,14 +292,12 @@ See the klar [README](https://github.com/pawn002/klar/blob/main/README.md) for t
 
 Roboto Flex is a **variable font** with axes beyond `font-weight`:
 - `opsz` (optical size): stroke weight adapts to text size — larger text gets heavier strokes naturally
-- `GRAD` (grade): subtle weight adjustment without changing letterform width
-- `wdth` (width): condensed to expanded
+- `GRAD` (grade) and `wdth` (width) exist in the font but are **not loaded**: Candor imports Fontsource's `opsz.css`, which carries `opsz` and `wght` only (84 KB for Latin, against 326 KB for every axis). A `font-variation-settings` on `GRAD` or `wdth` therefore does nothing. The accordion's quiet heading set `'GRAD' -150` for its whole life and it never applied, because until 7.0.0 not even `opsz` was loaded (`index.css` is the weight axis alone). Loading another axis is a deliberate download decision, not a styling one
 
 **Before adjusting `font-weight` for hierarchy, ask whether the variable axes can do it better:**
 - `font-optical-sizing: auto` — browser automatically maps `opsz` to computed font size, creating a natural optical weight gradient across heading levels. Use this on all heading contexts.
-- `font-variation-settings: 'GRAD' -50` — fine-tune apparent weight for a specific element without touching the weight axis
 
-**The trap:** Reaching for `font-weight: semibold` feels natural but produces an artificial numeric step. The `opsz` axis creates hierarchy that feels designed, not engineered.
+**The trap:** stepping weight with level (bold h1, semibold h3) to build hierarchy produces artificial numeric jumps. The `opsz` axis creates hierarchy that feels designed, not engineered. Headings share one weight at every level, `--font-weight-heading` (semibold since 7.0.0), which sets their texture; size and `opsz` carry the hierarchy, and tracking opens per level (`--letter-spacing-h1` … `-h6`).
 
 See `docs/LESSONS-LEARNED.md` for the full rationale.
 
@@ -344,7 +343,7 @@ The test: **could a reader who cannot resolve the glyphs still act correctly?** 
 
 `status` was 14px until #208, which made it the one role whose mandated size made its mandated floor unsatisfiable for the colour it most often carries.
 
-**Do not hand-type a status glyph into the content** — `✕ Error: …`, `✓ Done`. A screen reader announces the character ("multiplication sign"), and it is invisible to the contrast audit. Carry the state in words, and use `role_="state"` when an icon is wanted: it renders an `aria-hidden` one, and colours it from the `--color-status-*` non-text tokens while the text stays `--color-text-default`. Moving the colour onto the icon is what removes the contrast constraint rather than negotiating with it — see "Contrast is bought with chroma" below.
+**Do not hand-type a status glyph into the content** — `✕ Error: …`, `✓ Done`. A screen reader announces the character ("multiplication sign"), and it is invisible to the contrast audit. Carry the state in words, and use `role_="state"` when an icon is wanted: it renders an `aria-hidden` one, and colours it from the `--color-icon-*` non-text tokens while the text stays `--color-text-default`. Moving the colour onto the icon is what removes the contrast constraint rather than negotiating with it — see "Contrast is bought with chroma" below.
 
 **Counters and data readouts are not `status`.** "14 of 47 reviewed" is comprehension text — the user reads it to form a judgment, not to follow an instruction — so it belongs in `candor-text` (Roboto Flex), per the instruction-vs-comprehension rule above.
 
@@ -379,11 +378,12 @@ Atkinson Hyperlegible requires positive letter-spacing to prevent glyph clusteri
 
 | Context | Value | Reason |
 |---|---|---|
-| Badges, chips, breadcrumbs | `0.04em`–`0.06em` | UI signal — elevated tracking marks the element as a label or interactive UI unit |
-| Body roles (message, status, annotation) | `var(--letter-spacing-body)` = `0.02em` | Prose-like — should blend with surrounding text, not read as a UI label |
+| Badges, chips | `var(--letter-spacing-signal)` = `0.04em` | UI signal — elevated tracking marks the element as a label or interactive UI unit |
+| Form labels, legends (14px bold) | `var(--letter-spacing-relaxed)` = `0.03em` | Small bold text needs more air than body text |
+| Body roles (message, status, annotation), breadcrumbs | `var(--letter-spacing-body)` = `0.02em` | Prose-like — should blend with surrounding text, not read as a UI label |
 | Labels (uppercase) | `var(--letter-spacing-wide)` = `0.05em` | Uppercase already benefits from tracking |
 
-**The underlying principle:** tracking is a UI signal, not just a legibility fix. Elevated tracking (0.04em–0.06em) tells the reader "this is a UI element." Annotation prose (disclaimers, footnotes, hints) intentionally stays at `0.02em` even at 14px — it should feel like a paragraph, not a label. Applying badge-level tracking to a footnote would make it read as a structural element when it isn't.
+**The underlying principle:** tracking is a UI signal, not just a legibility fix. Elevated tracking (`--letter-spacing-signal`) tells the reader "this is a UI element." Capitals spacing (`--letter-spacing-wide`) on sentence-case text reads as letterspaced rather than as a signal, which is why the signal step sits below it. Annotation prose (disclaimers, footnotes, hints) intentionally stays at `0.02em` even at 14px — it should feel like a paragraph, not a label. Applying badge-level tracking to a footnote would make it read as a structural element when it isn't.
 
 **Never use `letter-spacing: 0` or `--letter-spacing-normal` with Atkinson** — always apply positive tracking.
 
@@ -413,7 +413,7 @@ This is a **systems transparency feature**, not a stylistic preference. In high-
 
 ### Text Size Floor
 
-No readable text in the system falls below **14px** (`--font-size-sm` = `0.875rem`). `--text-xs` (12px) is for decorative/non-text use only (icon glyphs, badge chrome).
+No readable text in the system falls below **14px** (`--font-size-sm` = `0.875rem`). `--type-xs` (12px, `--font-size-xs`) is for decorative/non-text use only (icon glyphs, badge chrome).
 
 **This is gated, and the gate is in `audit:contrast` rather than a typography check — because the floor is a contrast rule wearing typography clothes.** 12px is classified decorative in *both* axes of the tier table, so no OKCA floor is defined for it, so `pairings.json` holds zero size-12 entries. Setting `--font-size-xs` on text therefore removed that text from the contrast audit entirely, with nothing recording that it had happened — the #218 shape again, and the direct reason #229 went unnoticed. The check reports the audit's own blind spot (#230).
 
@@ -460,14 +460,16 @@ This replaces the former 9.5 floor at 14px, which was **unreachable by any colou
 
 | token | measures | to reach 9.5 |
 |---|---|---|
-| `--color-status-error-text` | 6.4 | chroma 0.18 → 0.146, deltaE 8 |
-| `--color-status-warning-text` | 8.1 | chroma 0.10 → 0.092, deltaE 3 |
-| `--color-status-success-text` | 6.1 | chroma 0.14 → 0.116, deltaE 9 |
-| `--color-link` | 5.3 | chroma 0.14 → 0.104, deltaE 12 |
+| `--color-text-error` | 6.8 | chroma 0.178 → 0.146, deltaE 7 |
+| `--color-text-warning` | 7.0 | chroma 0.085 → 0.075, deltaE 7 |
+| `--color-text-success` | 6.8 | chroma 0.139 → 0.117, deltaE 7 |
+| `--color-text-link` | 6.4 | chroma 0.127 → 0.103, deltaE 8 |
 
-The floor did not ask coloured text to be darker; it asked it to stop being coloured. Only near-neutral text could satisfy it (`--color-text-default` is 11.9).
+(Re-measured under klar 4 against the current tokens.)
 
-Stated as a size requirement it becomes actionable and self-consistent: **a Tier 1 element at 14px is a sizing bug, and the fix is the size.** At 16px the floor is 4.5 and every status colour clears it with margin. The system already worked this way in practice — `candor-input` renders its validation errors at 16px (`form-error-message`, floor 4.5, measures 6.4 ✅) while the generic `candor-accessible-text role_="status"` rendered identical content at 14px and could not pass (#208).
+The floor did not ask coloured text to be darker; it asked it to stop being coloured. Only near-neutral text could satisfy it (`--color-text-default` is 12.4).
+
+Stated as a size requirement it becomes actionable and self-consistent: **a Tier 1 element at 14px is a sizing bug, and the fix is the size.** At 16px the floor is 4.5 and every status colour clears it with margin. The system already worked this way in practice — `candor-input` renders its validation errors at 16px (`form-error-message`, floor 4.5, measures 6.8 ✅) while the generic `candor-accessible-text role_="status"` rendered identical content at 14px and could not pass (#208).
 
 Tier 1 **bold** at 14px keeps its 6.5 floor: bold is a genuine perceptual compensation, and 6.5 is reachable by chromatic text.
 
@@ -475,26 +477,26 @@ Tier 1 **bold** at 14px keeps its 6.5 floor: bold is a genuine perceptual compen
 
 The reason a floor can be unreachable is geometric, and it is worth understanding before setting any threshold.
 
-On a light background, more contrast means lower lightness. The sRGB gamut narrows as it descends toward black, so the chroma available falls with it. **Contrast and saturation are therefore not independent axes**: past a hue's ceiling, every increment of contrast is paid for in colour, and the limit of that trade is pure black — OKCA 20, chroma exactly 0.
+On a light background, more contrast means lower lightness. The sRGB gamut narrows as it descends toward black, so the chroma available falls with it. **Contrast and saturation are therefore not independent axes**: past a hue's ceiling, every increment of contrast is paid for in colour, and the limit of that trade is pure black — OKCA 20.9, chroma exactly 0.
 
-Maximum OKCA on white at each chroma, measured at the darkest lightness sRGB permits for that chroma (`*` marks the chroma the token is authored at):
+Maximum OKCA on white at each chroma, measured under klar 4 at the darkest lightness sRGB permits for that chroma (`*` marks the chroma the token is authored at):
 
 | hue | C=0.18 | C=0.14 | C=0.10 | C=0.06 | C=0.03 | C=0 |
 |---|---|---|---|---|---|---|
-| error (red, H 25) | **6.6\*** | 10.3 | 15.0 | 18.7 | 20.0 | 20 |
-| warning (gold, H 88) | — | 2.2 | 5.3 | 12.7 | 18.7 | 20 |
-| success (green, H 144.2) | 3.8 | **6.9\*** | 11.9 | 17.5 | 20.0 | 20 |
-| link (blue, H 250.8) | 2.9 | **5.4\*** | 10.3 | 16.7 | 19.5 | 20 |
+| error (red, H 25) | **6.6\*** | 10.5 | 15.4 | 19.5 | 20.9 | 20.9 |
+| warning (gold, H 88) | — | 2.3 | 5.5 | 13.3 | 19.5 | 20.9 |
+| success (green, H 144.2) | 3.9 | **7.0\*** | 12.3 | 18.2 | 20.9 | 20.9 |
+| link (blue, H 250.8) | 2.7 | 5.1 | 10.1 | 17.1 | 20.4 | 20.9 |
 
 Three consequences for anyone setting or meeting a threshold:
 
 1. **A contrast floor is a saturation budget.** Requiring 9.5 does not only say "make it darker" — it says "spend most of your chroma." Read the row before choosing a number.
 
-2. **The same floor is a different demand at every hue.** At C=0.18 red reaches 6.6 while gold cannot be rendered at all, because the gamut is far larger in red at low lightness. A uniform floor silently taxes yellows and oranges hardest — which is why `--color-status-warning-text` is authored at C=0.085 while `--color-status-error-text` sits at 0.18. That was discovered by hitting the boundary, not by choice.
+2. **The same floor is a different demand at every hue.** At C=0.18 red reaches 6.6 while gold cannot be rendered at all, because the gamut is far larger in red at low lightness. A uniform floor silently taxes yellows and oranges hardest — which is why `--color-text-warning` is authored at C=0.085 while `--color-text-error` sits at 0.18. That was discovered by hitting the boundary, not by choice.
 
-3. **Past roughly OKCA 15 the text is achromatic in practice.** Chroma is under 0.06 there, which at those lightnesses reads as black with a cast rather than as a colour.
+3. **Past roughly OKCA 16 the text is achromatic in practice.** Chroma is under 0.06 there, which at those lightnesses reads as black with a cast rather than as a colour.
 
-This is the quantitative form of the design philosophy at the top of this file. "Maximum contrast is not automatically correct" is not only an aesthetic claim: at OKCA 20 the chroma is exactly zero, so maximum contrast is not a strict colour decision but the absence of one. A number chosen without reading the table above may be deleting the colour system rather than validating it.
+This is the quantitative form of the design philosophy at the top of this file. "Maximum contrast is not automatically correct" is not only an aesthetic claim: at OKCA 20.9 the chroma is exactly zero, so maximum contrast is not a strict colour decision but the absence of one. A number chosen without reading the table above may be deleting the colour system rather than validating it.
 
 **Authoring rule when a floor cannot be met.** Ask first whether the text should be coloured at all.
 
@@ -503,21 +505,21 @@ This is the quantitative form of the design philosophy at the top of this file. 
 
 Desaturating a semantic colour to buy contrast is the option to reach for last: it keeps the number and discards the thing the number was protecting. If it is genuinely the right call, it is a brand decision, and `klar find --json` reports its exact cost in `.resolvableBy` — take that to the decision rather than nudging chroma until the audit passes.
 
-The same geometry applies inverted on dark backgrounds: contrast there means *higher* lightness, the gamut narrows toward white, and the limit is pure white. Light-on-dark caps at 20.9 rather than 20, but the trade is identical.
+The same geometry applies inverted on dark backgrounds: contrast there means *higher* lightness, the gamut narrows toward white, and the limit is pure white. Both polarities cap at 20.9 under klar 4, and the trade is identical.
 
 #### The corollary for tinted backgrounds: a pale tint may not be a colour at all
 
 The same narrowing that limits dark text limits *pale* fills, and there it has a consequence the contrast floors never see, because nothing in this file measures whether two variants of a component look different from each other.
 
-Candor's status background tokens sit at L 0.95. The maximum chroma sRGB permits there is strongly hue-dependent — measured with `klar lightness`, reading off the highest chroma whose max lightness still reaches 0.95:
+Until #365, Candor's status background tokens sat at L 0.95, and this table records why the hue mattered there. They are now step 100 of each status ramp (L 0.93), where the error and warning fills are deltaE 16 apart. The maximum chroma sRGB permits at L 0.95 is strongly hue-dependent — measured with `klar lightness`, reading off the highest chroma whose max lightness still reaches 0.95:
 
-| hue | max chroma at L 0.95 | authored |
+| hue | max chroma at L 0.95 | authored before #365 |
 |---|---|---|
 | error (red, H 25) | ~0.02 | 0.02 |
 | warning (gold, H 88, since #318) | ~0.05 | 0.05 |
 | success (green, H 145) | >0.05 | 0.05 |
 
-Red is pinned to near-white; gold and green have room. Until #318 warning was amber (H 53), pinned like red at ~0.02, and **`--color-status-error-bg` and `--color-status-warning-bg` were deltaE 4 apart in normal vision** — at the edge of imperceptible, and closer than Candor's own "acceptable drift" band starts. Not a CVD edge case: nobody could reliably tell them apart. Moving warning to gold (H 88) took the gap to deltaE 14 light and 11 dark.
+Red is pinned to near-white; gold and green have room. Until #318 warning was amber (H 53), pinned like red at ~0.02, and **`--color-bg-error` and `--color-bg-warning` were deltaE 4 apart in normal vision** — at the edge of imperceptible, and closer than Candor's own "acceptable drift" band starts. Not a CVD edge case: nobody could reliably tell them apart. Moving warning to gold (H 88) took the gap to deltaE 14 light and 11 dark.
 
 Two things follow:
 
@@ -527,7 +529,7 @@ Two things follow:
 Worth noting **this got worse in #225 and nobody measured it**: error-bg was authored at C 0.05, out of gamut at L 0.95, and pulling it to the boundary halved the separation from deltaE 8 to 4. The re-authoring was correct — the old value never named a deliverable colour — but "every pairing was re-measured and nothing regressed" was a statement about *contrast*, and this is not a contrast property. It is the same lesson as the rest of this release: a guard reports what it measures, and silence outside its scope is not a pass.
 
 **Key audit rules:**
-- `--color-text-subtle` (OKCA 4.8 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
+- `--color-text-subtle` (OKCA 5.0 on page) passes Tier 2 bold and Tier 3 at any weight — **do not "fix" these**.
 - Tier 2 regular (6.5) is the threshold where text-subtle fails — the fix is **bold weight (wght ≥ 700)**, not a color change or size bump.
 - **Tier 1 regular at 14px is not a contrast failure to fix with colour — it is a size to change.** Bump to 16px.
 - Tier 3 requires a **redundant non-color channel** (shape, icon, spatial position). The channel must be **non-optional** — something the reader cannot end up without. There are two ways to achieve that, and only the first was recognised until #214:
@@ -571,21 +573,18 @@ Apply whenever a flex child holds user-supplied content that may include long un
 
 ### Modifying Design Tokens
 
-**colors.scss**:
+**Colour**: a role in `semantics.scss` points at a ramp step in `primitives.scss`, and never types a colour (see step 3 of the workflow above):
 ```scss
-$color-primary: oklch(0.55 0.18 250); // Always use OKLCH format — and always in sRGB gamut
+--color-text-link: var(--azure-600); // OKCA 6.4 on white ✅
 ```
 
 After changing any colour, run `npm run audit:tokens` (gamut gate + DTCG re-export) then `npm run audit:contrast` (re-measures every affected pairing and every recorded figure). The gamut gate runs first for a reason: a contrast figure measured on an out-of-gamut colour is meaningless, so gamut must be settled before contrast is worth checking.
 
-**typography.scss**:
-- Base size: `$font-size-md: 1rem` (16px)
-- Scale follows Major Third ratio (1.25)
-- Font stacks use system fallbacks
+**Typography**: the type scale `--type-*` (Major Third, 1.25) and the typefaces `--typeface-*` are primitives; components use the semantic `--font-size-*` (base `--font-size-md`, 16px), `--font-family-*`, `--font-weight-*`, `--line-height-*` and `--letter-spacing-*`. Primitives are named after their scale and semantic tokens after the CSS property they set, so the two vocabularies differ on purpose. Tracking steps are numbered in thousandths of an em (`--tracking-30` is 0.03em), and a role names what the text does (`body`, `relaxed`, `signal`, `wide`, `h1`–`h6`). Never type a letter-spacing: pick the role, or add a role and step when none fits; `audit:tokens` fails on a typed value.
 
-**spacing.scss**:
-- All values are multiples of 8px
-- Use `rem` units for scalability
+**Spacing**: an 8px grid in `rem`, `--space-*` as primitives and `--spacing-*` as roles. Component padding is a `--candor-*` hook on the component, not a spacing token.
+
+**Motion**: every transition and animation takes a `--motion-duration-*` and `--motion-ease-*` token; `audit:tokens` fails on a literal duration. Reduced motion is decided in the tokens, so a component needs no `prefers-reduced-motion` rule of its own.
 
 ### Creating New Components
 
@@ -595,7 +594,7 @@ After changing any colour, run `npm run audit:tokens` (gamut gate + DTCG re-expo
 4. Re-export from `src/web-components/index.ts` so the `@customElement()` side effect registers the tag. The barrel is the **package** entry point for consumers — it is deliberately *not* imported by `.storybook/preview.ts`; see step 3 for how stories get their registration
 4a. Write a **class-level TSDoc block** — gated by `npm run audit:docs`, which fails if any registered element lacks one. The build emits it into `dist/*.d.ts`, so it is what a consumer (increasingly an agent) reads *at the moment of the decision*, where a catalog link is a step that does not get taken (#267). Say what the component is for, which sibling it is confusable with, any structural requirement the element cannot enforce (`candor-radio` needing a `<fieldset>`), and **the negatives** — a plausible API that is deliberately absent is invisible otherwise, which is how `size="icon"` shipped. Declare every event with `@fires <name> - detail: <type> (<when>)`, with no em dash, since TSDoc ships to consumers (#292); if there are none, write the exact words `Emits no custom events.` Both halves are checked against the source, in both directions.
 
-   **Member-level TSDoc is by exception, not blanket.** There are 180 public members; commenting the obvious ones produces filler that trains readers to skip TSDoc entirely and destroys the signal where it matters. Comment a member when its meaning depends on something outside the element, or when the declaration is actively misleading — `candor-radio`'s `name` reads as native radio grouping and is not it. That case is the model.
+   **Member-level TSDoc is by exception, not blanket.** There are 184 public members; commenting the obvious ones produces filler that trains readers to skip TSDoc entirely and destroys the signal where it matters. Comment a member when its meaning depends on something outside the element, or when the declaration is actively misleading — `candor-radio`'s `name` reads as native radio grouping and is not it. That case is the model.
 
    Uniform coverage at the class level is what makes any of this gateable: "every element declares its events" is only checkable if every element is supposed to. Selective coverage also manufactures a false signal, since a missing comment starts to read as "nothing surprising here" — the #213 half-filled-column problem.
 5. Add entries to `audit/pairings.json` for every unique `color:` declaration in the component — one entry per distinct fg/bg pairing. Classify each by tier (see "OKCA Contrast Thresholds") to determine the correct `min` value. If the component needs a colour the system doesn't have, add it as a **token** rather than a literal in `static styles` — a literal in a component is invisible to both the gamut gate and the contrast audit.
@@ -818,14 +817,14 @@ For projected content (`<slot>`), use `::slotted()` selectors:
 
 Tokens re-theme the whole system but can't reach *one* component's internals. Two opt-in hooks let consumers override without forking (#165). Both must leave default rendering identical — set nothing, nothing changes.
 
-**This convention governs new components; it is not a property every component currently has.** Measured across the 37: 5 expose a `::part`, 10 expose a `--candor-*` property, 4 expose both, and **26 expose neither** (#246; `--candor-card-overflow` added in #259). The sentence here used to read "every component exposes two opt-in hooks", which described 4 of 37 — and mattered more than a wording slip, because the governance paragraph below declares these names public API with semver obligations, so a contributor reasonably read it as a surface that already existed and was maintained. `src/Introduction.mdx` states this correctly and is the model: it lists what exists and says the surface grows as demand surfaces. **Growing it by demand is the design, not a backlog.** Every hook that exists came from real friction — `--candor-drawer-size` from a consumer needing a wider drawer, `::part(trigger)` from #173, `--candor-data-grid-cell-min-height` from #229 — and a part name is public API, so inventing 26 components' worth of them without a use case is 26 commitments made blind. That is the #213 `redundant-channel` mistake: populating a surface because a convention says it should be populated produces something that looks designed and isn't.
+**This convention governs new components; it is not a property every component currently has.** Measured across the 37: 5 expose a `::part`, 13 expose a `--candor-*` property, 4 expose both, and **23 expose neither** (#246; `--candor-card-overflow` added in #259; `--candor-select-*`, `--candor-combobox-*`, `--candor-listbox-*` padding and `--candor-card-padding` added in 7.0.0, replacing the deprecated `--spacing-input-padding-*` and `--spacing-card-padding` they used to read). The sentence here used to read "every component exposes two opt-in hooks", which described 4 of 37 — and mattered more than a wording slip, because the governance paragraph below declares these names public API with semver obligations, so a contributor reasonably read it as a surface that already existed and was maintained. `src/Introduction.mdx` states this correctly and is the model: it lists what exists and says the surface grows as demand surfaces. **Growing it by demand is the design, not a backlog.** Every hook that exists came from real friction — `--candor-drawer-size` from a consumer needing a wider drawer, `::part(trigger)` from #173, `--candor-data-grid-cell-min-height` from #229 — and a part name is public API, so inventing 26 components' worth of them without a use case is 26 commitments made blind. That is the #213 `redundant-channel` mistake: populating a surface because a convention says it should be populated produces something that looks designed and isn't.
 
 **1. Custom properties — the blessed density/shape knobs.** Name them `--candor-<component>-<knob>` and default each to the existing token so the override is purely additive:
 
 ```css
 /* thread the knob through the declaration, token as the fallback */
 min-height: var(--candor-button-min-height, var(--hit-target-aaa));
-padding: var(--candor-button-padding-y, var(--spacing-button-padding-y)) var(--candor-button-padding-x, var(--spacing-button-padding-x));
+padding: var(--candor-button-padding-y, var(--spacing-sm)) var(--candor-button-padding-x, var(--spacing-md));
 ```
 
 Expose these for the bounded knobs consumers most often nudge: padding, font-size, min-height, radius, gap. When a component has per-size declarations (button), thread the *same* knob through every size with that size's token as the fallback — so one override wins regardless of `size`, which is what lets a consumer go denser than the smallest size (the #165 case) without a new size rung.
@@ -901,7 +900,7 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 2. **Don't use hex colors in tokens**: Use OKLCH format
 2a. **Don't author a colour sRGB can't render**: OKLCH accepts more chroma than the gamut allows and says nothing. The value then specifies nothing — it delegates the choice away from Candor — and every contrast figure recorded against it is undefined, since OKCA is only established across sRGB. Hold L and H, pull chroma to the boundary, and round **inward**. `npm run audit:tokens` gates this and prints the value to use — see "The sRGB gamut is an invariant" above
 3. **Don't skip accessibility validation**: Check contrast before finalizing
-3a. **Don't use `--color-status-*` (or any `$extensions.usage: "non-text"` token) as a CSS `color:` value for text**: These tokens — `--color-status-error`, `--color-status-success`, `--color-status-warning`, and the base icon/border variants — are contrast-validated only for non-text use (icons, borders, indicators). Their OKCA against common backgrounds is below every text threshold. Always use the paired `-text` variant: `--color-status-error-text`, `--color-status-success-text`, `--color-status-warning-text`. Check `audit/tokens.dtcg.json` — any token with `"$extensions": { "usage": "non-text" }` must not appear in a `color:` rule. That field is now derived structurally and covers every qualifying token including every border; before #218 it matched a literal phrase in a comment, was set on 5 tokens, and flagged **no border at all** — so this check silently passed for the entire category it exists to protect. If you are reading an older branch, do not trust it.
+3a. **Don't use a non-text token as a text colour.** A colour token's first word says what it paints (#367): `icon-*`, `border-*`, `fill-*` and `ring-*` are validated only for non-text use (WCAG 1.4.11's 3:1), and their contrast is below every text floor. For coloured text use the `text-*` token of the same role: `--color-text-error`, not `--color-icon-error`. `npm run audit:tokens` enforces it: `color:` may only take `text-*` or `icon-*` tokens (an icon inherits `currentColor`), backgrounds only `bg-*` or `fill-*`, borders and outlines only `border-*` or `ring-*`, with named exceptions. `$extensions.usage: "non-text"` in `audit/tokens.dtcg.json` is derived from the same word. Before #218 that field matched a phrase in a comment and flagged no border at all; before #367 it was inferred from structure. Read the name.
 4. **Don't create components without stories**: Every component needs a story
 5. **Don't modify node_modules**: This is obvious but worth stating
 6. **Don't use Atkinson bold for urgency**: Bold weight in Atkinson is for hierarchy/labels only. Error messages, status text, and warnings use regular weight — color carries the urgency signal (see "Typography Usage Rules" above)
@@ -923,7 +922,7 @@ A story that demonstrates wrong usage is as harmful as a component bug — stori
 
 ## Test Files
 
-- `tests/accessibility.spec.ts` — keyboard/focus/ARIA behaviour the visual gate can't see (focus reachability, Tab order, radio arrow-key grouping, checkbox space-toggle, `aria-invalid`). Targets the story iframe directly (`iframe.html?id=…&viewMode=story`); Playwright's CSS engine pierces the open shadow roots, so `candor-button button` reaches the inner control.
+- `tests/accessibility.spec.ts` — keyboard/focus/ARIA behaviour the visual gate can't see (focus reachability, Tab order, radio arrow-key grouping, checkbox space-toggle, `aria-invalid`, table sorting by keyboard with `aria-sort`). Targets the story iframe directly (`iframe.html?id=…&viewMode=story`); Playwright's CSS engine pierces the open shadow roots, so `candor-button button` reaches the inner control.
 - `tests/host-aria-label.spec.ts` — every component that must forward a host `aria-label` actually does, in both insertion orders (#270). **Its subjects are derived from source, not listed** — see "aria-label host-trap" above for the two-half derivation and why a hand-written list would be a false negative waiting to happen. It builds its own probe elements with `document.createElement` rather than relying on a story's props, so it needs no per-component story and adds no Chromatic snapshot. A `discovery` test asserts the subject count has a floor, so a broken scan fails loudly instead of passing by testing nothing.
 - `tests/axe.spec.ts` — axe-core 4.11 (pinned) on every story, light theme, against WCAG 2.2 A/AA, with `color-contrast` off (#252). One test with a named step per story, because Playwright collects tests before Storybook starts and the story list comes from `/index.json`; a discovery floor fails it if the index read breaks. Exceptions are `tests/axe-exceptions.json`, stale ones fail. Writes `axe-report/axe-report.json` (gitignored), which `node scripts/axe-report.js` turns into the review list. Takes about 4 minutes. **Results depend on the fonts loading**: overflow rules such as `scrollable-region-focusable` only fire when a block is wide enough to scroll, so run it from the main checkout. A Storybook started from a git worktree whose `node_modules` is a link into the main checkout gets a 403 on every font file and renders fallback fonts, and found one fewer violation than CI on the first run. The page also sets `a11y.manual` so Storybook's own a11y addon does not run axe on render and collide with this run.
 - `tests/wcag-runtime.spec.ts` — five WCAG 2.2 AA criteria axe cannot decide, on every story: every piece of text doubling and none newly clipped with the root font size at 200% (1.4.4; slotted text renders at its slot's size, so growth is measured at the slot, and a slot's `display: contents` box is zero-sized, so it must not count as hidden); no sideways page scroll at 320px (1.4.10); no box that hides overflow hiding more text once WCAG text spacing is injected into every shadow root (1.4.12); each of up to 12 Tab stops differing in pixels focused vs unfocused (2.4.7) and not entirely covered (2.4.11). Transitions are switched off first, because inputs fade their ring in and a mid-fade capture reads as no focus. Four traps it hit, worth knowing before editing it: a shadow element's `textContent` omits slotted text, so "does this box hold text" has to follow `assignedNodes`; compare overflow *amounts*, not booleans, or a box that already clipped a pixel is excused from clipping a line; and skip boxes 1px wide, which is the screen-reader-only pattern clipping on purpose; and a link that wraps has a bounding box made mostly of the paragraph around it, so the coverage check samples each line box. That last one only showed on CI, where Linux fonts wrap a link the Windows fonts did not. Each check is tripwired. Label in name (2.5.3) lives in `axe.spec.ts` instead, because that spec already loads every story. The pixel decoder is shared from `tests/support/png.ts`.

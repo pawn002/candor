@@ -143,13 +143,13 @@ export class CandorTonePicker extends LitElement {
     }
 
     .cell-btn:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
 
     .cell-btn[aria-checked='true'] {
-      border-color: var(--color-focus);
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      border-color: var(--color-ring-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
 

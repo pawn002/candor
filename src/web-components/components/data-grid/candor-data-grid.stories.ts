@@ -14,10 +14,10 @@ import './candor-data-grid';
 // for legibility, and for four of these twelve no such colour exists. White is
 // the best available on each of the three status fills, and it is not enough
 // against the 6.5 floor this label carries:
-//   `#ffffff` reaches OKCA 4.4 on status-error
-//   `#ffffff` reaches OKCA 4.2 on status-success
+//   `#ffffff` reaches OKCA 4.3 on status-error
+//   `#ffffff` reaches OKCA 4.3 on status-success
 //   `#ffffff` reaches OKCA 4.4 on status-warning
-// `--color-focus` was worse than close, as azure-400. klar reported `unreachable`: no colour
+// `--color-ring-focus` was worse than close, as azure-400. klar reported `unreachable`: no colour
 // whatsoever clears even 4.5 against it, at black or white, so there was never
 // a label colour to pick. The label now carries its own opaque plate from the
 // component, so its contrast no longer depends on the swatch at all (#229).
@@ -35,16 +35,16 @@ const TOKEN_ROWS = JSON.stringify([
     swatch('--color-bg-inverse'),
   ]},
   { rowHeader: 'Action', cells: [
-    swatch('--color-action-primary'),
-    swatch('--color-action-secondary'),
-    swatch('--color-action-tertiary'),
-    swatch('--color-action-destructive-text'),
+    swatch('--color-bg-action-primary'),
+    swatch('--color-bg-accent-secondary'),
+    swatch('--color-bg-action-tertiary'),
+    swatch('--color-text-action-destructive'),
   ]},
   { rowHeader: 'Status', cells: [
-    swatch('--color-status-error'),
-    swatch('--color-status-success'),
-    swatch('--color-status-warning'),
-    swatch('--color-focus'),
+    swatch('--color-icon-error'),
+    swatch('--color-icon-success'),
+    swatch('--color-icon-warning'),
+    swatch('--color-ring-focus'),
   ]},
 ]);
 
@@ -101,8 +101,10 @@ const meta: Meta = {
 Focus management uses the **roving tabindex** pattern: one cell holds \`tabindex="0"\` at
 a time; arrow keys move the tab stop.
 
-Pass \`rows\` and \`columnheaders\` via JS properties (or JSON-encoded as attributes). Each
-cell has \`{ label, background, foreground, selected?, disabled? }\`, well suited to
+Pass \`rows\` and \`columnHeaders\` via JS properties (or JSON-encoded as the \`rows\` and
+\`column-headers\` attributes). Each cell has \`{ label, background?, foreground?, selected?, disabled? }\`.
+\`background\` and \`foreground\` bypass the token system and so the contrast audit: the pairing is
+yours to check. The shape is well suited to
 color-grid and heat-map use cases.
         `.trim(),
       },

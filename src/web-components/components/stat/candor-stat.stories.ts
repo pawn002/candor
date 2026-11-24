@@ -21,7 +21,7 @@ const meta: Meta = {
 - \`size="lg"\` (39px value): hero KPIs and prominent page-level statistics
 
 Five semantic color variants signal the metric's state: \`default\`, \`success\`,
-\`warning\`, \`error\`, \`info\`. The color applies to the value and unit, not the label.
+\`warning\`, \`error\`, \`info\`. The color applies to the value only; the unit and label stay neutral.
 
 **When you use a status colour, put the verdict in the slot too.** A stat's label names *what
 is measured*, not whether the number is good. So unlike a badge, colour here can end up as
@@ -107,11 +107,17 @@ export const ContrastRatio: Story = {
 export const AllColors: Story = {
   render: () => html`
     <div style="display:flex;gap:var(--spacing-lg);flex-wrap:wrap;justify-content:center;">
-      <candor-stat value="98.7" unit="%" label="Uptime" color="success" size="lg"></candor-stat>
-      <candor-stat value="42" label="Pending" color="warning" size="lg"></candor-stat>
-      <candor-stat value="3" label="Failures" color="error" size="lg"></candor-stat>
+      <candor-stat value="98.7" unit="%" label="Uptime" color="success" size="lg">
+        <candor-accessible-text role_="state" tone="success">Within target</candor-accessible-text>
+      </candor-stat>
+      <candor-stat value="42" label="Pending" color="warning" size="lg">
+        <candor-accessible-text role_="state" tone="warning">Above target</candor-accessible-text>
+      </candor-stat>
+      <candor-stat value="3" label="Failures" color="error" size="lg">
+        <candor-accessible-text role_="state" tone="error">Action needed</candor-accessible-text>
+      </candor-stat>
       <candor-stat value="1,284" label="Users" color="default" size="lg"></candor-stat>
-      <candor-stat value="512" label="API calls" color="info" size="lg"></candor-stat>
+      <candor-stat value="512" label="API calls" size="lg"></candor-stat>
     </div>
   `,
 };

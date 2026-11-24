@@ -35,18 +35,22 @@ export class CandorProgress extends LitElement {
     :host { display: block; }
     .progress-bar-wrapper { display: flex; flex-direction: column; gap: var(--spacing-2xs); }
     .progress-bar__label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); color: var(--color-text-subtle); letter-spacing: var(--letter-spacing-body); }
+    /* The track is hollow, edged in border-control: its far end is how a
+       reader judges how much of the whole the fill is, so the edge clears
+       3:1 on the page and on a card (WCAG 1.4.11). A filled track either
+       vanished on a card (bg-surface) or crowded the fill (fill-track). */
     .progress-bar {
       height: var(--spacing-xs);
-      background-color: var(--color-bg-surface);
+      background-color: transparent;
       border-radius: var(--radius-full);
       overflow: hidden;
-      border: var(--border-width-thin) solid var(--color-border-default);
+      border: var(--border-width-thin) solid var(--color-border-control);
     }
     .progress-bar__fill {
       height: 100%;
-      background-color: var(--color-action-primary);
+      background-color: var(--color-fill-indicator);
       border-radius: var(--radius-full);
-      transition: width 0.3s ease-in-out;
+      transition: width var(--motion-duration-slow) var(--motion-ease-standard);
     }
     .progress-bar__fill--indeterminate {
       width: 40% !important;
@@ -62,7 +66,7 @@ export class CandorProgress extends LitElement {
     .spinner--lg { width: var(--spacing-xl); height: var(--spacing-xl); }
     .spinner__track { stroke: var(--color-border-default); }
     .spinner__arc {
-      stroke: var(--color-action-primary);
+      stroke: var(--color-fill-indicator);
       stroke-dasharray: 56.5 56.5;
       stroke-dashoffset: 0;
       transform-origin: center;

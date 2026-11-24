@@ -48,32 +48,35 @@ export class CandorPagination extends LitElement {
       border: none;
       border-radius: var(--radius-sm);
       background: transparent;
-      color: var(--color-text-subtle);
+      /* subtle-on-surface, not subtle: a paginator often sits on a card below its table,
+         where text-subtle falls to 3.9 in light. */
+      color: var(--color-text-subtle-on-surface);
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold);
       letter-spacing: var(--letter-spacing-body);
       line-height: 1;
       cursor: pointer;
-      transition: background-color 120ms ease, color 120ms ease;
+      transition: background-color var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .pagination__btn:hover:not(:disabled) {
-      background-color: var(--color-bg-surface);
+      /* bg-hover, not bg-surface: on a card a surface-coloured hover is invisible. */
+      background-color: var(--color-bg-hover);
       color: var(--color-text-default);
     }
     .pagination__btn:disabled { opacity: 0.35; cursor: not-allowed; }
     .pagination__btn:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
       border-radius: var(--radius-sm);
     }
     .pagination__btn--current {
-      background-color: var(--color-action-primary);
+      background-color: var(--color-bg-action-primary);
       color: var(--color-text-on-action);
       font-weight: var(--font-weight-medium);
     }
     .pagination__btn--current:hover:not(:disabled) {
-      background-color: var(--color-action-primary);
+      background-color: var(--color-bg-action-primary);
       color: var(--color-text-on-action);
     }
     .pagination__icon { width: var(--font-size-sm); height: var(--font-size-sm); }
@@ -85,7 +88,7 @@ export class CandorPagination extends LitElement {
       justify-content: center;
       min-width: var(--spacing-lg);
       height: var(--spacing-lg);
-      color: var(--color-text-subtle);
+      color: var(--color-text-subtle-on-surface);
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
       letter-spacing: var(--letter-spacing-body);

@@ -8,7 +8,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "One expandable section. **There is no accordion container.** This is the item\nonly, and the name says so.\n\nTwo consequences. Sequential items form an accordion by adjacency, with no\nwrapper to add. And nothing enforces one-open-at-a-time: if the design needs\nthat exclusivity, the consumer closes the siblings in response to `toggle`.\nMost of the time exclusivity is not wanted anyway: it hides content the user\njust asked to compare.\n\n`toggle` reports the new state, and `open` **is** updated by the component, so\nthis is not a controlled component in the way modal and drawer are. Bind\n`toggle` to react, not to assign.\n\nThe choice against `candor-disclosure` is grouping: a disclosure is one\nstandalone \"show more\" affordance; this is a member of a set and is styled to\nsit in a stack.\n\n`variant=\"quiet\"` renders the heading at weight 500. Structural nesting is\nwhat makes it legible at that weight. Do not use it for a standalone item\nwhere that context is absent.\n\nContent stays in the DOM when collapsed, so it remains findable by in-page\nsearch.",
+          "description": "One expandable section. **There is no accordion container.** This is the item\nonly, and the name says so.\n\nTwo consequences. Sequential items form an accordion by adjacency, with no\nwrapper to add. And nothing enforces one-open-at-a-time: if the design needs\nthat exclusivity, the consumer closes the siblings in response to `toggle`.\nMost of the time exclusivity is not wanted anyway: it hides content the user\njust asked to compare.\n\n`toggle` reports the new state, and `open` **is** updated by the component.\nBind `toggle` to react, not to assign.\n\nThe choice against `candor-disclosure` is grouping: a disclosure is one\nstandalone \"show more\" affordance; this is a member of a set and is styled to\nsit in a stack.\n\n`variant=\"quiet\"` renders the heading at weight 500. Structural nesting is\nwhat makes it legible at that weight. Do not use it for a standalone item\nwhere that context is absent.\n\nContent stays in the DOM when collapsed, so it remains findable by in-page\nsearch.",
           "name": "CandorAccordionItem",
           "members": [
             {
@@ -223,7 +223,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A small status or category marker.\n\n**The label must name the condition, not just be present.** Colour cannot be\nthe sole channel for meaning, and the tinted background does not rescue it\n(see below). The redundant channel here is the *text*, which is structurally\nmandatory because a badge with no content is not a badge. But it only counts\nif it says what the condition is:\n\n```html\n<candor-badge variant=\"error\">3</candor-badge>          <!-- no channel: \"3\" says nothing -->\n<candor-badge variant=\"error\">3 failed</candor-badge>   <!-- correct -->\n```\n\nCandor cannot enforce this, so it is an authoring rule rather than a\nconstraint, which is exactly why it is written here, where the decision is\nmade.\n\n**Do not treat the tinted background as a variant channel.** At L 0.95 the\nsRGB gamut permits almost no chroma at red, and pale tints fade on washed-out\nscreens and for readers who cannot tell the hues apart. The error and warning\nfills were once only deltaE 4 apart; they are farther apart now, but error and\nwarning badges are still told apart by their words, not their fill.\n\nFor an outcome that has already happened and wants an icon, consider\n`candor-accessible-text role_=\"state\"`, whose icon is component-rendered and\ntherefore cannot be omitted.\n\nEmits no custom events.",
+          "description": "A small status or category marker.\n\n**The label must name the condition, not just be present.** Colour cannot be\nthe sole channel for meaning, and the tinted background does not rescue it\n(see below). The redundant channel here is the *text*, which is structurally\nmandatory because a badge with no content is not a badge. But it only counts\nif it says what the condition is:\n\n```html\n<candor-badge variant=\"error\">3</candor-badge>          <!-- no channel: \"3\" says nothing -->\n<candor-badge variant=\"error\">3 failed</candor-badge>   <!-- correct -->\n```\n\nCandor cannot enforce this, so it is an authoring rule rather than a\nconstraint, which is exactly why it is written here, where the decision is\nmade.\n\n**Do not treat the tinted background as a variant channel.** Near white the\nsRGB gamut permits little chroma at red, and pale tints fade on washed-out\nscreens and for readers who cannot tell the hues apart. The error and warning\nfills were once only deltaE 4 apart; they are farther apart now, but error and\nwarning badges are still told apart by their words, not their fill.\n\nFor an outcome that has already happened and wants an icon, consider\n`candor-accessible-text role_=\"state\"`, whose icon is component-rendered and\ntherefore cannot be omitted.\n\nEmits no custom events.",
           "name": "CandorBadge",
           "members": [
             {
@@ -538,6 +538,9 @@
           "cssProperties": [
             {
               "name": "--candor-card-overflow"
+            },
+            {
+              "name": "--candor-card-padding"
             }
           ],
           "tagName": "candor-card",
@@ -569,7 +572,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A compact interactive token: a filter, a selected value, a removable tag.\n\nThe distinction from `candor-badge` is interactivity: a badge is a marker the\nuser reads, a chip is something they toggle, remove or follow. A chip with\nneither `selectable`, `dismissible` nor `link-href` is a badge with extra\nmachinery; use `candor-badge`.\n\nThe three modes render different elements and are not fully independent:\n`selectable` makes the body a toggle button carrying `aria-pressed`,\n`link-href` makes it an anchor, and `dismissible` adds a separate remove\nbutton alongside either. Setting both `selectable` and `link-href` is\nambiguous. Pick one.\n\n`label` is a **property, not a slot**, because it also builds the remove\nbutton's accessible name (\"Remove <label>\"). A chip with no `label` gives that\nbutton no name.\n\n`change` reports selection state; `dismiss` asks to be removed. **Neither\nremoves the chip**. `dismiss` does not hide it, so the consumer owns the\nlist and must drop the item in response. A chip that stays put after the user\nclicks its × is the expected failure here.",
+          "description": "A compact interactive token: a filter, a selected value, a removable tag.\n\nThe distinction from `candor-badge` is interactivity: a badge is a marker the\nuser reads, a chip is something they toggle, remove or follow. A chip with\nneither `selectable`, `dismissible` nor `link-href` is a badge with extra\nmachinery; use `candor-badge`.\n\nThe three modes render different elements and are not fully independent:\n`selectable` makes the body a toggle button carrying `aria-pressed`,\n`link-href` makes it an anchor, and `dismissible` adds a separate remove\nbutton alongside either. Setting both `selectable` and `link-href` is\nambiguous. Pick one.\n\n`label` is a **property, not a slot**, because it also builds the remove\nbutton's accessible name (\"Remove <label>\"). A chip with no `label` gives that\nbutton no name.\n\n`change` reports selection state; `dismiss` asks to be removed. **Neither\nremoves the chip**. `dismiss` does not hide it, so the consumer owns the\nlist and must drop the item in response. If a chip stays after the user\nclicks its ×, the list wasn't updated.",
           "name": "CandorChip",
           "members": [
             {
@@ -1028,7 +1031,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A panel sliding in from an edge, backed by the native `<dialog>`.\n\n**Controlled.** `close` reports dismissal; the component does not clear `open`\nfor you.\n\nChoose against `candor-modal` on interruption rather than shape: a modal\nblocks the task until answered, a drawer sits alongside it. If the user could\nreasonably keep working, this is the right component, and if they genuinely\ncan, also set `modal=\"false\"`, which uses a non-modal dialog that does not\ntrap focus or inert the page. A modal drawer that is really a side panel makes\nthe rest of the page unusable for no reason.\n\nNon-modal drawers deliberately do **not** steal focus on open, so a persistent\ninspector or filter panel does not yank the caret out of whatever the user is\ntyping in.\n\n`modal` and `dismiss-on-backdrop` both use a custom boolean converter rather\nthan `type: Boolean`; see their own comments. The short version: write\n`modal=\"false\"`, not a bare attribute, and expect the string `\"false\"` to be\nhonoured, which Lit's default converter would not do.\n\n**Do not put `<header>` or `<footer>` in slotted content**. They contribute\n`banner` and `contentinfo` landmarks that are not suppressed inside a dialog.\nThe component's own header sets `role=\"none\"` for this reason.\n\n`--candor-drawer-size` and `--candor-drawer-height` override the size rungs\nfor a one-off without a new variant.",
+          "description": "A panel sliding in from an edge, backed by the native `<dialog>`.\n\n**It closes itself.** On a user dismissal the component clears `open`, then\nemits `close`. Sync your own state from it, or a binding that still holds\n`open` true will reopen the drawer.\n\nChoose against `candor-modal` on interruption rather than shape: a modal\nblocks the task until answered, a drawer sits alongside it. If the user could\nreasonably keep working, this is the right component, and if they genuinely\ncan, also set `modal=\"false\"`, which uses a non-modal dialog that does not\ntrap focus or inert the page. A modal drawer that is really a side panel makes\nthe rest of the page unusable for no reason.\n\nNon-modal drawers deliberately do **not** steal focus on open, so a persistent\ninspector or filter panel does not yank the caret out of whatever the user is\ntyping in.\n\n`modal` and `dismiss-on-backdrop` both use a custom boolean converter rather\nthan `type: Boolean`; see their own comments. The short version: write\n`modal=\"false\"`, not a bare attribute, and expect the string `\"false\"` to be\nhonoured, which Lit's default converter would not do.\n\n**Do not put `<header>` or `<footer>` in slotted content**. They contribute\n`banner` and `contentinfo` landmarks that are not suppressed inside a dialog.\nThe component's own header sets `role=\"none\"` for this reason.\n\n`--candor-drawer-size` and `--candor-drawer-height` override the size rungs\nfor a one-off without a new variant.",
           "name": "CandorDrawer",
           "members": [
             {
@@ -1097,7 +1100,7 @@
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "detail: none (the user dismissed the drawer; the consumer must clear `open`)"
+              "description": "detail: none (the user dismissed the drawer; `open` is already false)"
             }
           ],
           "attributes": [
@@ -1879,6 +1882,14 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "cssProperties": [
+            {
+              "name": "--candor-combobox-padding-x"
+            },
+            {
+              "name": "--candor-combobox-padding-y"
+            }
+          ],
           "tagName": "candor-combobox",
           "customElement": true
         }
@@ -2373,6 +2384,14 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "cssProperties": [
+            {
+              "name": "--candor-listbox-padding-x"
+            },
+            {
+              "name": "--candor-listbox-padding-y"
+            }
+          ],
           "tagName": "candor-listbox",
           "customElement": true
         }
@@ -2402,7 +2421,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single radio button. **Groups are resolved structurally, not by `name`**.\nThis is the one thing to know before using it.\n\nEach radio lives in its own shadow root, so the browser cannot tie\nshared-`name` inputs into a mutually-exclusive, arrow-navigable set the way it\ndoes for native inputs. The component reimplements that grouping by querying\nsibling `candor-radio[name=\"…\"]` elements within a scope, and that scope is\n`closest('fieldset')`, falling back to `parentElement`. From the group it\nsupplies what the platform would have: mutual exclusion, arrow-key movement,\na single tab stop (the checked option, else the first enabled one), and each\noption's position in the set, so a screen reader can say \"2 of 5\". A\n`<fieldset>` holding only this group is given `role=\"radiogroup\"` unless it\nalready carries a role.\n\nThe practical consequence: wrap every group in a `<fieldset>` with a\n`<legend>`. Any real layout puts each option in its own wrapper element, and\nwithout the fieldset the scope collapses to that wrapper, so each radio sees\nonly itself. **Arrow-key navigation and mutual exclusion both stop.** The\ncontrol still looks correct; the one signal is a console warning, raised when\na named radio finds no other radio of that name in its group.\n\n```html\n<fieldset>\n  <legend>Notification frequency</legend>\n  <div><candor-radio name=\"freq\" value=\"all\" label=\"Everything\"></candor-radio></div>\n  <div><candor-radio name=\"freq\" value=\"none\" label=\"Nothing\"></candor-radio></div>\n</fieldset>\n```\n\nThe `<legend>` is not decorative: it is what names the group for assistive\ntechnology, and each radio's own label names only the option.\n\n`aria-label` on the host is mirrored onto the inner input and stripped from\nthe host, the same as every other Candor form control. Note what it names,\nthough: **this one option, not the group.** A group with no `<legend>` is not\nfixed by putting `aria-label` on its radios: that renames the options and\nleaves the group anonymous.\n\nA disabled radio needs an adjacent explanation of why. A locked control with\nno reason reads as broken. See the disabled-hint convention in CLAUDE.md.\n\n**Two slots, and they are not interchangeable (#263).** The default slot sits\n*inside* the `<label>`, so whatever it holds becomes part of this control's\naccessible name. Use it for label text only, as an alternative to `label`.\nAnything interactive (a help button, a link) goes in `slot=\"end\"`, which\nrenders *beside* the label: projecting a `<button>` into the default slot\nmakes the document invalid (a `<label>` may hold only its own control) and\nfolds the button's text into the option's name, so a reader hears\n\"OKCA About OKCA, radio button\" and then the button again.\n\n```html\n<candor-radio label=\"OKCA\" name=\"metric\" value=\"okca\">\n  <candor-button slot=\"end\" variant=\"ghost\" size=\"small\">About OKCA</candor-button>\n</candor-radio>\n```",
+          "description": "A single radio button. **Groups are resolved structurally, not by `name`**.\nThis is the one thing to know before using it.\n\nEach radio lives in its own shadow root, so the browser cannot tie\nshared-`name` inputs into a mutually-exclusive, arrow-navigable set the way it\ndoes for native inputs. The component reimplements that grouping by querying\nsibling `candor-radio[name=\"…\"]` elements within a scope, and that scope is\n`closest('fieldset')`, falling back to `parentElement`. From the group it\nsupplies what the platform would have: mutual exclusion, arrow-key movement,\na single tab stop (the checked option, else the first enabled one), and each\noption's position in the set, so a screen reader can say \"2 of 5\". A\n`<fieldset>` holding only this group is given `role=\"radiogroup\"` unless it\nalready carries a role.\n\nThe practical consequence: wrap every group in a `<fieldset>` with a\n`<legend>`. Any real layout puts each option in its own wrapper element, and\nwithout the fieldset the scope collapses to that wrapper, so each radio sees\nonly itself. **Arrow-key navigation and mutual exclusion both stop.** The\ncontrol still looks correct; the one signal is a console warning, raised when\na named radio finds no other radio of that name in its group.\n\n```html\n<fieldset>\n  <legend>Notification frequency</legend>\n  <div><candor-radio name=\"freq\" value=\"all\" label=\"Everything\"></candor-radio></div>\n  <div><candor-radio name=\"freq\" value=\"none\" label=\"Nothing\"></candor-radio></div>\n</fieldset>\n```\n\nThe `<legend>` is not decorative: it is what names the group for assistive\ntechnology, and each radio's own label names only the option.\n\n`aria-label` on the host is mirrored onto the inner input and stripped from\nthe host, the same as every other Candor form control. Note what it names,\nthough: **this one option, not the group.** A group with no `<legend>` is not\nfixed by putting `aria-label` on its radios: that renames the options and\nleaves the group anonymous.\n\nA disabled radio needs an adjacent explanation of why, such as a\n`candor-accessible-text role_=\"annotation\"` beside the group. A locked control\nwith no reason reads as broken.\n\n**Two slots, and they are not interchangeable (#263).** The default slot sits\n*inside* the `<label>`, so whatever it holds becomes part of this control's\naccessible name. Use it for label text only, as an alternative to `label`.\nAnything interactive (a help button, a link) goes in `slot=\"end\"`, which\nrenders *beside* the label: projecting a `<button>` into the default slot\nmakes the document invalid (a `<label>` may hold only its own control) and\nfolds the button's text into the option's name, so a reader hears\n\"OKCA About OKCA, radio button\" and then the button again.\n\n```html\n<candor-radio label=\"OKCA\" name=\"metric\" value=\"okca\">\n  <candor-button slot=\"end\" variant=\"ghost\" size=\"small\">About OKCA</candor-button>\n</candor-radio>\n```",
           "name": "CandorRadio",
           "slots": [
             {
@@ -2726,6 +2745,14 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "cssProperties": [
+            {
+              "name": "--candor-select-padding-x"
+            },
+            {
+              "name": "--candor-select-padding-y"
+            }
+          ],
           "tagName": "candor-select",
           "customElement": true
         }
@@ -3225,7 +3252,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A modal dialog, backed by the native `<dialog>` element and `showModal()`,\nso the focus trap, inertness of the page behind, and Escape-to-close come from\nthe platform rather than from script.\n\n**Controlled.** `close` reports that the user dismissed it; the component does\nnot clear `open` for you. Set `open = false` in response or it reopens on the\nnext render.\n\nSet `alert` for a decision the user cannot postpone. It switches the role to\n`alertdialog`, which tells assistive technology to announce the content\nimmediately. Use it for destructive confirmations, not for ordinary forms.\n\n**Do not put `<header>` or `<footer>` in slotted content.** They carry\nimplicit `banner` and `contentinfo` landmark roles, which are not suppressed\ninside a dialog, so they leak page-level landmarks into the dialog. The\ncomponent's own header already sets `role=\"none\"` for this reason; use `<div>`\nin anything you slot.\n\nThe body is focusable and named, so a scrollable dialog can be reached and\nscrolled by keyboard, since a scroll region that cannot receive focus is\nunreachable without a pointer. When the body scrolls, it takes initial focus\ninstead of the close button, so the first arrow key scrolls the content rather\nthan the page behind. An `autofocus` element in the content still wins.\n\nChoose against `candor-drawer` on interruption, not on size: a modal blocks\nthe task until answered; a drawer is a panel alongside it. If the user could\nreasonably keep working, it is a drawer.",
+          "description": "A modal dialog, backed by the native `<dialog>` element and `showModal()`,\nso the focus trap, inertness of the page behind, and Escape-to-close come from\nthe platform rather than from script.\n\n**It closes itself.** On a user dismissal the component clears `open`, then\nemits `close`. Listen for it to sync your own state: a framework binding that\nstill holds `open` true will reopen the dialog on its next render.\n\nSet `alert` for a decision the user cannot postpone. It switches the role to\n`alertdialog`, which tells assistive technology to announce the content\nimmediately. Use it for destructive confirmations, not for ordinary forms.\n\n**Do not put `<header>` or `<footer>` in slotted content.** They carry\nimplicit `banner` and `contentinfo` landmark roles, which are not suppressed\ninside a dialog, so they leak page-level landmarks into the dialog. The\ncomponent's own header already sets `role=\"none\"` for this reason; use `<div>`\nin anything you slot.\n\nThe body is focusable and named, so a scrollable dialog can be reached and\nscrolled by keyboard, since a scroll region that cannot receive focus is\nunreachable without a pointer. When the body scrolls, it takes initial focus\ninstead of the close button, so the first arrow key scrolls the content rather\nthan the page behind. An `autofocus` element in the content still wins.\n\nChoose against `candor-drawer` on interruption, not on size: a modal blocks\nthe task until answered; a drawer is a panel alongside it. If the user could\nreasonably keep working, it is a drawer.",
           "name": "CandorModal",
           "members": [
             {
@@ -3272,7 +3299,7 @@
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "detail: none (the user dismissed the dialog; the consumer must clear `open`)"
+              "description": "detail: none (the user dismissed the dialog; `open` is already false)"
             }
           ],
           "attributes": [
@@ -3699,7 +3726,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single numeric readout: a value, an optional unit, and a label naming what\nis measured.\n\n**`color` is not a redundant channel, and this is the one thing to get right\nhere.** Unlike `candor-alert` and `candor-accessible-text role_=\"state\"`, this\ncomponent renders no icon: \"847 ms\" in gold and \"847 ms\" in green differ only\nin hue. The value is a number and the label names the *quantity*, not whether\nit is good, so nothing in the default rendering tells a reader who cannot use\ncolour that the figure is a problem.\n\nThe default `<slot>` is where that channel goes, and\n`candor-accessible-text role_=\"state\"` is its intended occupant, because its\ntone icon is component-rendered and so cannot be left off:\n\n```html\n<candor-stat value=\"847\" unit=\"ms\" label=\"p99 latency\" color=\"warning\">\n  <candor-accessible-text role_=\"state\" tone=\"warning\">Above target</candor-accessible-text>\n</candor-stat>\n```\n\nSetting `color` with an empty slot is the failure mode, not a shortcut.\n\n`unit` is folded into the value's accessible name so screen readers announce\n\"847 ms\" rather than the number alone.\n\nEmits no custom events.",
+          "description": "A single numeric readout: a value, an optional unit, and a label naming what\nis measured.\n\n**`color` is not a redundant channel, and this is the one thing to get right\nhere.** Unlike `candor-alert` and `candor-accessible-text role_=\"state\"`, this\ncomponent renders no icon: \"847 ms\" in gold and \"847 ms\" in green differ only\nin hue. The value is a number and the label names the *quantity*, not whether\nit is good, so nothing in the default rendering tells a reader who cannot use\ncolour that the figure is a problem.\n\nThe default `<slot>` is where that channel goes, and\n`candor-accessible-text role_=\"state\"` is its intended occupant, because its\ntone icon is component-rendered and so cannot be left off:\n\n```html\n<candor-stat value=\"847\" unit=\"ms\" label=\"p99 latency\" color=\"warning\">\n  <candor-accessible-text role_=\"state\" tone=\"warning\">Above target</candor-accessible-text>\n</candor-stat>\n```\n\nSo set `color` only with the slot filled.\n\n`unit` is folded into the value's accessible name so screen readers announce\n\"847 ms\" rather than the number alone.\n\nEmits no custom events.",
           "name": "CandorStat",
           "members": [
             {
@@ -3821,7 +3848,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A static data table. Structure comes from `headers` and `rows`, not from\nslotted markup.\n\n**A cell is text or markup.** Each cell is a `TableCell`: a string, a Lit\n`TemplateResult`, or a DOM `Node`. Markup is how a cell holds an info button\nbeside a label, a link, or a status badge. Set it through the `rows`\nproperty, since the JSON attribute can only carry strings. Markup renders\ninside this element's shadow root, so the page's stylesheet does not reach it:\nuse Candor components or inline styles, and inline SVG rather than icon-font\nclasses, which do not cross a shadow boundary. Interactive content is still\nordinary page content: it is in the Tab order, and the table does not manage\nfocus. A table the user moves through cell by cell is `candor-data-grid`.\n\n**Always set `caption`.** It is the table's accessible name, and a page with\nseveral tables is otherwise a list of anonymous \"table\" landmarks to anyone\nnavigating by structure. It is visible text, not a tooltip. Treat it as the\ntable's title rather than as an accessibility afterthought.\n\n`TableRow.isHeader` promotes a row's cells to `<th scope=\"row\">`, which is\nwhat makes a key/value table readable: without it, a screen reader announces\nthe value with no idea which key it belongs to.\n\n`numeric-columns` right-aligns and tabular-figures those column indexes;\n`mono-columns` sets them in the mono face. Both take **zero-based indexes**,\nand an out-of-range index is ignored silently.\n\nChoose against `candor-data-grid` on interaction: this is content to read, a\ngrid is a two-dimensional widget the user navigates cell by cell.\n\nEmits no custom events.",
+          "description": "A data table to read, optionally sortable by column. Structure comes from\n`headers` and `rows`, not from slotted markup.\n\n**A cell is text or markup.** Each cell is a `TableCell`: a string, a Lit\n`TemplateResult`, or a DOM `Node`. Markup is how a cell holds an info button\nbeside a label, a link, or a status badge. Set it through the `rows`\nproperty, since the JSON attribute can only carry strings. Markup renders\ninside this element's shadow root, so the page's stylesheet does not reach it:\nuse Candor components or inline styles, and inline SVG rather than icon-font\nclasses, which do not cross a shadow boundary. Interactive content is still\nordinary page content: it is in the Tab order, and the table does not manage\nfocus. A table the user moves through cell by cell is `candor-data-grid`.\n\n**Always set `caption`.** It is the table's accessible name, and a page with\nseveral tables is otherwise a list of anonymous \"table\" landmarks to anyone\nnavigating by structure. It is visible text, not a tooltip. Treat it as the\ntable's title rather than as an accessibility afterthought.\n\n`TableRow.isHeader` promotes a row's cells to `<th scope=\"row\">`, which is\nwhat makes a key/value table readable: without it, a screen reader announces\nthe value with no idea which key it belongs to.\n\n`numeric-columns` right-aligns and tabular-figures those column indexes;\n`mono-columns` sets them in the mono face. Both take **zero-based indexes**,\nand an out-of-range index is ignored silently.\n\n**Sorting is opt-in per column.** List the sortable column indexes in\n`sortable-columns`; each of those headers becomes a native button, so Enter\nand Space sort and focus stays on it while the rows reorder. The active column\ncarries `aria-sort` and nothing else does, and a polite live region announces\nthe new order. Activating a column sorts ascending; activating it again\nreverses. There is no unsorted third state.\n\nNumbers compare as numbers and text with numeric collation (\"item 2\" before\n\"item 10\"). A displayed value is often not the right one to sort by, so give\n`TableRow.sortValues` the raw value: bytes behind \"1.5 GiB\", the unrounded\nfigure behind a rounded badge. Unknown values (`null`, `undefined`, empty\ntext, or a Lit template with no sort value) sort last in both directions, and\nties keep their original order.\n\n`sort-column` and `sort-direction` set the initial order and reflect the\ncurrent one. The `sort` event fires before the table re-sorts and is\ncancelable: call `preventDefault()` to keep the current order, for a consumer\nthat sorts its own data (on a server, say) and then sets `rows`,\n`sort-column` and `sort-direction` itself.\n\nChoose against `candor-data-grid` on interaction: this is content to read, a\ngrid is a two-dimensional widget the user navigates cell by cell. Sorting\ndoes not change that: the headers are buttons, and the table stays a table.",
           "name": "CandorTable",
           "members": [
             {
@@ -3878,6 +3905,44 @@
               },
               "default": "[]",
               "attribute": "mono-columns"
+            },
+            {
+              "kind": "field",
+              "name": "sortableColumns",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "attribute": "sortable-columns"
+            },
+            {
+              "kind": "field",
+              "name": "sortColumn",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "The column the rows are sorted by, as a zero-based index. Unset keeps them in the order given.",
+              "attribute": "sort-column",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "sortDirection",
+              "type": {
+                "text": "TableSortDirection"
+              },
+              "default": "'ascending'",
+              "attribute": "sort-direction",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "sort",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "detail: CandorTableSortDetail (`{ column, direction }`, when a sortable header is activated, before the rows reorder; cancelable)"
             }
           ],
           "attributes": [
@@ -3928,6 +3993,30 @@
               },
               "default": "[]",
               "fieldName": "monoColumns"
+            },
+            {
+              "name": "sortable-columns",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[]",
+              "fieldName": "sortableColumns"
+            },
+            {
+              "name": "sort-column",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "The column the rows are sorted by, as a zero-based index. Unset keeps them in the order given.",
+              "fieldName": "sortColumn"
+            },
+            {
+              "name": "sort-direction",
+              "type": {
+                "text": "TableSortDirection"
+              },
+              "default": "'ascending'",
+              "fieldName": "sortDirection"
             }
           ],
           "superclass": {
@@ -4733,7 +4822,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Instructional text set in Atkinson Hyperlegible: text the reader must decode\nprecisely to know what to do next.\n\nThe test against `candor-text` is functional, not a matter of importance:\ncould a reader who cannot resolve the glyphs still act correctly? If no, it\nbelongs here. Form labels, validation errors and action-required hints do;\ndata values, results and counters do not.\n\nThe property is `role_`, not `role`. It reflects to an attribute, and\nreflecting to `role` would overwrite the element's own ARIA role, so the\nattribute a consumer writes is `role_=\"status\"`.\n\n`role_` also decides the size, and the two are not independently adjustable\nfor a reason. `status` is 16px because it is the *sole* channel for an\ninstruction: an icon can say something is wrong but not which field or what\nformat, so no redundant channel makes 14px sufficient. `state` stays at 14px\nbecause it renders an `aria-hidden` tone icon that genuinely carries the\noutcome. The test between them: could a reader who cannot resolve the glyphs\nstill act correctly? Yes → `state`. No → `status`.\n\nBecause `state`'s icon carries the outcome, its text needs no colour. Leave\n`color` at `primary` and let `tone` select the icon. Moving colour onto the\nicon is what removes the contrast constraint rather than negotiating with it.\n\nDo not hand-type a status glyph into the slot (`✕ Error: …`). A screen reader\nannounces the character, and it is invisible to the contrast audit. Use\n`role_=\"state\"` when an icon is wanted.\n\nBold is for hierarchy and labelling only. `role_=\"label\"` applies it already.\nDo not add `bold` to an error or status message: the colour carries urgency,\nand bold on top of it is double-emphasis.\n\nEmits no custom events.",
+          "description": "Instructional text set in Atkinson Hyperlegible Next: text the reader must decode\nprecisely to know what to do next.\n\nThe test against `candor-text` is functional, not a matter of importance:\ncould a reader who cannot resolve the glyphs still act correctly? If no, it\nbelongs here. Form labels, validation errors and action-required hints do;\ndata values, results and counters do not.\n\nThe property is `role_`, not `role`. It reflects to an attribute, and\nreflecting to `role` would overwrite the element's own ARIA role, so the\nattribute a consumer writes is `role_=\"status\"`.\n\n`role_` also decides the size, and the two are not independently adjustable\nfor a reason. `status` is 16px because it is the *sole* channel for an\ninstruction: an icon can say something is wrong but not which field or what\nformat, so no redundant channel makes 14px sufficient. `state` stays at 14px\nbecause it renders an `aria-hidden` tone icon that genuinely carries the\noutcome. The test between them: could a reader who cannot resolve the glyphs\nstill act correctly? Yes → `state`. No → `status`.\n\nBecause `state`'s icon carries the outcome, its text needs no colour. Leave\n`color` at `primary` and let `tone` select the icon. Moving colour onto the\nicon is what removes the contrast constraint rather than negotiating with it.\n\nDo not hand-type a status glyph into the slot (`✕ Error: …`). A screen reader\nannounces the character, and it is invisible to the contrast audit. Use\n`role_=\"state\"` when an icon is wanted.\n\nBold is for hierarchy and labelling only. `role_=\"label\"` applies it already.\nDo not add `bold` to an error or status message: the colour carries urgency,\nand bold on top of it is double-emphasis.\n\nEmits no custom events.",
           "name": "CandorAccessibleText",
           "members": [
             {
@@ -4862,7 +4951,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Long-form prose: articles, reports, editorial content, deliberation\nsummaries. Style the `<p>`, `<h*>`, `<ul>` and `<blockquote>` markup you slot\nin; this element supplies the reading typography around it.\n\n**`justify` is a transparency feature, not a stylistic preference.** Full\njustification plus hyphenation produces the clean block edge of a formal\nproduced document, where human-authored prose has a ragged right. That makes\nAI-generated content identifiable ambiently, without a label and without the\nreader having to look for one. That matters in high-stakes contexts\n(planning decisions, medical summaries, legal briefs) and aligns with the\nspirit of EU AI Act Article 52 disclosure. **Set it on AI-generated prose.**\nIt does not make the content feel cold: register signals origin, tone is a\nseparate axis, and AI output can be written warmly.\n\n`justify` requires `lang` on this element or an ancestor, because `hyphens: auto`\nneeds it to find a hyphenation dictionary, and without one justification\nproduces rivers of whitespace. It applies to `<p>` only; headings stay\nleft-aligned.\n\n`font=\"serif\"` (Noto Serif, the default) is for authored content, human or AI\nalike: the serif register says \"produced artifact, read carefully\".\n`font=\"sans\"` (Noto Sans) is for UI prose that needs sentence-by-sentence\nreading but is not authored content: help documentation, onboarding, release\nnotes.\n\n**This is the one component that opts out of Shadow DOM.** `createRenderRoot`\nreturns `this`, and the prose styles are injected once into `document.head`,\nbecause scoped styles cannot reach slotted markup deeply enough to set prose.\nTwo consequences: the styles are global rather than encapsulated, and there is\nno shadow boundary, so `::part` does not apply here.\n\nEmits no custom events.",
+          "description": "Long-form prose: articles, reports, editorial content, deliberation\nsummaries. Style the `<p>`, `<h*>`, `<ul>` and `<blockquote>` markup you slot\nin; this element supplies the reading typography around it.\n\n**`justify` is a transparency feature, not a stylistic preference.** Full\njustification plus hyphenation produces the clean block edge of a formal\nproduced document, where human-authored prose has a ragged right. That makes\nAI-generated content identifiable ambiently, without a label and without the\nreader having to look for one. It is meant for high-stakes contexts\n(planning decisions, medical summaries, legal briefs) and aligns with the\nspirit of EU AI Act Article 52 disclosure. **Set it on AI-generated prose.**\nIt does not make the content feel cold: register signals origin, tone is a\nseparate axis, and AI output can be written warmly.\n\n`justify` requires `lang` on this element or an ancestor, because `hyphens: auto`\nneeds it to find a hyphenation dictionary, and without one justification\nproduces rivers of whitespace. It applies to `<p>` only; headings stay\nleft-aligned.\n\n`font=\"serif\"` (Noto Serif, the default) is for authored content, human or AI\nalike: the serif register says \"produced artifact, read carefully\".\n`font=\"sans\"` (Noto Sans) is for UI prose that needs sentence-by-sentence\nreading but is not authored content: help documentation, onboarding, release\nnotes.\n\n**This is the one component that opts out of Shadow DOM.** `createRenderRoot`\nreturns `this`, and the prose styles are injected once into `document.head`,\nbecause scoped styles cannot reach slotted markup deeply enough to set prose.\nTwo consequences: the styles are global rather than encapsulated, and there is\nno shadow boundary, so `::part` does not apply here.\n\nEmits no custom events.",
           "name": "CandorArticle",
           "members": [
             {
@@ -4937,7 +5026,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A heading. `level` sets the visual size and the semantic level together. They\nare deliberately not separable.\n\nThe semantics are ARIA, not markup. This element renders a bare `<slot>` and\ncarries `role=\"heading\"` with `aria-level` on the host, resynced whenever\n`level` changes; it does **not** emit an `<h1>`–`<h6>`. Screen readers get the\ncorrect level either way, but tooling that looks for native heading *elements*\nrather than the heading *role* will not find it.\n\nThere is no separate `size` property, so \"an h2 that looks like an h4\" is not\nexpressible. That is the point: if a heading needs to be smaller, it is\nusually the wrong level. For large display text carrying no heading semantics,\nuse `candor-text`, which has sizes up to `3xl` and no role.\n\nWeight is constant across levels; hierarchy comes from size plus\n`font-optical-sizing: auto`, which lets the Roboto Flex `opsz` axis thicken\nstrokes as size grows. That gradient is why there is no `bold` property here.\n\nLeading tightens with size: `--line-height-display` (1.1) for h1 and h2,\n`--line-height-snug` (1.2) for h3 and h4, `--line-height-tight` (1.25) for h5\nand h6. It only shows when a heading wraps.\n\nEmits no custom events.",
+          "description": "A heading. `level` sets the visual size and the semantic level together. They\nare deliberately not separable.\n\nThe semantics are ARIA, not markup. This element renders a bare `<slot>` and\ncarries `role=\"heading\"` with `aria-level` on the host, resynced whenever\n`level` changes; it does **not** emit an `<h1>`–`<h6>`. Screen readers get the\ncorrect level either way, but tooling that looks for native heading *elements*\nrather than the heading *role* will not find it.\n\nThere is no separate `size` property, so \"an h2 that looks like an h4\" is not\nexpressible. That is the point: if a heading needs to be smaller, it is\nusually the wrong level. For large display text carrying no heading semantics,\nuse `candor-text`, which has sizes up to `3xl` and no role.\n\nWeight is semibold at every level; hierarchy comes from size plus\n`font-optical-sizing: auto`, which lets the Roboto Flex `opsz` axis thicken\nstrokes as size grows. That gradient is why there is no `bold` property here.\nThe one exception is `color=\"secondary\"` at h4 and h6, which stays bold:\nsemibold counts as regular for contrast, and at 20px and 14px that raises the\nfloor past what the secondary colour reaches.\n\nTracking opens as size falls, from `--letter-spacing-h1` (0.005em) to\n`--letter-spacing-h6` (0.035em).\n\nLeading tightens with size: `--line-height-display` (1.1) for h1 and h2,\n`--line-height-snug` (1.2) for h3 and h4, `--line-height-tight` (1.25) for h5\nand h6. It only shows when a heading wraps.\n\nEmits no custom events.",
           "name": "CandorHeading",
           "members": [
             {

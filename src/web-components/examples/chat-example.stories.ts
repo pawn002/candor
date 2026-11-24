@@ -33,7 +33,7 @@ Both sides use Noto Serif. The serif register signals a considered exchange on b
 AI turns use \`<candor-article font="serif" justify>\`; full justification is the sole ambient
 signal distinguishing AI output from human input. Turn labels ("You" / "Candor AI") above
 each message follow the convention established by ChatGPT and Claude. Code blocks include
-a Copy button, universally expected and the first thing developers notice if absent.
+a Copy button.
         `.trim(),
       },
     },
@@ -50,11 +50,11 @@ export const AIChatInterface: Story = {
   render: () => html`
       <style>
         .chat-sidebar a:hover {
-          background: var(--color-action-tertiary);
+          background: var(--color-bg-hover);
           color: var(--color-text-default);
         }
         .chat-sidebar a:focus-visible {
-          outline: var(--focus-ring-width) solid var(--color-focus);
+          outline: var(--focus-ring-width) solid var(--color-ring-focus);
           outline-offset: var(--focus-ring-offset);
           border-radius: var(--radius-sm);
         }
@@ -108,7 +108,7 @@ export const AIChatInterface: Story = {
                 text-decoration: none;
                 margin-bottom: 0.125rem;
               ">
-                <candor-accessible-text role_="annotation">OKLCH for brand colors</candor-accessible-text>
+                OKLCH for brand colors
               </a>
 
               <a href="#" style="
@@ -210,7 +210,7 @@ export const AIChatInterface: Story = {
                       width: 2rem;
                       height: 2rem;
                       border-radius: var(--radius-full);
-                      background: var(--color-action-primary);
+                      background: var(--color-fill-indicator);
                       display: flex;
                       align-items: center;
                       justify-content: center;
@@ -221,7 +221,7 @@ export const AIChatInterface: Story = {
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-on-action);
-                      letter-spacing: 0.06em;
+                      letter-spacing: var(--letter-spacing-signal);
                     ">
                     P
                   </div>
@@ -257,7 +257,7 @@ export const AIChatInterface: Story = {
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-subtle);
-                      letter-spacing: 0.06em;
+                      letter-spacing: var(--letter-spacing-signal);
                     ">
                     AI
                   </div>
@@ -270,7 +270,7 @@ export const AIChatInterface: Story = {
                         There also isn't a single lightness answer, and a threshold that ignores chroma will mislead you. Two things set the cutoff together: contrast is bought with lightness, but the sRGB gamut narrows as lightness falls, so the chroma available falls with it. At Candor's azure hue the most sRGB holds is C&nbsp;0.09 at L&nbsp;0.32 and C&nbsp;0.15 at L&nbsp;0.55, so "saturated" is not a constant you get to choose independently.
                       </p>
                       <p>
-                        Measured at that hue, holding each step at the highest chroma sRGB renders, Candor's 4.5 floor puts the ceiling near <strong>L&nbsp;≤&nbsp;0.51</strong>: <code>oklch(0.50 0.14 250)</code> reaches OKCA 4.8 on page, while <code>oklch(0.55 0.15 250)</code> reaches OKCA 3.8 on page and misses. Check your own hue rather than borrowing that number:
+                        Measured at that hue, holding each step at the highest chroma sRGB renders, Candor's 4.5 floor puts the ceiling near <strong>L&nbsp;≤&nbsp;0.51</strong>: <code>oklch(0.50 0.14 250)</code> reaches OKCA 4.6 on page, while <code>oklch(0.55 0.15 250)</code> reaches OKCA 3.6 on page and misses. Check your own hue rather than borrowing that number:
                       </p>
                       <div class="code-block">
                         <pre tabindex="0"><code>klar find "#fff" "oklch(0.55 0.15 250)" --target 4.5</code></pre>
@@ -281,9 +281,9 @@ export const AIChatInterface: Story = {
                         <pre tabindex="0"><code>// Candor's 4.5 floor on the page. Chroma is at the sRGB
 // boundary for each L. Raise it and the value stops
 // naming a colour any display can render.
---color-brand:        oklch(0.45 0.12 250);  // OKCA 6.1 on page ✅
---color-brand-hover:  oklch(0.38 0.10 250);  // OKCA 8.4 on page ✅
---color-brand-active: oklch(0.32 0.09 250);  // OKCA 11.0 on page ✅</code></pre>
+--color-brand:        oklch(0.45 0.12 250);  // OKCA 5.9 on page ✅
+--color-brand-hover:  oklch(0.38 0.10 250);  // OKCA 8.2 on page ✅
+--color-brand-active: oklch(0.32 0.09 250);  // OKCA 10.8 on page ✅</code></pre>
                         <candor-button variant="ghost" size="small">Copy</candor-button>
                       </div>
                       <p>
@@ -325,7 +325,7 @@ export const AIChatInterface: Story = {
                       width: 2rem;
                       height: 2rem;
                       border-radius: var(--radius-full);
-                      background: var(--color-action-primary);
+                      background: var(--color-fill-indicator);
                       display: flex;
                       align-items: center;
                       justify-content: center;
@@ -336,7 +336,7 @@ export const AIChatInterface: Story = {
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-on-action);
-                      letter-spacing: 0.06em;
+                      letter-spacing: var(--letter-spacing-signal);
                     ">
                     P
                   </div>
@@ -372,23 +372,23 @@ export const AIChatInterface: Story = {
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-subtle);
-                      letter-spacing: 0.06em;
+                      letter-spacing: var(--letter-spacing-signal);
                     ">
                     AI
                   </div>
                   <div style="flex: 1; min-width: 0;">
                     <candor-article font="serif" justify lang="en">
                       <p>
-                        Dark mode inverts the direction: now you need lightness <em>above</em> the background, and it needs much more of it than feels right. On Candor's page colour (<code>oklch(0.16 0.02 249)</code>), the 4.5 floor sits near <strong>L&nbsp;≥&nbsp;0.74</strong>: <code>oklch(0.72 0.15 250)</code> reaches OKCA 3.9 on dark page and misses, while <code>oklch(0.76 0.12 250)</code> reaches OKCA 5.9 on dark page. Four hundredths of lightness is the whole margin.
+                        Dark mode inverts the direction: now you need lightness <em>above</em> the background, and it needs much more of it than feels right. On Candor's page colour (<code>oklch(0.16 0.025 249)</code>), the 4.5 floor sits near <strong>L&nbsp;≥&nbsp;0.68</strong>: <code>oklch(0.67 0.17 250)</code> reaches OKCA 4.3 on dark page and misses, while <code>oklch(0.68 0.17 250)</code> reaches OKCA 4.6 on dark page. One hundredth of lightness is the whole margin.
                       </p>
                       <p>Same hue, and chroma tapers as you climb. But note <em>why</em>:</p>
                       <div class="code-block">
                         <pre tabindex="0"><code>// Chroma is at the sRGB boundary at each L, not a
 // stylistic choice: the gamut gives you less of it
 // the lighter you go.
---color-brand-dark:        oklch(0.76 0.12 250);  // OKCA 5.9 on dark page ✅
---color-brand-dark-hover:  oklch(0.80 0.10 250);  // OKCA 8.0 on dark page ✅
---color-brand-dark-active: oklch(0.85 0.07 250);  // OKCA 10.8 on dark page ✅</code></pre>
+--color-brand-dark:        oklch(0.76 0.12 250);  // OKCA 6.7 on dark page ✅
+--color-brand-dark-hover:  oklch(0.80 0.10 250);  // OKCA 8.1 on dark page ✅
+--color-brand-dark-active: oklch(0.85 0.07 250);  // OKCA 9.8 on dark page ✅</code></pre>
                         <candor-button variant="ghost" size="small">Copy</candor-button>
                       </div>
                       <p>

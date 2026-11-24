@@ -70,7 +70,7 @@ export const MultipleItems: Story = {
       <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:0 1rem;">
         <candor-accordion-item heading="Contrast algorithm" open>
           <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
-            <legend style="display:none;">Contrast algorithm</legend>
+            <legend class="sr-only">Contrast algorithm</legend>
             <candor-radio name="algo" label="WCAG 2.1" value="wcag21" checked></candor-radio>
             <candor-radio name="algo" label="OKCA" value="okca"></candor-radio>
             <candor-radio name="algo" label="Perceptual" value="perceptual"></candor-radio>
@@ -146,7 +146,7 @@ export const HierarchyVariants: Story = {
             <div style="background:var(--color-bg-page);border-radius:var(--radius-sm);padding:0 0.75rem;">
               <candor-accordion-item heading="Algorithm options" variant="subtle" open>
                 <fieldset style="border:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
-                  <legend style="display:none;">Algorithm options</legend>
+                  <legend class="sr-only">Algorithm options</legend>
                   <candor-radio name="algo2" label="WCAG 2.1" value="wcag21" checked></candor-radio>
                   <candor-radio name="algo2" label="OKCA" value="okca"></candor-radio>
                 </fieldset>

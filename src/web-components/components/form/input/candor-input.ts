@@ -42,7 +42,7 @@ export class CandorInput extends LitElement {
     :host { display: block; }
     .input-wrapper { display: flex; flex-direction: column; gap: var(--spacing-xs); }
     .input-label { font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-default); display: flex; letter-spacing: var(--letter-spacing-relaxed); }
-    .input-required { margin-left: 0.25em; color: var(--color-status-error-text); }
+    .input-required { margin-left: 0.25em; color: var(--color-text-error); }
     .input {
       font-family: var(--font-family-base);
       font-size: var(--candor-input-font-size, var(--font-size-md));
@@ -51,20 +51,20 @@ export class CandorInput extends LitElement {
       border-radius: var(--candor-input-radius, var(--radius-md));
       background-color: var(--color-bg-page);
       color: var(--color-text-default);
-      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
       min-height: var(--hit-target-aaa);
       width: 100%;
       box-sizing: border-box;
     }
     .input::placeholder { color: var(--color-text-disabled); }
-    .input:hover:not(:disabled) { border-color: var(--color-text-subtle); }
-    .input:focus { border-color: var(--color-action-primary); outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
-    .input--error { border-color: var(--color-status-error); }
-    .input--error:focus { border-color: var(--color-status-error); }
+    .input:hover:not(:disabled) { border-color: var(--color-border-control-hover); }
+    .input:focus { border-color: var(--color-border-control-focus); outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }
+    .input--error { border-color: var(--color-border-control-error); }
+    .input--error:focus { border-color: var(--color-border-control-error); }
     .input--textarea { min-height: unset; line-height: var(--line-height-normal); }
     .input:disabled { background-color: var(--color-bg-surface); color: var(--color-text-disabled); cursor: not-allowed; border-color: var(--color-border-default); }
-    .input-hint { margin-top: calc(-1 * var(--spacing-xs)); font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle); }
-    .input-error-message { font-family: var(--font-family-accessible); font-size: var(--font-size-md); letter-spacing: var(--letter-spacing-body); color: var(--color-status-error-text); }
+    .input-hint { margin-top: calc(-1 * var(--spacing-xs)); font-family: var(--font-family-accessible); font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle-on-surface); }
+    .input-error-message { font-family: var(--font-family-accessible); font-size: var(--font-size-md); letter-spacing: var(--letter-spacing-body); color: var(--color-text-error); }
     .input-error-live { display: contents; }
   `;
 

@@ -1,7 +1,7 @@
 {
   "name": "@candor-design/tokens",
   "version": "6.0.0",
-  "description": "Candor design tokens — CSS custom properties for a humanist design system built with OKLCH.",
+  "description": "Candor design tokens: CSS custom properties for a humanist design system built with OKLCH.",
   "main": "./tokens/candor-tokens.css",
   "module": "./tokens/candor-tokens.css",
   "style": "./tokens/candor-tokens.css",
@@ -30,7 +30,7 @@
     "release:major": "npm version major && git push origin main --follow-tags",
     "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --only-changed",
     "chromatic:trace": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --only-changed --dry-run --debug --trace-changed",
-    "audit:tokens": "node scripts/export-tokens-dtcg.js",
+    "audit:tokens": "node scripts/derive-colour-ramps.js && node scripts/export-tokens-dtcg.js",
     "audit:contrast": "node scripts/check-contrast.js",
     "audit:packaging": "node scripts/check-package-deps.js",
     "sync:wc-exports": "node scripts/sync-wc-exports.js",
@@ -41,7 +41,15 @@
     "type": "git",
     "url": "git+https://github.com/pawn002/candor.git"
   },
-  "keywords": [],
+  "keywords": [
+    "design-tokens",
+    "css-custom-properties",
+    "design-system",
+    "candor",
+    "oklch",
+    "accessibility",
+    "dark-mode"
+  ],
   "author": "John Z. Rioflorido",
   "license": "ISC",
   "type": "commonjs",
@@ -55,11 +63,11 @@
     "esbuild": "^0.28.1"
   },
   "dependencies": {
+    "@fontsource-variable/atkinson-hyperlegible-mono": "^5.3.0",
+    "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
     "@fontsource-variable/noto-sans": "^5.3.0",
     "@fontsource-variable/noto-serif": "^5.3.0",
-    "@fontsource-variable/roboto-flex": "^5.3.0",
-    "@fontsource-variable/roboto-mono": "^5.3.0",
-    "@fontsource/atkinson-hyperlegible": "^5.3.0"
+    "@fontsource-variable/roboto-flex": "^5.3.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.6.0",

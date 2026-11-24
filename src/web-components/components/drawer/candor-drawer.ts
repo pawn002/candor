@@ -10,8 +10,9 @@ type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
 /**
  * A panel sliding in from an edge, backed by the native `<dialog>`.
  *
- * **Controlled.** `close` reports dismissal; the component does not clear `open`
- * for you.
+ * **It closes itself.** On a user dismissal the component clears `open`, then
+ * emits `close`. Sync your own state from it, or a binding that still holds
+ * `open` true will reopen the drawer.
  *
  * Choose against `candor-modal` on interruption rather than shape: a modal
  * blocks the task until answered, a drawer sits alongside it. If the user could
@@ -36,7 +37,7 @@ type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
  * `--candor-drawer-size` and `--candor-drawer-height` override the size rungs
  * for a one-off without a new variant.
  *
- * @fires close - detail: none (the user dismissed the drawer; the consumer must clear `open`)
+ * @fires close - detail: none (the user dismissed the drawer; `open` is already false)
  */
 @customElement('candor-drawer')
 export class CandorDrawer extends LitElement {
@@ -50,15 +51,39 @@ export class CandorDrawer extends LitElement {
       max-height: none;
       overflow: visible;
     }
-    dialog[open] {
-      display: flex;
+    /* Layout applies whether or not the dialog is open: while it animates out
+       it is no longer [open], and the panel must keep its place as it leaves
+       (#368). Only display depends on [open]. */
+    dialog {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
       overflow: hidden;
+      transition:
+        overlay var(--motion-duration-fast) allow-discrete,
+        display var(--motion-duration-fast) allow-discrete;
     }
-    dialog::backdrop { background-color: var(--color-overlay); }
+    dialog[open] {
+      display: flex;
+      transition-duration: var(--motion-duration-slow);
+    }
+    dialog::backdrop {
+      background-color: var(--color-bg-scrim);
+      opacity: 0;
+      transition:
+        opacity var(--motion-duration-fast) var(--motion-ease-exit),
+        overlay var(--motion-duration-fast) allow-discrete,
+        display var(--motion-duration-fast) allow-discrete;
+    }
+    dialog[open]::backdrop {
+      opacity: 1;
+      transition-duration: var(--motion-duration-slow);
+      transition-timing-function: var(--motion-ease-enter);
+    }
+    @starting-style {
+      dialog[open]::backdrop { opacity: 0; }
+    }
 
     /* Non-modal mode: the dialog is still a full-viewport layer (for edge-anchored
        positioning), but it must not intercept pointer events across the page — only
@@ -68,9 +93,9 @@ export class CandorDrawer extends LitElement {
     :host([modal='false']) .drawer__panel { pointer-events: auto; }
 
     /* Position layout */
-    .drawer--right  dialog[open] { justify-content: flex-end; align-items: stretch; }
-    .drawer--left   dialog[open] { justify-content: flex-start; align-items: stretch; }
-    .drawer--bottom dialog[open] { flex-direction: column; justify-content: flex-end; align-items: stretch; }
+    .drawer--right  dialog { justify-content: flex-end; align-items: stretch; }
+    .drawer--left   dialog { justify-content: flex-start; align-items: stretch; }
+    .drawer--bottom dialog { flex-direction: column; justify-content: flex-end; align-items: stretch; }
 
     /* Panel */
     .drawer__panel {
@@ -79,7 +104,12 @@ export class CandorDrawer extends LitElement {
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      transition: transform 250ms cubic-bezier(0.25, 0, 0.1, 1);
+      /* Slides from its edge; under reduced motion --motion-travel is 0, so it
+         fades in place instead. */
+      opacity: 1;
+      transition:
+        transform var(--motion-duration-fast) var(--motion-ease-exit),
+        opacity var(--motion-duration-fast) var(--motion-ease-exit);
     }
     .drawer--left .drawer__panel,
     .drawer--right .drawer__panel {
@@ -90,18 +120,20 @@ export class CandorDrawer extends LitElement {
       border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     }
 
-    /* Slide-in animations */
-    .drawer--right .drawer__panel { transform: translateX(0); }
-    @starting-style {
-      .drawer--right dialog[open] .drawer__panel { transform: translateX(100%); }
+    /* Slide in and out (#368). The off-screen position is the closed state and
+       the entry's starting style; [open] brings the panel home. */
+    dialog[open] .drawer__panel {
+      transition-duration: var(--motion-duration-slow);
+      transition-timing-function: var(--motion-ease-enter);
     }
-    .drawer--left .drawer__panel { transform: translateX(0); }
+    .drawer--right dialog:not([open]) .drawer__panel { transform: translateX(calc(100% * var(--motion-travel))); opacity: 0; }
+    .drawer--left dialog:not([open]) .drawer__panel { transform: translateX(calc(-100% * var(--motion-travel))); opacity: 0; }
+    .drawer--bottom dialog:not([open]) .drawer__panel { transform: translateY(calc(100% * var(--motion-travel))); opacity: 0; }
+    dialog[open] .drawer__panel { transform: none; opacity: 1; }
     @starting-style {
-      .drawer--left dialog[open] .drawer__panel { transform: translateX(-100%); }
-    }
-    .drawer--bottom .drawer__panel { transform: translateY(0); }
-    @starting-style {
-      .drawer--bottom dialog[open] .drawer__panel { transform: translateY(100%); }
+      .drawer--right dialog[open] .drawer__panel { transform: translateX(calc(100% * var(--motion-travel))); opacity: 0; }
+      .drawer--left dialog[open] .drawer__panel { transform: translateX(calc(-100% * var(--motion-travel))); opacity: 0; }
+      .drawer--bottom dialog[open] .drawer__panel { transform: translateY(calc(100% * var(--motion-travel))); opacity: 0; }
     }
 
     /* Size defaults — consumers may override per-instance:
@@ -116,9 +148,6 @@ export class CandorDrawer extends LitElement {
     .drawer--bottom .drawer__panel { max-height: var(--candor-drawer-height); }
     .drawer--bottom.drawer--full .drawer__panel { border-radius: 0; }
 
-    @media (prefers-reduced-motion: reduce) {
-      .drawer__panel { transition: none; }
-    }
 
     /* Header */
     .drawer__header {
@@ -134,7 +163,8 @@ export class CandorDrawer extends LitElement {
       font-family: var(--font-family-display);
       font-optical-sizing: auto;
       font-size: var(--font-size-h3);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-heading);
+      letter-spacing: var(--letter-spacing-h3);
       line-height: var(--line-height-tight);
       color: var(--color-text-default);
       margin: 0;
@@ -155,14 +185,14 @@ export class CandorDrawer extends LitElement {
       color: var(--color-text-subtle);
       cursor: pointer;
       flex-shrink: 0;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition: background var(--motion-duration-fast) var(--motion-ease-standard), color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .drawer__close:hover {
       background: var(--color-bg-hover);
       color: var(--color-text-default);
     }
     .drawer__close:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
 
@@ -176,12 +206,12 @@ export class CandorDrawer extends LitElement {
       padding: var(--spacing-md);
       color: var(--color-text-default);
       font-family: var(--font-family-base);
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-md);
       line-height: var(--line-height-relaxed);
     }
     .drawer__body:focus { outline: none; }
     .drawer__body:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: calc(-1 * var(--focus-ring-offset));
     }
 

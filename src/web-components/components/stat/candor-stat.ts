@@ -26,7 +26,7 @@ type StatSize  = 'sm' | 'md' | 'lg';
  * </candor-stat>
  * ```
  *
- * Setting `color` with an empty slot is the failure mode, not a shortcut.
+ * So set `color` only with the slot filled.
  *
  * `unit` is folded into the value's accessible name so screen readers announce
  * "847 ms" rather than the number alone.
@@ -65,10 +65,10 @@ export class CandorStat extends LitElement {
     }
     :host([size='md']) .stat__value { font-size: var(--font-size-2xl); }
     :host([size='lg']) .stat__value { font-size: var(--font-size-3xl); }
-    :host([color='success']) .stat__value { color: var(--color-status-success-text); }
-    :host([color='warning']) .stat__value { color: var(--color-status-warning-text); }
-    :host([color='error'])   .stat__value { color: var(--color-status-error-text); }
-    :host([color='info'])    .stat__value { color: var(--color-link); }
+    :host([color='success']) .stat__value { color: var(--color-text-success); }
+    :host([color='warning']) .stat__value { color: var(--color-text-warning); }
+    :host([color='error'])   .stat__value { color: var(--color-text-error); }
+    :host([color='info'])    .stat__value { color: var(--color-text-link); }
     .sr-only {
       position: absolute; width: 1px; height: 1px; padding: 0;
       overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%);

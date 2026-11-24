@@ -49,32 +49,32 @@ export class CandorListbox extends LitElement {
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold); color: var(--color-text-default); letter-spacing: var(--letter-spacing-relaxed);
     }
-    .listbox__required { color: var(--color-status-error-text); margin-left: 0.25em; }
+    .listbox__required { color: var(--color-text-error); margin-left: 0.25em; }
     .listbox__hint {
       margin-top: calc(-1 * var(--spacing-xs));
       font-family: var(--font-family-accessible); font-size: var(--font-size-sm);
-      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle);
+      letter-spacing: var(--letter-spacing-body); color: var(--color-text-subtle-on-surface);
     }
     .listbox__trigger {
       appearance: none; -webkit-appearance: none;
       display: flex; align-items: center; justify-content: space-between;
       width: 100%; min-height: var(--hit-target-aaa);
-      padding: var(--spacing-input-padding-y) var(--spacing-input-padding-x);
+      padding: var(--candor-listbox-padding-y, var(--spacing-input-padding-y)) var(--candor-listbox-padding-x, var(--spacing-input-padding-x));
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); background-color: var(--color-bg-page);
       --_border-color: var(--color-border-control);
       border: var(--border-width-thin) solid var(--_border-color);
       border-radius: var(--radius-md); cursor: pointer; text-align: left;
-      gap: var(--spacing-xs); transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      gap: var(--spacing-xs); transition: border-color var(--motion-duration-base) var(--motion-ease-standard), box-shadow var(--motion-duration-base) var(--motion-ease-standard);
     }
-    .listbox__trigger:hover:not(:disabled) { --_border-color: var(--color-text-subtle); }
+    .listbox__trigger:hover:not(:disabled) { --_border-color: var(--color-border-control-hover); }
     .listbox__trigger:focus-visible {
-      --_border-color: var(--color-action-primary);
-      outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset);
+      --_border-color: var(--color-border-control-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset);
     }
-    .listbox__trigger.listbox__trigger--error { --_border-color: var(--color-status-error); }
+    .listbox__trigger.listbox__trigger--error { --_border-color: var(--color-border-control-error); }
     .listbox__trigger.listbox__trigger--error:focus-visible {
-      --_border-color: var(--color-status-error);
+      --_border-color: var(--color-border-control-error);
     }
     .listbox__trigger:disabled {
       background-color: var(--color-bg-surface); color: var(--color-text-disabled);
@@ -85,9 +85,9 @@ export class CandorListbox extends LitElement {
     .listbox__trigger-text { flex: 1; min-width: 0; overflow-wrap: anywhere; text-align: start; }
     .listbox__caret {
       flex-shrink: 0; width: 1rem; height: 1rem; color: var(--color-text-subtle);
-      transition: transform 200ms ease, color 200ms ease;
+      transition: transform var(--motion-duration-base) var(--motion-ease-standard), color var(--motion-duration-base) var(--motion-ease-standard);
     }
-    .listbox__caret--open { transform: rotate(180deg); color: var(--color-action-primary); }
+    .listbox__caret--open { transform: rotate(180deg); color: var(--color-text-accent); }
     .listbox__trigger:disabled .listbox__caret { color: var(--color-text-disabled); }
     .listbox__dropdown {
       position: absolute; top: calc(100% + var(--spacing-2xs)); left: 0; right: 0; z-index: 200;
@@ -95,6 +95,12 @@ export class CandorListbox extends LitElement {
       background: var(--color-bg-elevated);
       border: var(--border-width-thin) solid var(--color-border-default);
       border-radius: var(--radius-md); box-shadow: var(--shadow-modal); padding: var(--spacing-2xs) 0;
+      /* Arrives by fading and rising into place (#368). It is removed from the
+         DOM on close, so it leaves at once. */
+      transition: opacity var(--motion-duration-fast) var(--motion-ease-enter), transform var(--motion-duration-fast) var(--motion-ease-enter);
+    }
+    @starting-style {
+      .listbox__dropdown { opacity: 0; transform: translateY(calc(-0.5 * var(--motion-distance))); }
     }
     .listbox__option {
       display: flex; align-items: center; justify-content: space-between;
@@ -104,20 +110,20 @@ export class CandorListbox extends LitElement {
          trigger. */
       margin-inline: var(--spacing-2xs);
       border-radius: var(--radius-sm);
-      padding: var(--spacing-input-padding-y) calc(var(--spacing-input-padding-x) - var(--spacing-2xs));
+      padding: var(--candor-listbox-padding-y, var(--spacing-input-padding-y)) calc(var(--candor-listbox-padding-x, var(--spacing-input-padding-x)) - var(--spacing-2xs));
       font-family: var(--font-family-base); font-size: var(--font-size-md);
       color: var(--color-text-default); cursor: pointer; user-select: none; gap: var(--spacing-xs);
     }
     .listbox__option--active { background-color: var(--color-bg-surface); }
-    .listbox__option--selected { color: var(--color-action-primary); font-weight: var(--font-weight-medium); }
+    .listbox__option--selected { color: var(--color-text-accent); font-weight: var(--font-weight-medium); }
     .listbox__option--active.listbox__option--selected { background-color: var(--color-bg-surface); }
     .listbox__option--disabled { color: var(--color-text-disabled); cursor: not-allowed; pointer-events: none; }
     .listbox__option-label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-    .listbox__option-check { flex-shrink: 0; color: var(--color-action-primary); font-size: 1rem; }
+    .listbox__option-check { flex-shrink: 0; color: var(--color-text-accent); font-size: 1rem; }
     .listbox__error-live { display: contents; }
     .listbox__error-message {
       font-family: var(--font-family-accessible); font-size: var(--font-size-md);
-      letter-spacing: var(--letter-spacing-body); color: var(--color-status-error-text);
+      letter-spacing: var(--letter-spacing-body); color: var(--color-text-error);
     }
   `, scrollbarStyles('.listbox__dropdown')];
 

@@ -13,9 +13,8 @@ import { phCaretDownBold } from '../../icons';
  * Most of the time exclusivity is not wanted anyway: it hides content the user
  * just asked to compare.
  *
- * `toggle` reports the new state, and `open` **is** updated by the component, so
- * this is not a controlled component in the way modal and drawer are. Bind
- * `toggle` to react, not to assign.
+ * `toggle` reports the new state, and `open` **is** updated by the component.
+ * Bind `toggle` to react, not to assign.
  *
  * The choice against `candor-disclosure` is grouping: a disclosure is one
  * standalone "show more" affordance; this is a member of a set and is styled to
@@ -42,13 +41,15 @@ export class CandorAccordionItem extends LitElement {
       display: flex; align-items: center; justify-content: space-between;
       gap: 0.75rem; padding: 0.875rem 0; cursor: pointer; color: var(--color-text-default);
     }
-    .accordion-item__summary:hover { color: var(--color-action-primary); }
+    .accordion-item__summary:hover { color: var(--color-text-accent); }
     .accordion-item__summary:focus { outline: none; }
-    .accordion-item__summary:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); border-radius: var(--radius-sm); }
-    .accordion-item__title { font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-bold); font-optical-sizing: auto; line-height: var(--line-height-tight); flex: 1; }
-    .accordion-item__title--subtle { font-weight: var(--font-weight-regular); color: var(--color-text-subtle); }
-    .accordion-item__title--quiet { font-weight: 500; font-size: var(--font-size-sm); color: var(--color-text-subtle); font-variation-settings: 'GRAD' -150; }
-    .accordion-item__chevron { width: 1rem; height: 1rem; flex-shrink: 0; color: var(--color-text-subtle-on-surface); transition: transform 0.22s ease; }
+    .accordion-item__summary:focus-visible { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); border-radius: var(--radius-sm); }
+    .accordion-item__title { font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-heading); letter-spacing: var(--letter-spacing-h5); font-optical-sizing: auto; line-height: var(--line-height-tight); flex: 1; }
+    /* The subtle and quiet titles take subtle-on-surface: an accordion stack
+       usually sits on a surface fill, where plain text-subtle falls below 4.5. */
+    .accordion-item__title--subtle { font-weight: var(--font-weight-regular); color: var(--color-text-subtle-on-surface); }
+    .accordion-item__title--quiet { font-weight: 500; font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-h6); color: var(--color-text-subtle-on-surface); }
+    .accordion-item__chevron { width: 1rem; height: 1rem; flex-shrink: 0; color: var(--color-text-subtle-on-surface); transition: transform var(--motion-duration-base) var(--motion-ease-standard); }
     details[open] .accordion-item__chevron { transform: rotate(180deg); }
     .accordion-item__panel { display: grid; grid-template-rows: 1fr; }
     /* No overflow clip on the content (#261). It clipped the focus ring of any

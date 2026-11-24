@@ -1,14 +1,12 @@
 # Candor
 
-A humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.1 AA accessibility baked in.
+A humanist design system built with OKLCH colors, variable-font typography, and WCAG 2.2 AA accessibility baked in.
 
 **[Component catalog and usage rules →](https://main--69c25e2492ad056c24329876.chromatic.com)**
 
 ## Documentation
 
-**The published packages ship API surface only**: CSS custom properties here, type declarations in `@candor-design/web-components`. Neither carries Candor's usage rules, and several of those rules are not expressible in a stylesheet or a `.d.ts` at all. Finding nothing in `node_modules` does not establish that Candor is silent on a question; it establishes that you have not looked yet.
-
-The rules live in the **[component catalog](https://main--69c25e2492ad056c24329876.chromatic.com)**, which is canonical. For tokens specifically, it is where to find which contrast floor applies to a given piece of text (the floor depends on font size *and* use-case tier), which tokens are validated for non-text use only, and why colours are authored in OKLCH and held inside the sRGB gamut.
+The packages ship the API: CSS custom properties here, and type declarations in `@candor-design/web-components`. The usage rules live in the **[component catalog](https://main--69c25e2492ad056c24329876.chromatic.com)**, because some of them can't be written in a stylesheet or a `.d.ts`. If a question isn't answered in `node_modules`, look there. For tokens, the catalog is where to find which contrast floor applies to a given piece of text (the floor depends on font size *and* use-case tier), which tokens are validated for non-text use only, and why colours are authored in OKLCH and held inside the sRGB gamut.
 
 ## Install
 
@@ -28,17 +26,13 @@ Includes all 37 Candor components as Lit 3 custom elements, each with its own en
 
 ### Fonts
 
-Candor uses [Roboto Flex](https://fonts.google.com/specimen/Roboto+Flex) as its UI typeface. The easiest way to load it is via Fontsource:
-
-```bash
-npm install @fontsource-variable/roboto-flex
-```
+Candor uses five typefaces: [Roboto Flex](https://fonts.google.com/specimen/Roboto+Flex) for UI and headings, Atkinson Hyperlegible Next for instructional text, Atkinson Hyperlegible Mono for code and data, and Noto Sans and Noto Serif for reading. The tokens package ships a stylesheet that loads them all from Fontsource, which it depends on:
 
 ```css
-@import '@fontsource-variable/roboto-flex/index.css';
+@import '@candor-design/tokens/candor-fonts.css';  /* before candor-tokens.css */
 ```
 
-> **Note:** `@fontsource-variable/roboto-flex` registers the font as `'Roboto Flex Variable'`. Candor's `--font-sans` token lists this name first so it resolves correctly. If you load the font another way (Google Fonts CDN, self-hosted), ensure the font-face name matches or override `--font-sans` accordingly.
+> **Note:** Fontsource's variable packages register each family with a `Variable` suffix (`'Roboto Flex Variable'`), and Candor's `--typeface-*` primitives list that name first. If you load the fonts another way (Google Fonts, self-hosted), match the family names or override the `--typeface-*` primitives. The tokens README lists the individual imports.
 
 ## Usage
 
@@ -52,7 +46,7 @@ Link the stylesheet and use the custom properties directly:
 
 ```css
 .button {
-  background: var(--color-action-primary);
+  background: var(--color-bg-action-primary);
   color: var(--color-text-on-action);
   font-family: var(--font-family-base);
   padding: var(--spacing-sm) var(--spacing-md);
@@ -63,21 +57,21 @@ Link the stylesheet and use the custom properties directly:
 ### CSS import
 
 ```css
-@import url('@candor-design/tokens/tokens/candor-tokens.css');
+@import url('@candor-design/tokens/candor-tokens.css');
 ```
 
 ### Web components
 
 ```html
 <link rel="stylesheet" href="node_modules/@candor-design/tokens/tokens/candor-tokens.css">
-<script type="module" src="node_modules/@candor-design/web-components/dist/candor-web-components.js"></script>
+<script type="module" src="node_modules/@candor-design/web-components/dist/candor-web-components.standalone.js"></script>
 
 <candor-button variant="primary">Save changes</candor-button>
 <candor-input label="Email" type="email" required></candor-input>
 <candor-badge variant="success">Active</candor-badge>
 ```
 
-CSS custom properties pierce Shadow DOM boundaries automatically, so loading `candor-tokens.css` once is all that's required. No per-component token injection needed.
+CSS custom properties pierce Shadow DOM boundaries automatically, so loading `candor-tokens.css` once is all that's required.
 
 #### Bundler import
 
@@ -97,7 +91,7 @@ import { CandorButton, CandorBadge } from '@candor-design/web-components';
 ### Bundler (Vite / webpack / PostCSS)
 
 ```css
-@import '@candor-design/tokens/tokens/candor-tokens.css';
+@import '@candor-design/tokens/candor-tokens.css';
 ```
 
 The bundler resolves the bare specifier and inlines the file at build time. This is not Sass `@use`, which is for importing Sass modules (`.scss` source files with variables and mixins). `candor-tokens.css` is pre-compiled CSS with no Sass members to import.
@@ -111,11 +105,14 @@ The bundler resolves the bare specifier and inlines the file at build time. This
 ### JSON (Figma / tooling)
 
 ```js
-import tokens from '@candor-design/tokens/tokens/candor-tokens.json';
+import tokens from '@candor-design/tokens/candor-tokens.json';
 
-tokens.root['--color-action-primary']; // oklch(0.27 0.06 245.34)
-tokens.dark['--color-action-primary']; // oklch(0.79 0.11 245)
+tokens.root['--navy-800'];        // 'oklch(0.27 0.06 245.34)'
+tokens.root['--color-text-link']; // 'var(--azure-600)'
+tokens.dark['--color-text-link']; // 'var(--azure-250)'
 ```
+
+`root` holds the primitives and every light-mode and mode-invariant semantic token; `dark` holds the dark-mode overrides. Values are the declarations as written, so a semantic token is a `var()` reference to the primitive it uses; resolve them against `root` (and `dark` over it) in your tooling.
 
 ---
 
@@ -123,17 +120,19 @@ tokens.dark['--color-action-primary']; // oklch(0.79 0.11 245)
 
 ### Colors
 
-Five OKLCH color families, each with 10 tonal steps (50–900):
+Eight OKLCH colour ramps and three grey ramps, each derived from stated rules: one lightness ladder per kind, and a chroma curve per ramp, capped by what sRGB renders. Steps run 50–900, with in-between steps such as `--navy-670` where a token needs one. The Ramps page in the catalog draws the curves.
 
-| Family | Role |
+| Ramp | Role |
 |---|---|
-| `--navy-*` | Primary action, headings, inverse surfaces |
-| `--burgundy-*` | Secondary action, accents |
-| `--azure-*` | Links, focus rings, interactive highlights |
-| `--indigo-*` | Code highlights, visited links, decorative |
-| `--gray-*` | Text, borders, backgrounds |
+| `--navy-*` | Primary action, accents, the inverse surface |
+| `--burgundy-*` | The second brand hue: secondary badges and chips |
+| `--azure-*` | Links and focus rings |
+| `--indigo-*` | Visited links |
+| `--teal-*` | Code-block backgrounds |
+| `--red-*`, `--gold-*`, `--green-*` | Error, warning and success |
+| `--gray-*`, `--gray-cool-*`, `--gray-warm-*` | Text, borders and backgrounds, neutral, cool and warm |
 
-Semantic aliases map primitive ramps to roles:
+Semantic tokens map ramp steps to roles. Every colour token is named after what it paints, `--color-{bg|text|icon|border|fill|ring}-…`, so its first word also says whether a text or a non-text contrast floor applies:
 
 ```css
 /* Backgrounds */
@@ -143,38 +142,44 @@ Semantic aliases map primitive ramps to roles:
 --color-bg-inverse
 
 /* Text */
---color-text-default      /* 12.6:1 on page: primary body text */
---color-text-subtle       /*  4.6:1 on page: secondary text */
---color-text-on-action    /* white on primary/secondary buttons */
+--color-text-default      /* OKCA 12.4 on page: primary body text */
+--color-text-subtle       /* OKCA 5.0 on page: secondary text */
+--color-text-on-action    /* the label on a filled action: primary button, badge */
 
-/* Action */
---color-action-primary
---color-action-primary-hover
---color-action-secondary
---color-action-secondary-hover
---color-action-destructive
---color-action-destructive-text
+/* Accent: the brand navy as a mark */
+--color-text-accent
+--color-border-accent
+--color-fill-indicator
 
-/* Status */
---color-status-error
---color-status-error-bg
---color-status-error-text
---color-status-success
---color-status-success-bg
---color-status-success-text
---color-status-warning
---color-status-warning-bg
---color-status-warning-text
+/* Buttons, named after the variant that uses them */
+--color-bg-action-primary
+--color-bg-action-primary-hover
+--color-text-action-secondary
+--color-border-action-secondary
+--color-bg-action-destructive
+--color-text-action-destructive
+
+/* Status: an icon, a fill, text on the fill, a chip outline */
+--color-icon-error
+--color-bg-error
+--color-text-error
+--color-border-error
+--color-icon-success
+--color-bg-success
+--color-text-success
+--color-icon-warning
+--color-bg-warning
+--color-text-warning
 
 /* Other */
---color-link
---color-link-visited
---color-focus
+--color-text-link
+--color-text-link-visited
+--color-ring-focus
 --color-border-default
 --color-border-control
 ```
 
-All semantic color pairs are contrast-validated to WCAG 2.1 AA (4.5:1 text, 3:1 UI components).
+Every colour pairing the components use is measured in both modes against a floor, in OKCA (klar), that depends on text size and on what the text is for: 4.5 for body text, 3 for icons, borders and indicators (WCAG 1.4.11), and stricter at 14px. `npm run audit:contrast` enforces it.
 
 ### Dark mode
 
@@ -195,8 +200,8 @@ Only color tokens change between modes. Spacing, typography, and shape tokens ar
 ```css
 --font-family-base        /* Roboto Flex: variable font, UI workhorse */
 --font-family-display     /* Roboto Flex: headings */
---font-family-accessible  /* Atkinson Hyperlegible: form labels, error messages, critical UI */
---font-family-mono        /* Roboto Mono */
+--font-family-accessible  /* Atkinson Hyperlegible Next: form labels, error messages, critical UI */
+--font-family-mono        /* Atkinson Hyperlegible Mono */
 --font-family-serif       /* Noto Serif */
 --font-family-reading     /* Noto Sans: long-form content */
 ```
@@ -205,7 +210,7 @@ Type scale (Major Third, 1.25 ratio):
 
 ```css
 --font-size-sm    /* 14px: system floor for readable text */
---font-size-base  /* 16px */
+--font-size-md    /* 16px */
 --font-size-lg    /* 20px */
 --font-size-xl    /* 25px */
 --font-size-2xl   /* 31px */
@@ -224,6 +229,7 @@ Type scale (Major Third, 1.25 ratio):
 8px grid:
 
 ```css
+--spacing-2xs  /*  4px */
 --spacing-xs   /*  8px */
 --spacing-sm   /* 16px */
 --spacing-md   /* 24px */
@@ -244,22 +250,38 @@ Type scale (Major Third, 1.25 ratio):
 --border-width-thin    /* 1px */
 --border-width-medium  /* 2px */
 --border-width-thick   /* 4px */
+--border-width-indicator /* 3px: the active tab's underline */
 
 --focus-ring-width   /* 2px */
 --focus-ring-offset  /* 2px */
 ```
 
+### Motion
+
+```css
+--motion-duration-instant  /* 100ms: a control's own press feedback */
+--motion-duration-fast     /* 150ms: hover and focus, a popup appearing, a dialog leaving */
+--motion-duration-base     /* 200ms: a state changing */
+--motion-duration-slow     /* 250ms: a dialog or drawer arriving */
+
+--motion-ease-standard     /* colour and state changes */
+--motion-ease-enter        /* decelerates into place */
+--motion-ease-exit         /* accelerates away */
+```
+
+Under `prefers-reduced-motion: reduce`, nothing travels and fades remain; that is decided in the tokens, so components need no rule of their own.
+
 ---
 
 ## Design philosophy
 
-Candor is a **humanist** design system. Every decision (OKLCH colors, variable-font typography, perceptual spacing) is oriented toward human vision and reading experience, not machine defaults.
+Candor is a **humanist** design system. Every decision (OKLCH colors, variable-font typography, perceptual spacing) is oriented toward human vision and the experience of reading.
 
-**OKLCH colors** use a perceptually uniform color space, so lightness values reliably map to visual weight across hues. This makes it practical to derive accessible color pairs programmatically and to build predictable tonal scales.
+**OKLCH colors** keep lightness separate from colour, so every ramp shares one lightness ladder: step 600 sits at the same lightness in navy as in gold. Chroma can't be held constant, because sRGB can show less colour near black and white, and the limit differs for every hue. So each ramp follows its own chroma curve, capped at what sRGB can show at each step. The ladder and the curves are stated rules, which is what lets every step be derived and checked rather than picked.
 
-**Roboto Flex** is a variable font with an optical size axis (`opsz`) that automatically adjusts stroke contrast at different sizes, creating natural typographic hierarchy without artificial weight jumps.
+**Roboto Flex** is a variable font with an optical size axis (`opsz`) that adjusts stroke contrast with size. Headings share one weight, and size and `opsz` give them their hierarchy.
 
-**Atkinson Hyperlegible** is reserved for critical UI text (form labels, error messages, status indicators) where legibility under stress matters most.
+**Atkinson Hyperlegible Next** is for the text a reader has to act on: form labels, error messages, status indicators. Its letterforms are designed so similar glyphs can't be mistaken for each other.
 
 ---
 
@@ -319,7 +341,7 @@ Opens at http://localhost:6006
 ### Tests
 
 ```bash
-npm run test:playwright   # Visual regression + a11y tests
+npm run test:playwright   # keyboard, ARIA, axe and WCAG runtime checks (visual regression runs on Chromatic)
 ```
 
 ---

@@ -91,15 +91,15 @@ export const FeatureTable: Story = {
       <caption style="text-align:left;font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-relaxed);text-transform:uppercase;color:var(--color-text-subtle);padding-bottom:var(--spacing-xs);">Feature flags</caption>
       <tbody>
         <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
-          <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Dark mode</td>
+          <th scope="row" style="padding:var(--spacing-sm) 0;color:var(--color-text-default);text-align:left;font-weight:normal;">Dark mode</th>
           <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Dark mode"></candor-switch></td>
         </tr>
         <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
-          <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Beta features</td>
+          <th scope="row" style="padding:var(--spacing-sm) 0;color:var(--color-text-default);text-align:left;font-weight:normal;">Beta features</th>
           <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Beta features" checked></candor-switch></td>
         </tr>
         <tr style="border-bottom:var(--border-width-thin) solid var(--color-border-default);">
-          <td style="padding:var(--spacing-sm) 0;color:var(--color-text-default);">Analytics tracking</td>
+          <th scope="row" style="padding:var(--spacing-sm) 0;color:var(--color-text-default);text-align:left;font-weight:normal;">Analytics tracking</th>
           <td style="padding:var(--spacing-sm) 0;text-align:right;"><candor-switch aria-label="Analytics tracking" checked></candor-switch></td>
         </tr>
         <tr>
@@ -117,7 +117,7 @@ export const FeatureTable: Story = {
 export const FormGroup: Story = {
   render: () => html`
     <fieldset style="border:var(--border-width-thin) solid var(--color-border-default);border-radius:var(--radius-md);padding:var(--spacing-md);max-width:360px;">
-      <legend style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;color:var(--color-text-subtle);padding:0 var(--spacing-xs);">Notification preferences</legend>
+      <legend style="font-family:var(--font-family-accessible);font-weight:var(--font-weight-bold);font-size:var(--font-size-sm);letter-spacing:var(--letter-spacing-relaxed);color:var(--color-text-default);padding:0 var(--spacing-xs);">Notification preferences</legend>
       <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);margin-top:var(--spacing-xs);">
         <candor-switch label="Email notifications" checked></candor-switch>
         <candor-switch label="Push notifications"></candor-switch>

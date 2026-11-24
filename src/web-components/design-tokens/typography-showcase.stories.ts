@@ -30,8 +30,8 @@ interface TypeStep {
 
 const FONT_FAMILIES: FontFamily[] = [
   { name: 'Roboto Flex', variable: '--font-family-base', voice: 'Structural Sans', mode: 'Execution', use: 'Navigation, UI scaffolding, data-dense components', specimen: 'ABCDEFGHIJKLM\nNOPQRSTUVWXYZ\n0123456789' },
-  { name: 'Roboto Mono', variable: '--font-family-mono', voice: 'Technical Mono', mode: 'Execution', use: 'Code, logs, terminal environments', specimen: 'oklch(0.27 0.06 245)\nconst ratio = fg / bg\n0123456789' },
-  { name: 'Atkinson Hyperlegible', variable: '--font-family-accessible', voice: 'Accessibility Anchor', mode: 'Execution', use: 'Critical UI, form labels, high-contrast environments', specimen: 'rn il 0O 1Il\nDisambiguation by design' },
+  { name: 'Atkinson Hyperlegible Mono', variable: '--font-family-mono', voice: 'Technical Mono', mode: 'Execution', use: 'Code, logs, terminal environments', specimen: 'oklch(0.27 0.06 245)\nconst ratio = fg / bg\n0123456789' },
+  { name: 'Atkinson Hyperlegible Next', variable: '--font-family-accessible', voice: 'Accessibility Anchor', mode: 'Execution', use: 'Critical UI, form labels, high-contrast environments', specimen: 'rn il 0O 1Il\nDisambiguation by design' },
   { name: 'Noto Serif', variable: '--font-family-serif', voice: 'Human-Centered Serif', mode: 'Interpretation', use: 'Long-form reading, articles, body prose', specimen: 'Good design tells the truth\nabout what actually works.' },
   { name: 'Noto Sans', variable: '--font-family-reading', voice: 'Human-Centered Sans', mode: 'Interpretation', use: 'Conversational UI, multilingual content', specimen: 'Accessibility is the baseline,\nnot the finish line.' },
 ];
@@ -107,7 +107,7 @@ const renderShowcase = () => html`
 
       <div style="border: var(--border-width-thin) solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-surface);">
         ${TYPE_SCALE.map((s, i) => {
-          const floorStyle = s.isFloor ? `box-shadow: inset var(--border-width-thick) 0 0 var(--color-action-primary);` : '';
+          const floorStyle = s.isFloor ? `box-shadow: inset var(--border-width-thick) 0 0 var(--color-border-accent);` : '';
           const opacity = s.isDecorative ? '0.55' : '1';
           const isLast = i === TYPE_SCALE.length - 1;
           return html`
@@ -138,6 +138,7 @@ const renderShowcase = () => html`
       </div>
       <candor-table compact
         headers='${JSON.stringify(leadingHeaders)}'
+        mono-columns='[0]'
         rows='${JSON.stringify(leadingRows)}'></candor-table>
     </section>
 
@@ -153,16 +154,24 @@ const leadingRows = [
   { cells: ['--line-height-relaxed', '1.75', 'Long-form reading (candor-article body)'] },
 ];
 
-const sizeRampHeaders = ['Size', 'Token', 'Regular', 'Bold', 'Notes'];
+const sizeRampHeaders = ['Size', 'Token', 'Regular', 'Bold'];
 const sizeRampRows = [
   { cells: ['≥ 24px', '3xl – xl', '3.0', '3.0', 'WCAG large text: both weights qualify'] },
-  { cells: ['19 – 23px', 'None', '4.5', '3.0', 'Bold qualifies as large from 18.67px; regular does not until 24px'] },
+  { cells: ['19 – 23px', '--font-size-lg', '4.5', '3.0', 'Bold qualifies as large from 18.67px; regular does not until 24px'] },
   { cells: ['16 – 18px', '--font-size-md', '4.5', '4.5', 'WCAG 4.5 floor, binding both weights'] },
   { cells: ['14px', '--font-size-sm', '9.5', '6.5', 'Smallest text size. 9.5 is what neutral reading text needs here; no coloured text reaches it (#240), so Tier 1 regular text is 16px or larger'] },
   { cells: ['12px and below', '--font-size-xs', 'None', 'None', 'Decorative / non-text only (badge chrome, icons). No text is rendered here, so no floor applies'] },
 ];
 
-const tierHeaders = ['Tier', 'Perceptual task', '14px regular', '14px bold', 'Candor components'];
+// candor-table sizes to its content and scrolls rather than wrapping, so a
+// sentence in a cell runs off the edge. The notes go in a list under the table.
+const notesList = (entries: [string, string][]) => html`
+  <ul style="margin:var(--spacing-sm) 0 0;padding-inline-start:var(--spacing-lg);max-inline-size:44rem;display:flex;flex-direction:column;gap:var(--spacing-2xs);font-family:var(--font-family-base);font-size:var(--font-size-sm);line-height:var(--line-height-normal);color:var(--color-text-default);">
+    ${entries.map(([k, v]) => html`<li><strong>${k}.</strong> ${v}</li>`)}
+  </ul>
+`;
+
+const tierHeaders = ['Tier', 'Perceptual task', '14px regular', '14px bold'];
 const tierRows = [
   { cells: ['1: Reading', 'Sequential decoding: must read to act', 'not permitted; use 16px', '6.5', 'Toast message, alert body, modal prose, form error messages, article inline text'] },
   { cells: ['2: Functional UI', 'Recognition: sole channel for meaning', '6.5', '4.5', 'Breadcrumb links (bold), pagination numbers, table cell data, chip labels'] },
@@ -176,7 +185,9 @@ const renderContrastGuidance = () => html`
       <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-sm);">Size ramp: Tier 1 (reading text) baseline</p>
       <candor-table compact
         headers='${JSON.stringify(sizeRampHeaders)}'
-        rows='${JSON.stringify(sizeRampRows)}'></candor-table>
+        mono-columns='[1]'
+        rows='${JSON.stringify(sizeRampRows.map((r) => ({ cells: r.cells.slice(0, 4) })))}'></candor-table>
+      ${notesList(sizeRampRows.map((r) => [r.cells[0]!, r.cells[4]!]))}
     </section>
 
     <section>
@@ -184,18 +195,19 @@ const renderContrastGuidance = () => html`
       <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-sm);">The size ramp above assumes fluent reading. At 14px the tier system relaxes the threshold for text whose perceptual task is recognition rather than sequential decoding.</p>
       <candor-table
         headers='${JSON.stringify(tierHeaders)}'
-        rows='${JSON.stringify(tierRows)}'></candor-table>
+        rows='${JSON.stringify(tierRows.map((r) => ({ cells: r.cells.slice(0, 4) })))}'></candor-table>
+      ${notesList(tierRows.map((r) => [`Tier ${r.cells[0]!}`, r.cells[4]!]))}
     </section>
 
     <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
       <candor-alert variant="warning" heading="Tier 2 authoring constraint" style="display: block;"
-        message="--color-text-subtle (OKCA 4.8 on page) fails the 6.5 regular threshold. Functional 14px text using this token must be bold (wght ≥ 700), where the same score clears the 4.5 bold floor.">
+        message="--color-text-subtle (OKCA 5.0 on page) fails the 6.5 regular threshold. Functional 14px text using this token must be bold (wght ≥ 700), where the same score clears the 4.5 bold floor.">
       </candor-alert>
       <candor-alert variant="info" heading="Tier 3 condition" style="display: block;"
-        message="Redundancy must be verified per component. Color alone does not qualify. The redundant channel must be shape, icon, or spatial context so it holds under colorblindness. This tier is assigned by the system; it is not a consumer opt-in.">
+        message="Redundancy must be verified per component. Color alone does not qualify. The redundant channel must hold under colorblindness: a shape, icon or spatial context the component renders, or a text label the component cannot render without, provided it names the condition (a badge reading Failed, not 3).">
       </candor-alert>
       <candor-alert variant="info" heading="Variable font weight axis" style="display: block;"
-        message="'Bold' in this table means wght ≥ 700 (the CSS font-weight axis). Non-wght axes (GRAD, opsz, wdth) affect perceived stroke weight visually but do not change the compliance column. A heading at font-weight: 500 with GRAD: -150 is regular for compliance purposes regardless of how it reads on screen.">
+        message="'Bold' in this table means wght ≥ 700 (the CSS font-weight axis). Non-wght axes (GRAD, opsz, wdth) affect perceived stroke weight visually but do not change the compliance column. A semibold heading (font-weight 600) is regular for compliance purposes regardless of how it reads on screen.">
       </candor-alert>
     </div>
 
@@ -218,7 +230,7 @@ const meta: Meta = {
         component: `
 Four-voice typographic system aligned to two cognitive modes:
 
-- **Execution** (task completion, navigation, scanning): Roboto Flex, Roboto Mono, Atkinson Hyperlegible
+- **Execution** (task completion, navigation, scanning): Roboto Flex, Atkinson Hyperlegible Next and Mono
 - **Interpretation** (reading, reflecting, conversing): Noto Serif, Noto Sans
 
 Type scale uses a **Major Third ratio (1.25×)** from a 1rem (16px) base. The Major Third
@@ -270,9 +282,9 @@ measurements of legibility.
 
 **14px is the only sub-16px size that carries text**, so it is the only row. 12px is decorative
 and carries no floor. The 14px regular figure, 9.5, is what a neutral reading passage needs
-there. Neutral text reaches it (\`--color-text-default\` is OKCA 11.9 on page), but no
+there. Neutral text reaches it (\`--color-text-default\` is OKCA 12.4 on page), but no
 coloured text in the system can (#240). That is why Tier 1 regular text must be 16px or larger
-rather than held to 9.5: a floor only near-black text can meet would quietly ban colour from
+rather than held to 9.5: a floor only near-black text can meet would rule out colour for
 must-read text.
 
 **Use-case tier axis.** This adjusts the 14px row only. Text read sequentially keeps the full

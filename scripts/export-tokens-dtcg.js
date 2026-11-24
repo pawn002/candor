@@ -22,7 +22,7 @@
  * pairings.json.
  *
  * Usage: node scripts/export-tokens-dtcg.js [--skip-gamut]
- * The gamut gate runs by default and needs klar 3.x on PATH; --skip-gamut
+ * The gamut gate runs by default and needs klar 4.x on PATH; --skip-gamut
  * exports without it. Nothing in the repo passes that flag.
  */
 
@@ -124,6 +124,19 @@ function resolveAll(tokens, primitives) {
       const next = lookup[m[1]];
       if (!next || next === value) break;
       value = next;
+    }
+    // Relative colour syntax that only changes alpha resolves to its base
+    // colour with that alpha, so the artifact carries a measurable value.
+    const rel = value.match(/^oklch\(from var\((--[\w-]+)\) l c h \/ ([\d.]+)\)$/);
+    if (rel) {
+      let base = `var(${rel[1]})`;
+      for (let pass = 0; pass < 5; pass++) {
+        const m = base.match(/^var\((--[\w-]+)\)$/);
+        if (!m || !lookup[m[1]]) break;
+        base = lookup[m[1]];
+      }
+      const lch = base.match(/^oklch\(([^/)]+)\)$/);
+      if (lch) value = `oklch(${lch[1].trim()} / ${rel[2]})`;
     }
     resolved[name] = { value, comment };
   }
@@ -308,16 +321,16 @@ function sourceFiles() {
 function checkGamut(sources) {
   try {
     const v = execSync('klar --version', { encoding: 'utf8' }).trim();
-    if (!/^3\./.test(v)) {
+    if (!/^4\./.test(v)) {
       console.error(
-        `✗  klar ${v} found — the gamut gate needs 3.x.\n` +
+        `✗  klar ${v} found — the gamut gate needs 4.x.\n` +
           '   Run `npm run audit:contrast`: its version guard carries the full checklist\n' +
           '   for what to verify in klar\'s docs before widening either range.'
       );
       process.exit(2);
     }
   } catch {
-    console.error('✗  klar is not on PATH. Install klar 3.x, or re-run with --skip-gamut.');
+    console.error('✗  klar is not on PATH. Install klar 4.x, or re-run with --skip-gamut.');
     process.exit(2);
   }
 
@@ -372,28 +385,26 @@ function checkGamut(sources) {
  * so an incomplete field is worse than none: it returns a confident false
  * negative for the whole category it exists to protect.
  *
- * Two structural rules plus a small explicit list:
+ * Since #367 the name says it. A colour token's first word after `--color-` is
+ * the property it paints, and `icon`, `border`, `fill` and `ring` are non-text by
+ * definition (WCAG 1.4.11's 3:1, not a text floor); `text` and `bg` are not.
+ * A name outside that grammar is a deprecated one: an alias follows its target,
+ * and the few deprecated tokens with their own values keep the old structural
+ * rules (a `border` in the name, or a `<name>-text` sibling).
  *
- *   1. The name contains `border`. A border is non-text by construction —
- *      --color-border-*, --color-blockquote-border, --color-action-
- *      destructive-border.
- *   2. A sibling `<name>-text` exists. The system having minted a -text
- *      variant *is* the statement that the base is not for text; this is what
- *      catches --color-status-{error,success,warning}.
- *   3. Tokens whose role is non-text but whose name cannot say so.
- *
- * `declared` is every declared custom-property name across both modes, which
- * is what makes rule 2 checkable.
+ * `declared` is every declared custom-property name across both modes.
  */
-const NON_TEXT_BY_ROLE = new Set([
-  '--color-focus',                 // focus ring — a UI indicator, never text
-  '--color-slider-thumb',          // control knob fill
-]);
+const PROPERTY_RE = /^--color-(bg|text|icon|border|fill|ring)-/;
+const NON_TEXT_PROPERTIES = new Set(['icon', 'border', 'fill', 'ring']);
+let RAW = {}; // the light declarations, set in main before any token is built
 
-function isNonText(cssVar, declared) {
+function isNonText(cssVar, declared, seen = new Set()) {
+  const m = PROPERTY_RE.exec(cssVar);
+  if (m) return NON_TEXT_PROPERTIES.has(m[1]);
+  const alias = /^var\((--color-[\w-]+)\)$/.exec(RAW[cssVar]?.raw || '');
+  if (alias && !seen.has(cssVar)) return isNonText(alias[1], declared, seen.add(cssVar));
   if (/(^|-)border(-|$)/.test(cssVar)) return true;
-  if (declared.has(`${cssVar}-text`)) return true;
-  return NON_TEXT_BY_ROLE.has(cssVar);
+  return declared.has(`${cssVar}-text`);
 }
 
 /**
@@ -423,7 +434,7 @@ function dtcgEntry(cssVar, value, comment, declared, raw) {
  * Fail if a comment claims non-text use for a token no rule catches.
  *
  * The prose is no longer the source of truth, but it is still a second opinion
- * — and a disagreement means either a token needs adding to NON_TEXT_BY_ROLE
+ * — and a disagreement means either a token is misnamed
  * or a comment is wrong. Silently trusting the rules would reintroduce exactly
  * the failure mode this replaced: a guard that looks populated and isn't.
  */
@@ -455,6 +466,7 @@ for (const [k, { raw }] of Object.entries(primitiveDecls)) {
 
 // 2. Parse light + dark token mixins
 const lightRaw = parseDeclarations(extractMixin(semanticsScss, 'light-color-tokens'));
+RAW = lightRaw;
 // Dark is an *override* layer, not a standalone set: at runtime the light
 // mixin lands on :root and dark redeclares only what changes, so a token
 // declared once in light still renders in dark (resolving through whatever
@@ -471,6 +483,265 @@ const darkRaw  = { ...lightRaw, ...darkOwnRaw };
 // list — which is the failure the widened scope fixed (#228).
 if (!SKIP_GAMUT) {
   checkGamut(sourceFiles());
+}
+
+// 2b. Derived-colour gate. Colour is authored in one place, primitives.scss,
+// where derive-colour-ramps.js checks every step against the ramp rules. Every
+// other file references it: a token, a token at an alpha, or a value computed at
+// runtime. A typed colour anywhere else escapes those rules, so an invented
+// value passed every audit (f954e33 committed one to semantics.scss). When a
+// role needs a lightness the ladder lacks, mint an in-between step (extraSteps in
+// src/design-tokens/colour-ramp-rules.json) instead of typing one.
+//
+// What counts as typed: a numeric oklch(), rgb()/rgba()/hsl() or hex literal,
+// and relative colour syntax that changes a channel (`calc(l - 0.04)`), which
+// moves a colour off the ladder by a hand-picked amount just as surely. A token
+// at an alpha (`oklch(from var(--x) l c h / 0.08)`) is the token's own colour
+// and passes. Shadows (`--shadow-*`) are elevation, not palette, and pass.
+// Stories are out of scope: their gradients and heat maps illustrate colour
+// rather than specify it, and the gamut gate above still covers them.
+//
+// Exceptions are named one by one with a reason, never by file, so a new typed
+// colour in the same file still fails. An exception that stops matching fails
+// too, so the list can only shrink. The `debt` entries are invented colours
+// that predate the gate and are due to be re-derived.
+const COLOUR_LITERAL_EXCEPTIONS = {
+  'src/design-tokens/semantics.scss --color-bg-scrim': 'the modal and drawer scrim, black at 50%: a dimming layer, not a palette colour',
+};
+
+/** Every typed colour in one file, keyed `<path> <declared name or the literal>`. */
+function typedColours(file) {
+  const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+  const text = fs
+    .readFileSync(file, 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\r\n]/g, ' '));
+  const found = [];
+  text.split(/\r?\n/).forEach((line, i) => {
+    const code = line.replace(/(^|[^:])\/\/.*$/, '$1');
+    if (/--shadow-[\w-]*\s*:/.test(code)) return;
+    const decl = /(--[\w-]+)\s*:/.exec(code);
+    const add = (raw) => found.push({ key: `${rel} ${decl ? decl[1] : raw}`, raw, where: `${rel}:${i + 1}` });
+    for (const m of code.matchAll(/oklch\(\s*[\d.]+\s+[\d.]+\s+[\d.]+\s*(?:\/\s*[\d.%]+\s*)?\)/g)) add(m[0]);
+    for (const m of code.matchAll(/(?:rgba?|hsla?)\(\s*[\d.]+[^)]*\)/g)) add(m[0]);
+    for (const m of code.matchAll(/(?<![\w&$-])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g)) add(m[0]);
+    for (const m of code.matchAll(/oklch\(from var\((--[\w-]+)\)\s+((?:[^()/]|\([^()]*\))*?)\s*(?:\/\s*[^)]*)?\)/g)) {
+      if (m[2].replace(/\s+/g, ' ').trim() !== 'l c h') found.push({ key: `${rel} oklch(from var(${m[1]}) ${m[2].replace(/\s+/g, ' ').trim()})`, raw: m[0], where: `${rel}:${i + 1}` });
+    }
+  });
+  return found;
+}
+
+{
+  const files = sourceFiles().filter((f) => !/\.stories\.ts$/.test(f) && !/primitives\.scss$/.test(f));
+  const problems = [];
+  const matched = new Set();
+  let excepted = 0;
+  for (const file of files) {
+    for (const { key, raw, where } of typedColours(file)) {
+      if (COLOUR_LITERAL_EXCEPTIONS[key]) { matched.add(key); excepted++; continue; }
+      problems.push(`${where}  ${raw} is a typed colour: reference a token or ramp step, minting an in-between step in src/design-tokens/colour-ramp-rules.json if the ladder lacks one`);
+    }
+  }
+  for (const key of Object.keys(COLOUR_LITERAL_EXCEPTIONS)) {
+    if (!matched.has(key)) problems.push(`exception "${key}" matches nothing any more: remove it`);
+  }
+  if (problems.length) {
+    console.error(`✗  ${problems.length} colour(s) not derived from a ramp:`);
+    for (const p of problems) console.error(`   ${p}`);
+    process.exit(1);
+  }
+  const debt = Object.values(COLOUR_LITERAL_EXCEPTIONS).filter((r) => r.startsWith('debt:')).length;
+  console.log(`✓  derived colour: ${files.length} files reference their colours (${excepted} typed colours under ${Object.keys(COLOUR_LITERAL_EXCEPTIONS).length} named exceptions, ${debt} of them debt)`);
+}
+
+// 2c. Property gate (#367). A colour token's first word says what it paints,
+// so the CSS property that consumes it must agree: `color` takes text or icon
+// tokens, a background takes bg or fill, a border or outline takes border or
+// ring, and so on. A token inside alpha-only relative syntax
+// (`oklch(from var(--x) l c h / 0.08)`) is the source of a tint, not a colour
+// painted at full strength, so it is not judged. Exceptions are named one by
+// one, keyed `<path> <property> <token>`, and a stale one fails.
+//
+// The same pass fails on any deprecated token name in src/ (stories included),
+// so components and the documentation they render use the current set.
+const PROPERTY_ALLOWS = {
+  color: ['text', 'icon'],
+  background: ['bg', 'fill'],
+  'background-color': ['bg', 'fill'],
+  border: ['border', 'ring'],
+  outline: ['border', 'ring'],
+  'box-shadow': ['border', 'ring'],
+  stroke: ['icon', 'fill', 'border'],
+  fill: ['icon', 'fill'],
+};
+const PROPERTY_EXCEPTIONS = {
+  'src/web-components/components/menu/candor-menu.ts background-color --color-border-default': 'the separator: a 1px box painted in the divider colour, which is a line',
+  'src/web-components/components/toolbar/candor-toolbar.ts background-color --color-border-strong': 'the separator: a 1px box painted in the divider colour, which is a line',
+  'src/web-components/components/form/checkbox/candor-checkbox.ts border --color-fill-on-action': 'the tick: an L drawn with two borders and rotated, so its colour is the mark',
+  'src/web-components/components/tooltip/candor-tooltip.ts border-top-color --color-bg-tooltip': 'the arrow: a CSS border triangle in the bubble colour, part of the bubble',
+  'src/web-components/components/tooltip/candor-tooltip.ts border-bottom-color --color-bg-tooltip': 'the arrow, as above',
+  'src/web-components/components/tooltip/candor-tooltip.ts border-left-color --color-bg-tooltip': 'the arrow, as above',
+  'src/web-components/components/tooltip/candor-tooltip.ts border-right-color --color-bg-tooltip': 'the arrow, as above',
+  'src/design-tokens/article.scss border-bottom-color --color-text-link-visited': 'a visited link underlined with a border in its own colour: the underline is part of the text',
+  'src/web-components/components/typography/article/candor-article.ts border-bottom-color --color-text-link-visited': 'a visited link underlined with a border in its own colour: the underline is part of the text',
+};
+{
+  const deprecated = new Set();
+  const aliasBlock = extractMixin(semanticsScss, 'deprecated-color-aliases');
+  for (const name of Object.keys(parseDeclarations(aliasBlock))) deprecated.add(name);
+  for (const [name, d] of Object.entries({ ...lightRaw, ...darkOwnRaw })) {
+    if (/deprecated/i.test(d.comment || '')) deprecated.add(name);
+  }
+  // Every other token, colour or not: a declaration in primitives.scss or
+  // semantics.scss whose comment, or the comment block above it, says
+  // "deprecated" (the type scale, typefaces and component spacing, #367).
+  // A trailing comment saying "deprecated" marks its own line; a comment block
+  // saying it marks only the one declaration directly below it.
+  const primitivesScss = fs.readFileSync(path.join(ROOT, 'src/design-tokens/primitives.scss'), 'utf8');
+  for (const src of [semanticsScss, primitivesScss]) {
+    let commentSaysDeprecated = false;
+    for (const line of src.split(/\r?\n/)) {
+      if (/^\s*\/\//.test(line)) { commentSaysDeprecated ||= /deprecated/i.test(line); continue; }
+      const m = /^\s*(--[a-z][a-z0-9-]*)\s*:/.exec(line);
+      if (m && (commentSaysDeprecated || /\/\/.*deprecated/i.test(line))) deprecated.add(m[1]);
+      commentSaysDeprecated = false;
+    }
+  }
+  const problems = [];
+  const matched = new Set();
+  let checked = 0;
+  for (const file of sourceFiles()) {
+    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    if (/design-tokens\/(semantics|primitives)\.scss$/.test(rel)) continue;
+    const text = fs.readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\r\n]/g, ' '));
+    const lineOf = (i) => text.slice(0, i).split('\n').length;
+    for (const m of text.matchAll(/var\((--[a-z][a-z0-9-]*)\)/g)) {
+      if (!deprecated.has(m[1])) continue;
+      // Allowed in one position: the fallback of a --candor-* hook, which keeps
+      // an existing override of the deprecated token working until removal.
+      if (/var\(--candor-[a-z0-9-]+,\s*$/.test(text.slice(Math.max(0, m.index - 80), m.index))) continue;
+      problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} is deprecated: use what replaces it (see its comment in the token files)`);
+    }
+    if (/\.stories\.ts$/.test(rel)) continue;
+    for (const m of text.matchAll(/(?<![\w-])(-{0,2}[a-z][a-z-]*)\s*:\s*([^;{}`]*?var\(--color-[^;{}`]*)/g)) {
+      const prop = m[1];
+      const family = prop.startsWith('--') ? (/border/.test(prop) ? 'border' : null)
+        : prop.startsWith('border') || prop.startsWith('outline') ? 'border'
+        : prop === 'background' || prop === 'background-color' ? 'background'
+        : PROPERTY_ALLOWS[prop] ? prop : null;
+      if (!family) continue;
+      const allows = PROPERTY_ALLOWS[family];
+      // Drop alpha-only tints: their source token is not painted.
+      const value = m[2].replace(/oklch\(from var\(--color-[a-z0-9-]+\)\s+l\s+c\s+h\s*\/\s*[\d.]+\)/g, '');
+      for (const v of value.matchAll(/var\((--color-[a-z0-9-]+)\)/g)) {
+        const name = v[1];
+        if (deprecated.has(name)) continue; // reported above
+        const word = /^--color-([a-z]+)-/.exec(name)?.[1];
+        checked++;
+        if (allows.includes(word)) continue;
+        const key = `${rel} ${prop} ${name}`;
+        if (PROPERTY_EXCEPTIONS[key]) { matched.add(key); continue; }
+        problems.push(`${rel}:${lineOf(m.index)}  ${prop} uses ${name}: a ${word} token; ${prop} takes ${allows.join(' or ')}`);
+      }
+    }
+  }
+  for (const key of Object.keys(PROPERTY_EXCEPTIONS)) {
+    if (!matched.has(key)) problems.push(`exception "${key}" matches nothing any more: remove it`);
+  }
+  if (problems.length) {
+    console.error(`✗  ${problems.length} token problem(s): a colour painted by a property its name does not allow, or a deprecated name in use (#367):`);
+    for (const p of problems) console.error(`   ${p}`);
+    process.exit(1);
+  }
+  console.log(`✓  token properties: ${checked} colour references agree with their names (${Object.keys(PROPERTY_EXCEPTIONS).length} named exceptions); no deprecated name in use`);
+}
+
+// 2d. Motion (#368). Every transition and animation draws its duration from a
+// --motion-duration-* token, so speeds stay consistent and reduced motion is
+// handled in one place. A literal duration fails; a looping indicator, whose
+// period is not an interaction's speed, is named as an exception.
+const MOTION_EXCEPTIONS = {
+  'src/web-components/components/progress/candor-progress.ts progress-indeterminate': 'the indeterminate bar loops; its period is not an interaction speed',
+  'src/web-components/components/progress/candor-progress.ts spinner-rotate': 'the spinner loops',
+  'src/web-components/components/progress/candor-progress.ts spinner-arc': 'the spinner loops',
+};
+{
+  const problems = [];
+  const matched = new Set();
+  let checked = 0;
+  for (const file of sourceFiles()) {
+    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    if (/\.stories\.ts$/.test(rel) || /design-tokens\/(semantics|primitives)\.scss$/.test(rel)) continue;
+    const text = fs.readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\r\n]/g, ' '));
+    const lineOf = (i) => text.slice(0, i).split('\n').length;
+    for (const m of text.matchAll(/(?<![\w-])(transition|animation)(?:-duration)?\s*:\s*([^;{}`]*)/g)) {
+      checked++;
+      const literal = /(?<![\w.(-])\d*\.?\d+m?s\b/.exec(m[2].replace(/var\([^)]*\)/g, ''));
+      if (!literal) continue;
+      const name = /^\s*([a-z][\w-]*)/.exec(m[2])?.[1] || '';
+      const key = `${rel} ${name}`;
+      if (MOTION_EXCEPTIONS[key]) { matched.add(key); continue; }
+      problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} uses a literal duration (${literal[0]}): use a --motion-duration-* token`);
+    }
+  }
+  for (const key of Object.keys(MOTION_EXCEPTIONS)) {
+    if (!matched.has(key)) problems.push(`exception "${key}" matches nothing any more: remove it`);
+  }
+  if (problems.length) {
+    console.error(`✗  ${problems.length} transition(s) or animation(s) not on the motion tokens (#368):`);
+    for (const p of problems) console.error(`   ${p}`);
+    process.exit(1);
+  }
+  console.log(`✓  motion: ${checked} transitions and animations use the motion tokens (${Object.keys(MOTION_EXCEPTIONS).length} looping indicators excepted)`);
+}
+
+// 2e. Letter spacing. Every letter-spacing in src/, stories and MDX included,
+// is a --letter-spacing-* role, so tracking is chosen by what the text does and
+// not typed per component. A role is declared only in semantics.scss and points
+// at a --tracking-* step; a step is declared only in primitives.scss. There is
+// no exception list: a value the roles cannot express is a new role or step.
+// A declaration quoted as code in prose (after a backtick) is not a declaration.
+{
+  const files = [...sourceFiles()];
+  const visitMdx = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) visitMdx(full);
+      else if (/\.mdx$/.test(entry.name)) files.push(full);
+    }
+  };
+  visitMdx(path.join(ROOT, 'src'));
+  const ROLE_HOME = 'src/design-tokens/semantics.scss';
+  const STEP_HOME = 'src/design-tokens/primitives.scss';
+  const blank = (m) => m.replace(/[^\r\n]/g, ' ');
+  const problems = [];
+  let checked = 0;
+  for (const file of files) {
+    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    let text = fs.readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, blank);
+    if (/\.scss$/.test(rel)) text = text.replace(/\/\/[^\n]*/g, blank);
+    const lineOf = (i) => text.slice(0, i).split('\n').length;
+    for (const m of text.matchAll(/(?<![\w`-])letter-spacing\s*:\s*([^;{}`"'<\n]*)/g)) {
+      checked++;
+      const value = m[1].trim().replace(/\s*!important$/, '');
+      if (/^var\(--letter-spacing-[a-z0-9-]+\)$/.test(value) || /^(inherit|initial|unset)$/.test(value)) continue;
+      problems.push(`${rel}:${lineOf(m.index)}  letter-spacing: ${value}: use a --letter-spacing-* role`);
+    }
+    for (const m of text.matchAll(/(?<![\w-])(--letter-spacing-[a-z0-9-]+|--tracking-[a-z0-9-]+)\s*:\s*([^;\n]*)/g)) {
+      const isRole = m[1].startsWith('--letter-spacing-');
+      const home = isRole ? ROLE_HOME : STEP_HOME;
+      if (rel !== home) { problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} is declared outside ${home}`); continue; }
+      if (isRole && !/^var\(--tracking-[a-z0-9-]+\)$/.test(m[2].trim())) {
+        problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} must point at a --tracking-* step, not ${m[2].trim()}`);
+      }
+    }
+  }
+  if (problems.length) {
+    console.error(`✗  ${problems.length} letter-spacing value(s) off the tracking roles:`);
+    for (const p of problems) console.error(`   ${p}`);
+    process.exit(1);
+  }
+  console.log(`✓  letter spacing: ${checked} declarations use a --letter-spacing-* role, and every role points at a --tracking-* step`);
 }
 
 // 3. Resolve all var() references
@@ -530,15 +801,33 @@ walkTokens(output.light, (tok) => {
 console.log(`✓  audit/tokens.dtcg.json`);
 console.log(`   light: ${lightCount} color tokens`);
 console.log(`   dark:  ${darkCount} color tokens`);
-console.log(`   non-text: ${nonTextCount} flagged (structural — border / has a -text sibling / named role)`);
+console.log(`   non-text: ${nonTextCount} flagged (from the property word: icon / border / fill / ring)`);
 if (aliasOnly) console.log(`   ${aliasOnly} light token(s) are explained only by their alias ($extensions.aliasOf)`);
 if (noDesc) console.log(`   ${noDesc} light token(s) carry neither a $description nor an alias`);
+
+// 5b. The naming grammar (#367): every colour token that is not deprecated
+// starts with the property it paints. Deprecated names carry the word
+// "deprecated" in their comment and go in the next major.
+const offGrammar = Object.entries({ ...lightRaw, ...darkOwnRaw })
+  .filter(([name]) => name.startsWith('--color-') && !PROPERTY_RE.test(name))
+  .filter(([, d]) => !/deprecated/i.test(d.comment || ''))
+  .map(([name]) => name);
+if (offGrammar.length) {
+  console.error(
+    `\n✗  ${offGrammar.length} colour token(s) do not follow the naming grammar (#367):\n` +
+      '   --color-{bg|text|icon|border|fill|ring}-{role}[-{variant}][-{state}][-on-{context}]\n'
+  );
+  for (const n of [...new Set(offGrammar)]) console.error(`   ${n}`);
+  process.exit(1);
+}
+console.log(`✓  naming grammar: every current colour token starts with its property`);
 
 const missedNonText = checkNonTextAgreement(lightTokens, declared);
 if (missedNonText.length) {
   console.error(
     `\n✗  ${missedNonText.length} token(s) are annotated as non-text but no structural rule catches them.\n` +
-      '   Either the comment is wrong, or the token needs adding to NON_TEXT_BY_ROLE\n' +
+      '   Either the comment is wrong, or the token is misnamed: non-text colours start\n' +
+      '   icon-, border-, fill- or ring- (#367).\n' +
       '   in this script. Do not leave them disagreeing — CLAUDE.md pitfall 3a tells\n' +
       '   contributors to trust this field (#218):\n'
   );

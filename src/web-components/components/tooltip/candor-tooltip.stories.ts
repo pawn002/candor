@@ -19,7 +19,7 @@ const meta: Meta = {
 Tooltips in Candor are **intentionally invisible to assistive technology (AT)**.
 
 The tooltip bubble carries \`aria-hidden="true"\` and is never wired via
-\`aria-describedby\`. This is a deliberate design system position, not an oversight.
+\`aria-describedby\`.
 
 **The reasoning:** Tooltips solve a sighted-user problem: persistent label text isn't
 always visible. AT users already receive context through the accessible name, label, and
@@ -85,17 +85,17 @@ export const TriggerTypes: Story = {
         story:
           'Tooltips work on any focusable element. Three common trigger types: ' +
           'a link (tooltip adds context the visible label omits), ' +
-          'a destructive button (tooltip reinforces irreversibility), ' +
+          'a destructive button (tooltip names what it acts on; that a delete cannot be undone belongs in a visible confirmation, not a tooltip), ' +
           'and a text button (tooltip surfaces a keyboard shortcut, ideal tooltip content, since shortcuts do not belong in the accessible name).',
       },
     },
   },
   render: () => html`
     <div style="padding:var(--spacing-2xl);display:flex;gap:var(--spacing-lg);justify-content:center;align-items:center;flex-wrap:wrap;">
-      <candor-tooltip text="Opens in a new tab" position="bottom">
-        <a href="#" style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-link);">External link</a>
+      <candor-tooltip text="View the full changelog" position="bottom">
+        <a href="#" style="font-family:var(--font-family-base);font-size:var(--font-size-md);color:var(--color-text-link);">External link</a>
       </candor-tooltip>
-      <candor-tooltip text="Cannot undo this action" position="top">
+      <candor-tooltip text="Deletes the selected draft" position="top">
         <candor-button variant="destructive">Delete</candor-button>
       </candor-tooltip>
       <candor-tooltip text="Keyboard shortcut: ⌘K" position="top">
@@ -181,7 +181,9 @@ export const InToolbar: Story = {
           'never trips its `overflow-x:auto` scrollbar. When shown, it opens in the top layer, so the ' +
           'toolbar cannot clip it either (#259). This story pins the toolbar in a 320px ' +
           'container. Before the #107/#175 fix, the hidden bubbles’ leaked width produced stray ' +
-          'horizontal and vertical scrollbars on the toolbar here.',
+          'horizontal and vertical scrollbars on the toolbar here. ' +
+          'This story tests layout only. Its controls are `candor-button`s, which the toolbar\'s roving tabindex ' +
+          'cannot reach, so each is its own Tab stop; a real toolbar uses native `<button>`s (see Toolbar).',
       },
     },
   },

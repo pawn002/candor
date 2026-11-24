@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
+import '../typography/heading/candor-heading';
 import './candor-tabs';
 
 const meta: Meta = {
@@ -91,7 +92,7 @@ export const Inverse: Story = {
       <p style="margin:0;padding-top:var(--spacing-sm);">The tab list uses --color-bg-inverse; the panels render on the page background below.</p>
     </candor-tab-panel>
     <candor-tab-panel panel-id="history">
-      <p style="margin:0;padding-top:var(--spacing-sm);">Active tab indicator and text use --color-text-inverse (white in light mode).</p>
+      <p style="margin:0;padding-top:var(--spacing-sm);">The active tab's text uses --color-text-on-inverse and its indicator --color-border-accent-on-inverse, both white in both modes.</p>
     </candor-tab-panel>
   </candor-tabs>`,
 };
@@ -129,19 +130,19 @@ export const VerticalSidebar: Story = {
         style="height:100%;"
         tabs='[{"id":"overview","label":"Overview"},{"id":"deliberations","label":"Deliberations"},{"id":"documents","label":"Documents"},{"id":"settings","label":"Settings"}]'>
         <candor-tab-panel panel-id="overview" active>
-          <h3 style="margin-top:0;font-family:var(--font-family-base);font-size:var(--font-size-lg);">Project overview</h3>
+          <candor-heading level="h3">Project overview</candor-heading>
           <p style="color:var(--color-text-subtle);margin:0;">Summary of goals, timeline, and key stakeholders.</p>
         </candor-tab-panel>
         <candor-tab-panel panel-id="deliberations">
-          <h3 style="margin-top:0;font-family:var(--font-family-base);font-size:var(--font-size-lg);">Deliberations</h3>
+          <candor-heading level="h3">Deliberations</candor-heading>
           <p style="color:var(--color-text-subtle);margin:0;">Structured discussion threads and decision records.</p>
         </candor-tab-panel>
         <candor-tab-panel panel-id="documents">
-          <h3 style="margin-top:0;font-family:var(--font-family-base);font-size:var(--font-size-lg);">Documents</h3>
+          <candor-heading level="h3">Documents</candor-heading>
           <p style="color:var(--color-text-subtle);margin:0;">Attached files, briefs, and reference materials.</p>
         </candor-tab-panel>
         <candor-tab-panel panel-id="settings">
-          <h3 style="margin-top:0;font-family:var(--font-family-base);font-size:var(--font-size-lg);">Settings</h3>
+          <candor-heading level="h3">Settings</candor-heading>
           <p style="color:var(--color-text-subtle);margin:0;">Project name, access controls, and archive options.</p>
         </candor-tab-panel>
       </candor-tabs>

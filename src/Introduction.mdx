@@ -1,4 +1,4 @@
-<div style={{display:'flex',alignItems:'center',gap:'0.30em',margin:'0.5rem 0 2rem',color:'var(--color-action-primary)',fontSize:'56px',lineHeight:1}}>
+<div style={{display:'flex',alignItems:'center',gap:'0.30em',margin:'0.5rem 0 2rem',color:'var(--color-text-accent)',fontSize:'56px',lineHeight:1}}>
   <svg aria-hidden="true" viewBox="16 176 992 672" style={{height:'0.85em',width:'auto',flex:'none',fill:'currentColor'}}>
     <g transform="translate(0 960) scale(1 -1)">
       <path d="M989.24 460.96c-1.4 3.16-35.28 78.32-110.6 153.64-100.36 100.36-227.12 153.4-366.64 153.4s-266.28-53.040-366.64-153.4c-75.32-75.32-109.36-150.6-110.6-153.64-1.743-3.824-2.76-8.293-2.76-13s1.016-9.176 2.841-13.201l-0.082 0.201c1.4-3.16 35.28-78.28 110.6-153.6 100.36-100.32 227.12-153.36 366.64-153.36s266.28 53.040 366.64 153.36c75.32 75.32 109.2 150.44 110.6 153.6 1.743 3.824 2.76 8.293 2.76 13s-1.016 9.176-2.841 13.201l0.082-0.201zM512 288c-88.366 0-160 71.634-160 160s71.634 160 160 160c88.366 0 160-71.634 160-160v0c0-88.366-71.634-160-160-160v0z"/>
@@ -19,17 +19,17 @@ Candor is a commitment to close the gap between nominal compliance and outcomes 
 
 ## Design Principles
 
-### Accessibility is the baseline, not the finish line
+### Accessibility is the baseline
 WCAG compliance is where we start. Outcome-based validation, with real color science and real user impact, is where we go from there. Every token, every component, every contrast decision is validated using OKCA, a contrast algorithm that addresses known issues with WCAG's luminance math while prioritizing WCAG compatibility and coherence with OKLCH, so designers can directly equate their color pickers and tonal ramps with accessibility outcomes.
 
 ### Perceptual truth over nominal correctness
-Colors are defined in OKLCH, a perceptually uniform color space where equal numeric changes produce equal perceived changes. This isn't an aesthetic preference. It's what makes programmatic accessibility validation reliable.
+Colors are defined in OKLCH, whose lightness axis is perceptually uniform, so one lightness ladder serves every hue. That's what makes programmatic accessibility validation reliable.
 
 ### Typography as cognitive infrastructure
-The typographic system is organized around two human modes: **execution** (task completion, navigation, scanning) and **interpretation** (reading, reflecting, conversing). Font choices aren't decorative. They signal which mode a surface is designed for.
+The typographic system is organized around two human modes: **execution** (task completion, navigation, scanning) and **interpretation** (reading, reflecting, conversing). Each typeface signals which mode a surface is designed for.
 
 ### No hard-coded values, ever
-All styling flows from design tokens. Components never reach past their token layer. This isn't a rule for tidiness. It's what makes the system auditable, adjustable, and honest about its own decisions.
+All styling flows from design tokens. Components never reach past their token layer. That's what makes the system auditable: every value on screen traces back to a named token.
 
 ---
 
@@ -43,8 +43,8 @@ Candor uses a four-voice typographic system aligned to cognitive mode and conten
   </thead>
   <tbody>
     <tr><td>Structural Sans</td><td>Roboto Flex</td><td>Execution</td><td>Navigation, UI scaffolding, data-dense components</td></tr>
-    <tr><td>Technical Mono</td><td>Roboto Mono</td><td>Execution</td><td>Code, logs, terminal environments</td></tr>
-    <tr><td>Accessibility Anchor</td><td>Atkinson Hyperlegible</td><td>Execution</td><td>Critical UI, labels, high-contrast environments</td></tr>
+    <tr><td>Technical Mono</td><td>Atkinson Hyperlegible Mono</td><td>Execution</td><td>Code, logs, terminal environments</td></tr>
+    <tr><td>Accessibility Anchor</td><td>Atkinson Hyperlegible Next</td><td>Execution</td><td>Critical UI, labels, high-contrast environments</td></tr>
     <tr><td>Human-Centered</td><td>Noto Sans / Noto Serif</td><td>Interpretation</td><td>Long-form reading, conversational UI, multilingual content</td></tr>
   </tbody>
 </table>
@@ -56,7 +56,7 @@ Candor uses a four-voice typographic system aligned to cognitive mode and conten
 
 ## Color Philosophy
 
-The palette draws from personal brand anchors (deep navy `#082840`, warm burgundy `#5F2B48`, and azure `#1493FB`), extended into a full OKLCH token system. Two-tier architecture keeps the system honest: primitives are raw tonal ramps, semantic tokens map those ramps to roles. Components reference semantic tokens only, never primitives directly.
+The palette draws from personal brand anchors (deep navy `#082840`, warm burgundy `#5F2B48`, and azure `#1493FB`), extended into a full OKLCH token system. Two-tier architecture keeps the system honest: primitives are tonal ramps, each derived from stated rules (a lightness ladder and a chroma curve held inside sRGB); semantic tokens map those ramps to roles, and each colour token is named after what it paints. Components reference semantic tokens only, never primitives directly.
 
 Every semantic color pair has a documented contrast validation against its intended background. The validation methodology is in the next section.
 
@@ -97,7 +97,7 @@ Two rules govern those names:
 1. **Present tense, matching the DOM's own vocabulary**: `close`, not `closed`; `dismiss`, not `dismissed`. Past tense read as a different *category* of event when it was only ever a different spelling.
 2. **No Candor event where a native one already arrives.** `candor-button` emits nothing: the inner button's native `click` retargets to the host and reaches you unaided, and a `disabled` button suppresses it natively. Listen for `click`.
 
-**Event names are type-checked.** Each component declares `addEventListener` overloads from its own event map, so a name the component doesn't emit is a compile error rather than a listener that silently never fires:
+**Event names are type-checked.** Each component declares `addEventListener` overloads from its own event map, so a name the component doesn't emit is a compile error:
 
 ```ts
 const tabs = document.querySelector('candor-tabs')!;
@@ -151,7 +151,7 @@ candor-input { --candor-input-radius: var(--radius-sm); }
 **2. `::part`: the escape hatch for arbitrary restyle.** Meaningful internals carry a `part` name, so any CSS property is reachable from the light DOM when there's no custom property for it.
 
 ```css
-candor-button::part(button) { letter-spacing: 0.03em; text-transform: uppercase; }
+candor-button::part(button) { letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; }
 
 /* The classic "disclosure is the first child of a padded box" fix (#173):
    kill just the top padding, which no single density knob can express. */
@@ -175,13 +175,16 @@ candor-disclosure::part(trigger) { padding-top: 0; }
     <tr><td>candor-modal</td><td>None</td><td><code>--candor-modal-max-width</code></td></tr>
     <tr><td>candor-toast</td><td>None</td><td><code>--candor-toast-&#123;min-width,max-width&#125;</code></td></tr>
     <tr><td>candor-data-grid</td><td>None</td><td><code>--candor-data-grid-cell-min-height</code></td></tr>
-    <tr><td>candor-card</td><td>None</td><td><code>--candor-card-overflow</code></td></tr>
+    <tr><td>candor-card</td><td>None</td><td><code>--candor-card-overflow</code>, <code>--candor-card-padding</code></td></tr>
+    <tr><td>candor-select</td><td>None</td><td><code>--candor-select-padding-&#123;y,x&#125;</code></td></tr>
+    <tr><td>candor-combobox</td><td>None</td><td><code>--candor-combobox-padding-&#123;y,x&#125;</code></td></tr>
+    <tr><td>candor-listbox</td><td>None</td><td><code>--candor-listbox-padding-&#123;y,x&#125;</code></td></tr>
   </tbody>
 </table>
 
-The last five rows were shipping and semver-protected but undocumented until 5.0.0 (#246). `--candor-modal-max-width` and `--candor-toast-max-width` in particular are overrides you would go looking for and conclude did not exist.
+The slider, modal, toast, data-grid and card hooks shipped before 5.0.0 and were first documented here in 5.0.0 (#246).
 
-More components gain these hooks as consumer demand surfaces; the convention above is what every new component follows. Eleven of the 37 components expose a hook today, and that is the intended state rather than a gap to fill: each of these came from a real override someone needed, and a part name invented without a use case is a public-API commitment made blind.
+Fourteen of the 37 components expose a hook today. Each came from an override someone needed, and new ones are added the same way, since a part or property name is public API from the day it ships. Every new component follows the convention above.
 
 ---
 
@@ -189,11 +192,11 @@ More components gain these hooks as consumer demand surfaces; the convention abo
 
 Use the sidebar to explore components by category:
 
-- **Design Tokens**: color palette (light/dark), spacing scale, typography system, icon set
+- **Design Tokens**: color palette (light/dark), the ramps and the rules they are derived from, spacing scale, typography system, icon set
 - **Typography**: heading hierarchy, body text, accessible text, article layout
 - **Components**: 37 Lit 3 components, registering 40 custom elements: accordions, alerts, badges, breadcrumbs, buttons, cards, chips, code, data grids, drawers, menus, modals, navigation, pagination, progress, stats, tables, tabs, toasts, tone picker, toolbars, tooltips
 - **Form**: autocomplete, chat input, checkbox, combobox, input, listbox, radio, select, slider, switch
-- **Examples**: composed stories: login, registration, settings, data table with filtering, document and image editors
+- **Examples**: composed stories: forms (login, registration, contact), settings, a filterable data table, cards, a blog post and listing, an AI chat, a colour-pair iterator, document and image editors
 
 Every component story includes controls for all inputs and demonstrates all variants.
 

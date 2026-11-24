@@ -66,12 +66,14 @@ export class CandorCheckbox extends LitElement {
       white-space: nowrap;
     }
     .checkbox-input:focus-visible + .checkbox-box {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
+    /* The labelled-fill pair, as the selected chip: deep with a light tick in dark,
+       where a dark tick on a pale tile loses most of its contrast to scatter. */
     .checkbox-input:checked + .checkbox-box {
-      background-color: var(--color-action-primary);
-      border-color: var(--color-action-primary);
+      background-color: var(--color-bg-action-primary);
+      border-color: transparent; /* the fill shows through, so the box needs no border colour of its own */
     }
     .checkbox-input:checked + .checkbox-box::after {
       content: '';
@@ -80,7 +82,7 @@ export class CandorCheckbox extends LitElement {
       top: 2px;
       width: 6px;
       height: 12px;
-      border: solid var(--color-text-on-action);
+      border: solid var(--color-fill-on-action);
       border-width: 0 var(--border-width-medium) var(--border-width-medium) 0;
       transform: rotate(45deg);
     }
@@ -97,10 +99,10 @@ export class CandorCheckbox extends LitElement {
       background-color: var(--color-bg-page);
       position: relative;
       flex-shrink: 0;
-      transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+      transition: background-color var(--motion-duration-base) var(--motion-ease-standard), border-color var(--motion-duration-base) var(--motion-ease-standard);
     }
     .checkbox-box:hover {
-      border-color: var(--color-action-primary);
+      border-color: var(--color-border-accent);
     }
     .checkbox-label {
       font-family: var(--font-family-accessible);

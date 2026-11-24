@@ -93,7 +93,7 @@ export class CandorSlider extends LitElement {
       height: var(--candor-slider-track-height);
       border-radius: 99px;
       /* One inert rail, no filled portion — the thumb is the value (#247). */
-      background: var(--color-border-control);
+      background: var(--color-fill-track);
     }
     .slider__track--gradient .slider__input::-webkit-slider-runnable-track {
       background: transparent;
@@ -101,7 +101,7 @@ export class CandorSlider extends LitElement {
     .slider__input::-moz-range-track {
       height: var(--candor-slider-track-height);
       border-radius: 99px;
-      background: var(--color-border-control);
+      background: var(--color-fill-track);
     }
     .slider__track--gradient .slider__input::-moz-range-track {
       background: transparent;
@@ -112,44 +112,48 @@ export class CandorSlider extends LitElement {
       height: var(--candor-slider-thumb-size);
       margin-top: calc((var(--candor-slider-thumb-size) - var(--candor-slider-track-height)) / -2);
       border-radius: 50%;
-      background: var(--color-slider-thumb);
+      background: var(--color-fill-slider-thumb);
       border: var(--border-width-medium) solid var(--color-border-control);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      box-shadow: var(--shadow-sm);
       cursor: pointer;
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      transition: transform var(--motion-duration-instant) var(--motion-ease-standard), box-shadow var(--motion-duration-instant) var(--motion-ease-standard);
     }
     .slider__input:hover:not(:disabled)::-webkit-slider-thumb {
       transform: scale(1.1);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+      box-shadow: var(--shadow-md); /* lifts as it grows */
     }
     .slider__input::-moz-range-thumb {
       width: var(--candor-slider-thumb-size);
       height: var(--candor-slider-thumb-size);
       border-radius: 50%;
-      background: var(--color-slider-thumb);
+      background: var(--color-fill-slider-thumb);
       border: var(--border-width-medium) solid var(--color-border-control);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      box-shadow: var(--shadow-sm);
       cursor: pointer;
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      transition: transform var(--motion-duration-instant) var(--motion-ease-standard), box-shadow var(--motion-duration-instant) var(--motion-ease-standard);
     }
     .slider__input:hover:not(:disabled)::-moz-range-thumb {
       transform: scale(1.1);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+      box-shadow: var(--shadow-md); /* lifts as it grows */
     }
     .slider__input:focus { outline: none; }
     .slider__input:focus-visible::-webkit-slider-thumb {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     .slider__input:focus-visible::-moz-range-thumb {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     .slider__input:disabled { cursor: not-allowed; }
+    /* Tier 2: the thumb shows roughly where the value sits, the number is the only
+       exact reading. Bold for the 14px Tier 2 floor; subtle-on-surface so it also
+       clears on a card, where text-subtle falls to 3.9 in light. */
     .slider__value {
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
-      color: var(--color-text-subtle);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-subtle-on-surface);
       min-width: 3ch;
       text-align: right;
       letter-spacing: var(--letter-spacing-body);

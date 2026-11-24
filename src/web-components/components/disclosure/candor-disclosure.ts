@@ -48,14 +48,15 @@ export class CandorDisclosure extends LitElement {
       color: var(--color-text-default);
       font-family: var(--font-family-base);
       font-size: var(--font-size-md);
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-heading);
+      letter-spacing: var(--letter-spacing-h5);
       line-height: var(--line-height-tight);
       cursor: pointer;
       text-align: left;
     }
-    .disclosure__trigger:hover { color: var(--color-action-primary); }
+    .disclosure__trigger:hover { color: var(--color-text-accent); }
     .disclosure__trigger:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
       border-radius: var(--radius-sm);
     }
@@ -65,7 +66,7 @@ export class CandorDisclosure extends LitElement {
       width: 1rem;
       height: 1rem;
       color: var(--color-text-subtle);
-      transition: transform 200ms ease;
+      transition: transform var(--motion-duration-base) var(--motion-ease-standard);
     }
     .disclosure__icon--open { transform: rotate(180deg); }
     .disclosure__panel { overflow: hidden; }

@@ -30,18 +30,22 @@ drawer blocks the rest of the page.
 
 | Mode | Opens via | Backdrop | Focus | Rest of page | Use for |
 |---|---|---|---|---|---|
-| \`modal="true"\` (default) | \`dialog.showModal()\` | Yes, dims via \`--color-overlay\` | Trapped, auto-focused | Inert | Blocking tasks: filters that must be applied/cancelled, forms, confirmations |
+| \`modal="true"\` (default) | \`dialog.showModal()\` | Yes, dims via \`--color-bg-scrim\` | Trapped, auto-focused | Inert | Blocking tasks: filters that must be applied/cancelled, forms, confirmations |
 | \`modal="false"\` | \`dialog.show()\` | None | Not stolen, not trapped | Fully interactive | Persistent assistants, inspectors, or filters the user works **alongside**, reading and selecting page content while the panel stays open |
 
 In non-modal mode the drawer relies on its close button or a consumer-supplied
 control to dismiss. Clicking outside does not close it (there's no backdrop to click).
 
 **Dismissal:** The drawer emits a \`close\` CustomEvent on Escape, backdrop click (when
-\`dismissOnBackdrop\` is true, modal mode only), and the built-in close button. The parent
-is responsible for syncing \`open="false"\` (or removing the open attribute) in response.
+\`dismissOnBackdrop\` is true, modal mode only), and the built-in close button. The drawer
+clears \`open\` itself, then emits \`close\`; listen for it to sync your own state, or a binding
+that still holds \`open\` true will reopen the drawer on its next render.
 
-Entry animation uses \`@starting-style\` (Chrome 117+, Firefox 129+); degrades gracefully
-to instant appearance on unsupported browsers. Honors \`prefers-reduced-motion\`.
+The panel slides in from its edge and back out on close, and the backdrop fades, timed by the
+motion tokens (#368). Entry uses \`@starting-style\`; the exit keeps the dialog rendered while it
+leaves, through \`allow-discrete\` transitions on \`display\` and \`overlay\`, so a browser without
+\`overlay\` support closes it at once. Under \`prefers-reduced-motion\` the panel fades in place
+instead of sliding.
 
 **Sizing:** The \`size\` attribute sets the default panel width (left/right) or height
 (bottom). Override per-instance using CSS custom properties:
@@ -59,7 +63,6 @@ candor-drawer#filters-panel { --candor-drawer-size: 400px; }
     },
   },
   argTypes: {
-    open: { control: 'boolean', type: { name: 'boolean' }, description: 'Controls visibility' },
     heading: { control: 'text', type: { name: 'string' }, description: 'Panel heading. Omit for headless panels.' },
     position: {
       control: 'select',
@@ -84,10 +87,10 @@ candor-drawer#filters-panel { --candor-drawer-size: 400px; }
       description: 'Modal (blocking, focus-trapped) vs. non-modal (page stays interactive)',
     },
   },
-  args: { heading: 'Settings', position: 'right', size: 'md' },
+  args: { heading: 'Settings', position: 'right', size: 'md', dismissOnBackdrop: true, modal: true },
   render: (args) => html`
     <candor-button onclick="document.getElementById('demo-drawer').open = true">Open drawer</candor-button>
-    <candor-drawer id="demo-drawer" heading="${args['heading']}" position="${args['position']}" size="${args['size']}">
+    <candor-drawer id="demo-drawer" heading="${args['heading']}" position="${args['position']}" size="${args['size']}" modal="${String(args['modal'])}" dismiss-on-backdrop="${String(args['dismissOnBackdrop'])}">
       <p style="margin:0">Drawer content goes here.</p>
     </candor-drawer>
   `,

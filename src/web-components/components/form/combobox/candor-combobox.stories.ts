@@ -64,7 +64,7 @@ the dropdown (second Escape clears the value); Tab closes the dropdown.
 
 | Use | When |
 |---|---|
-| \`candor-select\` | Short lists (≤10), maximum AT compatibility, mobile-first |
+| \`candor-select\` | Short lists (≤ 15), maximum AT compatibility, mobile-first |
 | \`candor-listbox\` | Medium lists, click-to-select without typing, full visual control |
 | \`candor-combobox\` | Long lists, user knows part of the name, search/autocomplete UX |
 
@@ -74,6 +74,8 @@ submission.
 **Events** follow the Candor two-event rule (see \`events.ts\` / #164): \`input\` streams the
 live filter text as the user types; \`change\` fires on selection, carrying the chosen
 \`ComboboxOption\`, or \`null\` when the selection is cleared.
+
+**Density.** \`--candor-combobox-padding-y\` and \`--candor-combobox-padding-x\` set the field and option padding, each defaulting to the spacing scale. They replace \`--spacing-input-padding-*\`, deprecated in 7.0.0 and still honoured until the next major.
         `.trim(),
       },
     },
@@ -82,7 +84,7 @@ live filter text as the user types; \`change\` fires on selection, carrying the 
     label: { control: 'text', type: { name: 'string' }, description: 'Field label' },
     placeholder: { control: 'text', type: { name: 'string' }, description: 'Placeholder shown when no value is selected' },
     hint: { control: 'text', type: { name: 'string' }, description: 'Helper text above the input (below the label)' },
-    error: { control: 'text', type: { name: 'string' }, description: 'Error message (replaces hint)' },
+    error: { control: 'text', type: { name: 'string' }, description: 'Validation error message shown below the input; displayed alongside hint when both are set' },
     required: { control: 'boolean', type: { name: 'boolean' }, description: 'Required field' },
     disabled: { control: 'boolean', type: { name: 'boolean' }, description: 'Disabled state' },
   },

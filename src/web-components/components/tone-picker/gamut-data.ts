@@ -34,7 +34,7 @@ export function buildGamutRows(
 }
 
 // ─── Navy — H 245.34 ──────────────────────────────────────────────────────────
-// Anchor: L=0.27 C=0.060 (navy-800 → --color-action-primary)
+// Anchor: L=0.27 C=0.060 (navy-800 → --color-text-accent and --color-bg-action-primary)
 export const NAVY_GAMUT_ROWS = buildGamutRows(
   (() => {
     const L = [0.9367, 0.8256, 0.7144, 0.6033, 0.4922, 0.3811, 0.2700, 0.1589, 0.0478];
@@ -80,7 +80,7 @@ export const BURGUNDY_GAMUT_ROWS = buildGamutRows(
 export const BURGUNDY_GAMUT_HEADERS = ['C 0.033', 'C 0.080', 'C 0.127', 'C 0.174', 'C 0.221', 'C 0.269', 'C 0.316'];
 
 // ─── Azure — H 250.80 ─────────────────────────────────────────────────────────
-// Anchor: L=0.65 C=0.180 (azure-400 → --color-focus)
+// Anchor: L=0.65 C=0.180 (azure-400 → --color-ring-focus)
 export const AZURE_GAMUT_ROWS = buildGamutRows(
   (() => {
     const L = [0.9833, 0.8722, 0.7611, 0.6500, 0.5389, 0.4278, 0.3167, 0.2056, 0.0944];

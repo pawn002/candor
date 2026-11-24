@@ -18,8 +18,9 @@ spinner.
 - **Spinner** (\`type="spinner"\`): for indeterminate loading (waiting on a response, background task)
 
 Set \`indeterminate\` when the duration is unknown. This renders an animated loop rather
-than a static bar at 0%. Always provide a \`label\` for screen readers; the visual bar
-conveys no information to assistive technology without it.
+than a static bar at 0%. Always provide a \`label\` that says what is in progress ("Uploading report").
+Without it the accessible name falls back to "Loading", which tells a screen-reader user
+nothing about what they are waiting for.
         `.trim(),
       },
     },
@@ -33,7 +34,7 @@ conveys no information to assistive technology without it.
     },
     value: { control: { type: 'range', min: 0, max: 100, step: 1 }, description: 'Percentage 0–100 (bar only)' },
     indeterminate: { control: 'boolean', type: { name: 'boolean' }, description: 'Animated loop instead of a value-based fill' },
-    label: { control: 'text', type: { name: 'string' }, description: 'Accessible name announced by screen readers' },
+    label: { control: 'text', type: { name: 'string' }, description: 'What is in progress. Visible above the bar, and the accessible name of both types' },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -53,11 +54,11 @@ export const Default: Story = {};
 export const AllBarStates: Story = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--spacing-sm);max-width:500px;">
-      <candor-card><span slot="header">0% · Not started</span><candor-progress value="0" label="Not started"></candor-progress></candor-card>
-      <candor-card><span slot="header">33% · In progress</span><candor-progress value="33" label="In progress"></candor-progress></candor-card>
-      <candor-card><span slot="header">65% · Nearly there</span><candor-progress value="65" label="Nearly there"></candor-progress></candor-card>
-      <candor-card><span slot="header">100% · Complete</span><candor-progress value="100" label="Complete"></candor-progress></candor-card>
-      <candor-card><span slot="header">Indeterminate · Loading</span><candor-progress indeterminate label="Loading"></candor-progress></candor-card>
+      <candor-card><span slot="header">Not started</span><candor-progress value="0" label="Uploading report"></candor-progress></candor-card>
+      <candor-card><span slot="header">In progress</span><candor-progress value="33" label="Uploading report"></candor-progress></candor-card>
+      <candor-card><span slot="header">Nearly there</span><candor-progress value="65" label="Uploading report"></candor-progress></candor-card>
+      <candor-card><span slot="header">Complete</span><candor-progress value="100" label="Uploading report"></candor-progress></candor-card>
+      <candor-card><span slot="header">Indeterminate</span><candor-progress indeterminate label="Loading results"></candor-progress></candor-card>
     </div>
   `,
 };

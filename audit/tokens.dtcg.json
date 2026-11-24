@@ -18,8 +18,8 @@
         },
         "subtle": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
-          "$description": "subtle interactive fill — one step darker than surface (hover rows, selection, hover chips); mirrors --color-text-subtle (#174)",
+          "$value": "oklch(0.89 0 0)",
+          "$description": "Deprecated in 7.0.0, removed in the next major: no component uses it, and it is deltaE 1 from bg-surface, so a fill in it vanishes on a card. Use --color-bg-hover.",
           "$extensions": {
             "aliasOf": "--gray-200"
           }
@@ -32,7 +32,7 @@
             "aliasOf": "--gray-0"
           }
         },
-        "forward": {
+        "content": {
           "$type": "color",
           "$value": "oklch(0.985 0.005 69)",
           "$description": "Intent surfaces (#318). Use these to rank surfaces by temperature: forward for the one thing a screen should lead with, recede for chrome that should step back. They change temperature, not lightness, so contrast barely moves. Ranking by temperature is a tertiary affordance: it guides the eye but never carries meaning on its own, since a deltaE 5 to 15 shift is lost on a washed-out screen or to a reader who cannot tell the hues apart. — same lightness as the page, warm",
@@ -40,7 +40,7 @@
             "aliasOf": "--gray-warm-25"
           }
         },
-        "recede": {
+        "chrome": {
           "$type": "color",
           "$value": "oklch(0.91 0.013 248.99)",
           "$description": "same lightness as bg-surface, cool; use text-subtle-on-surface on it",
@@ -51,7 +51,7 @@
         "muted": {
           "$type": "color",
           "$value": "oklch(0.81 0 0)",
-          "$description": "Neutral fill that reads on page, surface and elevated alike, which bg-subtle cannot (deltaE 3 from surface in light). deltaE 13 / 8 / 14 from page / surface / elevated. Used at rest by the default badge (#321) and on hover by bg-hover (#322). — text-default OKCA 6.5 on this bg ✅",
+          "$description": "Neutral fill that reads on page, surface and elevated alike, which bg-subtle cannot (deltaE 3 from surface in light). deltaE 13 / 8 / 14 from page / surface / elevated. Used at rest by the default badge (#321) and on hover by bg-hover (#322). — text-default OKCA 6.4 on this bg ✅",
           "$extensions": {
             "aliasOf": "--gray-300"
           }
@@ -64,6 +64,14 @@
             "aliasOf": "--color-bg-muted"
           }
         },
+        "active": {
+          "$type": "color",
+          "$value": "oklch(0.765 0 0)",
+          "$description": "pressed fill: one in-between step below the hover",
+          "$extensions": {
+            "aliasOf": "--gray-350"
+          }
+        },
         "inverse": {
           "$type": "color",
           "$value": "oklch(0.27 0.06 245.34)",
@@ -71,17 +79,158 @@
             "aliasOf": "--navy-800"
           }
         },
+        "tooltip": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$description": "The tooltip bubble. Its own token because in dark it floats over modals, where the inverse band's navy-700 sits too close to bg-elevated.",
+          "$extensions": {
+            "aliasOf": "--color-bg-inverse"
+          }
+        },
+        "action-primary": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$description": "The fill behind a label (primary button, badge, selected chip, current page, chat send). The same navy as action-primary in light; dark gives it its own value, because dark action-primary is also link-like text, a border and a control indicator, and a fill under a label wants the opposite lightness from those. hover/active are the fill's states.",
+          "$extensions": {
+            "aliasOf": "--color-text-accent"
+          }
+        },
+        "action-primary-hover": {
+          "$type": "color",
+          "$value": "oklch(0.20 0.05 245.34)",
+          "$extensions": {
+            "aliasOf": "--navy-900"
+          }
+        },
+        "action-primary-active": {
+          "$type": "color",
+          "$value": "oklch(0.20 0.05 245.34)",
+          "$extensions": {
+            "aliasOf": "--navy-900"
+          }
+        },
+        "accent-secondary": {
+          "$type": "color",
+          "$value": "oklch(0.37 0.08 347.43)",
+          "$description": "the secondary badge fill",
+          "$extensions": {
+            "aliasOf": "--burgundy-700"
+          }
+        },
+        "nav-badge": {
+          "$type": "color",
+          "$value": "oklch(0.37 0.08 347.43)",
+          "$description": "The navigation count badge (\"Inbox 12\"). Its own token because in dark it stays brighter than the secondary fill: an unread count is meant to draw the eye.",
+          "$extensions": {
+            "aliasOf": "--color-bg-accent-secondary"
+          }
+        },
+        "action-destructive": {
+          "$type": "color",
+          "$value": "transparent",
+          "$description": "Takes the error red. It was a boosted burgundy (H=347), kept apart from error on the reasoning that destructive is a chosen action, not a failure. That put it deltaE 8 from the burgundy that fills (--color-bg-accent-secondary) badges and chips (the current nav item too, then), so a \"Featured\" badge matched the delete button. Error and destructive both mean \"take care\", so sharing red misleads no one; deltaE to secondary is now 24 light / 17 dark (#318). Both modes: outlined — transparent bg, red border+text."
+        },
+        "action-destructive-hover": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.178 25.00 / 0.08)",
+          "$description": "red-600 (the label) at 8%: subtle tint on hover"
+        },
+        "action-destructive-active": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.178 25.00 / 0.15)",
+          "$description": "red-600 at 15%: stronger tint on active"
+        },
+        "action-tertiary": {
+          "$type": "color",
+          "$value": "oklch(0.81 0 0)",
+          "$description": "No border — structural identity is the fill (distinct from secondary's outline). The fill is the button's only edge, so it rests on the muted step, deltaE 8 or more from page, card and modal (audit/separations.json); gray-200 was deltaE 1 from a card. Each state is one step darker.",
+          "$extensions": {
+            "aliasOf": "--gray-300"
+          }
+        },
+        "action-tertiary-hover": {
+          "$type": "color",
+          "$value": "oklch(0.765 0 0)",
+          "$extensions": {
+            "aliasOf": "--gray-350"
+          }
+        },
+        "action-tertiary-active": {
+          "$type": "color",
+          "$value": "oklch(0.72 0 0)",
+          "$extensions": {
+            "aliasOf": "--gray-400"
+          }
+        },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.92 0.018 195)",
-          "$description": "A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the filled navy-800 panel (deltaE 79 from white), which was hard to read at length. Teal at hue 195 is clear of every brand and status hue in both modes (#318); the burgundy tint it replaced sat deltaE 5.6 from error-bg. Text is the ordinary body colour, so the pair needs no inverse. — text-default OKCA 9.6 on this bg ✅"
+          "$value": "oklch(0.9195 0.018 195.00)",
+          "$description": "A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the filled navy-800 panel (deltaE 79 from white), which was hard to read at length. Teal at hue 195 is clear of every brand and status hue in both modes (#318); the burgundy tint it replaced sat deltaE 5.6 from error-bg. Text is the ordinary body colour, so the pair needs no inverse. — text-default OKCA 10.0 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--teal-115"
+          }
+        },
+        "error": {
+          "$type": "color",
+          "$value": "oklch(0.93 0.035 25.00)",
+          "$extensions": {
+            "aliasOf": "--red-100"
+          }
+        },
+        "success": {
+          "$type": "color",
+          "$value": "oklch(0.93 0.077 144.20)",
+          "$extensions": {
+            "aliasOf": "--green-100"
+          }
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "oklch(0.93 0.047 88.00)",
+          "$extensions": {
+            "aliasOf": "--gold-100"
+          }
+        },
+        "callout": {
+          "$type": "color",
+          "$value": "oklch(0.91 0 0)",
+          "$description": "A neutral panel. The indigo wash and left bar went in #292. — text-default OKCA 9.7 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--color-bg-surface"
+          }
+        },
+        "action-secondary-hover": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34 / 0.08)"
+        },
+        "action-secondary-active": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34 / 0.15)"
+        },
+        "action-ghost-hover": {
+          "$type": "color",
+          "$value": "oklch(0.81 0 0)",
+          "$extensions": {
+            "aliasOf": "--color-bg-hover"
+          }
+        },
+        "action-ghost-active": {
+          "$type": "color",
+          "$value": "oklch(0.765 0 0)",
+          "$extensions": {
+            "aliasOf": "--color-bg-active"
+          }
+        },
+        "hover-on-inverse": {
+          "$type": "color",
+          "$value": "oklch(1 0 0 / 0.1)"
         }
       },
       "text": {
         "default": {
           "$type": "color",
           "$value": "oklch(0.30 0 0)",
-          "$description": "OKCA 11.9 on page ✅",
+          "$description": "OKCA 12.4 on page ✅",
           "$extensions": {
             "aliasOf": "--gray-800"
           }
@@ -89,7 +238,7 @@
         "subtle": {
           "$type": "color",
           "$value": "oklch(0.5 0 0)",
-          "$description": "OKCA 4.8 on page ✅ — gray-500 (L=0.56) was OKCA 3.8; stepped to L=0.50 for OKCA compliance (#14)",
+          "$description": "OKCA 5.0 on page ✅ — gray-500 (L=0.56) was OKCA 3.8; stepped to L=0.50 for OKCA compliance (#14)",
           "$extensions": {
             "aliasOf": "--gray-600"
           }
@@ -97,19 +246,27 @@
         "subtle-on-surface": {
           "$type": "color",
           "$value": "oklch(0.44 0 0)",
-          "$description": "OKCA 5.0 on bg-surface ✅ — gray-600 (L=0.46) was OKCA 4.5 on gray-100; stepped to L=0.44 (#14)",
+          "$description": "OKCA 5.2 on bg-surface ✅ — gray-600 (L=0.46) was OKCA 4.5 on gray-100; stepped to L=0.44 (#14)",
           "$extensions": {
             "aliasOf": "--gray-650"
           }
         },
         "disabled": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
+          "$value": "oklch(0.72 0 0)",
           "$extensions": {
             "aliasOf": "--gray-400"
           }
         },
-        "inverse": {
+        "toast": {
+          "$type": "color",
+          "$value": "oklch(0.30 0 0)",
+          "$description": "Component-scoped: toast message text. Every toast sits on bg-surface since #292. — OKCA 9.7 on bg-surface ✅",
+          "$extensions": {
+            "aliasOf": "--color-text-default"
+          }
+        },
+        "on-inverse": {
           "$type": "color",
           "$value": "oklch(1 0 0)",
           "$extensions": {
@@ -119,7 +276,7 @@
         "subtle-on-inverse": {
           "$type": "color",
           "$value": "oklch(0.81 0 0)",
-          "$description": "OKCA 7.6 on bg-inverse ✅ — muted links on dark nav/tabs",
+          "$description": "OKCA 5.8 on bg-inverse ✅ — muted links on dark nav/tabs",
           "$extensions": {
             "aliasOf": "--gray-300"
           }
@@ -127,9 +284,56 @@
         "on-action": {
           "$type": "color",
           "$value": "oklch(1 0 0)",
-          "$description": "white text on primary/secondary buttons",
+          "$description": "white label on the primary/secondary action fills",
           "$extensions": {
             "aliasOf": "--gray-0"
+          }
+        },
+        "accent": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$description": "OKCA 14.1 on white ✅",
+          "$extensions": {
+            "aliasOf": "--navy-800"
+          }
+        },
+        "action-destructive": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.178 25.00)",
+          "$description": "outlined, so page and bg-surface are both real placements (#224); figures on the pairings",
+          "$extensions": {
+            "aliasOf": "--color-text-error"
+          }
+        },
+        "action-tertiary": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$extensions": {
+            "aliasOf": "--navy-800"
+          }
+        },
+        "link": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.127 250.80)",
+          "$description": "azure-400 is the brand original (#1493FB) — use on dark backgrounds only. azure-500/600 are the accessible steps for use on white backgrounds. — OKCA 6.4 on white ✅ — 4.8 on a card; azure-545 measured 3.8 there",
+          "$extensions": {
+            "aliasOf": "--azure-600"
+          }
+        },
+        "link-hover": {
+          "$type": "color",
+          "$value": "oklch(0.37 0.105 250.80)",
+          "$description": "OKCA 9.0 on white ✅ — a step darker than the link",
+          "$extensions": {
+            "aliasOf": "--azure-700"
+          }
+        },
+        "link-visited": {
+          "$type": "color",
+          "$value": "oklch(0.4225 0.206 278.14)",
+          "$description": "OKCA 6.6 on white ✅ — honors universal :visited convention; 4.9 on a card, where indigo-600 sat on the floor",
+          "$extensions": {
+            "aliasOf": "--indigo-625"
           }
         },
         "code": {
@@ -138,22 +342,52 @@
           "$extensions": {
             "aliasOf": "--color-text-default"
           }
-        }
-      },
-      "toast": {
-        "message": {
+        },
+        "error": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.178 25.00)",
+          "$description": "OKCA 5.3 on error-bg ✅",
+          "$extensions": {
+            "aliasOf": "--red-600"
+          }
+        },
+        "success": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.139 144.20)",
+          "$description": "OKCA 5.4 on success-bg ✅",
+          "$extensions": {
+            "aliasOf": "--green-600"
+          }
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.085 88.00)",
+          "$description": "OKCA 5.5 on warning-bg ✅ — reads olive-brown at this lightness: yellow loses the most chroma as it darkens",
+          "$extensions": {
+            "aliasOf": "--gold-600"
+          }
+        },
+        "blockquote": {
           "$type": "color",
           "$value": "oklch(0.30 0 0)",
-          "$description": "Component-scoped: toast message text. Every toast sits on bg-surface since #292. — OKCA 9.3 on bg-surface ✅",
+          "$description": "A book indent, set a step larger in italic, on the page itself. No wash and no side bar: that pairing reads as machine-made (#292). — OKCA 12.4 on page ✅",
           "$extensions": {
             "aliasOf": "--color-text-default"
+          }
+        },
+        "action-secondary": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$description": "the outlined secondary button's label",
+          "$extensions": {
+            "aliasOf": "--color-text-accent"
           }
         }
       },
       "border": {
         "default": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
+          "$value": "oklch(0.89 0 0)",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-200"
@@ -162,7 +396,7 @@
         "strong": {
           "$type": "color",
           "$value": "oklch(0.81 0 0)",
-          "$description": "Separator/divider fill — decorative, carries no 1.4.11 floor: OKCA 1.3 on page. Do not reach for it as a control boundary; that is border-control. candor-slider used it for the unfilled half of its track, the one place the figure was load-bearing; since #247 the slider rail is border-control.",
+          "$description": "Separator/divider fill — decorative, carries no 1.4.11 floor: OKCA 1.2 on page. Do not reach for it as a control boundary; that is border-control. candor-slider used it for the unfilled half of its track, the one place the figure was load-bearing; since #247 the slider rail is border-control.",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-300"
@@ -180,10 +414,37 @@
         "control": {
           "$type": "color",
           "$value": "oklch(0.5 0 0)",
-          "$description": "Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA), and must meet it on *every* background a control can sit on — not just the page. L=0.53 is the lightest value that clears 3.0 against the worst of them; it sits on gray-600 (L=0.50), the nearest ramp step on the safe side (#318): OKCA 4.8 on page ✅, OKCA 3.8 on bg-surface ✅.  This used to be gray-500 (L=0.56) with a --color-border-control-on-surface sibling the consumer applied by hand on surface containers. That token is gone (5.0.0). It was a correctness property delegated to whoever remembered the rule, and the repo itself remembered it once out of twice — the colour-iterator example shipped six controls whose boundary was OKCA 2.8 on bg-surface, and the switch's off-state thumb sits on a track that carries its own bg-surface fill, so that one was below the floor in every consumer regardless of what the page behind it was doing (#217). One value that is safe everywhere removes the failure mode instead of documenting it; it lands deltaE 3 from the old base and deltaE 3 from the sibling it replaces, i.e. imperceptibly between the two colours it supersedes.",
+          "$description": "Form control boundaries must meet WCAG 1.4.11 non-text contrast (3:1 OKCA), and must meet it on *every* background a control can sit on — not just the page. L=0.53 is the lightest value that clears 3.0 against the worst of them; it sits on gray-600 (L=0.50), the nearest ramp step on the safe side (#318): OKCA 5.0 on page ✅, OKCA 3.9 on bg-surface ✅.  This used to be gray-500 (L=0.56) with a --color-border-control-on-surface sibling the consumer applied by hand on surface containers. That token is gone (5.0.0). It was a correctness property delegated to whoever remembered the rule, and the repo itself remembered it once out of twice — the colour-iterator example shipped six controls whose boundary was OKCA 2.8 on bg-surface, and the switch's off-state thumb sits on a track that carries its own bg-surface fill, so that one was below the floor in every consumer regardless of what the page behind it was doing (#217). One value that is safe everywhere removes the failure mode instead of documenting it; it lands deltaE 3 from the old base and deltaE 3 from the sibling it replaces, i.e. imperceptibly between the two colours it supersedes.",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-600"
+          }
+        },
+        "action-secondary": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$description": "The edge of an outlined action (the secondary button). The label names the control, so WCAG 1.4.11 asks nothing of the edge and it carries no floor; it only marks the label as a button. Light draws it in the label's navy.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-text-accent"
+          }
+        },
+        "accent-secondary": {
+          "$type": "color",
+          "$value": "oklch(0.37 0.08 347.43)",
+          "$description": "The edge of an outlined secondary action (the secondary chip); see action-primary-border.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--burgundy-700"
+          }
+        },
+        "action-destructive": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.178 25.00)",
+          "$description": "matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-text-error"
           }
         },
         "code": {
@@ -193,10 +454,78 @@
           "$extensions": {
             "usage": "non-text"
           }
+        },
+        "error": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.18 25.00)",
+          "$description": "The edge of a status-coloured outline (the status chips). Light draws it in the icon colour; dark dims it a step so it sits below its label.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-icon-error"
+          }
+        },
+        "success": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.14 144.20)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-icon-success"
+          }
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.085 88.00)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-icon-warning"
+          }
+        },
+        "accent": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$description": "The accent as a line and as a mark: same navy as text-accent, named for what each paints so the property is in the name. — the active tab's underline, a checked control's edge, a focused grid cell",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--navy-800"
+          }
+        },
+        "control-hover": {
+          "$type": "color",
+          "$value": "oklch(0.5 0 0)",
+          "$description": "Form field edges by state. Hover was text-subtle, which sits on the same grey step as border-control in both modes, so a hovered field's edge does not visibly change today; the token keeps that, and names the state.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-border-control"
+          }
+        },
+        "control-focus": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.06 245.34)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-border-accent"
+          }
+        },
+        "control-error": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.18 25.00)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-icon-error"
+          }
+        },
+        "accent-on-inverse": {
+          "$type": "color",
+          "$value": "oklch(1 0 0)",
+          "$description": "On the inverse band. — the inverse tabs' active underline",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-text-on-inverse"
+          }
         }
       },
-      "slider": {
-        "thumb": {
+      "fill": {
+        "slider-thumb": {
           "$type": "color",
           "$value": "oklch(1 0 0)",
           "$description": "Form-control knob fill (slider/switch thumb) — a light puck; pairs with --color-border-control (darker) for the edge. icon/border use (non-text UI). — white knob in light — icon/border use",
@@ -204,215 +533,113 @@
             "usage": "non-text",
             "aliasOf": "--gray-0"
           }
-        }
-      },
-      "action": {
-        "primary": {
+        },
+        "indicator": {
           "$type": "color",
           "$value": "oklch(0.27 0.06 245.34)",
-          "$description": "OKCA 13.9 on white ✅",
+          "$description": "the selected radio's dot, a progress bar's completed portion",
           "$extensions": {
+            "usage": "non-text",
             "aliasOf": "--navy-800"
           }
         },
-        "primary-hover": {
+        "track": {
           "$type": "color",
-          "$value": "oklch(0.19 0.04 245.34)",
+          "$value": "oklch(0.5 0 0)",
+          "$description": "Marks and tracks that are their own signal (WCAG 1.4.11). — a switch's off track, a slider's rail",
           "$extensions": {
-            "aliasOf": "--navy-900"
+            "usage": "non-text",
+            "aliasOf": "--color-border-control"
           }
         },
-        "primary-active": {
+        "on-action": {
           "$type": "color",
-          "$value": "oklch(0.19 0.04 245.34)",
+          "$value": "oklch(1 0 0)",
+          "$description": "a switch's thumb, a checkbox's tick",
           "$extensions": {
-            "aliasOf": "--navy-900"
+            "usage": "non-text",
+            "aliasOf": "--color-text-on-action"
           }
         },
+        "scrollbar-thumb": {
+          "$type": "color",
+          "$value": "oklch(0.5 0 0)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-border-control"
+          }
+        },
+        "scrollbar-thumb-hover": {
+          "$type": "color",
+          "$value": "oklch(0.5 0 0)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-text-subtle"
+          }
+        }
+      },
+      "action": {
         "secondary": {
           "$type": "color",
           "$value": "oklch(0.37 0.08 347.43)",
-          "$description": "OKCA 9.3 on white ✅",
+          "$description": "deprecated in 7.0.0 (#367); OKCA 9.4 on white ✅",
           "$extensions": {
             "aliasOf": "--burgundy-700"
           }
         },
         "secondary-hover": {
           "$type": "color",
-          "$value": "oklch(0.28 0.07 347.43)",
+          "$value": "oklch(0.27 0.073 347.43)",
+          "$description": "Deprecated in 7.0.0, removed in the next major: no component has a filled secondary control to hover or press.",
           "$extensions": {
             "aliasOf": "--burgundy-800"
           }
         },
         "secondary-active": {
           "$type": "color",
-          "$value": "oklch(0.20 0.05 347.43)",
+          "$value": "oklch(0.20 0.065 347.43)",
           "$extensions": {
             "aliasOf": "--burgundy-900"
           }
-        },
-        "destructive": {
+        }
+      },
+      "ring": {
+        "focus": {
           "$type": "color",
-          "$value": "transparent",
-          "$description": "Takes the error red. It was a boosted burgundy (H=347), kept apart from error on the reasoning that destructive is a chosen action, not a failure. That put it deltaE 8 from --color-action-secondary, the burgundy that fills badges, chips and the current nav item, so a \"Featured\" badge matched the delete button. Error and destructive both mean \"take care\", so sharing red misleads no one; deltaE to secondary is now 24 light / 17 dark (#318). Both modes: outlined — transparent bg, red border+text.",
-          "$extensions": {
-            "usage": "non-text"
-          }
-        },
-        "destructive-hover": {
-          "$type": "color",
-          "$value": "oklch(0.45 0.18 25 / 0.08)",
-          "$description": "subtle red tint on hover"
-        },
-        "destructive-active": {
-          "$type": "color",
-          "$value": "oklch(0.45 0.18 25 / 0.15)",
-          "$description": "stronger tint on active"
-        },
-        "destructive-text": {
-          "$type": "color",
-          "$value": "oklch(0.45 0.18 25)",
-          "$description": "outlined, so page and bg-surface are both real placements (#224); figures on the pairings",
-          "$extensions": {
-            "aliasOf": "--color-status-error-text"
-          }
-        },
-        "destructive-border": {
-          "$type": "color",
-          "$value": "oklch(0.45 0.18 25)",
-          "$description": "matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured",
+          "$value": "oklch(0.53 0.152 250.80)",
+          "$description": "The ring every component draws, offset so it sits on the background behind the control. azure-400 fell under the 1.4.11 floor of 3 on all three light backgrounds, and nothing measured it until the focus-ring pairings existed. — OKCA 3.1 on bg-surface ✅",
           "$extensions": {
             "usage": "non-text",
-            "aliasOf": "--color-status-error-text"
-          }
-        },
-        "tertiary": {
-          "$type": "color",
-          "$value": "oklch(0.88 0 0)",
-          "$description": "No border — structural identity is the fill (distinct from secondary's outline). — was gray-100; bumped for visibility without border",
-          "$extensions": {
-            "usage": "non-text",
-            "aliasOf": "--gray-200"
-          }
-        },
-        "tertiary-hover": {
-          "$type": "color",
-          "$value": "oklch(0.81 0 0)",
-          "$extensions": {
-            "aliasOf": "--gray-300"
-          }
-        },
-        "tertiary-text": {
-          "$type": "color",
-          "$value": "oklch(0.27 0.06 245.34)",
-          "$extensions": {
-            "aliasOf": "--navy-800"
+            "aliasOf": "--azure-500"
           }
         }
       },
-      "link": {
-        "$type": "color",
-        "$value": "oklch(0.49 0.14 250.80)",
-        "$description": "azure-400 is the brand original (#1493FB) — use on dark backgrounds only. azure-500/600 are the accessible steps for use on white backgrounds. — OKCA 5.3 on white ✅ — azure-500 (L=0.53) was OKCA 4.4; stepped to L=0.49 for OKCA compliance (#14)"
-      },
-      "link-hover": {
-        "$type": "color",
-        "$value": "oklch(0.45 0.13 250.80)",
-        "$description": "OKCA 6.4 on white ✅",
-        "$extensions": {
-          "aliasOf": "--azure-600"
-        }
-      },
-      "link-visited": {
-        "$type": "color",
-        "$value": "oklch(0.47 0.20 278.14)",
-        "$description": "OKCA 5.8 on white ✅ — honors universal :visited convention",
-        "$extensions": {
-          "aliasOf": "--indigo-700"
-        }
-      },
-      "focus": {
-        "$type": "color",
-        "$value": "oklch(0.53 0.15 250.80)",
-        "$description": "The ring every component draws, offset so it sits on the background behind the control. azure-400 fell under the 1.4.11 floor of 3 on all three light backgrounds, and nothing measured it until the focus-ring pairings existed. — OKCA 3.3 on bg-surface ✅",
-        "$extensions": {
-          "usage": "non-text",
-          "aliasOf": "--azure-500"
-        }
-      },
-      "status": {
+      "icon": {
         "error": {
           "$type": "color",
-          "$value": "oklch(0.54 0.21 25)",
-          "$description": "Base colors: non-text use only (icons, borders, indicators). For text on light status-bg, use --color-status-*-text (contrast-validated below). — icon/border use — OKCA 3.6 on error-bg ✅ (WCAG 1.4.11)",
+          "$value": "oklch(0.53 0.18 25.00)",
+          "$description": "--color-icon-* and --color-border-* are non-text only (icons, borders, indicators). For status text use --color-text-{error,success,warning} (contrast-validated below). Every status colour is a step on its hue's ramp (#365): text at 600, icons at 500, fills at 100. Fills sit at 100 rather than 50 because at 50 the error and warning fills fall to deltaE 10 apart and 6 from white; at 100 they are 16 apart. A pale tint is still not a variant channel (#214, #242, #318). — icon/border use — OKCA 4.4 on white ✅ (WCAG 1.4.11)",
           "$extensions": {
-            "usage": "non-text"
+            "usage": "non-text",
+            "aliasOf": "--red-500"
           }
-        },
-        "error-bg": {
-          "$type": "color",
-          "$value": "oklch(0.95 0.02 25)",
-          "$description": "at the sRGB chroma ceiling for this L and H (0.03 is out of gamut), so it cannot get redder without getting darker. deltaE 14 from warning-bg since warning moved to gold (it was 4 against amber), but a pale tint is still not a variant channel (#214, #242, #318)"
-        },
-        "error-text": {
-          "$type": "color",
-          "$value": "oklch(0.45 0.18 25)",
-          "$description": "OKCA 5.4 on error-bg ✅ — C=0.22 exceeded what sRGB holds at this L and H, so the token specified no single colour and its recorded 4.6 was undefined; re-authored to the boundary, same L and H (#225)"
         },
         "success": {
           "$type": "color",
-          "$value": "oklch(0.55 0.15 144.2)",
-          "$description": "icon/border use — OKCA 3.4 on success-bg ✅ (WCAG 1.4.11)",
+          "$value": "oklch(0.53 0.14 144.20)",
+          "$description": "icon/border use — OKCA 4.5 on white ✅ (WCAG 1.4.11)",
           "$extensions": {
-            "usage": "non-text"
+            "usage": "non-text",
+            "aliasOf": "--green-500"
           }
-        },
-        "success-bg": {
-          "$type": "color",
-          "$value": "oklch(0.95 0.05 145)",
-          "$description": "green and gold have more chroma room at L 0.95 than red, which is why error alone sits at 0.02 (#242)"
-        },
-        "success-text": {
-          "$type": "color",
-          "$value": "oklch(0.46 0.14 144.2)",
-          "$description": "OKCA 5.1 on success-bg ✅ — L=0.50 was OKCA 4.2; stepped to L=0.46 (#14)"
         },
         "warning": {
           "$type": "color",
-          "$value": "oklch(0.54 0.105 88)",
-          "$description": "gold since #318; OKCA 3.1 on bg-surface ✅, the lightest gold that clears the non-text floor there — icon/border use — OKCA 3.5 on warning-bg ✅ (WCAG 1.4.11)",
+          "$value": "oklch(0.53 0.085 88.00)",
+          "$description": "icon/border use — OKCA 4.6 on white ✅ (WCAG 1.4.11)",
           "$extensions": {
-            "usage": "non-text"
-          }
-        },
-        "warning-bg": {
-          "$type": "color",
-          "$value": "oklch(0.95 0.05 88)",
-          "$description": "gold has chroma room at L 0.95 that amber did not (amber topped out at 0.02), so this tint is deltaE 14 from error-bg; still not a variant channel (#214, #242, #318)"
-        },
-        "warning-text": {
-          "$type": "color",
-          "$value": "oklch(0.42 0.085 88)",
-          "$description": "OKCA 6.2 on warning-bg ✅ — gold since #318 (was amber, H=53.54). Reads olive-brown at this lightness: yellow loses the most chroma as it darkens, and the text has to be this dark to clear its floor on bg-surface"
-        }
-      },
-      "blockquote": {
-        "text": {
-          "$type": "color",
-          "$value": "oklch(0.30 0 0)",
-          "$description": "A book indent, set a step larger in italic, on the page itself. No wash and no side bar: that pairing reads as machine-made (#292). — OKCA 11.9 on page ✅",
-          "$extensions": {
-            "aliasOf": "--color-text-default"
-          }
-        }
-      },
-      "callout": {
-        "bg": {
-          "$type": "color",
-          "$value": "oklch(0.91 0 0)",
-          "$description": "A neutral panel. The indigo wash and left bar went in #292. — text-default OKCA 9.3 on this bg ✅",
-          "$extensions": {
-            "aliasOf": "--color-bg-surface"
+            "usage": "non-text",
+            "aliasOf": "--gold-500"
           }
         }
       }
@@ -440,7 +667,7 @@
         "subtle": {
           "$type": "color",
           "$value": "oklch(0.30 0.026 248.99)",
-          "$description": "subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.",
+          "$description": "deprecated in 7.0.0; see light",
           "$extensions": {
             "aliasOf": "--gray-cool-800"
           }
@@ -453,15 +680,15 @@
             "aliasOf": "--gray-cool-800"
           }
         },
-        "forward": {
+        "content": {
           "$type": "color",
-          "$value": "oklch(0.30 0.016 69)",
-          "$description": "Intent surfaces (#318). Dark surfaces are already cool, so recede steps down toward the page; forward keeps the card lightness and turns warm.",
+          "$value": "oklch(0.24 0.015 69)",
+          "$description": "Intent surfaces (#318). Dark surfaces are already cool, so recede steps down toward the page; forward keeps the card lightness and turns warm. gray-warm-850 is bg-surface's lightness (L=0.24). gray-warm-800 (L=0.30) sat a step lighter, and under klar 4 text-subtle measured 3.7 on it against a Tier 3 floor of 4.5.",
           "$extensions": {
-            "aliasOf": "--gray-warm-800"
+            "aliasOf": "--gray-warm-850"
           }
         },
-        "recede": {
+        "chrome": {
           "$type": "color",
           "$value": "oklch(0.16 0.025 248.99)",
           "$extensions": {
@@ -471,7 +698,7 @@
         "muted": {
           "$type": "color",
           "$value": "oklch(0.4 0.026 248.99)",
-          "$description": "gray-cool-700: deltaE 18 / 13 / 8 from page / surface / elevated, and dark enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322). — text-default OKCA 5.7 on this bg ✅",
+          "$description": "gray-cool-700: deltaE 18 / 13 / 8 from page / surface / elevated, and dark enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322). — text-default OKCA 4.9 on this bg ✅",
           "$extensions": {
             "aliasOf": "--gray-cool-700"
           }
@@ -483,41 +710,191 @@
             "aliasOf": "--color-bg-muted"
           }
         },
+        "active": {
+          "$type": "color",
+          "$value": "oklch(0.35 0.026 248.99)",
+          "$description": "pressed fill: one in-between step below the hover",
+          "$extensions": {
+            "aliasOf": "--gray-cool-750"
+          }
+        },
         "inverse": {
           "$type": "color",
-          "$value": "oklch(1 0 0)",
-          "$description": "white — flipped from dark navy",
+          "$value": "oklch(0.37 0.061 246.41)",
+          "$description": "A navy band, not a white one. It flipped to white for dark mode, which put a glaring strip across the top of the page and a white flash in every tooltip, and under the scatter observer its muted text could not reach 4.5 (white caps scatter near 5). navy-700 rather than light mode's navy-800 so it stands apart from bg-surface too: tooltips sit on cards, and navy-800 is within a few hundredths of the card's lightness.",
           "$extensions": {
-            "aliasOf": "--gray-0"
+            "aliasOf": "--navy-700"
+          }
+        },
+        "tooltip": {
+          "$type": "color",
+          "$value": "oklch(0.391 0.061 246.64)",
+          "$description": "The tooltip floats over modals as well as cards, and navy-700 was deltaE 9 from bg-elevated. navy-670, a derived step between 600 and 700, reaches deltaE 10, where the bubble reads as its own region on a modal. navy-600 would too, but white 14px text there cannot reach its Tier 2 floor. — text-inverse OKCA 7.1 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--navy-670"
+          }
+        },
+        "action-primary": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.061 247.16)",
+          "$description": "The labelled fills go deep instead of pale: a bright fill in dark mode is glare for the reader dark mode serves, and its label could not clear the scatter observer. navy-600 is the ramp step at which a light label does. Emphasis comes from colour rather than brightness; the fill sits close to the page in lightness and the label carries the button. Re-picked from the derived ramps (#365), they land on the same steps. Hover and active step darker, since a lighter fill would cost the light label its contrast (navy-500 misses).",
+          "$extensions": {
+            "aliasOf": "--navy-600"
+          }
+        },
+        "action-primary-hover": {
+          "$type": "color",
+          "$value": "oklch(0.37 0.061 246.41)",
+          "$description": "text-on-action OKCA 7.0 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--navy-700"
+          }
+        },
+        "action-primary-active": {
+          "$type": "color",
+          "$value": "oklch(0.37 0.061 246.41)",
+          "$extensions": {
+            "aliasOf": "--navy-700"
+          }
+        },
+        "accent-secondary": {
+          "$type": "color",
+          "$value": "oklch(0.27 0.073 347.43)",
+          "$description": "Two steps deeper than primary's navy-600: at equal lightness burgundy's higher chroma and warm hue read brighter, and secondary outranked primary. Its hue keeps the fill distinct on the near-neutral cards. — text-on-action OKCA 10.2 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--burgundy-800"
+          }
+        },
+        "nav-badge": {
+          "$type": "color",
+          "$value": "oklch(0.44 0.082 347.43)",
+          "$description": "Not the secondary fill (burgundy-800): that recedes below the navy inverse band, and a count badge has no primary badge beside it to outrank. — text-on-action OKCA 5.4 on this bg ✅",
+          "$extensions": {
+            "aliasOf": "--burgundy-600"
+          }
+        },
+        "action-destructive": {
+          "$type": "color",
+          "$value": "transparent",
+          "$description": "Outlined — same pattern as light mode, and the same error red (#318)."
+        },
+        "action-destructive-hover": {
+          "$type": "color",
+          "$value": "oklch(0.76 0.142 25.00 / 0.12)",
+          "$description": "red-300 (the label) at 12%: subtle tint on hover"
+        },
+        "action-destructive-active": {
+          "$type": "color",
+          "$value": "oklch(0.76 0.142 25.00 / 0.22)",
+          "$description": "red-300 at 22%: stronger tint on active"
+        },
+        "action-tertiary": {
+          "$type": "color",
+          "$value": "oklch(0.4 0.026 248.99)",
+          "$description": "The fill is the button's only edge, so it rests on the muted step, as in light: gray-cool-800 was the modal's own colour (deltaE 0). Cool greys, so tertiary recedes on the navy surfaces instead of competing with the primary. Text is text-default, not white: white made tertiary the brightest label in a button row. States step darker, since a lighter step costs the label its floor (gray-cool-650 measures 4.2).",
+          "$extensions": {
+            "aliasOf": "--gray-cool-700"
+          }
+        },
+        "action-tertiary-hover": {
+          "$type": "color",
+          "$value": "oklch(0.35 0.026 248.99)",
+          "$extensions": {
+            "aliasOf": "--gray-cool-750"
+          }
+        },
+        "action-tertiary-active": {
+          "$type": "color",
+          "$value": "oklch(0.30 0.026 248.99)",
+          "$extensions": {
+            "aliasOf": "--gray-cool-800"
           }
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.22 0.02 195)",
-          "$description": "Teal tint, deltaE 8 from the cool page: the hue change carries the separation, so the block stays nearly as dark as the page. Border still required, since lightness alone barely differs at these low L values. — text-default OKCA 11.4 on this bg ✅ — code text inherits it"
+          "$value": "oklch(0.221 0.02 195.00)",
+          "$description": "Teal tint (teal-870), deltaE 9 from the cool page: the hue change carries the separation, so the block stays nearly as dark as the page. Border still required, since lightness alone barely differs at these low L values. — text-default OKCA 9.5 on this bg ✅ — code text inherits it",
+          "$extensions": {
+            "aliasOf": "--teal-870"
+          }
+        },
+        "error": {
+          "$type": "color",
+          "$value": "oklch(0.24 0.026 25.00)",
+          "$extensions": {
+            "aliasOf": "--red-tint"
+          }
+        },
+        "success": {
+          "$type": "color",
+          "$value": "oklch(0.24 0.026 144.20)",
+          "$extensions": {
+            "aliasOf": "--green-tint"
+          }
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "oklch(0.24 0.026 88.00)",
+          "$extensions": {
+            "aliasOf": "--gold-tint"
+          }
+        },
+        "callout": {
+          "$type": "color",
+          "$value": "oklch(0.24 0.026 248.99)",
+          "$description": "Declared here as well as in light: each var() resolves on the element that declares it, so a dark-themed subtree needs its own declaration.",
+          "$extensions": {
+            "aliasOf": "--color-bg-surface"
+          }
+        },
+        "action-secondary-hover": {
+          "$type": "color",
+          "$value": "oklch(0.86 0.04 251.66 / 0.08)"
+        },
+        "action-secondary-active": {
+          "$type": "color",
+          "$value": "oklch(0.86 0.04 251.66 / 0.15)"
+        },
+        "action-ghost-hover": {
+          "$type": "color",
+          "$value": "oklch(0.4 0.026 248.99)",
+          "$extensions": {
+            "aliasOf": "--color-bg-hover"
+          }
+        },
+        "action-ghost-active": {
+          "$type": "color",
+          "$value": "oklch(0.35 0.026 248.99)",
+          "$extensions": {
+            "aliasOf": "--color-bg-active"
+          }
+        },
+        "hover-on-inverse": {
+          "$type": "color",
+          "$value": "oklch(1 0 0 / 0.1)"
         }
       },
       "text": {
         "default": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
-          "$description": "OKCA 12.9 on bg-page ✅ — off-white with cool undertone; white OKCA 19.2 on bg-page is harsh",
+          "$value": "oklch(0.89 0 0)",
+          "$description": "OKCA 11.4 on bg-page ✅ — off-white with cool undertone; white OKCA 16.4 on bg-page is harsh",
           "$extensions": {
             "aliasOf": "--gray-200"
           }
         },
         "subtle": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
-          "$description": "OKCA 6.8 on bg-page ✅",
+          "$value": "oklch(0.72 0 0)",
+          "$description": "OKCA 5.6 on bg-page ✅",
           "$extensions": {
             "aliasOf": "--gray-400"
           }
         },
         "subtle-on-surface": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
-          "$description": "OKCA 5.6 on bg-surface ✅",
+          "$value": "oklch(0.72 0 0)",
+          "$description": "OKCA 4.7 on bg-surface ✅",
           "$extensions": {
             "aliasOf": "--gray-400"
           }
@@ -525,51 +902,134 @@
         "disabled": {
           "$type": "color",
           "$value": "oklch(0.44 0 0)",
-          "$description": "OKCA 2.0 on bg-page — intentionally below AA (1.4.3-exempt; see #134)",
+          "$description": "OKCA 1.4 on bg-page — intentionally below AA (1.4.3-exempt; see #134)",
           "$extensions": {
             "aliasOf": "--gray-650"
           }
         },
-        "inverse": {
+        "toast": {
           "$type": "color",
-          "$value": "oklch(0.24 0 0)",
-          "$description": "dark text for inverse (light) surfaces",
+          "$value": "oklch(0.72 0 0)",
+          "$description": "Component-scoped: toast message text. Every toast sits on bg-surface since #292, where the three status backgrounds used to be. — OKCA 4.7 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug",
           "$extensions": {
-            "aliasOf": "--gray-850"
+            "aliasOf": "--color-text-subtle"
+          }
+        },
+        "on-inverse": {
+          "$type": "color",
+          "$value": "oklch(1 0 0)",
+          "$description": "OKCA 7.7 on bg-inverse ✅",
+          "$extensions": {
+            "aliasOf": "--gray-0"
           }
         },
         "subtle-on-inverse": {
           "$type": "color",
-          "$value": "oklch(0.4 0 0)",
-          "$description": "muted text on white inverse surface",
+          "$value": "oklch(0.91 0 0)",
+          "$description": "Close to text-inverse by design: on navy-700 the next grey down (gray-300) is 4.3, so the active item is told apart by weight and its underline. — OKCA 5.7 on bg-inverse ✅",
           "$extensions": {
-            "aliasOf": "--gray-700"
+            "aliasOf": "--gray-100"
           }
         },
         "on-action": {
           "$type": "color",
-          "$value": "oklch(0.16 0 0)",
-          "$description": "OKCA 11.2 on action-primary ✅ — same as bg-page; was OKCA 7.0 on the sky-blue primary (#318); gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5",
+          "$value": "oklch(0.97 0.014 252.84)",
+          "$description": "Light label on the deep action fills. Under the scatter observer, which dark mode is tuned for, the pale navy-200 fill with a page-dark label scored 4.4 and the burgundy-300 one 3.7, both under their 4.5 floor. — OKCA 5.4 on action-primary-fill ✅",
           "$extensions": {
-            "aliasOf": "--gray-900"
+            "aliasOf": "--navy-50"
+          }
+        },
+        "accent": {
+          "$type": "color",
+          "$value": "oklch(0.86 0.04 251.66)",
+          "$description": "A pale navy from the brand ramp, so dark mode reads as the same navy as light. It was a boosted sky blue, oklch(0.79 0.11 245), deltaE 3 from --color-text-link (2 between their hovers), so a primary button and a link beside it were the same colour. navy-200 was deltaE 14 from the link then (10 from today's azure-250), and a quiet fill lets the content around it lead (#318). Deliberately no figures here. Both that this comment used to carry were duplicates recorded better elsewhere, and one had gone stale unnoticed because the export discarded this comment entirely (#224): it credited the label as gray-800, which was OKCA 5.6 here, but the label stopped being gray-800 when --color-text-on-action moved to the bg-page navy for exactly that reason — it fails the 14px bold floor of 6.5. That token's own comment records the change and is audited; this one restated it and rotted. — OKCA 10.2 on bg-page ✅",
+          "$extensions": {
+            "aliasOf": "--navy-200"
+          }
+        },
+        "action-destructive": {
+          "$type": "color",
+          "$value": "oklch(0.76 0.142 25.00)",
+          "$description": "Was oklch(0.78 0.15 347), stepped from L=0.75 so the label cleared its floor on bg-surface as well as the page — a delete confirmation usually sits in a modal or card (#224). The error red clears both with more margin; figures on the pairings.",
+          "$extensions": {
+            "aliasOf": "--color-text-error"
+          }
+        },
+        "action-tertiary": {
+          "$type": "color",
+          "$value": "oklch(0.89 0 0)",
+          "$extensions": {
+            "aliasOf": "--color-text-default"
+          }
+        },
+        "link": {
+          "$type": "color",
+          "$value": "oklch(0.81 0.098 250.80)",
+          "$description": "OKCA 8.4 on bg-page ✅ — 5.2 on a modal, where azure-300 was 4.2",
+          "$extensions": {
+            "aliasOf": "--azure-250"
+          }
+        },
+        "link-hover": {
+          "$type": "color",
+          "$value": "oklch(0.86 0.071 250.80)",
+          "$description": "OKCA 10.2 on bg-page ✅",
+          "$extensions": {
+            "aliasOf": "--azure-200"
+          }
+        },
+        "link-visited": {
+          "$type": "color",
+          "$value": "oklch(0.81 0.096 278.14)",
+          "$description": "OKCA 8.2 on bg-page ✅ — 5.1 on a modal, where indigo-300 was 4.1",
+          "$extensions": {
+            "aliasOf": "--indigo-250"
           }
         },
         "code": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
+          "$value": "oklch(0.89 0 0)",
           "$description": "inherits soft off-white",
           "$extensions": {
             "aliasOf": "--color-text-default"
           }
-        }
-      },
-      "toast": {
-        "message": {
+        },
+        "error": {
           "$type": "color",
-          "$value": "oklch(0.71 0 0)",
-          "$description": "Component-scoped: toast message text. Every toast sits on bg-surface since #292, where the three status backgrounds used to be. — OKCA 5.6 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug",
+          "$value": "oklch(0.76 0.142 25.00)",
+          "$description": "OKCA 4.7 on error-bg ✅",
           "$extensions": {
-            "aliasOf": "--color-text-subtle"
+            "aliasOf": "--red-300"
+          }
+        },
+        "success": {
+          "$type": "color",
+          "$value": "oklch(0.76 0.122 144.20)",
+          "$description": "OKCA 5.4 on success-bg ✅",
+          "$extensions": {
+            "aliasOf": "--green-300"
+          }
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "oklch(0.76 0.074 88.00)",
+          "$description": "OKCA 5.3 on warning-bg ✅",
+          "$extensions": {
+            "aliasOf": "--gold-300"
+          }
+        },
+        "blockquote": {
+          "$type": "color",
+          "$value": "oklch(0.89 0 0)",
+          "$extensions": {
+            "aliasOf": "--color-text-default"
+          }
+        },
+        "action-secondary": {
+          "$type": "color",
+          "$value": "oklch(0.86 0.04 251.66)",
+          "$extensions": {
+            "aliasOf": "--color-text-accent"
           }
         }
       },
@@ -586,7 +1046,7 @@
         "strong": {
           "$type": "color",
           "$value": "oklch(0.56 0 0)",
-          "$description": "OKCA 3.5 on bg-page. Reads as a 1.4.11 pass and is one, but do not read it as a property of the token: the light value of the same token clears barely a third of that against its own page, and it is the same separator in both modes. The token is decorative; dark simply clears a bar the light mode misses, which is a fact about two greys and not a guarantee (#247).",
+          "$description": "OKCA 2.5 on bg-page. Reads as a 1.4.11 pass and is one, but do not read it as a property of the token: the light value of the same token clears barely a third of that against its own page, and it is the same separator in both modes. The token is decorative; dark simply clears a bar the light mode misses, which is a fact about two greys and not a guarantee (#247).",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-550"
@@ -594,20 +1054,47 @@
         },
         "on-inverse": {
           "$type": "color",
-          "$value": "oklch(0.88 0 0)",
-          "$description": "subtle divider on white inverse surface",
+          "$value": "oklch(0.44 0.025 248.99)",
+          "$description": "subtle divider on the navy-700 inverse band, one step lighter than it",
           "$extensions": {
             "usage": "non-text",
-            "aliasOf": "--gray-200"
+            "aliasOf": "--gray-cool-650"
           }
         },
         "control": {
           "$type": "color",
-          "$value": "oklch(0.62 0 0)",
-          "$description": "Dark needs its own value: contrast here means a *lighter* edge, so the light mode's L=0.53 would move the wrong way against a dark surface. The worst dark background is bg-elevated, which is lighter than surface. It holds every option panel, the drawer, the modal and the chat input, so form-control borders and scrollbar thumbs both sit on it. L=0.58 was chosen against page and surface only and measured 2.6 there, with no pairing to say so (#307). L=0.62 clears it with 0.1 of margin: L=0.61 sits exactly on 3.0, so any later change to bg-elevated would push it under: OKCA 3.1 on dark bg-elevated ✅, OKCA 3.9 on dark bg-surface ✅, OKCA 4.6 on dark page ✅. Replaces the dark --color-border-control-on-surface (L=0.60) — see the light-mode note above for why the sibling is gone.",
+          "$value": "oklch(0.72 0 0)",
+          "$description": "Dark needs its own value: contrast here means a *lighter* edge, so the light mode's L=0.53 would move the wrong way against a dark surface. The worst dark background is bg-elevated, which is lighter than surface. It holds every option panel, the drawer, the modal and the chat input, so form-control borders and scrollbar thumbs both sit on it. L=0.58 was chosen against page and surface only and measured 2.6 there, with no pairing to say so (#307). L=0.62 (gray-500) then cleared it by 0.1, and klar 4 re-scored it to 2.5, since its new scoring rates most light-on-dark pairs lower. gray-400 (L=0.72) is the next ramp step and keeps real margin rather than another 0.1: OKCA 3.8 on dark bg-elevated ✅, OKCA 4.7 on dark bg-surface ✅, OKCA 5.6 on dark page ✅. It is the same grey as dark text-subtle, as gray-600 is for both in light. Replaces the dark --color-border-control-on-surface (L=0.60) — see the light-mode note above for why the sibling is gone.",
           "$extensions": {
             "usage": "non-text",
-            "aliasOf": "--gray-500"
+            "aliasOf": "--gray-400"
+          }
+        },
+        "action-secondary": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.06 248.13)",
+          "$description": "Dimmed below the label so an outline does not outshine the deep primary fill: emphasis on a dark page follows lightness, and the label's navy-200 edge drew brighter than the filled button beside it. No floor, as in light.",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--navy-500"
+          }
+        },
+        "accent-secondary": {
+          "$type": "color",
+          "$value": "oklch(0.53 0.083 347.43)",
+          "$description": "dimmed below the label, as action-primary-border",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--burgundy-500"
+          }
+        },
+        "action-destructive": {
+          "$type": "color",
+          "$value": "oklch(0.65 0.173 25.00)",
+          "$description": "The edge sits one ramp step below the label, so the outline stops competing with the primary fill and the red text carries \"take care\".",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-border-error"
           }
         },
         "code": {
@@ -617,231 +1104,188 @@
             "usage": "non-text",
             "aliasOf": "--color-border-strong"
           }
+        },
+        "error": {
+          "$type": "color",
+          "$value": "oklch(0.65 0.173 25.00)",
+          "$description": "One ramp step below the label, as the destructive edge: an outline at the label's own lightness outshines it on a dark page. No floor (see action-primary-border).",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--red-400"
+          }
+        },
+        "success": {
+          "$type": "color",
+          "$value": "oklch(0.65 0.134 144.20)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--green-400"
+          }
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "oklch(0.65 0.082 88.00)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--gold-400"
+          }
+        },
+        "accent": {
+          "$type": "color",
+          "$value": "oklch(0.86 0.04 251.66)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--navy-200"
+          }
+        },
+        "control-hover": {
+          "$type": "color",
+          "$value": "oklch(0.72 0 0)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-border-control"
+          }
+        },
+        "control-focus": {
+          "$type": "color",
+          "$value": "oklch(0.86 0.04 251.66)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-border-accent"
+          }
+        },
+        "control-error": {
+          "$type": "color",
+          "$value": "oklch(0.76 0.142 25.00)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-icon-error"
+          }
+        },
+        "accent-on-inverse": {
+          "$type": "color",
+          "$value": "oklch(1 0 0)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-text-on-inverse"
+          }
         }
       },
-      "slider": {
-        "thumb": {
+      "fill": {
+        "slider-thumb": {
           "$type": "color",
           "$value": "oklch(0.91 0 0)",
-          "$description": "Light puck on the dark track — fill stays light (border-control 0.62 is the darker edge). icon/border use (non-text UI). — oklch(0.91) light knob in dark — icon/border use",
+          "$description": "Light puck on the dark track — fill stays light (border-control 0.72 is the darker edge). icon/border use (non-text UI). — oklch(0.91) light knob in dark — icon/border use",
           "$extensions": {
             "usage": "non-text",
             "aliasOf": "--gray-100"
           }
-        }
-      },
-      "action": {
-        "primary": {
+        },
+        "indicator": {
           "$type": "color",
           "$value": "oklch(0.86 0.04 251.66)",
-          "$description": "A pale navy from the brand ramp, so dark mode reads as the same navy as light. It was a boosted sky blue, oklch(0.79 0.11 245), deltaE 3 from --color-link (2 between their hovers), so a primary button and a link beside it were the same colour. navy-200 is deltaE 14 from the link and 6 from its hover, and a quiet fill lets the content around it lead (#318). Deliberately no figures here. Both that this comment used to carry were duplicates recorded better elsewhere, and one had gone stale unnoticed because the export discarded this comment entirely (#224): it credited the label as gray-800, which was OKCA 5.6 here, but the label stopped being gray-800 when --color-text-on-action moved to the bg-page navy for exactly that reason — it fails the 14px bold floor of 6.5. That token's own comment records the change and is audited; this one restated it and rotted. — OKCA 11.7 on bg-page ✅",
+          "$description": "on the dark page itself, so the pale navy, not the deep fill",
           "$extensions": {
+            "usage": "non-text",
             "aliasOf": "--navy-200"
           }
         },
-        "primary-hover": {
+        "track": {
           "$type": "color",
-          "$value": "oklch(0.93 0.02 252.41)",
-          "$description": "OKCA 15.2 on bg-page ✅",
+          "$value": "oklch(0.72 0 0)",
           "$extensions": {
-            "aliasOf": "--navy-100"
+            "usage": "non-text",
+            "aliasOf": "--color-border-control"
           }
         },
-        "primary-active": {
+        "on-action": {
           "$type": "color",
-          "$value": "oklch(0.93 0.02 252.41)",
+          "$value": "oklch(0.97 0.014 252.84)",
           "$extensions": {
-            "aliasOf": "--navy-100"
+            "usage": "non-text",
+            "aliasOf": "--color-text-on-action"
           }
         },
+        "scrollbar-thumb": {
+          "$type": "color",
+          "$value": "oklch(0.72 0 0)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-border-control"
+          }
+        },
+        "scrollbar-thumb-hover": {
+          "$type": "color",
+          "$value": "oklch(0.72 0 0)",
+          "$extensions": {
+            "usage": "non-text",
+            "aliasOf": "--color-text-subtle"
+          }
+        }
+      },
+      "action": {
         "secondary": {
           "$type": "color",
-          "$value": "oklch(0.76 0.06 347.43)",
-          "$description": "Label on the secondary fill: bg-page OKCA 7.3 on this bg ✅ — OKCA 7.6 on bg-page ✅ (fill vs page)",
+          "$value": "oklch(0.76 0.074 347.43)",
+          "$description": "deprecated in 7.0.0 (#367); OKCA 6.5 on bg-page ✅",
           "$extensions": {
             "aliasOf": "--burgundy-300"
           }
         },
         "secondary-hover": {
           "$type": "color",
-          "$value": "oklch(0.86 0.05 347.43)",
-          "$description": "OKCA 11.6 on bg-page ✅",
+          "$value": "oklch(0.20 0.065 347.43)",
+          "$description": "deprecated in 7.0.0; text-on-action OKCA 13.1 on this bg ✅",
           "$extensions": {
-            "aliasOf": "--burgundy-200"
+            "aliasOf": "--burgundy-900"
           }
         },
         "secondary-active": {
           "$type": "color",
-          "$value": "oklch(0.86 0.05 347.43)",
+          "$value": "oklch(0.20 0.065 347.43)",
+          "$description": "deprecated in 7.0.0, with -hover; see light",
           "$extensions": {
-            "aliasOf": "--burgundy-200"
+            "aliasOf": "--burgundy-900"
           }
-        },
-        "destructive": {
+        }
+      },
+      "ring": {
+        "focus": {
           "$type": "color",
-          "$value": "transparent",
-          "$description": "Outlined — same pattern as light mode, and the same error red (#318).",
-          "$extensions": {
-            "usage": "non-text"
-          }
-        },
-        "destructive-hover": {
-          "$type": "color",
-          "$value": "oklch(0.79 0.12 25 / 0.12)",
-          "$description": "subtle red tint on hover"
-        },
-        "destructive-active": {
-          "$type": "color",
-          "$value": "oklch(0.79 0.12 25 / 0.22)",
-          "$description": "stronger tint on active"
-        },
-        "destructive-text": {
-          "$type": "color",
-          "$value": "oklch(0.79 0.12 25)",
-          "$description": "Was oklch(0.78 0.15 347), stepped from L=0.75 so the label cleared its floor on bg-surface as well as the page — a delete confirmation usually sits in a modal or card (#224). The error red clears both with more margin; figures on the pairings.",
-          "$extensions": {
-            "aliasOf": "--color-status-error-text"
-          }
-        },
-        "destructive-border": {
-          "$type": "color",
-          "$value": "oklch(0.79 0.12 25)",
-          "$description": "matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured",
+          "$value": "oklch(0.76 0.127 250.80)",
+          "$description": "OKCA 6.7 on bg-page ✅",
           "$extensions": {
             "usage": "non-text",
-            "aliasOf": "--color-status-error-text"
-          }
-        },
-        "tertiary": {
-          "$type": "color",
-          "$value": "oklch(0.30 0.026 248.99)",
-          "$description": "⚠️  fill is only OKCA 1.1 on page — intentionally subtle in dark mode. Text (gray-0) on tertiary bg remains readable. Uses the cool-gray ramp (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead of advancing and competing with the primary button (warm advances / cool recedes); L preserved, so white OKCA 13.0 on this bg ✅. Revisit if buttons need more prominence in dark.",
-          "$extensions": {
-            "usage": "non-text",
-            "aliasOf": "--gray-cool-800"
-          }
-        },
-        "tertiary-hover": {
-          "$type": "color",
-          "$value": "oklch(0.44 0.025 248.99)",
-          "$extensions": {
-            "aliasOf": "--gray-cool-650"
-          }
-        },
-        "tertiary-text": {
-          "$type": "color",
-          "$value": "oklch(1 0 0)",
-          "$extensions": {
-            "aliasOf": "--gray-0"
+            "aliasOf": "--azure-300"
           }
         }
       },
-      "link": {
-        "$type": "color",
-        "$value": "oklch(0.77 0.12 250.80)",
-        "$description": "OKCA 6.3 on bg-page ✅",
-        "$extensions": {
-          "aliasOf": "--azure-300"
-        }
-      },
-      "link-hover": {
-        "$type": "color",
-        "$value": "oklch(0.86 0.07 250.80)",
-        "$description": "OKCA 11.2 on bg-page ✅",
-        "$extensions": {
-          "aliasOf": "--azure-200"
-        }
-      },
-      "link-visited": {
-        "$type": "color",
-        "$value": "oklch(0.77 0.11 278.14)",
-        "$description": "OKCA 6.6 on bg-page ✅",
-        "$extensions": {
-          "aliasOf": "--indigo-300"
-        }
-      },
-      "focus": {
-        "$type": "color",
-        "$value": "oklch(0.77 0.12 250.80)",
-        "$description": "OKCA 6.3 on bg-page ✅",
-        "$extensions": {
-          "usage": "non-text",
-          "aliasOf": "--azure-300"
-        }
-      },
-      "status": {
+      "icon": {
         "error": {
           "$type": "color",
-          "$value": "oklch(0.68 0.11 25)",
-          "$description": "Lightened foreground colors to meet contrast on dark backgrounds. Backgrounds mirror light-mode approach: near-neutral dark surface (C≈0.02), letting the border/icon carry the full color signal. High-chroma fills were competing with vivid borders and creating a \"glowing\" effect. — icon/border use — not required to pass text contrast",
+          "$value": "oklch(0.76 0.142 25.00)",
+          "$description": "Every status colour is a step on its hue's ramp (#365). Text and icons share step 300: the brightest step whose chroma the ramp's curve keeps calm, and the only one where icons clear 3.0 on a card. Fills are each ramp's -tint, the dark surface in that hue, so the border/icon carries the colour signal and the fill does not glow. — icon/border use — OKCA 6.0 on bg-page ✅",
           "$extensions": {
-            "usage": "non-text"
+            "usage": "non-text",
+            "aliasOf": "--red-300"
           }
-        },
-        "error-bg": {
-          "$type": "color",
-          "$value": "oklch(0.23 0.02 18)",
-          "$description": "near-neutral dark — barely rosy tint"
-        },
-        "error-text": {
-          "$type": "color",
-          "$value": "oklch(0.79 0.12 25)",
-          "$description": "OKCA 6.0 on error-bg ✅ — C=0.22 was far outside sRGB, so the token named no single colour and every figure recorded for it was undefined; its nearest in-gamut form was OKCA 3.4, which is how five failures sat inside a passing audit (#222). Re-authored to the boundary, same L and H (#225). L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value, kept because it still holds for the renderable one"
         },
         "success": {
           "$type": "color",
-          "$value": "oklch(0.70 0.08 144.2)",
-          "$description": "icon/border use — not required to pass text contrast",
+          "$value": "oklch(0.76 0.122 144.20)",
+          "$description": "icon/border use — OKCA 6.7 on bg-page ✅",
           "$extensions": {
-            "usage": "non-text"
+            "usage": "non-text",
+            "aliasOf": "--green-300"
           }
-        },
-        "success-bg": {
-          "$type": "color",
-          "$value": "oklch(0.23 0.02 144)",
-          "$description": "near-neutral dark — barely green tint"
-        },
-        "success-text": {
-          "$type": "color",
-          "$value": "oklch(0.80 0.15 144.2)",
-          "$description": "OKCA 5.4 on success-bg ✅"
         },
         "warning": {
           "$type": "color",
-          "$value": "oklch(0.74 0.10 88)",
-          "$description": "icon/border use — not required to pass text contrast",
+          "$value": "oklch(0.76 0.074 88.00)",
+          "$description": "icon/border use — OKCA 6.7 on bg-page ✅",
           "$extensions": {
-            "usage": "non-text"
-          }
-        },
-        "warning-bg": {
-          "$type": "color",
-          "$value": "oklch(0.25 0.03 88)",
-          "$description": "dark gold tint (#318)"
-        },
-        "warning-text": {
-          "$type": "color",
-          "$value": "oklch(0.82 0.10 88)",
-          "$description": "OKCA 7.1 on warning-bg ✅ — gold since #318 (was amber, H=53.54)"
-        }
-      },
-      "blockquote": {
-        "text": {
-          "$type": "color",
-          "$value": "oklch(0.88 0 0)",
-          "$description": "A book indent, set a step larger in italic, on the page itself. No wash and no side bar: that pairing reads as machine-made (#292). — OKCA 11.9 on page ✅",
-          "$extensions": {
-            "aliasOf": "--color-text-default"
-          }
-        }
-      },
-      "callout": {
-        "bg": {
-          "$type": "color",
-          "$value": "oklch(0.24 0.026 248.99)",
-          "$description": "A neutral panel. The indigo wash and left bar went in #292. — text-default OKCA 9.3 on this bg ✅",
-          "$extensions": {
-            "aliasOf": "--color-bg-surface"
+            "usage": "non-text",
+            "aliasOf": "--gold-300"
           }
         }
       }

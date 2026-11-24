@@ -44,7 +44,7 @@ export class CandorBreadcrumb extends LitElement {
       gap: 0;
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
-      letter-spacing: 0.04em;
+      letter-spacing: var(--letter-spacing-body);
     }
     .breadcrumb__item {
       display: flex;
@@ -57,13 +57,13 @@ export class CandorBreadcrumb extends LitElement {
       pointer-events: none;
     }
     .breadcrumb__link {
-      color: var(--color-link);
+      color: var(--color-text-link);
       font-weight: var(--font-weight-bold);
       text-decoration: none;
     }
-    .breadcrumb__link:hover { color: var(--color-link-hover); text-decoration: underline; }
+    .breadcrumb__link:hover { color: var(--color-text-link-hover); text-decoration: underline; }
     .breadcrumb__link:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
       border-radius: var(--radius-sm);
     }
@@ -71,7 +71,6 @@ export class CandorBreadcrumb extends LitElement {
       color: var(--color-text-default);
       font-weight: var(--font-weight-bold);
     }
-    .breadcrumb__item:only-child .breadcrumb__current { letter-spacing: 0.06em; }
   `;
 
   @property({ type: Array }) items: BreadcrumbItem[] = [];

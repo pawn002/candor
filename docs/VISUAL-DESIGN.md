@@ -69,31 +69,31 @@ Candor uses four families, each with a defined role. Mixing them carelessly prod
 
 | Token | Family | Role |
 |---|---|---|
-| `--font-family-display` / `--font-family-base` | Roboto Flex | Headings, UI text, general-purpose. Variable axes (`opsz`, `GRAD`, `wdth`) carry hierarchy beyond weight. |
+| `--font-family-display` / `--font-family-base` | Roboto Flex | Headings, UI text, general-purpose. The optical-size axis (`opsz`) carries hierarchy beyond weight; it and `wght` are the only axes loaded. |
 | `--font-family-serif` | Noto Serif | Long-form editorial prose in `Article` and similar reading contexts. Signals deliberate reading mode. |
-| `--font-family-accessible` | Atkinson Hyperlegible | Form labels, status messages, annotations, badges. Critical UI text where glyph distinction matters at small sizes. |
-| `--font-family-mono` | Roboto Mono | Code, technical values, anything where character position carries meaning. |
+| `--font-family-accessible` | Atkinson Hyperlegible Next | Form labels, status messages, annotations, badges. Critical UI text where glyph distinction matters at small sizes. |
+| `--font-family-mono` | Atkinson Hyperlegible Mono | Code, technical values, anything where character position carries meaning. |
 
 ### The variable-font discipline
 
 Roboto Flex is a variable font. The `opsz` (optical size) axis is the single most important feature and the one most often ignored. With `font-optical-sizing: auto`, the browser maps stroke weight to computed font size. Larger headings get heavier, smaller text gets lighter, and the result is a hierarchy that feels drawn rather than assembled.
 
-**The trap:** reaching for `font-weight: 600` to make a heading feel stronger. Numeric weight steps create artificial jumps. The `opsz` axis creates graduated hierarchy that feels inevitable. Always ask whether the variable axis can do the work before adding weight.
+**The trap:** stepping weight with level to make one heading feel stronger than the next. Numeric weight steps create artificial jumps. The `opsz` axis creates graduated hierarchy that feels inevitable. Every heading shares one weight, `--font-weight-heading` (semibold since 7.0.0), which sets texture rather than rank; always ask whether the variable axis can do the work before reaching for another weight.
 
 ```scss
-// Do: optical sizing carries the hierarchy
+// Do: one heading weight; size and optical sizing carry the hierarchy
 .heading {
   font-family: var(--font-family-display);
   font-optical-sizing: auto;
-  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-heading);
+  font-size: var(--font-size-h3);
+  letter-spacing: var(--letter-spacing-h3);
 }
 
-// Don't: stacking weight on top of size, flattening the axis
-.heading {
-  font-family: var(--font-family-display);
-  font-weight: 600;
-  font-size: var(--font-size-xl);
-}
+// Don't: weight stepped by level, stacked on top of size
+.heading--h1 { font-weight: 700; }
+.heading--h3 { font-weight: 600; }
+.heading--h5 { font-weight: 500; }
 ```
 
 ### Atkinson discipline
@@ -101,7 +101,7 @@ Roboto Flex is a variable font. The `opsz` (optical size) axis is the single mos
 Atkinson Hyperlegible carries critical UI text because its glyph differentiation survives at 14px where other typefaces begin to blur.
 
 - **Bold has two distinct jobs in Atkinson contexts, hierarchy and contrast, and they must not be confused.** As a hierarchy signal, bold marks structural anchors: form field labels, section headings. As a contrast call, bold is applied at 14px when the OKCA Tier 2 threshold requires it, since bold drops the required score from 6.5 to 4.5, which `--color-text-subtle` (5.0) clears. Error messages are a specific case: they are Tier 1 reading text and are therefore required to be 16px, not bolded as a workaround. Bold on a red error message reads as double-emphasis and does not substitute for a genuine contrast fix.
-- **Positive letter-spacing is mandatory.** Without it, adjacent glyphs like "rr" cluster into "m." Use `0.06em` for 14px badges, `0.02em` for 16px body roles, `var(--letter-spacing-wide)` for uppercase labels. Never zero.
+- **Positive letter-spacing is mandatory.** Without it, adjacent glyphs like "rr" cluster into "m." Use `var(--letter-spacing-signal)` for 14px badges and chips, `var(--letter-spacing-body)` for 16px body roles, `var(--letter-spacing-wide)` for uppercase labels. Never zero, and never a typed value: `audit:tokens` fails on one.
 
 ### The 14px floor and the tier system
 
@@ -115,33 +115,33 @@ The floor is not only a legibility rule, which is why it is now gated by the *co
 | 2: Functional UI | Recognition: text is the sole channel for meaning | **6.5** | **4.5** | Pagination numbers and position readouts, breadcrumb links, table cell data, chip labels, button labels |
 | 3: Supplementary | Pattern match: meaning redundantly coded by shape, icon, or position | **4.5** | **4.5** | Badge text, hint text, figcaptions, stat labels, table metadata |
 
-The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 4.8. It fails Tier 2 regular but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change.
+The most common mistake is applying Tier 1 thresholds everywhere. `--color-text-subtle` scores OKCA 5.0. It fails Tier 2 regular but passes Tier 2 bold and Tier 3. Hint text, stat labels, and figcaptions use this token at 14px and are correct as-is. The fix for a Tier 2 failure is bold weight, not a color change.
 
-**Tier 1 regular text is required to be 16px.** It used to carry a 9.5 floor at 14px, and that floor was not merely strict. It was unreachable by every colored text token in the system. Contrast on a light background is bought by lowering lightness, and the sRGB gamut narrows toward black, so chroma falls with it. Past a hue's ceiling, contrast can only be purchased with color, and the end of that trade is pure black.
+**Tier 1 regular text is required to be 16px.** It used to carry a 9.5 floor at 14px, which no coloured text token in the system could reach. Contrast on a light background is bought by lowering lightness, and the sRGB gamut narrows toward black, so chroma falls with it. Past a hue's ceiling, contrast can only be purchased with color, and the end of that trade is pure black.
 
 Measured maximums on white, at the darkest lightness sRGB allows for each chroma:
 
 | hue | C=0.18 | C=0.14 | C=0.10 | C=0.06 | C=0 |
 |---|---|---|---|---|---|
-| error (red) | **6.6** | 10.3 | 15.0 | 18.7 | 20 |
-| warning (gold) | not renderable | 2.2 | 5.3 | 12.7 | 20 |
-| success (green) | 3.8 | **6.9** | 11.9 | 17.5 | 20 |
-| link (blue) | 2.9 | **5.4** | 10.3 | 16.7 | 20 |
+| error (red) | **6.6** | 10.5 | 15.4 | 19.5 | 20.9 |
+| warning (gold) | not renderable | 2.3 | 5.5 | 13.3 | 20.9 |
+| success (green) | 3.9 | **7.0** | 12.3 | 18.2 | 20.9 |
+| link (blue) | 2.7 | **5.1** | 10.1 | 17.1 | 20.9 |
 
 Bold values are the chroma each token is authored at, so those are its hard ceilings, not its current scores with room above. Warning text is authored at C=0.085, between two columns. A 9.5 floor asked every one of them to desaturate.
 
-Two things a designer should take from this table. **A contrast floor is a saturation budget**, so read the row before choosing a number. And **the same floor is a different demand at every hue**: at C=0.18 red reaches 6.6 while gold cannot be rendered at all, because the gamut is far larger in red down there. That asymmetry is why warning is authored at lower chroma than red; it was found by hitting the wall, not chosen.
+Two things a designer should take from this table. **A contrast floor is a saturation budget**, so read the row before choosing a number. And **the same floor is a different demand at every hue**: at C=0.18 red reaches 6.6 while gold cannot be rendered at all, because the gamut is far larger in red down there. That asymmetry is why warning is authored at lower chroma than red. It turned up when the token ran into the gamut boundary.
 
-It is also the arithmetic behind this document's opening argument. "Maximum contrast" is not a strong color decision. At OKCA 20 the chroma is exactly zero. It is the absence of a decision, which is precisely the clinical default described in *The core tension*.
+It is also the arithmetic behind this document's opening argument. At OKCA 20.9 the chroma is exactly zero, so maximum contrast means giving up colour: the clinical default described in *The core tension*.
 
-So when a floor cannot be met, the first question is whether the text should be colored at all. If the color carries meaning (status, link affordance), keep the color and change the size. If it is decorative, drop to `--color-text-default` and the contrast comes free. Desaturating a semantic color to satisfy a number is the last resort: it preserves the score and discards the thing the score was protecting.
+So when a floor cannot be met, the first question is whether the text should be colored at all. If the color carries meaning (status, link affordance), keep the color and change the size. If it is decorative, drop to `--color-text-default` and the contrast comes free. Desaturating a semantic color to satisfy a number is the last resort, because it gives up the colour that carried the meaning.
 
 ### Traps
 
 | Trap | What it looks like | Fix |
 |---|---|---|
-| Weight inflation | Every card title is `font-weight: 600` | Let `opsz` do the work; reserve weight for genuine structural emphasis |
-| Atkinson bold on errors | `[bold]="true"` on a `role="status" color="error"` message | Remove bold; Tier 1 errors need 16px or `--color-text-default`, not a bold workaround |
+| Weight inflation | A card title set bold, or headings stepped in weight by level | Use `--font-weight-heading` and let size and `opsz` carry the hierarchy |
+| Atkinson bold on errors | `bold` on a `<candor-accessible-text role_="status" color="error">` message | Remove bold; Tier 1 errors need 16px or `--color-text-default`, not a bold workaround |
 | Mono in UI chrome | Timestamps or labels set in `--font-family-mono` for a "technical" feel | Mono is for content where character position is load-bearing, not for flavor |
 | Serif in forms | Noto Serif on an input's helper text | Helper text is Atkinson; serif is for editorial reading contexts |
 | Off-scale sizes | `font-size: 15px` because 14px felt small and 16px felt big | The scale is the hierarchy. If nothing fits, the layout needs to change, not the scale |
@@ -150,27 +150,27 @@ So when a floor cannot be met, the first question is whether the text should be 
 
 ## 3. Strategic color palette
 
-Candor's palette is deliberately limited. The whole system resolves to a small set of semantic tokens: page, surface, elevated, inverse for backgrounds; default, subtle, subtle-on-surface, disabled for text; primary, secondary, tertiary, destructive for actions; success, warning, error, info for status. That is the entire working vocabulary. If a design needs a color outside that list, the first question is always whether the design is wrong, not whether the palette is insufficient.
+Candor's palette is deliberately limited. The whole system resolves to a small set of semantic tokens: page, surface, elevated, inverse for backgrounds; default, subtle, subtle-on-surface, disabled for text; primary, secondary, tertiary, destructive for actions; success, warning, error for status. That is the whole working vocabulary. If a design seems to need a colour outside it, check first whether an existing role fits. If none does, add a role that points at a ramp step.
 
 ### OKLCH as a reasoning tool
 
 OKLCH makes color decisions predictable. Because lightness is perceptually uniform, dropping L by 0.1 produces a predictable darkening regardless of hue. Because chroma is independent of lightness, a color can be muted without making it darker. This is why Candor uses OKLCH everywhere and why `klar` is the canonical tool for checking and adjusting values.
 
-**Always check gamut.** OKLCH describes a wider space than sRGB. A color that is out of the sRGB gamut will be silently clamped by the browser, and the result will not match the token. `klar meta` flags this.
+**Stay inside sRGB.** OKLCH accepts more chroma than sRGB can show, at every lightness and hue. Every Candor colour is inside sRGB, and `npm run audit:tokens` fails on one that isn't and prints the in-gamut value to use.
 
 ### Semantic tokens, not raw values
 
-The layering rule: raw OKLCH values belong in `semantics.scss`, where primitives are assigned semantic meaning. Component styles (the `static styles` of every Lit element in `src/web-components/components/`) should never contain a raw color value. A card uses `--color-bg-surface`, not `oklch(0.98 0 0)`. An error message uses `--color-status-error-text`, not a hand-picked red. `semantics.scss` is intentionally full of raw values; that is its job. Component code downstream of it should not be.
+The layering rule: OKLCH values live only in `primitives.scss`, as ramp steps derived from rules. `semantics.scss` gives those steps roles, and component styles (the `static styles` of every Lit element in `src/web-components/components/`) use the roles. A card uses `--color-bg-surface`, and an error message `--color-text-error`. `npm run audit:tokens` fails on a typed colour anywhere else.
 
 This layering is what allows dark mode, theme variants, and future palette changes to work without touching component code.
 
 ```scss
 // Do
 .alert--error .alert__title {
-  color: var(--color-status-error-text);
+  color: var(--color-text-error);
 }
 .alert--error .alert__icon {
-  color: var(--color-status-error);
+  color: var(--color-icon-error);
 }
 
 // Don't
@@ -190,19 +190,19 @@ This costs no accessibility, because neither device was doing the work. The icon
 
 ### The separation of base and text status colors
 
-Status base colors, used for icons and chip backgrounds, are at a lightness that works for non-text use. They are not the same colors used for text. `--color-status-error` is for non-text use; `--color-status-error-text` is for text. The contrast math is different for each. Substituting one for the other is one of the most common sources of a failed contrast audit.
+Status icon colours are at a lightness that works for non-text use. They are not the colours used for text, and the name says which is which: `--color-icon-error` is for the icon, `--color-text-error` for text. The contrast math is different for each. Substituting one for the other is one of the most common sources of a failed contrast audit.
 
 ### The link-color discipline
 
-Links must be hue-distinct from body text, not just contrast-compliant. A dark-blue link next to dark-gray body text at the same lightness is technically accessible and practically invisible. `--color-link` is azure (well-separated from the near-black body text hue) and visited links shift to indigo via `--color-link-visited`. Underlines stay on for inline links in prose regardless.
+Links must be hue-distinct from body text, not just contrast-compliant. A dark-blue link next to dark-gray body text at the same lightness is technically accessible and practically invisible. `--color-text-link` is azure (well-separated from the near-black body text hue) and visited links shift to indigo via `--color-text-link-visited`. Underlines stay on for inline links in prose regardless.
 
-**Visited links use a double-underline cue, not just color.** Browser security restrictions mean `:visited` can only change color properties, so `text-decoration-style: dotted` and similar are silently ignored. Candor's `Article` component works around this by pre-declaring a `border-bottom` on every link, colored transparent by default. On `:visited`, the border color is set to `--color-link-visited`, which makes it visible and produces a double underline (text-decoration + border): a structural non-color cue that survives colorblindness. This pattern should be applied anywhere inline links appear in prose.
+**Visited links use a double-underline cue, not just color.** Browser security restrictions mean `:visited` can only change color properties, so `text-decoration-style: dotted` and similar are silently ignored. Candor's `Article` component works around this by pre-declaring a `border-bottom` on every link, colored transparent by default. On `:visited`, the border color is set to `--color-text-link-visited`, which makes it visible and produces a double underline (text-decoration + border): a structural non-color cue that survives colorblindness. This pattern should be applied anywhere inline links appear in prose.
 
 ### Dark mode specifics
 
 Dark mode is where clinical defaults are most tempting and most destructive.
 
-- **Status backgrounds at identical lightness are indistinguishable.** Differentiating success, warning, error, and info requires varying both L and hue. A four-color row all at L=0.25 will read as one color with different tints.
+- **Status backgrounds at identical lightness are indistinguishable.** Differentiating success, warning and error requires varying both L and hue. A four-color row all at L=0.25 will read as one color with different tints.
 - **High L plus high chroma equals neon glow.** A saturated status color that looked muted on a light page glows uncomfortably on a dark one. Reduce L and C together.
 - **Dark surface delineation needs borders, not just L-steps.** The WCAG contrast formula compresses at the dark end; a 0.05 L difference that reads clearly on white vanishes on near-black. Use `--color-border-*` tokens on elevated surfaces.
 - **A filled red or crimson at dark-mode lightness reads as pink, not danger.** Destructive actions take the error red and stay outlined in both modes (thin border, transparent fill, colored text), which keeps them reading as a warning.
@@ -211,7 +211,7 @@ Dark mode is where clinical defaults are most tempting and most destructive.
 
 A scrollbar left to the browser is a default, not a decision. It draws a light track in dark mode, a 15px bar with arrow buttons under controls half again its height, and on macOS it hides until you scroll, so nothing shows that a row overflows. Candor draws its own (#307).
 
-- **Thin to look at, full size to grab.** The visible bar is 6px (`--scrollbar-thumb-size`) inside a 24px lane (`--scrollbar-size`, the AA target size). The rest of the lane is a transparent border on the thumb, so the whole lane can be dragged. This is the accessible choice made to look right, not a trade between the two.
+- **Thin to look at, full size to grab.** The visible bar is 6px (`--scrollbar-thumb-size`) inside a 24px lane (`--scrollbar-size`, the AA target size). The rest of the lane is a transparent border on the thumb, so the whole lane can be dragged.
 - **More space on the content side.** 12px between the bar and the content, 6px between the bar and the outer edge. Measured, the gaps are unequal; seen, they are even, because the eye measures from the content and the outer edge is a hard line.
 - **Inset from the ends** by `--radius-md`, so the bar clears a rounded corner instead of running into it.
 - **The rail grey.** The bar is `--color-border-control`, the same grey as a slider rail and a form-control border, so all three read as one family of inert edges. It darkens to `--color-text-subtle` on hover.
@@ -224,11 +224,11 @@ Use `scrollbarStyles('<selector>')` from `src/web-components/utils/scrollbar.ts`
 | Trap | What it looks like | Fix |
 |---|---|---|
 | A scroller with the browser's scrollbar | A light track across a dark panel; a heavy bar with arrows under small controls | `scrollbarStyles()` on the scrolling element |
-| Using `--color-status-error` for 14px text | A small error label fails contrast | Use `--color-status-error-text` |
+| Using `--color-icon-error` for 14px text | A small error label fails contrast | Use `--color-text-error` |
 | Two AA-compliant colors, no separation | Link text and body text both pass contrast against white, but blend against each other | Links must differ by hue, not just lightness |
 | Pure white on pure black | `color: white; background: black;` or equivalent near-values | Use `--color-text-default` on `--color-bg-page`, both pre-tuned away from the extremes |
 | Dark surfaces that disappear into each other | Card on page with only a 0.03 L-step | Add `--color-border-default` or step L by ≥0.06 |
-| Out-of-gamut OKLCH | A chroma value the browser silently clamps | Run `klar meta` before committing new colors |
+| Out-of-gamut OKLCH | A chroma value sRGB can't show | Derive the colour from a ramp; `npm run audit:tokens` fails on one outside sRGB |
 
 ---
 
@@ -248,7 +248,7 @@ An image that serves none of these is worth leaving out. The surface reads as mo
 - **Icons are functional, not decorative.** The icon system is semantic: a checkmark means success, an exclamation means warning. Decorative icons (a sparkle next to a heading for "flair") dilute the semantics and should be removed.
 - **Iconography should pair with text wherever the icon's meaning is not universal.** An icon-only button without an accessible name fails both a11y and comprehension. A status indicator that uses only color (no icon, no text) does not qualify for Tier 3, which requires a redundant non-color channel. Without one, the indicator must meet the stricter Tier 2 threshold.
 - **Photography and illustration inherit the humanist frame.** A page of warm serif prose with a harsh, desaturated stock photo is incoherent. If photography is used in an Article or editorial surface, it should sit visually inside the system's palette, either through the image selection itself, or through treatment (warm overlay, border, container sized on the spatial grid).
-- **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-status-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`klar variants`).
+- **Data visualization is a specific case.** Charts must use the status and action tokens, not a parallel chart palette. A "chart red" that differs from `--color-icon-error` means the system has two reds, and a user has to learn which means what. If charts need more colors than the semantic palette provides, generate them from the same OKLCH foundation (`klar variants`).
 
 ### Icon weight semantics
 
@@ -266,7 +266,7 @@ Candor's icon system is **Phosphor Icons**, a humanist family (rounded, even str
 
 **Status icons are bold.** `candor-alert`, `candor-toast` and `candor-accessible-text role_="state"` render them bold. They are the redundant channel that lets status text sit at Tier 3, so they must keep a clear shape, but they are not pressable, and filling them would make fill mean two things. The cost was measured before it was accepted: a bold outline stands out less than a filled shape, and at 14px the mark inside the circle is about 1.3px. If that proves too faint in use, the fix is to size the icon up, not to fill it.
 
-**Icon-only buttons draw the fill glyph at 1.75rem in `--color-text-subtle`, with the button padding cut to 2px.** A fill glyph's detail is cut out of the solid shape, and at 1.25rem the "i" in the info disc is about 1.3px wide. 1.75rem makes the cut-out readable; 2px padding, (32px − 28px) / 2, keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the outlined radios, checkboxes and labels beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour. It has no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. The colour belongs on the button, not the glyph, so a pressed toggle can still colour its glyph `--color-action-primary`. An icon inside a labelled button follows the button's text size and colour instead.
+**Icon-only buttons draw the fill glyph at 1.75rem in `--color-text-subtle`, with the button padding cut to 2px.** A fill glyph's detail is cut out of the solid shape, and at 1.25rem the "i" in the info disc is about 1.3px wide. 1.75rem makes the cut-out readable; 2px padding, (32px − 28px) / 2, keeps a small button at 32px. The subtle colour stops a row of solid shapes from outweighing the outlined radios, checkboxes and labels beside them. A stroke-only glyph in an icon-only button (text formatting, align, list, link, undo) is bold at 1.25rem in the same subtle colour. It has no cut-out to rescue, and at 1.75rem its strokes would outweigh the fills beside it. The colour belongs on the button, not the glyph, so a pressed toggle can still colour its glyph `--color-text-accent`. An icon inside a labelled button follows the button's text size and colour instead.
 
 There is no `ph-regular` class. The regular weight's base class is simply `ph`. Never put two weight classes on one element; each weight sets `font-family: !important` and the last-imported one silently wins.
 
@@ -280,7 +280,7 @@ See the Storybook **Design Tokens → Icons** page for the full reference: insta
 | Wrong icon weight for the role | A status icon set in `ph-fill`, or a dismiss "✕" set in `ph-fill` (it renders as a boxed ✕) | Fill only for actions with a fill form; status and stroke-only glyphs are `ph-bold` |
 | Color-only status dots | A red circle with no label, no icon | Add a label or shape; color cannot be the sole channel |
 | Stock imagery disconnected from palette | Cool-tone hero photo on a warm-neutral page | Recolor, overlay, or replace |
-| Chart palette drift | Bar chart uses `#e74c3c` for "error" | Use `--color-status-error` or OKLCH-derived chart tokens |
+| Chart palette drift | Bar chart uses `#e74c3c` for "error" | Use `--color-icon-error` or OKLCH-derived chart tokens |
 | Image container height off-grid | An explicit `height: 250px` on an image container | Use a height token or a value that resolves to a multiple of 8px |
 
 ---
@@ -292,8 +292,8 @@ A checklist a reviewer can run on any new screen or component. These are composi
 1. **Rhythm is visible.** Squint at the screen. Can you see consistent vertical spacing between sections? If everything runs together or the gaps are erratic, the spacing tokens are being used inconsistently.
 2. **Type hierarchy is legible without color.** Turn the screen grayscale. Can you still tell which element is the page title, which is a section heading, and which is body? If not, the hierarchy is being carried by color rather than type.
 3. **Each type family is playing its defined role.** Candor has four families and all four can legitimately appear on the same screen (UI chrome in Roboto Flex, prose in Noto Serif, labels in Atkinson, code in mono). What creates noise is families appearing outside their roles: Noto Serif on a form label, Atkinson on a heading, mono as a visual flavor choice.
-4. **Headings feel drawn, not bolded.** If every heading reads as "the same font, heavier," the `opsz` axis is not working. Optical sizing should produce a hierarchy that feels graduated, not stepped.
-5. **Color is doing one job per token.** Errors are `--color-status-error-*`, links are `--color-link`, primary actions are `--color-action-primary`. If a color is being used for two unrelated purposes on the same screen, the semantics are leaking.
+4. **Headings feel drawn, not bolded.** Every level shares one weight, so the hierarchy should read from size and optical sizing. If headings read as stepped by weight, or as "the same font, heavier," something is setting its own weight or the `opsz` axis is not working.
+5. **Color is doing one job per token.** Errors are `--color-*-error`, links are `--color-text-link`, primary actions are `--color-bg-action-primary`. If a color is being used for two unrelated purposes on the same screen, the semantics are leaking.
 6. **Backgrounds delineate by more than luminance alone.** Cards, panels, and elevated surfaces are distinguishable even on a dark theme. Borders are present where the L-step is subtle.
 7. **Edges and corners feel intentional.** Border radii are consistent within a scale. No component has three different radii (4px on a button, 6px on a card, 8px on a modal) unless the system defines them that way.
 8. **Interactive affordances are distinct from static text.** Links are visibly links. Buttons are visibly buttons. A user can tell what is clickable without hovering.
@@ -318,30 +318,29 @@ Likely causes, in order of frequency:
 
 ### Symptom: "This feels harsh on the eyes"
 
-- **Body text overriding `--color-text-default`.** The token is `oklch(0.32 0 0)`, deliberately not the darkest possible value. A custom `color: black` or `color: #000` defeats that. Check for overrides.
+- **Body text overriding `--color-text-default`.** The token is a deep near-black, deliberately not the darkest possible value. A custom `color: black` or `color: #000` defeats that. Check for overrides.
 - **High chroma status colors in dark mode.** Saturated error or warning backgrounds glow. Reduce L and C together.
 
 ### Symptom: "The technical content sits outside the design"
 
-- **Mono font used without a container.** A raw monospace block dropped into serif prose with no background, padding, or border radius reads as an intrusion. Fix: wrap it in `--color-bg-code` with padding and a border radius. `--color-bg-code` is a quiet teal tint about ΔE 8 to 9 from the page: `oklch(0.92 0.018 195)` in light and `oklch(0.22 0.02 195)` in dark. Never use `background: #000`.
+- **Mono font used without a container.** A raw monospace block dropped into serif prose with no background, padding, or border radius reads as an intrusion. Fix: wrap it in `--color-bg-code` with padding and a border radius. `--color-bg-code` is a quiet teal tint about ΔE 8 to 9 from the page, `--teal-115` in light and `--teal-870` in dark. Never use `background: #000`.
 - **Tabular numerals not enabled.** Numbers wobble in columns. Fix: `font-variant-numeric: tabular-nums` on numeric columns.
 - **No typographic treatment of technical content.** Function names, types, and keywords all look identical. Fix: use syntax tokens. Even a two-color treatment (identifier vs. keyword) is enough to bring code inside the system.
 
 ### Symptom: "Everything is bold and nothing stands out"
 
 - **Atkinson bold used incorrectly on reading text.** Form error messages are Tier 1, and Tier 1 regular text must be 16px or larger. Bolding a 14px error to reach the 14px bold floor is not the fix, because bold is for hierarchy, not urgency. Fix: bump to 16px. Bold is legitimate at 14px for Tier 2 functional text, where it drops the threshold from 6.5 to 4.5. Alert and toast body text are at 16px for this reason.
-- **Heading weight inflation.** Every heading reaches for `font-weight: 600`. Fix: let optical sizing do the work; remove explicit weight.
+- **Heading weight inflation.** Headings reach for bold, or step weight by level. Fix: use `--font-weight-heading` at every level and let size and optical sizing do the work.
 - **Label weight leaking into prose.** Body copy is inheriting a bold style from a parent. Fix: scope the bold; body prose should almost always be regular.
 
 ### Symptom: "The color palette feels cheap"
 
 - **Raw OKLCH values in components.** A developer picked a color directly instead of using a semantic token. Fix: replace with the correct semantic token; if none fits, the component's role is unclear.
 - **Status colors used decoratively.** A success-green used as a brand accent, or an error-red used for visual flair. Fix: decorative use breaks the semantics; pick a neutral or action token.
-- **Out-of-gamut OKLCH being clamped.** The rendered color does not match the token because it was out of sRGB. Fix: run `klar meta` and bring it in-gamut.
 
 ### Symptom: "I can't tell what's clickable"
 
-- **Links indistinguishable from body text.** Using `--color-text-default` instead of `--color-link`, or a custom dark blue with insufficient hue separation. Fix: use `--color-link`; keep underlines in prose.
+- **Links indistinguishable from body text.** Using `--color-text-default` instead of `--color-text-link`, or a custom dark blue with insufficient hue separation. Fix: use `--color-text-link`; keep underlines in prose.
 - **Ghost buttons without affordance.** A button with no background and no border reads as text. Fix: give it a border, a hover state, or both.
 - **Focus states missing or invisible.** Keyboard users can't see where they are. Fix: use the focus-ring tokens; never suppress `:focus-visible`.
 

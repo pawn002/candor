@@ -2,11 +2,52 @@
 // Maps primitive values to named roles.
 // Components reference these — never primitives directly.
 
+
+// Deprecated in 7.0.0 and removed in the next major (#367): the names before
+// the property-first grammar, each an alias of its replacement. Included by
+// both mode mixins, so every alias resolves in the scope that declares it.
+@mixin deprecated-color-aliases {
+    --color-action-destructive: var(--color-bg-action-destructive); // deprecated: use --color-bg-action-destructive
+    --color-action-destructive-active: var(--color-bg-action-destructive-active); // deprecated: use --color-bg-action-destructive-active
+    --color-action-destructive-border: var(--color-border-action-destructive); // deprecated: use --color-border-action-destructive
+    --color-action-destructive-hover: var(--color-bg-action-destructive-hover); // deprecated: use --color-bg-action-destructive-hover
+    --color-action-destructive-text: var(--color-text-action-destructive); // deprecated: use --color-text-action-destructive
+    --color-action-primary: var(--color-text-accent); // deprecated: use --color-text-accent
+    --color-action-primary-active: var(--color-bg-action-primary-active); // deprecated: use --color-bg-action-primary-active
+    --color-action-primary-hover: var(--color-bg-action-primary-hover); // deprecated: use --color-bg-action-primary-hover
+    --color-action-tertiary: var(--color-bg-action-tertiary); // deprecated: use --color-bg-action-tertiary
+    --color-action-tertiary-hover: var(--color-bg-action-tertiary-hover); // deprecated: use --color-bg-action-tertiary-hover
+    --color-action-tertiary-text: var(--color-text-action-tertiary); // deprecated: use --color-text-action-tertiary
+    --color-bg-forward: var(--color-bg-content); // deprecated: use --color-bg-content
+    --color-bg-recede: var(--color-bg-chrome); // deprecated: use --color-bg-chrome
+    --color-blockquote-text: var(--color-text-blockquote); // deprecated: use --color-text-blockquote
+    --color-callout-bg: var(--color-bg-callout); // deprecated: use --color-bg-callout
+    --color-focus: var(--color-ring-focus); // deprecated: use --color-ring-focus
+    --color-link: var(--color-text-link); // deprecated: use --color-text-link
+    --color-link-hover: var(--color-text-link-hover); // deprecated: use --color-text-link-hover
+    --color-link-visited: var(--color-text-link-visited); // deprecated: use --color-text-link-visited
+    --color-overlay: var(--color-bg-scrim); // deprecated: use --color-bg-scrim
+    --color-slider-thumb: var(--color-fill-slider-thumb); // deprecated: use --color-fill-slider-thumb
+    --color-status-error: var(--color-icon-error); // deprecated: use --color-icon-error
+    --color-status-error-bg: var(--color-bg-error); // deprecated: use --color-bg-error
+    --color-status-error-text: var(--color-text-error); // deprecated: use --color-text-error
+    --color-status-success: var(--color-icon-success); // deprecated: use --color-icon-success
+    --color-status-success-bg: var(--color-bg-success); // deprecated: use --color-bg-success
+    --color-status-success-text: var(--color-text-success); // deprecated: use --color-text-success
+    --color-status-warning: var(--color-icon-warning); // deprecated: use --color-icon-warning
+    --color-status-warning-bg: var(--color-bg-warning); // deprecated: use --color-bg-warning
+    --color-status-warning-text: var(--color-text-warning); // deprecated: use --color-text-warning
+    --color-text-inverse: var(--color-text-on-inverse); // deprecated: use --color-text-on-inverse
+    --color-toast-message: var(--color-text-toast); // deprecated: use --color-text-toast
+}
+
 @mixin light-color-tokens {
     // ─── Colors: Backgrounds ───────────────────────────────────────────────────
     --color-bg-page:     var(--gray-cool-25);
     --color-bg-surface:  var(--gray-100);
-    --color-bg-subtle:   var(--gray-200);  // subtle interactive fill — one step darker than surface (hover rows, selection, hover chips); mirrors --color-text-subtle (#174)
+    // Deprecated in 7.0.0, removed in the next major: no component uses it, and it is
+    // deltaE 1 from bg-surface, so a fill in it vanishes on a card. Use --color-bg-hover.
+    --color-bg-subtle:   var(--gray-200);
     --color-bg-elevated: var(--gray-0);   // white — floats above surface (gray-100) via shadow
     // Intent surfaces (#318). Use these to rank surfaces by temperature: forward
     // for the one thing a screen should lead with, recede for chrome that should
@@ -14,30 +55,34 @@
     // Ranking by temperature is a tertiary affordance: it guides the eye but never
     // carries meaning on its own, since a deltaE 5 to 15 shift is lost on a
     // washed-out screen or to a reader who cannot tell the hues apart.
-    --color-bg-forward:  var(--gray-warm-25);  // same lightness as the page, warm
-    --color-bg-recede:   var(--gray-cool-100); // same lightness as bg-surface, cool; use text-subtle-on-surface on it
+    --color-bg-content:  var(--gray-warm-25);  // same lightness as the page, warm
+    --color-bg-chrome:   var(--gray-cool-100); // same lightness as bg-surface, cool; use text-subtle-on-surface on it
     // Neutral fill that reads on page, surface and elevated alike, which bg-subtle
     // cannot (deltaE 3 from surface in light). deltaE 13 / 8 / 14 from page / surface /
     // elevated. Used at rest by the default badge (#321) and on hover by bg-hover (#322).
-    --color-bg-muted:    var(--gray-300);  // text-default OKCA 6.5 on this bg ✅
+    --color-bg-muted:    var(--gray-300);  // text-default OKCA 6.4 on this bg ✅
     // Hover fill for transparent controls: ghost buttons and close/dismiss actions (#322).
     --color-bg-hover:    var(--color-bg-muted);
+    --color-bg-active:   var(--gray-350);  // pressed fill: one in-between step below the hover
     --color-bg-inverse:  var(--navy-800);
+    // The tooltip bubble. Its own token because in dark it floats over modals,
+    // where the inverse band's navy-700 sits too close to bg-elevated.
+    --color-bg-tooltip:  var(--color-bg-inverse);
 
     // ─── Colors: Text ──────────────────────────────────────────────────────────
-    --color-text-default:           var(--gray-800);  // OKCA 11.9 on page ✅
-    --color-text-subtle:            var(--gray-600);   // OKCA 4.8 on page ✅ — gray-500 (L=0.56) was OKCA 3.8; stepped to L=0.50 for OKCA compliance (#14)
-    --color-text-subtle-on-surface: var(--gray-650);  // OKCA 5.0 on bg-surface ✅ — gray-600 (L=0.46) was OKCA 4.5 on gray-100; stepped to L=0.44 (#14)
+    --color-text-default:           var(--gray-800);  // OKCA 12.4 on page ✅
+    --color-text-subtle:            var(--gray-600);   // OKCA 5.0 on page ✅ — gray-500 (L=0.56) was OKCA 3.8; stepped to L=0.50 for OKCA compliance (#14)
+    --color-text-subtle-on-surface: var(--gray-650);  // OKCA 5.2 on bg-surface ✅ — gray-600 (L=0.46) was OKCA 4.5 on gray-100; stepped to L=0.44 (#14)
     --color-text-disabled:          var(--gray-400);
     // Component-scoped: toast message text. Every toast sits on bg-surface since #292.
-    --color-toast-message:          var(--color-text-default); // OKCA 9.3 on bg-surface ✅
-    --color-text-inverse:           var(--gray-0);
-    --color-text-subtle-on-inverse: var(--gray-300); // OKCA 7.6 on bg-inverse ✅ — muted links on dark nav/tabs
-    --color-text-on-action:         var(--gray-0);    // white text on primary/secondary buttons
+    --color-text-toast:          var(--color-text-default); // OKCA 9.7 on bg-surface ✅
+    --color-text-on-inverse:           var(--gray-0);
+    --color-text-subtle-on-inverse: var(--gray-300); // OKCA 5.8 on bg-inverse ✅ — muted links on dark nav/tabs
+    --color-text-on-action:         var(--gray-0);    // white label on the primary/secondary action fills
 
     // ─── Colors: Borders ───────────────────────────────────────────────────────
     --color-border-default:    var(--gray-200);
-    // Separator/divider fill — decorative, carries no 1.4.11 floor: OKCA 1.3 on
+    // Separator/divider fill — decorative, carries no 1.4.11 floor: OKCA 1.2 on
     // page. Do not reach for it as a control boundary; that is border-control.
     // candor-slider used it for the unfilled half of its track, the one place
     // the figure was load-bearing; since #247 the slider rail is border-control.
@@ -47,7 +92,7 @@
     // and must meet it on *every* background a control can sit on — not just the
     // page. L=0.53 is the lightest value that clears 3.0 against the worst of them;
     // it sits on gray-600 (L=0.50), the nearest ramp step on the safe side (#318):
-    // OKCA 4.8 on page ✅, OKCA 3.8 on bg-surface ✅.
+    // OKCA 5.0 on page ✅, OKCA 3.9 on bg-surface ✅.
     //
     // This used to be gray-500 (L=0.56) with a --color-border-control-on-surface
     // sibling the consumer applied by hand on surface containers. That token is
@@ -63,44 +108,66 @@
     --color-border-control:            var(--gray-600);
     // Form-control knob fill (slider/switch thumb) — a light puck; pairs with
     // --color-border-control (darker) for the edge. icon/border use (non-text UI).
-    --color-slider-thumb:              var(--gray-0); // white knob in light — icon/border use
+    --color-fill-slider-thumb:              var(--gray-0); // white knob in light — icon/border use
 
     // ─── Colors: Action — Primary (navy) ───────────────────────────────────────
-    --color-action-primary:        var(--navy-800); // OKCA 13.9 on white ✅
-    --color-action-primary-hover:  var(--navy-900);
-    --color-action-primary-active: var(--navy-900);
+    --color-text-accent:        var(--navy-800); // OKCA 14.1 on white ✅
+    // The fill behind a label (primary button, badge, selected chip, current
+    // page, chat send). The same navy as action-primary in light; dark gives it
+    // its own value, because dark action-primary is also link-like text, a
+    // border and a control indicator, and a fill under a label wants the
+    // opposite lightness from those. hover/active are the fill's states.
+    --color-bg-action-primary:   var(--color-text-accent);
+    --color-bg-action-primary-hover:  var(--navy-900);
+    --color-bg-action-primary-active: var(--navy-900);
+    // The edge of an outlined action (the secondary button). The label names the
+    // control, so WCAG 1.4.11 asks nothing of the edge and it carries no floor; it
+    // only marks the label as a button. Light draws it in the label's navy.
+    --color-border-action-secondary: var(--color-text-accent);
 
-    // ─── Colors: Action — Secondary (burgundy) ─────────────────────────────────
-    --color-action-secondary:        var(--burgundy-700); // OKCA 9.3 on white ✅
+    // ─── Colors: Accent — Secondary (burgundy) ─────────────────────────────────
+    --color-action-secondary:        var(--burgundy-700); // deprecated in 7.0.0 (#367); OKCA 9.4 on white ✅
+    --color-bg-accent-secondary:   var(--burgundy-700); // the secondary badge fill
+    // Deprecated in 7.0.0, removed in the next major: no component has a filled
+    // secondary control to hover or press.
     --color-action-secondary-hover:  var(--burgundy-800);
     --color-action-secondary-active: var(--burgundy-900);
+    // The edge of an outlined secondary action (the secondary chip); see action-primary-border.
+    --color-border-accent-secondary: var(--burgundy-700);
+    // The navigation count badge ("Inbox 12"). Its own token because in dark it stays
+    // brighter than the secondary fill: an unread count is meant to draw the eye.
+    --color-bg-nav-badge: var(--color-bg-accent-secondary);
 
     // ─── Colors: Action — Destructive (error red, H=25) ──────────────────────
     // Takes the error red. It was a boosted burgundy (H=347), kept apart from
     // error on the reasoning that destructive is a chosen action, not a failure.
-    // That put it deltaE 8 from --color-action-secondary, the burgundy that fills
-    // badges, chips and the current nav item, so a "Featured" badge matched the
+    // That put it deltaE 8 from the burgundy that fills (--color-bg-accent-secondary)
+    // badges and chips (the current nav item too, then), so a "Featured" badge matched the
     // delete button. Error and destructive both mean "take care", so sharing red
     // misleads no one; deltaE to secondary is now 24 light / 17 dark (#318).
     // Both modes: outlined — transparent bg, red border+text.
-    --color-action-destructive:        transparent;
-    --color-action-destructive-hover:  oklch(0.45 0.18 25 / 0.08); // subtle red tint on hover
-    --color-action-destructive-active: oklch(0.45 0.18 25 / 0.15); // stronger tint on active
-    --color-action-destructive-text:   var(--color-status-error-text); // outlined, so page and bg-surface are both real placements (#224); figures on the pairings
-    --color-action-destructive-border: var(--color-status-error-text); // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
+    --color-bg-action-destructive:        transparent;
+    --color-bg-action-destructive-hover:  oklch(from var(--red-600) l c h / 0.08); // red-600 (the label) at 8%: subtle tint on hover
+    --color-bg-action-destructive-active: oklch(from var(--red-600) l c h / 0.15); // red-600 at 15%: stronger tint on active
+    --color-text-action-destructive:   var(--color-text-error); // outlined, so page and bg-surface are both real placements (#224); figures on the pairings
+    --color-border-action-destructive: var(--color-text-error); // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
 
     // ─── Colors: Action — Tertiary ─────────────────────────────────────────────
     // No border — structural identity is the fill (distinct from secondary's outline).
-    --color-action-tertiary:        var(--gray-200);  // was gray-100; bumped for visibility without border
-    --color-action-tertiary-hover:  var(--gray-300);
-    --color-action-tertiary-text:   var(--navy-800);
+    // The fill is the button's only edge, so it rests on the muted step, deltaE 8 or
+    // more from page, card and modal (audit/separations.json); gray-200 was deltaE 1
+    // from a card. Each state is one step darker.
+    --color-bg-action-tertiary:        var(--gray-300);
+    --color-bg-action-tertiary-hover:  var(--gray-350);
+    --color-bg-action-tertiary-active: var(--gray-400);
+    --color-text-action-tertiary:   var(--navy-800);
 
     // ─── Colors: Link / Accent (azure) ─────────────────────────────────────────
     // azure-400 is the brand original (#1493FB) — use on dark backgrounds only.
     // azure-500/600 are the accessible steps for use on white backgrounds.
-    --color-link:         oklch(0.49 0.14 250.80); // OKCA 5.3 on white ✅ — azure-500 (L=0.53) was OKCA 4.4; stepped to L=0.49 for OKCA compliance (#14)
-    --color-link-hover:   var(--azure-600);   // OKCA 6.4 on white ✅
-    --color-link-visited: var(--indigo-700);  // OKCA 5.8 on white ✅ — honors universal :visited convention
+    --color-text-link:         var(--azure-600);   // OKCA 6.4 on white ✅ — 4.8 on a card; azure-545 measured 3.8 there
+    --color-text-link-hover:   var(--azure-700);   // OKCA 9.0 on white ✅ — a step darker than the link
+    --color-text-link-visited: var(--indigo-625);  // OKCA 6.6 on white ✅ — honors universal :visited convention; 4.9 on a card, where indigo-600 sat on the floor
 
     // ─── Colors: Code blocks ───────────────────────────────────────────────────
     // A teal tint, deltaE 9 from the page in light and 8 in dark, replacing the
@@ -108,7 +175,7 @@
     // Teal at hue 195 is clear of every brand and status hue in both modes (#318);
     // the burgundy tint it replaced sat deltaE 5.6 from error-bg.
     // Text is the ordinary body colour, so the pair needs no inverse.
-    --color-bg-code:     oklch(0.92 0.018 195); // text-default OKCA 9.6 on this bg ✅
+    --color-bg-code:     var(--teal-115); // text-default OKCA 10.0 on this bg ✅
     --color-text-code:   var(--color-text-default);
     --color-border-code: transparent; // deliberate: the tint separates the block from the page on its own; dark mode adds a rule (#242)
 
@@ -116,29 +183,65 @@
     // The ring every component draws, offset so it sits on the background behind
     // the control. azure-400 fell under the 1.4.11 floor of 3 on all three light
     // backgrounds, and nothing measured it until the focus-ring pairings existed.
-    --color-focus: var(--azure-500); // OKCA 3.3 on bg-surface ✅
+    --color-ring-focus: var(--azure-500); // OKCA 3.1 on bg-surface ✅
 
     // ─── Colors: Status ────────────────────────────────────────────────────────
-    // Base colors: non-text use only (icons, borders, indicators).
-    // For text on light status-bg, use --color-status-*-text (contrast-validated below).
-    --color-status-error:         oklch(0.54 0.21 25);    // icon/border use — OKCA 3.6 on error-bg ✅ (WCAG 1.4.11)
-    --color-status-error-bg:      oklch(0.95 0.02 25);    // at the sRGB chroma ceiling for this L and H (0.03 is out of gamut), so it cannot get redder without getting darker. deltaE 14 from warning-bg since warning moved to gold (it was 4 against amber), but a pale tint is still not a variant channel (#214, #242, #318)
-    --color-status-error-text:    oklch(0.45 0.18 25);    // OKCA 5.4 on error-bg ✅ — C=0.22 exceeded what sRGB holds at this L and H, so the token specified no single colour and its recorded 4.6 was undefined; re-authored to the boundary, same L and H (#225)
-    --color-status-success:       oklch(0.55 0.15 144.2); // icon/border use — OKCA 3.4 on success-bg ✅ (WCAG 1.4.11)
-    --color-status-success-bg:    oklch(0.95 0.05 145);   // green and gold have more chroma room at L 0.95 than red, which is why error alone sits at 0.02 (#242)
-    --color-status-success-text:  oklch(0.46 0.14 144.2); // OKCA 5.1 on success-bg ✅ — L=0.50 was OKCA 4.2; stepped to L=0.46 (#14)
-    --color-status-warning:       oklch(0.54 0.105 88); // gold since #318; OKCA 3.1 on bg-surface ✅, the lightest gold that clears the non-text floor there — icon/border use — OKCA 3.5 on warning-bg ✅ (WCAG 1.4.11)
-    --color-status-warning-bg:    oklch(0.95 0.05 88);    // gold has chroma room at L 0.95 that amber did not (amber topped out at 0.02), so this tint is deltaE 14 from error-bg; still not a variant channel (#214, #242, #318)
-    --color-status-warning-text:  oklch(0.42 0.085 88); // OKCA 6.2 on warning-bg ✅ — gold since #318 (was amber, H=53.54). Reads olive-brown at this lightness: yellow loses the most chroma as it darkens, and the text has to be this dark to clear its floor on bg-surface
+    // --color-icon-* and --color-border-* are non-text only (icons, borders, indicators).
+    // For status text use --color-text-{error,success,warning} (contrast-validated below).
+    // Every status colour is a step on its hue's ramp (#365): text at 600, icons
+    // at 500, fills at 100. Fills sit at 100 rather than 50 because at 50 the
+    // error and warning fills fall to deltaE 10 apart and 6 from white; at 100
+    // they are 16 apart. A pale tint is still not a variant channel (#214, #242, #318).
+    --color-icon-error:         var(--red-500);     // icon/border use — OKCA 4.4 on white ✅ (WCAG 1.4.11)
+    --color-bg-error:      var(--red-100);
+    --color-text-error:    var(--red-600);     // OKCA 5.3 on error-bg ✅
+    --color-icon-success:       var(--green-500);   // icon/border use — OKCA 4.5 on white ✅ (WCAG 1.4.11)
+    --color-bg-success:    var(--green-100);
+    --color-text-success:  var(--green-600);   // OKCA 5.4 on success-bg ✅
+    --color-icon-warning:       var(--gold-500);    // icon/border use — OKCA 4.6 on white ✅ (WCAG 1.4.11)
+    --color-bg-warning:    var(--gold-100);
+    --color-text-warning:  var(--gold-600);    // OKCA 5.5 on warning-bg ✅ — reads olive-brown at this lightness: yellow loses the most chroma as it darkens
+    // The edge of a status-coloured outline (the status chips). Light draws it in
+    // the icon colour; dark dims it a step so it sits below its label.
+    --color-border-error:   var(--color-icon-error);
+    --color-border-success: var(--color-icon-success);
+    --color-border-warning: var(--color-icon-warning);
 
     // ─── Colors: Blockquote ────────────────────────────────────────────────────
     // A book indent, set a step larger in italic, on the page itself. No wash
     // and no side bar: that pairing reads as machine-made (#292).
-    --color-blockquote-text:   var(--color-text-default); // OKCA 11.9 on page ✅
+    --color-text-blockquote:   var(--color-text-default); // OKCA 12.4 on page ✅
 
     // ─── Colors: Callout (article tip/note) ────────────────────────────────────
     // A neutral panel. The indigo wash and left bar went in #292.
-    --color-callout-bg:           var(--color-bg-surface); // text-default OKCA 9.3 on this bg ✅
+    --color-bg-callout:           var(--color-bg-surface); // text-default OKCA 9.7 on this bg ✅
+
+    // ─── Roles split out of action-primary and status-* (#367) ────────────────
+    // The accent as a line and as a mark: same navy as text-accent, named for
+    // what each paints so the property is in the name.
+    --color-border-accent:          var(--navy-800); // the active tab's underline, a checked control's edge, a focused grid cell
+    --color-fill-indicator:         var(--navy-800); // the selected radio's dot, a progress bar's completed portion
+    --color-text-action-secondary:  var(--color-text-accent); // the outlined secondary button's label
+    --color-bg-action-secondary-hover:  oklch(from var(--color-text-action-secondary) l c h / 0.08);
+    --color-bg-action-secondary-active: oklch(from var(--color-text-action-secondary) l c h / 0.15);
+    --color-bg-action-ghost-hover:  var(--color-bg-hover);
+    --color-bg-action-ghost-active: var(--color-bg-active);
+    // Form field edges by state. Hover was text-subtle, which sits on the same
+    // grey step as border-control in both modes, so a hovered field's edge does
+    // not visibly change today; the token keeps that, and names the state.
+    --color-border-control-hover:   var(--color-border-control);
+    --color-border-control-focus:   var(--color-border-accent);
+    --color-border-control-error:   var(--color-icon-error);
+    // Marks and tracks that are their own signal (WCAG 1.4.11).
+    --color-fill-track:             var(--color-border-control); // a switch's off track, a slider's rail
+    --color-fill-on-action:         var(--color-text-on-action); // a switch's thumb, a checkbox's tick
+    --color-fill-scrollbar-thumb:       var(--color-border-control);
+    --color-fill-scrollbar-thumb-hover: var(--color-text-subtle);
+    // On the inverse band.
+    --color-border-accent-on-inverse: var(--color-text-on-inverse); // the inverse tabs' active underline
+    --color-bg-hover-on-inverse:    oklch(from var(--color-text-on-inverse) l c h / 0.1);
+
+    @include deprecated-color-aliases;
 
     // ─── Elevation / Shadow ────────────────────────────────────────────────────
     // Lives in the light mixin (not just :root) so [data-theme="light"] correctly
@@ -162,20 +265,25 @@
     --spacing-2xl: var(--space-8);  // 64px
     --spacing-3xl: var(--space-12); // 96px
 
-    // Component spacing
-    --spacing-button-padding-y:    var(--spacing-sm);
-    --spacing-button-padding-x:    var(--spacing-md);
-    --spacing-button-padding-y-sm: var(--spacing-xs);
-    --spacing-button-padding-x-sm: var(--spacing-sm);
-    --spacing-button-padding-y-lg: var(--spacing-md);
-    --spacing-button-padding-x-lg: var(--spacing-lg);
-    --spacing-input-padding-y:     var(--spacing-sm);
-    --spacing-input-padding-x:     var(--spacing-sm);
-    --spacing-card-padding:        var(--spacing-md);
-    --spacing-card-gap:            var(--spacing-md);
+    // Component spacing. Deprecated in 7.0.0, removed in the next major (#367):
+    // each sat in the spacing scale's namespace and duplicated a component's
+    // --candor-* hook. Set the hook instead (--candor-button-padding-y, …); until
+    // removal, components read these as the hook's fallback, so an override
+    // of one still works. --spacing-card-gap has no hook: it was only ever the
+    // gap between cards, which is page layout; use --spacing-md.
+    --spacing-button-padding-y:    var(--spacing-sm); // deprecated: use --candor-button-padding-y
+    --spacing-button-padding-x:    var(--spacing-md); // deprecated: use --candor-button-padding-x
+    --spacing-button-padding-y-sm: var(--spacing-xs); // deprecated: use --candor-button-padding-y
+    --spacing-button-padding-x-sm: var(--spacing-sm); // deprecated: use --candor-button-padding-x
+    --spacing-button-padding-y-lg: var(--spacing-md); // deprecated: use --candor-button-padding-y
+    --spacing-button-padding-x-lg: var(--spacing-lg); // deprecated: use --candor-button-padding-x
+    --spacing-input-padding-y:     var(--spacing-sm); // deprecated: use the field's --candor-*-padding-y
+    --spacing-input-padding-x:     var(--spacing-sm); // deprecated: use the field's --candor-*-padding-x
+    --spacing-card-padding:        var(--spacing-md); // deprecated: use --candor-card-padding
+    --spacing-card-gap:            var(--spacing-md); // deprecated: use --spacing-md
 
     // ─── Overlay ───────────────────────────────────────────────────────────────
-    --color-overlay: rgba(0, 0, 0, 0.50); // modal/drawer backdrop
+    --color-bg-scrim: rgba(0, 0, 0, 0.50); // modal/drawer backdrop
 
     // ─── Border / Shape ────────────────────────────────────────────────────────
     --radius-sm:   var(--border-radius-sm);
@@ -186,9 +294,30 @@
     --border-width-thin:   var(--border-width-1);
     --border-width-medium: var(--border-width-2);
     --border-width-thick:  var(--border-width-4);
+    // The bar that marks the active item: the tab underline, horizontal and
+    // vertical. 2px was the faintest cue on the active tab, and on the dark inverse
+    // band, where active and inactive labels are close in colour, it carries most
+    // of the distinction. 4px reads as a separate bar on default tabs.
+    --border-width-indicator: var(--border-width-3);
 
     --focus-ring-width:  var(--border-width-2);
     --focus-ring-offset: var(--border-width-2);
+
+    // ─── Motion (#368) ─────────────────────────────────────────────────────────
+    // Durations and easings every transition and animation draws from. Arrivals
+    // decelerate into place and take a little longer; departures accelerate
+    // away and are quicker, so dismissing never feels like waiting.
+    --motion-duration-instant: 100ms; // a control's own press feedback
+    --motion-duration-fast:    150ms; // hover and focus colour, a popup or tooltip appearing, a dialog leaving
+    --motion-duration-base:    200ms; // a state changing: a check, a switch, a disclosure opening
+    --motion-duration-slow:    250ms; // a dialog or drawer arriving
+    --motion-ease-standard: ease;                         // colour and state changes
+    --motion-ease-enter:    cubic-bezier(0.25, 0, 0.1, 1); // decelerates into place
+    --motion-ease-exit:     cubic-bezier(0.4, 0, 1, 1);    // accelerates away
+    // How far things travel. Reduced motion zeroes both below, so overlays fade
+    // in place: the fade carries the change and nothing moves.
+    --motion-distance: 0.5rem; // an overlay rising into place
+    --motion-travel:   1;      // multiplier on a full slide, such as a drawer from its edge
 
     // ─── Interaction ───────────────────────────────────────────────────────────
     --hit-target-aaa: 2.75rem; // 44px — WCAG 2.5.5 Target Size (Enhanced), AAA
@@ -205,34 +334,40 @@
     --scrollbar-inset-outer: 0.375rem;             // 6px between the bar and the scroller's outer edge
 
     // ─── Typography ────────────────────────────────────────────────────────────
-    --font-family-base:       var(--font-sans);        // Roboto Flex — UI workhorse
-    --font-family-display:    var(--font-sans);        // Roboto Flex — display/headings (use weight axis)
-    --font-family-accessible: var(--font-accessible);  // Atkinson Hyperlegible — critical UI opt-in
-    --font-family-mono:       var(--font-mono);        // Roboto Mono
-    --font-family-reading:    var(--font-reading);     // Noto Sans — conversational/long-form
-    --font-family-serif:      var(--font-serif);       // Noto Serif
+    --font-family-base:       var(--typeface-sans);        // Roboto Flex — UI workhorse
+    --font-family-display:    var(--typeface-sans);        // Roboto Flex — display/headings (use weight axis)
+    --font-family-accessible: var(--typeface-accessible);  // Atkinson Hyperlegible Next — critical UI opt-in
+    --font-family-mono:       var(--typeface-mono);        // Atkinson Hyperlegible Mono
+    --font-family-reading:    var(--typeface-reading);     // Noto Sans — conversational/long-form
+    --font-family-serif:      var(--typeface-serif);       // Noto Serif
 
-    --font-size-base: var(--text-base);
-    --font-size-xs:   var(--text-xs);
-    --font-size-sm:   var(--text-sm);
-    --font-size-md:   var(--text-base);
-    --font-size-lg:   var(--text-lg);
-    --font-size-xl:   var(--text-xl);
-    --font-size-2xl:  var(--text-2xl);
-    --font-size-3xl:  var(--text-3xl);
+    --font-size-base: var(--font-size-md); // deprecated in 7.0.0 (#367): a duplicate of --font-size-md
+    --font-size-xs:   var(--type-xs);
+    --font-size-sm:   var(--type-sm);
+    --font-size-md:   var(--type-base);
+    --font-size-lg:   var(--type-lg);
+    --font-size-xl:   var(--type-xl);
+    --font-size-2xl:  var(--type-2xl);
+    --font-size-3xl:  var(--type-3xl);
 
-    --font-size-h1: var(--text-3xl);
-    --font-size-h2: var(--text-2xl);
-    --font-size-h3: var(--text-xl);
-    --font-size-h4: var(--text-lg);
-    --font-size-h5: var(--text-base);
-    --font-size-h6: var(--text-sm);
+    --font-size-h1: var(--type-3xl);
+    --font-size-h2: var(--type-2xl);
+    --font-size-h3: var(--type-xl);
+    --font-size-h4: var(--type-lg);
+    --font-size-h5: var(--type-base);
+    --font-size-h6: var(--type-sm);
 
     --font-weight-light:    var(--weight-light);
     --font-weight-regular:  var(--weight-regular);
     --font-weight-medium:   var(--weight-medium);
     --font-weight-semibold: var(--weight-semibold);
     --font-weight-bold:     var(--weight-bold);
+    // Headings are semibold: with Roboto Flex's optical sizing on, bold closed
+    // the counters at display sizes and read as dense rather than humanist.
+    // Semibold counts as regular for contrast (bold is wght >= 700), so
+    // candor-heading keeps bold where that changes the floor: a secondary h4
+    // (20px) and h6 (14px).
+    --font-weight-heading:  var(--font-weight-semibold);
 
     // Leading tightens as size grows: a unitless multiplier already makes the
     // absolute gap grow with the type, and large type wants proportionally less
@@ -244,12 +379,29 @@
     --line-height-normal:   var(--leading-normal);
     --line-height-relaxed:  var(--leading-relaxed);
 
-    --letter-spacing-tight:   var(--tracking-tight);
-    --letter-spacing-normal:  var(--tracking-normal);
-    --letter-spacing-relaxed: 0.03em; // moderate tracking for small body text, captions — between normal and wide
-    --letter-spacing-wide:    var(--tracking-wide);
-    --letter-spacing-italic: 0.02em; // italic text at body size (16px) — slant reduces apparent inter-glyph space
-    --letter-spacing-body:   0.02em; // upright text that needs a little air: Atkinson messages, hints and labels (so "rr" never reads as "m"), and small UI text. Italic text uses --letter-spacing-italic
+    // Letter spacing is a role, never a typed value: audit:tokens fails on a
+    // letter-spacing anywhere in src/ that is not one of these.
+    --letter-spacing-tight:   var(--tracking-minus-20); // display numerals, such as a stat value
+    --letter-spacing-normal:  var(--tracking-0); // mono and tabular numerals, whose spacing is designed into the face
+    --letter-spacing-relaxed: var(--tracking-30); // 14px labels and small text: form labels, legends, table headers, small buttons, figcaptions
+    --letter-spacing-signal:  var(--tracking-40); // short sentence-case labels that mark themselves as UI: badges and chips
+    --letter-spacing-wide:    var(--tracking-50); // capitals: uppercase labels and column headers
+    --letter-spacing-italic: var(--tracking-20); // italic text at body size (16px) — slant reduces apparent inter-glyph space
+    --letter-spacing-body:   var(--tracking-20); // upright text that needs a little air: Atkinson messages, hints and labels (so "rr" never reads as "m"), and small UI text. Italic text uses --letter-spacing-italic
+
+    // Heading tracking opens as size falls. Large type falls apart with the
+    // spacing small type needs, so one value cannot serve every level. Chosen by
+    // eye against Roboto Flex at semibold with optical sizing on, which already
+    // narrows sidebearings at display sizes; before 7.0.0 headings were set
+    // tight (-0.02em), tuned when the opsz axis never loaded. Settled in
+    // running article prose, where a step looser read as letterspaced; h1
+    // drops furthest, since at 39px even 0.015em pulled the headline apart.
+    --letter-spacing-h1: var(--tracking-5);
+    --letter-spacing-h2: var(--tracking-20);
+    --letter-spacing-h3: var(--tracking-20);
+    --letter-spacing-h4: var(--tracking-25);
+    --letter-spacing-h5: var(--tracking-30);
+    --letter-spacing-h6: var(--tracking-35);
 }
 
 // ─── Theme Overrides ────────────────────────────────────────────────────────
@@ -266,17 +418,32 @@
     // ─── Backgrounds ───────────────────────────────────────────────────────
     --color-bg-page:     var(--gray-cool-900);           // oklch(0.16 0.02 248.99) — deepest surface
     --color-bg-surface:  var(--gray-cool-850);           // oklch(0.24 0.03 248.99) — cards/panels
-    --color-bg-subtle:   var(--gray-cool-800);      // subtle interactive fill — a hair lighter than surface in dark (direction flips vs light) (#174). Cooled counterpart of gray-700 so it recedes on the cool-navy surfaces instead of advancing (warm advances / cool recedes); L preserved.
+    --color-bg-subtle:   var(--gray-cool-800); // deprecated in 7.0.0; see light
     --color-bg-elevated: var(--gray-cool-800);      // one step above surface; shares gray-cool-800 with bg-subtle
     // Intent surfaces (#318). Dark surfaces are already cool, so recede steps down
     // toward the page; forward keeps the card lightness and turns warm.
-    --color-bg-forward:  var(--gray-warm-800);
-    --color-bg-recede:   var(--gray-cool-900);
+    // gray-warm-850 is bg-surface's lightness (L=0.24). gray-warm-800 (L=0.30)
+    // sat a step lighter, and under klar 4 text-subtle measured 3.7 on it against
+    // a Tier 3 floor of 4.5.
+    --color-bg-content:  var(--gray-warm-850);
+    --color-bg-chrome:   var(--gray-cool-900);
     // gray-cool-700: deltaE 18 / 13 / 8 from page / surface / elevated, and dark
     // enough that text-default keeps 4.5 (gray-cool-600 gives 4.3) (#321, #322).
-    --color-bg-muted:    var(--gray-cool-700);      // text-default OKCA 5.7 on this bg ✅
+    --color-bg-muted:    var(--gray-cool-700);      // text-default OKCA 4.9 on this bg ✅
     --color-bg-hover:    var(--color-bg-muted);
-    --color-bg-inverse:  var(--gray-0);             // white — flipped from dark navy
+    --color-bg-active:   var(--gray-cool-750); // pressed fill: one in-between step below the hover
+    // A navy band, not a white one. It flipped to white for dark mode, which put
+    // a glaring strip across the top of the page and a white flash in every
+    // tooltip, and under the scatter observer its muted text could not reach
+    // 4.5 (white caps scatter near 5). navy-700 rather than light mode's navy-800
+    // so it stands apart from bg-surface too: tooltips sit on cards, and
+    // navy-800 is within a few hundredths of the card's lightness.
+    --color-bg-inverse:  var(--navy-700);
+    // The tooltip floats over modals as well as cards, and navy-700 was deltaE 9
+    // from bg-elevated. navy-670, a derived step between 600 and 700, reaches
+    // deltaE 10, where the bubble reads as its own region on a modal. navy-600
+    // would too, but white 14px text there cannot reach its Tier 2 floor.
+    --color-bg-tooltip:  var(--navy-670); // text-inverse OKCA 7.1 on this bg ✅
 
     // ─── Elevation / Shadow (dark mode) ────────────────────────────────────
     // Black shadows are invisible on dark backgrounds — use white-tint instead.
@@ -287,48 +454,55 @@
     --shadow-modal: 0 20px 48px rgba(255, 255, 255, 0.10), 0 8px 16px rgba(255, 255, 255, 0.06);
 
     // ─── Text ──────────────────────────────────────────────────────────────
-    --color-text-default:           var(--gray-200); // OKCA 12.9 on bg-page ✅ — off-white with cool undertone; white OKCA 19.2 on bg-page is harsh
-    --color-text-subtle:            var(--gray-400);      // OKCA 6.8 on bg-page ✅
-    --color-text-subtle-on-surface: var(--gray-400);      // OKCA 5.6 on bg-surface ✅
+    --color-text-default:           var(--gray-200); // OKCA 11.4 on bg-page ✅ — off-white with cool undertone; white OKCA 16.4 on bg-page is harsh
+    --color-text-subtle:            var(--gray-400);      // OKCA 5.6 on bg-page ✅
+    --color-text-subtle-on-surface: var(--gray-400);      // OKCA 4.7 on bg-surface ✅
     // Component-scoped: toast message text. Every toast sits on bg-surface since
     // #292, where the three status backgrounds used to be.
-    --color-toast-message:          var(--color-text-subtle); // OKCA 5.6 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug
-    --color-text-disabled:          var(--gray-650); // OKCA 2.0 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
-    --color-text-inverse:           var(--gray-850); // dark text for inverse (light) surfaces
-    --color-text-subtle-on-inverse: var(--gray-700); // muted text on white inverse surface
-    --color-text-on-action:         var(--gray-900); // OKCA 11.2 on action-primary ✅ — same as bg-page; was OKCA 7.0 on the sky-blue primary (#318); gray-800 (L=0.24) was OKCA 5.6, fails 14px bold threshold of 6.5
+    --color-text-toast:          var(--color-text-subtle); // OKCA 4.7 on bg-surface ✅ — intentionally subtle in dark mode; dimming is a feature, not a bug
+    --color-text-disabled:          var(--gray-650); // OKCA 1.4 on bg-page — intentionally below AA (1.4.3-exempt; see #134)
+    --color-text-on-inverse:           var(--gray-0);   // OKCA 7.7 on bg-inverse ✅
+    // Close to text-inverse by design: on navy-700 the next grey down (gray-300)
+    // is 4.3, so the active item is told apart by weight and its underline.
+    --color-text-subtle-on-inverse: var(--gray-100); // OKCA 5.7 on bg-inverse ✅
+    // Light label on the deep action fills. Under the scatter observer, which
+    // dark mode is tuned for, the pale navy-200 fill with a page-dark label
+    // scored 4.4 and the burgundy-300 one 3.7, both under their 4.5 floor.
+    --color-text-on-action:         var(--navy-50); // OKCA 5.4 on action-primary-fill ✅
 
     // ─── Borders ───────────────────────────────────────────────────────────
     --color-border-default:    var(--gray-650); // subtle separator — non-text, decorative
-    // OKCA 3.5 on bg-page. Reads as a 1.4.11 pass and is one, but do not read it
+    // OKCA 2.5 on bg-page. Reads as a 1.4.11 pass and is one, but do not read it
     // as a property of the token: the light value of the same token clears barely
     // a third of that against its own page, and it is the same separator in both
     // modes. The token is decorative; dark simply clears a bar the light mode
     // misses, which is a fact about two greys and not a guarantee (#247).
     --color-border-strong:     var(--gray-550);
-    --color-border-on-inverse: var(--gray-200); // subtle divider on white inverse surface
+    --color-border-on-inverse: var(--gray-cool-650); // subtle divider on the navy-700 inverse band, one step lighter than it
     // Dark needs its own value: contrast here means a *lighter* edge, so the light
     // mode's L=0.53 would move the wrong way against a dark surface. The worst dark
     // background is bg-elevated, which is lighter than surface. It holds every
     // option panel, the drawer, the modal and the chat input, so form-control
     // borders and scrollbar thumbs both sit on it. L=0.58 was chosen against page
     // and surface only and measured 2.6 there, with no pairing to say so (#307).
-    // L=0.62 clears it with 0.1 of margin: L=0.61 sits exactly on 3.0, so any later
-    // change to bg-elevated would push it under: OKCA 3.1 on dark bg-elevated ✅,
-    // OKCA 3.9 on dark bg-surface ✅, OKCA 4.6 on dark page ✅. Replaces the dark
-    // --color-border-control-on-surface (L=0.60) — see the light-mode note above
-    // for why the sibling is gone.
-    --color-border-control:    var(--gray-500);
-    // Light puck on the dark track — fill stays light (border-control 0.62 is the
+    // L=0.62 (gray-500) then cleared it by 0.1, and klar 4 re-scored it to 2.5,
+    // since its new scoring rates most light-on-dark pairs lower. gray-400
+    // (L=0.72) is the next ramp step and keeps real margin rather than another 0.1:
+    // OKCA 3.8 on dark bg-elevated ✅, OKCA 4.7 on dark bg-surface ✅, OKCA 5.6 on
+    // dark page ✅. It is the same grey as dark text-subtle, as gray-600 is for both
+    // in light. Replaces the dark --color-border-control-on-surface (L=0.60) — see
+    // the light-mode note above for why the sibling is gone.
+    --color-border-control:    var(--gray-400);
+    // Light puck on the dark track — fill stays light (border-control 0.72 is the
     // darker edge). icon/border use (non-text UI).
-    --color-slider-thumb: var(--gray-100); // oklch(0.91) light knob in dark — icon/border use
+    --color-fill-slider-thumb: var(--gray-100); // oklch(0.91) light knob in dark — icon/border use
 
     // ─── Action — Primary (navy) ───────────────────────────────────────────
     // A pale navy from the brand ramp, so dark mode reads as the same navy as
     // light. It was a boosted sky blue, oklch(0.79 0.11 245), deltaE 3 from
-    // --color-link (2 between their hovers), so a primary button and a link
-    // beside it were the same colour. navy-200 is deltaE 14 from the link and 6
-    // from its hover, and a quiet fill lets the content around it lead (#318).
+    // --color-text-link (2 between their hovers), so a primary button and a link
+    // beside it were the same colour. navy-200 was deltaE 14 from the link then
+    // (10 from today's azure-250), and a quiet fill lets the content around it lead (#318).
     // Deliberately no figures here. Both that this comment used to carry were
     // duplicates recorded better elsewhere, and one had gone stale unnoticed
     // because the export discarded this comment entirely (#224): it credited the
@@ -336,68 +510,120 @@
     // gray-800 when --color-text-on-action moved to the bg-page navy for exactly
     // that reason — it fails the 14px bold floor of 6.5. That token's own comment
     // records the change and is audited; this one restated it and rotted.
-    --color-action-primary:        var(--navy-200); // OKCA 11.7 on bg-page ✅
-    --color-action-primary-hover:  var(--navy-100); // OKCA 15.2 on bg-page ✅
-    --color-action-primary-active: var(--navy-100);
+    --color-text-accent:        var(--navy-200); // OKCA 10.2 on bg-page ✅
+    // The labelled fills go deep instead of pale: a bright fill in dark mode is
+    // glare for the reader dark mode serves, and its label could not clear the
+    // scatter observer. navy-600 is the ramp step at which a light label does.
+    // Emphasis comes from colour rather than brightness; the fill sits close
+    // to the page in lightness and the label carries the button. Re-picked from
+    // the derived ramps (#365), they land on the same steps. Hover and active step darker, since
+    // a lighter fill would cost the light label its contrast (navy-500 misses).
+    --color-bg-action-primary:   var(--navy-600);
+    --color-bg-action-primary-hover:  var(--navy-700); // text-on-action OKCA 7.0 on this bg ✅
+    --color-bg-action-primary-active: var(--navy-700);
+    // Dimmed below the label so an outline does not outshine the deep primary
+    // fill: emphasis on a dark page follows lightness, and the label's navy-200
+    // edge drew brighter than the filled button beside it. No floor, as in light.
+    --color-border-action-secondary: var(--navy-500);
 
     // ─── Action — Secondary (burgundy) ────────────────────────────────────
-    // Label on the secondary fill: bg-page OKCA 7.3 on this bg ✅
-    --color-action-secondary:        var(--burgundy-300); // OKCA 7.6 on bg-page ✅ (fill vs page)
-    --color-action-secondary-hover:  var(--burgundy-200); // OKCA 11.6 on bg-page ✅
-    --color-action-secondary-active: var(--burgundy-200);
+    --color-action-secondary:        var(--burgundy-300); // deprecated in 7.0.0 (#367); OKCA 6.5 on bg-page ✅
+    // Two steps deeper than primary's navy-600: at equal lightness burgundy's
+    // higher chroma and warm hue read brighter, and secondary outranked primary.
+    // Its hue keeps the fill distinct on the near-neutral cards.
+    --color-bg-accent-secondary:   var(--burgundy-800); // text-on-action OKCA 10.2 on this bg ✅
+    --color-action-secondary-hover:  var(--burgundy-900); // deprecated in 7.0.0; text-on-action OKCA 13.1 on this bg ✅
+    --color-action-secondary-active: var(--burgundy-900); // deprecated in 7.0.0, with -hover; see light
+    --color-border-accent-secondary: var(--burgundy-500); // dimmed below the label, as action-primary-border
+    // Not the secondary fill (burgundy-800): that recedes below the navy inverse band,
+    // and a count badge has no primary badge beside it to outrank.
+    --color-bg-nav-badge: var(--burgundy-600); // text-on-action OKCA 5.4 on this bg ✅
 
     // ─── Action — Destructive ─────────────────────────────────────────────────
     // Outlined — same pattern as light mode, and the same error red (#318).
-    --color-action-destructive:        transparent;
-    --color-action-destructive-hover:  oklch(0.79 0.12 25 / 0.12); // subtle red tint on hover
-    --color-action-destructive-active: oklch(0.79 0.12 25 / 0.22); // stronger tint on active
+    --color-bg-action-destructive:        transparent;
+    --color-bg-action-destructive-hover:  oklch(from var(--red-300) l c h / 0.12); // red-300 (the label) at 12%: subtle tint on hover
+    --color-bg-action-destructive-active: oklch(from var(--red-300) l c h / 0.22); // red-300 at 22%: stronger tint on active
     // Was oklch(0.78 0.15 347), stepped from L=0.75 so the label cleared its floor on
     // bg-surface as well as the page — a delete confirmation usually sits in a modal
     // or card (#224). The error red clears both with more margin; figures on the pairings.
-    --color-action-destructive-text:   var(--color-status-error-text);
-    --color-action-destructive-border: var(--color-status-error-text); // matches text — no separate pairing: identical value, and a border's 3.0 non-text floor is strictly below the text floor already measured
+    --color-text-action-destructive:   var(--color-text-error);
+    // The edge sits one ramp step below the label, so the outline stops
+    // competing with the primary fill and the red text carries "take care".
+    --color-border-action-destructive: var(--color-border-error);
 
     // ─── Action — Tertiary ─────────────────────────────────────────────────
-    // ⚠️  fill is only OKCA 1.1 on page — intentionally subtle in dark mode.
-    // Text (gray-0) on tertiary bg remains readable. Uses the cool-gray ramp
-    // (matching bg-subtle) so tertiary recedes on the cool-navy surfaces instead
-    // of advancing and competing with the primary button (warm advances / cool
-    // recedes); L preserved, so white OKCA 13.0 on this bg ✅. Revisit if buttons
-    // need more prominence in dark.
-    --color-action-tertiary:       var(--gray-cool-800);
-    --color-action-tertiary-hover: var(--gray-cool-650);
-    --color-action-tertiary-text:  var(--gray-0);
+    // The fill is the button's only edge, so it rests on the muted step, as in
+    // light: gray-cool-800 was the modal's own colour (deltaE 0). Cool greys, so
+    // tertiary recedes on the navy surfaces instead of competing with the primary.
+    // Text is text-default, not white: white made tertiary the brightest label in
+    // a button row. States step darker, since a lighter step costs the label its
+    // floor (gray-cool-650 measures 4.2).
+    --color-bg-action-tertiary:        var(--gray-cool-700);
+    --color-bg-action-tertiary-hover:  var(--gray-cool-750);
+    --color-bg-action-tertiary-active: var(--gray-cool-800);
+    --color-text-action-tertiary:  var(--color-text-default);
 
     // ─── Link / Accent (azure) ─────────────────────────────────────────────
-    --color-link:         var(--azure-300);   // OKCA 6.3 on bg-page ✅
-    --color-link-hover:   var(--azure-200);   // OKCA 11.2 on bg-page ✅
-    --color-link-visited: var(--indigo-300);  // OKCA 6.6 on bg-page ✅
+    --color-text-link:         var(--azure-250);   // OKCA 8.4 on bg-page ✅ — 5.2 on a modal, where azure-300 was 4.2
+    --color-text-link-hover:   var(--azure-200);   // OKCA 10.2 on bg-page ✅
+    --color-text-link-visited: var(--indigo-250);  // OKCA 8.2 on bg-page ✅ — 5.1 on a modal, where indigo-300 was 4.1
 
     // ─── Focus ─────────────────────────────────────────────────────────────
-    --color-focus: var(--azure-300); // OKCA 6.3 on bg-page ✅
+    --color-ring-focus: var(--azure-300); // OKCA 6.7 on bg-page ✅
 
     // ─── Status ────────────────────────────────────────────────────────────
-    // Lightened foreground colors to meet contrast on dark backgrounds.
-    // Backgrounds mirror light-mode approach: near-neutral dark surface (C≈0.02),
-    // letting the border/icon carry the full color signal. High-chroma fills were
-    // competing with vivid borders and creating a "glowing" effect.
-    --color-status-error:         oklch(0.68 0.11 25);     // icon/border use — not required to pass text contrast
-    --color-status-error-bg:      oklch(0.23 0.02 18);     // near-neutral dark — barely rosy tint
-    --color-status-error-text:    oklch(0.79 0.12 25);     // OKCA 6.0 on error-bg ✅ — C=0.22 was far outside sRGB, so the token named no single colour and every figure recorded for it was undefined; its nearest in-gamut form was OKCA 3.4, which is how five failures sat inside a passing audit (#222). Re-authored to the boundary, same L and H (#225). L=0.77 was OKCA 4.2; stepped to L=0.79 (#14) — a step taken against the unrenderable value, kept because it still holds for the renderable one
-    --color-status-success:       oklch(0.70 0.08 144.2);  // icon/border use — not required to pass text contrast
-    --color-status-success-bg:    oklch(0.23 0.02 144);    // near-neutral dark — barely green tint
-    --color-status-success-text:  oklch(0.80 0.15 144.2);  // OKCA 5.4 on success-bg ✅
-    --color-status-warning:       oklch(0.74 0.10 88);  // icon/border use — not required to pass text contrast
-    --color-status-warning-bg:    oklch(0.25 0.03 88);     // dark gold tint (#318)
-    --color-status-warning-text:  oklch(0.82 0.10 88);  // OKCA 7.1 on warning-bg ✅ — gold since #318 (was amber, H=53.54)
+    // Every status colour is a step on its hue's ramp (#365). Text and icons
+    // share step 300: the brightest step whose chroma the ramp's curve keeps
+    // calm, and the only one where icons clear 3.0 on a card. Fills are each
+    // ramp's -tint, the dark surface in that hue, so the border/icon carries
+    // the colour signal and the fill does not glow.
+    --color-icon-error:         var(--red-300);     // icon/border use — OKCA 6.0 on bg-page ✅
+    --color-bg-error:      var(--red-tint);
+    --color-text-error:    var(--red-300);     // OKCA 4.7 on error-bg ✅
+    --color-icon-success:       var(--green-300);   // icon/border use — OKCA 6.7 on bg-page ✅
+    --color-bg-success:    var(--green-tint);
+    --color-text-success:  var(--green-300);   // OKCA 5.4 on success-bg ✅
+    --color-icon-warning:       var(--gold-300);    // icon/border use — OKCA 6.7 on bg-page ✅
+    --color-bg-warning:    var(--gold-tint);
+    --color-text-warning:  var(--gold-300);    // OKCA 5.3 on warning-bg ✅
+    // One ramp step below the label, as the destructive edge: an outline at the
+    // label's own lightness outshines it on a dark page. No floor (see action-primary-border).
+    --color-border-error:   var(--red-400);
+    --color-border-success: var(--green-400);
+    --color-border-warning: var(--gold-400);
 
     // ─── Code blocks ───────────────────────────────────────────────────────────
-    // Teal tint, deltaE 8 from the cool page: the hue change carries the
+    // Teal tint (teal-870), deltaE 9 from the cool page: the hue change carries the
     // separation, so the block stays nearly as dark as the page. Border still
     // required, since lightness alone barely differs at these low L values.
-    --color-bg-code:     oklch(0.22 0.02 195); // text-default OKCA 11.4 on this bg ✅ — code text inherits it
+    --color-bg-code:     var(--teal-870); // text-default OKCA 9.5 on this bg ✅ — code text inherits it
     --color-text-code:   var(--color-text-default); // inherits soft off-white
     --color-border-code: var(--color-border-strong);
+
+    // ─── Roles split out of action-primary and status-* (#367) ────────────────
+    --color-border-accent:          var(--navy-200);
+    --color-fill-indicator:         var(--navy-200); // on the dark page itself, so the pale navy, not the deep fill
+    --color-text-action-secondary:  var(--color-text-accent);
+    --color-bg-action-secondary-hover:  oklch(from var(--color-text-action-secondary) l c h / 0.08);
+    --color-bg-action-secondary-active: oklch(from var(--color-text-action-secondary) l c h / 0.15);
+    --color-bg-action-ghost-hover:  var(--color-bg-hover);
+    --color-bg-action-ghost-active: var(--color-bg-active);
+    --color-border-control-hover:   var(--color-border-control);
+    --color-border-control-focus:   var(--color-border-accent);
+    --color-border-control-error:   var(--color-icon-error);
+    --color-fill-track:             var(--color-border-control);
+    --color-fill-on-action:         var(--color-text-on-action);
+    --color-fill-scrollbar-thumb:       var(--color-border-control);
+    --color-fill-scrollbar-thumb-hover: var(--color-text-subtle);
+    --color-border-accent-on-inverse: var(--color-text-on-inverse);
+    --color-bg-hover-on-inverse:    oklch(from var(--color-text-on-inverse) l c h / 0.1);
+    // Declared here as well as in light: each var() resolves on the element that
+    // declares it, so a dark-themed subtree needs its own declaration.
+    --color-bg-callout:      var(--color-bg-surface);
+    --color-text-blockquote: var(--color-text-default);
+
+    @include deprecated-color-aliases;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -414,4 +640,14 @@
 // source order when data-theme="light" is set on a dark-OS system (Edge, Firefox).
 [data-theme="light"] {
     @include light-color-tokens;
+}
+
+// Reduced motion (#368): nothing travels; fades and colour changes remain, at
+// the same durations, because a change that happens without any transition
+// at all is harder to follow, not easier.
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --motion-distance: 0px;
+        --motion-travel:   0;
+    }
 }

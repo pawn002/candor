@@ -19,7 +19,7 @@ const shared = {
   appBorderRadius: 8,
   fontBase:
     "'Roboto Flex Variable','Roboto Flex',system-ui,-apple-system,sans-serif",
-  fontCode: "'Noto Sans Mono','Roboto Mono',monospace",
+  fontCode: "'Atkinson Hyperlegible Mono Variable','Atkinson Hyperlegible Mono',monospace",
   brandTitle: 'Candor',
 };
 

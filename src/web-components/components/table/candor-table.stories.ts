@@ -57,7 +57,7 @@ Set \`caption\` to render a visible \`<caption>\` element above the table. This 
 primary accessible name for the table and should always be provided. Screen readers
 announce it when the user enters the table.
 
-Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: TableCell[], isHeader?: boolean }[]\`
+Pass \`headers\` as \`string[]\` and \`rows\` as \`{ cells: TableCell[], isHeader?: boolean, sortValues?: TableSortValue[] }[]\`
 via JS properties (or JSON-encoded as attributes). A cell is a string, or markup (a Lit
 template or a DOM node) set through the \`rows\` property; see *Interactive cells*. Set \`isHeader: true\` on a row for
 key/value tables where the first cell of each row is a row-header.
@@ -87,10 +87,13 @@ in a container with \`overflow-x: auto\` to expose a horizontal scrollbar.
   argTypes: {
     caption: { control: 'text', type: { name: 'string' }, description: 'Accessible table caption, rendered as a visible <caption> element and announced by screen readers on entry' },
     headers: { control: 'object', description: 'Column header labels rendered in <thead>' },
-    rows: { control: 'object', description: 'Array of { cells: string[], isHeader?: boolean }. Set isHeader: true for key/value rows where the first cell is a row-header.' },
+    rows: { control: 'object', description: 'Array of { cells: TableCell[], isHeader?: boolean, sortValues?: TableSortValue[] }. Set isHeader: true for key/value rows where the first cell is a row-header. sortValues gives the value to compare when the displayed one is not it.' },
     compact: { control: 'boolean', type: { name: 'boolean' }, description: 'Tighter row padding; inverts zebra pattern so odd rows receive the surface background' },
     numericColumns: { control: 'object', description: 'Zero-based column indices for magnitudes: monospace, tabular-nums, right-aligned' },
     monoColumns: { control: 'object', description: 'Zero-based column indices for codes read as text (versions, dates, IDs): monospace, tabular-nums, left-aligned' },
+    sortableColumns: { control: 'object', description: 'Zero-based column indices whose headers sort the rows' },
+    sortColumn: { control: 'number', description: 'The column the rows are sorted by; reflects the current sort' },
+    sortDirection: { control: 'select', options: ['ascending', 'descending'], description: 'Sort direction; reflects the current sort' },
   },
 };
 
@@ -172,6 +175,53 @@ export const InteractiveCells: Story = {
         { cells: [html`Delta E${aboutButton('Delta E')}`, '4.1', html`<candor-badge variant="warning">Barely distinct</candor-badge>`] },
       ]}
       numeric-columns="[1]"
+    ></candor-table>
+  `,
+};
+
+// A speech-to-text model picker (#362). Every column the reader compares is
+// sortable; Actions is not. The displayed values are not what to sort by: sizes
+// mix MiB and GiB, error rates are rounded, and one speed was never measured, so
+// each row carries sortValues with the raw figure, and null for the unknown.
+const MiB = 1024 ** 2;
+const GiB = 1024 ** 3;
+const installed = html`<candor-badge variant="success">Installed</candor-badge>`;
+const notInstalled = html`<candor-badge>Not installed</candor-badge>`;
+const action = (label: string, model: string) =>
+  html`<candor-button variant="tertiary" size="small" aria-label="${label} ${model}">${label}</candor-button>`;
+const MODEL_ROWS = [
+  { cells: ['tiny.en', '75 MiB', '32×', '12%', installed, action('Remove', 'tiny.en')], sortValues: ['tiny.en', 75 * MiB, 32.4, 0.1218, 'Installed'] },
+  { cells: ['base.en', '142 MiB', '16×', '9%', installed, action('Remove', 'base.en')], sortValues: ['base.en', 142 * MiB, 16.1, 0.0874, 'Installed'] },
+  { cells: ['small.en', '466 MiB', '6×', '7%', notInstalled, action('Download', 'small.en')], sortValues: ['small.en', 466 * MiB, 6.2, 0.0702, 'Not installed'] },
+  { cells: ['medium.en', '1.5 GiB', '2×', '6%', notInstalled, action('Download', 'medium.en')], sortValues: ['medium.en', 1.5 * GiB, 2.3, 0.0596, 'Not installed'] },
+  { cells: ['large-v3', '2.9 GiB', 'Not measured', '6%', notInstalled, action('Download', 'large-v3')], sortValues: ['large-v3', 2.9 * GiB, null, 0.0551, 'Not installed'] },
+];
+
+export const Sortable: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Columns listed in `sortable-columns` get a header button: Enter or Space sorts ascending, ' +
+          'and again reverses. Only the active column carries `aria-sort`, and the new order is ' +
+          'announced. Sizes mix MiB and GiB and error rates are rounded, so each row gives ' +
+          '`sortValues` the raw figure; the speed nobody measured is `null` and stays last in both ' +
+          'directions. Actions is not in `sortable-columns`, so its header is plain text. ' +
+          'The `sort` event fires before the rows reorder and is cancelable, for a consumer that ' +
+          'sorts on a server.',
+      },
+    },
+  },
+  render: () => html`
+    <candor-table
+      caption="Speech models"
+      .headers=${['Model', 'Size', 'Speed', 'Word error rate', 'Status', 'Actions']}
+      .rows=${MODEL_ROWS}
+      numeric-columns="[1,2,3]"
+      mono-columns="[0]"
+      sortable-columns="[0,1,2,3,4]"
+      sort-column="1"
+      sort-direction="ascending"
     ></candor-table>
   `,
 };

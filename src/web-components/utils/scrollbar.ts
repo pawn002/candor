@@ -34,8 +34,8 @@ import { unsafeCSS, type CSSResult } from 'lit';
  */
 export function scrollbarRules(selector: string): string {
   const s = selector;
-  const thumb = 'var(--_candor-scrollbar-thumb, var(--color-border-control))';
-  const hover = 'var(--_candor-scrollbar-thumb-hover, var(--color-text-subtle))';
+  const thumb = 'var(--_candor-scrollbar-thumb, var(--color-fill-scrollbar-thumb))';
+  const hover = 'var(--_candor-scrollbar-thumb-hover, var(--color-fill-scrollbar-thumb-hover))';
   const half = 'calc(var(--scrollbar-thumb-size) / 2)';
   const outer = 'var(--scrollbar-inset-outer)';
   const inner = 'calc(var(--scrollbar-size) - var(--scrollbar-thumb-size) - var(--scrollbar-inset-outer))';

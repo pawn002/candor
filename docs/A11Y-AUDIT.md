@@ -711,6 +711,8 @@ No issues found. The component uses native `<details>`/`<summary>` elements, whi
 
 **Phase 5 update:** The `--quiet` variant heading was changed from regular to bold weight to meet Tier 2 contrast requirements (OKCA 4.5 bold at 14px — `--color-text-subtle` at 5.0 passes bold but not the 9.5 regular threshold). No ARIA or structural change. See `docs/CONTRAST-TIERS.md`.
 
+**7.0.0 update:** The quiet heading is weight 500, which is regular for contrast. It meets its floor through classification and colour instead of weight: Tier 3 at 14px (structural nesting is the redundant channel, floor 4.5), in `--color-text-subtle-on-surface`, audited on the surface fill as `accordion-title-quiet`.
+
 ---
 
 ### 7. Input

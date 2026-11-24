@@ -46,3 +46,31 @@ export function requireGrey(name: string): GreyStep {
   if (!s) throw new Error(`${name} is not declared in primitives.scss`);
   return s;
 }
+
+// ─── Colour ramps ───────────────────────────────────────────────────────────
+
+const COLOUR_DECL = /^\s*(--([a-z]+)-(\d+|tint)):\s*(oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\))/gm;
+
+const COLOUR = new Map<string, (GreyStep & { step: number | 'tint' })[]>();
+for (const m of source.matchAll(COLOUR_DECL)) {
+  if (m[2] === 'gray') continue;
+  const list = COLOUR.get(m[2]) ?? [];
+  list.push({ name: m[1], step: m[3] === 'tint' ? 'tint' : Number(m[3]), value: m[4], l: Number(m[5]), c: Number(m[6]), h: Number(m[7]) });
+  COLOUR.set(m[2], list);
+}
+
+/**
+ * Every numbered step of one colour ramp, lightest first, read from
+ * primitives.scss. A status ramp's `-tint` is not a ladder step and is returned
+ * by `colourTint`. Throws when the family has no steps.
+ */
+export function colourRamp(family: string): (GreyStep & { step: number })[] {
+  const out = (COLOUR.get(family) ?? []).filter((s): s is GreyStep & { step: number } => s.step !== 'tint');
+  if (out.length < 10) throw new Error(`primitives.scss gave only ${out.length} steps for the ${family} ramp; the parser or the file changed`);
+  return out.sort((a, b) => a.step - b.step);
+}
+
+/** A status ramp's dark fill, `--<family>-tint`, or undefined. */
+export function colourTint(family: string): GreyStep | undefined {
+  return (COLOUR.get(family) ?? []).find((s) => s.step === 'tint');
+}

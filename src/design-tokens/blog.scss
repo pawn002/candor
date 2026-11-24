@@ -77,7 +77,7 @@
             overflow: hidden;
             border-top: none;
             padding: 0;
-            transition: box-shadow 150ms ease, transform 150ms ease;
+            transition: box-shadow var(--motion-duration-fast) var(--motion-ease-standard), transform var(--motion-duration-fast) var(--motion-ease-standard);
 
             &:first-child {
                 border-top: none;
@@ -208,7 +208,7 @@
     }
 
     &:focus-visible {
-        outline: var(--focus-ring-width) solid var(--color-focus);
+        outline: var(--focus-ring-width) solid var(--color-ring-focus);
         outline-offset: var(--focus-ring-offset);
         border-radius: var(--radius-md);
     }
@@ -220,7 +220,7 @@
     aspect-ratio: 16 / 7;
     object-fit: cover;
     border-radius: var(--radius-md);
-    transition: transform 200ms ease;
+    transition: transform var(--motion-duration-base) var(--motion-ease-standard);
 }
 
 // ── Card body ─────────────────────────────────────────────────────────────
@@ -244,14 +244,14 @@
     font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
-    letter-spacing: 0.06em;
+    letter-spacing: var(--letter-spacing-wide);
     text-transform: uppercase;
     color: var(--color-text-subtle);
 
     &:not(:last-child)::after {
         content: "·" / "";
         margin-left: var(--spacing-2xs);
-        font-weight: var(--font-weight-normal);
+        font-weight: var(--font-weight-regular);
     }
     line-height: 1;
 }
@@ -272,11 +272,11 @@
         text-decoration: none;
 
         &:hover {
-            color: var(--color-link);
+            color: var(--color-text-link);
         }
 
         &:focus-visible {
-            outline: var(--focus-ring-width) solid var(--color-focus);
+            outline: var(--focus-ring-width) solid var(--color-ring-focus);
             outline-offset: var(--focus-ring-offset);
             border-radius: var(--radius-sm);
         }
@@ -287,7 +287,7 @@
 
 .post-card__excerpt {
     font-family: var(--font-family-base);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-md);
     line-height: var(--line-height-relaxed);
     color: var(--color-text-subtle);
     margin: 0;

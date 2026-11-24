@@ -85,10 +85,10 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      # Pinned to the major the repo's version guards require. A klar 4
+      # Pinned to the major the repo's version guards require. A klar 5
       # release must not reach CI silently — see the checklist in
       # scripts/check-contrast.js.
-      - run: npm i -g klar-cli@3
+      - run: npm i -g klar-cli@4
       - run: npm run audit:tokens
       # audit:tokens regenerates the DTCG artifact. If that produces a diff,
       # the committed artifact was stale — someone changed a token and did not

@@ -74,7 +74,7 @@ The formal register does not make AI output feel cold. The content can still be 
   args: { font: 'serif', justify: false },
   render: (args) => html`<candor-article font="${args['font']}">
     <h1>The humanist case for accessible design</h1>
-    <p>Good typography isn't decoration. It's a form of care. When we choose typefaces that honour the shapes of letters, set type that breathes, and maintain contrast that doesn't strain the eye, we're acknowledging that text exists to be read by people.</p>
+    <p>Good typography is a form of care. When we choose typefaces that honour the shapes of letters, set type that breathes, and maintain contrast that doesn't strain the eye, we're acknowledging that text exists to be read by people.</p>
     <h2>Perceptual colour</h2>
     <p>OKLCH gives designers control over <strong>perceived lightness</strong> rather than numerical luminance. A colour that looks mid-tone on screen should behave as mid-tone, not surprise you with a jarring jump when lightness is adjusted by 10%.</p>
     <blockquote>The measure of a typeface is not its beauty in isolation but its service to the reader over long stretches of text.</blockquote>
@@ -91,7 +91,7 @@ type Story = StoryObj;
 const fullArticleContent = html`
   <h1>The Case for Slower Reading</h1>
   <p>We live in an age of infinite scroll and push notifications, where the average piece of content is consumed in under ninety seconds. Yet some of the most important ideas in science, philosophy, and literature require something different: not skimming, but <em>dwelling</em>.</p>
-  <p>Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</p>
+  <p>Reading slowly is a discipline, and like all disciplines, it produces results that faster methods cannot.</p>
   <h2>What Slow Reading Actually Means</h2>
   <p>Slow reading does not mean reading every word at the same pace. It means granting yourself permission to pause, to re-read a paragraph, to sit with an uncomfortable idea long enough for it to change your mind.</p>
   <figure>
@@ -112,7 +112,7 @@ const fullArticleContent = html`
   <h3>Setting Up to Read</h3>
   <p>Two practical matters follow: the room you read in, and what you read on.</p>
   <h4>A Note on Environment</h4>
-  <p>Where you read matters almost as much as how. A quiet room, a single open tab, and no notifications are not luxuries. They are prerequisites for the kind of attention slow reading demands.</p>
+  <p>Where you read counts almost as much as how. A quiet room, a single open tab, and no notifications are what make room for the kind of attention slow reading demands.</p>
   <h5>Recommended conditions</h5>
   <p>Physical books outperform screens for deep reading in most studies, likely because the absence of hyperlinks removes the temptation to branch away from the current argument.</p>
   <h6>On annotation tools</h6>
@@ -180,7 +180,7 @@ export const SansWithCode: Story = {
     <h2>Import</h2>
     <p>Add the stylesheet once at your application root:</p>
     <pre><code>import '@candor-design/tokens/candor-tokens.css';</code></pre>
-    <p>All <code>--candor-*</code> custom properties are now available globally. Components inherit them automatically via the CSS cascade.</p>
+    <p>All Candor tokens (<code>--color-*</code>, <code>--spacing-*</code>, <code>--font-*</code> and the rest) are now available globally. Components inherit them automatically via the CSS cascade.</p>
     <h2>Verify</h2>
     <p>Open any page and run the following in the browser console to confirm the tokens are loaded:</p>
     <pre><code>getComputedStyle(document.body).getPropertyValue('--color-bg-page')</code></pre>
@@ -207,19 +207,19 @@ export const LinkStyles: Story = {
     <h1>Link implementation</h1>
     <p>Article links use a layered approach: <code>text-decoration: underline</code> for the primary underline, plus a transparent <code>border-bottom</code> that becomes visible on <code>:visited</code> to provide a non-colour distinguishing cue.</p>
     <pre><code>candor-article a &#123;
-  color: var(--color-link);
+  color: var(--color-text-link);
   text-decoration: underline;
   text-underline-offset: 0.2em;
   border-bottom: var(--border-width-thin) solid transparent;
   padding-bottom: 0.15em;
 &#125;
 candor-article a:visited &#123;
-  color: var(--color-link-visited);
-  border-bottom-color: var(--color-link-visited);
+  color: var(--color-text-link-visited);
+  border-bottom-color: var(--color-text-link-visited);
 &#125;
-candor-article a:hover  &#123; color: var(--color-link-hover); &#125;
+candor-article a:hover  &#123; color: var(--color-text-link-hover); &#125;
 candor-article a:focus-visible &#123;
-  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-ring-focus);
   outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-sm);
 &#125;</code></pre>
@@ -239,11 +239,11 @@ export const WithRichContent: Story = {
         <tr><th>Typeface</th><th>Role</th><th>Variable axes</th><th>Min size</th></tr>
       </thead>
       <tbody>
-        <tr><td>Roboto Flex</td><td>Display / headings</td><td>opsz, wght, wdth, GRAD</td><td>16px</td></tr>
+        <tr><td>Roboto Flex</td><td>Display / headings</td><td>opsz, wght</td><td>16px</td></tr>
         <tr><td>Noto Serif</td><td>Authored prose</td><td>wght</td><td>16px</td></tr>
         <tr><td>Noto Sans</td><td>UI paragraphs</td><td>wght</td><td>16px</td></tr>
-        <tr><td>Atkinson Hyperlegible</td><td>Instructional UI text</td><td>None</td><td>14px</td></tr>
-        <tr><td>Roboto Mono</td><td>Code</td><td>None</td><td>14px</td></tr>
+        <tr><td>Atkinson Hyperlegible Next</td><td>Instructional UI text</td><td>wght</td><td>14px</td></tr>
+        <tr><td>Atkinson Hyperlegible Mono</td><td>Code</td><td>wght</td><td>14px</td></tr>
       </tbody>
     </table>
     </div>
@@ -273,12 +273,12 @@ export const WithNumericTable: Story = {
         </tr>
       </thead>
       <tbody>
-        <tr><td>h1</td><td><code>--font-size-h1</code></td><td class="numeric">39.06</td><td class="numeric">2.441</td><td class="numeric">1.20</td></tr>
-        <tr><td>h2</td><td><code>--font-size-h2</code></td><td class="numeric">31.25</td><td class="numeric">1.953</td><td class="numeric">1.20</td></tr>
+        <tr><td>h1</td><td><code>--font-size-h1</code></td><td class="numeric">39.06</td><td class="numeric">2.441</td><td class="numeric">1.10</td></tr>
+        <tr><td>h2</td><td><code>--font-size-h2</code></td><td class="numeric">31.25</td><td class="numeric">1.953</td><td class="numeric">1.10</td></tr>
         <tr><td>h3</td><td><code>--font-size-h3</code></td><td class="numeric">25.00</td><td class="numeric">1.563</td><td class="numeric">1.20</td></tr>
         <tr><td>h4</td><td><code>--font-size-h4</code></td><td class="numeric">20.00</td><td class="numeric">1.250</td><td class="numeric">1.20</td></tr>
-        <tr><td>body</td><td><code>--font-size-base</code></td><td class="numeric">16.00</td><td class="numeric">1.000</td><td class="numeric">1.60</td></tr>
-        <tr><td>sm</td><td><code>--font-size-sm</code></td><td class="numeric">14.00</td><td class="numeric">0.875</td><td class="numeric">1.40</td></tr>
+        <tr><td>body</td><td><code>--font-size-md</code></td><td class="numeric">16.00</td><td class="numeric">1.000</td><td class="numeric">1.75</td></tr>
+        <tr><td>sm</td><td><code>--font-size-sm</code></td><td class="numeric">14.00</td><td class="numeric">0.875</td><td class="numeric">1.50</td></tr>
       </tbody>
     </table>
     </div>
@@ -339,7 +339,7 @@ export const Callout: Story = {
     docs: {
       description: {
         story:
-          "A `.callout` element inside article prose renders a tip or note as a plain surface panel (`--color-callout-bg`), with no tint and no side bar. Unlike `<blockquote>`, which is an indented italic quotation, the callout is upright, default-colour text for guidance the reader should act on. Write the label into the content (Tip., Note.), because the panel alone does not say what kind of aside it is.",
+          "A `.callout` element inside article prose renders a tip or note as a plain surface panel (`--color-bg-callout`), with no tint and no side bar. Unlike `<blockquote>`, which is an indented italic quotation, the callout is upright, default-colour text for guidance the reader should act on. Write the label into the content (Tip., Note.), because the panel alone does not say what kind of aside it is.",
       },
     },
   },

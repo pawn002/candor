@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, nothing } from 'lit';
 
 import '../../card/candor-card';
+import '../../typography/accessible-text/candor-accessible-text';
 import './candor-input';
 import { allModes } from '../../../../../.storybook/modes';
 
@@ -17,7 +18,7 @@ const meta: Meta = {
 state. Covers text, email, password, and number input types, plus a textarea mode via
 \`multiline\`.
 
-The label is always rendered. Never omit it for visual reasons. If the design calls for a
+Always set \`label\`. Never omit it for visual reasons. If the design calls for a
 labelless input, set \`aria-label\` on the host element so the field remains accessible: the
 component mirrors it onto the inner control and strips it from the host, so the name is
 announced once rather than twice. Where both are set the \`aria-label\` wins outright, so make
@@ -104,7 +105,7 @@ export const AllStates: Story = {
       <candor-card><candor-input label="With hint" hint="This is a helpful hint"></candor-input></candor-card>
       <candor-card><candor-input label="Required field" required></candor-input></candor-card>
       <candor-card><candor-input label="With error" error="This field is required"></candor-input></candor-card>
-      <candor-card><candor-input label="Disabled" value="Cannot edit" disabled></candor-input></candor-card>
+      <candor-card><candor-input label="Disabled" value="Cannot edit" hint="Set by your administrator." disabled></candor-input></candor-card>
     </div>
   `,
 };
@@ -127,7 +128,7 @@ export const OnSurface: Story = {
       description: {
         story: 'Side-by-side comparison of input borders on page background vs surface background. ' +
           'Both containers are plain: no override, nothing for the consumer to remember. ' +
-          '`--color-border-control` reaches OKCA 4.8 on page and OKCA 3.8 on bg-surface, ' +
+          '`--color-border-control` reaches OKCA 5.0 on page and OKCA 3.9 on bg-surface, ' +
           'clearing the 3.0 non-text floor on either. ' +
           'Until 5.0.0 the surface case needed a hand-applied `--color-border-control-on-surface` ' +
           'override, and this story was the only place in the repo that applied it correctly; ' +
@@ -138,21 +139,21 @@ export const OnSurface: Story = {
   render: () => html`
     <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr));gap:var(--spacing-md);max-width:640px;">
       <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-        <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Page background</div>
+        <candor-accessible-text role_="label" style="display:block;">Page background</candor-accessible-text>
         <div style="background:var(--color-bg-page);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);">
           <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
           <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
           <candor-input label="With error" error="This field is required"></candor-input>
-          <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
+          <candor-input label="Disabled" value="Cannot edit" hint="Set by your administrator." disabled></candor-input>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:var(--spacing-xs);">
-        <div style="font-family:var(--font-family-accessible);font-size:var(--font-size-sm);font-weight:var(--font-weight-semibold);color:var(--color-text-subtle);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;">Surface background</div>
+        <candor-accessible-text role_="label" style="display:block;">Surface background</candor-accessible-text>
         <div style="background:var(--color-bg-surface);border-radius:var(--radius-md);padding:var(--spacing-lg);display:flex;flex-direction:column;gap:var(--spacing-md);">
           <candor-input label="Full name" placeholder="Jane Smith" required></candor-input>
           <candor-input label="Email address" type="email" placeholder="you@example.com"></candor-input>
           <candor-input label="With error" error="This field is required"></candor-input>
-          <candor-input label="Disabled" value="Cannot edit" disabled></candor-input>
+          <candor-input label="Disabled" value="Cannot edit" hint="Set by your administrator." disabled></candor-input>
         </div>
       </div>
     </div>
@@ -173,7 +174,7 @@ export const Overriding: Story = {
   render: () => html`
     <style>
       .compact { --candor-input-padding-y: 0.25rem; --candor-input-padding-x: 0.5rem; --candor-input-radius: var(--radius-sm); }
-      .tracked::part(label) { text-transform: uppercase; letter-spacing: 0.06em; }
+      .tracked::part(label) { text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); }
     </style>
     <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;">
       <candor-input label="Default" placeholder="you@example.com" type="email"></candor-input>

@@ -64,12 +64,16 @@ const fontsCss =
   ' *   @import "@candor-design/tokens/candor-fonts.css";\n' +
   ' *   @import "@candor-design/tokens/candor-tokens.css";\n' +
   ' */\n' +
-  "@import '@fontsource-variable/roboto-flex/index.css';\n" +
-  "@import '@fontsource-variable/roboto-mono/index.css';\n" +
+  // opsz.css, not index.css: index.css serves the weight axis only, and the
+  // components rely on opsz (font-optical-sizing: auto). opsz + wght is the
+  // minimum Candor uses; GRAD and wdth are deliberately not loaded.
+  "@import '@fontsource-variable/roboto-flex/opsz.css';\n" +
   "@import '@fontsource-variable/noto-sans/index.css';\n" +
   "@import '@fontsource-variable/noto-serif/index.css';\n" +
-  "@import '@fontsource/atkinson-hyperlegible/400.css';\n" +
-  "@import '@fontsource/atkinson-hyperlegible/700.css';\n";
+  "@import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';\n" +
+  "@import '@fontsource-variable/atkinson-hyperlegible-next/wght-italic.css';\n" +
+  "@import '@fontsource-variable/atkinson-hyperlegible-mono/wght.css';\n" +
+  "@import '@fontsource-variable/atkinson-hyperlegible-mono/wght-italic.css';\n";
 
 fs.writeFileSync(path.join(OUT_DIR, 'candor-fonts.css'), fontsCss);
 
@@ -114,9 +118,20 @@ function extractProps(block) {
 
 const css = expanded.css;
 
-// :root — primitives + light-mode semantics + invariant tokens (spacing, type, shape)
-const rootBlock  = findBlock(css, ':root');
-const rootTokens = extractProps(rootBlock ?? '');
+// :root — primitives + light-mode semantics + invariant tokens (spacing, type, shape).
+// The compiled CSS has one top-level :root block per source file (primitives,
+// then semantics), and every one of them belongs here. Reading only the first
+// shipped a JSON with the primitives and no semantic token at all, from 6.0.0
+// or earlier until 7.0.0, while the description promised light-mode semantics.
+// Only top-level blocks count: the :root inside the dark-mode @media query is
+// the dark set, read below from its [data-theme] twin.
+function topLevelBlocks(src, selector) {
+  const blocks = [];
+  const re = new RegExp('^' + selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\{', 'gm');
+  for (const m of src.matchAll(re)) blocks.push(findBlock(src.slice(m.index), selector) ?? '');
+  return blocks;
+}
+const rootTokens = Object.assign({}, ...topLevelBlocks(css, ':root').map(extractProps));
 
 // Dark-mode overrides — [data-theme="dark"] and @media (prefers-color-scheme: dark)
 // both apply the same mixin; we use the explicit [data-theme] block for JSON.
@@ -149,4 +164,4 @@ const darkCount    = Object.keys(darkTokens).length;
 console.log(`tokens/candor-tokens.css      ${kbExpanded} kB`);
 console.log(`tokens/candor-tokens.min.css  ${kbCompressed} kB`);
 console.log(`tokens/candor-tokens.json     ${rootCount} root tokens, ${darkCount} dark overrides`);
-console.log(`tokens/candor-fonts.css       6 @font imports`);
+console.log(`tokens/candor-fonts.css       8 @font imports`);

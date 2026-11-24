@@ -59,23 +59,25 @@ export class CandorNavigation extends LitElement {
       align-items: center;
       gap: 0.4rem;
       color: var(--color-text-subtle-on-surface);
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-md);
       padding: var(--spacing-xs) var(--spacing-sm);
       border-radius: var(--radius-sm);
       text-decoration: none;
-      transition: color 0.15s ease, background-color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard), background-color var(--motion-duration-fast) var(--motion-ease-standard);
     }
-    .nav__link:hover { color: var(--color-text-default); background-color: var(--color-action-tertiary); }
-    .nav__link--active { color: var(--color-action-primary); font-weight: var(--font-weight-semibold); }
-    .nav__link:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
+    /* bg-hover, not action-tertiary: the nav is bg-surface, and the tertiary fill is
+       deltaE 1 from it in light, so the hover did not show (audit/separations.json). */
+    .nav__link:hover { color: var(--color-text-default); background-color: var(--color-bg-hover); }
+    .nav__link--active { color: var(--color-text-accent); font-weight: var(--font-weight-semibold); }
+    .nav__link:focus-visible { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }
     .nav--inverse { background-color: var(--color-bg-inverse); border-bottom-color: var(--color-border-on-inverse); }
-    .nav--inverse .nav__brand { color: var(--color-text-inverse); }
+    .nav--inverse .nav__brand { color: var(--color-text-on-inverse); }
     .nav--inverse .nav__link { color: var(--color-text-subtle-on-inverse); }
-    .nav--inverse .nav__link:hover { color: var(--color-text-inverse); background-color: oklch(from var(--color-text-inverse) l c h / 0.1); }
-    .nav--inverse .nav__link--active { color: var(--color-text-inverse); font-weight: var(--font-weight-semibold); }
+    .nav--inverse .nav__link:hover { color: var(--color-text-on-inverse); background-color: var(--color-bg-hover-on-inverse); }
+    .nav--inverse .nav__link--active { color: var(--color-text-on-inverse); font-weight: var(--font-weight-semibold); }
     .nav__badge {
       display: inline-flex; align-items: center; justify-content: center;
-      background-color: var(--color-action-secondary); color: var(--color-text-on-action);
+      background-color: var(--color-bg-nav-badge); color: var(--color-text-on-action);
       font-size: var(--font-size-sm); border-radius: var(--radius-full);
       padding: 0.1em 0.4em; line-height: var(--line-height-tight); font-weight: var(--font-weight-semibold);
     }

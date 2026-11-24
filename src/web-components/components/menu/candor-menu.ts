@@ -58,7 +58,7 @@ export class CandorMenu extends LitElement {
       border: var(--border-width-thin) solid var(--color-border-strong);
       border-radius: var(--radius-md);
       cursor: pointer;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      transition: background-color var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .menu-trigger--icon-only {
       padding: var(--spacing-xs);
@@ -71,12 +71,12 @@ export class CandorMenu extends LitElement {
       border-color: var(--color-border-control);
     }
     .menu-trigger:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     .menu-trigger[aria-expanded='true'] {
       background-color: var(--color-bg-elevated);
-      border-color: var(--color-action-primary);
+      border-color: var(--color-border-accent);
     }
     .menu-trigger[aria-expanded='true'] .menu-trigger__chevron {
       transform: rotate(180deg);
@@ -85,7 +85,7 @@ export class CandorMenu extends LitElement {
       width: 1rem;
       height: 1rem;
       flex-shrink: 0;
-      transition: transform 0.2s ease;
+      transition: transform var(--motion-duration-base) var(--motion-ease-standard);
     }
     .menu-panel {
       position: absolute;
@@ -100,6 +100,12 @@ export class CandorMenu extends LitElement {
       border: var(--border-width-thin) solid var(--color-border-default);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-md);
+      /* Arrives by fading and rising into place (#368). It is removed from the
+         DOM on close, so it leaves at once. */
+      transition: opacity var(--motion-duration-fast) var(--motion-ease-enter), transform var(--motion-duration-fast) var(--motion-ease-enter);
+    }
+    @starting-style {
+      .menu-panel { opacity: 0; transform: translateY(calc(-0.5 * var(--motion-distance))); }
     }
     .menu-panel--right {
       left: auto;
@@ -120,7 +126,7 @@ export class CandorMenu extends LitElement {
       border-radius: var(--radius-sm);
       cursor: pointer;
       text-align: left;
-      transition: background-color 0.1s ease;
+      transition: background-color var(--motion-duration-instant) var(--motion-ease-standard);
     }
     .menu-item:hover:not(.menu-item--disabled),
     .menu-item:focus:not(.menu-item--disabled) {
@@ -128,7 +134,7 @@ export class CandorMenu extends LitElement {
       outline: none;
     }
     .menu-item:focus-visible {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: calc(-1 * var(--focus-ring-offset));
     }
     .menu-item--disabled {
@@ -140,7 +146,7 @@ export class CandorMenu extends LitElement {
       width: 0.875rem;
       height: 0.875rem;
       flex-shrink: 0;
-      color: var(--color-action-primary);
+      color: var(--color-text-accent);
     }
     .menu-item__check--empty {
       width: 0.875rem;

@@ -54,7 +54,7 @@ export class CandorTabs extends LitElement {
       pointer-events: none;
       z-index: 1;
       opacity: 0;
-      transition: opacity 0.15s ease;
+      transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .tabs__list-wrapper::before {
       left: 0;
@@ -79,7 +79,7 @@ export class CandorTabs extends LitElement {
       border: none;
       cursor: pointer;
       color: var(--color-text-subtle);
-      transition: color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard);
     }
     .tabs__scroll-btn:hover { color: var(--color-text-default); }
     .tabs__scroll-btn--left { left: 0; }
@@ -105,21 +105,21 @@ export class CandorTabs extends LitElement {
       cursor: pointer;
       padding: var(--spacing-xs) var(--spacing-sm);
       font-family: var(--font-family-base);
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-md);
       font-weight: var(--font-weight-regular);
       color: var(--color-text-subtle);
-      border-bottom: var(--border-width-medium) solid transparent;
+      border-bottom: var(--border-width-indicator) solid transparent;
       margin-bottom: calc(-1 * var(--border-width-thin));
-      transition: color 0.15s ease, border-color 0.15s ease;
+      transition: color var(--motion-duration-fast) var(--motion-ease-standard), border-color var(--motion-duration-fast) var(--motion-ease-standard);
       white-space: nowrap;
     }
     .tabs__tab[aria-selected='true'] {
-      color: var(--color-action-primary);
-      border-bottom-color: var(--color-action-primary);
+      color: var(--color-text-accent);
+      border-bottom-color: var(--color-border-accent);
       font-weight: var(--font-weight-semibold);
     }
     .tabs__tab:hover { color: var(--color-text-default); }
-    .tabs__tab:focus-visible { outline: var(--focus-ring-width) solid var(--color-focus); outline-offset: var(--focus-ring-offset); }
+    .tabs__tab:focus-visible { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }
 
     .tabs__panels { padding-top: var(--spacing-md); }
 
@@ -145,13 +145,13 @@ export class CandorTabs extends LitElement {
     .tabs--vertical .tabs__tab {
       text-align: left;
       border-bottom: none;
-      border-right: var(--border-width-medium) solid transparent;
+      border-right: var(--border-width-indicator) solid transparent;
       margin-bottom: 0;
       margin-right: calc(-1 * var(--border-width-thin));
     }
     .tabs--vertical .tabs__tab[aria-selected='true'] {
       border-bottom-color: transparent;
-      border-right-color: var(--color-action-primary);
+      border-right-color: var(--color-border-accent);
     }
     .tabs--vertical .tabs__panels {
       flex: 1;
@@ -176,13 +176,13 @@ export class CandorTabs extends LitElement {
     .tabs--inverse.tabs--can-scroll-left .tabs__list { padding-left: var(--spacing-lg); }
     .tabs--inverse.tabs--can-scroll-right .tabs__list { padding-right: var(--spacing-lg); }
     .tabs--inverse .tabs__scroll-btn { color: var(--color-text-subtle-on-inverse); }
-    .tabs--inverse .tabs__scroll-btn:hover { color: var(--color-text-inverse); }
+    .tabs--inverse .tabs__scroll-btn:hover { color: var(--color-text-on-inverse); }
     .tabs--inverse .tabs__tab { color: var(--color-text-subtle-on-inverse); }
     .tabs--inverse .tabs__tab[aria-selected='true'] {
-      color: var(--color-text-inverse);
-      border-bottom-color: var(--color-text-inverse);
+      color: var(--color-text-on-inverse);
+      border-bottom-color: var(--color-border-accent-on-inverse);
     }
-    .tabs--inverse .tabs__tab:hover { color: var(--color-text-inverse); }
+    .tabs--inverse .tabs__tab:hover { color: var(--color-text-on-inverse); }
   `;
 
   @property({ type: Array }) tabs: TabItem[] = [];

@@ -46,8 +46,9 @@ const markedFieldsets = new WeakSet<HTMLFieldSetElement>();
  * fixed by putting `aria-label` on its radios: that renames the options and
  * leaves the group anonymous.
  *
- * A disabled radio needs an adjacent explanation of why. A locked control with
- * no reason reads as broken. See the disabled-hint convention in CLAUDE.md.
+ * A disabled radio needs an adjacent explanation of why, such as a
+ * `candor-accessible-text role_="annotation"` beside the group. A locked control
+ * with no reason reads as broken.
  *
  * **Two slots, and they are not interchangeable (#263).** The default slot sits
  * *inside* the `<label>`, so whatever it holds becomes part of this control's
@@ -90,11 +91,11 @@ export class CandorRadio extends LitElement {
       height: 0;
     }
     .radio-input:focus-visible + .radio-circle {
-      outline: var(--focus-ring-width) solid var(--color-focus);
+      outline: var(--focus-ring-width) solid var(--color-ring-focus);
       outline-offset: var(--focus-ring-offset);
     }
     .radio-input:checked + .radio-circle {
-      border-color: var(--color-action-primary);
+      border-color: var(--color-border-accent);
     }
     .radio-input:checked + .radio-circle::after {
       content: '';
@@ -105,7 +106,7 @@ export class CandorRadio extends LitElement {
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background-color: var(--color-action-primary);
+      background-color: var(--color-fill-indicator);
     }
     .radio-input:disabled + .radio-circle {
       background-color: var(--color-bg-surface);
@@ -120,10 +121,10 @@ export class CandorRadio extends LitElement {
       background-color: var(--color-bg-page);
       position: relative;
       flex-shrink: 0;
-      transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+      transition: background-color var(--motion-duration-base) var(--motion-ease-standard), border-color var(--motion-duration-base) var(--motion-ease-standard);
     }
     .radio-circle:hover {
-      border-color: var(--color-action-primary);
+      border-color: var(--color-border-accent);
     }
     .radio-label {
       font-family: var(--font-family-accessible);
