@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [7.0.0] - 2026-11-24
+
 ### Breaking changes
 
 7.0.0 removes nothing: every 6.0.0 token still resolves, renamed ones through a deprecated alias (see **Deprecated** below for the full old-to-new table). It is a major release because token **values** change, several of them significantly, and most of all in dark mode. The figures below are klar deltaE from 6.0.0, per mode; changes under deltaE 5 are left out. If you use Candor's components and semantic tokens as intended, the migration is mostly the first item.
