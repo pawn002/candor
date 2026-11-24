@@ -39,9 +39,8 @@ rules just under here are worth two minutes before you start.
 
 ## Using the tokens correctly
 
-This package is the *only* thing that travels to a tokens-only consumer. The design rationale
-in the repo's `docs/` doesn't. These five rules are the ones that keep output on-system; the
-[Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) is the visual companion.
+If you use the tokens without the components, these five rules keep your output consistent with
+Candor. The [Storybook](https://main--69c25e2492ad056c24329876.chromatic.com) shows them in use.
 
 1. **Reach for semantic roles, not primitives.** Use `--color-text-default`, not `--navy-800`;
    `--spacing-md`, not `--space-3`. The semantic layer (`--color-*`, `--spacing-*`, `--font-*`,
@@ -57,10 +56,10 @@ in the repo's `docs/` doesn't. These five rules are the ones that keep output on
    same role (`--color-text-error`, not `--color-icon-error`). In the JSON, non-text tokens carry
    `"$extensions": { "usage": "non-text" }`. Names from before 7.0.0 still resolve as deprecated
    aliases until the next major.
-4. **The values are already tuned. Don't drag them back to extremes.** Colours sit deliberately
-   off the raw extremes: text is a deep near-black, not `#000`; dark mode is deep navy, not pure
-   black; primaries aren't at max chroma. Overriding a token to a raw extreme undoes the contrast
-   and humanist tuning baked in. If a value looks "not contrasty enough," it was measured. Trust it.
+4. **Keep the tuned values.** Text is a deep near-black, dark mode is a deep navy, and the
+   primaries sit below maximum chroma. Each colour is measured against a contrast floor, so a
+   token that looks soft already passes. Overriding one to `#000` or pure black adds contrast the
+   text doesn't need and loses the humanist tuning.
 5. **Monospace is for content where character position is load-bearing**: code, IDs, version
    strings, timestamps, coordinates. It is not a flavour to signal "technical". `--font-family-mono`
    with `font-variant-numeric: tabular-nums`.
@@ -105,8 +104,8 @@ All tokens are then available as CSS custom properties:
 
 ### Peer dependencies: fonts and icons
 
-`candor-tokens.css` *names* the font families but does not load them. A consumer who
-forgets to import the faces gets a silent fallback to Georgia / system-ui with no error.
+`candor-tokens.css` *names* the font families but doesn't load them. Without the font
+imports, text falls back to Georgia or system-ui, with no error to tell you.
 Candor uses [Fontsource](https://fontsource.org/) self-hosted packages (no Google Fonts CDN
 link needed), which ship as runtime dependencies of this package.
 

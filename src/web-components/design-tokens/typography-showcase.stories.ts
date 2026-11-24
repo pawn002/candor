@@ -284,7 +284,7 @@ measurements of legibility.
 and carries no floor. The 14px regular figure, 9.5, is what a neutral reading passage needs
 there. Neutral text reaches it (\`--color-text-default\` is OKCA 12.4 on page), but no
 coloured text in the system can (#240). That is why Tier 1 regular text must be 16px or larger
-rather than held to 9.5: a floor only near-black text can meet would quietly ban colour from
+rather than held to 9.5: a floor only near-black text can meet would rule out colour for
 must-read text.
 
 **Use-case tier axis.** This adjusts the 14px row only. Text read sequentially keeps the full

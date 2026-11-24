@@ -10,7 +10,7 @@ Candor's design tokens are the single source of truth for color, typography, spa
 
 Tokens are **CSS custom properties** (`--color-bg-action-primary`), not SCSS variables (`$color-primary`). SCSS is used only as a light authoring convenience: to wrap the light/dark token sets in mixins (`light-color-tokens` / `dark-color-tokens`) and emit them under the right selectors. Every token is a runtime `var(--…)` reference.
 
-This matters because custom properties:
+Custom properties:
 
 - **Pierce the Shadow DOM.** Candor ships as Lit web components with shadow roots. Custom properties inherit through shadow boundaries; SCSS variables (resolved at build time) cannot. Loading the token stylesheet once on the page reaches every component's internals.
 - **Switch themes at runtime.** Light/dark is a matter of which `--color-*` values are in scope, toggled by `[data-theme]` or `prefers-color-scheme`, with no rebuild.

@@ -105,10 +105,10 @@ export const BlogPost: Story = {
         <candor-article font="serif">
           <p>A screen reader user asks an AI assistant to summarize a research paper. The assistant returns five bullet points. Each bullet is a complete sentence, unpunctuated, beginning with a capital letter. The screen reader announces them as a single run-on utterance. The information is all there. The output is inaccessible.</p>
 
-          <p>This is not an edge case. It is the default behavior of every major LLM when accessibility context is absent from the prompt. The model produces output that is technically correct and structurally broken, because no one told it otherwise.</p>
+          <p>This is the default behavior of every major LLM when accessibility context is absent from the prompt. The model produces output that is technically correct and structurally broken, because no one told it otherwise.</p>
 
           <blockquote>
-            The accessibility failure is not in the model. It is in the prompt. The model will do exactly what you ask. The question is whether what you asked includes the needs of the person receiving the output.
+            The accessibility failure is in the prompt. The model will do exactly what you ask. The question is whether what you asked includes the needs of the person receiving the output.
           </blockquote>
 
           <h2>The compliance gap</h2>

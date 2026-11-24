@@ -6,9 +6,7 @@ A humanist design system built with OKLCH colors, variable-font typography, and 
 
 ## Documentation
 
-**The published packages ship API surface only**: CSS custom properties here, type declarations in `@candor-design/web-components`. Neither carries Candor's usage rules, and several of those rules are not expressible in a stylesheet or a `.d.ts` at all. Finding nothing in `node_modules` does not establish that Candor is silent on a question; it establishes that you have not looked yet.
-
-The rules live in the **[component catalog](https://main--69c25e2492ad056c24329876.chromatic.com)**, which is canonical. For tokens specifically, it is where to find which contrast floor applies to a given piece of text (the floor depends on font size *and* use-case tier), which tokens are validated for non-text use only, and why colours are authored in OKLCH and held inside the sRGB gamut.
+The packages ship the API: CSS custom properties here, and type declarations in `@candor-design/web-components`. The usage rules live in the **[component catalog](https://main--69c25e2492ad056c24329876.chromatic.com)**, because some of them can't be written in a stylesheet or a `.d.ts`. If a question isn't answered in `node_modules`, look there. For tokens, the catalog is where to find which contrast floor applies to a given piece of text (the floor depends on font size *and* use-case tier), which tokens are validated for non-text use only, and why colours are authored in OKLCH and held inside the sRGB gamut.
 
 ## Install
 
@@ -73,7 +71,7 @@ Link the stylesheet and use the custom properties directly:
 <candor-badge variant="success">Active</candor-badge>
 ```
 
-CSS custom properties pierce Shadow DOM boundaries automatically, so loading `candor-tokens.css` once is all that's required. No per-component token injection needed.
+CSS custom properties pierce Shadow DOM boundaries automatically, so loading `candor-tokens.css` once is all that's required.
 
 #### Bundler import
 
@@ -277,13 +275,13 @@ Under `prefers-reduced-motion: reduce`, nothing travels and fades remain; that i
 
 ## Design philosophy
 
-Candor is a **humanist** design system. Every decision (OKLCH colors, variable-font typography, perceptual spacing) is oriented toward human vision and reading experience, not machine defaults.
+Candor is a **humanist** design system. Every decision (OKLCH colors, variable-font typography, perceptual spacing) is oriented toward human vision and the experience of reading.
 
 **OKLCH colors** use a perceptually uniform color space, so lightness values reliably map to visual weight across hues. This makes it practical to derive accessible color pairs programmatically and to build predictable tonal scales.
 
-**Roboto Flex** is a variable font with an optical size axis (`opsz`) that automatically adjusts stroke contrast at different sizes, creating natural typographic hierarchy without artificial weight jumps.
+**Roboto Flex** is a variable font with an optical size axis (`opsz`) that adjusts stroke contrast with size. Headings share one weight, and size and `opsz` give them their hierarchy.
 
-**Atkinson Hyperlegible Next** is reserved for critical UI text (form labels, error messages, status indicators) where legibility under stress matters most.
+**Atkinson Hyperlegible Next** is for the text a reader has to act on: form labels, error messages, status indicators. Its letterforms are designed so similar glyphs can't be mistaken for each other.
 
 ---
 

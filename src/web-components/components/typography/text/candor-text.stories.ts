@@ -50,7 +50,7 @@ const meta: Meta = {
     },
   },
   args: { variant: 'body', size: 'md', color: 'primary', bold: false },
-  render: (args) => html`<candor-text variant="${args['variant']}" size="${args['size']}" color="${args['color']}" ?bold=${args['bold']}>Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</candor-text>`,
+  render: (args) => html`<candor-text variant="${args['variant']}" size="${args['size']}" color="${args['color']}" ?bold=${args['bold']}>Reading slowly is a discipline, and like all disciplines, it produces results that faster methods cannot.</candor-text>`,
 };
 
 export default meta;
@@ -118,7 +118,7 @@ export const AllVariants: Story = {
     <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
       <candor-card variant="outlined">
         <candor-text variant="label" size="sm" color="secondary">Body</candor-text><br>
-        <candor-text variant="body">Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</candor-text>
+        <candor-text variant="body">Reading slowly is a discipline, and like all disciplines, it produces results that faster methods cannot.</candor-text>
       </candor-card>
       <candor-card variant="outlined">
         <candor-text variant="label" size="sm" color="secondary">Caption</candor-text><br>

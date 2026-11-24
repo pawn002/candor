@@ -74,7 +74,7 @@ The formal register does not make AI output feel cold. The content can still be 
   args: { font: 'serif', justify: false },
   render: (args) => html`<candor-article font="${args['font']}">
     <h1>The humanist case for accessible design</h1>
-    <p>Good typography isn't decoration. It's a form of care. When we choose typefaces that honour the shapes of letters, set type that breathes, and maintain contrast that doesn't strain the eye, we're acknowledging that text exists to be read by people.</p>
+    <p>Good typography is a form of care. When we choose typefaces that honour the shapes of letters, set type that breathes, and maintain contrast that doesn't strain the eye, we're acknowledging that text exists to be read by people.</p>
     <h2>Perceptual colour</h2>
     <p>OKLCH gives designers control over <strong>perceived lightness</strong> rather than numerical luminance. A colour that looks mid-tone on screen should behave as mid-tone, not surprise you with a jarring jump when lightness is adjusted by 10%.</p>
     <blockquote>The measure of a typeface is not its beauty in isolation but its service to the reader over long stretches of text.</blockquote>
@@ -91,7 +91,7 @@ type Story = StoryObj;
 const fullArticleContent = html`
   <h1>The Case for Slower Reading</h1>
   <p>We live in an age of infinite scroll and push notifications, where the average piece of content is consumed in under ninety seconds. Yet some of the most important ideas in science, philosophy, and literature require something different: not skimming, but <em>dwelling</em>.</p>
-  <p>Reading slowly is not a cognitive limitation. It is a discipline, and like all disciplines, it produces results that faster methods cannot.</p>
+  <p>Reading slowly is a discipline, and like all disciplines, it produces results that faster methods cannot.</p>
   <h2>What Slow Reading Actually Means</h2>
   <p>Slow reading does not mean reading every word at the same pace. It means granting yourself permission to pause, to re-read a paragraph, to sit with an uncomfortable idea long enough for it to change your mind.</p>
   <figure>
@@ -112,7 +112,7 @@ const fullArticleContent = html`
   <h3>Setting Up to Read</h3>
   <p>Two practical matters follow: the room you read in, and what you read on.</p>
   <h4>A Note on Environment</h4>
-  <p>Where you read matters almost as much as how. A quiet room, a single open tab, and no notifications are not luxuries. They are prerequisites for the kind of attention slow reading demands.</p>
+  <p>Where you read counts almost as much as how. A quiet room, a single open tab, and no notifications are what make room for the kind of attention slow reading demands.</p>
   <h5>Recommended conditions</h5>
   <p>Physical books outperform screens for deep reading in most studies, likely because the absence of hyperlinks removes the temptation to branch away from the current argument.</p>
   <h6>On annotation tools</h6>

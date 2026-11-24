@@ -19,17 +19,17 @@ Candor is a commitment to close the gap between nominal compliance and outcomes 
 
 ## Design Principles
 
-### Accessibility is the baseline, not the finish line
+### Accessibility is the baseline
 WCAG compliance is where we start. Outcome-based validation, with real color science and real user impact, is where we go from there. Every token, every component, every contrast decision is validated using OKCA, a contrast algorithm that addresses known issues with WCAG's luminance math while prioritizing WCAG compatibility and coherence with OKLCH, so designers can directly equate their color pickers and tonal ramps with accessibility outcomes.
 
 ### Perceptual truth over nominal correctness
-Colors are defined in OKLCH, a perceptually uniform color space where equal numeric changes produce equal perceived changes. This isn't an aesthetic preference. It's what makes programmatic accessibility validation reliable.
+Colors are defined in OKLCH, a perceptually uniform color space where equal numeric changes produce equal perceived changes. That's what makes programmatic accessibility validation reliable.
 
 ### Typography as cognitive infrastructure
-The typographic system is organized around two human modes: **execution** (task completion, navigation, scanning) and **interpretation** (reading, reflecting, conversing). Font choices aren't decorative. They signal which mode a surface is designed for.
+The typographic system is organized around two human modes: **execution** (task completion, navigation, scanning) and **interpretation** (reading, reflecting, conversing). Each typeface signals which mode a surface is designed for.
 
 ### No hard-coded values, ever
-All styling flows from design tokens. Components never reach past their token layer. This isn't a rule for tidiness. It's what makes the system auditable, adjustable, and honest about its own decisions.
+All styling flows from design tokens. Components never reach past their token layer. That's what makes the system auditable: every value on screen traces back to a named token.
 
 ---
 
@@ -56,7 +56,7 @@ Candor uses a four-voice typographic system aligned to cognitive mode and conten
 
 ## Color Philosophy
 
-The palette draws from personal brand anchors (deep navy `#082840`, warm burgundy `#5F2B48`, and azure `#1493FB`), extended into a full OKLCH token system. Two-tier architecture keeps the system honest: primitives are tonal ramps, each derived from stated rules (a lightness ladder and a chroma curve held inside sRGB) rather than picked by hand; semantic tokens map those ramps to roles, and each colour token is named after what it paints. Components reference semantic tokens only, never primitives directly.
+The palette draws from personal brand anchors (deep navy `#082840`, warm burgundy `#5F2B48`, and azure `#1493FB`), extended into a full OKLCH token system. Two-tier architecture keeps the system honest: primitives are tonal ramps, each derived from stated rules (a lightness ladder and a chroma curve held inside sRGB); semantic tokens map those ramps to roles, and each colour token is named after what it paints. Components reference semantic tokens only, never primitives directly.
 
 Every semantic color pair has a documented contrast validation against its intended background. The validation methodology is in the next section.
 
@@ -97,7 +97,7 @@ Two rules govern those names:
 1. **Present tense, matching the DOM's own vocabulary**: `close`, not `closed`; `dismiss`, not `dismissed`. Past tense read as a different *category* of event when it was only ever a different spelling.
 2. **No Candor event where a native one already arrives.** `candor-button` emits nothing: the inner button's native `click` retargets to the host and reaches you unaided, and a `disabled` button suppresses it natively. Listen for `click`.
 
-**Event names are type-checked.** Each component declares `addEventListener` overloads from its own event map, so a name the component doesn't emit is a compile error rather than a listener that silently never fires:
+**Event names are type-checked.** Each component declares `addEventListener` overloads from its own event map, so a name the component doesn't emit is a compile error:
 
 ```ts
 const tabs = document.querySelector('candor-tabs')!;
@@ -182,9 +182,9 @@ candor-disclosure::part(trigger) { padding-top: 0; }
   </tbody>
 </table>
 
-The slider, modal, toast, data-grid and card rows were shipping and semver-protected but undocumented until 5.0.0 (#246). `--candor-modal-max-width` and `--candor-toast-max-width` in particular are overrides you would go looking for and conclude did not exist.
+The slider, modal, toast, data-grid and card hooks shipped before 5.0.0 and were first documented here in 5.0.0 (#246).
 
-More components gain these hooks as consumer demand surfaces; the convention above is what every new component follows. Fourteen of the 37 components expose a hook today, and that is the intended state rather than a gap to fill: each of these came from a real override someone needed, and a part name invented without a use case is a public-API commitment made blind.
+Fourteen of the 37 components expose a hook today. Each came from an override someone needed, and new ones are added the same way, since a part or property name is public API from the day it ships. Every new component follows the convention above.
 
 ---
 

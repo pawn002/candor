@@ -6,19 +6,17 @@ Framework-agnostic Lit 3 custom elements for the [Candor design system](https://
 
 ## Documentation
 
-**This package ships API surface only.** The type declarations give you member names and types. They do not carry Candor's usage rules, and several of those rules are not expressible in a `.d.ts` at all. So finding nothing in `node_modules` does not establish that Candor is silent on a question. It establishes that you have not looked yet.
-
-The rules live in the **[component catalog](https://main--69c25e2492ad056c24329876.chromatic.com)**, which is canonical. Questions it answers and this package cannot:
+This package ships the API: the type declarations give you member names and types. The usage rules live in the **[component catalog](https://main--69c25e2492ad056c24329876.chromatic.com)**, because some of them can't be written in a `.d.ts`. If a question isn't answered in `node_modules`, look there. Questions the catalog answers:
 
 - What markup a `candor-radio` group requires. The grouping is structural, not `name`-based as it is for native inputs, and getting it wrong disables arrow-key navigation *and* mutual exclusion with no error raised.
-- Which typeface a given piece of text takes, and why that is a decision rather than a preference.
+- Which typeface a given piece of text takes, and why.
 - Which contrast floor applies to a given piece of text. The floor depends on font size *and* use-case tier, so a colour compliant in one component is not automatically compliant in another.
 - How an icon's weight is chosen in a given context, and the icon-only button pattern. (Which icon set, and how to use it, is under [Icons](#icons) below.)
 - Which parts of a component are safe to restyle, and which are unsupported.
 
 The package also ships a **[Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest)** at `custom-elements.json`, declared via the `customElements` field. VS Code and JetBrains read it for tag and attribute completion, and it is the machine-readable form of everything above: every element's description, attributes, events, CSS parts and custom properties. It is generated from the component sources and checked against them in CI, so it cannot drift. It is a dev-time artifact: editors and tooling read it, and it never reaches a browser.
 
-Three facts about this package's own API, recorded here because *absence* is invisible in a declaration file:
+Three things a declaration file can't show, because each is about something that isn't there:
 
 - The form controls emit **`change`** and **`input`**. There is no `changed` event. A listener bound to it never fires, and nothing reports that.
 - **`candor-button` dispatches no custom events.** Bind `@click` on the host element. (The full set across the library is `cell-activate`, `change`, `close`, `color-select`, `dismiss`, `input`, `select`, `send`, `sort` and `toggle`, checked against the source by `npm run audit:docs`.)
@@ -87,7 +85,7 @@ Candor skips any tag that is already defined and logs a warning naming it, inste
 
 Candor uses **[Phosphor](https://phosphoricons.com)**. When you need an icon, take it from Phosphor ([`@phosphor-icons/core`](https://www.npmjs.com/package/@phosphor-icons/core) ships the SVGs) and inline its path data in an `<svg>`, as Candor's own components do. Font-class icons (`<i class="ph ph-info">`) do not reach inside a shadow root you author yourself.
 
-The handful of glyphs in this package are component chrome (the close, caret and status marks the components draw), not an icon set. They are not exported and will not grow into one.
+The few glyphs in this package are component chrome: the close, caret and status marks the components draw. They aren't exported.
 
 Weight carries meaning: **fill** for actions; **bold** for stroke-only actions (close, add) and for icons that inform (status, carets, selection checks); **regular** for glyphs inside text whose words carry the meaning. See the [Icons page](https://main--69c25e2492ad056c24329876.chromatic.com/?path=/docs/design-tokens-icons--docs) in the catalog for the full rule and the icon-only button pattern.
 
