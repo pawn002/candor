@@ -21,7 +21,7 @@
     // Headings — structural voice (Roboto Flex), tight rhythm
     h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-family-display);
-        font-weight: var(--font-weight-bold);
+        font-weight: var(--font-weight-heading);
         font-optical-sizing: auto; // Roboto Flex opsz axis — stroke weight scales naturally with size
         line-height: var(--line-height-tight);
         color: var(--color-text-default);
@@ -31,12 +31,12 @@
         &:first-child { margin-top: 0; }
     }
 
-    h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-    h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-    h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-snug); }
-    h4 { font-size: var(--font-size-h4); line-height: var(--line-height-snug); }
-    h5 { font-size: var(--font-size-md); margin-top: var(--spacing-lg); }  // floor at 16px; reduced top margin
-    h6 { font-size: 0.875rem;              margin-top: var(--spacing-md); }  // floor at 14px; reduced top margin
+    h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-h1); line-height: var(--line-height-display); }
+    h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-h2); line-height: var(--line-height-display); }
+    h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-h3); line-height: var(--line-height-snug); }
+    h4 { font-size: var(--font-size-h4); letter-spacing: var(--letter-spacing-h4); line-height: var(--line-height-snug); }
+    h5 { font-size: var(--font-size-md); letter-spacing: var(--letter-spacing-h5); margin-top: var(--spacing-lg); }  // floor at 16px; reduced top margin
+    h6 { font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-h6); margin-top: var(--spacing-md); }  // floor at 14px; reduced top margin
 
     // Paragraphs
     p {

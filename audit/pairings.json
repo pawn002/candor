@@ -685,65 +685,140 @@
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 39,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 3
+      "min": 3,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). 24px and up takes 3.0 at any weight."
     },
     {
       "id": "heading-h2",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 31,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 3
+      "min": 3,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). 24px and up takes 3.0 at any weight."
     },
     {
       "id": "heading-h3",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 25,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 3
+      "min": 3,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). 24px and up takes 3.0 at any weight."
     },
     {
       "id": "heading-h4",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 20,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 3,
-      "note": "20px bold — 19-23px bold threshold applies"
+      "min": 4.5,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). At 20px regular the floor is 4.5, up from the 3.0 bold had."
     },
     {
       "id": "heading-h5",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 16,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 4.5
+      "min": 4.5,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). 16px takes 4.5 at either weight."
     },
     {
       "id": "heading-h6",
       "fg": "{color.text.default}",
       "bg": "{color.bg.page}",
       "size": 14,
-      "weight": "bold",
+      "weight": "regular",
       "tier": 2,
-      "min": 4.5
+      "min": 6.5,
+      "note": "Semibold since 7.0.0, which is regular for contrast (bold is wght >= 700). At 14px a Tier 2 regular floor is 6.5, up from 4.5 at bold."
+    },
+    {
+      "id": "heading-h6-on-surface",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.surface}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 2,
+      "min": 6.5,
+      "note": "The smallest semibold heading on a card, the strictest heading floor."
+    },
+    {
+      "id": "heading-h6-on-elevated",
+      "fg": "{color.text.default}",
+      "bg": "{color.bg.elevated}",
+      "size": 14,
+      "weight": "regular",
+      "tier": 2,
+      "min": 6.5,
+      "note": "The smallest semibold heading in a modal or menu. The tightest margin of any heading: elevated is the lightest dark surface."
     },
     {
       "id": "heading-secondary",
       "fg": "{color.text.subtle}",
       "bg": "{color.bg.page}",
       "size": 25,
+      "weight": "regular",
+      "tier": 2,
+      "min": 3,
+      "note": "Secondary heading at h3, semibold."
+    },
+    {
+      "id": "heading-secondary-h4",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 20,
       "weight": "bold",
       "tier": 2,
       "min": 3,
-      "note": "Secondary color heading — large text, min 3.0"
+      "note": "Secondary h4 stays bold: at semibold the 20px floor would be 4.5."
+    },
+    {
+      "id": "heading-secondary-h4-on-surface",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.surface}",
+      "size": 20,
+      "weight": "bold",
+      "tier": 2,
+      "min": 3,
+      "note": "Secondary h4 on a card. Bold keeps the floor at 3.0."
+    },
+    {
+      "id": "heading-secondary-h4-on-elevated",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.elevated}",
+      "size": 20,
+      "weight": "bold",
+      "tier": 2,
+      "min": 3,
+      "note": "Secondary h4 in a modal or menu. Bold keeps the floor at 3.0."
+    },
+    {
+      "id": "heading-secondary-h5",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 16,
+      "weight": "regular",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Secondary h5 on the page, semibold. Measured on the page only: on a card in light and in a modal in dark it falls below 4.5 at any weight, which is open."
+    },
+    {
+      "id": "heading-secondary-h6",
+      "fg": "{color.text.subtle}",
+      "bg": "{color.bg.page}",
+      "size": 14,
+      "weight": "bold",
+      "tier": 2,
+      "min": 4.5,
+      "note": "Secondary h6 stays bold: at semibold the 14px floor would be 6.5. On the page only, for the same reason as h5."
     },
     {
       "id": "table-column-header",

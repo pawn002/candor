@@ -18,7 +18,7 @@ const articleStyles = `
   candor-article h1, candor-article h2, candor-article h3,
   candor-article h4, candor-article h5, candor-article h6 {
     font-family: var(--font-family-display);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-heading);
     font-optical-sizing: auto;
     line-height: var(--line-height-tight);
     color: var(--color-text-default);
@@ -29,12 +29,12 @@ const articleStyles = `
   candor-article h3:first-child, candor-article h4:first-child,
   candor-article h5:first-child, candor-article h6:first-child { margin-top: 0; }
 
-  candor-article h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-  candor-article h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-  candor-article h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-snug); }
-  candor-article h4 { font-size: var(--font-size-h4); line-height: var(--line-height-snug); }
-  candor-article h5 { font-size: var(--font-size-md); margin-top: var(--spacing-lg); }
-  candor-article h6 { font-size: var(--font-size-sm); margin-top: var(--spacing-md); }
+  candor-article h1 { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-h1); line-height: var(--line-height-display); }
+  candor-article h2 { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-h2); line-height: var(--line-height-display); }
+  candor-article h3 { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-h3); line-height: var(--line-height-snug); }
+  candor-article h4 { font-size: var(--font-size-h4); letter-spacing: var(--letter-spacing-h4); line-height: var(--line-height-snug); }
+  candor-article h5 { font-size: var(--font-size-md); letter-spacing: var(--letter-spacing-h5); margin-top: var(--spacing-lg); }
+  candor-article h6 { font-size: var(--font-size-sm); letter-spacing: var(--letter-spacing-h6); margin-top: var(--spacing-md); }
 
   candor-article p { margin-bottom: var(--spacing-md); }
   candor-article p:last-child { margin-bottom: 0; }

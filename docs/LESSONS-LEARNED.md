@@ -55,6 +55,26 @@ Italic letterforms are slanted, which reduces the apparent inter-glyph space com
 
 ---
 
+### Heading tracking opens as size falls, and optical sizing already tightens
+
+Headings were set at `-0.02em` for years, tuned while Roboto Flex's `opsz` axis never loaded. Once 7.0.0 loaded it, the axis narrowed sidebearings at display sizes by itself, and the two stacked: headings read as cramped, not humanist. One value could not fix it. Walking flat tracking from +0.01em to +0.06em by eye, h1 began to fall apart near +0.03em while h5 and h6 still looked packed at +0.06em. Large type tolerates little tracking; small bold type needs more.
+
+| Level | Tracking |
+|---|---|
+| h1 | `0.005em` (`--letter-spacing-h1`) |
+| h2, h3 | `0.02em` |
+| h4 | `0.025em` |
+| h5 | `0.03em` |
+| h6 | `0.035em` |
+
+Judge it in running prose, not on a specimen sheet. On a sheet of headings alone, a curve 0.01em looser looked right; set between paragraphs of serif body text, the same curve read as letterspaced, and the settled values are the looser curve less 0.01em at every level, and h1 less another 0.01em. The curve flattens at the top: the largest size needs the least added tracking, so the step from h1 to h2 is twice the others.
+
+Weight moved with it: headings are semibold (`--font-weight-heading`), which opens the counters. Semibold is regular for contrast, so a secondary h4 and h6 keep bold, the two places where weight changes the floor.
+
+**The trap:** tuning tracking against a font feature that is not loading. Check what the browser actually renders (the font file, its axes) before tuning against it.
+
+---
+
 ### em is the correct unit for letter-spacing; ch is for container widths
 
 `em` scales with font-size, making tracking proportional across type sizes. `ch` (width of the "0" glyph) is the right unit for measuring how many characters fit in a container (e.g., `max-width: 65ch` for article measure), not for inter-glyph spacing.

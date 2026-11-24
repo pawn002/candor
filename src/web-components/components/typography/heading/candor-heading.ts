@@ -20,9 +20,15 @@ type HeadingColor = 'primary' | 'secondary' | 'disabled';
  * usually the wrong level. For large display text carrying no heading semantics,
  * use `candor-text`, which has sizes up to `3xl` and no role.
  *
- * Weight is constant across levels; hierarchy comes from size plus
+ * Weight is semibold at every level; hierarchy comes from size plus
  * `font-optical-sizing: auto`, which lets the Roboto Flex `opsz` axis thicken
  * strokes as size grows. That gradient is why there is no `bold` property here.
+ * The one exception is `color="secondary"` at h4 and h6, which stays bold:
+ * semibold counts as regular for contrast, and at 20px and 14px that raises the
+ * floor past what the secondary colour reaches.
+ *
+ * Tracking opens as size falls, from `--letter-spacing-h1` (0.005em) to
+ * `--letter-spacing-h6` (0.035em).
  *
  * Leading tightens with size: `--line-height-display` (1.1) for h1 and h2,
  * `--line-height-snug` (1.2) for h3 and h4, `--line-height-tight` (1.25) for h5
@@ -36,7 +42,7 @@ export class CandorHeading extends LitElement {
     :host {
       display: block;
       font-family: var(--font-family-base);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-heading);
       font-optical-sizing: auto;
       line-height: var(--line-height-tight);
       margin: 0;
@@ -44,13 +50,17 @@ export class CandorHeading extends LitElement {
     :host([color='primary'])  { color: var(--color-text-default); }
     :host([color='secondary']) { color: var(--color-text-subtle); }
     :host([color='disabled']) { color: var(--color-text-disabled); }
+    /* Semibold is regular for contrast; at 20px and 14px that lifts the floor
+       above what --color-text-subtle reaches, so these two keep bold. */
+    :host([color='secondary'][level='h4']),
+    :host([color='secondary'][level='h6']) { font-weight: var(--font-weight-bold); }
     /* Leading tightens as size grows (#264): see --line-height-display. */
-    :host([level='h1']) { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-    :host([level='h2']) { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-display); }
-    :host([level='h3']) { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-tight); line-height: var(--line-height-snug); }
-    :host([level='h4']) { font-size: var(--font-size-h4); line-height: var(--line-height-snug); }
-    :host([level='h5']) { font-size: var(--font-size-h5); }
-    :host([level='h6']) { font-size: var(--font-size-h6); }
+    :host([level='h1']) { font-size: var(--font-size-h1); letter-spacing: var(--letter-spacing-h1); line-height: var(--line-height-display); }
+    :host([level='h2']) { font-size: var(--font-size-h2); letter-spacing: var(--letter-spacing-h2); line-height: var(--line-height-display); }
+    :host([level='h3']) { font-size: var(--font-size-h3); letter-spacing: var(--letter-spacing-h3); line-height: var(--line-height-snug); }
+    :host([level='h4']) { font-size: var(--font-size-h4); letter-spacing: var(--letter-spacing-h4); line-height: var(--line-height-snug); }
+    :host([level='h5']) { font-size: var(--font-size-h5); letter-spacing: var(--letter-spacing-h5); }
+    :host([level='h6']) { font-size: var(--font-size-h6); letter-spacing: var(--letter-spacing-h6); }
   `;
 
   @property({ reflect: true }) level: HeadingLevel = 'h2';

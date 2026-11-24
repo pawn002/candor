@@ -370,6 +370,7 @@
     "--font-weight-medium": "var(--weight-medium)",
     "--font-weight-semibold": "var(--weight-semibold)",
     "--font-weight-bold": "var(--weight-bold)",
+    "--font-weight-heading": "var(--font-weight-semibold)",
     "--line-height-display": "var(--leading-display)",
     "--line-height-snug": "var(--leading-snug)",
     "--line-height-tight": "var(--leading-tight)",
@@ -380,7 +381,13 @@
     "--letter-spacing-relaxed": "0.03em",
     "--letter-spacing-wide": "var(--tracking-wide)",
     "--letter-spacing-italic": "0.02em",
-    "--letter-spacing-body": "0.02em"
+    "--letter-spacing-body": "0.02em",
+    "--letter-spacing-h1": "0.005em",
+    "--letter-spacing-h2": "0.02em",
+    "--letter-spacing-h3": "0.02em",
+    "--letter-spacing-h4": "0.025em",
+    "--letter-spacing-h5": "0.03em",
+    "--letter-spacing-h6": "0.035em"
   },
   "dark": {
     "--color-bg-page": "var(--gray-cool-900)",

@@ -362,6 +362,12 @@
     --font-weight-medium:   var(--weight-medium);
     --font-weight-semibold: var(--weight-semibold);
     --font-weight-bold:     var(--weight-bold);
+    // Headings are semibold: with Roboto Flex's optical sizing on, bold closed
+    // the counters at display sizes and read as dense rather than humanist.
+    // Semibold counts as regular for contrast (bold is wght >= 700), so
+    // candor-heading keeps bold where that changes the floor: a secondary h4
+    // (20px) and h6 (14px).
+    --font-weight-heading:  var(--font-weight-semibold);
 
     // Leading tightens as size grows: a unitless multiplier already makes the
     // absolute gap grow with the type, and large type wants proportionally less
@@ -379,6 +385,20 @@
     --letter-spacing-wide:    var(--tracking-wide);
     --letter-spacing-italic: 0.02em; // italic text at body size (16px) — slant reduces apparent inter-glyph space
     --letter-spacing-body:   0.02em; // upright text that needs a little air: Atkinson messages, hints and labels (so "rr" never reads as "m"), and small UI text. Italic text uses --letter-spacing-italic
+
+    // Heading tracking opens as size falls. Large type falls apart with the
+    // spacing small type needs, so one value cannot serve every level. Chosen by
+    // eye against Roboto Flex at semibold with optical sizing on, which already
+    // narrows sidebearings at display sizes; before 7.0.0 headings were set
+    // tight (-0.02em), tuned when the opsz axis never loaded. Settled in
+    // running article prose, where a step looser read as letterspaced; h1
+    // drops furthest, since at 39px even 0.015em pulled the headline apart.
+    --letter-spacing-h1: 0.005em;
+    --letter-spacing-h2: 0.02em;
+    --letter-spacing-h3: 0.02em;
+    --letter-spacing-h4: 0.025em;
+    --letter-spacing-h5: 0.03em;
+    --letter-spacing-h6: 0.035em;
 }
 
 // ─── Theme Overrides ────────────────────────────────────────────────────────
