@@ -101,7 +101,7 @@ Roboto Flex is a variable font. The `opsz` (optical size) axis is the single mos
 Atkinson Hyperlegible carries critical UI text because its glyph differentiation survives at 14px where other typefaces begin to blur.
 
 - **Bold has two distinct jobs in Atkinson contexts, hierarchy and contrast, and they must not be confused.** As a hierarchy signal, bold marks structural anchors: form field labels, section headings. As a contrast call, bold is applied at 14px when the OKCA Tier 2 threshold requires it, since bold drops the required score from 6.5 to 4.5, which `--color-text-subtle` (5.0) clears. Error messages are a specific case: they are Tier 1 reading text and are therefore required to be 16px, not bolded as a workaround. Bold on a red error message reads as double-emphasis and does not substitute for a genuine contrast fix.
-- **Positive letter-spacing is mandatory.** Without it, adjacent glyphs like "rr" cluster into "m." Use `0.06em` for 14px badges, `0.02em` for 16px body roles, `var(--letter-spacing-wide)` for uppercase labels. Never zero.
+- **Positive letter-spacing is mandatory.** Without it, adjacent glyphs like "rr" cluster into "m." Use `var(--letter-spacing-signal)` for 14px badges and chips, `var(--letter-spacing-body)` for 16px body roles, `var(--letter-spacing-wide)` for uppercase labels. Never zero, and never a typed value: `audit:tokens` fails on one.
 
 ### The 14px floor and the tier system
 

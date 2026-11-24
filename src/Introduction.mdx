@@ -151,7 +151,7 @@ candor-input { --candor-input-radius: var(--radius-sm); }
 **2. `::part`: the escape hatch for arbitrary restyle.** Meaningful internals carry a `part` name, so any CSS property is reachable from the light DOM when there's no custom property for it.
 
 ```css
-candor-button::part(button) { letter-spacing: 0.03em; text-transform: uppercase; }
+candor-button::part(button) { letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; }
 
 /* The classic "disclosure is the first child of a padded box" fix (#173):
    kill just the top padding, which no single density knob can express. */

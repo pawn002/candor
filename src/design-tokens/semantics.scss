@@ -379,12 +379,15 @@
     --line-height-normal:   var(--leading-normal);
     --line-height-relaxed:  var(--leading-relaxed);
 
-    --letter-spacing-tight:   var(--tracking-tight);
-    --letter-spacing-normal:  var(--tracking-normal);
-    --letter-spacing-relaxed: 0.03em; // moderate tracking for small body text, captions — between normal and wide
-    --letter-spacing-wide:    var(--tracking-wide);
-    --letter-spacing-italic: 0.02em; // italic text at body size (16px) — slant reduces apparent inter-glyph space
-    --letter-spacing-body:   0.02em; // upright text that needs a little air: Atkinson messages, hints and labels (so "rr" never reads as "m"), and small UI text. Italic text uses --letter-spacing-italic
+    // Letter spacing is a role, never a typed value: audit:tokens fails on a
+    // letter-spacing anywhere in src/ that is not one of these.
+    --letter-spacing-tight:   var(--tracking-minus-20); // display numerals, such as a stat value
+    --letter-spacing-normal:  var(--tracking-0); // mono and tabular numerals, whose spacing is designed into the face
+    --letter-spacing-relaxed: var(--tracking-30); // 14px labels and small text: form labels, legends, table headers, small buttons, figcaptions
+    --letter-spacing-signal:  var(--tracking-40); // short sentence-case labels that mark themselves as UI: badges and chips
+    --letter-spacing-wide:    var(--tracking-50); // capitals: uppercase labels and column headers
+    --letter-spacing-italic: var(--tracking-20); // italic text at body size (16px) — slant reduces apparent inter-glyph space
+    --letter-spacing-body:   var(--tracking-20); // upright text that needs a little air: Atkinson messages, hints and labels (so "rr" never reads as "m"), and small UI text. Italic text uses --letter-spacing-italic
 
     // Heading tracking opens as size falls. Large type falls apart with the
     // spacing small type needs, so one value cannot serve every level. Chosen by
@@ -393,12 +396,12 @@
     // tight (-0.02em), tuned when the opsz axis never loaded. Settled in
     // running article prose, where a step looser read as letterspaced; h1
     // drops furthest, since at 39px even 0.015em pulled the headline apart.
-    --letter-spacing-h1: 0.005em;
-    --letter-spacing-h2: 0.02em;
-    --letter-spacing-h3: 0.02em;
-    --letter-spacing-h4: 0.025em;
-    --letter-spacing-h5: 0.03em;
-    --letter-spacing-h6: 0.035em;
+    --letter-spacing-h1: var(--tracking-5);
+    --letter-spacing-h2: var(--tracking-20);
+    --letter-spacing-h3: var(--tracking-20);
+    --letter-spacing-h4: var(--tracking-25);
+    --letter-spacing-h5: var(--tracking-30);
+    --letter-spacing-h6: var(--tracking-35);
 }
 
 // ─── Theme Overrides ────────────────────────────────────────────────────────

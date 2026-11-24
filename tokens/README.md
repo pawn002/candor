@@ -205,7 +205,7 @@ Raw values: color ramps, type scale, spacing scale. Prefixed by family:
 
 - Colour ramps, each derived from rules: `--navy-*`, `--burgundy-*`, `--azure-*`, `--indigo-*`, `--teal-*`, `--red-*`, `--gold-*`, `--green-*` (`50`–`900`, plus in-between steps such as `--navy-670`), and the grey ramps `--gray-*`, `--gray-cool-*`, `--gray-warm-*`
 - `--space-{1–12}`, `--type-{xs–3xl}`
-- `--typeface-{sans,accessible,mono,reading,serif}`, `--weight-{light–bold}`, `--leading-{display–relaxed}`, `--tracking-{tight,normal,wide}`
+- `--typeface-{sans,accessible,mono,reading,serif}`, `--weight-{light–bold}`, `--leading-{display–relaxed}`, `--tracking-{minus-20,0,5,20,25,30,35,40,50}` (thousandths of an em)
 - Primitives are named after their scale, semantic tokens after the CSS property they set; `--text-*` and `--font-{sans,…}` from before 7.0.0 resolve as deprecated aliases
 
 ### Semantics (in `:root`, override-friendly)

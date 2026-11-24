@@ -45,7 +45,7 @@ export class CandorBadge extends LitElement {
       justify-content: center;
       border-radius: var(--radius-full);
       font-family: var(--font-family-accessible);
-      letter-spacing: 0.06em;
+      letter-spacing: var(--letter-spacing-signal);
       font-weight: var(--font-weight-bold);
       white-space: nowrap;
       line-height: var(--line-height-tight);

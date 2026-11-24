@@ -182,7 +182,7 @@
             color: var(--color-text-subtle); // Tier 3 threshold 4.5 — OKCA 5.0 ✅
             margin-top: var(--spacing-xs);
             font-style: italic;
-            letter-spacing: 0.03em; // 14px italic needs more air than the 0.02em body baseline
+            letter-spacing: var(--letter-spacing-relaxed); // 14px italic needs more air than body text
         }
     }
 

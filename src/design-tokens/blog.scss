@@ -244,7 +244,7 @@
     font-family: var(--font-family-accessible);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
-    letter-spacing: 0.06em;
+    letter-spacing: var(--letter-spacing-wide);
     text-transform: uppercase;
     color: var(--color-text-subtle);
 

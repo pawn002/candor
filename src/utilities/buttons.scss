@@ -6,6 +6,7 @@
     font-family: var(--font-family-base);
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-md);
+    letter-spacing: var(--letter-spacing-body);
     padding: var(--candor-button-padding-y, var(--spacing-button-padding-y)) var(--candor-button-padding-x, var(--spacing-button-padding-x));
     min-height: var(--hit-target-aaa);
     border: none;
@@ -35,7 +36,7 @@
 
 .btn-sm {
     font-size: var(--font-size-sm);
-    letter-spacing: 0.01em; // slight tracking at 14px — consistent with 14px floor principle
+    letter-spacing: var(--letter-spacing-relaxed); // small bold labels need more air than large ones
     padding: var(--candor-button-padding-y, var(--spacing-button-padding-y-sm)) var(--candor-button-padding-x, var(--spacing-button-padding-x-sm));
     min-height: 2rem;
 }

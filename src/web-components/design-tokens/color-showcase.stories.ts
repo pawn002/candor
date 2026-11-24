@@ -217,7 +217,7 @@ const renderSwatchGrid = (categories: ColorCategory[]) => html`
             font-weight: var(--font-weight-bold);
             color: var(--color-text-subtle);
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: var(--letter-spacing-wide);
             margin: 0 0 var(--spacing-2xs) 0;
             line-height: var(--line-height-tight);
           ">${cat.name}</h2>
@@ -264,7 +264,7 @@ const renderReferenceTable = (categories: ColorCategory[]) => html`
       const headingId = `tokcat-${cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
       return html`
       <section>
-        <h2 id="${headingId}" style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 var(--spacing-2xs);">${cat.name}</h2>
+        <h2 id="${headingId}" style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-subtle); text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); margin: 0 0 var(--spacing-2xs);">${cat.name}</h2>
         <p style="font-family: var(--font-family-base); font-size: var(--font-size-sm); color: var(--color-text-subtle); margin: 0 0 var(--spacing-sm);">${cat.description}</p>
         <div style="overflow-x: auto;">
         <table aria-labelledby="${headingId}" style="

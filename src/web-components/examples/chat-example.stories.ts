@@ -221,7 +221,7 @@ export const AIChatInterface: Story = {
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-on-action);
-                      letter-spacing: 0.06em;
+                      letter-spacing: var(--letter-spacing-signal);
                     ">
                     P
                   </div>
@@ -257,7 +257,7 @@ export const AIChatInterface: Story = {
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-subtle);
-                      letter-spacing: 0.06em;
+                      letter-spacing: var(--letter-spacing-signal);
                     ">
                     AI
                   </div>
@@ -336,7 +336,7 @@ export const AIChatInterface: Story = {
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-on-action);
-                      letter-spacing: 0.06em;
+                      letter-spacing: var(--letter-spacing-signal);
                     ">
                     P
                   </div>
@@ -372,7 +372,7 @@ export const AIChatInterface: Story = {
                       font-size: var(--font-size-xs);
                       font-weight: var(--font-weight-bold);
                       color: var(--color-text-subtle);
-                      letter-spacing: 0.06em;
+                      letter-spacing: var(--letter-spacing-signal);
                     ">
                     AI
                   </div>

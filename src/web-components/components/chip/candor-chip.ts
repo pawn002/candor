@@ -44,7 +44,7 @@ export class CandorChip extends LitElement {
       background-color: var(--color-bg-surface);
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
-      letter-spacing: 0.06em;
+      letter-spacing: var(--letter-spacing-signal);
       overflow: hidden;
     }
     .chip:has(:focus-visible) { outline: var(--focus-ring-width) solid var(--color-ring-focus); outline-offset: var(--focus-ring-offset); }

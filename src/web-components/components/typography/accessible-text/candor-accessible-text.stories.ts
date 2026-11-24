@@ -187,14 +187,14 @@ export const FontComparison: Story = {
   render: () => html`
     <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr));gap:2rem;">
       <div style="display:flex;flex-direction:column;gap:0.75rem;font-family:var(--font-family-base);">
-        <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Roboto Flex</p>
+        <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0;">Roboto Flex</p>
         <span style="font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);letter-spacing:var(--letter-spacing-wide);text-transform:uppercase;line-height:var(--line-height-tight);">FORM LABEL</span>
         <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-normal);">The quick brown fox jumps over the lazy dog.</span>
         <span style="font-size:var(--font-size-sm);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-relaxed);font-style:italic;color:var(--color-text-subtle);">Supplementary annotation for context.</span>
         <span style="font-size:var(--font-size-md);letter-spacing: var(--letter-spacing-body);line-height:var(--line-height-tight);color:var(--color-text-error);">Error: This field is required.</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.75rem;">
-        <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible Next</p>
+        <p style="font-size:var(--font-size-sm);text-transform:uppercase;letter-spacing:var(--letter-spacing-wide);color:var(--color-text-subtle);margin:0;">Atkinson Hyperlegible Next</p>
         <candor-accessible-text role_="label" bold>FORM LABEL</candor-accessible-text>
         <candor-accessible-text role_="message">The quick brown fox jumps over the lazy dog.</candor-accessible-text>
         <candor-accessible-text role_="annotation" color="secondary">Supplementary annotation for context.</candor-accessible-text>

@@ -180,9 +180,18 @@
   --leading-tight: 1.25;
   --leading-normal: 1.5;
   --leading-relaxed: 1.75;
-  --tracking-tight: -0.02em;
-  --tracking-normal: 0;
-  --tracking-wide: 0.05em;
+  --tracking-minus-20: -0.02em;
+  --tracking-0: 0;
+  --tracking-5: 0.005em;
+  --tracking-20: 0.02em;
+  --tracking-25: 0.025em;
+  --tracking-30: 0.03em;
+  --tracking-35: 0.035em;
+  --tracking-40: 0.04em;
+  --tracking-50: 0.05em;
+  --tracking-tight: var(--tracking-minus-20);
+  --tracking-normal: var(--tracking-0);
+  --tracking-wide: var(--tracking-50);
   --border-radius-sm: 0.25rem;
   --border-radius-md: 0.5rem;
   --border-radius-lg: 1rem;
@@ -385,18 +394,19 @@
   --line-height-tight: var(--leading-tight);
   --line-height-normal: var(--leading-normal);
   --line-height-relaxed: var(--leading-relaxed);
-  --letter-spacing-tight: var(--tracking-tight);
-  --letter-spacing-normal: var(--tracking-normal);
-  --letter-spacing-relaxed: 0.03em;
-  --letter-spacing-wide: var(--tracking-wide);
-  --letter-spacing-italic: 0.02em;
-  --letter-spacing-body: 0.02em;
-  --letter-spacing-h1: 0.005em;
-  --letter-spacing-h2: 0.02em;
-  --letter-spacing-h3: 0.02em;
-  --letter-spacing-h4: 0.025em;
-  --letter-spacing-h5: 0.03em;
-  --letter-spacing-h6: 0.035em;
+  --letter-spacing-tight: var(--tracking-minus-20);
+  --letter-spacing-normal: var(--tracking-0);
+  --letter-spacing-relaxed: var(--tracking-30);
+  --letter-spacing-signal: var(--tracking-40);
+  --letter-spacing-wide: var(--tracking-50);
+  --letter-spacing-italic: var(--tracking-20);
+  --letter-spacing-body: var(--tracking-20);
+  --letter-spacing-h1: var(--tracking-5);
+  --letter-spacing-h2: var(--tracking-20);
+  --letter-spacing-h3: var(--tracking-20);
+  --letter-spacing-h4: var(--tracking-25);
+  --letter-spacing-h5: var(--tracking-30);
+  --letter-spacing-h6: var(--tracking-35);
 }
 
 @media (prefers-color-scheme: dark) {

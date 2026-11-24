@@ -156,7 +156,7 @@ export const Overriding: Story = {
   render: () => html`
     <style>
       .compact { --candor-autocomplete-padding-y: 0.25rem; --candor-autocomplete-padding-x: 0.5rem; --candor-autocomplete-radius: var(--radius-sm); }
-      .tracked::part(label) { text-transform: uppercase; letter-spacing: 0.06em; }
+      .tracked::part(label) { text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); }
     </style>
     <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;padding:1.5rem;">
       <candor-autocomplete label="Default" placeholder="e.g. gpt-4o" .suggestions="${MODELS}"></candor-autocomplete>

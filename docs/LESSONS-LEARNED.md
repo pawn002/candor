@@ -34,8 +34,8 @@ Atkinson's glyph shapes prevent clustering better than most typefaces, but at ze
 
 | Context | Value | Reason |
 |---|---|---|
-| Badges (14px) | `0.06em` | Small size needs more air — err toward too much |
-| Body roles (16px) | `0.02em` | Sufficient at normal reading size |
+| Badges and chips (14px) | `0.04em` (`--letter-spacing-signal`) | A UI signal. It was `0.06em`, capitals spacing on sentence-case text, which read as letterspaced |
+| Body roles (16px) | `0.02em` (`--letter-spacing-body`) | Sufficient at normal reading size |
 | Uppercase labels | `0.05em` (`--letter-spacing-wide`) | Uppercase already benefits from tracking |
 
 **The trap:** `letter-spacing: 0` (or `--letter-spacing-normal`) feels like a safe default. With Atkinson it isn't.

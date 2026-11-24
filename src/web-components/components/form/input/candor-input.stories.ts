@@ -174,7 +174,7 @@ export const Overriding: Story = {
   render: () => html`
     <style>
       .compact { --candor-input-padding-y: 0.25rem; --candor-input-padding-x: 0.5rem; --candor-input-radius: var(--radius-sm); }
-      .tracked::part(label) { text-transform: uppercase; letter-spacing: 0.06em; }
+      .tracked::part(label) { text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); }
     </style>
     <div style="display:flex;flex-direction:column;gap:var(--spacing-md);max-width:420px;">
       <candor-input label="Default" placeholder="you@example.com" type="email"></candor-input>

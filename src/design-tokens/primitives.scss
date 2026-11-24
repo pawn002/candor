@@ -290,9 +290,22 @@
     --leading-relaxed:  1.75;
 
     // ─── Letter Spacing ────────────────────────────────────────────────────────
-    --tracking-tight:  -0.02em;
-    --tracking-normal:  0;
-    --tracking-wide:    0.05em;
+    // A ladder numbered in thousandths of an em: --tracking-30 is 0.03em, the
+    // way a ramp step's number fixes its lightness. Roles in semantics.scss
+    // point at a step. A value not on the ladder is a new step, added here
+    // with the role that needs it.
+    --tracking-minus-20: -0.02em;
+    --tracking-0:   0;
+    --tracking-5:   0.005em;
+    --tracking-20:  0.02em;
+    --tracking-25:  0.025em;
+    --tracking-30:  0.03em;
+    --tracking-35:  0.035em;
+    --tracking-40:  0.04em;
+    --tracking-50:  0.05em;
+    --tracking-tight:  var(--tracking-minus-20); // deprecated: use --tracking-minus-20
+    --tracking-normal: var(--tracking-0); // deprecated: use --tracking-0
+    --tracking-wide:   var(--tracking-50); // deprecated: use --tracking-50
 
     // ─── Border ────────────────────────────────────────────────────────────────
     --border-radius-sm:   0.25rem; //  4px

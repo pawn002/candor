@@ -272,7 +272,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
 
       <candor-card variant="default" padding="md" role="group" aria-labelledby="pattern-a-heading">
         <div slot="header">
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern A</p>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern A</p>
           <h3 id="pattern-a-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Decorative icon</h3>
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
@@ -290,7 +290,7 @@ Correct accessibility patterns for icon usage with \`<candor-button>\`.
 
       <candor-card variant="default" padding="md" role="group" aria-labelledby="pattern-b-heading">
         <div slot="header">
-          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern B</p>
+          <p style="font-family: var(--font-family-accessible); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-text-subtle); margin: 0 0 var(--spacing-xs);">Pattern B</p>
           <h3 id="pattern-b-heading" style="font-family: var(--font-family-base); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-default); margin: 0;">Icon-only button</h3>
         </div>
         <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">

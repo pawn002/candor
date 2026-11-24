@@ -66,17 +66,19 @@ export class CandorButton extends LitElement {
     .button--small {
       font-size: var(--candor-button-font-size, var(--font-size-sm));
       font-weight: var(--font-weight-bold);
-      letter-spacing: 0.01em;
+      letter-spacing: var(--letter-spacing-relaxed);
       padding: var(--candor-button-padding-y, var(--spacing-button-padding-y-sm)) var(--candor-button-padding-x, var(--spacing-button-padding-x-sm));
       min-height: var(--candor-button-min-height, 2rem);
     }
     .button--medium {
       font-size: var(--candor-button-font-size, var(--font-size-md));
+      letter-spacing: var(--letter-spacing-body);
       padding: var(--candor-button-padding-y, var(--spacing-button-padding-y)) var(--candor-button-padding-x, var(--spacing-button-padding-x));
       min-height: var(--candor-button-min-height, var(--hit-target-aaa));
     }
     .button--large {
       font-size: var(--candor-button-font-size, var(--font-size-lg));
+      letter-spacing: var(--letter-spacing-body);
       padding: var(--candor-button-padding-y, var(--spacing-button-padding-y-lg)) var(--candor-button-padding-x, var(--spacing-button-padding-x-lg));
       min-height: var(--candor-button-min-height, 3rem);
     }

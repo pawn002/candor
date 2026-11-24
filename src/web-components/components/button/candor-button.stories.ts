@@ -188,7 +188,7 @@ export const Overriding: Story = {
   },
   render: () => html`
     <style>
-      .cta::part(button) { text-transform: uppercase; letter-spacing: 0.06em; }
+      .cta::part(button) { text-transform: uppercase; letter-spacing: var(--letter-spacing-wide); }
     </style>
     <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
       <candor-button size="small">Default small</candor-button>

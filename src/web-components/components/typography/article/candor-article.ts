@@ -163,7 +163,7 @@ const articleStyles = `
     color: var(--color-text-subtle);
     margin-top: var(--spacing-xs);
     font-style: italic;
-    letter-spacing: 0.03em;
+    letter-spacing: var(--letter-spacing-relaxed);
   }
 
   candor-article table {

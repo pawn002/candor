@@ -695,6 +695,55 @@ const MOTION_EXCEPTIONS = {
   console.log(`✓  motion: ${checked} transitions and animations use the motion tokens (${Object.keys(MOTION_EXCEPTIONS).length} looping indicators excepted)`);
 }
 
+// 2e. Letter spacing. Every letter-spacing in src/, stories and MDX included,
+// is a --letter-spacing-* role, so tracking is chosen by what the text does and
+// not typed per component. A role is declared only in semantics.scss and points
+// at a --tracking-* step; a step is declared only in primitives.scss. There is
+// no exception list: a value the roles cannot express is a new role or step.
+// A declaration quoted as code in prose (after a backtick) is not a declaration.
+{
+  const files = [...sourceFiles()];
+  const visitMdx = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) visitMdx(full);
+      else if (/\.mdx$/.test(entry.name)) files.push(full);
+    }
+  };
+  visitMdx(path.join(ROOT, 'src'));
+  const ROLE_HOME = 'src/design-tokens/semantics.scss';
+  const STEP_HOME = 'src/design-tokens/primitives.scss';
+  const blank = (m) => m.replace(/[^\r\n]/g, ' ');
+  const problems = [];
+  let checked = 0;
+  for (const file of files) {
+    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    let text = fs.readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, blank);
+    if (/\.scss$/.test(rel)) text = text.replace(/\/\/[^\n]*/g, blank);
+    const lineOf = (i) => text.slice(0, i).split('\n').length;
+    for (const m of text.matchAll(/(?<![\w`-])letter-spacing\s*:\s*([^;{}`"'<\n]*)/g)) {
+      checked++;
+      const value = m[1].trim().replace(/\s*!important$/, '');
+      if (/^var\(--letter-spacing-[a-z0-9-]+\)$/.test(value) || /^(inherit|initial|unset)$/.test(value)) continue;
+      problems.push(`${rel}:${lineOf(m.index)}  letter-spacing: ${value}: use a --letter-spacing-* role`);
+    }
+    for (const m of text.matchAll(/(?<![\w-])(--letter-spacing-[a-z0-9-]+|--tracking-[a-z0-9-]+)\s*:\s*([^;\n]*)/g)) {
+      const isRole = m[1].startsWith('--letter-spacing-');
+      const home = isRole ? ROLE_HOME : STEP_HOME;
+      if (rel !== home) { problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} is declared outside ${home}`); continue; }
+      if (isRole && !/^var\(--tracking-[a-z0-9-]+\)$/.test(m[2].trim())) {
+        problems.push(`${rel}:${lineOf(m.index)}  ${m[1]} must point at a --tracking-* step, not ${m[2].trim()}`);
+      }
+    }
+  }
+  if (problems.length) {
+    console.error(`✗  ${problems.length} letter-spacing value(s) off the tracking roles:`);
+    for (const p of problems) console.error(`   ${p}`);
+    process.exit(1);
+  }
+  console.log(`✓  letter spacing: ${checked} declarations use a --letter-spacing-* role, and every role points at a --tracking-* step`);
+}
+
 // 3. Resolve all var() references
 const lightTokens = resolveAll(lightRaw, primitives);
 const darkTokens  = resolveAll(darkRaw,  primitives);

@@ -44,7 +44,7 @@ export class CandorBreadcrumb extends LitElement {
       gap: 0;
       font-family: var(--font-family-accessible);
       font-size: var(--font-size-sm);
-      letter-spacing: 0.04em;
+      letter-spacing: var(--letter-spacing-body);
     }
     .breadcrumb__item {
       display: flex;
@@ -71,7 +71,6 @@ export class CandorBreadcrumb extends LitElement {
       color: var(--color-text-default);
       font-weight: var(--font-weight-bold);
     }
-    .breadcrumb__item:only-child .breadcrumb__current { letter-spacing: 0.06em; }
   `;
 
   @property({ type: Array }) items: BreadcrumbItem[] = [];
